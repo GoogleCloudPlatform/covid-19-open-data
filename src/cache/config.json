@@ -51,5 +51,70 @@
         "url": "http://covid19tracker.gov.bd/api/district",
         "cmd": "static_fetch",
         "output": "BD_districts_confirmed.json"
+    },
+    {
+        "url": "https://services7.arcgis.com/4RQmZZ0yaZkGR1zy/arcgis/rest/services/DIED_FROM_COVID19_STWD_DEMO_PUBLIC/FeatureServer/3/query?f=json&where=1%3D1&outFields=*&returnGeometry=false",
+        "cmd": "static_fetch",
+        "output": "US_AL_mortality_age_stratified.json"
+    },
+    {
+        "url": "https://services7.arcgis.com/4RQmZZ0yaZkGR1zy/arcgis/rest/services/DIED_FROM_COVID19_STWD_DEMO_PUBLIC/FeatureServer/2/query?f=json&where=1%3D1&outFields=*&returnGeometry=false",
+        "cmd": "static_fetch",
+        "output": "US_AL_mortality_sex_stratified.json"
+    },
+    {
+        "url": "https://services7.arcgis.com/4RQmZZ0yaZkGR1zy/arcgis/rest/services/Statewide_COVID19_CONFIRMED_DEMOG_PUBLIC/FeatureServer/0/query?f=json&where=1%3D1&outFields=*&returnGeometry=false",
+        "cmd": "static_fetch",
+        "output": "US_AL_confirmed_age_stratified.json"
+    },
+    {
+        "url": "https://services7.arcgis.com/4RQmZZ0yaZkGR1zy/arcgis/rest/services/Statewide_COVID19_CONFIRMED_DEMOG_PUBLIC/FeatureServer/2/query?f=json&where=1%3D1&outFields=*&returnGeometry=false",
+        "cmd": "static_fetch",
+        "output": "US_AL_confirmed_sex_stratified.json"
+    },
+    {
+        "url": "https://services7.arcgis.com/4RQmZZ0yaZkGR1zy/arcgis/rest/services/Daily_Confirmed_by_County_PUBLIC/FeatureServer/1/query?f=json&where=1%3D1&outFields=*&returnGeometry=false",
+        "cmd": "static_fetch",
+        "output": "US_AL_confirmed_counties.json"
+    },
+    {
+        "url": "https://opendata.arcgis.com/datasets/433dffcfc59a492dabf2e3930cdfcb8c_0.csv",
+        "cmd": "static_fetch",
+        "output": "US_AK_confirmed_counties.csv"
+    },
+    {
+        "url": "https://www.arcgis.com/sharing/rest/content/items/867f802ce1624b46b40d2bd281490078/data",
+        "cmd": "static_fetch",
+        "output": "US_AK_summary.xlsx"
+    },
+    {
+        "url": "https://tableau.azdhs.gov/views/COVID19Demographics/EpiData/sheet.pdf",
+        "cmd": "static_fetch",
+        "output": "US_AZ_mortality_stratified.pdf"
+    },
+    {
+        "url": "https://tableau.azdhs.gov/views/COVID-19Deaths/Deaths/sheet.pdf",
+        "cmd": "static_fetch",
+        "output": "US_AZ_confirmed_stratified.pdf"
+    },
+    {
+        "url": "https://tableau.azdhs.gov/views/Hospitalization/HospitalizedCOVID-19Cases/sheet.pdf",
+        "cmd": "static_fetch",
+        "output": "US_AZ_hospitalized_stratified.pdf"
+    },
+    {
+        "url": "https://stateofhealth.ct.gov/content/covidfiles/datawrapper/StateSummary.csv",
+        "cmd": "static_fetch",
+        "output": "US_CT_hospitalized.csv"
+    },
+    {
+        "url": "https://stateofhealth.ct.gov/content/covidfiles/datawrapper/AgeGroupSummary.csv",
+        "cmd": "static_fetch",
+        "output": "US_CT_stratified.csv"
+    },
+    {
+        "url": "https://ga-covid19.ondemand.sas.com/docs/ga_covid_data.zip",
+        "cmd": "static_fetch",
+        "output": "US_GA_stratified.zip"
     }
 ]
