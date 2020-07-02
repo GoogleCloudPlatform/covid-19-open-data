@@ -1,0 +1,113 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Sex stratified pipeline configuration
+
+schema:
+  date: str
+  key: str
+  new_confirmed_male: int
+  new_confirmed_female: int
+  total_confirmed_male: int
+  total_confirmed_female: int
+  new_deceased_male: int
+  new_deceased_female: int
+  total_deceased_male: int
+  total_deceased_female: int
+  new_recovered_male: int
+  new_recovered_female: int
+  total_recovered_male: int
+  total_recovered_female: int
+  new_tested_male: int
+  new_tested_female: int
+  total_tested_male: int
+  total_tested_female: int
+  new_hospitalized_male: int
+  new_hospitalized_female: int
+  total_hospitalized_male: int
+  total_hospitalized_female: int
+  current_hospitalized_male: int
+  current_hospitalized_female: int
+  new_intensive_care_male: int
+  new_intensive_care_female: int
+  total_intensive_care_male: int
+  total_intensive_care_female: int
+  current_intensive_care_male: int
+  current_intensive_care_female: int
+  new_ventilator_male: int
+  new_ventilator_female: int
+  total_ventilator_male: int
+  total_ventilator_female: int
+  current_ventilator_male: int
+  current_ventilator_female: int
+
+auxiliary:
+  metadata: ./src/data/metadata.csv
+  country_codes: ./src/data/country_codes.csv
+  knowledge_graph: ./src/data/knowledge_graph.csv
+
+sources:
+
+  # Data sources for CO levels 1 + 2 + 3
+  - name: pipelines.epidemiology.co_authority.ColombiaDataSource
+    fetch:
+      - url: "https://www.datos.gov.co/api/views/gt2j-8ykr/rows.csv"
+
+  # Data sources for CZ levels 1 + 2 + 3
+  - name: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
+    fetch:
+      - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/osoby.csv"
+    parse:
+      column_name: 'new_confirmed'
+
+  - name: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
+    fetch:
+      - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/umrti.csv"
+    parse:
+      column_name: 'new_deceased'
+
+  - name: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
+    fetch:
+      - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/vyleceni.csv"
+    parse:
+      column_name: 'new_recovered'
+
+  # Data sources for FI level 1
+  - name: pipelines.epidemiology.fi_authority.FinlandArcGisDataSource
+    fetch:
+      - url: https://services7.arcgis.com/nuPvVz1HGGfa0Eh7/arcgis/rest/services/korona_tapauksia_jakauma/FeatureServer/0/query?f=json&where=1%3D1&outFields=OBJECTID,alue,date,tapauksia,miehia,naisia,Ika_0_9,ika_10_19,ika_20_29,ika_30_39,ika_40_49,ika_50_59,ika_60_69,ika_70_79,ika_80_,koodi&returnGeometry=false
+        opts:
+          ext: json
+    query: "date > '2020-02-01'"
+
+  # Data sources for FR levels 1 + 2 + 3
+  - name: pipelines.epidemiology.fr_authority.FranceDataSource
+    fetch:
+      - url: "https://www.data.gouv.fr/fr/datasets/r/63352e38-d353-4b54-bfd1-f1b3ee1cabd7"
+        opts:
+          ext: csv
+    parse:
+      sep: ";"
+
+  # Data sources for PH levels 2 + 3
+  - name: pipelines.epidemiology.ph_authority.PhilippinesDataSource
+    fetch:
+      - url: "https://drive.google.com/uc?export=download&id=1moFBN_thU0e70frjnYjoV-UWYxVzsvCh"
+        opts:
+          ext: xlsx
+
+  # Data sources for ZA level 1
+  - name: pipelines.epidemiology.za_dsfsi.Covid19ZaTimelineDeathsDataSource
+    fetch:
+      - url: "https://raw.github.com/dsfsi/covid19za/master/data/covid19za_timeline_death_statistics.csv"

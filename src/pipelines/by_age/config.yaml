@@ -1,0 +1,259 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Age stratified pipeline configuration
+
+schema:
+  date: str
+  key: str
+  new_confirmed_age_00: int
+  new_confirmed_age_01: int
+  new_confirmed_age_02: int
+  new_confirmed_age_03: int
+  new_confirmed_age_04: int
+  new_confirmed_age_05: int
+  new_confirmed_age_06: int
+  new_confirmed_age_07: int
+  new_confirmed_age_08: int
+  new_confirmed_age_09: int
+  total_confirmed_age_00: int
+  total_confirmed_age_01: int
+  total_confirmed_age_02: int
+  total_confirmed_age_03: int
+  total_confirmed_age_04: int
+  total_confirmed_age_05: int
+  total_confirmed_age_06: int
+  total_confirmed_age_07: int
+  total_confirmed_age_08: int
+  total_confirmed_age_09: int
+  new_deceased_age_00: int
+  new_deceased_age_01: int
+  new_deceased_age_02: int
+  new_deceased_age_03: int
+  new_deceased_age_04: int
+  new_deceased_age_05: int
+  new_deceased_age_06: int
+  new_deceased_age_07: int
+  new_deceased_age_08: int
+  new_deceased_age_09: int
+  total_deceased_age_00: int
+  total_deceased_age_01: int
+  total_deceased_age_02: int
+  total_deceased_age_03: int
+  total_deceased_age_04: int
+  total_deceased_age_05: int
+  total_deceased_age_06: int
+  total_deceased_age_07: int
+  total_deceased_age_08: int
+  total_deceased_age_09: int
+  new_recovered_age_00: int
+  new_recovered_age_01: int
+  new_recovered_age_02: int
+  new_recovered_age_03: int
+  new_recovered_age_04: int
+  new_recovered_age_05: int
+  new_recovered_age_06: int
+  new_recovered_age_07: int
+  new_recovered_age_08: int
+  new_recovered_age_09: int
+  total_recovered_age_00: int
+  total_recovered_age_01: int
+  total_recovered_age_02: int
+  total_recovered_age_03: int
+  total_recovered_age_04: int
+  total_recovered_age_05: int
+  total_recovered_age_06: int
+  total_recovered_age_07: int
+  total_recovered_age_08: int
+  total_recovered_age_09: int
+  new_tested_age_00: int
+  new_tested_age_01: int
+  new_tested_age_02: int
+  new_tested_age_03: int
+  new_tested_age_04: int
+  new_tested_age_05: int
+  new_tested_age_06: int
+  new_tested_age_07: int
+  new_tested_age_08: int
+  new_tested_age_09: int
+  total_tested_age_00: int
+  total_tested_age_01: int
+  total_tested_age_02: int
+  total_tested_age_03: int
+  total_tested_age_04: int
+  total_tested_age_05: int
+  total_tested_age_06: int
+  total_tested_age_07: int
+  total_tested_age_08: int
+  total_tested_age_09: int
+  new_hospitalized_age_00: int
+  new_hospitalized_age_01: int
+  new_hospitalized_age_02: int
+  new_hospitalized_age_03: int
+  new_hospitalized_age_04: int
+  new_hospitalized_age_05: int
+  new_hospitalized_age_06: int
+  new_hospitalized_age_07: int
+  new_hospitalized_age_08: int
+  new_hospitalized_age_09: int
+  total_hospitalized_age_00: int
+  total_hospitalized_age_01: int
+  total_hospitalized_age_02: int
+  total_hospitalized_age_03: int
+  total_hospitalized_age_04: int
+  total_hospitalized_age_05: int
+  total_hospitalized_age_06: int
+  total_hospitalized_age_07: int
+  total_hospitalized_age_08: int
+  total_hospitalized_age_09: int
+  current_hospitalized_age_00: int
+  current_hospitalized_age_01: int
+  current_hospitalized_age_02: int
+  current_hospitalized_age_03: int
+  current_hospitalized_age_04: int
+  current_hospitalized_age_05: int
+  current_hospitalized_age_06: int
+  current_hospitalized_age_07: int
+  current_hospitalized_age_08: int
+  current_hospitalized_age_09: int
+  new_intensive_care_age_00: int
+  new_intensive_care_age_01: int
+  new_intensive_care_age_02: int
+  new_intensive_care_age_03: int
+  new_intensive_care_age_04: int
+  new_intensive_care_age_05: int
+  new_intensive_care_age_06: int
+  new_intensive_care_age_07: int
+  new_intensive_care_age_08: int
+  new_intensive_care_age_09: int
+  total_intensive_care_age_00: int
+  total_intensive_care_age_01: int
+  total_intensive_care_age_02: int
+  total_intensive_care_age_03: int
+  total_intensive_care_age_04: int
+  total_intensive_care_age_05: int
+  total_intensive_care_age_06: int
+  total_intensive_care_age_07: int
+  total_intensive_care_age_08: int
+  total_intensive_care_age_09: int
+  current_intensive_care_age_00: int
+  current_intensive_care_age_01: int
+  current_intensive_care_age_02: int
+  current_intensive_care_age_03: int
+  current_intensive_care_age_04: int
+  current_intensive_care_age_05: int
+  current_intensive_care_age_06: int
+  current_intensive_care_age_07: int
+  current_intensive_care_age_08: int
+  current_intensive_care_age_09: int
+  new_ventilator_age_00: int
+  new_ventilator_age_01: int
+  new_ventilator_age_02: int
+  new_ventilator_age_03: int
+  new_ventilator_age_04: int
+  new_ventilator_age_05: int
+  new_ventilator_age_06: int
+  new_ventilator_age_07: int
+  new_ventilator_age_08: int
+  new_ventilator_age_09: int
+  total_ventilator_age_00: int
+  total_ventilator_age_01: int
+  total_ventilator_age_02: int
+  total_ventilator_age_03: int
+  total_ventilator_age_04: int
+  total_ventilator_age_05: int
+  total_ventilator_age_06: int
+  total_ventilator_age_07: int
+  total_ventilator_age_08: int
+  total_ventilator_age_09: int
+  current_ventilator_age_00: int
+  current_ventilator_age_01: int
+  current_ventilator_age_02: int
+  current_ventilator_age_03: int
+  current_ventilator_age_04: int
+  current_ventilator_age_05: int
+  current_ventilator_age_06: int
+  current_ventilator_age_07: int
+  current_ventilator_age_08: int
+  current_ventilator_age_09: int
+  age_bin_00: str
+  age_bin_01: str
+  age_bin_02: str
+  age_bin_03: str
+  age_bin_04: str
+  age_bin_05: str
+  age_bin_06: str
+  age_bin_07: str
+  age_bin_08: str
+  age_bin_09: str
+
+auxiliary:
+  metadata: ./src/data/metadata.csv
+  country_codes: ./src/data/country_codes.csv
+  knowledge_graph: ./src/data/knowledge_graph.csv
+
+sources:
+
+  # Data sources for CO levels 1 + 2 + 3
+  - name: pipelines.epidemiology.co_authority.ColombiaDataSource
+    fetch:
+      - url: "https://www.datos.gov.co/api/views/gt2j-8ykr/rows.csv"
+
+  # Data sources for CZ levels 1 + 2 + 3
+  - name: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
+    fetch:
+      - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/osoby.csv"
+    parse:
+      column_name: 'new_confirmed'
+
+  - name: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
+    fetch:
+      - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/umrti.csv"
+    parse:
+      column_name: 'new_deceased'
+
+  - name: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
+    fetch:
+      - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/vyleceni.csv"
+    parse:
+      column_name: 'new_recovered'
+
+  # Data sources for FI level 1
+  - name: pipelines.epidemiology.fi_authority.FinlandArcGisDataSource
+    fetch:
+      - url: https://services7.arcgis.com/nuPvVz1HGGfa0Eh7/arcgis/rest/services/korona_tapauksia_jakauma/FeatureServer/0/query?f=json&where=1%3D1&outFields=OBJECTID,alue,date,tapauksia,miehia,naisia,Ika_0_9,ika_10_19,ika_20_29,ika_30_39,ika_40_49,ika_50_59,ika_60_69,ika_70_79,ika_80_,koodi&returnGeometry=false
+        opts:
+          ext: json
+    query: "date > '2020-02-01'"
+
+  # Data sources for FR levels 1 + 2 + 3
+  - name: pipelines.epidemiology.fr_authority.FranceDataSource
+    fetch:
+      - url: "https://www.data.gouv.fr/fr/datasets/r/08c18e08-6780-452d-9b8c-ae244ad529b3"
+        opts:
+          ext: csv
+    parse:
+      sep: ";"
+
+  # Data sources for PH levels 2 + 3
+  - name: pipelines.epidemiology.ph_authority.PhilippinesDataSource
+    fetch:
+      - url: "https://drive.google.com/uc?export=download&id=1moFBN_thU0e70frjnYjoV-UWYxVzsvCh"
+        opts:
+          ext: xlsx
+
+  # Data sources for ZA level 1
+  - name: pipelines.epidemiology.za_dsfsi.Covid19ZaTimelineDeathsDataSource
+    fetch:
+      - url: "https://raw.github.com/dsfsi/covid19za/master/data/covid19za_timeline_death_statistics.csv"

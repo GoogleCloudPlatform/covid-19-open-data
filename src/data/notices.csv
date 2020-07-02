@@ -1,0 +1,31 @@
+date,key,table,notice,adjusted
+,GB,,"United Kingdom uses incorrect ISO 3166-1 code UK in ECDC reports",1
+,GR,,"Greece uses incorrect ISO 3166-1 code EL in ECDC reports",1
+,PT_11,,"Portugal reports all COVID-19 related data using NUTS-2 regions.",0
+,PT_15,,"Portugal reports all COVID-19 related data using NUTS-2 regions.",0
+,PT_16,,"Portugal reports all COVID-19 related data using NUTS-2 regions.",0
+,PT_17,,"Portugal reports all COVID-19 related data using NUTS-2 regions.",0
+,PT_18,,"Portugal reports all COVID-19 related data using NUTS-2 regions.",0
+,PT_20,,"Portugal reports all COVID-19 related data using NUTS-2 regions.",0
+,PT_30,,"Portugal reports all COVID-19 related data using NUTS-2 regions.",0
+2020-04-18,ES,epidemiology,"Starting on 2020-04-18 Spain reports only PCR+ as confirmed cases, antibody tests are reported separately.",0
+2020-04-18,ES_AN,epidemiology,"Starting on 2020-04-18 Spain reports only PCR+ as confirmed cases, antibody tests are reported separately.",0
+2020-04-18,ES_AR,epidemiology,"Starting on 2020-04-18 Spain reports only PCR+ as confirmed cases, antibody tests are reported separately.",0
+2020-04-18,ES_AS,epidemiology,"Starting on 2020-04-18 Spain reports only PCR+ as confirmed cases, antibody tests are reported separately.",0
+2020-04-18,ES_CB,epidemiology,"Starting on 2020-04-18 Spain reports only PCR+ as confirmed cases, antibody tests are reported separately.",0
+2020-04-18,ES_CE,epidemiology,"Starting on 2020-04-18 Spain reports only PCR+ as confirmed cases, antibody tests are reported separately.",0
+2020-04-18,ES_CL,epidemiology,"Starting on 2020-04-18 Spain reports only PCR+ as confirmed cases, antibody tests are reported separately.",0
+2020-04-18,ES_CM,epidemiology,"Starting on 2020-04-18 Spain reports only PCR+ as confirmed cases, antibody tests are reported separately.",0
+2020-04-18,ES_CN,epidemiology,"Starting on 2020-04-18 Spain reports only PCR+ as confirmed cases, antibody tests are reported separately.",0
+2020-04-18,ES_CT,epidemiology,"Starting on 2020-04-18 Spain reports only PCR+ as confirmed cases, antibody tests are reported separately.",0
+2020-04-18,ES_EX,epidemiology,"Starting on 2020-04-18 Spain reports only PCR+ as confirmed cases, antibody tests are reported separately.",0
+2020-04-18,ES_GA,epidemiology,"Starting on 2020-04-18 Spain reports only PCR+ as confirmed cases, antibody tests are reported separately.",0
+2020-04-18,ES_IB,epidemiology,"Starting on 2020-04-18 Spain reports only PCR+ as confirmed cases, antibody tests are reported separately.",0
+2020-04-18,ES_MC,epidemiology,"Starting on 2020-04-18 Spain reports only PCR+ as confirmed cases, antibody tests are reported separately.",0
+2020-04-18,ES_MD,epidemiology,"Starting on 2020-04-18 Spain reports only PCR+ as confirmed cases, antibody tests are reported separately.",0
+2020-04-18,ES_ML,epidemiology,"Starting on 2020-04-18 Spain reports only PCR+ as confirmed cases, antibody tests are reported separately.",0
+2020-04-18,ES_NC,epidemiology,"Starting on 2020-04-18 Spain reports only PCR+ as confirmed cases, antibody tests are reported separately.",0
+2020-04-18,ES_PV,epidemiology,"Starting on 2020-04-18 Spain reports only PCR+ as confirmed cases, antibody tests are reported separately.",0
+2020-04-18,ES_RI,epidemiology,"Starting on 2020-04-18 Spain reports only PCR+ as confirmed cases, antibody tests are reported separately.",0
+2020-04-18,ES_VC,epidemiology,"Starting on 2020-04-18 Spain reports only PCR+ as confirmed cases, antibody tests are reported separately.",0
+2020-05-24,US_TX,epidemiology,"Starting on 2020-05-24 data for the state of Texas is sourced from DHSH which reports a significantly different number of tests performed.",0

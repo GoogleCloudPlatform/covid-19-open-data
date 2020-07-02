@@ -1,0 +1,62 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Demographics pipeline configuration
+
+schema:
+  key: str
+  life_expectancy: float
+  smoking_prevalence: float
+  diabetes_prevalence: float
+  infant_mortality_rate: float
+  adult_male_mortality_rate: float
+  adult_female_mortality_rate: float
+  pollution_mortality_rate: float
+  comorbidity_mortality_rate: float
+  hospital_beds: float
+  nurses: float
+  physicians: float
+  health_expenditure: float
+  out_of_pocket_health_expenditure: float
+
+auxiliary:
+  metadata: ./src/data/metadata.csv
+  country_codes: ./src/data/country_codes.csv
+  knowledge_graph: ./src/data/knowledge_graph.csv
+  worldbank_indicators: ./src/data/worldbank_indicators.csv
+
+sources:
+
+  - name: pipelines._common.wikidata.WikidataDataSource
+    parse:
+      life_expectancy: P2250
+
+  - name: pipelines.worldbank.worldbank.WorldbankDataSource
+    fetch:
+      - url: "http://databank.worldbank.org/data/download/WDI_csv.zip"
+    parse:
+      indicators:
+        life_expectancy: "SP.DYN.LE00.IN"
+        smoking_prevalence: "SH.PRV.SMOK"
+        diabetes_prevalence: "SH.STA.DIAB.ZS"
+        infant_mortality_rate: "SP.DYN.IMRT.IN"
+        adult_male_mortality_rate: "SP.DYN.AMRT.MA"
+        adult_female_mortality_rate: "SP.DYN.AMRT.FE"
+        pollution_mortality_rate: "SH.STA.AIRP.P5"
+        comorbidity_mortality_rate: "SH.DYN.NCOM.ZS"
+        hospital_beds: "SH.MED.BEDS.ZS"
+        nurses: "SH.MED.NUMW.P3"
+        physicians: "SH.MED.PHYS.ZS"
+        health_expenditure: "SH.XPD.CHEX.PC.CD"
+        out_of_pocket_health_expenditure: "SH.XPD.OOPC.PC.CD"

@@ -1,0 +1,10 @@
+beautifulsoup4==4.8.2
+multiprocess==0.70.9
+pandas==1.0.3
+PyYAML==5.3.1
+requests==2.23
+scipy==1.4.1
+Scrapy==2.0.0
+tqdm==4.43.0
+Unidecode==1.1.1
+xlrd==1.2.0

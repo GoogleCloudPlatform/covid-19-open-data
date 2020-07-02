@@ -1,0 +1,5257 @@
+key,wikidata,country_code,subregion1_code,subregion1_name
+AD_02,Q24260,AD,02,Canillo
+AD_03,Q24269,AD,03,Encamp
+AD_04,Q24276,AD,04,La Massana
+AD_05,Q24272,AD,05,Ordino
+AD_06,Q24282,AD,06,Sant Julià de Lòria
+AD_07,Q1863,AD,07,Andorra la Vella
+AD_08,Q24286,AD,08,Escaldes-Engordany
+AE_AJ,Q159477,AE,AJ,Ajman Emirate
+AE_AZ,Q187712,AE,AZ,Abu Dhabi Emirate
+AE_DU,Q613,AE,DU,Dubai
+AE_FU,Q4091,AE,FU,Fujairah
+AE_RK,Q170024,AE,RK,Ras al-Khaimah
+AE_SH,Q188810,AE,SH,Sharjah Emirate
+AE_UQ,Q175021,AE,UQ,Umm al-Quwain
+AF_BAL,Q121104,AF,BAL,Balkh
+AF_BAM,Q171382,AF,BAM,Bamyan
+AF_BDG,Q172052,AF,BDG,Badghis
+AF_BDS,Q165376,AF,BDS,Badakhshan
+AF_BGL,Q170309,AF,BGL,Baghlan
+AF_DAY,Q181220,AF,DAY,Daykundi
+AF_FRA,Q180330,AF,FRA,Farah
+AF_FYB,Q173830,AF,FYB,Faryab
+AF_GHA,Q180415,AF,GHA,Ghazni
+AF_GHO,Q186392,AF,GHO,Ghōr
+AF_HEL,Q173821,AF,HEL,Helmand
+AF_HER,Q182844,AF,HER,Herat
+AF_JOW,Q183036,AF,JOW,Jowzjan
+AF_KAB,Q188933,AF,KAB,Kabul
+AF_KAN,Q173808,AF,KAN,Kandahar
+AF_KAP,Q173816,AF,KAP,Kapisa
+AF_KDZ,Q186418,AF,KDZ,Kunduz Province
+AF_KHO,Q185752,AF,KHO,Khost
+AF_KNR,Q188147,AF,KNR,Kunar
+AF_LAG,Q185442,AF,LAG,Laghman
+AF_LOG,Q6667298,AF,LOG,Logar
+AF_NAN,Q178471,AF,NAN,Nangarhar
+AF_NIM,Q183021,AF,NIM,Nimruz
+AF_NUR,Q167485,AF,NUR,Nuristan
+AF_PAN,Q181235,AF,PAN,Panjshir
+AF_PAR,Q188157,AF,PAR,Parwan
+AF_PIA,Q182493,AF,PIA,Paktia
+AF_PKA,Q185575,AF,PKA,Paktika
+AF_SAM,Q183015,AF,SAM,Samangan
+AF_SAR,Q182487,AF,SAR,Sar-e Pol
+AF_TAK,Q186395,AF,TAK,Takhar
+AF_URU,Q183028,AF,URU,Urozgan
+AF_WAR,Q183056,AF,WAR,Maidan Wardak
+AF_ZAB,Q139126,AF,ZAB,Zabul
+AG_03,Q1770796,AG,03,Saint George Parish
+AG_04,Q548816,AG,04,Saint John Parish
+AG_05,Q1999872,AG,05,Saint Mary Parish
+AG_06,Q386093,AG,06,Saint Paul Parish
+AG_07,Q1952603,AG,07,Saint Peter Parish
+AG_08,Q1996895,AG,08,Saint Philip Parish
+AG_10,Q238752,AG,10,Barbuda
+AG_11,Q457261,AG,11,Redonda
+AL_01,Q189296,AL,01,Berat County
+AL_02,Q192853,AL,02,Durrës County
+AL_03,Q193790,AL,03,Elbasan County
+AL_04,Q231900,AL,04,Fier County
+AL_05,Q193454,AL,05,Gjirokastër County
+AL_06,Q193464,AL,06,Korçë County
+AL_07,Q231896,AL,07,Kukës County
+AL_08,Q193436,AL,08,Lezhë County
+AL_09,Q192866,AL,09,Dibër County
+AL_10,Q193438,AL,10,Shkodër County
+AL_11,Q229892,AL,11,Tirana County
+AL_12,Q192849,AL,12,Vlorë County
+AL_BR,Q202981,AL,BR,Berat District
+AL_BU,Q191872,AL,BU,Bulqizë District
+AL_DI,Q192123,AL,DI,Dibër District
+AL_DL,Q166959,AL,DL,Delvinë District
+AL_DR,Q37662,AL,DR,Durrës District
+AL_DV,Q192126,AL,DV,Devoll District
+AL_EL,Q205247,AL,EL,Elbasan District
+AL_ER,Q194178,AL,ER,Kolonjë District
+AL_FR,Q209019,AL,FR,Fier District
+AL_GJ,Q209749,AL,GJ,Gjirokastër District
+AL_GR,Q210090,AL,GR,Gramsh District
+AL_HA,Q207007,AL,HA,Has District
+AL_KA,Q194182,AL,KA,Kavajë District
+AL_KB,Q123602,AL,KB,Kurbin District
+AL_KC,Q211946,AL,KC,Kuçovë District
+AL_KO,Q191491,AL,KO,Korçë District
+AL_KR,Q205261,AL,KR,Krujë District
+AL_KU,Q123395,AL,KU,Kukës District
+AL_LB,Q207002,AL,LB,Librazhd District
+AL_LE,Q194185,AL,LE,Lezhë District
+AL_LU,Q206994,AL,LU,Lushnjë District
+AL_MK,Q207437,AL,MK,Mallakastër District
+AL_MM,Q236845,AL,MM,Malësi e Madhe District
+AL_MR,Q236850,AL,MR,Mirditë District
+AL_MT,Q202665,AL,MT,Mat District
+AL_PG,Q202197,AL,PG,Pogradec District
+AL_PQ,Q202652,AL,PQ,Peqin District
+AL_PR,Q121074,AL,PR,Përmet District
+AL_PU,Q206997,AL,PU,Pukë District
+AL_SH,Q194176,AL,SH,Shkodër District
+AL_SK,Q194381,AL,SK,Skrapar District
+AL_SR,Q748235,AL,SR,Sarandë District
+AL_TE,Q202656,AL,TE,Tepelenë District
+AL_TP,Q123615,AL,TP,Tropojë District
+AL_TR,Q201073,AL,TR,Tirana District
+AL_VL,Q158601,AL,VL,Vlorë District
+AM_AG,Q17915,AM,AG,Aragatsotn Region
+AM_AR,Q199880,AM,AR,Ararat Province
+AM_AV,Q201147,AM,AV,Armavir Region
+AM_ER,Q1953,AM,ER,Yerevan
+AM_GR,Q199905,AM,GR,Gegharkunik Province
+AM_KT,Q4511,AM,KT,Kotayk Province
+AM_LO,Q200350,AM,LO,Lori Region
+AM_SH,Q201063,AM,SH,Shirak Region
+AM_SU,Q2523428,AM,SU,Syunik Province
+AM_TV,Q201140,AM,TV,Tavush Region
+AM_VD,Q200124,AM,VD,Vayots Dzor Region
+AO_BGO,Q191299,AO,BGO,Bengo Province
+AO_BGU,Q212786,AO,BGU,Benguela Province
+AO_BIE,Q213977,AO,BIE,Bié Province
+AO_CAB,Q168787,AO,CAB,Cabinda Province
+AO_CCU,Q215268,AO,CCU,Cuando Cubango Province
+AO_CNN,Q216987,AO,CNN,Cunene Province
+AO_CNO,Q216834,AO,CNO,Cuanza Norte Province
+AO_CUS,Q216998,AO,CUS,Cuanza Sul
+AO_HUA,Q218848,AO,HUA,Huambo Province
+AO_HUI,Q214572,AO,HUI,Huíla Province
+AO_LNO,Q214221,AO,LNO,Lunda Norte Province
+AO_LSU,Q219648,AO,LSU,Lunda Sul Province
+AO_LUA,Q190066,AO,LUA,Luanda Province
+AO_MAL,Q219072,AO,MAL,Malanje Province
+AO_MOX,Q173988,AO,MOX,Moxico Province
+AO_NAM,Q216819,AO,NAM,Namibe Province
+AO_UIG,Q216972,AO,UIG,Uíge Province
+AO_ZAI,Q196674,AO,ZAI,Zaire Province
+AR_A,Q44803,AR,A,Salta Province
+AR_B,Q44754,AR,B,Province of Buenos Aires
+AR_C,Q1486,AR,C,Buenos Aires
+AR_D,Q44818,AR,D,San Luis Province
+AR_E,Q44762,AR,E,Entre Ríos Province
+AR_F,Q44796,AR,F,La Rioja Province
+AR_G,Q44827,AR,G,Santiago del Estero Province
+AR_H,Q44757,AR,H,Chaco Province
+AR_J,Q44805,AR,J,San Juan Province
+AR_K,Q44756,AR,K,Catamarca Province
+AR_L,Q44795,AR,L,La Pampa
+AR_M,Q44797,AR,M,Mendoza
+AR_N,Q44798,AR,N,Misiones Province
+AR_P,Q44761,AR,P,Formosa Province
+AR_Q,Q44800,AR,Q,Neuquén Province
+AR_R,Q44802,AR,R,Río Negro Province
+AR_S,Q44823,AR,S,Santa Fe Province
+AR_T,Q44829,AR,T,Tucumán Province
+AR_U,Q45007,AR,U,Chubut Province
+AR_V,Q44832,AR,V,"Tierra del Fuego, Antarctica and South Atlantic Islands province"
+AR_W,Q44758,AR,W,Corrientes
+AR_X,Q44759,AR,X,Córdoba Province
+AR_Y,Q44764,AR,Y,Province of Jujuy
+AR_Z,Q44821,AR,Z,Santa Cruz Province
+AT_1,Q43210,AT,1,Burgenland
+AT_2,Q37985,AT,2,Carinthia
+AT_3,Q42497,AT,3,Lower Austria
+AT_4,Q41967,AT,4,Upper Austria
+AT_5,Q43325,AT,5,Salzburg
+AT_6,Q41358,AT,6,Styria
+AT_7,Q42880,AT,7,Tyrol
+AT_8,Q38981,AT,8,Vorarlberg
+AT_9,Q1741,AT,9,Vienna
+AU_ACT,Q3258,AU,ACT,Australian Capital Territory
+AU_NSW,Q3224,AU,NSW,New South Wales
+AU_NT,Q3235,AU,NT,Northern Territory
+AU_QLD,Q36074,AU,QLD,Queensland
+AU_SA,Q35715,AU,SA,South Australia
+AU_TAS,Q34366,AU,TAS,Tasmania
+AU_VIC,Q36687,AU,VIC,Victoria
+AU_WA,Q3206,AU,WA,Western Australia
+AZ_ABS,Q179538,AZ,ABS,Absheron District
+AZ_AGA,Q275744,AZ,AGA,Agstafa District
+AZ_AGC,Q330818,AZ,AGC,Aghjabadi District
+AZ_AGM,Q201647,AZ,AGM,Agdam District
+AZ_AGS,Q275784,AZ,AGS,Agdash District
+AZ_AGU,Q330800,AZ,AGU,Agsu District
+AZ_AST,Q269680,AZ,AST,Astara District
+AZ_BA,Q9248,AZ,BA,Baku
+AZ_BAB,Q643895,AZ,BAB,Babek District
+AZ_BAL,Q330850,AZ,BAL,Balakan District
+AZ_BAR,Q330857,AZ,BAR,Barda District
+AZ_BEY,Q330807,AZ,BEY,Beylagan District
+AZ_BIL,Q330834,AZ,BIL,Bilasuvar District
+AZ_CAB,Q457491,AZ,CAB,Jabrayil District
+AZ_CAL,Q372795,AZ,CAL,Jalilabad District
+AZ_CUL,Q644035,AZ,CUL,Julfa District
+AZ_DAS,Q457494,AZ,DAS,Dashkasan District
+AZ_FUZ,Q331687,AZ,FUZ,Fizuli District
+AZ_GA,Q131290,AZ,GA,Ganja
+AZ_GAD,Q330749,AZ,GAD,Gadabay District
+AZ_GOR,Q330843,AZ,GOR,Goranboy District
+AZ_GOY,Q477163,AZ,GOY,Goychay District
+AZ_GYG,Q388087,AZ,GYG,Goygol District
+AZ_HAC,Q476690,AZ,HAC,Hajigabul District
+AZ_IMI,Q343908,AZ,IMI,Imishli District
+AZ_ISM,Q344252,AZ,ISM,Ismailli District
+AZ_KAL,Q457513,AZ,KAL,Kalbajar District
+AZ_KAN,Q734030,AZ,KAN,Kangarli District
+AZ_KUR,Q688589,AZ,KUR,Kurdamir District
+AZ_LA,Q269986,AZ,LA,Lankaran District
+AZ_LAC,Q301832,AZ,LAC,Lachin District
+AZ_LAN,Q228811,AZ,LAN,Lankaran
+AZ_LER,Q688626,AZ,LER,Lerik District
+AZ_MAS,Q476695,AZ,MAS,Masally District
+AZ_MI,Q230932,AZ,MI,Mingachevir
+AZ_NA,Q21979624,AZ,NA,Naftalan
+AZ_NEF,Q688633,AZ,NEF,Neftchala District
+AZ_NV,Q230104,AZ,NV,Nakhchivan
+AZ_NX,Q131083,AZ,NX,Nakhchivan Autonomous Republic
+AZ_OGU,Q643989,AZ,OGU,Oghuz District
+AZ_ORD,Q512623,AZ,ORD,Ordubad District
+AZ_QAB,Q593872,AZ,QAB,Qabala District
+AZ_QAX,Q330796,AZ,QAX,Qakh District
+AZ_QAZ,Q389381,AZ,QAZ,Qazakh District
+AZ_QBA,Q457499,AZ,QBA,Quba District
+AZ_QBI,Q644048,AZ,QBI,Qubadli District
+AZ_QOB,Q457508,AZ,QOB,Gobustan District
+AZ_QUS,Q386506,AZ,QUS,Qusar District
+AZ_SA,Q234783,AZ,SA,Shaki
+AZ_SAB,Q2148635,AZ,SAB,Sabirabad
+AZ_SAB,Q382132,AZ,SAB,Sabirabad District
+AZ_SAD,Q641468,AZ,SAD,Sadarak District
+AZ_SAH,Q388081,AZ,SAH,Shahbuz District
+AZ_SAK,Q330864,AZ,SAK,Shaki District
+AZ_SAL,Q457485,AZ,SAL,Salyan District
+AZ_SAR,Q390820,AZ,SAR,Sharur District
+AZ_SAT,Q601105,AZ,SAT,Saatly District
+AZ_SBN,Q387994,AZ,SBN,Shabran District
+AZ_SIY,Q820940,AZ,SIY,Siazan District
+AZ_SKR,Q467491,AZ,SKR,Shamkir District
+AZ_SM,Q179833,AZ,SM,Sumqayit
+AZ_SMI,Q330839,AZ,SMI,Shamakhi District
+AZ_SMX,Q498437,AZ,SMX,Samukh District
+AZ_SR,Q241116,AZ,SR,Şirvan
+AZ_SUS,Q388960,AZ,SUS,Shusha District
+AZ_TAR,Q477168,AZ,TAR,Tartar District
+AZ_TOV,Q388980,AZ,TOV,Tovuz District
+AZ_UCA,Q476703,AZ,UCA,Ujar District
+AZ_XA,Q129352,AZ,XA,Stepanakert
+AZ_XAC,Q6398826,AZ,XAC,Khachmaz District
+AZ_XCI,Q330790,AZ,XCI,Khojali District
+AZ_XIZ,Q476708,AZ,XIZ,Khizi District
+AZ_XVD,Q330813,AZ,XVD,Khojavend District
+AZ_YAR,Q127255,AZ,YAR,Yardymli District
+AZ_YE,Q175459,AZ,YE,Yevlakh
+AZ_YEV,Q458524,AZ,YEV,Yevlakh District
+AZ_ZAN,Q249252,AZ,ZAN,Zangilan District
+AZ_ZAQ,Q147553,AZ,ZAQ,Zaqatala District
+AZ_ZAR,Q249293,AZ,ZAR,Zardab District
+BA_01,Q18248,BA,01,Una-Sana Canton
+BA_02,Q18249,BA,02,Posavina Canton
+BA_03,Q18250,BA,03,Tuzla Canton
+BA_04,Q18253,BA,04,Zenica-Doboj Canton
+BA_05,Q18256,BA,05,Bosnian Podrinje Canton
+BA_06,Q18262,BA,06,Central Bosnia Canton
+BA_07,Q18273,BA,07,Herzegovina-Neretva Canton
+BA_08,Q18275,BA,08,West Herzegovina Canton
+BA_09,Q18276,BA,09,Sarajevo Canton
+BA_10,Q18277,BA,10,Canton 10
+BA_BIH,Q11198,BA,BIH,Federation of Bosnia and Herzegovina
+BA_BRC,Q194483,BA,BRC,Brčko District
+BA_SRP,Q11196,BA,SRP,Republika Srpska
+BB_01,Q1626524,BB,01,Christ Church
+BB_02,Q1647439,BB,02,Saint Andrew
+BB_03,Q1647443,BB,03,Saint George
+BB_04,Q592141,BB,04,Saint James
+BB_05,Q1626540,BB,05,Saint John
+BB_06,Q550249,BB,06,Saint Joseph
+BB_07,Q1647447,BB,07,Saint Lucy
+BB_08,Q819170,BB,08,Saint Michael
+BB_09,Q932723,BB,09,Saint Peter
+BB_10,Q1647436,BB,10,Saint Philip
+BB_11,Q1647432,BB,11,Saint Thomas
+BD_01,Q806273,BD,01,Bandarban District
+BD_02,Q808172,BD,02,Barguna District
+BD_03,Q2039066,BD,03,Bogra District
+BD_04,Q897330,BD,04,Brahmanbaria District
+BD_05,Q2344861,BD,05,Bagerhat District
+BD_06,Q1763301,BD,06,Barisal District
+BD_07,Q855042,BD,07,Bhola District
+BD_08,Q1480778,BD,08,Comilla District
+BD_09,Q1429697,BD,09,Chandpur District
+BD_10,Q1074991,BD,10,Chittagong District
+BD_11,Q1122278,BD,11,Cox's Bazar District
+BD_12,Q2094570,BD,12,Chuadanga District
+BD_13,Q1850485,BD,13,Dhaka District
+BD_14,Q1985120,BD,14,Dinajpur District
+BD_15,Q2093552,BD,15,Faridpur District
+BD_16,Q1404741,BD,16,Feni District
+BD_17,Q1537813,BD,17,Gopalganj District
+BD_18,Q2094101,BD,18,Gazipur District
+BD_19,Q2344595,BD,19,Gaibandha District
+BD_20,Q1438974,BD,20,Habiganj District
+BD_21,Q2039306,BD,21,Jamalpur District
+BD_22,Q1862981,BD,22,Jessore District
+BD_23,Q2188750,BD,23,Jhenaidah District
+BD_24,Q2348146,BD,24,Joypurhat District
+BD_25,Q2093327,BD,25,Jhalokati District
+BD_26,Q2344833,BD,26,Kishoreganj District
+BD_27,Q2093344,BD,27,Khulna District
+BD_28,Q2348751,BD,28,Kurigram District
+BD_29,Q1429685,BD,29,Khagrachari District
+BD_30,Q956895,BD,30,Kushtia District
+BD_31,Q1550252,BD,31,Lakshmipur District
+BD_32,Q2373734,BD,32,Lalmonirhat District
+BD_33,Q2024719,BD,33,Manikganj District
+BD_34,Q1429976,BD,34,Mymensingh District
+BD_35,Q1990519,BD,35,Munshiganj District
+BD_36,Q928836,BD,36,Madaripur District
+BD_37,Q2039085,BD,37,Magura District
+BD_38,Q281435,BD,38,Moulvibazar District
+BD_39,Q1474206,BD,39,Meherpur District
+BD_40,Q2208354,BD,40,Narayanganj District
+BD_41,Q2344966,BD,41,Netrokona District
+BD_42,Q2042638,BD,42,Narsingdi District
+BD_43,Q1550260,BD,43,Narail District
+BD_44,Q2093361,BD,44,Natore District
+BD_45,Q46043,BD,45,Chapai Nawabganj District
+BD_46,Q2188627,BD,46,Nilphamari District
+BD_47,Q68585,BD,47,Noakhali District
+BD_48,Q2094277,BD,48,Naogaon District
+BD_49,Q1083505,BD,49,Pabna District
+BD_50,Q609190,BD,50,Pirojpur District
+BD_51,Q1429761,BD,51,Patuakhali District
+BD_52,Q2367822,BD,52,Panchagarh District
+BD_53,Q2348762,BD,53,Rajbari District
+BD_54,Q2344697,BD,54,Rajshahi District
+BD_55,Q2344570,BD,55,Rangpur District
+BD_56,Q2121686,BD,56,Rangamati Hill District
+BD_57,Q2039314,BD,57,Sherpur District
+BD_58,Q1233680,BD,58,Satkhira District
+BD_59,Q2429432,BD,59,Sirajganj District
+BD_60,Q2093352,BD,60,Sylhet District
+BD_61,Q2093388,BD,61,Sunamganj District
+BD_62,Q253007,BD,62,Shariatpur District
+BD_63,Q952184,BD,63,Tangail District
+BD_64,Q2367825,BD,64,Thakurgaon District
+BD_A,Q459723,BD,A,Barisal Division
+BD_B,Q158087,BD,B,Chittagong Division
+BD_C,Q330158,BD,C,Dhaka Division
+BD_D,Q501696,BD,D,Khulna Division
+BD_E,Q379382,BD,E,Rajshahi Division
+BD_F,Q876023,BD,F,Rangpur Division
+BD_G,Q459732,BD,G,Sylhet Division
+BD_H,Q19594930,BD,H,Mymensingh Division
+BE_BRU,Q240,BE,BRU,Brussels-Capital Region
+BE_VAN,Q1116,BE,VAN,Antwerp
+BE_VBR,Q1118,BE,VBR,Flemish Brabant
+BE_VLG,Q234,BE,VLG,Flanders
+BE_VLG,Q9337,BE,VLG,Flemish Region
+BE_VLI,Q1095,BE,VLI,Limburg
+BE_VOV,Q1114,BE,VOV,East Flanders
+BE_VWV,Q1113,BE,VWV,West Flanders
+BE_WAL,Q231,BE,WAL,Wallonia
+BE_WBR,Q1122,BE,WBR,Walloon Brabant
+BE_WHT,Q1129,BE,WHT,Hainaut
+BE_WLG,Q1127,BE,WLG,Liège
+BE_WLX,Q1126,BE,WLX,Luxembourg
+BE_WNA,Q1125,BE,WNA,Namur
+BF_01,Q527093,BF,01,Boucle du Mouhoun Region
+BF_02,Q850043,BF,02,Cascades Region
+BF_03,Q515655,BF,03,Centre
+BF_04,Q543006,BF,04,Centre-Est Region
+BF_05,Q850064,BF,05,Centre-Nord Region
+BF_06,Q850075,BF,06,Centre-Ouest Region
+BF_07,Q853405,BF,07,Centre-Sud Region
+BF_08,Q850088,BF,08,Est Region
+BF_09,Q845303,BF,09,Hauts-Bassins Region
+BF_10,Q502320,BF,10,"Nord Region, Burkina Faso"
+BF_11,Q862606,BF,11,Plateau-Central Region
+BF_12,Q665514,BF,12,Sahel Region
+BF_13,Q429149,BF,13,Sud-Ouest Region
+BF_BAL,Q805913,BF,BAL,Balé Province
+BF_BAM,Q620710,BF,BAM,Bam Province
+BF_BAN,Q674664,BF,BAN,Banwa Province
+BF_BAZ,Q619764,BF,BAZ,Bazèga Province
+BF_BGR,Q676641,BF,BGR,Bougouriba Province
+BF_BLG,Q895097,BF,BLG,Boulgou
+BF_BLK,Q895102,BF,BLK,Boulkiemdé Province
+BF_COM,Q1074496,BF,COM,Comoé Province
+BF_GAN,Q182889,BF,GAN,Ganzourgou Province
+BF_GNA,Q1074144,BF,GNA,Gnagna Province
+BF_GOU,Q432317,BF,GOU,Gourma Province
+BF_HOU,Q1074161,BF,HOU,Houet Province
+BF_IOB,Q1074154,BF,IOB,Ioba Province
+BF_KAD,Q1074530,BF,KAD,Kadiogo Province
+BF_KEN,Q1150901,BF,KEN,Kénédougou Province
+BF_KMD,Q1074479,BF,KMD,Komondjari Province
+BF_KMP,Q1142059,BF,KMP,Kompienga Province
+BF_KOP,Q934923,BF,KOP,Koulpélogo Province
+BF_KOS,Q1074485,BF,KOS,Kossi Province
+BF_KOT,Q1141767,BF,KOT,Kouritenga Province
+BF_KOW,Q661376,BF,KOW,Kourwéogo Province
+BF_LER,Q977607,BF,LER,Léraba Province
+BF_LOR,Q1142054,BF,LOR,Loroum Province
+BF_MOU,Q1142050,BF,MOU,Mouhoun
+BF_NAM,Q1142044,BF,NAM,Namentenga Province
+BF_NAO,Q1142003,BF,NAO,Nahouri Province
+BF_NAY,Q1141776,BF,NAY,Nayala Province
+BF_NOU,Q646647,BF,NOU,Noumbiel Province
+BF_OUB,Q1142026,BF,OUB,Oubritenga Province
+BF_OUD,Q514173,BF,OUD,Oudalan Province
+BF_PAS,Q1142008,BF,PAS,Passoré Province
+BF_PON,Q953657,BF,PON,Poni Province
+BF_SEN,Q1061214,BF,SEN,Séno Province
+BF_SIS,Q964281,BF,SIS,Sissili Province
+BF_SMT,Q1142039,BF,SMT,Sanmatenga Province
+BF_SNG,Q1142014,BF,SNG,Sanguié Province
+BF_SOM,Q385973,BF,SOM,Soum Province
+BF_SOR,Q558703,BF,SOR,Sourou Province
+BF_TAP,Q621983,BF,TAP,Tapoa Province
+BF_TUI,Q627844,BF,TUI,Tuy Province
+BF_YAG,Q1074466,BF,YAG,Yagha Province
+BF_YAT,Q1074521,BF,YAT,Yatenga Province
+BF_ZIR,Q206019,BF,ZIR,Ziro Province
+BF_ZON,Q219859,BF,ZON,Zondoma Province
+BF_ZOU,Q227059,BF,ZOU,Zoundwéogo Province
+BG_01,Q804311,BG,01,Blagoevgrad Province
+BG_02,Q369220,BG,02,Burgas Province
+BG_03,Q183487,BG,03,Varna Province
+BG_04,Q2012621,BG,04,Veliko Tarnovo Province
+BG_05,Q2012772,BG,05,Vidin Province
+BG_06,Q2012785,BG,06,Vratsa Province
+BG_07,Q1007272,BG,07,Gabrovo Province
+BG_08,Q907395,BG,08,Dobrich Province
+BG_09,Q1104675,BG,09,Kardzhali Province
+BG_10,Q1112985,BG,10,Kyustendil Province
+BG_11,Q6587068,BG,11,Lovech Province
+BG_12,Q2012057,BG,12,Montana Province
+BG_13,Q2012227,BG,13,Pazardzhik Province
+BG_14,Q2012234,BG,14,Pernik Province
+BG_15,Q2012242,BG,15,Pleven Province
+BG_16,Q187874,BG,16,Plovdiv Province
+BG_17,Q2790675,BG,17,Razgrad Province
+BG_18,Q1251933,BG,18,Ruse Province
+BG_19,Q2012423,BG,19,Silistra Province
+BG_20,Q113120,BG,20,Sliven Province
+BG_21,Q2012430,BG,21,Smolyan Province
+BG_22,Q1585725,BG,22,Sofia City Province
+BG_23,Q202904,BG,23,Sofia Province
+BG_24,Q2012583,BG,24,Stara Zagora Province
+BG_25,Q2012589,BG,25,Targovishte Province
+BG_26,Q182809,BG,26,Haskovo Province
+BG_27,Q184981,BG,27,Shumen Province
+BG_28,Q220736,BG,28,Yambol Province
+BH_13,Q528953,BH,13,Capital Governorate
+BH_14,Q838532,BH,14,Southern Governorate
+BH_15,Q375630,BH,15,Muharraq Governorate
+BH_16,Q856539,BH,16,Central Governorate
+BH_17,Q840445,BH,17,Northern Governorate
+BI_BB,Q460538,BI,BB,Bubanza Province
+BI_BL,Q645043,BI,BL,Bujumbura Rural Province
+BI_BM,Q1816580,BI,BM,Bujumbura Mairie Province
+BI_BR,Q431385,BI,BR,Bururi Province
+BI_CA,Q645033,BI,CA,Cankuzo Province
+BI_CI,Q505596,BI,CI,Cibitoke Province
+BI_GI,Q720843,BI,GI,Gitega Province
+BI_KI,Q600840,BI,KI,Kirundo Province
+BI_KR,Q735463,BI,KR,Karuzi Province
+BI_KY,Q720848,BI,KY,Kayanza Province
+BI_MA,Q823740,BI,MA,Makamba Province
+BI_MU,Q671086,BI,MU,Muramvya Province
+BI_MW,Q847718,BI,MW,Mwaro Province
+BI_MY,Q822571,BI,MY,Muyinga Province
+BI_NG,Q720852,BI,NG,Ngozi Province
+BI_RM,Q20669646,BI,RM,Rumonge Province
+BI_RT,Q822566,BI,RT,Rutana Province
+BI_RY,Q822578,BI,RY,Ruyigi Province
+BJ_AK,Q29154,BJ,AK,Atakora Department
+BJ_AL,Q29165,BJ,AL,Alibori Department
+BJ_AQ,Q29147,BJ,AQ,Atlantique Department
+BJ_BO,Q29136,BJ,BO,Borgou Department
+BJ_CO,Q29141,BJ,CO,Collines Department
+BJ_DO,Q29161,BJ,DO,Donga Department
+BJ_KO,Q29173,BJ,KO,Kouffo Department
+BJ_LI,Q29158,BJ,LI,Littoral Department
+BJ_MO,Q29135,BJ,MO,Mono Department
+BJ_OU,Q29169,BJ,OU,Ouémé Department
+BJ_PL,Q32108,BJ,PL,Plateau Department
+BJ_ZO,Q29172,BJ,ZO,Zou Department
+BN_BE,Q40395,BN,BE,Belait District
+BN_BM,Q153009,BN,BM,Brunei-Muara District
+BN_TE,Q263285,BN,TE,Temburong District
+BN_TU,Q40398,BN,TU,Tutong District
+BO_B,Q233169,BO,B,Beni Department
+BO_C,Q233917,BO,C,Cochabamba Department
+BO_H,Q235110,BO,H,Chuquisaca Department
+BO_L,Q272784,BO,L,La Paz Department
+BO_N,Q235362,BO,N,Pando Department
+BO_O,Q1061368,BO,O,Oruro Department
+BO_P,Q238079,BO,P,Potosí Department
+BO_S,Q235106,BO,S,Santa Cruz Department
+BO_T,Q233933,BO,T,Tarija Department
+BQ_BO,Q25396,BQ,BO,Bonaire
+BQ_SA,Q25528,BQ,SA,Saba
+BQ_SE,Q26180,BQ,SE,Sint Eustatius
+BR_AC,Q40780,BR,AC,Acre
+BR_AL,Q40885,BR,AL,Alagoas
+BR_AM,Q40040,BR,AM,Amazonas
+BR_AP,Q40130,BR,AP,Amapá
+BR_BA,Q40430,BR,BA,Bahia
+BR_CE,Q40123,BR,CE,Ceará
+BR_DF,Q119158,BR,DF,Federal District
+BR_ES,Q43233,BR,ES,Espírito Santo
+BR_GO,Q41587,BR,GO,Goiás
+BR_MA,Q42362,BR,MA,Maranhão
+BR_MG,Q39109,BR,MG,Minas Gerais
+BR_MS,Q43319,BR,MS,Mato Grosso do Sul
+BR_MT,Q42824,BR,MT,Mato Grosso
+BR_PA,Q39517,BR,PA,Pará
+BR_PB,Q38088,BR,PB,Paraíba
+BR_PE,Q40942,BR,PE,Pernambuco
+BR_PI,Q42722,BR,PI,Piauí
+BR_PR,Q15499,BR,PR,Paraná
+BR_RJ,Q41428,BR,RJ,Rio de Janeiro
+BR_RN,Q43255,BR,RN,Rio Grande do Norte
+BR_RO,Q43235,BR,RO,Rondônia
+BR_RR,Q42508,BR,RR,Roraima
+BR_RS,Q40030,BR,RS,Rio Grande do Sul
+BR_SC,Q41115,BR,SC,Santa Catarina
+BR_SE,Q43783,BR,SE,Sergipe
+BR_SP,Q175,BR,SP,São Paulo
+BR_TO,Q43695,BR,TO,Tocantins
+BS_AC,Q4674283,BS,AC,Acklins and Crooked Islands
+BS_AK,Q341919,BS,AK,Acklins
+BS_BI,Q863476,BS,BI,Bimini
+BS_BP,Q2525298,BS,BP,Black Point
+BS_BY,Q827173,BS,BY,Berry Islands
+BS_CE,Q938518,BS,CE,Central Eleuthera
+BS_CI,Q1050154,BS,CI,Cat Island
+BS_CK,Q1140993,BS,CK,Crooked Island
+BS_CO,Q2525371,BS,CO,Central Abaco
+BS_CS,Q2096558,BS,CS,Central Andros
+BS_EG,Q2630334,BS,EG,East Grand Bahama
+BS_EX,Q1385577,BS,EX,Exuma
+BS_FC,Q14209513,BS,FC,Fresh Creek
+BS_FP,Q867573,BS,FP,Freeport
+BS_GC,Q2524373,BS,GC,Grand Cay
+BS_GH,Q5589465,BS,GH,Governor's Harbour
+BS_GT,Q3249446,BS,GT,Green Turtle Cay
+BS_HI,Q2357510,BS,HI,Harbour Island
+BS_HR,Q1771787,BS,HR,High Rock
+BS_HT,Q2699709,BS,HT,Hope Town
+BS_IN,Q1353668,BS,IN,Inagua
+BS_KB,Q9291041,BS,KB,Kemps Bay
+BS_LI,Q890879,BS,LI,Long Island
+BS_MC,Q2702334,BS,MC,Mangrove Cay
+BS_MG,Q21712462,BS,MG,Mayaguana District
+BS_MH,Q1337651,BS,MH,Marsh Harbour
+BS_MI,Q21713445,BS,MI,Moore's Island District
+BS_MI,Q2702345,BS,MI,Moore's Island
+BS_NB,Q15478152,BS,NB,Nichollstown and Berry Islands
+BS_NE,Q2705535,BS,NE,North Eleuthera
+BS_NO,Q623327,BS,NO,North Abaco
+BS_NP,Q21712503,BS,NP,New Providence District
+BS_NS,Q2699411,BS,NS,North Andros
+BS_RC,Q1859950,BS,RC,Rum Cay
+BS_RC,Q21713441,BS,RC,Rum Cay District
+BS_RI,Q1532634,BS,RI,Ragged Island
+BS_RS,Q1771799,BS,RS,Rock Sound
+BS_SA,Q2408672,BS,SA,South Andros
+BS_SE,Q2699715,BS,SE,South Eleuthera
+BS_SO,Q2703192,BS,SO,South Abaco
+BS_SP,Q7417405,BS,SP,Sandy Point
+BS_SR,Q7415283,BS,SR,San Salvador and Rum Cay
+BS_SS,Q845540,BS,SS,San Salvador Island
+BS_SW,Q1771681,BS,SW,Spanish Wells
+BS_WG,Q2702338,BS,WG,West Grand Bahama
+BT_11,Q652784,BT,11,Paro District
+BT_12,Q652754,BT,12,Chukha District
+BT_13,Q754448,BT,13,Haa District
+BT_14,Q728917,BT,14,Samtse District
+BT_15,Q254889,BT,15,Thimphu District
+BT_21,Q728922,BT,21,Tsirang District
+BT_22,Q735146,BT,22,Dagana District
+BT_23,Q587062,BT,23,Punakha District
+BT_24,Q728933,BT,24,Wangdue Phodrang District
+BT_31,Q728947,BT,31,Sarpang District
+BT_32,Q728938,BT,32,Trongsa District
+BT_33,Q463242,BT,33,Bumthang District
+BT_34,Q197564,BT,34,Zhemgang District
+BT_41,Q652773,BT,41,Trashigang District
+BT_42,Q389734,BT,42,Mongar District
+BT_43,Q167279,BT,43,Pemagatshel District
+BT_44,Q598793,BT,44,Lhuntse District
+BT_45,Q728929,BT,45,Samdrup Jongkhar District
+BT_GA,Q578294,BT,GA,Gasa District
+BT_TY,Q600200,BT,TY,Trashiyangtse District
+BW_CE,Q57525,BW,CE,Central District
+BW_CH,Q165536,BW,CH,Chobe District
+BW_FR,Q165422,BW,FR,Francistown
+BW_GA,Q3919,BW,GA,Gaborone
+BW_GH,Q57571,BW,GH,Ghanzi District
+BW_JW,Q165954,BW,JW,Jwaneng
+BW_KG,Q57581,BW,KG,Kgalagadi District
+BW_KL,Q57593,BW,KL,Kgatleng District
+BW_KW,Q57599,BW,KW,Kweneng District
+BW_LO,Q165768,BW,LO,Lobatse
+BW_NE,Q57636,BW,NE,North-East District
+BW_NG,Q3339267,BW,NG,Ngamiland
+BW_NW,Q57617,BW,NW,North-West District
+BW_SE,Q57695,BW,SE,South-East District
+BW_SO,Q57609,BW,SO,Southern District
+BW_SP,Q141263,BW,SP,Selebi-Phikwe
+BW_ST,Q141310,BW,ST,Sowa
+BY_BR,Q173822,BY,BR,Brest Region
+BY_HM,Q2280,BY,HM,Minsk
+BY_HO,Q188732,BY,HO,Gomel Region
+BY_HR,Q191061,BY,HR,Grodno Region
+BY_MA,Q189822,BY,MA,Mahilioŭ Region
+BY_MI,Q192959,BY,MI,Minsk Region
+BY_VI,Q185700,BY,VI,Viciebsk Region
+BZ_BZ,Q506056,BZ,BZ,Belize District
+BZ_CY,Q508773,BZ,CY,Cayo District
+BZ_CZL,Q512273,BZ,CZL,Corozal District
+BZ_OW,Q506036,BZ,OW,Orange Walk District
+BZ_SC,Q502652,BZ,SC,Stann Creek District
+BZ_TOL,Q506049,BZ,TOL,Toledo District
+CA_AB,Q1951,CA,AB,Alberta
+CA_BC,Q1974,CA,BC,British Columbia
+CA_MB,Q1948,CA,MB,Manitoba
+CA_NB,Q1965,CA,NB,New Brunswick
+CA_NL,Q2003,CA,NL,Newfoundland and Labrador
+CA_NS,Q1952,CA,NS,Nova Scotia
+CA_NT,Q2007,CA,NT,Northwest Territories
+CA_NU,Q2023,CA,NU,Nunavut
+CA_ON,Q1904,CA,ON,Ontario
+CA_PE,Q1979,CA,PE,Prince Edward Island
+CA_QC,Q176,CA,QC,Quebec
+CA_SK,Q1989,CA,SK,Saskatchewan
+CA_YT,Q2009,CA,YT,Yukon
+CD_BC,Q1043494,CD,BC,Kongo Central
+CD_BN,Q671442,CD,BN,Bandundu Province
+CD_BU,Q652056,CD,BU,Bas-Uele
+CD_EQ,Q988104,CD,EQ,Équateur
+CD_HK,Q130268,CD,HK,Haut-Katanga Province
+CD_HL,Q605672,CD,HL,Haut-Lomami District
+CD_HU,Q751632,CD,HU,Haut-Uele
+CD_IT,Q750659,CD,IT,Ituri Interim Administration
+CD_KA,Q217242,CD,KA,Katanga Province
+CD_KC,Q209706,CD,KC,Lulua District
+CD_KC,Q6702952,CD,KC,Kasaï-Central
+CD_KE,Q917992,CD,KE,Kasai-Oriental
+CD_KG,Q24205498,CD,KG,Kwango Province
+CD_KL,Q559537,CD,KL,Kwilu
+CD_KN,Q3838,CD,KN,Kinshasa
+CD_KS,Q255655,CD,KS,Kasaï District
+CD_KW,Q130576,CD,KW,Kasaï-Occidental
+CD_LO,Q241886,CD,LO,Lomami Province
+CD_LU,Q1159531,CD,LU,Lualaba Province
+CD_MA,Q130566,CD,MA,Maniema
+CD_MN,Q1163429,CD,MN,Mai-Ndombe Province
+CD_MO,Q847527,CD,MO,Mongala District
+CD_NK,Q130625,CD,NK,North Kivu
+CD_NU,Q843312,CD,NU,Nord-Ubangi District
+CD_OR,Q831370,CD,OR,Orientale Province
+CD_SA,Q209829,CD,SA,Sankuru District
+CD_SK,Q488326,CD,SK,South Kivu
+CD_SU,Q834551,CD,SU,Sud-Ubangi
+CD_TA,Q826585,CD,TA,Tanganyika Province
+CD_TO,Q630900,CD,TO,Tshopo
+CD_TU,Q427246,CD,TU,Tshuapa District
+CF_AC,Q726620,CF,AC,Ouham Prefecture
+CF_BB,Q741025,CF,BB,Bamingui-Bangoran Prefecture
+CF_BGF,Q3832,CF,BGF,Bangui
+CF_BK,Q810484,CF,BK,Basse-Kotto Prefecture
+CF_HK,Q848596,CF,HK,Haute-Kotto Prefecture
+CF_HM,Q848578,CF,HM,Haut-Mbomou Prefecture
+CF_HS,Q848567,CF,HS,Mambéré-Kadéï
+CF_KB,Q856227,CF,KB,Nana-Grébizi Economic Prefecture
+CF_KG,Q848572,CF,KG,Kémo Prefecture
+CF_LB,Q821037,CF,LB,Lobaye Prefecture
+CF_MB,Q848582,CF,MB,Mbomou Prefecture
+CF_MP,Q378970,CF,MP,Ombella-M'Poko Prefecture
+CF_NM,Q742455,CF,NM,Nana-Mambéré Prefecture
+CF_OP,Q848591,CF,OP,Ouham-Pendé Prefecture
+CF_SE,Q856237,CF,SE,Sangha-Mbaéré
+CF_UK,Q848560,CF,UK,Ouaka Prefecture
+CF_VK,Q848585,CF,VK,Vakaga Prefecture
+CG_11,Q827015,CG,11,Bouenza Department
+CG_12,Q864647,CG,12,Pool Department
+CG_13,Q775410,CG,13,Sangha Department
+CG_14,Q765370,CG,14,Plateaux Department
+CG_15,Q125711,CG,15,Cuvette-Ouest Department
+CG_16,Q7208306,CG,16,Pointe-Noire
+CG_2,Q862753,CG,2,Lékoumou Department
+CG_5,Q855327,CG,5,Kouilou Department
+CG_7,Q863554,CG,7,Likouala Department
+CG_8,Q780884,CG,8,Cuvette Department
+CG_9,Q969317,CG,9,Niari Department
+CG_BZV,Q3844,CG,BZV,Brazzaville
+CH_AG,Q11972,CH,AG,Aargau
+CH_AI,Q12094,CH,AI,Appenzell Innerrhoden
+CH_AR,Q12079,CH,AR,Appenzell Ausserrhoden
+CH_BE,Q11911,CH,BE,canton of Bern
+CH_BL,Q12146,CH,BL,Basel-Landschaft
+CH_BS,Q12172,CH,BS,Basel-Stadt
+CH_FR,Q12640,CH,FR,Canton of Fribourg
+CH_GE,Q11917,CH,GE,Canton of Geneva
+CH_GL,Q11922,CH,GL,Glarus
+CH_GR,Q11925,CH,GR,Grisons
+CH_JU,Q12755,CH,JU,Canton of Jura
+CH_LU,Q12121,CH,LU,Canton of Lucerne
+CH_NE,Q12738,CH,NE,Canton of Neuchâtel
+CH_NW,Q12592,CH,NW,Nidwalden
+CH_OW,Q12573,CH,OW,Obwalden
+CH_SG,Q12746,CH,SG,Canton of St. Gallen
+CH_SH,Q12697,CH,SH,Canton of Schaffhausen
+CH_SO,Q11929,CH,SO,Canton of Solothurn
+CH_SZ,Q12433,CH,SZ,Canton of Schwyz
+CH_TG,Q12713,CH,TG,Thurgau
+CH_TI,Q12724,CH,TI,Ticino
+CH_UR,Q12404,CH,UR,Uri
+CH_VD,Q12771,CH,VD,Canton of Vaud
+CH_VS,Q834,CH,VS,canton of Valais
+CH_ZG,Q11933,CH,ZG,Canton of Zug
+CH_ZH,Q11943,CH,ZH,canton of Zürich
+CI_01,Q639491,CI,01,Lagunes region
+CI_02,Q845709,CI,02,Haut-Sassandra
+CI_03,Q853460,CI,03,Savanes Region
+CI_04,Q845721,CI,04,Vallée du Bandama Region
+CI_05,Q303645,CI,05,Moyen-Comoé
+CI_06,Q820486,CI,06,Dix-Huit Montagnes
+CI_07,Q845706,CI,07,Lacs Region
+CI_08,Q147081,CI,08,Zanzan Region
+CI_09,Q809733,CI,09,Bas-Sassandra Region
+CI_10,Q729010,CI,10,Denguélé Region
+CI_11,Q842491,CI,11,N'zi-Comoé
+CI_12,Q839083,CI,12,Marahoué Region
+CI_13,Q842495,CI,13,Sud-Comoé
+CI_14,Q846056,CI,14,Worodougou
+CI_15,Q845713,CI,15,Sud-Bandama
+CI_16,Q395166,CI,16,Agnéby
+CI_17,Q799800,CI,17,Bafing Region
+CI_18,Q818774,CI,18,Fromager
+CI_19,Q842499,CI,19,Moyen-Cavally
+CI_AB,Q1515,CI,AB,Abidjan
+CI_BS,Q20980352,CI,BS,Bas-Sassandra District
+CI_CM,Q16629374,CI,CM,Comoé District
+CI_DN,Q20980374,CI,DN,Denguélé District
+CI_GD,Q21003640,CI,GD,Gôh-Djiboua District
+CI_LC,Q20980363,CI,LC,Lacs District
+CI_LG,Q20980365,CI,LG,Lagunes District
+CI_MG,Q20980366,CI,MG,Montagnes District
+CI_SM,Q20365127,CI,SM,Sassandra-Marahoué District
+CI_SV,Q21002161,CI,SV,Savanes District
+CI_VB,Q21002356,CI,VB,Vallée du Bandama District
+CI_WR,Q20980371,CI,WR,Woroba District
+CI_YM,Q3768,CI,YM,Yamoussoukro
+CI_ZZ,Q147081,CI,ZZ,Zanzan Region
+CI_ZZ,Q21003689,CI,ZZ,Zanzan District
+CL_AI,Q2181,CL,AI,Aysén Region
+CL_AN,Q2118,CL,AN,Antofagasta Region
+CL_AP,Q2109,CL,AP,Arica y Parinacota Region
+CL_AR,Q2176,CL,AR,Araucanía Region
+CL_AT,Q2120,CL,AT,Atacama Region
+CL_BI,Q2170,CL,BI,Biobío Region
+CL_CO,Q2121,CL,CO,Coquimbo Region
+CL_LI,Q2133,CL,LI,O'Higgins Region
+CL_LL,Q2178,CL,LL,Los Lagos Region
+CL_LR,Q2177,CL,LR,Los Ríos Region
+CL_MA,Q2189,CL,MA,Magellan and the Chilean Antarctic Region
+CL_MA,Q684369,CL,MA,Magallanes Province
+CL_ML,Q2166,CL,ML,Maule Region
+CL_NB,Q24076693,CL,NB,Ñuble Region
+CL_RM,Q2131,CL,RM,Santiago Metropolitan Region
+CL_TA,Q2114,CL,TA,Tarapacá Region
+CL_VS,Q219458,CL,VS,Valparaíso Region
+CM_AD,Q351514,CM,AD,Adamawa
+CM_CE,Q739951,CM,CE,Centre
+CM_EN,Q823976,CM,EN,Far North
+CM_ES,Q845168,CM,ES,East Region
+CM_LT,Q845172,CM,LT,Littoral
+CM_NO,Q502341,CM,NO,North Region
+CM_NW,Q823946,CM,NW,Northwest
+CM_OU,Q165784,CM,OU,West Region
+CM_SU,Q857122,CM,SU,South Region
+CM_SW,Q607499,CM,SW,Southwest
+CN_AH,Q40956,CN,AH,Anhui
+CN_BJ,Q956,CN,BJ,Beijing
+CN_CQ,Q11725,CN,CQ,Chongqing
+CN_FJ,Q41705,CN,FJ,Fujian
+CN_GD,Q15175,CN,GD,Guangdong
+CN_GS,Q42392,CN,GS,Gansu
+CN_GX,Q15176,CN,GX,Guangxi Zhuang Autonomous Region
+CN_GZ,Q47097,CN,GZ,Guizhou
+CN_HA,Q43684,CN,HA,Henan
+CN_HB,Q46862,CN,HB,Hubei
+CN_HE,Q21208,CN,HE,Hebei
+CN_HI,Q42200,CN,HI,Hainan
+CN_HK,Q8646,CN,HK,Hong Kong
+CN_HL,Q19206,CN,HL,Heilongjiang
+CN_HN,Q45761,CN,HN,Hunan
+CN_JL,Q45208,CN,JL,Jilin
+CN_JS,Q16963,CN,JS,Jiangsu
+CN_JX,Q57052,CN,JX,Jiangxi
+CN_LN,Q43934,CN,LN,Liaoning
+CN_MO,Q14773,CN,MO,Macau
+CN_NM,Q41079,CN,NM,Inner Mongolia
+CN_NX,Q57448,CN,NX,Ningxia Hui Autonomous Region
+CN_QH,Q45833,CN,QH,Qinghai
+CN_SC,Q19770,CN,SC,Sichuan
+CN_SD,Q43407,CN,SD,Shandong
+CN_SH,Q8686,CN,SH,Shanghai
+CN_SN,Q47974,CN,SN,Shaanxi
+CN_SX,Q46913,CN,SX,Shanxi
+CN_TJ,Q11736,CN,TJ,Tianjin
+CN_TW,Q57251,CN,TW,"Taiwan Province, People's Republic of China"
+CN_XJ,Q34800,CN,XJ,Xinjiang
+CN_XZ,Q17269,CN,XZ,Tibet Autonomous Region
+CN_YN,Q43194,CN,YN,Yunnan
+CN_ZJ,Q16967,CN,ZJ,Zhejiang
+CO_AMA,Q44724,CO,AMA,Amazonas Department
+CO_ANT,Q123304,CO,ANT,Antioquia Department
+CO_ARA,Q230223,CO,ARA,Arauca Department
+CO_ATL,Q230882,CO,ATL,Atlántico Department
+CO_BOL,Q230597,CO,BOL,Bolívar Department
+CO_BOY,Q121233,CO,BOY,Boyacá Department
+CO_CAL,Q230607,CO,CAL,Caldas Department
+CO_CAQ,Q13985,CO,CAQ,Caquetá Department
+CO_CAS,Q13984,CO,CAS,Casanare Department
+CO_CAU,Q230602,CO,CAU,Cauca Department
+CO_CES,Q234916,CO,CES,Cesar Department
+CO_CHO,Q230584,CO,CHO,Chocó Department
+CO_COR,Q234912,CO,COR,Córdoba Department
+CO_CUN,Q232564,CO,CUN,Cundinamarca Department
+CO_DC,Q2841,CO,DC,Bogota
+CO_GUA,Q238645,CO,GUA,Guainía Department
+CO_GUV,Q272885,CO,GUV,Guaviare Department
+CO_HUI,Q234920,CO,HUI,Huila Department
+CO_LAG,Q272747,CO,LAG,La Guajira Department
+CO_MAG,Q199910,CO,MAG,Magdalena Department
+CO_MET,Q238629,CO,MET,Meta
+CO_NAR,Q230217,CO,NAR,Nariño Department
+CO_NSA,Q233058,CO,NSA,Norte de Santander Department
+CO_PUT,Q232953,CO,PUT,Putumayo Department
+CO_QUI,Q13995,CO,QUI,Quindío Department
+CO_RIS,Q13993,CO,RIS,Risaralda Department
+CO_SAN,Q235166,CO,SAN,Santander Department
+CO_SAP,Q26855,CO,SAP,"Archipelago of Saint Andréws, Providence and Saint Catalina"
+CO_SUC,Q235188,CO,SUC,Sucre Department
+CO_TOL,Q234501,CO,TOL,Tolima Department
+CO_VAC,Q13990,CO,VAC,Valle del Cauca Department
+CO_VAU,Q234505,CO,VAU,Vaupés Department
+CO_VID,Q268729,CO,VID,Vichada Department
+CR_A,Q502188,CR,A,Alajuela Province
+CR_C,Q502181,CR,C,Provincia de Cartago
+CR_G,Q690026,CR,G,Guanacaste Province
+CR_H,Q502192,CR,H,Heredia Province
+CR_L,Q642644,CR,L,Limón Province
+CR_P,Q502170,CR,P,Puntarenas Province
+CR_SJ,Q647808,CR,SJ,San José Province
+CS_CG,Q1150680,CS,CG,Republic of Montenegro
+CS_SR,Q934644,CS,SR,Republic of Serbia
+CU_01,Q115497,CU,01,Pinar del Río Province
+CU_02,Q274126,CU,02,Havana Province
+CU_03,Q12588,CU,03,Havana Province
+CU_04,Q115438,CU,04,Matanzas Province
+CU_05,Q115434,CU,05,Villa Clara Province
+CU_06,Q115444,CU,06,Cienfuegos Province
+CU_07,Q115441,CU,07,Sancti Spíritus Province
+CU_08,Q220692,CU,08,Ciego de Ávila Province
+CU_09,Q215147,CU,09,Camagüey Province
+CU_10,Q115334,CU,10,Las Tunas Province
+CU_11,Q115302,CU,11,Holguín Province
+CU_12,Q115046,CU,12,Granma Province
+CU_13,Q234200,CU,13,Santiago de Cuba Province
+CU_14,Q115319,CU,14,Guantánamo Province
+CU_15,Q115325,CU,15,Artemisa Province
+CU_16,Q115310,CU,16,Mayabeque Province
+CU_99,Q115027,CU,99,Isla de la Juventud
+CV_B,Q494869,CV,B,Barlavento Islands
+CV_BR,Q2571624,CV,BR,Brava
+CV_BV,Q2721025,CV,BV,Boa Vista
+CV_CA,Q494882,CV,CA,Santa Catarina
+CV_CF,Q2608046,CV,CF,Santa Catarina do Fogo
+CV_CR,Q497472,CV,CR,Santa Cruz
+CV_MA,Q2551133,CV,MA,Maio Municipality
+CV_MO,Q516835,CV,MO,Mosteiros
+CV_PA,Q1475374,CV,PA,Paul
+CV_PN,Q1552897,CV,PN,Porto Novo
+CV_PR,Q497019,CV,PR,Praia
+CV_RB,Q747221,CV,RB,Ribeira Brava Municipality
+CV_RG,Q1355642,CV,RG,Ribeira Grande
+CV_RS,Q499620,CV,RS,Ribeira Grande de Santiago
+CV_S,Q500453,CV,S,Sotavento Islands
+CV_SD,Q499009,CV,SD,São Domingos
+CV_SF,Q6430079,CV,SF,São Filipe
+CV_SL,Q2721003,CV,SL,Sal
+CV_SM,Q494874,CV,SM,São Miguel
+CV_SO,Q494726,CV,SO,São Lourenço dos Órgãos
+CV_SS,Q494877,CV,SS,São Salvador do Mundo
+CV_SV,Q648842,CV,SV,São Vicente
+CV_TA,Q499598,CV,TA,Tarrafal
+CV_TS,Q1895853,CV,TS,Tarrafal de São Nicolau
+CY_01,Q59147,CY,01,Nicosia District
+CY_02,Q59150,CY,02,Limassol District
+CY_03,Q59153,CY,03,Larnaca District
+CY_04,Q59148,CY,04,Famagusta District
+CY_05,Q59133,CY,05,Paphos District
+CY_06,Q59146,CY,06,Kyrenia District
+CZ_10,Q1085,CZ,10,Prague
+CZ_101,Q973974,CZ,101,Prague 1
+CZ_102,Q2444636,CZ,102,Prague 2
+CZ_103,Q2598899,CZ,103,Prague 3
+CZ_104,Q2686587,CZ,104,Prague 4
+CZ_105,Q577602,CZ,105,Prague 5
+CZ_106,Q2667290,CZ,106,Prague 6
+CZ_107,Q1490045,CZ,107,Prague 7
+CZ_108,Q2071681,CZ,108,Prague 8
+CZ_109,Q2750534,CZ,109,Prague 9
+CZ_110,Q2444921,CZ,110,Prague 10
+CZ_111,Q3490864,CZ,111,Prague 11
+CZ_112,Q3490843,CZ,112,Prague 12
+CZ_113,Q2743565,CZ,113,Prague 13
+CZ_114,Q2157550,CZ,114,Prague 14
+CZ_115,Q3490834,CZ,115,Prague 15
+CZ_116,Q1987157,CZ,116,Prague 16
+CZ_117,Q3498074,CZ,117,Prague 17
+CZ_118,Q13361279,CZ,118,Prague 18
+CZ_119,Q3489935,CZ,119,Prague 19
+CZ_120,Q23820229,CZ,120,Horní Počernice
+CZ_121,Q2467285,CZ,121,Prague 21
+CZ_122,Q3490557,CZ,122,Prague 22
+CZ_20,Q188399,CZ,20,Central Bohemian Region
+CZ_201,Q792883,CZ,201,Benešov District
+CZ_202,Q480085,CZ,202,Beroun District
+CZ_203,Q837635,CZ,203,Kladno District
+CZ_204,Q847318,CZ,204,Kolín District
+CZ_205,Q268426,CZ,205,Kutná Hora District
+CZ_206,Q852463,CZ,206,Mělník District
+CZ_207,Q852468,CZ,207,Mladá Boleslav District
+CZ_208,Q852491,CZ,208,Nymburk District
+CZ_209,Q645376,CZ,209,Prague-East District
+CZ_20A,Q302778,CZ,20A,Prague-West District
+CZ_20B,Q852457,CZ,20B,Příbram District
+CZ_20C,Q338296,CZ,20C,Rakovník District
+CZ_31,Q188373,CZ,31,South Bohemian Region
+CZ_311,Q753120,CZ,311,České Budějovice District
+CZ_312,Q605208,CZ,312,Český Krumlov District
+CZ_313,Q1160841,CZ,313,Jindřichův Hradec District
+CZ_314,Q594929,CZ,314,Písek District
+CZ_315,Q385016,CZ,315,Prachatice District
+CZ_316,Q837633,CZ,316,Strakonice District
+CZ_317,Q117503,CZ,317,Tábor District
+CZ_32,Q46070,CZ,32,Plzeň Region
+CZ_321,Q784736,CZ,321,Domažlice District
+CZ_322,Q838341,CZ,322,Klatovy District
+CZ_323,Q1080673,CZ,323,Plzeň-City District
+CZ_324,Q909754,CZ,324,Plzeň-South District
+CZ_325,Q266036,CZ,325,Plzeň-North District
+CZ_326,Q643400,CZ,326,Rokycany District
+CZ_327,Q838338,CZ,327,Tachov District
+CZ_41,Q191091,CZ,41,Karlovy Vary Region
+CZ_411,Q628280,CZ,411,Cheb District
+CZ_412,Q757240,CZ,412,Karlovy Vary District
+CZ_413,Q833856,CZ,413,Sokolov District
+CZ_42,Q192702,CZ,42,Ústí nad Labem Region
+CZ_421,Q852525,CZ,421,Děčín District
+CZ_422,Q161094,CZ,422,Chomutov District
+CZ_423,Q383415,CZ,423,Litoměřice District
+CZ_424,Q838292,CZ,424,Louny District
+CZ_425,Q852511,CZ,425,Most District
+CZ_426,Q852518,CZ,426,Teplice District
+CZ_427,Q852480,CZ,427,Ústí nad Labem District
+CZ_51,Q193266,CZ,51,Liberec Region
+CZ_511,Q538500,CZ,511,Česká Lípa District
+CZ_512,Q837639,CZ,512,Jablonec nad Nisou District
+CZ_513,Q739824,CZ,513,Liberec District
+CZ_514,Q663532,CZ,514,Semily District
+CZ_52,Q193295,CZ,52,Hradec Králové Region
+CZ_521,Q176082,CZ,521,Hradec Králové District
+CZ_522,Q838333,CZ,522,Jičín District
+CZ_523,Q838308,CZ,523,Náchod District
+CZ_524,Q240419,CZ,524,Rychnov nad Kněžnou District
+CZ_525,Q517734,CZ,525,Trutnov District
+CZ_53,Q193317,CZ,53,Pardubice Region
+CZ_531,Q838329,CZ,531,Chrudim District
+CZ_532,Q838301,CZ,532,Pardubice District
+CZ_533,Q852438,CZ,533,Svitavy District
+CZ_534,Q856824,CZ,534,Ústí nad Orlicí District
+CZ_63,Q190930,CZ,63,Vysočina Region
+CZ_631,Q368105,CZ,631,Havlíčkův Brod District
+CZ_632,Q852472,CZ,632,Jihlava District
+CZ_633,Q852505,CZ,633,Pelhřimov District
+CZ_634,Q856857,CZ,634,Třebíč District
+CZ_635,Q579648,CZ,635,Žďár nad Sázavou District
+CZ_64,Q192697,CZ,64,South Moravian Region
+CZ_641,Q804356,CZ,641,Blansko District
+CZ_642,Q850531,CZ,642,Brno-City District
+CZ_643,Q286787,CZ,643,Brno-Country District
+CZ_644,Q582488,CZ,644,Břeclav District
+CZ_645,Q637425,CZ,645,Hodonín District
+CZ_646,Q570682,CZ,646,Vyškov District
+CZ_647,Q853969,CZ,647,Znojmo District
+CZ_71,Q193307,CZ,71,Olomouc Region
+CZ_711,Q838288,CZ,711,Jeseník District
+CZ_712,Q375466,CZ,712,Olomouc District
+CZ_713,Q837629,CZ,713,Prostějov District
+CZ_714,Q838324,CZ,714,Přerov District
+CZ_715,Q838335,CZ,715,Šumperk District
+CZ_72,Q192536,CZ,72,Zlín Region
+CZ_721,Q852532,CZ,721,Kroměříž District
+CZ_722,Q277873,CZ,722,Uherské Hradiště District
+CZ_723,Q852541,CZ,723,Vsetín District
+CZ_724,Q262111,CZ,724,Zlín District
+CZ_80,Q190550,CZ,80,Moravian-Silesian Region
+CZ_801,Q850323,CZ,801,Bruntál District
+CZ_802,Q175781,CZ,802,Frýdek-Místek District
+CZ_803,Q852496,CZ,803,Karviná District
+CZ_804,Q517427,CZ,804,Nový Jičín District
+CZ_805,Q838320,CZ,805,Opava District
+CZ_806,Q918108,CZ,806,Ostrava-City District
+DE_BB,Q1208,DE,BB,Brandenburg
+DE_BB,Q61437729,DE,BB,Landiner Haussee
+DE_BE,Q64,DE,BE,Berlin
+DE_BW,Q985,DE,BW,Baden-Württemberg
+DE_BY,Q980,DE,BY,Bavaria
+DE_HB,Q1209,DE,HB,Free Hanseatic City of Bremen
+DE_HE,Q1199,DE,HE,Hesse
+DE_HH,Q1055,DE,HH,Hamburg
+DE_MV,Q1196,DE,MV,Mecklenburg-Vorpommern
+DE_NI,Q1197,DE,NI,Lower Saxony
+DE_NW,Q1198,DE,NW,North Rhine-Westphalia
+DE_RP,Q1200,DE,RP,Rhineland-Palatinate
+DE_SH,Q1194,DE,SH,Schleswig-Holstein
+DE_SL,Q1201,DE,SL,Saarland
+DE_SN,Q1202,DE,SN,Saxony
+DE_ST,Q1206,DE,ST,Saxony-Anhalt
+DE_TH,Q1205,DE,TH,Thuringia
+DJ_AR,Q705941,DJ,AR,Arta Region
+DJ_AS,Q821008,DJ,AS,Ali Sabieh Region
+DJ_DI,Q283979,DJ,DI,Dikhil Region
+DJ_DJ,Q3604,DJ,DJ,Djibouti
+DJ_OB,Q844929,DJ,OB,Obock Region
+DJ_TA,Q645896,DJ,TA,Tadjourah Region
+DK_81,Q26067,DK,81,North Denmark Region
+DK_82,Q26586,DK,82,Central Denmark Region
+DK_83,Q26061,DK,83,Southern Denmark
+DK_84,Q26073,DK,84,Capital Region of Denmark
+DK_85,Q26589,DK,85,Region Zealand
+DM_02,Q732322,DM,02,Saint Andrew Parish
+DM_03,Q1431129,DM,03,Saint David Parish
+DM_04,Q617801,DM,04,Saint George Parish
+DM_05,Q1476285,DM,05,Saint John Parish
+DM_06,Q1476302,DM,06,Saint Joseph Parish
+DM_07,Q1431099,DM,07,Saint Luke Parish
+DM_08,Q1431115,DM,08,Saint Mark Parish
+DM_09,Q1431108,DM,09,Saint Patrick Parish
+DM_10,Q339063,DM,10,Saint Paul Parish
+DM_11,Q1476294,DM,11,Saint Peter Parish
+DO_01,Q2499228,DO,01,Distrito Nacional
+DO_02,Q794239,DO,02,Azua Province
+DO_03,Q807079,DO,03,Baoruco Province
+DO_04,Q1137551,DO,04,Barahona Province
+DO_05,Q1138575,DO,05,Dajabón Province
+DO_06,Q1262745,DO,06,Duarte Province
+DO_07,Q1137545,DO,07,Elías Piña Province
+DO_08,Q1774831,DO,08,El Seibo Province
+DO_09,Q530231,DO,09,Espaillat Province
+DO_10,Q1424401,DO,10,Independencia
+DO_11,Q1323353,DO,11,La Altagracia Province
+DO_12,Q1140742,DO,12,La Romana Province
+DO_13,Q594405,DO,13,La Vega Province
+DO_14,Q1949656,DO,14,María Trinidad Sánchez Province
+DO_15,Q592624,DO,15,Monte Cristi Province
+DO_16,Q1352533,DO,16,Pedernales Province
+DO_17,Q1331932,DO,17,Peravia Province
+DO_18,Q693487,DO,18,Puerto Plata Province
+DO_19,Q549386,DO,19,Hermanas Mirabal Province
+DO_20,Q1145487,DO,20,Samaná Province
+DO_21,Q1366107,DO,21,San Cristóbal Province
+DO_22,Q2001793,DO,22,San Juan Province
+DO_23,Q1366119,DO,23,San Pedro de Macorís
+DO_24,Q1836903,DO,24,Sánchez Ramírez Province
+DO_25,Q1772983,DO,25,Santiago Province
+DO_26,Q2021942,DO,26,Santiago Rodríguez Province
+DO_27,Q1774848,DO,27,Valverde Province
+DO_28,Q1295496,DO,28,Monseñor Nouel Province
+DO_29,Q1772745,DO,29,Monte Plata Province
+DO_30,Q937217,DO,30,Hato Mayor Province
+DO_31,Q1424391,DO,31,San José de Ocoa Province
+DO_32,Q1352536,DO,32,Santo Domingo Province
+DZ_01,Q188166,DZ,01,Adrar Province
+DZ_02,Q231752,DZ,02,Chlef Province
+DZ_03,Q231748,DZ,03,Laghouat Province
+DZ_04,Q235705,DZ,04,Oum El Bouaghi Province
+DZ_05,Q215452,DZ,05,Batna Province
+DZ_06,Q233665,DZ,06,Béjaïa Province
+DZ_07,Q458402,DZ,07,Biskra
+DZ_08,Q215467,DZ,08,Béchar Province
+DZ_09,Q233637,DZ,09,Blida Province
+DZ_10,Q233655,DZ,10,Bouïra Province
+DZ_11,Q229467,DZ,11,Tamanghasset Province
+DZ_12,Q267224,DZ,12,Tébessa Province
+DZ_13,Q233632,DZ,13,Tlemcen Province
+DZ_14,Q233258,DZ,14,Tiaret Province
+DZ_15,Q233645,DZ,15,Tizi Ouzou Province
+DZ_16,Q141026,DZ,16,Algiers Province
+DZ_17,Q233233,DZ,17,Djelfa Province
+DZ_18,Q235718,DZ,18,Jijel Province
+DZ_19,Q237164,DZ,19,Sétif Province
+DZ_20,Q233640,DZ,20,Saïda Province
+DZ_21,Q234227,DZ,21,Skikda Province
+DZ_22,Q235714,DZ,22,Sidi Bel Abbès Province
+DZ_23,Q213944,DZ,23,Annaba Province
+DZ_24,Q235727,DZ,24,Guelma Province
+DZ_25,Q232043,DZ,25,Constantine Province
+DZ_26,Q235810,DZ,26,Médéa Province
+DZ_27,Q221445,DZ,27,Mostaganem Province
+DZ_28,Q240870,DZ,28,M'Sila Province
+DZ_29,Q236776,DZ,29,Mascara Province
+DZ_30,Q235709,DZ,30,Ouargla Province
+DZ_31,Q231331,DZ,31,Oran Province
+DZ_32,Q235703,DZ,32,El Bayadh Province
+DZ_33,Q233659,DZ,33,Illizi Province
+DZ_34,Q266411,DZ,34,Bordj Bou Arréridj Province
+DZ_35,Q236752,DZ,35,Boumerdès Province
+DZ_36,Q236788,DZ,36,El Tarf Province
+DZ_37,Q231151,DZ,37,Tindouf Province
+DZ_38,Q235805,DZ,38,Tissemsilt Province
+DZ_39,Q233651,DZ,39,El Oued Province
+DZ_40,Q213950,DZ,40,Khenchela Province
+DZ_41,Q236772,DZ,41,Souk Ahras Province
+DZ_42,Q235814,DZ,42,Tipasa Province
+DZ_43,Q235723,DZ,43,Mila Province
+DZ_44,Q168953,DZ,44,Aïn Defla Province
+DZ_45,Q233675,DZ,45,Naama Province
+DZ_46,Q233670,DZ,46,Aïn Témouchent Province
+DZ_47,Q17601,DZ,47,Ghardaïa Province
+DZ_48,Q236758,DZ,48,Relizane Province
+DZ_56,Q77101547,DZ,56,Djanet Province
+EC_A,Q220451,EC,A,Azuay Province
+EC_B,Q261165,EC,B,Bolívar Province
+EC_C,Q321729,EC,C,Carchi Province
+EC_D,Q499475,EC,D,Orellana Province
+EC_E,Q335526,EC,E,Esmeraldas
+EC_F,Q335471,EC,F,Cañar Province
+EC_G,Q335464,EC,G,Guayas Province
+EC_H,Q238492,EC,H,Chimborazo Province
+EC_I,Q321863,EC,I,Imbabura Province
+EC_L,Q504238,EC,L,Loja Province
+EC_M,Q504666,EC,M,Manabí Provin
+EC_N,Q211900,EC,N,Napo Province
+EC_O,Q466019,EC,O,El Oro Province
+EC_P,Q272586,EC,P,Pichincha Province
+EC_R,Q504260,EC,R,Los Ríos Province
+EC_S,Q549522,EC,S,Morona-Santiago Province
+EC_SD,Q1123208,EC,SD,Santo Domingo de los Tsáchilas Province
+EC_SE,Q1124125,EC,SE,Santa Elena Province
+EC_T,Q504252,EC,T,Tungurahua Province
+EC_U,Q499456,EC,U,Sucumbíos Province
+EC_W,Q475038,EC,W,Galápagos Province
+EC_X,Q241140,EC,X,Cotopaxi Province
+EC_Y,Q214814,EC,Y,Pastaza Province
+EC_Z,Q744670,EC,Z,Zamora-Chinchipe Province
+EE_37,Q180200,EE,37,Harju County
+EE_39,Q1466462,EE,39,Hiiu County
+EE_44,Q189963,EE,44,Ida-Viru County
+EE_49,Q189974,EE,49,Jõgeva County
+EE_51,Q188068,EE,51,Järva County
+EE_57,Q189968,EE,57,Lääne County
+EE_59,Q189952,EE,59,Lääne-Viru County
+EE_65,Q191813,EE,65,Põlva County
+EE_67,Q185036,EE,67,Pärnu County
+EE_70,Q192352,EE,70,Rapla County
+EE_74,Q203272,EE,74,Saare County
+EE_78,Q192370,EE,78,Tartu County
+EE_82,Q192362,EE,82,Valga County
+EE_84,Q192061,EE,84,Viljandi County
+EE_86,Q188076,EE,86,Võru County
+EG_ALX,Q29943,EG,ALX,Alexandria Governorate
+EG_ASN,Q29937,EG,ASN,Aswan Governorate
+EG_AST,Q29965,EG,AST,Asyut Governorate
+EG_BA,Q30831,EG,BA,Red Sea Governorate
+EG_BH,Q30630,EG,BH,Beheira Governorate
+EG_BNS,Q30683,EG,BNS,Beni Suef Governorate
+EG_C,Q30805,EG,C,Cairo Governorate
+EG_DK,Q31068,EG,DK,Dakahlia Governorate
+EG_DT,Q30644,EG,DT,Damietta Governorate
+EG_FYM,Q30656,EG,FYM,Faiyum Governorate
+EG_GH,Q30835,EG,GH,Gharbia Governorate
+EG_GZ,Q30832,EG,GZ,Giza Governorate
+EG_HU,Q475035,EG,HU,Helwan Governorate
+EG_IS,Q31067,EG,IS,Ismailia Governorate
+EG_JS,Q30815,EG,JS,South Sinai Governorate
+EG_KB,Q31075,EG,KB,Qalyubia Governorate
+EG_KFS,Q30946,EG,KFS,Kafr el-Sheikh Governorate
+EG_KN,Q31065,EG,KN,Qena Governorate
+EG_LX,Q30797,EG,LX,Luxor Governorate
+EG_MN,Q30675,EG,MN,Minya Governorate
+EG_MNF,Q30786,EG,MNF,Monufia Governorate
+EG_MT,Q30682,EG,MT,Matrouh Governorate
+EG_PTS,Q31079,EG,PTS,Port Said Governorate
+EG_SHG,Q30669,EG,SHG,Sohag Governorate
+EG_SHR,Q31074,EG,SHR,Al Sharqia Governorate
+EG_SIN,Q30662,EG,SIN,North Sinai Governorate
+EG_SU,Q328134,EG,SU,6th of October Governorate
+EG_SUZ,Q31070,EG,SUZ,Suez Governorate
+EG_WAD,Q30650,EG,WAD,New Valley Governorate
+ER_AN,Q569468,ER,AN,Anseba Region
+ER_DK,Q27928,ER,DK,Southern Red Sea Region
+ER_DU,Q27728,ER,DU,Debub Region
+ER_GB,Q873012,ER,GB,Gash-Barka Region
+ER_MA,Q27710,ER,MA,Maekel Region
+ER_SK,Q27910,ER,SK,Northern Red Sea Region
+ES_A,Q54936,ES,A,Alicante Province
+ES_AB,Q54889,ES,AB,Albacete Province
+ES_AL,Q81802,ES,AL,Almería Province
+ES_AN,Q5783,ES,AN,Andalusia
+ES_AR,Q4040,ES,AR,Aragon
+ES_AS,Q3934,ES,AS,Asturias
+ES_AV,Q55288,ES,AV,Province of Ávila
+ES_B,Q81949,ES,B,Barcelona Province
+ES_BA,Q81803,ES,BA,Badajoz Province
+ES_BI,Q93366,ES,BI,Biscay
+ES_BU,Q55271,ES,BU,Burgos Province
+ES_C,Q82119,ES,C,A Coruña Province
+ES_CA,Q81978,ES,CA,Cádiz Province
+ES_CB,Q3946,ES,CB,Cantabria
+ES_CC,Q81977,ES,CC,Cáceres Province
+ES_CE,Q5823,ES,CE,Ceuta
+ES_CL,Q5739,ES,CL,Castile and León
+ES_CM,Q5748,ES,CM,Castile-La Mancha
+ES_CN,Q5813,ES,CN,Canary Islands
+ES_CO,Q81972,ES,CO,Córdoba Province
+ES_CR,Q54932,ES,CR,Ciudad Real Province
+ES_CS,Q54942,ES,CS,Castellón Province
+ES_CT,Q5705,ES,CT,Catalonia
+ES_CU,Q54888,ES,CU,Cuenca Province
+ES_EX,Q5777,ES,EX,Extremadura
+ES_GA,Q3908,ES,GA,Galicia
+ES_GC,Q95080,ES,GC,Las Palmas Province
+ES_GI,Q7194,ES,GI,province of Girona
+ES_GR,Q82142,ES,GR,Granada Province
+ES_GU,Q54925,ES,GU,Guadalajara Province
+ES_H,Q95015,ES,H,Huelva Province
+ES_HU,Q55182,ES,HU,Huesca Province
+ES_IB,Q5765,ES,IB,Balearic Islands
+ES_J,Q95025,ES,J,Jaén Province
+ES_L,Q13904,ES,L,Lleida Province
+ES_LE,Q71140,ES,LE,León
+ES_LU,Q95027,ES,LU,Lugo Province
+ES_M,Q24004405,ES,M,Madrid Province
+ES_MA,Q95028,ES,MA,Málaga Province
+ES_MC,Q5772,ES,MC,Region of Murcia
+ES_MD,Q5756,ES,MD,Community of Madrid
+ES_ML,Q5831,ES,ML,Melilla
+ES_MU,Q24271891,ES,MU,Murcia Province
+ES_NA,Q4018,ES,NA,Navarre
+ES_NC,Q4018,ES,NC,Navarre
+ES_O,Q24004403,ES,O,Province of Asturias
+ES_OR,Q95038,ES,OR,Ourense Province
+ES_P,Q55269,ES,P,Palencia Province
+ES_PO,Q95086,ES,PO,Pontevedra Province
+ES_PV,Q3995,ES,PV,Basque Country
+ES_RI,Q5727,ES,RI,La Rioja
+ES_S,Q31920747,ES,S,Provincia de Cantabria
+ES_SA,Q71080,ES,SA,Salamanca Province
+ES_SE,Q95088,ES,SE,Seville Province
+ES_SG,Q55283,ES,SG,Segovia Province
+ES_SO,Q55276,ES,SO,Soria
+ES_SS,Q95010,ES,SS,Gipuzkoa
+ES_T,Q98392,ES,T,Tarragona Province
+ES_TE,Q54955,ES,TE,Teruel Province
+ES_TF,Q99976,ES,TF,Santa Cruz de Tenerife Province
+ES_TO,Q54929,ES,TO,Toledo Province
+ES_V,Q54939,ES,V,Valencia Province
+ES_VA,Q71097,ES,VA,Valladolid Province
+ES_VC,Q5720,ES,VC,Valencian Community
+ES_VI,Q81801,ES,VI,Araba / Álava
+ES_Z,Q55180,ES,Z,Zaragoza Province
+ES_ZA,Q71113,ES,ZA,Zamora Province
+ET_AA,Q3624,ET,AA,Addis Ababa
+ET_AF,Q193494,ET,AF,Afar
+ET_AM,Q203009,ET,AM,Amhara Region
+ET_BE,Q207635,ET,BE,Benishangul-Gumuz Region
+ET_DD,Q193486,ET,DD,Dire Dawa
+ET_GA,Q207638,ET,GA,Gambela Region
+ET_HA,Q1033855,ET,HA,Harari Region
+ET_OR,Q202107,ET,OR,Oromia Region
+ET_SN,Q203193,ET,SN,"Southern Nations, Nationalities, and Peoples' Region"
+ET_SO,Q202800,ET,SO,Somali Region
+ET_TI,Q200127,ET,TI,Tigray Region
+FI_01,Q5689,FI,01,Åland Islands
+FI_02,Q5691,FI,02,South Karelia
+FI_03,Q5692,FI,03,Southern Ostrobothnia
+FI_04,Q5693,FI,04,Southern Savonia
+FI_05,Q5694,FI,05,Kainuu
+FI_06,Q5695,FI,06,Tavastia Proper
+FI_07,Q5696,FI,07,Central Ostrobothnia
+FI_08,Q5697,FI,08,Central Finland
+FI_09,Q5698,FI,09,Kymenlaakso
+FI_10,Q5700,FI,10,Lapland
+FI_11,Q5701,FI,11,Pirkanmaa
+FI_12,Q5702,FI,12,Ostrobothnia
+FI_13,Q5703,FI,13,North Karelia
+FI_14,Q5704,FI,14,Northern Ostrobothnia
+FI_15,Q5706,FI,15,Northern Savonia
+FI_16,Q5708,FI,16,Päijänne Tavastia
+FI_17,Q5709,FI,17,Satakunta
+FI_18,Q5711,FI,18,Uusimaa
+FI_19,Q5712,FI,19,Finland Proper
+FI_IS,Q194073,FI,IS,Eastern Finland Province
+FI_LL,Q200258,FI,LL,Lapland
+FI_LS,Q192759,FI,LS,Western Finland Province
+FI_OL,Q202112,FI,OL,Oulu Province
+FJ_01,Q797434,FJ,01,Ba
+FJ_02,Q1365265,FJ,02,Bua
+FJ_03,Q676046,FJ,03,Cakaudrove
+FJ_04,Q1196481,FJ,04,Kadavu
+FJ_05,Q513104,FJ,05,Lau
+FJ_06,Q2144922,FJ,06,Lomaiviti
+FJ_07,Q1365304,FJ,07,Macuata
+FJ_08,Q952528,FJ,08,Nadroga-Navosa
+FJ_09,Q1365284,FJ,09,Naitasiri
+FJ_10,Q1365295,FJ,10,Namosi
+FJ_11,Q1208350,FJ,11,Ra
+FJ_12,Q1365257,FJ,12,Rewa
+FJ_13,Q1208362,FJ,13,Serua
+FJ_14,Q1365322,FJ,14,Tailevu
+FJ_C,Q1053789,FJ,C,Central Division
+FJ_E,Q182169,FJ,E,Eastern Division
+FJ_N,Q1062430,FJ,N,Northern Division
+FJ_R,Q459763,FJ,R,Rotuma
+FJ_W,Q1062451,FJ,W,Western Division
+FM_KSA,Q1785093,FM,KSA,Kosrae State
+FM_PNI,Q7771127,FM,PNI,Pohnpei State
+FM_TRK,Q221684,FM,TRK,Chuuk State
+FM_YAP,Q11342951,FM,YAP,Yap State
+FR_ARA,Q18338206,FR,ARA,Auvergne-Rhône-Alpes
+FR_ARA_01,Q3083,FR,01,Ain
+FR_ARA_03,Q3113,FR,03,Allier
+FR_ARA_07,Q3148,FR,07,Ardèche
+FR_ARA_15,Q3259,FR,15,Cantal
+FR_ARA_26,Q3364,FR,26,Drôme
+FR_ARA_38,Q12559,FR,38,Isère
+FR_ARA_42,Q12569,FR,42,Loire
+FR_ARA_43,Q12572,FR,43,Haute-Loire
+FR_ARA_63,Q12694,FR,63,Puy-de-Dôme
+FR_ARA_69,Q46130,FR,69,Rhône
+FR_ARA_73,Q12745,FR,73,Savoie
+FR_ARA_74,Q12751,FR,74,Haute-Savoie
+FR_BFC,Q18578267,FR,BFC,Bourgogne-Franche-Comté
+FR_BFC_21,Q3342,FR,21,Côte-d’Or
+FR_BFC_25,Q3361,FR,25,Doubs
+FR_BFC_39,Q3120,FR,39,Jura
+FR_BFC_58,Q12657,FR,58,Nièvre
+FR_BFC_70,Q12730,FR,70,Haute-Saône
+FR_BFC_71,Q12736,FR,71,Saône-et-Loire
+FR_BFC_89,Q12816,FR,89,Yonne
+FR_BFC_90,Q12782,FR,90,Territoire de Belfort
+FR_BL,Q25362,FR,BL,Saint Barthélemy
+FR_BRE,Q12130,FR,BRE,Brittany
+FR_BRE_22,Q3349,FR,22,Côtes-d'Armor
+FR_BRE_29,Q3389,FR,29,Finistère
+FR_BRE_35,Q12549,FR,35,Ille-et-Vilaine
+FR_BRE_56,Q12642,FR,56,Morbihan
+FR_COR,Q14112,FR,COR,Corsica
+FR_COR_2A,Q3336,FR,2A,Corse-du-Sud
+FR_COR_2B,Q3334,FR,2B,Haute-Corse
+FR_CVL,Q13947,FR,CVL,Centre-Val de Loire
+FR_CVL_18,Q3286,FR,18,Cher
+FR_CVL_28,Q3377,FR,28,Eure-et-Loir
+FR_CVL_36,Q12553,FR,36,Indre
+FR_CVL_37,Q12556,FR,37,Indre-et-Loire
+FR_CVL_41,Q12564,FR,41,Loir-et-Cher
+FR_CVL_45,Q12574,FR,45,Loiret
+FR_GES,Q18677983,FR,GES,Grand Est
+FR_GES_08,Q3164,FR,08,Ardennes
+FR_GES_10,Q3194,FR,10,Aube
+FR_GES_51,Q12594,FR,51,Marne
+FR_GES_52,Q12607,FR,52,Haute-Marne
+FR_GES_54,Q12626,FR,54,Meurthe-et-Moselle
+FR_GES_55,Q12631,FR,55,Meuse
+FR_GES_57,Q12652,FR,57,Moselle
+FR_GES_67,Q12717,FR,67,Bas-Rhin
+FR_GES_68,Q12722,FR,68,Haut-Rhin
+FR_GES_88,Q3105,FR,88,Vosges
+FR_GF,Q3769,FR,GF,French Guiana
+FR_GUA,Q17012,FR,GP,Guadeloupe
+FR_HDF,Q18677767,FR,HDF,Hauts-de-France
+FR_HDF_02,Q3093,FR,02,Aisne
+FR_HDF_59,Q12661,FR,59,Nord
+FR_HDF_60,Q12675,FR,60,Oise
+FR_HDF_62,Q12689,FR,62,Pas-de-Calais
+FR_HDF_80,Q12770,FR,80,Somme
+FR_IDF,Q13917,FR,IDF,Île-de-France
+FR_IDF_75,Q90,FR,75,Paris
+FR_IDF_77,Q12753,FR,77,Seine-et-Marne
+FR_IDF_78,Q12820,FR,78,Yvelines
+FR_IDF_91,Q3368,FR,91,Essonne
+FR_IDF_92,Q12543,FR,92,Hauts-de-Seine
+FR_IDF_93,Q12761,FR,93,Seine-Saint-Denis
+FR_IDF_94,Q12788,FR,94,Val-de-Marne
+FR_IDF_95,Q12784,FR,95,Val-d'Oise
+FR_LRE,Q17070,FR,LRE,Réunion
+FR_MAY,Q17063,FR,MAY,Mayotte
+FR_MF,Q126125,FR,MF,Saint Martin
+FR_MQ,Q17054,FR,MQ,Martinique
+FR_NAQ,Q18678082,FR,NAQ,Nouvelle-Aquitaine
+FR_NAQ_16,Q3266,FR,16,Charente
+FR_NAQ_17,Q3278,FR,17,Charente-Maritime
+FR_NAQ_19,Q3326,FR,19,Corrèze
+FR_NAQ_23,Q3353,FR,23,Creuse
+FR_NAQ_24,Q3357,FR,24,Dordogne
+FR_NAQ_33,Q12526,FR,33,Gironde
+FR_NAQ_40,Q12563,FR,40,Landes
+FR_NAQ_47,Q12578,FR,47,Lot-et-Garonne
+FR_NAQ_64,Q12703,FR,64,Pyrénées-Atlantiques
+FR_NAQ_79,Q12765,FR,79,Deux-Sèvres
+FR_NAQ_86,Q12804,FR,86,Vienne
+FR_NAQ_87,Q12808,FR,87,Haute-Vienne
+FR_NOR,Q18677875,FR,NOR,Normandy
+FR_NOR_14,Q3249,FR,14,Calvados
+FR_NOR_27,Q3372,FR,27,Eure
+FR_NOR_50,Q12589,FR,50,Manche
+FR_NOR_61,Q12679,FR,61,Orne
+FR_NOR_76,Q12758,FR,76,Seine-Maritime
+FR_OCC,Q18678265,FR,OCC,Occitania
+FR_OCC_09,Q3184,FR,09,Ariège
+FR_OCC_11,Q3207,FR,11,Aude
+FR_OCC_12,Q3216,FR,12,Aveyron
+FR_OCC_30,Q12515,FR,30,Gard
+FR_OCC_31,Q12538,FR,31,Haute-Garonne
+FR_OCC_32,Q12517,FR,32,Gers
+FR_OCC_34,Q12545,FR,34,Hérault
+FR_OCC_46,Q12576,FR,46,Lot
+FR_OCC_48,Q12580,FR,48,Lozère
+FR_OCC_65,Q12700,FR,65,Hautes-Pyrénées
+FR_OCC_66,Q12709,FR,66,Pyrénées-Orientales
+FR_OCC_81,Q12772,FR,81,Tarn
+FR_OCC_82,Q12779,FR,82,Tarn-et-Garonne
+FR_PAC,Q15104,FR,PAC,Provence-Alpes-Côte d'Azur
+FR_PAC_04,Q3131,FR,04,Alpes-de-Haute-Provence
+FR_PAC_05,Q3125,FR,05,Hautes-Alpes
+FR_PAC_06,Q3139,FR,06,Alpes-Maritimes
+FR_PAC_13,Q3240,FR,13,Bouches-du-Rhône
+FR_PAC_83,Q12789,FR,83,Var
+FR_PAC_84,Q12792,FR,84,Vaucluse
+FR_PDL,Q16994,FR,PDL,Pays de la Loire
+FR_PDL_44,Q3068,FR,44,Loire-Atlantique
+FR_PDL_49,Q12584,FR,49,Maine-et-Loire
+FR_PDL_53,Q12620,FR,53,Mayenne
+FR_PDL_72,Q12740,FR,72,Sarthe
+FR_PDL_85,Q12798,FR,85,Vendée
+GA_1,Q281109,GA,1,Estuaire Province
+GA_2,Q654438,GA,2,Haut-Ogooué Province
+GA_3,Q590802,GA,3,Moyen-Ogooué Province
+GA_4,Q823774,GA,4,Ngounié Province
+GA_5,Q846017,GA,5,Nyanga Province
+GA_6,Q823822,GA,6,Ogooué-Ivindo Province
+GA_7,Q823762,GA,7,Ogooué-Lolo Province
+GA_8,Q823751,GA,8,Ogooué-Maritime Province
+GA_9,Q823800,GA,9,Woleu-Ntem Province
+GB_ABC,Q4792580,GB,ABC,"Armagh, Banbridge and Craigavon"
+GB_ABD,Q189912,GB,ABD,Aberdeenshire
+GB_ABE,Q36405,GB,ABE,Aberdeen
+GB_AGB,Q202174,GB,AGB,Argyll and Bute
+GB_AGY,Q168159,GB,AGY,Anglesey
+GB_AND,Q7055155,GB,AND,Ards and North Down
+GB_ANN,Q4777347,GB,ANN,Antrim and Newtownabbey
+GB_ANS,Q202177,GB,ANS,Angus
+GB_ANT,Q609214,GB,ANT,Antrim
+GB_ARD,Q640080,GB,ARD,Ards
+GB_ARM,Q676704,GB,ARM,Armagh City and District Council
+GB_BAS,Q810793,GB,BAS,Bath and North East Somerset
+GB_BBD,Q880782,GB,BBD,Blackburn with Darwen
+GB_BDF,Q894077,GB,BDF,Bedford
+GB_BDG,Q205358,GB,BDG,London Borough of Barking and Dagenham
+GB_BEN,Q207201,GB,BEN,London Borough of Brent
+GB_BEX,Q207208,GB,BEX,London Borough of Bexley
+GB_BFS,Q1140130,GB,BFS,Belfast district
+GB_BGE,Q697126,GB,BGE,Bridgend County Borough
+GB_BGW,Q596885,GB,BGW,Blaenau Gwent County Borough
+GB_BIR,Q20986424,GB,BIR,Birmingham
+GB_BKM,Q21694636,GB,BKM,Buckinghamshire
+GB_BLA,Q805424,GB,BLA,Ballymena Borough
+GB_BLY,Q805427,GB,BLY,Ballymoney
+GB_BMH,Q20989094,GB,BMH,Bournemouth
+GB_BNB,Q806141,GB,BNB,Banbridge
+GB_BNE,Q151048,GB,BNE,London Borough of Barnet
+GB_BNH,Q1022488,GB,BNH,Brighton and Hove
+GB_BNS,Q1857382,GB,BNS,Barnsley
+GB_BOL,Q1364541,GB,BOL,Bolton
+GB_BPL,Q20989106,GB,BPL,Blackpool
+GB_BRC,Q896725,GB,BRC,Bracknell Forest
+GB_BRD,Q2834810,GB,BRD,Bradford
+GB_BRY,Q208201,GB,BRY,London Borough of Bromley
+GB_BST,Q21693433,GB,BST,City of Bristol
+GB_BUR,Q512036,GB,BUR,Bury
+GB_CAM,Q21272276,GB,CAM,Cambridgeshire
+GB_CAY,Q748065,GB,CAY,Caerphilly County Borough
+GB_CBF,Q1053723,GB,CBF,Central Bedfordshire
+GB_CCG,Q5054638,GB,CCG,Causeway Coast and Glens
+GB_CGN,Q217829,GB,CGN,Ceredigion
+GB_CGV,Q427201,GB,CGV,Craigavon Borough Council
+GB_CHE,Q1070590,GB,CHE,Cheshire East
+GB_CHS,Q23064,GB,CHS,Cheshire
+GB_CHW,Q1070591,GB,CHW,Cheshire West and Chester
+GB_CKF,Q1045012,GB,CKF,Carrickfergus Borough Council
+GB_CKT,Q1129644,GB,CKT,Cookstown District Council
+GB_CLD,Q1026448,GB,CLD,Calderdale
+GB_CLK,Q207268,GB,CLK,Clackmannanshire
+GB_CLR,Q991411,GB,CLR,Coleraine Borough Council
+GB_CMA,Q23066,GB,CMA,Cumbria
+GB_CMD,Q202088,GB,CMD,London Borough of Camden
+GB_CMN,Q217840,GB,CMN,Carmarthenshire
+GB_CON,Q22338583,GB,CON,Cornwall
+GB_COV,Q20986417,GB,COV,Coventry
+GB_CRF,Q24342199,GB,CRF,City and County of Cardiff
+GB_CRY,Q26888,GB,CRY,London Borough of Croydon
+GB_CSR,Q1049680,GB,CSR,Castlereagh
+GB_CWY,Q817971,GB,CWY,Conwy County Borough
+GB_DAL,Q1171024,GB,DAL,Darlington
+GB_DBY,Q11775003,GB,DBY,Derbyshire
+GB_DEN,Q650682,GB,DEN,Denbighshire
+GB_DER,Q21885980,GB,DER,City of Derby
+GB_DER,Q43475,GB,DER,Derby
+GB_DEV,Q21694695,GB,DEV,Devon
+GB_DGN,Q1198466,GB,DGN,Dungannon and South Tyrone Borough Council
+GB_DGY,Q126514,GB,DGY,Dumfries and Galloway
+GB_DNC,Q1925846,GB,DNC,Doncaster
+GB_DND,Q2357511,GB,DND,Dundee City
+GB_DOR,Q55231693,GB,DOR,Dorset
+GB_DOW,Q1198492,GB,DOW,Down District Council
+GB_DRS,Q15213714,GB,DRS,Derry City and Strabane
+GB_DRY,Q1200370,GB,DRY,Derry City Council
+GB_DUD,Q1617704,GB,DUD,Dudley
+GB_DUR,Q1137286,GB,DUR,County Durham
+GB_EAL,Q207218,GB,EAL,London Borough of Ealing
+GB_EAW,Q1156248,GB,EAW,England and Wales
+GB_EAY,Q209135,GB,EAY,East Ayrshire
+GB_EDH,Q23436,GB,EDH,Edinburgh
+GB_EDU,Q211889,GB,EDU,East Dunbartonshire
+GB_ELN,Q207257,GB,ELN,East Lothian
+GB_ELS,Q80967,GB,ELS,Outer Hebrides
+GB_ENF,Q210531,GB,ENF,London Borough of Enfield
+GB_ENG,Q21,GB,ENG,England
+GB_ERW,Q211925,GB,ERW,East Renfrewshire
+GB_ERY,Q21695028,GB,ERY,East Riding of Yorkshire
+GB_ESS,Q21272241,GB,ESS,Essex
+GB_ESX,Q21694646,GB,ESX,East Sussex
+GB_FAL,Q216802,GB,FAL,Falkirk
+GB_FER,Q1198461,GB,FER,Fermanagh District Council
+GB_FIF,Q201149,GB,FIF,Fife
+GB_FLN,Q505610,GB,FLN,Flintshire
+GB_FMO,Q5444365,GB,FMO,Fermanagh and Omagh
+GB_GAT,Q929034,GB,GAT,Metropolitan Borough of Gateshead
+GB_GBN,Q23666,GB,GBN,Great Britain
+GB_GLG,Q4093,GB,GLG,Glasgow
+GB_GLS,Q21694733,GB,GLS,Gloucestershire
+GB_GRE,Q693450,GB,GRE,Royal Borough of Greenwich
+GB_GWN,Q109128,GB,GWN,Gwynedd
+GB_HAL,Q376141,GB,HAL,Halton
+GB_HAM,Q21694653,GB,HAM,Hampshire
+GB_HAV,Q215038,GB,HAV,London Borough of Havering
+GB_HCK,Q205679,GB,HCK,London Borough of Hackney
+GB_HEF,Q23129,GB,HEF,Herefordshire
+GB_HIL,Q205690,GB,HIL,London Borough of Hillingdon
+GB_HLD,Q208279,GB,HLD,Highland
+GB_HMF,Q40478,GB,HMF,London Borough of Hammersmith and Fulham
+GB_HNS,Q214162,GB,HNS,London Borough of Hounslow
+GB_HPL,Q2594690,GB,HPL,Hartlepool
+GB_HRT,Q3410,GB,HRT,Hertfordshire
+GB_HRW,Q210476,GB,HRW,London Borough of Harrow
+GB_HRY,Q213560,GB,HRY,London Borough of Haringey
+GB_IOS,Q180209,GB,IOS,Isles of Scilly
+GB_IOW,Q9679,GB,IOW,Isle of Wight
+GB_ISL,Q205817,GB,ISL,London Borough of Islington
+GB_IVC,Q208271,GB,IVC,Inverclyde
+GB_JSY,Q785,GB,JSY,Jersey
+GB_KEC,Q188801,GB,KEC,Royal Borough of Kensington and Chelsea
+GB_KEN,Q21694674,GB,KEN,Kent
+GB_KHL,Q128147,GB,KHL,Kingston upon Hull
+GB_KHL,Q21885987,GB,KHL,City of Kingston upon Hull
+GB_KIR,Q918975,GB,KIR,Kirklees
+GB_KTT,Q32508,GB,KTT,Royal Borough of Kingston upon Thames
+GB_KWL,Q1228523,GB,KWL,Knowsley
+GB_LAN,Q21279371,GB,LAN,Lancashire
+GB_LBC,Q6558667,GB,LBC,Lisburn and Castlereagh
+GB_LBH,Q202059,GB,LBH,London Borough of Lambeth
+GB_LCE,Q21683242,GB,LCE,City of Leicester
+GB_LDS,Q774015,GB,LDS,Leeds
+GB_LEC,Q21272890,GB,LEC,Leicestershire
+GB_LEW,Q215030,GB,LEW,London Borough of Lewisham
+GB_LIN,Q21269047,GB,LIN,Lincolnshire
+GB_LIV,Q21665571,GB,LIV,Liverpool
+GB_LMV,Q1198505,GB,LMV,Limavady Borough Council
+GB_LND,Q23311,GB,LND,City of London
+GB_LND,Q84,GB,LND,London
+GB_LRN,Q1198470,GB,LRN,Larne Borough Council
+GB_LSB,Q210647,GB,LSB,Lisburn City Council
+GB_LUT,Q21683239,GB,LUT,Luton
+GB_MAN,Q21525592,GB,MAN,Manchester
+GB_MDB,Q2673020,GB,MDB,Middlesbrough
+GB_MDW,Q797782,GB,MDW,Medway
+GB_MEA,Q6841059,GB,MEA,Mid and East Antrim
+GB_MFT,Q1198482,GB,MFT,Magherafelt District Council
+GB_MIK,Q894090,GB,MIK,Milton Keynes
+GB_MLN,Q206934,GB,MLN,Midlothian
+GB_MON,Q207176,GB,MON,Monmouthshire
+GB_MRT,Q32504,GB,MRT,London Borough of Merton
+GB_MRY,Q211106,GB,MRY,Moray
+GB_MTY,Q3306663,GB,MTY,Merthyr Tydfil County Borough
+GB_MUL,Q6840825,GB,MUL,Mid Ulster
+GB_MYL,Q1198496,GB,MYL,Moyle District Council
+GB_NAY,Q206926,GB,NAY,North Ayrshire
+GB_NBL,Q23079,GB,NBL,Northumberland
+GB_NDN,Q1156987,GB,NDN,North Down Borough Council
+GB_NEL,Q1342914,GB,NEL,North East Lincolnshire
+GB_NET,Q21012735,GB,NET,City of Newcastle upon Tyne
+GB_NFK,Q23109,GB,NFK,Norfolk
+GB_NGM,Q21885994,GB,NGM,City of Nottingham
+GB_NIR,Q26,GB,NIR,Northern Ireland
+GB_NLK,Q207111,GB,NLK,North Lanarkshire
+GB_NLN,Q175945,GB,NLN,North Lincolnshire
+GB_NMD,Q15262186,GB,NMD,"Newry, Mourne and Down"
+GB_NSM,Q178196,GB,NSM,North Somerset
+GB_NTA,Q1198475,GB,NTA,Newtownabbey Borough Council
+GB_NTH,Q23115,GB,NTH,Northamptonshire
+GB_NTL,Q748078,GB,NTL,Neath Port Talbot County Borough
+GB_NTT,Q21272736,GB,NTT,Nottinghamshire
+GB_NTY,Q1120443,GB,NTY,North Tyneside
+GB_NWM,Q208139,GB,NWM,London Borough of Newham
+GB_NWP,Q11294004,GB,NWP,City and County of Newport
+GB_NYK,Q21241814,GB,NYK,North Yorkshire
+GB_NYM,Q606825,GB,NYM,Newry and Mourne District Council
+GB_OLD,Q1278608,GB,OLD,Oldham
+GB_OMH,Q505691,GB,OMH,Omagh District Council
+GB_ORK,Q100166,GB,ORK,Orkney Islands
+GB_OXF,Q23169,GB,OXF,Oxfordshire
+GB_OXF,Q34217,GB,OXF,Oxford
+GB_PEM,Q213361,GB,PEM,Pembrokeshire
+GB_PKN,Q207679,GB,PKN,Perth and Kinross
+GB_PLY,Q21674890,GB,PLY,City of Plymouth
+GB_POL,Q21683234,GB,POL,Poole
+GB_POR,Q21683233,GB,POR,City of Portsmouth
+GB_POW,Q156150,GB,POW,Powys
+GB_PTE,Q12956645,GB,PTE,City of Peterborough
+GB_RCC,Q1434448,GB,RCC,Redcar and Cleveland
+GB_RCH,Q1892596,GB,RCH,Rochdale
+GB_RCT,Q817960,GB,RCT,Rhondda Cynon Taf
+GB_RDB,Q208955,GB,RDB,London Borough of Redbridge
+GB_RDG,Q161491,GB,RDG,Reading
+GB_RDG,Q21496716,GB,RDG,Reading
+GB_RFW,Q211091,GB,RFW,Renfrewshire
+GB_RIC,Q32515,GB,RIC,London Borough of Richmond upon Thames
+GB_ROT,Q1878732,GB,ROT,Rotherham
+GB_RUT,Q23107,GB,RUT,Rutland
+GB_SAW,Q285964,GB,SAW,Sandwell
+GB_SAY,Q209131,GB,SAY,South Ayrshire
+GB_SCB,Q211113,GB,SCB,Scottish Borders
+GB_SCT,Q22,GB,SCT,Scotland
+GB_SFK,Q23111,GB,SFK,Suffolk
+GB_SFT,Q1546645,GB,SFT,Sefton
+GB_SGC,Q1369280,GB,SGC,South Gloucestershire
+GB_SHF,Q12956644,GB,SHF,Sheffield
+GB_SHN,Q179206,GB,SHN,St Helens
+GB_SHR,Q21694759,GB,SHR,Shropshire
+GB_SKP,Q1752424,GB,SKP,Stockport
+GB_SLF,Q1142118,GB,SLF,Salford
+GB_SLG,Q21163036,GB,SLG,Slough
+GB_SLK,Q209142,GB,SLK,South Lanarkshire
+GB_SND,Q1280897,GB,SND,City of Sunderland
+GB_SOL,Q1925858,GB,SOL,Solihull
+GB_SOM,Q21694741,GB,SOM,Somerset
+GB_SOS,Q203995,GB,SOS,Southend-on-Sea
+GB_SOS,Q21487155,GB,SOS,Southend-on-Sea
+GB_SRY,Q23276,GB,SRY,Surrey
+GB_STB,Q1198500,GB,STB,Strabane District Council
+GB_STE,Q21891722,GB,STE,City of Stoke-on-Trent
+GB_STG,Q217838,GB,STG,Stirling
+GB_STH,Q21683230,GB,STH,City of Southampton
+GB_STN,Q320378,GB,STN,London Borough of Sutton
+GB_STS,Q21694786,GB,STS,Staffordshire
+GB_STT,Q894094,GB,STT,Stockton-on-Tees
+GB_STY,Q1541228,GB,STY,Metropolitan Borough of South Tyneside
+GB_STY,Q23463529,GB,STY,South Tyneside Council
+GB_SWA,Q10996863,GB,SWA,City and County of Swansea
+GB_SWD,Q894093,GB,SWD,Swindon
+GB_SWK,Q730706,GB,SWK,London Borough of Southwark
+GB_TAM,Q1423078,GB,TAM,Tameside
+GB_TFW,Q1425298,GB,TFW,Telford and Wrekin
+GB_THR,Q1549155,GB,THR,Thurrock
+GB_TOB,Q1136118,GB,TOB,Torbay
+GB_TOF,Q643919,GB,TOF,Torfaen
+GB_TRF,Q915954,GB,TRF,Trafford
+GB_TWH,Q208152,GB,TWH,London Borough of Tower Hamlets
+GB_UKM,Q145,GB,UKM,United Kingdom
+GB_VGL,Q844784,GB,VGL,Vale of Glamorgan
+GB_WAR,Q23140,GB,WAR,Warwickshire
+GB_WBK,Q1473780,GB,WBK,West Berkshire
+GB_WDU,Q208121,GB,WDU,West Dunbartonshire
+GB_WFT,Q40608,GB,WFT,London Borough of Waltham Forest
+GB_WGN,Q684307,GB,WGN,Wigan
+GB_WIL,Q21694746,GB,WIL,Wiltshire
+GB_WKF,Q763171,GB,WKF,Wakefield
+GB_WLL,Q178356,GB,WLL,Walsall
+GB_WLN,Q204940,GB,WLN,West Lothian
+GB_WLS,Q25,GB,WLS,Wales
+GB_WLV,Q21885975,GB,WLV,City of Wolverhampton
+GB_WND,Q210563,GB,WND,London Borough of Wandsworth
+GB_WNM,Q1368496,GB,WNM,Windsor and Maidenhead
+GB_WOK,Q1758432,GB,WOK,Wokingham
+GB_WOR,Q23135,GB,WOR,Worcestershire
+GB_WRL,Q11365639,GB,WRL,Wirral
+GB_WRT,Q894095,GB,WRT,Warrington
+GB_WRX,Q843868,GB,WRX,Wrexham County Borough
+GB_WSM,Q179351,GB,WSM,City of Westminster
+GB_WSX,Q23287,GB,WSX,West Sussex
+GB_YOR,Q20986421,GB,YOR,City of York
+GB_ZET,Q47134,GB,ZET,Shetland Islands
+GD_01,Q977183,GD,01,Saint Andrew Parish
+GD_02,Q2087806,GD,02,Saint David Parish
+GD_03,Q576651,GD,03,Saint George Parish
+GD_04,Q1476289,GD,04,Saint John Parish
+GD_05,Q1291077,GD,05,Saint Mark Parish
+GD_06,Q1476309,GD,06,Saint Patrick Parish
+GD_10,Q3044818,GD,10,Carriacou and Petite Martinique
+GE_29,Q175786,GE,29,Khelvachauri Municipality
+GE_50,Q2490876,GE,50,Senaki Municipality
+GE_25,Q1518087,Kaspi Municipality
+GE_AB,Q2914461,GE,AB,Autonomous Republic of Abkhazia
+GE_AJ,Q45693,GE,AJ,Adjara
+GE_GU,Q19038,GE,GU,Guria
+GE_IM,Q200045,GE,IM,Imereti
+GE_KA,Q169674,GE,KA,Kakheti
+GE_KK,Q200048,GE,KK,Kvemo Kartli
+GE_MM,Q203339,GE,MM,Mtskheta-Mtianeti
+GE_RL,Q38893,GE,RL,Racha-Lechkhumi and Kvemo Svaneti
+GE_SJ,Q19039,GE,SJ,Samtskhe–Javakheti
+GE_SK,Q200047,GE,SK,Shida Kartli
+GE_SZ,Q200309,GE,SZ,Samegrelo-Zemo Svaneti
+GE_TB,Q994,GE,TB,Tbilisi
+GH_AA,Q431729,GH,AA,Greater Accra Region
+GH_AH,Q398417,GH,AH,Ashanti Region
+GH_BO,Q64685186,GH,BO,Bono Region
+GH_CP,Q846323,GH,CP,Central Region
+GH_EP,Q405670,GH,EP,Eastern Region
+GH_NP,Q502215,GH,NP,Northern Region
+GH_TV,Q712832,GH,TV,Volta Region
+GH_UE,Q712828,GH,UE,Upper East Region
+GH_UE_TN,Q85847623,GH,UE_TN,Talensi-Nabdam District
+GH_UW,Q715805,GH,UW,Upper West Region
+GH_WP,Q870155,GH,WP,Western Region
+GL_AV,Q44593409,GL,AV,Avannaata
+GL_KU,Q478813,GL,KU,Kujalleq
+GL_QA,Q641460,GL,QA,Qaasuitsup
+GL_QE,Q476233,GL,QE,Qeqqata
+GL_QT,Q44593337,GL,QT,Qeqertalik
+GL_SM,Q695387,GL,SM,Sermersooq
+GM_B,Q3726,GM,B,Banjul
+GM_L,Q824421,GM,L,Lower River Division
+GM_M,Q824431,GM,M,Central River Division
+GM_N,Q846161,GM,N,North Bank Division
+GM_U,Q824373,GM,U,Upper River Division
+GM_W,Q846158,GM,W,West Coast Division
+GN_B,Q862611,GN,B,Boké Region
+GN_BE,Q853169,GN,BE,Beyla Prefecture
+GN_BF,Q890340,GN,BF,Boffa Prefecture
+GN_BK,Q891238,GN,BK,Boké Prefecture
+GN_C,Q3733,GN,C,Conakry
+GN_CO,Q616816,GN,CO,Coyah Prefecture
+GN_D,Q868520,GN,D,Kindia Region
+GN_DB,Q1156587,GN,DB,Dabola Prefecture
+GN_DI,Q1226479,GN,DI,Dinguiraye Prefecture
+GN_DL,Q623302,GN,DL,Dalaba Prefecture
+GN_DU,Q1263263,GN,DU,Dubréka Prefecture
+GN_F,Q870166,GN,F,Faranah Region
+GN_FA,Q1396210,GN,FA,Faranah Prefecture
+GN_FO,Q1439329,GN,FO,Forécariah Prefecture
+GN_FR,Q1456055,GN,FR,Fria Prefecture
+GN_GA,Q614669,GN,GA,Gaoual Prefecture
+GN_GU,Q623142,GN,GU,Guéckédou Prefecture
+GN_K,Q870191,GN,K,Kankan Region
+GN_KA,Q581719,GN,KA,Kankan Prefecture
+GN_KB,Q623409,GN,KB,Koubia Prefecture
+GN_KD,Q1741960,GN,KD,Kindia Prefecture
+GN_KE,Q962654,GN,KE,Kérouané Prefecture
+GN_KN,Q1781312,GN,KN,Koundara Prefecture
+GN_KO,Q1471573,GN,KO,Kouroussa Prefecture
+GN_KS,Q1470920,GN,KS,Kissidougou Prefecture
+GN_L,Q868515,GN,L,Labé Region
+GN_LA,Q1781303,GN,LA,Labé Prefecture
+GN_LE,Q253661,GN,LE,Lélouma Prefecture
+GN_LO,Q623145,GN,LO,Lola Prefecture
+GN_M,Q1043650,GN,M,Mamou Region
+GN_MC,Q949332,GN,MC,Macenta Prefecture
+GN_MD,Q1470878,GN,MD,Mandiana Prefecture
+GN_ML,Q1781017,GN,ML,Mali Prefecture
+GN_MM,Q623295,GN,MM,Mamou Prefecture
+GN_N,Q870146,GN,N,Nzérékoré Region
+GN_NZ,Q1471203,GN,NZ,Nzérékoré Prefecture
+GN_PI,Q736507,GN,PI,Pita Prefecture
+GN_SI,Q1780649,GN,SI,Siguiri Prefecture
+GN_TE,Q922545,GN,TE,Télimélé Prefecture
+GN_TO,Q1432094,GN,TO,Tougué Prefecture
+GN_YO,Q623139,GN,YO,Yomou Prefecture
+GQ_AN,Q3736616,GQ,AN,Annobón Province
+GQ_BN,Q845834,GQ,BN,Bioko Norte Province
+GQ_BS,Q845817,GQ,BS,Bioko Sur Province
+GQ_C,Q845368,GQ,C,Río Muni
+GQ_CS,Q845823,GQ,CS,Centro Sur Province
+GQ_I,Q3040071,GQ,I,Insular Region
+GQ_KN,Q853393,GQ,KN,Kié-Ntem Province
+GQ_LI,Q203873,GQ,LI,Litoral Province
+GQ_WN,Q853400,GQ,WN,Wele-Nzas Province
+GR_01,Q202624,GR,01,Aetolia-Acarnania Regional Unit
+GR_03,Q8257871,GR,03,Boeotia Regional Unit
+GR_04,Q670126,GR,04,Euboea
+GR_05,Q201945,GR,05,Evritania Prefecture
+GR_06,Q207554,GR,06,Phthiotis Prefecture
+GR_07,Q26915,GR,07,Phocis Prefecture
+GR_11,Q191897,GR,11,Argolis Regional Unit
+GR_12,Q170054,GR,12,Arcadia Prefecture
+GR_13,Q2495811,GR,13,Achaea Regional Unit
+GR_14,Q1063649,GR,14,Elis Regional Unit
+GR_15,Q208306,GR,15,Corinthia Regional Unit
+GR_16,Q190216,GR,16,Laconia
+GR_17,Q200315,GR,17,Messenia
+GR_21,Q144880,GR,21,Zakynthos
+GR_22,Q842235,GR,22,Corfu Prefecture
+GR_23,Q838993,GR,23,Kefalonia Prefecture
+GR_24,Q1248071,GR,24,Lefkada Regional Unit
+GR_31,Q209149,GR,31,Arta Prefecture
+GR_32,Q207552,GR,32,Thesprotia Prefecture
+GR_33,Q212921,GR,33,Ioannina Regional Unit
+GR_34,Q7780449,GR,34,Preveza Prefecture
+GR_41,Q212810,GR,41,Karditsa Regional Unit
+GR_42,Q578879,GR,42,Larissa Prefecture
+GR_43,Q205668,GR,43,Magnesia Prefecture
+GR_44,Q216482,GR,44,Trikala Prefecture
+GR_51,Q209385,GR,51,Grevena Prefecture
+GR_52,Q208606,GR,52,Drama Regional Unit
+GR_53,Q207840,GR,53,Imathia Regional Unit
+GR_54,Q210176,GR,54,Thessaloniki Regional Unit
+GR_55,Q213623,GR,55,Kavala Prefecture
+GR_56,Q1080115,GR,56,Kastoria Regional Unit
+GR_57,Q210097,GR,57,Kilkis Regional Unit
+GR_58,Q211732,GR,58,Kozani Prefecture
+GR_59,Q649484,GR,59,Pella Regional Unit
+GR_61,Q208846,GR,61,Pieria
+GR_62,Q211319,GR,62,Serres Prefecture
+GR_63,Q211314,GR,63,Florina Prefecture
+GR_64,Q844543,GR,64,Chalkidiki Prefecture
+GR_69,Q130321,GR,69,Mount Athos
+GR_71,Q206186,GR,71,Evros Prefecture
+GR_72,Q208303,GR,72,Xanthi Prefecture
+GR_73,Q208604,GR,73,Rhodope Prefecture
+GR_81,Q131555,GR,81,Dodecanese
+GR_82,Q1228835,GR,82,Cyclades Prefecture
+GR_82,Q171132,GR,82,Cyclades
+GR_83,Q214219,GR,83,Lesbos Prefecture
+GR_84,Q214208,GR,84,Samos Prefecture
+GR_85,Q874192,GR,85,Chios Prefecture
+GR_91,Q210457,GR,91,Heraklion Prefecture
+GR_92,Q210450,GR,92,Lasithi Prefecture
+GR_93,Q210446,GR,93,Rethymno Prefecture
+GR_94,Q210487,GR,94,Chania Regional Unit
+GR_A,Q171314,GR,A,East Macedonia and Thrace
+GR_A1,Q1245720,GR,A1,Attica Prefecture
+GR_A2,Q211934,GR,A2,East Attica Regional Unit
+GR_B,Q17152,GR,B,Central Macedonia
+GR_C,Q165408,GR,C,West Macedonia Region
+GR_D,Q180484,GR,D,Epirus Region
+GR_E,Q166919,GR,E,Thessaly
+GR_E,Q22807284,GR,E,Thessaly Region
+GR_F,Q1147674,GR,F,Ionian Islands Region
+GR_G,Q170291,GR,G,West Greece Region
+GR_H,Q199580,GR,H,Central Greece Region
+GR_I,Q758056,GR,I,Attica Region
+GR_J,Q202484,GR,J,Peloponnese Region
+GR_K,Q173620,GR,K,North Aegean Region
+GR_L,Q173616,GR,L,South Aegean
+GR_M,Q1267522,GR,M,Crete Region
+GT_AV,Q504637,GT,AV,Alta Verapaz Department
+GT_BV,Q504647,GT,BV,Baja Verapaz Department
+GT_CM,Q765975,GT,CM,Chimaltenango Department
+GT_CQ,Q753037,GT,CQ,Chiquimula Department
+GT_ES,Q795587,GT,ES,Escuintla Department
+GT_GU,Q695660,GT,GU,Guatemala Department
+GT_HU,Q842266,GT,HU,Huehuetenango Department
+GT_IZ,Q693658,GT,IZ,Izabal Department
+GT_JA,Q795441,GT,JA,Jalapa Department
+GT_JU,Q765984,GT,JU,Jutiapa Department
+GT_PE,Q466061,GT,PE,Petén Department
+GT_PR,Q795591,GT,PR,El Progreso Department
+GT_QC,Q669802,GT,QC,Quiché Department
+GT_QZ,Q844502,GT,QZ,Quetzaltenango Department
+GT_RE,Q888307,GT,RE,Retalhuleu Department
+GT_SA,Q508804,GT,SA,Sacatepéquez Department
+GT_SM,Q883907,GT,SM,San Marcos Department
+GT_SO,Q178136,GT,SO,Sololá Department
+GT_SR,Q885656,GT,SR,Santa Rosa Department
+GT_SU,Q883734,GT,SU,Suchitepéquez Department
+GT_TO,Q885644,GT,TO,Totonicapán Department
+GT_ZA,Q780784,GT,ZA,Zacapa Department
+GW_BA,Q799791,GW,BA,Bafatá
+GW_BL,Q151909,GW,BL,Bolama Region
+GW_BM,Q872228,GW,BM,Biombo Region
+GW_BS,Q3739,GW,BS,Bissau
+GW_CA,Q780838,GW,CA,Cacheu Region
+GW_GA,Q872212,GW,GA,Gabú Region
+GW_L,Q13378473,GW,L,Leste Province
+GW_N,Q13378475,GW,N,Norte Province
+GW_OI,Q853991,GW,OI,Oio Region
+GW_QU,Q862617,GW,QU,Quinara Region
+GW_S,Q13378476,GW,S,Sul Province
+GW_TO,Q1047255,GW,TO,Tombali Region
+GY_BA,Q537740,GY,BA,Barima-Waini
+GY_CU,Q1146777,GY,CU,Cuyuni-Mazaruni
+GY_DE,Q1185362,GY,DE,Demerara-Mahaica
+GY_EB,Q1277758,GY,EB,East Berbice-Corentyne
+GY_ES,Q1368802,GY,ES,Essequibo Islands-West Demerara
+GY_MA,Q1466671,GY,MA,Mahaica-Berbice
+GY_PM,Q680382,GY,PM,Pomeroon-Supenaam
+GY_PT,Q1454035,GY,PT,Potaro-Siparuni
+GY_UD,Q1309042,GY,UD,Upper Demerara-Berbice
+GY_UT,Q1516381,GY,UT,Upper Takutu-Upper Essequibo
+HN_AT,Q622619,HN,AT,Atlántida Department
+HN_CH,Q899272,HN,CH,Choluteca Department
+HN_CL,Q867117,HN,CL,Colón Department
+HN_CM,Q823443,HN,CM,Comayagua Department
+HN_CP,Q843984,HN,CP,Copán Department
+HN_CR,Q767244,HN,CR,Cortés Department
+HN_EP,Q867108,HN,EP,El Paraíso Department
+HN_FM,Q867126,HN,FM,Francisco Morazán Department
+HN_GD,Q867112,HN,GD,Gracias a Dios Department
+HN_IB,Q751725,HN,IB,Bay Islands Department
+HN_IN,Q262125,HN,IN,Intibucá Department
+HN_LE,Q744138,HN,LE,Lempira Department
+HN_LP,Q866886,HN,LP,La Paz Department
+HN_OC,Q867084,HN,OC,Ocotepeque Department
+HN_OL,Q867089,HN,OL,Olancho Department
+HN_SB,Q591139,HN,SB,Santa Bárbara Department
+HN_VA,Q867097,HN,VA,Valle Department
+HN_YO,Q1123380,HN,YO,Yoro Department
+HR_01,Q27038,HR,01,Zagreb County
+HR_02,Q57056,HR,02,Krapina-Zagorje County
+HR_03,Q57060,HR,03,Sisak-Moslavina County
+HR_04,Q57071,HR,04,Karlovac County
+HR_05,Q57967,HR,05,Varaždin County
+HR_06,Q58026,HR,06,Koprivnica-Križevci County
+HR_07,Q58060,HR,07,Bjelovar-Bilogora County
+HR_08,Q58071,HR,08,Primorje-Gorski Kotar County
+HR_09,Q58081,HR,09,Lika-Senj County
+HR_10,Q58092,HR,10,Virovitica-Podravina County
+HR_11,Q58111,HR,11,Požega-Slavonia County
+HR_12,Q58129,HR,12,Brod-Posavina County
+HR_13,Q58146,HR,13,Zadar County
+HR_14,Q58159,HR,14,Osijek-Baranja County
+HR_15,Q58194,HR,15,Šibenik-Knin County
+HR_16,Q58225,HR,16,Vukovar-Syrmia County
+HR_17,Q58253,HR,17,Split-Dalmatia County
+HR_18,Q58268,HR,18,Istria County
+HR_19,Q58289,HR,19,Dubrovnik-Neretva County
+HR_20,Q58330,HR,20,Međimurje County
+HR_21,Q1435,HR,21,Zagreb
+HT_AR,Q844024,HT,AR,Artibonite
+HT_CE,Q844528,HT,CE,Centre
+HT_GA,Q913231,HT,GA,Grand'Anse
+HT_ND,Q943932,HT,ND,Nord
+HT_NE,Q928694,HT,NE,Nord-Est
+HT_NI,Q125232,HT,NI,Nippes
+HT_NO,Q608361,HT,NO,Nord-Ouest
+HT_OU,Q1434621,HT,OU,Ouest
+HT_SD,Q936704,HT,SD,Sud
+HT_SE,Q936717,HT,SE,Sud-Est
+HU_BA,Q186195,HU,BA,Baranya County
+HU_BC,Q178878,HU,BC,Békéscsaba
+HU_BE,Q191616,HU,BE,Békés County
+HU_BK,Q181018,HU,BK,Bács-Kiskun County
+HU_BU,Q1781,HU,BU,Budapest
+HU_BZ,Q188895,HU,BZ,Borsod-Abaúj-Zemplén County
+HU_CS,Q193031,HU,CS,Csongrád-Csanád County
+HU_DE,Q79880,HU,DE,Debrecen
+HU_DU,Q187812,HU,DU,Dunaújváros
+HU_EG,Q167109,HU,EG,Eger
+HU_ER,Q193050,HU,ER,Érd
+HU_FE,Q187693,HU,FE,Fejér County
+HU_GS,Q187753,HU,GS,Győr-Moson-Sopron County
+HU_GY,Q134494,HU,GY,Győr
+HU_HB,Q185368,HU,HB,Hajdú-Bihar County
+HU_HE,Q191604,HU,HE,Heves County
+HU_HV,Q124375,HU,HV,Hódmezővásárhely
+HU_JN,Q189655,HU,JN,Jász-Nagykun-Szolnok County
+HU_KE,Q190018,HU,KE,Komárom-Esztergom County
+HU_KM,Q171357,HU,KM,Kecskemét
+HU_KV,Q184998,HU,KV,Kaposvár
+HU_MI,Q102397,HU,MI,Miskolc
+HU_NK,Q14424,HU,NK,Nagykanizsa
+HU_NO,Q194273,HU,NO,Nógrád County
+HU_NY,Q171223,HU,NY,Nyíregyháza
+HU_PE,Q188612,HU,PE,Pest County
+HU_PS,Q45779,HU,PS,Pécs
+HU_SD,Q81581,HU,SD,Szeged
+HU_SF,Q130212,HU,SF,Székesfehérvár
+HU_SH,Q42007,HU,SH,Szombathely
+HU_SK,Q181276,HU,SK,Szolnok
+HU_SN,Q168648,HU,SN,Sopron
+HU_SO,Q190522,HU,SO,Somogy County
+HU_SS,Q189761,HU,SS,Szekszárd
+HU_ST,Q189769,HU,ST,Salgótarján
+HU_SZ,Q190518,HU,SZ,Szabolcs-Szatmár-Bereg County
+HU_TB,Q187821,HU,TB,Tatabánya
+HU_TO,Q191625,HU,TO,Tolna County
+HU_VA,Q187677,HU,VA,Vas County
+HU_VE,Q188890,HU,VE,Veszprém County
+HU_VM,Q146317,HU,VM,Veszprém
+HU_ZA,Q185374,HU,ZA,Zala County
+HU_ZE,Q60037,HU,ZE,Zalaegerszeg
+ID_AC,Q1823,ID,AC,Aceh
+ID_BA,Q3125978,ID,BA,Bali
+ID_BB,Q1866,ID,BB,Bangka Belitung Islands
+ID_BE,Q1890,ID,BE,Bengkulu
+ID_BT,Q3540,ID,BT,Banten
+ID_GO,Q5067,ID,GO,Gorontalo
+ID_JA,Q2051,ID,JA,Jambi
+ID_JB,Q3724,ID,JB,West Java
+ID_JI,Q3586,ID,JI,East Java
+ID_JK,Q3630,ID,JK,Jakarta
+ID_JT,Q3557,ID,JT,Central Java
+ID_JW,Q3757,ID,JW,Java
+ID_KA,Q3795,ID,KA,Kalimantan
+ID_KB,Q3916,ID,KB,West Kalimantan
+ID_KI,Q3899,ID,KI,East Kalimantan
+ID_KR,Q2223,ID,KR,Riau Islands
+ID_KS,Q3906,ID,KS,South Kalimantan
+ID_KT,Q3891,ID,KT,Central Kalimantan
+ID_KU,Q3903,ID,KU,North Kalimantan
+ID_LA,Q2110,ID,LA,Lampung
+ID_MA,Q5093,ID,MA,Maluku
+ID_ML,Q3827,ID,ML,Maluku Islands
+ID_MU,Q5094,ID,MU,North Maluku
+ID_NB,Q5062,ID,NB,West Nusa Tenggara
+ID_NT,Q5061,ID,NT,East Nusa Tenggara
+ID_NU,Q3803,ID,NU,Lesser Sunda Islands
+ID_PA,Q5095,ID,PA,Papua
+ID_PB,Q5096,ID,PB,West Papua
+ID_PP,Q3845,ID,PP,Western New Guinea
+ID_RI,Q2175,ID,RI,Riau
+ID_SA,Q5068,ID,SA,North Sulawesi
+ID_SB,Q2772,ID,SB,West Sumatra
+ID_SG,Q5075,ID,SG,Southeast Sulawesi
+ID_SL,Q3812,ID,SL,Sulawesi
+ID_SM,Q3492,ID,SM,Sumatra
+ID_SN,Q5078,ID,SN,South Sulawesi
+ID_SR,Q5082,ID,SR,West Sulawesi
+ID_SS,Q2271,ID,SS,South Sumatra
+ID_ST,Q5065,ID,ST,Central Sulawesi
+ID_SU,Q2140,ID,SU,North Sumatra
+ID_YO,Q3741,ID,YO,Special Region of Yogyakarta
+IE_C,Q164421,IE,C,Connacht
+IE_CE,Q181862,IE,CE,County Clare
+IE_CN,Q187402,IE,CN,County Cavan
+IE_CO,Q162475,IE,CO,County Cork
+IE_CW,Q181882,IE,CW,County Carlow
+IE_D,Q173500,IE,D,County Dublin
+IE_DL,Q179424,IE,DL,County Donegal
+IE_G,Q169923,IE,G,County Galway
+IE_KE,Q173332,IE,KE,County Kildare
+IE_KK,Q180231,IE,KK,County Kilkenny
+IE_KY,Q184469,IE,KY,County Kerry
+IE_L,Q159736,IE,L,Leinster
+IE_LD,Q186220,IE,LD,County Longford
+IE_LH,Q183539,IE,LH,County Louth
+IE_LK,Q178283,IE,LK,County Limerick
+IE_LM,Q107397,IE,LM,County Leitrim
+IE_LS,Q55299,IE,LS,County Laois
+IE_M,Q131438,IE,M,Munster
+IE_MH,Q183544,IE,MH,County Meath
+IE_MN,Q184760,IE,MN,County Monaghan
+IE_MO,Q178626,IE,MO,County Mayo
+IE_OY,Q184445,IE,OY,County Offaly
+IE_RN,Q179437,IE,RN,County Roscommon
+IE_SO,Q179325,IE,SO,County Sligo
+IE_TA,Q184618,IE,TA,County Tipperary
+IE_U,Q93195,IE,U,Ulster
+IE_WD,Q184594,IE,WD,County Waterford
+IE_WH,Q182633,IE,WH,County Westmeath
+IE_WW,Q182591,IE,WW,County Wicklow
+IE_WX,Q184599,IE,WX,County Wexford
+IL_D,Q188781,IL,D,Southern District
+IL_HA,Q185845,IL,HA,Haifa District
+IL_JM,Q192232,IL,JM,Jerusalem District
+IL_M,Q188785,IL,M,Central District
+IL_TA,Q192811,IL,TA,Tel Aviv District
+IL_Z,Q189942,IL,Z,Northern District
+IN_AN,Q40888,IN,AN,Andaman and Nicobar Islands
+IN_AP,Q1159,IN,AP,Andhra Pradesh
+IN_AR,Q1162,IN,AR,Arunachal Pradesh
+IN_AS,Q1164,IN,AS,Assam
+IN_BR,Q1165,IN,BR,Bihar
+IN_CH,Q43433,IN,CH,Chandigarh
+IN_CT,Q1168,IN,CT,Chhattisgarh
+IN_DD,Q66710,IN,DD,Daman and Diu
+IN_DL,Q1353,IN,DL,Delhi
+IN_DN,Q46107,IN,DN,Dadra and Nagar Haveli
+IN_GA,Q1171,IN,GA,Goa
+IN_GJ,Q1061,IN,GJ,Gujarat
+IN_HP,Q1177,IN,HP,Himachal Pradesh
+IN_HR,Q1174,IN,HR,Haryana
+IN_JH,Q1184,IN,JH,Jharkhand
+IN_JK,Q66278313,IN,JK,Jammu and Kashmir
+IN_KA,Q1185,IN,KA,Karnataka
+IN_KL,Q1186,IN,KL,Kerala
+IN_LA,Q200667,IN,LA,Ladakh
+IN_LD,Q26927,IN,LD,Lakshadweep
+IN_MH,Q1191,IN,MH,Maharashtra
+IN_ML,Q1195,IN,ML,Meghalaya
+IN_MN,Q1193,IN,MN,Manipur
+IN_MP,Q1188,IN,MP,Madhya Pradesh
+IN_MZ,Q1502,IN,MZ,Mizoram
+IN_NL,Q1599,IN,NL,Nagaland
+IN_OR,Q22048,IN,OR,Odisha
+IN_PB,Q22424,IN,PB,Punjab
+IN_PY,Q66743,IN,PY,Puducherry
+IN_RJ,Q1437,IN,RJ,Rajasthan
+IN_SK,Q1505,IN,SK,Sikkim
+IN_TG,Q677037,IN,TG,Telangana
+IN_TN,Q1445,IN,TN,Tamil Nadu
+IN_TR,Q1363,IN,TR,Tripura
+IN_UP,Q1498,IN,UP,Uttar Pradesh
+IN_UT,Q1499,IN,UT,Uttarakhand
+IN_WB,Q1356,IN,WB,West Bengal
+IQ_AN,Q187334,IQ,AN,Al Anbar Governorate
+IQ_AR,Q213189,IQ,AR,Erbil Governorate
+IQ_BA,Q193551,IQ,BA,Basra Governorate
+IQ_BB,Q59202,IQ,BB,Babylon Governorate
+IQ_BG,Q191075,IQ,BG,Baghdad Governorate
+IQ_DA,Q189541,IQ,DA,Dohuk Governorate
+IQ_DI,Q217075,IQ,DI,Diyala Governorate
+IQ_DQ,Q215649,IQ,DQ,Dhi Qar Governorate
+IQ_HA,Q15631321,IQ,HA,Halabja Governorate
+IQ_KA,Q214104,IQ,KA,Karbala Governorate
+IQ_KI,Q193268,IQ,KI,Kirkuk Governorate
+IQ_MA,Q213170,IQ,MA,Maysan Governorate
+IQ_MU,Q212761,IQ,MU,Al Muthanna Governorate
+IQ_NA,Q192882,IQ,NA,Najaf Governorate
+IQ_NI,Q189352,IQ,NI,Nineveh Governorate
+IQ_QA,Q62987,IQ,QA,Al-Qādisiyyah Governorate
+IQ_SD,Q190131,IQ,SD,Saladin Governorate
+IQ_SU,Q213182,IQ,SU,Sulaymaniyah Governorate
+IQ_WA,Q189747,IQ,WA,Wasit Governorate
+IR_01,Q176081,IR,01,East Azerbaijan Province
+IR_02,Q134411,IR,02,West Azarbaijan Province
+IR_03,Q134228,IR,03,Ardabil Province
+IR_04,Q1367759,IR,04,Isfahan Province
+IR_05,Q170570,IR,05,Ilam Province
+IR_06,Q132945,IR,06,Bushehr Province
+IR_07,Q590866,IR,07,Tehran Province
+IR_08,Q171702,IR,08,Chaharmahal and Bakhtiari Province
+IR_10,Q241119,IR,10,Khuzestan Province
+IR_11,Q146726,IR,11,Zanjan Province
+IR_12,Q168949,IR,12,Semnan Province
+IR_13,Q939575,IR,13,Sistan and Baluchestan Province
+IR_14,Q1004666,IR,14,Fars Province
+IR_15,Q165352,IR,15,Kerman Province
+IR_16,Q134386,IR,16,Kurdistan Province
+IR_17,Q174010,IR,17,Kermanshah Province
+IR_18,Q180068,IR,18,Kohgiluyeh and Boyer-Ahmad Province
+IR_19,Q928828,IR,19,Gilan Province
+IR_20,Q1131727,IR,20,Lorestan Province
+IR_21,Q308864,IR,21,Mazandaran Province
+IR_22,Q134417,IR,22,Markazi Province
+IR_23,Q633659,IR,23,Hormozgan Province
+IR_24,Q187373,IR,24,Hamadan Province
+IR_25,Q170568,IR,25,Yazd Province
+IR_26,Q131664,IR,26,Qom Province
+IR_27,Q170041,IR,27,Golestan Province
+IR_28,Q1105893,IR,28,Qazvin Province
+IR_29,Q171551,IR,29,South Khorasan Province
+IR_30,Q587090,IR,30,Razavi Khorasan Province
+IR_31,Q180075,IR,31,North Khorasan Province
+IR_32,Q392522,IR,32,Alborz Province
+IS_0,Q1764,IS,0,Reykjavík
+IS_1,Q203304,IS,1,Capital Region
+IS_2,Q212768,IS,2,Southern Peninsula Region
+IS_3,Q221791,IS,3,Western Region
+IS_4,Q727267,IS,4,Westfjords
+IS_5,Q210866,IS,5,Northwestern Region
+IS_6,Q241551,IS,6,Northeastern Region
+IS_7,Q220663,IS,7,Austurland
+IS_8,Q204796,IS,8,Southern Region
+IT_21,Q1216,IT,21,Piedmont
+IT_23,Q1222,IT,23,Aosta Valley
+IT_25,Q1210,IT,25,Lombardy
+IT_32,Q1237,IT,32,Trentino-South Tyrol
+IT_34,Q1243,IT,34,Veneto
+IT_36,Q1250,IT,36,Friuli–Venezia Giulia
+IT_42,Q1256,IT,42,Liguria
+IT_45,Q1263,IT,45,Emilia-Romagna
+IT_52,Q1273,IT,52,Tuscany
+IT_55,Q1280,IT,55,Umbria
+IT_57,Q1279,IT,57,Marche
+IT_62,Q1282,IT,62,Lazio
+IT_65,Q1284,IT,65,Abruzzo
+IT_67,Q1443,IT,67,Molise
+IT_72,Q1438,IT,72,Campania
+IT_75,Q1447,IT,75,Apulia
+IT_77,Q1452,IT,77,Basilicata
+IT_78,Q1458,IT,78,Calabria
+IT_82,Q1460,IT,82,Sicily
+IT_88,Q1462,IT,88,Sardinia
+IT_AG,Q26160406,IT,AG,Libero consorzio comunale di Agrigento
+IT_AL,Q15097,IT,AL,Province of Alessandria
+IT_AN,Q16114,IT,AN,Province of Ancona
+IT_AO,Q15118,IT,AO,Province of Aosta
+IT_AP,Q16117,IT,AP,Province of Ascoli Piceno
+IT_AQ,Q16189,IT,AQ,Province of L'Aquila
+IT_AR,Q16115,IT,AR,Province of Arezzo
+IT_AT,Q15099,IT,AT,Province of Asti
+IT_AV,Q16120,IT,AV,Province of Avellino
+IT_BA,Q18241854,IT,BA,Metropolitan City of Bari
+IT_BG,Q16137,IT,BG,Province of Bergamo
+IT_BI,Q15094,IT,BI,Province of Biella
+IT_BL,Q16126,IT,BL,Province of Belluno
+IT_BN,Q16134,IT,BN,Benevento Province
+IT_BO,Q18288145,IT,BO,Metropolitan City of Bologna
+IT_BR,Q16148,IT,BR,Province of Brindisi
+IT_BS,Q16144,IT,BS,Province of Brescia
+IT_BT,Q16124,IT,BT,Province of Barletta-Andria-Trani
+IT_BZ,Q15124,IT,BZ,South Tyrol
+IT_CA,Q3622022,IT,CA,Metropolitan City of Cagliari
+IT_CB,Q16151,IT,CB,Province of Campobasso
+IT_CE,Q16153,IT,CE,Province of Caserta
+IT_CH,Q16160,IT,CH,Province of Chieti
+IT_CI,Q16152,IT,CI,Province of Carbonia-Iglesias
+IT_CL,Q26160410,IT,CL,Libero consorzio comunale di Caltanissetta
+IT_CN,Q15091,IT,CN,Province of Cuneo
+IT_CO,Q16161,IT,CO,Province of Como
+IT_CR,Q16163,IT,CR,Province of Cremona
+IT_CS,Q16162,IT,CS,Province of Cosenza
+IT_CT,Q20991246,IT,CT,Metropolitan City of Catania
+IT_CZ,Q16159,IT,CZ,Province of Catanzaro
+IT_EN,Q26160408,IT,EN,Libero consorzio comunale di Enna
+IT_FC,Q16180,IT,FC,Province of Forlì-Cesena
+IT_FE,Q16168,IT,FE,Province of Ferrara
+IT_FG,Q15129,IT,FG,Province of Foggia
+IT_FI,Q18288148,IT,FI,Metropolitan City of Florence
+IT_FM,Q16167,IT,FM,Province of Fermo
+IT_FR,Q16181,IT,FR,Province of Frosinone
+IT_GE,Q18288152,IT,GE,Metropolitan City of Genoa
+IT_GO,Q16184,IT,GO,Province of Gorizia
+IT_GR,Q16185,IT,GR,Province of Grosseto
+IT_IM,Q16186,IT,IM,Province of Imperia
+IT_IS,Q16187,IT,IS,Province of Isernia
+IT_KR,Q16165,IT,KR,Province of Crotone
+IT_LC,Q16199,IT,LC,Province of Lecco
+IT_LE,Q16197,IT,LE,Province of Lecce
+IT_LI,Q16200,IT,LI,Province of Livorno
+IT_LO,Q16201,IT,LO,Province of Lodi
+IT_LT,Q16196,IT,LT,Province of Latina
+IT_LU,Q16202,IT,LU,Province of Lucca
+IT_MB,Q16210,IT,MB,Province of Monza and Brianza
+IT_MC,Q16203,IT,MC,Province of Macerata
+IT_ME,Q20991250,IT,ME,Metropolitan City of Messina
+IT_MI,Q18288155,IT,MI,Metropolitan City of Milan
+IT_MN,Q16204,IT,MN,Province of Mantua
+IT_MO,Q16209,IT,MO,Province of Modena
+IT_MS,Q16205,IT,MS,Province of Massa-Carrara
+IT_MT,Q16206,IT,MT,Province of Matera
+IT_NA,Q18241891,IT,NA,Metropolitan City of Naples
+IT_NO,Q16216,IT,NO,Province of Novara
+IT_NU,Q16220,IT,NU,Province of Nuoro
+IT_OG,Q16223,IT,OG,Province of Ogliastra
+IT_OR,Q16225,IT,OR,Province of Oristano
+IT_OT,Q16224,IT,OT,Province of Olbia-Tempio
+IT_PA,Q20795016,IT,PA,Metropolitan City of Palermo
+IT_PC,Q16243,IT,PC,Province of Piacenza
+IT_PD,Q16226,IT,PD,Province of Padua
+IT_PE,Q16242,IT,PE,Province of Pescara
+IT_PG,Q16240,IT,PG,Province of Perugia
+IT_PI,Q16244,IT,PI,Province of Pisa
+IT_PN,Q16247,IT,PN,Province of Pordenone
+IT_PO,Q16250,IT,PO,Province of Prato
+IT_PR,Q16228,IT,PR,Province of Parma
+IT_PT,Q16245,IT,PT,Province of Pistoia
+IT_PU,Q16241,IT,PU,Pesaro and Urbino Province
+IT_PV,Q16231,IT,PV,Province of Pavia
+IT_PZ,Q16249,IT,PZ,Province of Potenza
+IT_RA,Q16252,IT,RA,Province of Ravenna
+IT_RC,Q3678586,IT,RC,Metropolitan City of Reggio Calabria
+IT_RE,Q16254,IT,RE,Province of Reggio Emilia
+IT_RG,Q26160405,IT,RG,Libero consorzio comunale di Ragusa
+IT_RI,Q16267,IT,RI,Province of Rieti
+IT_RM,Q18288160,IT,RM,Metropolitan City of Rome
+IT_RN,Q16268,IT,RN,Province of Rimini
+IT_RO,Q16270,IT,RO,Province of Rovigo
+IT_SA,Q16271,IT,SA,Province of Salerno
+IT_SD,Q23498165,IT,SD,Province of South Sardinia
+IT_SI,Q16275,IT,SI,Province of Siena
+IT_SO,Q16282,IT,SO,Province of Sondrio
+IT_SP,Q16188,IT,SP,Province of La Spezia
+IT_SR,Q25510290,IT,SR,Libero consorzio comunale di Siracusa
+IT_SS,Q16272,IT,SS,Province of Sassari
+IT_SV,Q16274,IT,SV,Province of Savona
+IT_TA,Q16283,IT,TA,Province of Taranto
+IT_TE,Q16284,IT,TE,Province of Teramo
+IT_TN,Q16289,IT,TN,Trentino
+IT_TO,Q18288162,IT,TO,Metropolitan City of Turin
+IT_TP,Q26160403,IT,TP,Libero consorzio comunale di Trapani
+IT_TR,Q16286,IT,TR,Province of Terni
+IT_TS,Q16293,IT,TS,Province of Trieste
+IT_TV,Q16292,IT,TV,Province of Treviso
+IT_UD,Q16294,IT,UD,Province of Udine
+IT_VA,Q16299,IT,VA,Province of Varese
+IT_VB,Q16312,IT,VB,Province of Verbano-Cusio-Ossola
+IT_VC,Q15096,IT,VC,Province of Vercelli
+IT_VE,Q3678587,IT,VE,Metropolitan City of Venice
+IT_VI,Q16316,IT,VI,Province of Vicenza
+IT_VR,Q16314,IT,VR,Province of Verona
+IT_VS,Q16207,IT,VS,Province of Medio Campidano
+IT_VT,Q16318,IT,VT,Province of Viterbo
+IT_VV,Q16315,IT,VV,Province of Vibo Valentia
+JM_01,Q1473680,JM,01,Kingston Parish
+JM_02,Q2212935,JM,02,Saint Andrew
+JM_03,Q1422332,JM,03,Saint Thomas Parish
+JM_04,Q125148,JM,04,Portland Parish
+JM_05,Q633565,JM,05,Saint Mary Parish
+JM_06,Q1326284,JM,06,Saint Ann Parish
+JM_07,Q1123340,JM,07,Trelawny Parish
+JM_08,Q1421939,JM,08,Saint James Parish
+JM_09,Q1131779,JM,09,Hanover Parish
+JM_10,Q1440250,JM,10,Westmoreland Parish
+JM_11,Q1473646,JM,11,Saint Elizabeth Parish
+JM_12,Q920496,JM,12,Manchester Parish
+JM_13,Q1095557,JM,13,Clarendon Parish
+JM_14,Q1473663,JM,14,Saint Catherine Parish
+JO_AJ,Q506658,JO,AJ,Ajloun Governorate
+JO_AM,Q472788,JO,AM,Amman Governorate
+JO_AQ,Q260796,JO,AQ,Aqaba Governorate
+JO_AT,Q750259,JO,AT,Tafilah Governorate
+JO_AZ,Q721445,JO,AZ,Zarqa Governorate
+JO_BA,Q721431,JO,BA,Balqa Governorate
+JO_IR,Q721441,JO,IR,Irbid Governorate
+JO_JA,Q750270,JO,JA,Jerash Governorate
+JO_KA,Q735245,JO,KA,Karak Governorate
+JO_MA,Q854871,JO,MA,Mafraq Governorate
+JO_MD,Q750447,JO,MD,Madaba Governorate
+JO_MN,Q606340,JO,MN,Ma'an Governorate
+JP_01,Q1037393,JP,01,Hokkaidō Prefecture
+JP_02,Q71699,JP,02,Aomori Prefecture
+JP_03,Q48326,JP,03,Iwate Prefecture
+JP_04,Q47896,JP,04,Miyagi Prefecture
+JP_05,Q81863,JP,05,Akita Prefecture
+JP_06,Q125863,JP,06,Yamagata Prefecture
+JP_07,Q71707,JP,07,Fukushima Prefecture
+JP_08,Q83273,JP,08,Ibaraki Prefecture
+JP_09,Q44843,JP,09,Tochigi Prefecture
+JP_10,Q129499,JP,10,Gunma Prefecture
+JP_11,Q128186,JP,11,Saitama Prefecture
+JP_12,Q80011,JP,12,Chiba Prefecture
+JP_13,Q1490,JP,13,Tokyo
+JP_14,Q127513,JP,14,Kanagawa Prefecture
+JP_15,Q132705,JP,15,Niigata Prefecture
+JP_16,Q132929,JP,16,Toyama Prefecture
+JP_17,Q131281,JP,17,Ishikawa Prefecture
+JP_18,Q133879,JP,18,Fukui Prefecture
+JP_19,Q132720,JP,19,Yamanashi Prefecture
+JP_20,Q127877,JP,20,Nagano Prefecture
+JP_21,Q131277,JP,21,Gifu Prefecture
+JP_22,Q131320,JP,22,Shizuoka Prefecture
+JP_23,Q80434,JP,23,Aichi Prefecture
+JP_24,Q128196,JP,24,Mie Prefecture
+JP_25,Q131358,JP,25,Shiga Prefecture
+JP_26,Q120730,JP,26,Kyōto Prefecture
+JP_27,Q122723,JP,27,Ōsaka Prefecture
+JP_28,Q130290,JP,28,Hyōgo Prefecture
+JP_29,Q131287,JP,29,Nara Prefecture
+JP_30,Q131314,JP,30,Wakayama Prefecture
+JP_31,Q133935,JP,31,Tottori Prefecture
+JP_32,Q132751,JP,32,Shimane Prefecture
+JP_33,Q132936,JP,33,Okayama Prefecture
+JP_34,Q617375,JP,34,Hiroshima Prefecture
+JP_35,Q127264,JP,35,Yamaguchi Prefecture
+JP_36,Q160734,JP,36,Tokushima Prefecture
+JP_37,Q161454,JP,37,Kagawa Prefecture
+JP_38,Q123376,JP,38,Ehime Prefecture
+JP_39,Q134093,JP,39,Kōchi Prefecture
+JP_40,Q123258,JP,40,Fukuoka Prefecture
+JP_41,Q160420,JP,41,Saga Prefecture
+JP_42,Q169376,JP,42,Nagasaki Prefecture
+JP_43,Q130308,JP,43,Kumamoto Prefecture
+JP_44,Q133924,JP,44,Ōita Prefecture
+JP_45,Q130300,JP,45,Miyazaki Prefecture
+JP_46,Q15701,JP,46,Kagoshima Prefecture
+JP_47,Q766445,JP,47,Okinawa Prefecture
+KE_01,Q808201,KE,01,Baringo County
+KE_02,Q891952,KE,02,Bomet County
+KE_03,Q2928204,KE,03,Bungoma County
+KE_04,Q1017519,KE,04,Busia County
+KE_05,Q15216433,KE,05,Elgeyo-Marakwet County
+KE_06,Q1335242,KE,06,Embu County
+KE_07,Q1494292,KE,07,Garissa County
+KE_08,Q1625834,KE,08,Homa Bay County
+KE_09,Q1499046,KE,09,Isiolo County
+KE_10,Q285072,KE,10,Kajiado County
+KE_11,Q1721867,KE,11,Kakamega County
+KE_110,Q3870,KE,110,Nairobi
+KE_12,Q1739252,KE,12,Kericho County
+KE_13,Q2575594,KE,13,Kiambu County
+KE_14,Q1741307,KE,14,Kilifi County
+KE_15,Q2230311,KE,15,Kirinyaga County
+KE_16,Q1743730,KE,16,Kisii County
+KE_17,Q1743809,KE,17,Kisumu County
+KE_18,Q1722597,KE,18,Kitui County
+KE_19,Q952571,KE,19,Kwale County
+KE_20,Q1800699,KE,20,Laikipia County
+KE_200,Q318666,KE,200,Central Province
+KE_21,Q1951652,KE,21,Lamu County
+KE_22,Q1882639,KE,22,Machakos County
+KE_23,Q473717,KE,23,Makueni County
+KE_24,Q1477874,KE,24,Mandera County
+KE_25,Q1323683,KE,25,Marsabit County
+KE_26,Q15045704,KE,26,Meru County
+KE_27,Q429955,KE,27,Migori County
+KE_28,Q1112885,KE,28,Mombasa County
+KE_29,Q1781723,KE,29,Muranga County
+KE_30,Q3335223,KE,30,Nairobi County
+KE_300,Q185371,KE,300,Coast Province
+KE_31,Q1852202,KE,31,Nakuru County
+KE_32,Q1964569,KE,32,Nandi county
+KE_33,Q1852220,KE,33,Narok County
+KE_34,Q1569613,KE,34,Nyamira county
+KE_35,Q1714352,KE,35,Nyandarua County
+KE_36,Q749665,KE,36,Nyeri County
+KE_37,Q2096419,KE,37,Samburu County
+KE_38,Q3482913,KE,38,Siaya County
+KE_39,Q7193788,KE,39,Taita–Taveta County
+KE_40,Q383150,KE,40,Tana River County
+KE_400,Q328493,KE,400,Eastern Province
+KE_41,Q2189432,KE,41,Tharaka Nithi County
+KE_42,Q1278653,KE,42,Trans-Nzoia county
+KE_43,Q1633078,KE,43,Turkana County
+KE_44,Q1121429,KE,44,Uasin Gishu County
+KE_45,Q1313202,KE,45,Vihiga County
+KE_46,Q1852209,KE,46,Wajir County
+KE_47,Q590860,KE,47,West Pokot County
+KE_500,Q390213,KE,500,North Eastern Province
+KE_600,Q38589,KE,600,Nyanza Province
+KE_700,Q38587,KE,700,Rift Valley Province
+KE_800,Q38585,KE,800,Western Province
+KG_B,Q487631,KG,B,Batken Region
+KG_C,Q486370,KG,C,Chuy Region
+KG_GB,Q9361,KG,GB,Bishkek
+KG_GO,Q47282,KG,GO,Osh
+KG_J,Q487640,KG,J,Jalal-Abad Region
+KG_N,Q486375,KG,N,Naryn Region
+KG_O,Q231987,KG,O,Osh Region
+KG_T,Q109838,KG,T,Talas Region
+KG_Y,Q487413,KG,Y,Issyk-Kul Region
+KH_1,Q3817,KH,1,Banteay Meanchey Province
+KH_10,Q785896,KH,10,Kratié Province
+KH_11,Q652830,KH,11,Mondulkiri Province
+KH_12,Q1850,KH,12,Phnom Penh
+KH_13,Q502151,KH,13,Preah Vihear Province
+KH_14,Q856788,KH,14,Prey Veng Province
+KH_15,Q834464,KH,15,Pursat Province
+KH_16,Q747846,KH,16,Ratanakiri Province
+KH_17,Q652818,KH,17,Siem Reap Province
+KH_18,Q220966,KH,18,Sihanoukville Province
+KH_19,Q837889,KH,19,Stung Treng Province
+KH_2,Q810923,KH,2,Battambang Province
+KH_20,Q751864,KH,20,Svay Rieng Province
+KH_21,Q613345,KH,21,Takéo Province
+KH_22,Q629538,KH,22,Oddar Meanchey Province
+KH_23,Q852089,KH,23,Kep Province
+KH_24,Q506646,KH,24,Pailin Province
+KH_25,Q15623578,KH,25,Tbong Khmum Province
+KH_3,Q142258,KH,3,Kampong Cham Province
+KH_4,Q877468,KH,4,Kampong Chhnang Province
+KH_5,Q652867,KH,5,Kampong Speu Province
+KH_6,Q502148,KH,6,Kampong Thom Province
+KH_7,Q748470,KH,7,Kampot Province
+KH_8,Q466031,KH,8,Kandal Province
+KH_9,Q466000,KH,9,Koh Kong Province
+KI_G,Q271876,KI,G,Gilbert Islands
+KI_L,Q55076234,KI,L,Line Islands
+KI_P,Q271674,KI,P,Phoenix Islands
+KM_A,Q231324,KM,A,Anjouan
+KM_G,Q244978,KM,G,Grande Comore
+KM_M,Q271797,KM,M,Mohéli
+KN_01,Q176164,KN,01,Christ Church Nichola Town Parish
+KN_02,Q1473654,KN,02,Saint Anne Sandy Point Parish
+KN_03,Q1540744,KN,03,Saint George Basseterre Parish
+KN_04,Q1472520,KN,04,Saint George Gingerland Parish
+KN_05,Q1342139,KN,05,Saint James Windward Parish
+KN_06,Q668498,KN,06,Saint John Capisterre Parish
+KN_07,Q657318,KN,07,Saint John Figtree Parish
+KN_08,Q1538034,KN,08,Saint Mary Cayon Parish
+KN_09,Q952735,KN,09,Saint Paul Capisterre Parish
+KN_10,Q1752127,KN,10,Saint Paul Charlestown Parish
+KN_11,Q1725609,KN,11,Saint Peter Basseterre Parish
+KN_12,Q1752122,KN,12,Saint Thomas Lowland Parish
+KN_13,Q1752101,KN,13,Saint Thomas Middle Island Parish
+KN_15,Q376738,KN,15,Trinity Palmetto Point Parish
+KN_K,Q204989,KN,K,Saint Kitts
+KN_N,Q207794,KN,N,Nevis
+KP_01,Q18808,KP,01,Pyongyang
+KP_02,Q109380,KP,02,South Pyongan Province
+KP_03,Q109348,KP,03,North Pyongan Province
+KP_04,Q272406,KP,04,Chagang Province
+KP_05,Q626052,KP,05,South Hwanghae Province
+KP_06,Q109342,KP,06,North Hwanghae Province
+KP_07,Q41416,KP,07,Kangwon Province
+KP_08,Q109368,KP,08,South Hamgyong Province
+KP_09,Q109361,KP,09,North Hamgyong Province
+KP_10,Q110171,KP,10,Ryanggang Province
+KP_13,Q221734,KP,13,Rason
+KP_14,Q109386,KP,14,Nampho
+KR_11,Q8684,KR,11,Seoul
+KR_26,Q16520,KR,26,Busan
+KR_27,Q20927,KR,27,Daegu
+KR_28,Q20934,KR,28,Incheon
+KR_29,Q41283,KR,29,Gwangju
+KR_30,Q20921,KR,30,Daejeon
+KR_31,Q41278,KR,31,Ulsan
+KR_41,Q20937,KR,41,Gyeonggi Province
+KR_42,Q41071,KR,42,Gangwon Province
+KR_43,Q41066,KR,43,North Chungcheong Province
+KR_44,Q41070,KR,44,South Chungcheong Province
+KR_45,Q41157,KR,45,North Jeolla Province
+KR_46,Q41161,KR,46,South Jeolla Province
+KR_47,Q41154,KR,47,North Gyeongsang Province
+KR_48,Q41151,KR,48,South Gyeongsang Province
+KR_49,Q41164,KR,49,Jeju Province
+KR_50,Q20929,KR,50,Sejong City
+KW_AH,Q552354,KW,AH,Al Ahmadi Governorate
+KW_FA,Q1072757,KW,FA,Al Farwaniyah Governorate
+KW_HA,Q747432,KW,HA,Hawalli Governorate
+KW_JA,Q405701,KW,JA,Al Jahra Governorate
+KW_KU,Q1046645,KW,KU,Capital Governorate
+KW_MU,Q913370,KW,MU,Mubarak Al-Kabeer Governorate
+KZ_AKM,Q485056,KZ,AKM,Akmola Region
+KZ_AKT,Q485437,KZ,AKT,Aktobe Region
+KZ_ALA,Q35493,KZ,ALA,Almaty
+KZ_ALM,Q186466,KZ,ALM,Almaty Region
+KZ_AST,Q1520,KZ,AST,Nur-Sultan
+KZ_ATY,Q427658,KZ,ATY,Atyrau Region
+KZ_BAY,Q165413,KZ,BAY,Baikonur
+KZ_KAR,Q485429,KZ,KAR,Karaganda Region
+KZ_KUS,Q485605,KZ,KUS,Kostanay Region
+KZ_KZY,Q485322,KZ,KZY,Kyzylorda Region
+KZ_MAN,Q238931,KZ,MAN,Mangystau Region
+KZ_PAV,Q486144,KZ,PAV,Pavlodar Region
+KZ_SEV,Q485088,KZ,SEV,North Kazakhstan Region
+KZ_SHY,Q485496,KZ,SHY,Shymkent
+KZ_VOS,Q36156,KZ,VOS,East Kazakhstan Region
+KZ_YUZ,Q815330,KZ,YUZ,Turkestan Region
+KZ_ZAP,Q486007,KZ,ZAP,West Kazakhstan Region
+KZ_ZHA,Q486657,KZ,ZHA,Jambyl Region
+LA_AT,Q503004,LA,AT,Attapeu Province
+LA_BK,Q334884,LA,BK,Bokeo Province
+LA_BL,Q2403514,LA,BL,Bolikhamsai Province
+LA_CH,Q334888,LA,CH,Champasak Province
+LA_HO,Q502997,LA,HO,Houaphanh Province
+LA_KH,Q506641,LA,KH,Khammouane Province
+LA_LM,Q948691,LA,LM,Luang Namtha Province
+LA_LP,Q747881,LA,LP,Luang Prabang Province
+LA_OU,Q465961,LA,OU,Oudomxay Province
+LA_PH,Q334868,LA,PH,Phongsaly Province
+LA_SL,Q302656,LA,SL,Salavan Province
+LA_SV,Q465940,LA,SV,Savannakhet Province
+LA_VI,Q720066,LA,VI,Vientiane Province
+LA_VT,Q390377,LA,VT,Vientiane Prefecture
+LA_XA,Q465929,LA,XA,Sainyabuli Province
+LA_XE,Q585707,LA,XE,Sekong Province
+LA_XI,Q465947,LA,XI,Xiangkhouang Province
+LA_XN,Q846580,LA,XN,Xaisomboun
+LA_XS,Q20202028,LA,XS,Xaisomboun Province
+LB_AK,Q556146,LB,AK,Akkar Governorate
+LB_AS,Q390267,LB,AS,North Governorate
+LB_BA,Q651688,LB,BA,Beirut Governorate
+LB_BH,Q787753,LB,BH,Baalbek-Hermel Governorate
+LB_BI,Q319632,LB,BI,Beqaa Governorate
+LB_JA,Q223643,LB,JA,South Governorate
+LB_JL,Q216945,LB,JL,Mount Lebanon Governorate
+LB_NA,Q458417,LB,NA,Nabatieh Governorate
+LC_01,Q1676934,LC,01,Anse la Raye Quarter
+LC_02,Q1049867,LC,02,Castries Quarter
+LC_03,Q1075816,LC,03,Choiseul Quarter
+LC_04,Q182988,LC,04,Dauphin Quarter
+LC_05,Q1188890,LC,05,Dennery Quarter
+LC_06,Q953557,LC,06,Gros Islet Quarter
+LC_07,Q599347,LC,07,Laborie Quarter
+LC_08,Q1240193,LC,08,Micoud Quarter
+LC_09,Q1567791,LC,09,Praslin Quarter
+LC_10,Q1472841,LC,10,Soufrière Quarter
+LC_11,Q1472864,LC,11,Vieux Fort Quarter
+LC_12,Q1032796,LC,12,Canaries
+LI_01,Q49663,LI,01,Balzers
+LI_02,Q4540,LI,02,Eschen
+LI_03,Q49662,LI,03,Gamprin
+LI_04,Q49661,LI,04,Mauren
+LI_05,Q49660,LI,05,Planken
+LI_06,Q49659,LI,06,Ruggell
+LI_07,Q49657,LI,07,Schaan
+LI_08,Q49655,LI,08,Schellenberg
+LI_09,Q49654,LI,09,Triesen
+LI_10,Q49651,LI,10,Triesenberg
+LI_11,Q1844,LI,11,Vaduz
+LK_1,Q856686,LK,1,Western Province
+LK_11,Q606287,LK,11,Colombo District
+LK_12,Q206344,LK,12,Gampaha District
+LK_13,Q728935,LK,13,Kalutara District
+LK_2,Q190716,LK,2,Central Province
+LK_21,Q723002,LK,21,Kandy District
+LK_22,Q787421,LK,22,Matale District
+LK_23,Q1583950,LK,23,Nuwara Eliya District
+LK_3,Q876308,LK,3,Southern Province
+LK_31,Q647649,LK,31,Galle District
+LK_32,Q1281285,LK,32,Matara District
+LK_33,Q723006,LK,33,Hambantota District
+LK_4,Q598745,LK,4,Northern Province
+LK_41,Q1520182,LK,41,Jaffna District
+LK_42,Q1584007,LK,42,Kilinochchi District
+LK_43,Q178003,LK,43,Mannar District
+LK_44,Q527980,LK,44,Vavuniya District
+LK_45,Q1587508,LK,45,Mullaitivu District
+LK_5,Q1046126,LK,5,Eastern Province
+LK_51,Q810960,LK,51,Batticaloa District
+LK_52,Q474395,LK,52,Ampara District
+LK_53,Q1493318,LK,53,Trincomalee District
+LK_6,Q876339,LK,6,North Western Province
+LK_61,Q745073,LK,61,Kurunegala District
+LK_62,Q1665318,LK,62,Puttalam District
+LK_7,Q1057124,LK,7,North Central Province
+LK_71,Q612614,LK,71,Anuradhapura District
+LK_72,Q931057,LK,72,Polonnaruwa District
+LK_8,Q876293,LK,8,Uva Province
+LK_81,Q799713,LK,81,Badulla District
+LK_82,Q923420,LK,82,Monaragala District
+LK_9,Q853272,LK,9,Sabaragamuwa Province
+LK_91,Q1587175,LK,91,Ratnapura district
+LK_92,Q1737803,LK,92,Kegalle District
+LR_BG,Q877578,LR,BG,Bong County
+LR_BM,Q844127,LR,BM,Bomi County
+LR_CM,Q1047921,LR,CM,Grand Cape Mount County
+LR_GB,Q1047895,LR,GB,Grand Bassa County
+LR_GG,Q950841,LR,GG,Grand Gedeh County
+LR_GK,Q574952,LR,GK,Grand Kru County
+LR_GP,Q592251,LR,GP,Gbarpolu County
+LR_LO,Q870130,LR,LO,Lofa County
+LR_MG,Q1052737,LR,MG,Margibi County
+LR_MO,Q862608,LR,MO,Montserrado County
+LR_MY,Q870138,LR,MY,Maryland County
+LR_NI,Q868497,LR,NI,Nimba
+LR_RG,Q1047875,LR,RG,River Gee County
+LR_RI,Q955095,LR,RI,River Cess County
+LR_SI,Q1043644,LR,SI,Sinoe County
+LS_A,Q844921,LS,A,Maseru District
+LS_B,Q535632,LS,B,Butha-Buthe District
+LS_C,Q819987,LS,C,Leribe District
+LS_D,Q737086,LS,D,Berea District
+LS_E,Q817342,LS,E,Mafeteng District
+LS_F,Q839074,LS,F,Mohale's Hoek District
+LS_G,Q839060,LS,G,Quthing District
+LS_H,Q850423,LS,H,Qacha's Nek District
+LS_J,Q817340,LS,J,Mokhotlong District
+LS_K,Q817327,LS,K,Thaba-Tseka District
+LT_01,Q1023041,LT,01,Akmenė District Municipality
+LT_02,Q3685407,LT,02,Alytus City Municipality
+LT_03,Q769940,LT,03,Alytus District Municipality
+LT_04,Q2089772,LT,04,Anykščiai District Municipality
+LT_05,Q2015893,LT,05,Birštonas Municipality
+LT_06,Q763504,LT,06,Biržai District Municipality
+LT_07,Q669649,LT,07,Druskininkai municipality
+LT_08,Q2089777,LT,08,Elektrėnai municipality
+LT_09,Q2069330,LT,09,Ignalina District Municipality
+LT_10,Q1351768,LT,10,Jonava District Municipality
+LT_11,Q610133,LT,11,Joniškis District Municipality
+LT_12,Q2089815,LT,12,Jurbarkas District Municipality
+LT_13,Q2069320,LT,13,Kaišiadorys District Municipality
+LT_14,Q1461987,LT,14,Kalvarija municipality
+LT_15,Q928938,LT,15,Kaunas City Municipality
+LT_16,Q1351722,LT,16,Kaunas District Municipality
+LT_17,Q1461972,LT,17,Kazlų Rūda municipality
+LT_18,Q46786,LT,18,Kėdainiai District Municipality
+LT_19,Q1387044,LT,19,Kelmė District Municipality
+LT_20,Q16456513,LT,20,Klaipeda City Municipality
+LT_21,Q141132,LT,21,Klaipėda District Municipality
+LT_22,Q156560,LT,22,Kretinga District Municipality
+LT_23,Q2089791,LT,23,Kupiškis District Municipality
+LT_24,Q2069342,LT,24,Lazdijai District Municipality
+LT_25,Q1931377,LT,25,Marijampolė Municipality
+LT_26,Q313132,LT,26,Mažeikiai District Municipality
+LT_27,Q2089785,LT,27,Molėtai District Municipality
+LT_28,Q9305847,LT,28,Neringa Municipality
+LT_29,Q2283574,LT,29,Pagėgiai municipality
+LT_30,Q1657116,LT,30,Pakruojis District Municipality
+LT_31,Q3685410,LT,31,Palanga City Municipality
+LT_32,Q3685412,LT,32,Panevėžys City Municipality
+LT_33,Q1351758,LT,33,Panevėžys District Municipality
+LT_34,Q1461920,LT,34,Pasvalys District Municipality
+LT_35,Q404943,LT,35,Plungė District Municipality
+LT_36,Q47090,LT,36,Prienai District Municipality
+LT_37,Q1755961,LT,37,Radviliškis District Municipality
+LT_38,Q2069355,LT,38,Raseiniai District Municipality
+LT_39,Q712011,LT,39,Rietavas municipality
+LT_40,Q766969,LT,40,Rokiškis District Municipality
+LT_41,Q2021307,LT,41,Šakiai District Municipality
+LT_42,Q1799182,LT,42,Šalčininkai District Municipality
+LT_43,Q4993831,LT,43,Šiauliai City Municipality
+LT_44,Q1417346,LT,44,Šiauliai District Municipality
+LT_45,Q677400,LT,45,Šilalė District Municipality
+LT_46,Q282098,LT,46,Šilutė District Municipality
+LT_47,Q58882,LT,47,Širvintos District Municipality
+LT_48,Q219115,LT,48,Skuodas District Municipality
+LT_49,Q1813849,LT,49,Švenčionys District Municipality
+LT_50,Q2071640,LT,50,Tauragė District Municipality
+LT_51,Q588916,LT,51,Telšiai District Municipality
+LT_52,Q1987743,LT,52,Trakai District Municipality
+LT_53,Q68929,LT,53,Ukmergė District Municipality
+LT_54,Q2089798,LT,54,Utena District Municipality
+LT_55,Q1351747,LT,55,Varėna District Municipality
+LT_56,Q2021318,LT,56,Vilkaviškis District Municipality
+LT_57,Q923117,LT,57,Vilnius City Municipality
+LT_58,Q118903,LT,58,Vilnius District Municipality
+LT_59,Q2558824,LT,59,Visaginas Municipality
+LT_60,Q664415,LT,60,Zarasai District Municipality
+LT_AL,Q669470,LT,AL,Alytus County
+LT_KL,Q475207,LT,KL,Klaipėda County
+LT_KU,Q853861,LT,KU,Kaunas County
+LT_MR,Q853948,LT,MR,Marijampolė County
+LT_PN,Q188085,LT,PN,Panevėžys County
+LT_SA,Q186410,LT,SA,Šiauliai County
+LT_TA,Q188960,LT,TA,Tauragė County
+LT_TE,Q188963,LT,TE,Telšiai County
+LT_UT,Q188659,LT,UT,Utena County
+LT_VL,Q188061,LT,VL,Vilnius County
+LU_CA,Q397678,LU,CA,Canton of Capellen
+LU_CL,Q691793,LU,CL,Canton of Clervaux
+LU_D,Q208747,LU,D,Diekirch District
+LU_DI,Q691842,LU,DI,Canton of Diekirch
+LU_EC,Q720221,LU,EC,Canton of Echternach
+LU_ES,Q188283,LU,ES,Canton of Esch-sur-Alzette
+LU_G,Q208284,LU,G,Grevenmacher District
+LU_GR,Q836002,LU,GR,Canton of Grevenmacher
+LU_L,Q2032,LU,L,Luxembourg District
+LU_LU,Q691741,LU,LU,Canton of Luxembourg
+LU_ME,Q753917,LU,ME,Canton of Mersch
+LU_RD,Q835980,LU,RD,Canton of Redange
+LU_RM,Q691781,LU,RM,Canton of Remich
+LU_VD,Q845600,LU,VD,Canton of Vianden
+LU_WI,Q550021,LU,WI,Canton of Wiltz
+LV_001,Q2045300,LV,001,Aglona Municipality
+LV_002,Q865676,LV,002,Aizkraukle Municipality
+LV_003,Q2485015,LV,003,Aizpute Municipality
+LV_004,Q865658,LV,004,Aknīste Municipality
+LV_005,Q2989420,LV,005,Aloja Municipality
+LV_006,Q1995769,LV,006,Alsunga Municipality
+LV_007,Q3393445,LV,007,Alūksne Municipality
+LV_008,Q1892063,LV,008,Amata Municipality
+LV_009,Q2343837,LV,009,Ape Municipality
+LV_010,Q1934932,LV,010,Auce Municipality
+LV_011,Q3019837,LV,011,Ādaži Municipality
+LV_012,Q2079353,LV,012,Babīte Municipality
+LV_013,Q2030886,LV,013,Baldone Municipality
+LV_014,Q2361012,LV,014,Baltinava Municipality
+LV_015,Q2018672,LV,015,Balvi Municipality
+LV_016,Q2365998,LV,016,Bauska Municipality
+LV_017,Q2018692,LV,017,Beverīna Municipality
+LV_018,Q865717,LV,018,Brocēni Municipality
+LV_019,Q2079428,LV,019,Burtnieki Municipality
+LV_020,Q2453125,LV,020,Carnikava Municipality
+LV_021,Q2327041,LV,021,Cesvaine Municipality
+LV_022,Q1989164,LV,022,Cēsis Municipality
+LV_023,Q1955102,LV,023,Cibla Municipality
+LV_024,Q2361131,LV,024,Dagda Municipality
+LV_025,Q960572,LV,025,Daugavpils Municipality
+LV_026,Q519580,LV,026,Dobele Municipality
+LV_027,Q2274832,LV,027,Dundaga Municipality
+LV_028,Q1962356,LV,028,Durbe Municipality
+LV_029,Q2079455,LV,029,Engure Municipality
+LV_030,Q2079406,LV,030,Ērgļi Municipality
+LV_031,Q2171669,LV,031,Garkalne Municipality
+LV_032,Q2320320,LV,032,Grobiņa Municipality
+LV_033,Q209187,LV,033,Gulbene Municipality
+LV_034,Q2337266,LV,034,Iecava Municipality
+LV_035,Q2337298,LV,035,Ikšķile Municipality
+LV_036,Q2025473,LV,036,Ilūkste Municipality
+LV_037,Q2252820,LV,037,Inčukalns Municipality
+LV_038,Q2880128,LV,038,Jaunjelgava Municipality
+LV_039,Q2306846,LV,039,Jaunpiebalga Municipality
+LV_040,Q2072154,LV,040,Jaunpils Municipality
+LV_041,Q1579113,LV,041,Jelgava Municipality
+LV_042,Q1579101,LV,042,Jēkabpils Municipality
+LV_043,Q2024643,LV,043,Kandava Municipality
+LV_044,Q2395952,LV,044,Kārsava Municipality
+LV_045,Q2304840,LV,045,Kocēni Municipality
+LV_046,Q865682,LV,046,Koknese Municipality
+LV_047,Q1831695,LV,047,Krāslava Municipality
+LV_048,Q2302998,LV,048,Krimulda Municipality
+LV_049,Q2277478,LV,049,Krustpils Municipality
+LV_050,Q2337188,LV,050,Kuldīga Municipality
+LV_051,Q2072209,LV,051,Ķegums Municipality
+LV_052,Q2268947,LV,052,Ķekava Municipality
+LV_053,Q279004,LV,053,Lielvārde Municipality
+LV_054,Q1579076,LV,054,Limbaži Municipality
+LV_055,Q1023736,LV,055,Līgatne Municipality
+LV_056,Q2277489,LV,056,Līvāni Municipality
+LV_057,Q2072165,LV,057,Lubāna Municipality
+LV_058,Q932445,LV,058,Ludza Municipality
+LV_059,Q2198472,LV,059,Madona Municipality
+LV_060,Q2283334,LV,060,Mazsalaca Municipality
+LV_061,Q2304902,LV,061,Mālpils Municipality
+LV_062,Q2232018,LV,062,Mārupe Municipality
+LV_063,Q2416186,LV,063,Mērsrags Municipality
+LV_064,Q773027,LV,064,Naukšēni Municipality
+LV_065,Q2161795,LV,065,Nereta Municipality
+LV_066,Q1950456,LV,066,Nīca Municipality
+LV_067,Q2321579,LV,067,Ogre Municipality
+LV_068,Q2451375,LV,068,Olaine Municipality
+LV_069,Q2304926,LV,069,Ozolnieki Municipality
+LV_070,Q2304831,LV,070,Pārgauja Municipality
+LV_071,Q1942469,LV,071,Pāvilosta Municipality
+LV_072,Q865649,LV,072,Pļaviņas Municipality
+LV_073,Q2277469,LV,073,Preiļi Municipality
+LV_074,Q2304893,LV,074,Priekule Municipality
+LV_075,Q2299231,LV,075,Priekuļi Municipality
+LV_076,Q2124808,LV,076,Rauna Municipality
+LV_077,Q1518841,LV,077,Rēzekne Municipality
+LV_078,Q2106159,LV,078,Riebiņi Municipality
+LV_079,Q2302986,LV,079,Roja Municipality
+LV_080,Q11068461,LV,080,Ropaži Municipality
+LV_081,Q2124995,LV,081,Rucava Municipality
+LV_082,Q1837354,LV,082,Rugāji Municipality
+LV_083,Q2122124,LV,083,Rundāle Municipality
+LV_084,Q2299415,LV,084,Rūjiena Municipality
+LV_085,Q2375848,LV,085,Sala Municipality
+LV_086,Q2251931,LV,086,Salacgrīva Municipality
+LV_087,Q2140753,LV,087,Salaspils Municipality
+LV_088,Q2299261,LV,088,Saldus Municipality
+LV_089,Q371429,LV,089,Saulkrasti Municipality
+LV_090,Q2299447,LV,090,Sēja Municipality
+LV_091,Q2299251,LV,091,Sigulda Municipality
+LV_092,Q2286864,LV,092,Skrīveri Municipality
+LV_093,Q2299239,LV,093,Skrunda Municipality
+LV_094,Q1959984,LV,094,Smiltene Municipality
+LV_095,Q2299214,LV,095,Stopiņi Municipality
+LV_096,Q2299223,LV,096,Strenči Municipality
+LV_097,Q2302964,LV,097,Talsi Municipality
+LV_098,Q2269685,LV,098,Tērvete Municipality
+LV_099,Q369007,LV,099,Tukums Municipality
+LV_100,Q511151,LV,100,Vaiņode Municipality
+LV_101,Q1945263,LV,101,Valka Municipality
+LV_102,Q432596,LV,102,Varakļāni Municipality
+LV_103,Q1023757,LV,103,Vārkava Municipality
+LV_104,Q1920815,LV,104,Vecpiebalga Municipality
+LV_105,Q2299436,LV,105,Vecumnieki Municipality
+LV_106,Q1345325,LV,106,Ventspils Municipality
+LV_107,Q2093996,LV,107,Viesīte Municipality
+LV_108,Q1869075,LV,108,Viļaka Municipality
+LV_109,Q2018681,LV,109,Viļāni Municipality
+LV_110,Q3274762,LV,110,Zilupe Municipality
+LV_DGV,Q80021,LV,DGV,Daugavpils
+LV_JEL,Q179830,LV,JEL,Jelgava
+LV_JKB,Q191120,LV,JKB,Jēkabpils
+LV_JUR,Q178382,LV,JUR,Jūrmala
+LV_LPX,Q167668,LV,LPX,Liepāja
+LV_REZ,Q180379,LV,REZ,Rēzekne
+LV_RIX,Q1773,LV,RIX,Riga
+LV_VEN,Q104036,LV,VEN,Ventspils
+LV_VMR,Q108037,LV,VMR,Valmiera
+LY_BA,Q40816,LY,BA,Benghazi
+LY_BU,Q25931,LY,BU,Butnan District
+LY_DR,Q26124,LY,DR,Derna District
+LY_GT,Q48236,LY,GT,Ghat District
+LY_JA,Q32841,LY,JA,Jabal al Akhdar
+LY_JG,Q25632,LY,JG,Jabal al Gharbi District
+LY_JI,Q329060,LY,JI,Jafara
+LY_JU,Q48247,LY,JU,Jufra
+LY_KF,Q48200,LY,KF,Kufra District
+LY_MB,Q209778,LY,MB,Murqub
+LY_MI,Q32845,LY,MI,Misrata District
+LY_MJ,Q26023,LY,MJ,Marj District
+LY_MQ,Q48239,LY,MQ,Murzuq District
+LY_MS,Q131323,LY,MS,Misrata District
+LY_NL,Q27659,LY,NL,Nalut District
+LY_NQ,Q26161,LY,NQ,Nuqat al Khams
+LY_SB,Q26132,LY,SB,Sabha District
+LY_SR,Q26417,LY,SR,Sirte District
+LY_ST,Q192918,LY,ST,Sabratha District
+LY_TB,Q32837,LY,TB,Tripoli District
+LY_WA,Q26000,LY,WA,Al Wahat District
+LY_WD,Q48233,LY,WD,Wadi al Hayaa District
+LY_WS,Q48232,LY,WS,Wadi al Shatii District
+LY_ZA,Q26153,LY,ZA,Zawiya District
+LY_ZL,Q207259,LY,ZL,Zliten District
+MA_01,Q19951300,MA,01,Tanger-Tétouan-Al Hoceïma
+MA_02,Q23048167,MA,02,Oriental
+MA_02,Q477968,MA,02,Gharb-Chrarda-Béni Hssen
+MA_03,Q19951027,MA,03,Fès-Meknès
+MA_03,Q818390,MA,03,Taza-fes-maknass
+MA_04,Q19951239,MA,04,Rabat-Salé-Kénitra
+MA_04,Q648160,MA,04,Oriental
+MA_05,Q19953016,MA,05,Béni Mellal-Khénifra
+MA_05,Q648249,MA,05,Fès-méknas-boulmane
+MA_06,Q19843788,MA,06,Casablanca-Settat
+MA_06,Q497006,MA,06,Meknès-Tafilalet
+MA_07,Q19951125,MA,07,Marrakesh-Safi
+MA_07,Q477961,MA,07,Rabat-Salé-Zemmour-Zaër
+MA_08,Q19950954,MA,08,Drâa-Tafilalet
+MA_08,Q478222,MA,08,Grand Casablanca
+MA_09,Q20652586,MA,09,Souss-Massa
+MA_09,Q390331,MA,09,Chaouia-Ouardigha
+MA_10,Q19951051,MA,10,Guelmim-Oued Noun
+MA_10,Q390366,MA,10,Doukkala-Abda
+MA_11,Q19951088,MA,11,Laâyoune-Sakia El Hamra
+MA_11,Q477940,MA,11,Marrakesh-Tensift-El Haouz
+MA_12,Q21235104,MA,12,Dakhla-Oued Ed-Dahab
+MA_12,Q477942,MA,12,Tadla-Azilal
+MA_13,Q264529,MA,13,Suss-Massa-Draa
+MA_14,Q529796,MA,14,Guelmim-Es Semara
+MA_15,Q818739,MA,15,Laâyoune-Boujdour-Sakia El Hamra
+MA_16,Q693528,MA,16,Oued Ed-Dahab-Lagouira
+MA_AGD,Q170525,MA,AGD,Agadir
+MA_AOU,Q972665,MA,AOU,Aousserd Province
+MA_ASZ,Q180994,MA,ASZ,Assa-Zag Province
+MA_AZI,Q793763,MA,AZI,Azilal Province
+MA_BEM,Q1019461,MA,BEM,Béni-Mellal Province
+MA_BER,Q820802,MA,BER,Berkane Province
+MA_BES,Q15198365,MA,BES,Ben Slimane Province
+MA_BOD,Q895028,MA,BOD,Boujdour Province
+MA_BOM,Q895063,MA,BOM,Boulemane Province
+MA_CAS,Q7903,MA,CAS,Casablanca
+MA_CHE,Q2354922,MA,CHE,Chefchaouen Province
+MA_CHI,Q1072085,MA,CHI,Chichaoua Province
+MA_CHT,Q2424820,MA,CHT,Shtouka Ait Baha Province
+MA_ERR,Q2024447,MA,ERR,Errachidia Province
+MA_ESI,Q1368543,MA,ESI,Essaouira Province
+MA_ESM,Q1366420,MA,ESM,Es Semara Province
+MA_FAH,Q2013946,MA,FAH,Fahs Anjra Province
+MA_FES,Q80985,MA,FES,Fez
+MA_FIG,Q1412034,MA,FIG,Figuig Province
+MA_GUE,Q923219,MA,GUE,Guelmim Province
+MA_HAJ,Q2540509,MA,HAJ,El Hajeb Province
+MA_HAO,Q2150989,MA,HAO,Al Haouz Province
+MA_HOC,Q1969619,MA,HOC,Al Hoceïma Province
+MA_IFR,Q2301648,MA,IFR,Ifrane Province
+MA_INE,Q1662264,MA,INE,Inezgane-Aït Melloul Prefecture
+MA_JDI,Q599606,MA,JDI,El Jadida Province
+MA_JRA,Q1687516,MA,JRA,Jerada Province
+MA_KEN,Q284878,MA,KEN,Kénitra Province
+MA_KES,Q970179,MA,KES,Kelaat Sraghna Province
+MA_KHE,Q1740735,MA,KHE,Khémisset Province
+MA_KHN,Q1820589,MA,KHN,Khénifra Province
+MA_KHO,Q1740686,MA,KHO,Khouribga Province
+MA_LAA,Q631610,MA,LAA,Laâyoune Province
+MA_LAR,Q1759567,MA,LAR,Larache Province
+MA_MED,Q1957680,MA,MED,Mediouna Province
+MA_MEK,Q178663,MA,MEK,Meknes
+MA_MMD,Q101625,MA,MMD,Marrakesh
+MA_MMD,Q13365871,MA,MMD,Marrakech-Medina
+MA_MMN,Q101625,MA,MMN,Marrakesh
+MA_MMN,Q13365870,MA,MMN,Marrakech-Menara
+MA_MOH,Q647417,MA,MOH,Mohammedia
+MA_MOU,Q1950226,MA,MOU,Moulay Yacoub Province
+MA_NAD,Q367864,MA,NAD,Nador Province
+MA_NOU,Q516261,MA,NOU,Nouaceur Province
+MA_OUA,Q1629229,MA,OUA,Ouarzazate Province
+MA_OUD,Q2410368,MA,OUD,Oued Ed-Dahab Province
+MA_OUJ,Q193802,MA,OUJ,Oujda
+MA_RAB,Q3551,MA,RAB,Rabat
+MA_SAF,Q637778,MA,SAF,Safi Province
+MA_SAL,Q466046,MA,SAL,Salé
+MA_SEF,Q1969535,MA,SEF,Sefrou Province
+MA_SET,Q1523840,MA,SET,Settat Province
+MA_SIK,Q1969542,MA,SIK,Sidi Kacem Province
+MA_SKH,Q1635606,MA,SKH,Temara
+MA_SYB,Q101625,MA,SYB,Marrakesh
+MA_SYB,Q12228329,MA,SYB,Sidi Youssef Ben Ali
+MA_TAI,Q2165392,MA,TAI,Taourirt Province
+MA_TAO,Q1969671,MA,TAO,Taounate Province
+MA_TAR,Q2092298,MA,TAR,Taroudant Province
+MA_TAT,Q546437,MA,TAT,Tata Province
+MA_TAZ,Q1819589,MA,TAZ,Taza Province
+MA_TET,Q1257443,MA,TET,Tétouan Province
+MA_TIZ,Q2339589,MA,TIZ,Tiznit Province
+MA_TNG,Q126148,MA,TNG,Tangier
+MA_TNT,Q972535,MA,TNT,Tan-Tan Province
+MA_ZAG,Q2265471,MA,ZAG,Zagora Province
+MC_CL,Q55102,MC,CL,La Colle
+MC_CO,Q55095,MC,CO,La Condamine
+MC_FO,Q55098,MC,FO,Fontvieille
+MC_GA,Q13378488,MC,GA,La Gare
+MC_JE,Q1384208,MC,JE,Jardin Exotique de Monaco
+MC_LA,Q55088,MC,LA,Larvotto
+MC_MA,Q13378486,MC,MA,Malbousquet
+MC_MC,Q45240,MC,MC,Monte Carlo
+MC_MG,Q55108,MC,MG,Moneghetti
+MC_MO,Q55115,MC,MO,City of Monaco
+MC_MU,Q13378485,MC,MU,Moulins
+MC_PH,Q7230673,MC,PH,Port Hercules
+MC_SD,Q584191,MC,SD,Sainte-Dévote Chapel
+MC_SO,Q13378482,MC,SO,La Source
+MC_SP,Q13378480,MC,SP,Spélugues
+MC_SR,Q55089,MC,SR,"Saint Roman, Monaco"
+MC_VR,Q13378479,MC,VR,Vallon de la Rousse
+MD_AN,Q769224,MD,AN,Anenii Noi District
+MD_BA,Q29017181,MD,BA,Bălți Municipality
+MD_BA,Q37801,MD,BA,Bălți
+MD_BD,Q18088065,MD,BD,Bender Municipality
+MD_BR,Q753795,MD,BR,Briceni District
+MD_BS,Q1980044,MD,BS,Basarabeasca District
+MD_CA,Q2128882,MD,CA,Cahul District
+MD_CL,Q2128868,MD,CL,Călărași District
+MD_CM,Q286646,MD,CM,Cimișlia District
+MD_CR,Q2128862,MD,CR,Criuleni District
+MD_CS,Q2128869,MD,CS,Căușeni District
+MD_CT,Q684183,MD,CT,Cantemir District
+MD_CU,Q17176229,MD,CU,Chișinău Municipality
+MD_CU,Q21197,MD,CU,Chișinău
+MD_DO,Q1061128,MD,DO,Dondușeni District
+MD_DR,Q865594,MD,DR,Drochia District
+MD_DU,Q878278,MD,DU,Dubăsari District
+MD_ED,Q878290,MD,ED,Edineț District
+MD_FA,Q878375,MD,FA,Fălești District
+MD_FL,Q865726,MD,FL,Florești District
+MD_GA,Q164819,MD,GA,Gagauzia
+MD_GL,Q860716,MD,GL,Glodeni District
+MD_HI,Q878297,MD,HI,Hîncești District
+MD_IA,Q2128964,MD,IA,Ialoveni District
+MD_LE,Q1826662,MD,LE,Leova District
+MD_NI,Q878266,MD,NI,Nisporeni District
+MD_OC,Q266444,MD,OC,Ocnița District
+MD_OR,Q2112462,MD,OR,Orhei District
+MD_RE,Q878317,MD,RE,Rezina District
+MD_RI,Q611656,MD,RI,Rîșcani District
+MD_SD,Q865639,MD,SD,Șoldănești District
+MD_SI,Q1796621,MD,SI,Sîngerei District
+MD_SN,Q648767,MD,SN,Transnistria
+MD_SO,Q2129022,MD,SO,Soroca District
+MD_ST,Q878308,MD,ST,Strășeni District
+MD_SV,Q2129061,MD,SV,Ștefan Vodă District
+MD_TA,Q865884,MD,TA,Taraclia District
+MD_TE,Q2129025,MD,TE,Telenești District
+MD_UN,Q854443,MD,UN,Ungheni District
+ME_01,Q2384773,ME,01,Andrijevica Municipality
+ME_02,Q2604068,ME,02,Bar Municipality
+ME_03,Q4853794,ME,03,Berane Municipality
+ME_04,Q4086488,ME,04,Bijelo Polje Municipality
+ME_05,Q3739214,ME,05,Budva Municipality
+ME_06,Q3305075,ME,06,Old Royal Capital Cetinje
+ME_07,Q3741507,ME,07,Danilovgrad Municipality
+ME_08,Q193103,ME,08,Herceg Novi
+ME_08,Q3317366,ME,08,Herceg Novi Municipality
+ME_09,Q3303233,ME,09,Kolašin Municipality
+ME_10,Q4856305,ME,10,Kotor Municipality
+ME_11,Q3299782,ME,11,Mojkovac Municipality
+ME_12,Q4865016,ME,12,Nikšić Municipality
+ME_13,Q4859821,ME,13,Plav Municipality
+ME_14,Q3299950,ME,14,Pljevlja Municipality
+ME_15,Q4864476,ME,15,Plužine Municipality
+ME_16,Q3305250,ME,16,Podgorica Municipality
+ME_17,Q3296677,ME,17,Rožaje Municipality
+ME_18,Q13365880,ME,18,Šavnik Municipality
+ME_19,Q3738564,ME,19,Tivat Municipality
+ME_20,Q3305169,ME,20,Ulcinj Municipality
+ME_21,Q3304454,ME,21,Žabljak Municipality
+ME_22,Q16085370,ME,22,Gusinje
+ME_23,Q15630696,ME,23,Petnjica Municipality
+MG_A,Q639418,MG,A,Toamasina Province
+MG_D,Q656073,MG,D,Antsiranana Province
+MG_F,Q841197,MG,F,Fianarantsoa Province
+MG_M,Q669259,MG,M,Mahajanga Province
+MG_T,Q489821,MG,T,Antananarivo Province
+MG_U,Q162020,MG,U,Toliara Province
+MH_ALK,Q405378,MH,ALK,Ailuk Atoll
+MH_ALL,Q405165,MH,ALL,Ailinglaplap Atoll
+MH_ARN,Q694057,MH,ARN,Arno Atoll
+MH_AUR,Q260549,MH,AUR,Aur Atoll
+MH_EBO,Q152754,MH,EBO,Ebon Atoll
+MH_ENI,Q649190,MH,ENI,Enewetak Atoll
+MH_JAB,Q697805,MH,JAB,Jabat Island
+MH_JAL,Q168576,MH,JAL,Jaluit Atoll
+MH_KIL,Q697832,MH,KIL,Kili Island
+MH_KWA,Q309172,MH,KWA,Kwajalein
+MH_L,Q697840,MH,L,Ralik Chain
+MH_LAE,Q741121,MH,LAE,Lae Atoll
+MH_LIB,Q376862,MH,LIB,Lib Island
+MH_LIK,Q518353,MH,LIK,Likiep Atoll
+MH_MAJ,Q12919,MH,MAJ,Majuro
+MH_MAL,Q567926,MH,MAL,Maloelap Atoll
+MH_MEJ,Q703543,MH,MEJ,Mejit Island
+MH_MIL,Q700051,MH,MIL,Mili Atoll
+MH_NMK,Q697819,MH,NMK,Namdrik Atoll
+MH_NMU,Q703627,MH,NMU,Namu Atoll
+MH_RON,Q542619,MH,RON,Rongelap Atoll
+MH_T,Q700048,MH,T,Ratak Chain
+MH_UJA,Q697802,MH,UJA,Ujae Atoll
+MH_UTI,Q700015,MH,UTI,Utirik Atoll
+MH_WTH,Q175931,MH,WTH,Wotho Atoll
+MH_WTJ,Q518210,MH,WTJ,Wotje Atoll
+MK_101,Q2088561,MK,101,Veles Municipality
+MK_102,Q1992701,MK,102,Gradsko Municipality
+MK_103,Q2370973,MK,103,Demir Kapija Municipality
+MK_104,Q1155055,MK,104,Kavadarci Municipality
+MK_105,Q1996470,MK,105,Lozovo Municipality
+MK_106,Q3246545,MK,106,Negotino Municipality
+MK_107,Q2088585,MK,107,Rosoman Municipality
+MK_108,Q2308277,MK,108,Sveti Nikole Municipality
+MK_109,Q1994547,MK,109,Čaška Municipality
+MK_15,Q1998500,MK,15,Vraneštica Municipality
+MK_201,Q793727,MK,201,Berovo Municipality
+MK_202,Q2479526,MK,202,Vinica Municipality
+MK_203,Q1323322,MK,203,Delčevo Municipality
+MK_204,Q950881,MK,204,Zrnovci Municipality
+MK_205,Q1346554,MK,205,Karbinci
+MK_206,Q1819289,MK,206,Kočani Municipality
+MK_207,Q2041219,MK,207,Makedonska Kamenica Municipality
+MK_208,Q426114,MK,208,Pehčevo Municipality
+MK_209,Q2270414,MK,209,Probištip Municipality
+MK_210,Q281898,MK,210,Češinovo-Obleševo Municipality
+MK_211,Q2423082,MK,211,Štip Municipality
+MK_28,Q1996439,MK,28,Drugovo Municipality
+MK_301,Q2029825,MK,301,Vevčani Municipality
+MK_303,Q1344996,MK,303,Debar Municipality
+MK_304,Q1323340,MK,304,Debarca Municipality
+MK_307,Q2018957,MK,307,Kičevo Municipality
+MK_308,Q2364199,MK,308,Makedonski Brod Municipality
+MK_31,Q2018939,MK,31,Zajas Municipality
+MK_310,Q1125333,MK,310,Ohrid Municipality
+MK_311,Q2018921,MK,311,Plasnica Municipality
+MK_312,Q749618,MK,312,Struga Municipality
+MK_313,Q1779085,MK,313,Centar Župa Municipality
+MK_401,Q1992752,MK,401,Bogdanci Municipality
+MK_402,Q1779775,MK,402,Bosilovo Municipality
+MK_403,Q2018965,MK,403,Valandovo Municipality
+MK_404,Q2018980,MK,404,Vasilevo Municipality
+MK_405,Q2018974,MK,405,Gevgelija Municipality
+MK_406,Q1996413,MK,406,Dojran Municipality
+MK_407,Q1992728,MK,407,Konče Municipality
+MK_408,Q1946579,MK,408,Novo Selo Municipality
+MK_409,Q2738284,MK,409,Radoviš Municipality
+MK_410,Q2308287,MK,410,Strumica Municipality
+MK_501,Q159380,MK,501,Bitola Municipality
+MK_502,Q856278,MK,502,Demir Hisar Municipality
+MK_503,Q1992691,MK,503,Dolneni Municipality
+MK_504,Q2018930,MK,504,Krivogaštani Municipality
+MK_505,Q2476159,MK,505,Kruševo Municipality
+MK_506,Q1839369,MK,506,Mogila Municipality
+MK_507,Q2088022,MK,507,Novaci Municipality
+MK_508,Q6312454,MK,508,Prilep Municipality
+MK_509,Q740591,MK,509,Resen Municipality
+MK_57,Q2001785,MK,57,Oslomej Municipality
+MK_601,Q9035785,MK,601,Bogovinje Municipality
+MK_602,Q1057563,MK,602,Brvenica Municipality
+MK_603,Q1996740,MK,603,Vrapčište Municipality
+MK_604,Q521112,MK,604,Gostivar Municipality
+MK_605,Q1996410,MK,605,Želino Municipality
+MK_606,Q431908,MK,606,Jegunovce Municipality
+MK_607,Q1323332,MK,607,Mavrovo and Rostuša Municipality
+MK_608,Q2282274,MK,608,Tearce Municipality
+MK_609,Q3245456,MK,609,Tetovo Municipality
+MK_701,Q1992716,MK,701,Kratovo Municipality
+MK_702,Q1422453,MK,702,Kriva Palanka Municipality
+MK_703,Q2352376,MK,703,Kumanovo Municipality
+MK_704,Q2041236,MK,704,Lipkovo Municipality
+MK_705,Q1475001,MK,705,Rankovce Municipality
+MK_706,Q2128903,MK,706,Staro Nagoričane Municipality
+MK_801,Q1992708,MK,801,Aerodrom Municipality
+MK_802,Q597345,MK,802,Aračinovo Municipality
+MK_803,Q935620,MK,803,Butel Municipality
+MK_804,Q2019836,MK,804,Gazi Baba Municipality
+MK_805,Q924278,MK,805,Gjorče Petrov Municipality
+MK_806,Q9050283,MK,806,Zelenikovo Municipality
+MK_807,Q657754,MK,807,Ilinden Municipality
+MK_808,Q1463246,MK,808,Karpoš Municipality
+MK_809,Q1386136,MK,809,Kisela Voda Municipality
+MK_810,Q1018191,MK,810,Petrovec Municipality
+MK_811,Q1309481,MK,811,Saraj Municipality
+MK_812,Q2282240,MK,812,Sopište Municipality
+MK_813,Q2088034,MK,813,Studeničani Municipality
+MK_814,Q1463152,MK,814,Centar Municipality
+MK_815,Q1419314,MK,815,Čair Municipality
+MK_816,Q629720,MK,816,Čučer-Sandevo Municipality
+MK_817,Q1020859,MK,817,Šuto Orizari Municipality
+MK_85,Q2575820,MK,85,Greater Skopje
+MK_85,Q384,MK,85,Skopje
+ML_1,Q332113,ML,1,Kayes Region
+ML_10,Q2424657,ML,10,Taoudénit Region
+ML_2,Q287789,ML,2,Koulikoro Region
+ML_3,Q461298,ML,3,Sikasso Region
+ML_4,Q656845,ML,4,Ségou Region
+ML_5,Q214155,ML,5,Mopti Region
+ML_6,Q339462,ML,6,Tombouctou Region
+ML_7,Q332392,ML,7,Gao Region
+ML_8,Q338988,ML,8,Kidal Region
+ML_9,Q3455550,ML,9,Ménaka Region
+ML_BKO,Q3703,ML,BKO,Bamako
+MM_01,Q847289,MM,01,Sagaing Region
+MM_02,Q800124,MM,02,Bago
+MM_03,Q833013,MM,03,Magway Region
+MM_04,Q119494,MM,04,Mandalay Region
+MM_05,Q843954,MM,05,Tanintharyi Region
+MM_06,Q856781,MM,06,Yangon Region
+MM_07,Q47047,MM,07,Ayeyarwady Region
+MM_11,Q140646,MM,11,Kachin State
+MM_12,Q652845,MM,12,Kayah State
+MM_13,Q495342,MM,13,Kayin State
+MM_14,Q46910,MM,14,Chin State
+MM_15,Q818742,MM,15,Mon State
+MM_16,Q233838,MM,16,Rakhine State
+MM_17,Q456847,MM,17,Shan State
+MM_18,Q4796,MM,18,Naypyidaw Union Territory
+MN_035,Q234710,MN,035,Orkhon Province
+MN_037,Q18827,MN,037,Darkhan-Uul Province
+MN_039,Q239040,MN,039,Khentii Province
+MN_041,Q244788,MN,041,Khövsgöl Province
+MN_043,Q194098,MN,043,Khovd Province
+MN_046,Q192942,MN,046,Uvs Province
+MN_047,Q276195,MN,047,Töv Province
+MN_049,Q234680,MN,049,Selenge Province
+MN_051,Q244804,MN,051,Sükhbaatar Province
+MN_053,Q235579,MN,053,Ömnögovi Province
+MN_055,Q234713,MN,055,Övörkhangai Province
+MN_057,Q167764,MN,057,Zavkhan Province
+MN_059,Q211835,MN,059,Dundgovi Province
+MN_061,Q207795,MN,061,Dornod Province
+MN_063,Q213272,MN,063,Dornogovi Province
+MN_064,Q236333,MN,064,Govisümber Province
+MN_065,Q192945,MN,065,Govi-Altai Province
+MN_067,Q209774,MN,067,Bulgan Province
+MN_069,Q276200,MN,069,Bayankhongor Province
+MN_071,Q191792,MN,071,Bayan-Ölgii Province
+MN_073,Q207809,MN,073,Arkhangai Province
+MN_1,Q23430,MN,1,Ulaanbaatar
+MR_01,Q12621,MR,01,Hodh Ech Chargui Region
+MR_02,Q850435,MR,02,Hodh El Gharbi Region
+MR_03,Q738546,MR,03,Assaba Region
+MR_04,Q859831,MR,04,Gorgol Region
+MR_05,Q12632,MR,05,Brakna Region
+MR_06,Q859581,MR,06,Trarza Region
+MR_07,Q366626,MR,07,Adrar Region
+MR_08,Q859573,MR,08,Dakhlet Nouadhibou
+MR_09,Q843903,MR,09,Tagant Region
+MR_10,Q768119,MR,10,Guidimaka Region
+MR_11,Q859567,MR,11,Tiris Zemmour Region
+MR_12,Q850022,MR,12,Inchiri Region
+MR_13,Q20669651,MR,13,Nouakchott-Ouest Region
+MR_14,Q20669647,MR,14,Nouakchott-Nord Region
+MR_15,Q20669653,MR,15,Nouakchott-Sud Region
+MR_NKC,Q3688,MR,NKC,Nouakchott
+MT_01,Q44557,MT,01,Attard
+MT_02,Q789794,MT,02,Balzan
+MT_03,Q752346,MT,03,Birgu
+MT_04,Q39583,MT,04,Birkirkara
+MT_05,Q258028,MT,05,Birżebbuġa
+MT_06,Q757225,MT,06,Cospicua
+MT_07,Q905641,MT,07,Dingli
+MT_08,Q44388,MT,08,Fgura
+MT_09,Q832807,MT,09,Floriana
+MT_10,Q1002742,MT,10,Fontana
+MT_11,Q1018153,MT,11,Gudja
+MT_12,Q632097,MT,12,Gżira
+MT_13,Q761675,MT,13,Għajnsielem
+MT_14,Q1026487,MT,14,Għarb
+MT_15,Q1018111,MT,15,Għargħur
+MT_16,Q1017339,MT,16,Għasri
+MT_17,Q426385,MT,17,Għaxaq
+MT_18,Q343001,MT,18,Ħamrun
+MT_19,Q304589,MT,19,Iklin
+MT_20,Q846593,MT,20,Senglea
+MT_21,Q533257,MT,21,Kalkara
+MT_22,Q674679,MT,22,Kerċem
+MT_23,Q597464,MT,23,Kirkop
+MT_24,Q782049,MT,24,Lija
+MT_25,Q475585,MT,25,Luqa
+MT_26,Q267431,MT,26,Marsa
+MT_27,Q534571,MT,27,Marsaskala
+MT_28,Q781921,MT,28,Marsaxlokk
+MT_29,Q207277,MT,29,Mdina
+MT_30,Q755979,MT,30,Mellieħa
+MT_31,Q691220,MT,31,Mġarr
+MT_32,Q39520,MT,32,Mosta
+MT_33,Q1017953,MT,33,Mqabba
+MT_34,Q585187,MT,34,Msida
+MT_35,Q656837,MT,35,Mtarfa
+MT_36,Q587462,MT,36,Munxar
+MT_37,Q929969,MT,37,Nadur
+MT_38,Q44397,MT,38,Naxxar
+MT_39,Q846589,MT,39,Paola
+MT_40,Q775756,MT,40,Pembroke
+MT_41,Q744070,MT,41,Pietà
+MT_42,Q1088033,MT,42,Qala
+MT_43,Q39578,MT,43,Qormi
+MT_44,Q282203,MT,44,Qrendi
+MT_45,Q752348,MT,45,Victoria
+MT_46,Q44381,MT,46,Rabat
+MT_47,Q658903,MT,47,Safi
+MT_48,Q669979,MT,48,St. Julian's
+MT_49,Q39507,MT,49,San Ġwann
+MT_50,Q537308,MT,50,Saint Lawrence
+MT_51,Q39521,MT,51,St. Paul's Bay
+MT_52,Q602037,MT,52,Sannat
+MT_53,Q1087776,MT,53,Santa Luċija
+MT_54,Q585420,MT,54,Santa Venera
+MT_55,Q919908,MT,55,Siġġiewi
+MT_56,Q39526,MT,56,Sliema
+MT_57,Q220667,MT,57,Swieqi
+MT_58,Q1017348,MT,58,Ta' Xbiex
+MT_59,Q744001,MT,59,Tarxien
+MT_60,Q23800,MT,60,Valletta
+MT_61,Q605343,MT,61,Xagħra
+MT_62,Q919921,MT,62,Xewkija
+MT_63,Q520962,MT,63,Xgħajra
+MT_64,Q39518,MT,64,Żabbar
+MT_65,Q179243,MT,65,Żebbuġ Gozo
+MT_66,Q44573,MT,66,Żebbuġ Malta
+MT_67,Q44392,MT,67,Żejtun
+MT_68,Q44417,MT,68,Żurrieq
+MU_AG,Q196042,MU,AG,Agaléga
+MU_BL,Q873740,MU,BL,Rivière Noire District
+MU_BR,Q813337,MU,BR,Beau Bassin-Rose Hill
+MU_CC,Q511859,MU,CC,Cargados Carajos
+MU_CU,Q1002525,MU,CU,Curepipe
+MU_FL,Q911651,MU,FL,Flacq District
+MU_GP,Q911635,MU,GP,Grand Port District
+MU_MO,Q911643,MU,MO,Moka District
+MU_PA,Q934126,MU,PA,Pamplemousses District
+MU_PL,Q960645,MU,PL,Port Louis District
+MU_PU,Q3929,MU,PU,Port Louis
+MU_PW,Q1053595,MU,PW,Plaines Wilhems District
+MU_QB,Q1341194,MU,QB,Quatre Bornes
+MU_RO,Q208668,MU,RO,Rodrigues
+MU_RR,Q1053565,MU,RR,Rivière du Rempart District
+MU_SA,Q1053600,MU,SA,Savanne District
+MU_VP,Q676724,MU,VP,Vacoas-Phoenix
+MV_00,Q2316922,MV,00,Alif Dhaal Atoll
+MV_01,Q353375,MV,01,Addu Atoll
+MV_02,Q775323,MV,02,Alif Alif Atoll
+MV_03,Q1390048,MV,03,Lhaviyani Atoll
+MV_04,Q2709111,MV,04,Vaavu Atoll
+MV_05,Q1996432,MV,05,Laamu Atoll
+MV_07,Q2360912,MV,07,Haa Alif Atoll
+MV_08,Q2709118,MV,08,Thaa Atoll
+MV_12,Q2210716,MV,12,Meemu Atoll
+MV_13,Q1457965,MV,13,Raa Atoll
+MV_14,Q2469227,MV,14,Faafu Atoll
+MV_17,Q2290784,MV,17,Dhaalu Atoll
+MV_20,Q949513,MV,20,Baa Atoll
+MV_23,Q2360368,MV,23,Haa Dhaalu Atoll
+MV_24,Q2190334,MV,24,Shaviyani Atoll
+MV_25,Q2406322,MV,25,Noonu Atoll
+MV_26,Q1468407,MV,26,Kaafu Atoll
+MV_27,Q1116203,MV,27,Gaafu Alif Atoll
+MV_28,Q2640183,MV,28,Gaafu Dhaalu Atoll
+MV_29,Q1811116,MV,29,Gnaviyani Atoll
+MV_CE,Q5061718,MV,CE,Central Province
+MV_MLE,Q9347,MV,MLE,Malé
+MV_NC,Q13365881,MV,NC,North Central Province
+MV_NO,Q13365882,MV,NO,North Province
+MV_SC,Q7566772,MV,SC,South Central Province
+MV_SU,Q7568276,MV,SU,South Province
+MV_UN,Q7898827,MV,UN,Upper North Province
+MV_US,Q7898928,MV,US,Upper South Province
+MW_BA,Q870044,MW,BA,Balaka District
+MW_BL,Q1059262,MW,BL,Blantyre District
+MW_C,Q860758,MW,C,Central Region
+MW_CK,Q722509,MW,CK,Chikwawa District
+MW_CR,Q722501,MW,CR,Chiradzulu District
+MW_CT,Q1044337,MW,CT,Chitipa district
+MW_DE,Q667153,MW,DE,Dedza District
+MW_DO,Q195356,MW,DO,Dowa District
+MW_KR,Q868819,MW,KR,Karonga District
+MW_KS,Q868778,MW,KS,Kasungu District
+MW_LI,Q1058453,MW,LI,Lilongwe District
+MW_LK,Q740622,MW,LK,Likoma District
+MW_MC,Q868792,MW,MC,Mchinji District
+MW_MG,Q722505,MW,MG,Mangochi District
+MW_MH,Q198585,MW,MH,Machinga District
+MW_MU,Q509097,MW,MU,Mulanje District
+MW_MW,Q797933,MW,MW,Mwanza District
+MW_MZ,Q1045435,MW,MZ,Mzimba District
+MW_N,Q868827,MW,N,Northern Region
+MW_NB,Q1051505,MW,NB,Nkhata Bay District
+MW_NE,Q1195298,MW,NE,Neno District
+MW_NI,Q798235,MW,NI,Ntchisi District
+MW_NK,Q687248,MW,NK,Nkhotakota District
+MW_NS,Q198587,MW,NS,Nsanje District
+MW_NU,Q797937,MW,NU,Ntcheu District
+MW_PH,Q538991,MW,PH,Phalombe District
+MW_RU,Q1044312,MW,RU,Rumphi District
+MW_S,Q868784,MW,S,Southern Region
+MW_SA,Q195353,MW,SA,Salima District
+MW_TH,Q722515,MW,TH,Thyolo District
+MW_ZO,Q1058442,MW,ZO,Zomba District
+MX_AGU,Q79952,MX,AGU,Aguascalientes
+MX_BCN,Q58731,MX,BCN,Baja California
+MX_BCS,Q46508,MX,BCS,Baja California Sur
+MX_CAM,Q80908,MX,CAM,Campeche
+MX_CHH,Q655,MX,CHH,Chihuahua
+MX_CHP,Q60123,MX,CHP,Chiapas
+MX_CMX,Q1489,MX,CMX,Mexico City
+MX_COA,Q53079,MX,COA,Coahuila
+MX_COL,Q61309,MX,COL,Colima
+MX_DUR,Q79918,MX,DUR,Durango
+MX_GRO,Q60158,MX,GRO,Guerrero
+MX_GUA,Q46475,MX,GUA,Guanajuato
+MX_HID,Q80903,MX,HID,Hidalgo
+MX_JAL,Q13160,MX,JAL,Jalisco
+MX_MEX,Q82112,MX,MEX,State of Mexico
+MX_MIC,Q79861,MX,MIC,Michoacán
+MX_MOR,Q66117,MX,MOR,Morelos
+MX_NAY,Q79920,MX,NAY,Nayarit
+MX_NLE,Q15282,MX,NLE,Nuevo León
+MX_OAX,Q34110,MX,OAX,Oaxaca
+MX_PUE,Q79923,MX,PUE,Puebla
+MX_QUE,Q79754,MX,QUE,Querétaro
+MX_ROO,Q80245,MX,ROO,Quintana Roo
+MX_SIN,Q80252,MX,SIN,Sinaloa
+MX_SLP,Q78980,MX,SLP,San Luis Potosí
+MX_SON,Q46422,MX,SON,Sonora
+MX_TAB,Q80914,MX,TAB,Tabasco
+MX_TAM,Q80007,MX,TAM,Tamaulipas
+MX_TLA,Q82681,MX,TLA,Tlaxcala
+MX_VER,Q60130,MX,VER,Veracruz
+MX_YUC,Q60176,MX,YUC,Yucatán
+MX_ZAC,Q80269,MX,ZAC,Zacatecas
+MY_01,Q183032,MY,01,Johor
+MY_02,Q188947,MY,02,Kedah
+MY_03,Q185944,MY,03,Kelantan
+MY_04,Q185221,MY,04,Melaka
+MY_05,Q213893,MY,05,Negeri Sembilan
+MY_06,Q191346,MY,06,Pahang
+MY_07,Q188096,MY,07,Penang
+MY_08,Q188953,MY,08,Perak
+MY_09,Q213467,MY,09,Perlis
+MY_10,Q189710,MY,10,Selangor
+MY_11,Q189701,MY,11,Terengganu
+MY_12,Q179029,MY,12,Sabah
+MY_13,Q170462,MY,13,Sarawak
+MY_14,Q1865,MY,14,Kuala Lumpur
+MY_15,Q214504,MY,15,Labuan
+MY_16,Q182378,MY,16,Putrajaya
+MZ_A,Q622799,MZ,A,Niassa Province
+MZ_B,Q622792,MZ,B,Manica Province
+MZ_G,Q466526,MZ,G,Gaza Province
+MZ_I,Q466547,MZ,I,Inhambane Province
+MZ_L,Q379658,MZ,L,Maputo Province
+MZ_MPM,Q3889,MZ,MPM,Maputo
+MZ_N,Q622794,MZ,N,Nampula Province
+MZ_P,Q466538,MZ,P,Cabo Delgado Province
+MZ_Q,Q622803,MZ,Q,Zambezia Province
+MZ_S,Q622801,MZ,S,Sofala
+MZ_T,Q605787,MZ,T,Tete Province
+NA_CA,Q473190,NA,CA,Zambezi Region
+NA_ER,Q648753,NA,ER,Erongo Region
+NA_HA,Q752676,NA,HA,Hardap Region
+NA_KA,Q573467,NA,KA,Karas Region
+NA_KE,Q14824032,NA,KE,Kavango East Region
+NA_KH,Q834508,NA,KH,Khomas Region
+NA_KU,Q834513,NA,KU,Kunene Region
+NA_KW,Q14824027,NA,KW,Kavango West Region
+NA_OD,Q876506,NA,OD,Otjozondjupa Region
+NA_OH,Q838775,NA,OH,Omaheke Region
+NA_OK,Q13156669,NA,OK,Kavango Region
+NA_ON,Q534528,NA,ON,Oshana Region
+NA_OS,Q764385,NA,OS,Omusati Region
+NA_OT,Q876512,NA,OT,Oshikoto Region
+NA_OW,Q845702,NA,OW,Ohangwena Region
+NE_1,Q389944,NE,1,Agadez Region
+NE_2,Q1053302,NE,2,Diffa Region
+NE_3,Q850055,NE,3,Dosso Region
+NE_4,Q850036,NE,4,Maradi Region
+NE_5,Q871083,NE,5,Tahoua Region
+NE_6,Q861914,NE,6,Tillabéri Region
+NE_7,Q204367,NE,7,Zinder Region
+NE_8,Q3674,NE,8,Niamey
+NG_AB,Q320852,NG,AB,Abia State
+NG_AD,Q337514,NG,AD,Adamawa State
+NG_AK,Q424388,NG,AK,Akwa Ibom State
+NG_AN,Q117714,NG,AN,Anambra State
+NG_BA,Q503936,NG,BA,Bauchi State
+NG_BE,Q429908,NG,BE,Benue State
+NG_BO,Q130626,NG,BO,Borno State
+NG_BY,Q532153,NG,BY,Bayelsa State
+NG_CR,Q739676,NG,CR,Cross River State
+NG_DE,Q503910,NG,DE,Delta State
+NG_EB,Q506808,NG,EB,Ebonyi State
+NG_ED,Q682704,NG,ED,Edo State
+NG_EK,Q534917,NG,EK,Ekiti State
+NG_EN,Q3817714,NG,EN,Enugu State
+NG_FC,Q509300,NG,FC,Federal Capital Territory
+NG_GO,Q376241,NG,GO,Gombe State
+NG_IM,Q842939,NG,IM,Imo State
+NG_JI,Q682691,NG,JI,Jigawa State
+NG_KD,Q878284,NG,KD,Kaduna State
+NG_KE,Q748523,NG,KE,Kebbi State
+NG_KN,Q682571,NG,KN,Kano State
+NG_KO,Q387745,NG,KO,Kogi State
+NG_KT,Q657821,NG,KT,Katsina State
+NG_KW,Q464953,NG,KW,Kwara State
+NG_LA,Q815913,NG,LA,Lagos
+NG_NA,Q836645,NG,NA,Nasarawa State
+NG_NI,Q503932,NG,NI,Niger State
+NG_OG,Q836657,NG,OG,Ogun State
+NG_ON,Q836654,NG,ON,Ondo State
+NG_OS,Q682721,NG,OS,Osun State
+NG_OY,Q503905,NG,OY,Oyo State
+NG_PL,Q503928,NG,PL,Plateau State
+NG_RI,Q503923,NG,RI,Rivers State
+NG_SO,Q503941,NG,SO,Sokoto State
+NG_TA,Q463959,NG,TA,Taraba State
+NG_YO,Q682777,NG,YO,Yobe State
+NG_ZA,Q145793,NG,ZA,Zamfara State
+NI_AN,Q498452,NI,AN,North Caribbean Coast Autonomous Region
+NI_AS,Q291279,NI,AS,South Caribbean Coast Autonomous Region
+NI_BO,Q280973,NI,BO,Boaco Department
+NI_CA,Q461133,NI,CA,Carazo Department
+NI_CI,Q644024,NI,CI,Chinandega Department
+NI_CO,Q498443,NI,CO,Chontales Department
+NI_ES,Q728015,NI,ES,Estelí Department
+NI_GR,Q258405,NI,GR,Granada Department
+NI_JI,Q728120,NI,JI,Jinotega Department
+NI_LE,Q586818,NI,LE,León Department
+NI_MD,Q728056,NI,MD,Madriz Department
+NI_MN,Q260009,NI,MN,Managua Department
+NI_MS,Q570358,NI,MS,Masaya Department
+NI_MT,Q728099,NI,MT,Matagalpa Department
+NI_NS,Q728022,NI,NS,Nueva Segovia Department
+NI_RI,Q728127,NI,RI,Rivas Department
+NI_SJ,Q728155,NI,SJ,Río San Juan Department
+NL_AW,Q21203,NL,AW,Aruba
+NL_BQ1,Q25396,NL,BQ1,Bonaire
+NL_BQ2,Q25528,NL,BQ2,Saba
+NL_BQ3,Q26180,NL,BQ3,Sint Eustatius
+NL_CW,Q25279,NL,CW,Curaçao
+NL_DR,Q772,NL,DR,Drenthe
+NL_FL,Q707,NL,FL,Flevoland
+NL_FR,Q770,NL,FR,Friesland
+NL_GE,Q775,NL,GE,Gelderland
+NL_GR,Q752,NL,GR,Groningen
+NL_LI,Q1093,NL,LI,Limburg
+NL_NB,Q1101,NL,NB,North Brabant
+NL_NH,Q701,NL,NH,North Holland
+NL_OV,Q773,NL,OV,Overijssel
+NL_SX,Q26273,NL,SX,Sint Maarten (Dutch part)
+NL_UT,Q776,NL,UT,Utrecht Province
+NL_ZE,Q705,NL,ZE,Zeeland
+NL_ZH,Q694,NL,ZH,South Holland
+NO_01,Q50614,NO,01,Østfold
+NO_02,Q50615,NO,02,Akershus
+NO_03,Q585,NO,03,Oslo
+NO_04,Q50616,NO,04,Hedmark
+NO_05,Q50617,NO,05,Oppland
+NO_06,Q50618,NO,06,Buskerud
+NO_07,Q50619,NO,07,Vestfold
+NO_08,Q2254,NO,08,Telemark
+NO_09,Q50621,NO,09,Aust-Agder
+NO_10,Q50623,NO,10,Vest-Agder
+NO_11,Q50624,NO,11,Rogaland
+NO_12,Q50625,NO,12,Hordaland
+NO_14,Q50626,NO,14,Sogn og Fjordane
+NO_15,Q50627,NO,15,Møre og Romsdal
+NO_16,Q50628,NO,16,Sør-Trøndelag
+NO_17,Q50629,NO,17,Nord-Trøndelag
+NO_18,Q50630,NO,18,Nordland
+NO_1849,Q487538,NO,1849,Hamarøy
+NO_19,Q50631,NO,19,Troms
+NO_20,Q50632,NO,20,Finnmark
+NO_21,Q25231,NO,21,Svalbard
+NO_22,Q14056,NO,22,Jan Mayen
+NO_30,Q56407178,NO,30,Viken
+NO_34,Q56404886,NO,34,Innlandet
+NO_38,Q56405721,NO,38,Vestfold og Telemark
+NO_42,Q2729021,NO,42,Agder
+NO_46,Q56407177,NO,46,Vestland
+NO_50,Q127676,NO,50,Trøndelag
+NO_54,Q52600648,NO,54,Troms og Finnmark fylke
+NP_1,Q28579,NP,1,Central Region
+NP_2,Q28464,NP,2,Mid-Western Region
+NP_3,Q28462,NP,3,Western Region
+NP_4,Q28576,NP,4,Eastern Development Region
+NP_5,Q28235,NP,5,Far-Western Development Region
+NP_BA,Q9046,NP,BA,Bagmati Zone
+NP_BH,Q9060,NP,BH,Bheri Zone
+NP_DH,Q9088,NP,DH,Dhaulagiri Zone
+NP_GA,Q9133,NP,GA,Gandaki Zone
+NP_JA,Q9152,NP,JA,Janakpur Zone
+NP_KA,Q9164,NP,KA,Karnali Zone
+NP_KO,Q9170,NP,KO,Kosi Zone
+NP_LU,Q9172,NP,LU,Lumbini Zone
+NP_MA,Q9178,NP,MA,Mahakali Zone
+NP_ME,Q9180,NP,ME,Mechi Zone
+NP_NA,Q9183,NP,NA,Narayani Zone
+NP_RA,Q9185,NP,RA,Rapti Zone
+NP_SA,Q9195,NP,SA,Sagarmatha Zone
+NP_SE,Q9196,NP,SE,Seti Zone
+NR_01,Q240017,NR,01,Aiwo District
+NR_02,Q328735,NR,02,Anabar District
+NR_03,Q378813,NR,03,Anetan District
+NR_04,Q328733,NR,04,Anibare District
+NR_05,Q328727,NR,05,Baiti District
+NR_06,Q378829,NR,06,Boe District
+NR_07,Q202747,NR,07,Buada District
+NR_08,Q1187200,NR,08,Denigomodu District
+NR_09,Q274381,NR,09,Ewa District
+NR_10,Q328738,NR,10,Ijuw District
+NR_11,Q327788,NR,11,Meneng District
+NR_12,Q378780,NR,12,Nibok District
+NR_13,Q473764,NR,13,Uaboe District
+NR_14,Q31026,NR,14,Yaren District
+NZ_AUK,Q726917,NZ,AUK,Auckland Region
+NZ_BOP,Q2192924,NZ,BOP,Bay of Plenty Region
+NZ_CAN,Q657004,NZ,CAN,Canterbury Region
+NZ_CIT,Q115459,NZ,CIT,Chatham Islands
+NZ_GIS,Q140246,NZ,GIS,Gisborne District
+NZ_HKB,Q251825,NZ,HKB,Hawke's Bay Region
+NZ_MBH,Q140083,NZ,MBH,Marlborough District
+NZ_MWT,Q139907,NZ,MWT,Manawatū-Whanganui Region
+NZ_N,Q118863,NZ,N,North Island
+NZ_NSN,Q1995856,NZ,NSN,Nelson Region
+NZ_NTL,Q59596,NZ,NTL,Northland Region
+NZ_OTA,Q692912,NZ,OTA,Otago Region
+NZ_S,Q120755,NZ,S,South Island
+NZ_STL,Q864971,NZ,STL,Southland Region
+NZ_TAS,Q666142,NZ,TAS,Tasman District
+NZ_TKI,Q140207,NZ,TKI,Taranaki Region
+NZ_WGN,Q856010,NZ,WGN,Wellington Region
+NZ_WKO,Q139918,NZ,WKO,Waikato Region
+NZ_WTC,Q541468,NZ,WTC,West Coast Region
+OM_BA,Q264245,OM,BA,Al Batinah Region
+OM_BJ,Q4703565,OM,BJ,Al Batinah South Governorate
+OM_BS,Q4703564,OM,BS,Al Batinah North Governorate
+OM_BU,Q852039,OM,BU,Al Buraimi Governorate
+OM_DA,Q792550,OM,DA,Ad Dakhiliyah Governorate
+OM_MA,Q544762,OM,MA,Muscat Governorate
+OM_MU,Q372144,OM,MU,Musandam Governorate
+OM_SH,Q1106416,OM,SH,Ash Sharqiyah Region
+OM_SJ,Q4501894,OM,SJ,Ash Sharqiyah South Governorate
+OM_SS,Q4501876,OM,SS,Ash Sharqiyah North Governorate
+OM_WU,Q958518,OM,WU,Al Wusta Governorate
+OM_ZA,Q1468596,OM,ZA,Ad Dhahirah Governorate
+OM_ZU,Q1207752,OM,ZU,Dhofar Governorate
+PA_1,Q217138,PA,1,Bocas del Toro Province
+PA_10,Q16250688,PA,10,Panamá Oeste Province
+PA_2,Q825799,PA,2,Coclé Province
+PA_3,Q820514,PA,3,Colón Province
+PA_4,Q739651,PA,4,Chiriquí Province
+PA_5,Q688660,PA,5,Darién Province
+PA_6,Q842886,PA,6,Herrera Province
+PA_7,Q911278,PA,7,Los Santos Province
+PA_8,Q557506,PA,8,Panamá Province
+PA_9,Q593137,PA,9,Veraguas Province
+PA_EM,Q1141041,PA,EM,Emberá-Wounaan Comarca
+PA_KY,Q919017,PA,KY,Guna Yala
+PA_NB,Q1129783,PA,NB,Ngöbe-Buglé Comarca
+PE_AMA,Q201162,PE,AMA,Amazonas
+PE_ANC,Q205089,PE,ANC,Áncash
+PE_APU,Q208185,PE,APU,Apurímac
+PE_ARE,Q205068,PE,ARE,Arequipa
+PE_AYA,Q205112,PE,AYA,Ayacucho
+PE_CAJ,Q205078,PE,CAJ,Cajamarca
+PE_CAL,Q2634400,PE,CAL,Callao Constitutional Province
+PE_CUS,Q205057,PE,CUS,Cusco
+PE_HUC,Q215221,PE,HUC,Huanuco
+PE_HUV,Q505220,PE,HUV,Huancavelica
+PE_ICA,Q208186,PE,ICA,Ica
+PE_JUN,Q207973,PE,JUN,Junín
+PE_LAL,Q205126,PE,LAL,La Libertad
+PE_LAM,Q210061,PE,LAM,Lambayeque
+PE_LIM,Q211795,PE,LIM,Lima
+PE_LMA,Q579240,PE,LMA,Lima Province
+PE_LOR,Q200938,PE,LOR,Loreto
+PE_MDD,Q210896,PE,MDD,Madre de Dios
+PE_MOQ,Q208182,PE,MOQ,Moquegua
+PE_PAS,Q211208,PE,PAS,Pasco
+PE_PIU,Q208183,PE,PIU,Piura
+PE_PUN,Q205104,PE,PUN,Puno
+PE_SAM,Q211793,PE,SAM,San Martín
+PE_TAC,Q207413,PE,TAC,Tacna
+PE_TUM,Q209597,PE,TUM,Tumbes
+PE_UCA,Q207424,PE,UCA,Ucayali
+PG_CPK,Q599448,PG,CPK,Chimbu Province
+PG_CPM,Q874942,PG,CPM,Central Province
+PG_EBR,Q753702,PG,EBR,East New Britain
+PG_EHG,Q849812,PG,EHG,Eastern Highlands Province
+PG_EPW,Q862584,PG,EPW,Enga Province
+PG_ESW,Q690880,PG,ESW,East Sepik Province
+PG_GPK,Q874980,PG,GPK,Gulf
+PG_HLA,Q1382499,PG,HLA,Hela
+PG_JWK,Q1400625,PG,JWK,Jiwaka Province
+PG_MBA,Q874962,PG,MBA,Milne Bay Province
+PG_MPL,Q853664,PG,MPL,Morobe Province
+PG_MPM,Q326254,PG,MPM,Madang Province
+PG_MRL,Q874935,PG,MRL,Manus Province
+PG_NCD,Q36526,PG,NCD,Port Moresby
+PG_NIK,Q838690,PG,NIK,New Ireland Province
+PG_NPP,Q753686,PG,NPP,Oro Province
+PG_NSB,Q18826,PG,NSB,Autonomous Region of Bougainville
+PG_SAN,Q753689,PG,SAN,Sandaun Province
+PG_SHM,Q849801,PG,SHM,Southern Highlands Province
+PG_WBK,Q667468,PG,WBK,West New Britain Province
+PG_WHM,Q849807,PG,WHM,Western Highlands Province
+PG_WPD,Q849790,PG,WPD,Western Province
+PH_00,Q13580,PH,00,Metro Manila
+PH_01,Q12933,PH,01,Ilocos Region
+PH_01_ILN,Q13813,PH,ILN,Ilocos Norte
+PH_01_ILS,Q12741,PH,ILS,Ilocos Sur
+PH_01_LUN,Q13829,PH,LUN,La Union
+PH_01_PAN,Q13871,PH,PAN,Pangasinan
+PH_02,Q13615,PH,02,Cagayan Valley
+PH_02_BTN,Q13740,PH,BTN,Batanes
+PH_02_CAG,Q13759,PH,CAG,Cagayan
+PH_02_ISA,Q13826,PH,ISA,Isabela
+PH_02_NUV,Q13866,PH,NUV,Nueva Vizcaya
+PH_02_QUI,Q13873,PH,QUI,Quirino
+PH_03,Q13617,PH,03,Central Luzon
+PH_03_AUR,Q13730,PH,AUR,Aurora
+PH_03_BAN,Q13739,PH,BAN,Bataan
+PH_03_BUL,Q13755,PH,BUL,Bulacan
+PH_03_NUE,Q13865,PH,NUE,Nueva Ecija
+PH_03_PAM,Q13870,PH,PAM,Pampanga
+PH_03_TAR,Q13892,PH,TAR,Tarlac
+PH_03_ZMB,Q13895,PH,ZMB,Zambales
+PH_05,Q13662,PH,05,Bicol Region
+PH_05_ALB,Q13726,PH,ALB,Albay
+PH_05_CAN,Q13763,PH,CAN,Camarines Norte
+PH_05_CAS,Q13767,PH,CAS,Camarines Sur
+PH_05_CAT,Q13778,PH,CAT,Catanduanes
+PH_05_MAS,Q13847,PH,MAS,Masbate
+PH_05_SOR,Q13881,PH,SOR,Sorsogon
+PH_06,Q13665,PH,06,Western Visayas
+PH_06_AKL,Q13723,PH,AKL,Aklan
+PH_06_ANT,Q13727,PH,ANT,Antique
+PH_06_CAP,Q13772,PH,CAP,Capiz
+PH_06_GUI,Q13810,PH,GUI,Guimaras
+PH_06_ILI,Q13825,PH,ILI,Iloilo
+PH_06_NEC,Q13862,PH,NEC,Negros Occidental
+PH_07,Q13669,PH,07,Central Visayas
+PH_07_BOH,Q13752,PH,BOH,Bohol
+PH_07_CEB,Q13786,PH,CEB,Cebu
+PH_07_NER,Q13863,PH,NER,Negros Oriental
+PH_07_SIG,Q13879,PH,SIG,Siquijor
+PH_08,Q13675,PH,08,Eastern Visayas
+PH_08_BIL,Q13751,PH,BIL,Biliran
+PH_08_EAS,Q13809,PH,EAS,Eastern Samar
+PH_08_LEY,Q13844,PH,LEY,Leyte
+PH_08_NSA,Q13864,PH,NSA,Northern Samar
+PH_08_SLE,Q13884,PH,SLE,Southern Leyte
+PH_08_WSA,Q13876,PH,WSA,Samar
+PH_09,Q13682,PH,09,Zamboanga Peninsula
+PH_09_ZAN,Q13899,PH,ZAN,Zamboanga del Norte
+PH_09_ZAS,Q13900,PH,ZAS,Zamboanga del Sur
+PH_09_ZSI,Q13902,PH,ZSI,Zamboanga Sibugay
+PH_10,Q13690,PH,10,Northern Mindanao
+PH_10_BUK,Q13753,PH,BUK,Bukidnon
+PH_10_CAM,Q13769,PH,CAM,Camiguin
+PH_10_LAN,Q13841,PH,LAN,Lanao del Norte
+PH_10_MSC,Q13857,PH,MSC,Misamis Occidental
+PH_10_MSR,Q13860,PH,MSR,Misamis Oriental
+PH_11,Q13694,PH,11,Davao Region
+PH_11_COM,Q13789,PH,COM,Davao de Oro
+PH_11_DAO,Q13806,PH,DAO,Davao Oriental
+PH_11_DAS,Q13794,PH,DAS,Davao del Sur
+PH_11_DAV,Q13792,PH,DAV,Davao del Norte
+PH_11_DVO,Q3656379,PH,DVO,Davao Occidental
+PH_12,Q13701,PH,12,Soccsksargen
+PH_12_NCO,Q13791,PH,NCO,Cotabato
+PH_12_SAR,Q13877,PH,SAR,Sarangani
+PH_12_SCO,Q13882,PH,SCO,South Cotabato
+PH_12_SUK,Q13885,PH,SUK,Sultan Kudarat
+PH_13,Q13704,PH,13,Caraga
+PH_13_AGN,Q13714,PH,AGN,Agusan del Norte
+PH_13_AGS,Q13721,PH,AGS,Agusan del Sur
+PH_13_DIN,Q13807,PH,DIN,Dinagat Islands
+PH_13_SUN,Q13889,PH,SUN,Surigao del Norte
+PH_13_SUR,Q13891,PH,SUR,Surigao del Sur
+PH_14,Q13708,PH,14,Autonomous Region in Muslim Mindanao
+PH_14_BAS,Q13737,PH,BAS,Basilan
+PH_14_LAS,Q13843,PH,LAS,Lanao del Sur
+PH_14_MAG,Q13845,PH,MAG,Maguindanao
+PH_14_SLU,Q13887,PH,SLU,Sulu
+PH_14_TAW,Q13893,PH,TAW,Tawi-Tawi
+PH_15,Q13606,PH,15,Cordillera Administrative Region
+PH_15_ABR,Q13711,PH,ABR,Abra
+PH_15_APA,Q13728,PH,APA,Apayao
+PH_15_BEN,Q13750,PH,BEN,Benguet
+PH_15_IFU,Q13812,PH,IFU,Ifugao
+PH_15_KAL,Q13827,PH,KAL,Kalinga
+PH_15_MOU,Q13861,PH,MOU,Mountain Province
+PH_40,Q13650,PH,40,Calabarzon
+PH_40_BTG,Q13744,PH,BTG,Batangas
+PH_40_CAV,Q13785,PH,CAV,Cavite
+PH_40_LAG,Q13840,PH,LAG,Laguna
+PH_40_QUE,Q13872,PH,QUE,Quezon
+PH_40_RIZ,Q13874,PH,RIZ,Rizal
+PH_41,Q13658,PH,41,Mimaropa
+PH_41_MAD,Q13846,PH,MAD,Marinduque
+PH_41_MDC,Q13867,PH,MDC,Occidental Mindoro
+PH_41_MDR,Q13868,PH,MDR,Oriental Mindoro
+PH_41_PLW,Q13869,PH,PLW,Palawan
+PH_41_ROM,Q13875,PH,ROM,Romblon
+PK_BA,Q163239,PK,BA,Balochistan
+PK_GB,Q200697,PK,GB,Gilgit-Baltistan
+PK_IS,Q848613,PK,IS,Islamabad Capital Territory
+PK_JK,Q200130,PK,JK,Azad Kashmir
+PK_KP,Q183314,PK,KP,Khyber Pakhtunkhwa
+PK_PB,Q4478,PK,PB,Punjab
+PK_SD,Q37211,PK,SD,Sindh
+PK_TA,Q208270,PK,TA,Federally Administered Tribal Areas
+PL_02,Q54150,PL,02,Lower Silesian Voivodeship
+PL_04,Q54153,PL,04,Kuyavian-Pomeranian Voivodeship
+PL_06,Q54155,PL,06,Lublin Voivodeship
+PL_08,Q54157,PL,08,Lubusz Voivodeship
+PL_10,Q54158,PL,10,Łódź Voivodeship
+PL_12,Q54159,PL,12,Lesser Poland Voivodeship
+PL_14,Q54169,PL,14,Masovian Voivodeship
+PL_16,Q54171,PL,16,Opole Voivodeship
+PL_18,Q54175,PL,18,Podkarpackie Voivodeship
+PL_20,Q54177,PL,20,Podlaskie Voivodeship
+PL_22,Q54180,PL,22,Pomeranian Voivodeship
+PL_24,Q54181,PL,24,Silesian Voivodeship
+PL_26,Q54183,PL,26,Świętokrzyskie Voivodeship
+PL_28,Q54184,PL,28,Warmian-Masurian Voivodeship
+PL_30,Q54187,PL,30,Greater Poland Voivodeship
+PL_32,Q54188,PL,32,West Pomeranian Voivodeship
+PL_KI,Q102317,PL,KI,Kielce
+PS_BTH,Q247037,PS,BTH,Bethlehem Governorate
+PS_DEB,Q592249,PS,DEB,Deir al-Balah Governorate
+PS_GZA,Q762573,PS,GZA,Gaza Governorate
+PS_HBN,Q264180,PS,HBN,Hebron Governorate
+PS_JEM,Q941828,PS,JEM,Quds Governorate
+PS_JEN,Q519311,PS,JEN,Jenin Governorate
+PS_JRH,Q658527,PS,JRH,Jericho Governorate
+PS_KYS,Q948026,PS,KYS,Khan Yunis Governorate
+PS_NBS,Q1074138,PS,NBS,Nablus Governorate
+PS_NGZ,Q181636,PS,NGZ,North Gaza Governorate
+PS_QQA,Q1074443,PS,QQA,Qalqilya Governorate
+PS_RBH,Q1093166,PS,RBH,Ramallah and al-Bireh Governorate
+PS_RFH,Q1074341,PS,RFH,Rafah Governorate
+PS_SLT,Q926530,PS,SLT,Salfit Governorate
+PS_TBS,Q948228,PS,TBS,Tubas Governorate
+PS_TKM,Q1093157,PS,TKM,Tulkarm Governorate
+PT_01,Q210527,PT,01,Aveiro District
+PT_02,Q321455,PT,02,Beja District
+PT_04,Q373528,PT,04,Bragança District
+PT_05,Q273529,PT,05,Castelo Branco District
+PT_06,Q244517,PT,06,Coimbra District
+PT_07,Q274118,PT,07,Évora District
+PT_08,Q244521,PT,08,Faro District
+PT_09,Q273533,PT,09,Guarda District
+PT_10,Q244512,PT,10,Leiria District
+PT_11,Q207199,PT,11,Lisbon District
+PT_12,Q225189,PT,12,Portalegre District
+PT_13,Q322792,PT,13,Porto District
+PT_14,Q244510,PT,14,Santarém District
+PT_15,Q274109,PT,15,Setúbal District
+PT_16,Q326214,PT,16,Viana do Castelo District
+PT_17,Q379372,PT,17,Vila Real District
+PT_18,Q273525,PT,18,Viseu District
+PT_20,Q25263,PT,20,Azores
+PT_30,Q26253,PT,30,Madeira
+PW_002,Q405589,PW,002,Aimeliik
+PW_004,Q407967,PW,004,Airai
+PW_010,Q530813,PW,010,Angaur
+PW_050,Q3516752,PW,050,Hatohobei
+PW_100,Q871222,PW,100,Kayangel
+PW_150,Q189426,PW,150,Koror
+PW_212,Q12898552,PW,212,Melekeok
+PW_214,Q1154127,PW,214,Ngaraard
+PW_218,Q1070185,PW,218,Ngarchelong
+PW_222,Q1144496,PW,222,Ngardmau
+PW_224,Q430385,PW,224,Ngatpang
+PW_226,Q1070180,PW,226,Ngchesar
+PW_227,Q975076,PW,227,Ngeremlengui
+PW_228,Q1154101,PW,228,Ngiwal
+PW_350,Q497981,PW,350,Peleliu
+PW_370,Q866699,PW,370,Sonsorol
+PY_1,Q741009,PY,1,Concepción Department
+PY_10,Q682654,PY,10,Alto Paraná Department
+PY_11,Q372461,PY,11,Central Department
+PY_12,Q755115,PY,12,Ñeembucú Department
+PY_13,Q686586,PY,13,Amambay Department
+PY_14,Q279085,PY,14,Canindeyú
+PY_15,Q750551,PY,15,Presidente Hayes Department
+PY_16,Q682642,PY,16,Alto Paraguay Department
+PY_19,Q741017,PY,19,Boquerón Department
+PY_2,Q526176,PY,2,San Pedro Department
+PY_3,Q755121,PY,3,Cordillera Department
+PY_4,Q755116,PY,4,Guairá Department
+PY_5,Q880399,PY,5,Caaguazú
+PY_6,Q881839,PY,6,Caazapá
+PY_7,Q222564,PY,7,Itapúa
+PY_8,Q591194,PY,8,Misiones Department
+PY_9,Q240014,PY,9,Paraguarí Department
+PY_ASU,Q2723419,PY,ASU,Capital District
+QA_DA,Q3861,QA,DA,Doha
+QA_KH,Q1156471,QA,KH,Al Khor
+QA_MS,Q310872,QA,MS,Madinat ash Shamal
+QA_RA,Q311272,QA,RA,Al Rayyan Municipality
+QA_SH,Q12188815,QA,SH,Al-Shahaniya
+QA_US,Q990414,QA,US,Umm Salal Municipality
+QA_WA,Q310893,QA,WA,Al Wakrah
+QA_ZA,Q310786,QA,ZA,Al Daayen
+RO_AB,Q45868,RO,AB,Alba
+RO_AG,Q179567,RO,AG,Arges
+RO_AR,Q179559,RO,AR,Arad County
+RO_B,Q19660,RO,B,Bucharest
+RO_BC,Q179779,RO,BC,Bacău County
+RO_BH,Q179588,RO,BH,Bihor County
+RO_BN,Q181513,RO,BN,Bistrița-Năsăud County
+RO_BR,Q188503,RO,BR,Brăila
+RO_BT,Q178861,RO,BT,Botoșani County
+RO_BV,Q182614,RO,BV,Brașov County
+RO_BZ,Q185309,RO,BZ,Buzău County
+RO_CJ,Q182624,RO,CJ,Cluj County
+RO_CL,Q188948,RO,CL,Călărași County
+RO_CS,Q187925,RO,CS,Caraș-Severin County
+RO_CT,Q188505,RO,CT,Constanța County
+RO_CV,Q188959,RO,CV,Covasna County
+RO_DB,Q188797,RO,DB,Dâmbovița County
+RO_DJ,Q191065,RO,DJ,Dolj County
+RO_GJ,Q190406,RO,GJ,Gorj County
+RO_GL,Q188796,RO,GL,Galați County
+RO_GR,Q193055,RO,GR,Giurgiu County
+RO_HD,Q191071,RO,HD,Hunedoara County
+RO_HR,Q190702,RO,HR,Harghita County
+RO_IF,Q191670,RO,IF,Ilfov County
+RO_IL,Q193044,RO,IL,Ialomița County
+RO_IS,Q182888,RO,IS,Iași County
+RO_MH,Q191717,RO,MH,Mehedinți County
+RO_MM,Q188813,RO,MM,Maramureș County
+RO_MS,Q190711,RO,MS,Mureș County
+RO_NT,Q188661,RO,NT,Neamț County
+RO_OT,Q188945,RO,OT,Olt County
+RO_PH,Q188665,RO,PH,Prahova County
+RO_SB,Q184797,RO,SB,Sibiu County
+RO_SJ,Q190690,RO,SJ,Sălaj County
+RO_SM,Q165459,RO,SM,Satu Mare County
+RO_SV,Q181209,RO,SV,Suceava County
+RO_TL,Q191078,RO,TL,Tulcea County
+RO_TM,Q185586,RO,TM,Timiș County
+RO_TR,Q191653,RO,TR,Teleorman County
+RO_VL,Q186838,RO,VL,Vâlcea County
+RO_VN,Q182778,RO,VN,Vrancea County
+RO_VS,Q167199,RO,VS,Vaslui County
+RS_00,Q2074197,RS,00,Belgrade District
+RS_01,Q648758,RS,01,North Bačka District
+RS_02,Q425782,RS,02,Central Banat District
+RS_03,Q728041,RS,03,North Banat District
+RS_04,Q720030,RS,04,South Banat District
+RS_05,Q735169,RS,05,West Bačka District
+RS_06,Q648718,RS,06,South Bačka District
+RS_07,Q217331,RS,07,Srem District
+RS_08,Q867803,RS,08,Mačva District
+RS_09,Q1048139,RS,09,Kolubara District
+RS_10,Q778561,RS,10,Podunavlje District
+RS_11,Q861539,RS,11,Braničevo District
+RS_12,Q544118,RS,12,Šumadija District
+RS_13,Q867816,RS,13,Pomoravlje District
+RS_14,Q477586,RS,14,Bor District
+RS_15,Q967339,RS,15,Zaječar District
+RS_16,Q478278,RS,16,Zlatibor District
+RS_17,Q915380,RS,17,Moravica District
+RS_18,Q1061082,RS,18,Raška District
+RS_19,Q1043446,RS,19,Rasina District
+RS_20,Q1061076,RS,20,Nišava District
+RS_21,Q1048184,RS,21,Toplica District
+RS_22,Q580069,RS,22,Pirot District
+RS_23,Q876541,RS,23,Jablanica District
+RS_24,Q1061099,RS,24,Pčinja District
+RS_25,Q1452368,RS,25,Kosovo District
+RS_26,Q2510536,RS,26,Peć District
+RS_27,Q201085,RS,27,Prizren District
+RS_28,Q2017517,RS,28,Kosovska Mitrovica District
+RS_29,Q124725,RS,29,Kosovo-Pomoravlje District
+RS_KM,Q1255,RS,KM,Autonomous Province of Kosovo and Metohija
+RS_VO,Q44749,RS,VO,Vojvodina
+RU_AD,Q3734,RU,AD,Republic of Adygea
+RU_AL,Q5971,RU,AL,Altai Republic
+RU_ALT,Q5942,RU,ALT,Altai Krai
+RU_AMU,Q6886,RU,AMU,Amur Oblast
+RU_ARK,Q1875,RU,ARK,Arkhangelsk Oblast
+RU_AST,Q3941,RU,AST,Astrakhan Oblast
+RU_BA,Q5710,RU,BA,Republic of Bashkortostan
+RU_BEL,Q3329,RU,BEL,Belgorod Oblast
+RU_BRY,Q2810,RU,BRY,Bryansk Oblast
+RU_BU,Q6809,RU,BU,Republic of Buryatia
+RU_CE,Q5187,RU,CE,Chechen Republic
+RU_CHE,Q5714,RU,CHE,Chelyabinsk Oblast
+RU_CHU,Q7984,RU,CHU,Chukotka Autonomous Okrug
+RU_CU,Q5466,RU,CU,Chuvash Republic
+RU_DA,Q5118,RU,DA,Republic of Dagestan
+RU_IN,Q5219,RU,IN,Republic of Ingushetia
+RU_IRK,Q6585,RU,IRK,Irkutsk Oblast
+RU_IVA,Q2654,RU,IVA,Ivanovo Oblast
+RU_KAM,Q7948,RU,KAM,Kamchatka Krai
+RU_KB,Q5267,RU,KB,Kabardino-Balkaria
+RU_KC,Q5328,RU,KC,Karachay-Cherkess Republic
+RU_KDA,Q3680,RU,KDA,Krasnodar Krai
+RU_KEM,Q6076,RU,KEM,Kemerovo Oblast
+RU_KGD,Q1749,RU,KGD,Kaliningrad Oblast
+RU_KGN,Q5741,RU,KGN,Kurgan Oblast
+RU_KHA,Q7788,RU,KHA,Khabarovsk Krai
+RU_KHM,Q6320,RU,KHM,Khanty-Mansi Autonomous Okrug
+RU_KIR,Q5387,RU,KIR,Kirov Oblast
+RU_KK,Q6543,RU,KK,Republic of Khakassia
+RU_KL,Q3953,RU,KL,Republic of Kalmykia
+RU_KLU,Q2842,RU,KLU,Kaluga Oblast
+RU_KO,Q2073,RU,KO,Komi Republic
+RU_KOS,Q2596,RU,KOS,Kostroma Oblast
+RU_KR,Q1914,RU,KR,Karelia
+RU_KRS,Q3178,RU,KRS,Kursk Oblast
+RU_KYA,Q6563,RU,KYA,Krasnoyarsk Krai
+RU_LEN,Q2191,RU,LEN,Leningrad Oblast
+RU_LIP,Q3510,RU,LIP,Lipetsk Oblast
+RU_MAG,Q7971,RU,MAG,Magadan Oblast
+RU_ME,Q5446,RU,ME,Mari El Republic
+RU_MO,Q5340,RU,MO,Republic of Mordovia
+RU_MOS,Q1697,RU,MOS,Moscow Oblast
+RU_MOW,Q649,RU,MOW,Moscow
+RU_MUR,Q1759,RU,MUR,Murmansk Oblast
+RU_NEN,Q2164,RU,NEN,Nenets Autonomous Okrug
+RU_NGR,Q2240,RU,NGR,Novgorod Oblast
+RU_NIZ,Q2246,RU,NIZ,Nizhny Novgorod Oblast
+RU_NVS,Q5851,RU,NVS,Novosibirsk Oblast
+RU_OMS,Q5835,RU,OMS,Omsk Oblast
+RU_ORE,Q5338,RU,ORE,Orenburg Oblast
+RU_ORL,Q3129,RU,ORL,Oryol Oblast
+RU_PER,Q5400,RU,PER,Perm Krai
+RU_PNZ,Q5545,RU,PNZ,Penza Oblast
+RU_PRI,Q4341,RU,PRI,Primorsky Krai
+RU_PSK,Q2218,RU,PSK,Pskov Oblast
+RU_ROS,Q3573,RU,ROS,Rostov Oblast
+RU_RYA,Q2753,RU,RYA,Ryazan Oblast
+RU_SA,Q6605,RU,SA,Sakha Republic
+RU_SAK,Q7797,RU,SAK,Sakhalin Oblast
+RU_SAM,Q1727,RU,SAM,Samara Oblast
+RU_SAR,Q5334,RU,SAR,Saratov Oblast
+RU_SE,Q5237,RU,SE,Republic of North Ossetia-Alania
+RU_SMO,Q2347,RU,SMO,Smolensk Oblast
+RU_SPE,Q656,RU,SPE,Saint Petersburg
+RU_STA,Q5207,RU,STA,Stavropol Krai
+RU_SVE,Q5462,RU,SVE,Sverdlovsk Oblast
+RU_TA,Q5481,RU,TA,Republic of Tatarstan
+RU_TAM,Q3550,RU,TAM,Tambov Oblast
+RU_TOM,Q5884,RU,TOM,Tomsk Oblast
+RU_TUL,Q2792,RU,TUL,Tula Oblast
+RU_TVE,Q2292,RU,TVE,Tver Oblast
+RU_TY,Q960,RU,TY,Tuva Republic
+RU_TYU,Q5824,RU,TYU,Tyumen Oblast
+RU_UD,Q5422,RU,UD,Udmurt Republic
+RU_ULY,Q5634,RU,ULY,Ulyanovsk Oblast
+RU_VGG,Q3819,RU,VGG,Volgograd Oblast
+RU_VLA,Q2702,RU,VLA,Vladimir Oblast
+RU_VLG,Q2015,RU,VLG,Vologda Oblast
+RU_VOR,Q3447,RU,VOR,Voronezh Oblast
+RU_YAN,Q6407,RU,YAN,Yamalo-Nenets Autonomous Okrug
+RU_YAR,Q2448,RU,YAR,Yaroslavl Oblast
+RU_YEV,Q7730,RU,YEV,Jewish Autonomous Oblast
+RU_ZAB,Q6838,RU,ZAB,Zabaykalsky Krai
+RW_01,Q167196,RW,01,Kigali province
+RW_01,Q3859,RW,01,Kigali
+RW_02,Q853152,RW,02,Eastern Province
+RW_03,Q845807,RW,03,Northern Province
+RW_04,Q737354,RW,04,Western Province
+RW_05,Q853162,RW,05,Southern Province
+SA_01,Q1249255,SA,01,Riyadh Region
+SA_02,Q234167,SA,02,Makkah Region
+SA_03,Q236027,SA,03,Al Madinah Region
+SA_04,Q953508,SA,04,Eastern Province
+SA_05,Q1105411,SA,05,Al-Qassim Region
+SA_06,Q243656,SA,06,Ha'il Region
+SA_07,Q1315953,SA,07,Emirate of Tabuk
+SA_08,Q201781,SA,08,Northern Borders Region
+SA_09,Q269973,SA,09,Jizan Region
+SA_10,Q464718,SA,10,Najran Region
+SA_11,Q852774,SA,11,Al Bahah Region
+SA_12,Q1471266,SA,12,Al Jawf Region
+SA_14,Q779855,SA,14,'Asir Region
+SB_CE,Q293722,SB,CE,Central Province
+SB_CH,Q399063,SB,CH,Choiseul Province
+SB_CT,Q40921,SB,CT,Honiara
+SB_GU,Q760888,SB,GU,Guadalcanal Province
+SB_IS,Q1139082,SB,IS,Isabel Province
+SB_MK,Q1116700,SB,MK,Makira-Ulawa Province
+SB_ML,Q1190896,SB,ML,Malaita Province
+SB_RB,Q1051475,SB,RB,Rennell and Bellona Province
+SB_TE,Q936088,SB,TE,Temotu Province
+SB_WE,Q150325,SB,WE,Western Province
+SC_01,Q569458,SC,01,Anse-aux-Pins
+SC_02,Q569453,SC,02,Anse Boileau
+SC_03,Q387293,SC,03,Anse Etoile
+SC_04,Q2667004,SC,04,Au Cap
+SC_05,Q3241674,SC,05,Anse Royale
+SC_06,Q2494551,SC,06,Baie Lazare
+SC_07,Q803716,SC,07,Baie Sainte Anne
+SC_08,Q7479348,SC,08,Beau Vallon
+SC_09,Q815077,SC,09,Bel Air
+SC_10,Q3245439,SC,10,Bel Ombre
+SC_11,Q1928685,SC,11,Cascade
+SC_12,Q3241696,SC,12,Glacis
+SC_13,Q3241690,SC,13,Grand'Anse Mahé
+SC_14,Q1231388,SC,14,Grand'Anse Praslin
+SC_15,Q581154,SC,15,La Digue
+SC_16,Q1819963,SC,16,La Rivière Anglaise
+SC_17,Q3241682,SC,17,Mont Buxton
+SC_18,Q1945413,SC,18,Mont Fleuri
+SC_19,Q2199897,SC,19,Plaisance
+SC_20,Q2877260,SC,20,Pointe La Rue
+SC_21,Q1808165,SC,21,Port Glaud
+SC_22,Q2278695,SC,22,Saint Louis
+SC_23,Q2287379,SC,23,Takamaka
+SC_24,Q2280357,SC,24,Les Mamelles
+SC_25,Q2718315,SC,25,Roche Caiman
+SD_DC,Q4116493,SD,DC,Central Darfur
+SD_DE,Q3545641,SD,DE,East Darfur
+SD_DN,Q688306,SD,DN,North Darfur
+SD_DS,Q838778,SD,DS,South Darfur
+SD_DW,Q846331,SD,DW,West Darfur
+SD_GD,Q309478,SD,GD,Al Qadarif
+SD_GK,Q536396,SD,GK,West Kordofan
+SD_GZ,Q309469,SD,GZ,Al Jazirah
+SD_KA,Q954963,SD,KA,Kassala
+SD_KH,Q310385,SD,KH,Khartoum
+SD_KN,Q864093,SD,KN,North Kordofan
+SD_KS,Q465490,SD,KS,South Kordofan
+SD_NB,Q309489,SD,NB,Blue Nile
+SD_NO,Q310118,SD,NO,Northern
+SD_NR,Q849297,SD,NR,River Nile
+SD_NW,Q311371,SD,NW,White Nile
+SD_RS,Q310120,SD,RS,Red Sea
+SD_SI,Q865534,SD,SI,Sennar
+SE_AB,Q104231,SE,AB,Stockholm County
+SE_AC,Q104877,SE,AC,Västerbotten County
+SE_BD,Q103686,SE,BD,Norrbotten County
+SE_C,Q104926,SE,C,Uppsala County
+SE_D,Q106915,SE,D,Södermanland County
+SE_E,Q104940,SE,E,Östergötland County
+SE_F,Q103672,SE,F,Jönköping County
+SE_G,Q104746,SE,G,Kronoberg County
+SE_H,Q103707,SE,H,Kalmar County
+SE_I,Q103738,SE,I,Gotland County
+SE_K,Q102377,SE,K,Blekinge County
+SE_M,Q103659,SE,M,Skåne County
+SE_N,Q103691,SE,N,Halland County
+SE_O,Q103093,SE,O,Västra Götaland County
+SE_S,Q106789,SE,S,Värmland County
+SE_T,Q104257,SE,T,Örebro County
+SE_U,Q105075,SE,U,Västmanland County
+SE_W,Q103732,SE,W,Dalarna County
+SE_X,Q103699,SE,X,Gävleborg County
+SE_Y,Q104891,SE,Y,Västernorrland County
+SE_Z,Q103679,SE,Z,Jämtland County
+SG_01,Q2544592,SG,01,Central Singapore Community Development Council
+SG_02,Q3710534,SG,02,North East Community Development Council
+SG_03,Q5784118,SG,03,North West Community Development Council
+SG_04,Q1687545,SG,04,South East Community Development Council
+SG_05,Q5784126,SG,05,South West Community Development Council
+SH_AC,Q46197,SH,AC,Ascension Island
+SH_HL,Q34497,SH,HL,Saint Helena
+SH_TA,Q220982,SH,TA,Tristan da Cunha
+SI_001,Q331701,SI,001,Ajdovščina Municipality
+SI_002,Q778542,SI,002,Municipality of Beltinci
+SI_003,Q647572,SI,003,Municipality of Bled
+SI_004,Q3661628,SI,004,Bohinj Municipality
+SI_005,Q13377747,SI,005,Municipality of Borovnica
+SI_006,Q3259688,SI,006,Municipality of Bovec
+SI_007,Q763400,SI,007,Municipality of Brda
+SI_008,Q849320,SI,008,Municipality of Brezovica
+SI_009,Q906879,SI,009,Municipality of Brežice
+SI_010,Q1276793,SI,010,Municipality of Tišina
+SI_011,Q3441823,SI,011,City Municipality of Celje
+SI_012,Q859679,SI,012,Municipality of Cerklje na Gorenjskem
+SI_013,Q13107298,SI,013,Municipality of Cerknica
+SI_014,Q13220435,SI,014,Municipality of Cerkno
+SI_015,Q341658,SI,015,Municipality of Črenšovci
+SI_016,Q279072,SI,016,Črna na Koroškem Municipality
+SI_017,Q3482211,SI,017,Črnomelj Municipality
+SI_018,Q570618,SI,018,Municipality of Destrnik
+SI_019,Q557216,SI,019,Municipality of Divača
+SI_020,Q1009409,SI,020,Municipality of Dobrepolje
+SI_021,Q1005208,SI,021,Municipality of Dobrova–Polhov Gradec
+SI_022,Q998557,SI,022,Municipality of Dol pri Ljubljani
+SI_023,Q13377763,SI,023,Municipality of Domžale
+SI_024,Q1003969,SI,024,Municipality of Dornava
+SI_025,Q3503123,SI,025,Municipality of Dravograd
+SI_026,Q999589,SI,026,Municipality of Duplek
+SI_027,Q1005224,SI,027,Municipality of Gorenja Vas–Poljane
+SI_028,Q632998,SI,028,Municipality of Gorišnica
+SI_029,Q570397,SI,029,Municipality of Gornja Radgona
+SI_030,Q726548,SI,030,Municipality of Gornji Grad
+SI_031,Q3435689,SI,031,Municipality of Gornji Petrovci
+SI_032,Q13377778,SI,032,Municipality of Grosuplje
+SI_033,Q13378373,SI,033,Municipality of Šalovci
+SI_033,Q241462,SI,033,Šalovci
+SI_034,Q13377780,SI,034,Hrastnik Municipality
+SI_035,Q556206,SI,035,Municipality of Hrpelje–Kozina
+SI_036,Q3441842,SI,036,Municipality of Idrija
+SI_037,Q917397,SI,037,Ig Municipality
+SI_038,Q13377784,SI,038,Municipality of Ilirska Bistrica
+SI_039,Q1008048,SI,039,Ivančna Gorica Municipality
+SI_040,Q12042076,SI,040,Municipality of Izola
+SI_040,Q15877,SI,040,Izola
+SI_041,Q15881,SI,041,Municipality of Jesenice
+SI_042,Q1003984,SI,042,Municipality of Juršinci
+SI_043,Q3503153,SI,043,Municipality of Kamnik
+SI_044,Q1012996,SI,044,Kanal ob Soči
+SI_044,Q3435496,SI,044,Kanal ob Soči Municipality
+SI_045,Q776770,SI,045,Municipality of Kidričevo
+SI_046,Q688287,SI,046,Kobarid Municipality
+SI_047,Q927718,SI,047,Municipality of Kobilje
+SI_048,Q15884,SI,048,Municipality of Kočevje
+SI_049,Q15283322,SI,049,Komen Municipality
+SI_049,Q556210,SI,049,Komen
+SI_050,Q556203,SI,050,Koper City Municipality
+SI_051,Q1009421,SI,051,Municipality of Kozje
+SI_052,Q1021,SI,052,Kranj
+SI_052,Q3441893,SI,052,Kranj City Municipality
+SI_053,Q507051,SI,053,Municipality of Kranjska Gora
+SI_054,Q3484655,SI,054,Municipality of Krško
+SI_055,Q998566,SI,055,Municipality of Kungota
+SI_056,Q906636,SI,056,Municipality of Kuzma
+SI_057,Q15887,SI,057,Laško Municipality
+SI_058,Q13365883,SI,058,Municipality of Lenart
+SI_059,Q15890,SI,059,Lendava
+SI_059,Q587328,SI,059,Municipality of Lendava
+SI_060,Q15891,SI,060,Litija Municipality
+SI_061,Q12794274,SI,061,University of Ljubljana Palace
+SI_061,Q3434113,SI,061,Ljubljana City Municipality
+SI_062,Q773659,SI,062,Municipality of Ljubno
+SI_063,Q15892,SI,063,Ljutomer Municipality
+SI_064,Q15893,SI,064,Municipality of Logatec
+SI_065,Q999525,SI,065,Loška Dolina Municipality
+SI_066,Q999553,SI,066,Municipality of Loški Potok
+SI_067,Q669648,SI,067,Municipality of Luče
+SI_068,Q946766,SI,068,Municipality of Lukovica
+SI_069,Q1002371,SI,069,Municipality of Majšperk
+SI_070,Q3435104,SI,070,Maribor City Municipality
+SI_071,Q15894,SI,071,Municipality of Medvode
+SI_072,Q15895,SI,072,Municipality of Mengeš
+SI_073,Q15896,SI,073,Metlika
+SI_073,Q3441856,SI,073,Municipality of Metlika
+SI_074,Q678147,SI,074,Municipality of Mežica
+SI_075,Q658076,SI,075,Miren–Kostanjevica Municipality
+SI_076,Q1917707,SI,076,Mislinja
+SI_076,Q999584,SI,076,Mislinja Municipality
+SI_077,Q1012761,SI,077,Municipality of Moravče
+SI_078,Q3494723,SI,078,Municipality of Moravske Toplice
+SI_079,Q670975,SI,079,Municipality of Mozirje
+SI_080,Q9273677,SI,080,City Municipality of Murska Sobota
+SI_081,Q6309297,SI,081,Municipality of Muta
+SI_082,Q1569014,SI,082,Naklo Municipality
+SI_083,Q954987,SI,083,Municipality of Nazarje
+SI_084,Q1018,SI,084,Nova Gorica
+SI_084,Q3435478,SI,084,City Municipality of Nova Gorica
+SI_085,Q398116,SI,085,City Municipality of Novo Mesto
+SI_086,Q924698,SI,086,Municipality of Odranci
+SI_086,Q966592,SI,086,Odranci
+SI_087,Q15900,SI,087,Ormož Municipality
+SI_088,Q778147,SI,088,Municipality of Osilnica
+SI_089,Q995048,SI,089,Municipality of Pesnica
+SI_090,Q1382,SI,090,Piran
+SI_090,Q565170,SI,090,Piran Municipality
+SI_091,Q252154,SI,091,Municipality of Pivka
+SI_092,Q999540,SI,092,Municipality of Podčetrtek
+SI_093,Q1016800,SI,093,Municipality of Podvelka
+SI_094,Q2242799,SI,094,Municipality of Postojna
+SI_095,Q539864,SI,095,Municipality of Preddvor
+SI_096,Q15906,SI,096,Ptuj
+SI_096,Q3441808,SI,096,City Municipality of Ptuj
+SI_097,Q921092,SI,097,Municipality of Puconci
+SI_098,Q731093,SI,098,Municipality of Rače–Fram
+SI_099,Q13377986,SI,099,Radeče Municipality
+SI_100,Q338743,SI,100,Municipality of Radenci
+SI_101,Q1005364,SI,101,Municipality of Radlje ob Dravi
+SI_102,Q15910,SI,102,Municipality of Radovljica
+SI_103,Q13378051,SI,103,Municipality of Ravne na Koroškem
+SI_103,Q15911,SI,103,Ravne na Koroškem
+SI_104,Q15912,SI,104,Municipality of Ribnica
+SI_105,Q599480,SI,105,Municipality of Rogašovci
+SI_106,Q15913,SI,106,Municipality of Rogaška Slatina
+SI_106,Q3502521,SI,106,Rogaška Slatina
+SI_107,Q1027245,SI,107,Municipality of Rogatec
+SI_108,Q3346841,SI,108,Ruše Municipality
+SI_109,Q1587704,SI,109,Municipality of Semič
+SI_110,Q11214302,SI,110,Sevnica Municipality
+SI_111,Q554854,SI,111,Municipality of Sežana
+SI_112,Q3441817,SI,112,City Municipality of Slovenj Gradec
+SI_113,Q11211457,SI,113,Municipality of Slovenska Bistrica
+SI_113,Q15917,SI,113,Slovenska Bistrica
+SI_114,Q13378155,SI,114,Slovenske Konjice Municipality
+SI_114,Q15919,SI,114,Slovenske Konjice
+SI_115,Q1016826,SI,115,Municipality of Starše
+SI_116,Q920353,SI,116,Municipality of Sveti Jurij ob Ščavnici
+SI_117,Q2346638,SI,117,Municipality of Šenčur
+SI_118,Q391446,SI,118,Municipality of Šentilj
+SI_119,Q1016812,SI,119,Municipality of Šentjernej
+SI_120,Q13378384,SI,120,Šentjur Municipality
+SI_121,Q391800,SI,121,Municipality of Škocjan
+SI_122,Q2318898,SI,122,Municipality of Škofja Loka
+SI_123,Q392103,SI,123,Municipality of Škofljica
+SI_124,Q392173,SI,124,Municipality of Šmarje pri Jelšah
+SI_125,Q392188,SI,125,Municipality of Šmartno ob Paki
+SI_126,Q15923,SI,126,Municipality of Šoštanj
+SI_127,Q392468,SI,127,Municipality of Štore
+SI_128,Q15924,SI,128,Municipality of Tolmin
+SI_129,Q15925,SI,129,Municipality of Trbovlje
+SI_130,Q13378243,SI,130,Trebnje Municipality
+SI_131,Q15927,SI,131,Municipality of Tržič
+SI_132,Q201074,SI,132,Municipality of Turnišče
+SI_133,Q3441849,SI,133,City Municipality of Velenje
+SI_134,Q13378281,SI,134,Municipality of Velike Lašče
+SI_135,Q1002863,SI,135,Municipality of Videm
+SI_136,Q1002229,SI,136,Municipality of Vipava
+SI_137,Q13378288,SI,137,Municipality of Vitanje
+SI_137,Q1809612,SI,137,Vitanje
+SI_138,Q13378292,SI,138,Municipality of Vodice
+SI_138,Q2068600,SI,138,Vodice
+SI_139,Q2134561,SI,139,Municipality of Vojnik
+SI_140,Q9014817,SI,140,Municipality of Vrhnika
+SI_141,Q370390,SI,141,Municipality of Vuzenica
+SI_142,Q13378328,SI,142,Zagorje ob Savi Municipality
+SI_143,Q167001,SI,143,Municipality of Zavrč
+SI_144,Q227163,SI,144,Zreče Municipality
+SI_146,Q15932,SI,146,Železniki Municipality
+SI_147,Q394087,SI,147,Municipality of Žiri
+SI_148,Q779018,SI,148,Municipality of Benedikt
+SI_149,Q13377731,SI,149,Municipality of Bistrica ob Sotli
+SI_150,Q164123,SI,150,Municipality of Bloke
+SI_151,Q1034410,SI,151,Municipality of Braslovče
+SI_152,Q13377751,SI,152,Municipality of Cankova
+SI_153,Q1252438,SI,153,Municipality of Cerkvenjak
+SI_154,Q1008179,SI,154,Municipality of Dobje
+SI_155,Q999579,SI,155,Municipality of Dobrna
+SI_156,Q13365892,SI,156,Municipality of Dobrovnik
+SI_157,Q1016840,SI,157,Dolenjske Toplice Municipality
+SI_158,Q1019067,SI,158,Municipality of Grad
+SI_159,Q995065,SI,159,Municipality of Hajdina
+SI_160,Q1008102,SI,160,Municipality of Hoče–Slivnica
+SI_161,Q13365904,SI,161,Municipality of Hodoš
+SI_162,Q1005185,SI,162,Municipality of Horjul
+SI_163,Q1688771,SI,163,Municipality of Jezersko
+SI_164,Q963986,SI,164,Komenda Municipality
+SI_165,Q3434092,SI,165,Kostel Municipality
+SI_166,Q999563,SI,166,Municipality of Križevci
+SI_167,Q25110,SI,167,Municipality of Lovrenc na Pohorju
+SI_168,Q1008095,SI,168,Municipality of Markovci
+SI_169,Q1005165,SI,169,Municipality of Miklavž na Dravskem Polju
+SI_170,Q1016805,SI,170,Mirna Peč Municipality
+SI_171,Q1587261,SI,171,Oplotnica Municipality
+SI_172,Q1002247,SI,172,Municipality of Podlehnik
+SI_173,Q938443,SI,173,Municipality of Polzela
+SI_174,Q1016698,SI,174,Municipality of Prebold
+SI_175,Q650009,SI,175,Municipality of Prevalje
+SI_176,Q3435117,SI,176,Municipality of Razkrižje
+SI_177,Q1009413,SI,177,Municipality of Ribnica na Pohorju
+SI_178,Q919934,SI,178,Municipality of Selnica ob Dravi
+SI_179,Q1008079,SI,179,Municipality of Sodražica
+SI_180,Q1313614,SI,180,Solčava Municipality
+SI_181,Q1998318,SI,181,Sveta Ana v Slovenskih Goricah
+SI_181,Q990063,SI,181,Sveta Ana Municipality
+SI_182,Q925149,SI,182,Municipality of Sveti Andraž v Slovenskih Goricah
+SI_183,Q391428,SI,183,Municipality of Šempeter–Vrtojba
+SI_184,Q2672913,SI,184,"Tabor, Tabor"
+SI_184,Q999530,SI,184,Municipality of Tabor
+SI_185,Q999559,SI,185,Municipality of Trnovska Vas
+SI_186,Q14468504,SI,186,Trzin
+SI_186,Q773160,SI,186,Municipality of Trzin
+SI_187,Q995101,SI,187,Municipality of Velika Polana
+SI_188,Q1008086,SI,188,Municipality of Veržej
+SI_189,Q13378299,SI,189,Municipality of Vransko
+SI_189,Q510040,SI,189,Vransko
+SI_190,Q15931,SI,190,Municipality of Žalec
+SI_191,Q393910,SI,191,Municipality of Žetale
+SI_192,Q394103,SI,192,Municipality of Žirovnica
+SI_193,Q13377798,SI,193,Municipality of Žužemberk
+SI_193,Q394340,SI,193,Žužemberk
+SI_194,Q13378453,SI,194,Municipality of Šmartno pri Litiji
+SI_194,Q392192,SI,194,Šmartno pri Litiji
+SI_195,Q3278915,SI,195,Municipality of Apače
+SI_196,Q13370246,SI,196,Municipality of Cirkulane
+SI_197,Q12062190,SI,197,Municipality of Kostanjevica na Krki
+SI_198,Q1808143,SI,198,Municipality of Makole
+SI_199,Q1027078,SI,199,Mokronog–Trebelno Municipality
+SI_200,Q594852,SI,200,Municipality of Poljčane
+SI_201,Q612216,SI,201,Municipality of Renče–Vogrsko
+SI_202,Q1015849,SI,202,Središče ob Dravi
+SI_202,Q3441796,SI,202,Municipality of Središče ob Dravi
+SI_203,Q1784972,SI,203,Municipality of Straža
+SI_204,Q1016820,SI,204,Municipality of Sveta Trojica v Slovenskih Goricah
+SI_205,Q1016831,SI,205,Municipality of Sveti Tomaž
+SI_206,Q3509893,SI,206,Municipality of Šmarješke Toplice
+SI_207,Q1027062,SI,207,Municipality of Gorje
+SI_208,Q1027089,SI,208,Municipality of Log–Dragomer
+SI_209,Q13378058,SI,209,Municipality of Rečica ob Savinji
+SI_209,Q969326,SI,209,Rečica ob Savinji
+SI_210,Q1008144,SI,210,Municipality of Sveti Jurij v Slovenskih Goricah
+SI_211,Q3487128,SI,211,Municipality of Šentrupert
+SI_212,Q1515842,SI,212,Mirna Municipality
+SI_213,Q12042075,SI,213,Ankaran Municipality
+SK_BC,Q183640,SK,BC,Banská Bystrica Region
+SK_BL,Q183498,SK,BL,Bratislava Region
+SK_KI,Q186295,SK,KI,Košice Region
+SK_NI,Q184548,SK,NI,Nitra Region
+SK_PV,Q189001,SK,PV,Prešov Region
+SK_TA,Q181342,SK,TA,Trnava Region
+SK_TC,Q183139,SK,TC,Trenčín Region
+SK_ZI,Q184228,SK,ZI,Žilina Region
+SL,Q30059027,Sierra Leone Colony and Protectorate
+SL_E,Q1050497,SL,E,Eastern Province
+SL_N,Q912359,SL,N,Northern Province
+SL_NW,Q43371075,SL,NW,North West Province
+SL_S,Q772185,SL,S,Southern Province
+SL_W,Q1050475,SL,W,Western Area
+SM_01,Q206363,SM,01,Acquaviva
+SM_02,Q206980,SM,02,Chiesanuova
+SM_03,Q202202,SM,03,Domagnano
+SM_04,Q206356,SM,04,Faetano
+SM_05,Q206968,SM,05,Fiorentino
+SM_06,Q201368,SM,06,Borgo Maggiore
+SM_07,Q1848,SM,07,San Marino
+SM_08,Q206962,SM,08,Montegiardino
+SM_09,Q185412,SM,09,Serravalle
+SN_DB,Q856261,SN,DB,Diourbel Region
+SN_DK,Q856268,SN,DK,Dakar
+SN_FK,Q856282,SN,FK,Fatick
+SN_KA,Q1059694,SN,KA,Kaffrine
+SN_KD,Q738081,SN,KD,Kolda
+SN_KE,Q1046666,SN,KE,Kédougou
+SN_KL,Q847671,SN,KL,Kaolack
+SN_LG,Q738061,SN,LG,Louga
+SN_MT,Q856275,SN,MT,Matam
+SN_SE,Q589848,SN,SE,Sédhiou
+SN_SL,Q178872,SN,SL,Saint-Louis
+SN_TC,Q848554,SN,TC,Tambacounda Region
+SN_TH,Q847682,SN,TH,Thiès Region
+SN_ZG,Q822692,SN,ZG,Ziguinchor
+SO_AW,Q791667,SO,AW,Awdal Region
+SO_BK,Q282471,SO,BK,Bakool
+SO_BN,Q806070,SO,BN,Banaadir
+SO_BR,Q729170,SO,BR,Bari
+SO_BY,Q812064,SO,BY,Bay
+SO_GA,Q876772,SO,GA,Galguduud
+SO_GE,Q856719,SO,GE,Gedo
+SO_HI,Q660040,SO,HI,Hiran
+SO_JD,Q1046324,SO,JD,Middle Juba
+SO_JH,Q877042,SO,JH,Lower Juba
+SO_MU,Q877034,SO,MU,Mudug
+SO_NU,Q1046329,SO,NU,Nugal
+SO_SA,Q751387,SO,SA,Sanaag Region
+SO_SD,Q678435,SO,SD,Middle Shebelle
+SO_SH,Q877028,SO,SH,Lower Shebelle
+SO_SO,Q848864,SO,SO,Sool
+SO_TO,Q865590,SO,TO,Togdheer Region
+SO_WO,Q877021,SO,WO,Woqooyi Galbeed
+SR_BR,Q847680,SR,BR,Brokopondo District
+SR_CM,Q952510,SR,CM,Commewijne District
+SR_CR,Q1130141,SR,CR,Coronie District
+SR_MA,Q1140897,SR,MA,Marowijne District
+SR_NI,Q1147515,SR,NI,Nickerie District
+SR_PM,Q1130134,SR,PM,Paramaribo District
+SR_PR,Q1140891,SR,PR,Para District
+SR_SA,Q1351157,SR,SA,Saramacca District
+SR_SI,Q1130138,SR,SI,Sipaliwini District
+SR_WA,Q1147524,SR,WA,Wanica District
+SS_BN,Q491111,SS,BN,Northern Bahr el Ghazal
+SS_BW,Q332095,SS,BW,Western Bahr el Ghazal
+SS_EC,Q487709,SS,EC,Central Equatoria
+SS_EE,Q488519,SS,EE,Eastern Equatoria
+SS_EW,Q319979,SS,EW,Western Equatoria
+SS_JG,Q488904,SS,JG,Jonglei
+SS_LK,Q491096,SS,LK,Lakes
+SS_NU,Q487702,SS,NU,Upper Nile
+SS_UY,Q319965,SS,UY,Unity
+SS_WR,Q491138,SS,WR,Warrap
+ST_P,Q2366966,ST,P,Príncipe Province
+ST_S,Q6710363,ST,S,São Tomé Province
+SV_AH,Q572993,SV,AH,Ahuachapán Department
+SV_CA,Q914058,SV,CA,Cabañas Department
+SV_CH,Q522221,SV,CH,Chalatenango Department
+SV_CU,Q1130677,SV,CU,Cuscatlán Department
+SV_LI,Q930820,SV,LI,La Libertad Department
+SV_MO,Q1122836,SV,MO,Morazán Department
+SV_PA,Q1129788,SV,PA,La Paz Department
+SV_SA,Q671158,SV,SA,Santa Ana Department
+SV_SM,Q930804,SV,SM,San Miguel Department
+SV_SO,Q212540,SV,SO,Sonsonate Department
+SV_SS,Q1543219,SV,SS,San Salvador Department
+SV_SV,Q1130180,SV,SV,San Vicente Department
+SV_UN,Q1130688,SV,UN,La Unión Department
+SV_US,Q1122748,SV,US,Usulután Department
+SY_DI,Q2007044,SY,DI,Damascus Governorate
+SY_DR,Q1689560,SY,DR,Daraa Governorate
+SY_DY,Q232387,SY,DY,Deir ez-Zor Governorate
+SY_HA,Q233914,SY,HA,Al-Hasakah Governorate
+SY_HI,Q214094,SY,HI,Homs Governorate
+SY_HL,Q214064,SY,HL,Aleppo Governorate
+SY_HM,Q232355,SY,HM,Hama Governorate
+SY_ID,Q233218,SY,ID,Idlib Governorate
+SY_LA,Q233236,SY,LA,Latakia Governorate
+SY_QU,Q219690,SY,QU,Quneitra Governorate
+SY_RA,Q235563,SY,RA,Al-Raqqah Governorate
+SY_RD,Q232399,SY,RD,Rif Dimashq Governorate
+SY_SU,Q236797,SY,SU,As-Suwayda Governorate
+SY_TA,Q232382,SY,TA,Tartus Governorate
+SZ_HH,Q735570,SZ,HH,Hhohho District
+SZ_LU,Q856657,SZ,LU,Lubombo District
+SZ_MA,Q305395,SZ,MA,Manzini District
+SZ_SH,Q845934,SZ,SH,Shiselweni District
+TD_BA,Q180414,TD,BA,Batha Region
+TD_BG,Q1050621,TD,BG,Bahr el Gazel
+TD_BO,Q1139666,TD,BO,Borkou
+TD_CB,Q843975,TD,CB,Chari-Baguirmi Region
+TD_EE,Q16632169,TD,EE,Ennedi-Est
+TD_EN,Q748093,TD,EN,Ennedi Region
+TD_EO,Q16632172,TD,EO,Ennedi-Ouest
+TD_GR,Q175706,TD,GR,Guéra Region
+TD_HL,Q1042437,TD,HL,Hadjer-Lamis
+TD_KA,Q849841,TD,KA,Kanem Region
+TD_LC,Q867869,TD,LC,Lac Region
+TD_LO,Q305257,TD,LO,Logone Occidental Region
+TD_LR,Q167514,TD,LR,Logone Oriental Region
+TD_MA,Q597410,TD,MA,Mandoul Region
+TD_MC,Q177799,TD,MC,Moyen-Chari Region
+TD_ME,Q911421,TD,ME,Mayo-Kebbi Est Region
+TD_MO,Q910393,TD,MO,Mayo-Kebbi Ouest Region
+TD_ND,Q3659,TD,ND,N'Djamena
+TD_OD,Q841338,TD,OD,Ouaddaï Region
+TD_SA,Q385584,TD,SA,Salamat Region
+TD_SI,Q1149611,TD,SI,Sila Region
+TD_TA,Q867856,TD,TA,Tandjilé Region
+TD_TI,Q737711,TD,TI,Tibesti Region
+TD_WF,Q860813,TD,WF,Wadi Fira Region
+TG_C,Q316220,TG,C,Centrale Region
+TG_K,Q316216,TG,K,Kara Region
+TG_M,Q316291,TG,M,Maritime
+TG_P,Q316306,TG,P,Plateaux Region
+TG_S,Q279945,TG,S,Savanes Region
+TH_10,Q1861,TH,10,Bangkok
+TH_11,Q271529,TH,11,Samut Prakan
+TH_12,Q242932,TH,12,Nonthaburi
+TH_13,Q459748,TH,13,Pathum Thani
+TH_14,Q476222,TH,14,Phra Nakhon Si Ayutthaya
+TH_15,Q243795,TH,15,Ang Thong
+TH_16,Q336122,TH,16,Lopburi
+TH_17,Q334836,TH,17,Sing Buri
+TH_18,Q459759,TH,18,Chai Nat
+TH_19,Q337627,TH,19,Saraburi
+TH_20,Q207068,TH,20,Chon Buri
+TH_21,Q335221,TH,21,Rayong
+TH_22,Q327730,TH,22,Chanthaburi
+TH_23,Q241884,TH,23,Trat
+TH_24,Q334906,TH,24,Chachoengsao
+TH_25,Q321324,TH,25,Prachin Buri
+TH_26,Q466212,TH,26,Nakhon Nayok
+TH_27,Q381889,TH,27,Sa Kaeo
+TH_30,Q271737,TH,30,Nakhon Ratchasima
+TH_31,Q327510,TH,31,Buri Ram
+TH_32,Q380757,TH,32,Surin
+TH_33,Q380761,TH,33,Si Sa Ket
+TH_34,Q629024,TH,34,Ubon Ratchathani
+TH_35,Q506598,TH,35,Yasothon
+TH_36,Q275377,TH,36,Chaiyaphum
+TH_37,Q243791,TH,37,Amnat Charoen
+TH_38,Q1001862,TH,38,Bueng Kan
+TH_39,Q261241,TH,39,Nong Bua Lam Phu
+TH_40,Q327533,TH,40,Khon Kaen
+TH_41,Q380752,TH,41,Udon Thani
+TH_42,Q275388,TH,42,Loei
+TH_43,Q327737,TH,43,Nong Khai
+TH_44,Q468554,TH,44,Maha Sarakham
+TH_45,Q625463,TH,45,Roi Et
+TH_46,Q382144,TH,46,Kalasin
+TH_47,Q382125,TH,47,Sakon Nakhon
+TH_48,Q468547,TH,48,Nakhon Phanom
+TH_49,Q335119,TH,49,Mukdahan
+TH_50,Q233588,TH,50,Chiang Mai
+TH_51,Q240540,TH,51,Lamphun
+TH_52,Q240495,TH,52,Lampang
+TH_53,Q273794,TH,53,Uttaradit
+TH_54,Q244652,TH,54,Phrae
+TH_55,Q244698,TH,55,Nan
+TH_56,Q244618,TH,56,Phayao
+TH_57,Q236419,TH,57,Chiang Rai
+TH_58,Q269270,TH,58,Mae Hong Son
+TH_60,Q239844,TH,60,Nakhon Sawan
+TH_61,Q244649,TH,61,Uthai Thani
+TH_62,Q273807,TH,62,Kamphaeng Phet
+TH_63,Q275758,TH,63,Tak
+TH_64,Q380764,TH,64,Sukhothai
+TH_65,Q275781,TH,65,Phitsanulok
+TH_66,Q237874,TH,66,Phichit
+TH_67,Q240520,TH,67,Phetchabun
+TH_70,Q335492,TH,70,Ratchaburi
+TH_71,Q275740,TH,71,Kanchanaburi
+TH_72,Q272247,TH,72,Suphanburi
+TH_73,Q334841,TH,73,Nakhon Pathom
+TH_74,Q334686,TH,74,Samut Sakhon
+TH_75,Q459742,TH,75,Samut Songkhram
+TH_76,Q244699,TH,76,Phetchaburi
+TH_77,Q244628,TH,77,Prachuap Khiri Khan
+TH_80,Q244691,TH,80,Nakhon Si Thammarat
+TH_81,Q236769,TH,81,Krabi
+TH_82,Q273306,TH,82,Phang Nga
+TH_83,Q182565,TH,83,Phuket
+TH_84,Q240463,TH,84,Surat Thani
+TH_85,Q236802,TH,85,Ranong
+TH_86,Q244695,TH,86,Chumphon
+TH_90,Q235574,TH,90,Songkhla
+TH_91,Q236263,TH,91,Satun
+TH_92,Q243805,TH,92,Trang
+TH_93,Q243808,TH,93,Phatthalung
+TH_94,Q236781,TH,94,Pattani
+TH_95,Q242977,TH,95,Yala
+TH_96,Q271442,TH,96,Narathiwat
+TH_S,Q170919,TH,S,Pattaya
+TJ_DU,Q9365,TJ,DU,Dushanbe
+TJ_GB,Q207319,TJ,GB,Gorno-Badakhshan Autonomous Province
+TJ_KT,Q633511,TJ,KT,Khatlon Province
+TJ_RA,Q633490,TJ,RA,districts of Republican Subordination
+TJ_SU,Q241582,TJ,SU,Sughd Province
+TJ.SU.KR,Q2588415,Konibodom District
+TL_AL,Q405100,TL,AL,Aileu municipality
+TL_AN,Q405926,TL,AN,Ainaro Municipality
+TL_BA,Q811132,TL,BA,Baucau Municipality
+TL_BO,Q860913,TL,BO,Bobonaro Municipality
+TL_CO,Q165575,TL,CO,Cova Lima Municipality
+TL_DI,Q860901,TL,DI,Dili municipality
+TL_ER,Q668171,TL,ER,Ermera District
+TL_LA,Q686554,TL,LA,Lautém Municipality
+TL_LI,Q860897,TL,LI,Liquiçá Municipality
+TL_MF,Q629934,TL,MF,Manufahi Municipality
+TL_MT,Q860630,TL,MT,Manatuto District
+TL_OE,Q860639,TL,OE,Oe-Cusse Ambeno
+TL_VI,Q610726,TL,VI,Viqueque Municipality
+TM_A,Q399899,TM,A,Ahal Region
+TM_B,Q486073,TM,B,Balkan Region
+TM_D,Q487393,TM,D,Daşoguz Region
+TM_L,Q487389,TM,L,Lebap Region
+TM_M,Q487401,TM,M,Mary Region
+TM_S,Q23438,TM,S,Ashgabat
+TN_11,Q328109,TN,11,Tunis Governorate
+TN_12,Q233116,TN,12,Ariana Governorate
+TN_13,Q238555,TN,13,Ben Arous Governorate
+TN_14,Q734328,TN,14,Manouba Governorate
+TN_21,Q328145,TN,21,Nabeul Governorate
+TN_22,Q27916,TN,22,Zaghouan Governorate
+TN_23,Q241129,TN,23,Bizerte Governorate
+TN_31,Q276576,TN,31,Beja Governorate
+TN_32,Q276580,TN,32,Jendouba Governorate
+TN_33,Q328199,TN,33,Kef Governorate
+TN_34,Q328115,TN,34,Siliana Governorate
+TN_41,Q276574,TN,41,Kairouan Governorate
+TN_42,Q388047,TN,42,Kasserine Governorate
+TN_43,Q327097,TN,43,Sidi Bouzid Governorate
+TN_51,Q276565,TN,51,Sousse Governorate
+TN_52,Q318102,TN,52,Monastir Governorate
+TN_53,Q328164,TN,53,Mahdia Governorate
+TN_61,Q241145,TN,61,Sfax Governorate
+TN_71,Q269968,TN,71,Gafsa Governorate
+TN_72,Q388059,TN,72,Tozeur Governorate
+TN_73,Q286063,TN,73,Kebili Governorate
+TN_81,Q242263,TN,81,Gabès Governorate
+TN_82,Q327087,TN,82,Medenine Governorate
+TN_83,Q327045,TN,83,Tataouine Governorate
+TO_01,Q18472979,TO,01,ʻEua
+TO_01,Q423528,TO,01,ʻEua
+TO_02,Q10293470,TO,02,Haʻapai
+TO_02,Q612098,TO,02,Haʻapai
+TO_03,Q1200954,TO,03,Niuas
+TO_04,Q10383165,TO,04,Tongatapu
+TO_05,Q10389402,TO,05,Vavaʻu
+TO_05,Q859666,TO,05,Vavaʻu
+TR_01,Q40549,TR,01,Adana Province
+TR_02,Q43924,TR,02,Adıyaman Province
+TR_03,Q45220,TR,03,Afyonkarahisar Province
+TR_04,Q80051,TR,04,Ağrı Province
+TR_05,Q80036,TR,05,Amasya Province
+TR_06,Q2297724,TR,06,Ankara Province
+TR_07,Q40249,TR,07,Antalya Province
+TR_08,Q43745,TR,08,Artvin Province
+TR_09,Q79846,TR,09,Aydın Province
+TR_10,Q47117,TR,10,Balıkesir Province
+TR_11,Q46763,TR,11,Bilecik Province
+TR_12,Q79760,TR,12,Bingöl Province
+TR_13,Q83239,TR,13,Bitlis Province
+TR_14,Q82089,TR,14,Bolu Province
+TR_15,Q80088,TR,15,Burdur Province
+TR_16,Q43690,TR,16,Bursa Province
+TR_17,Q47813,TR,17,Çanakkale Province
+TR_18,Q272662,TR,18,Çankırı Province
+TR_19,Q272947,TR,19,Çorum Province
+TR_20,Q82096,TR,20,Denizli Province
+TR_21,Q83081,TR,21,Diyarbakır Province
+TR_22,Q83102,TR,22,Edirne Province
+TR_23,Q483091,TR,23,Elazığ Province
+TR_24,Q483173,TR,24,Erzincan Province
+TR_25,Q376797,TR,25,Erzurum Province
+TR_26,Q483053,TR,26,Eskişehir Province
+TR_27,Q483154,TR,27,Gaziantep Province
+TR_28,Q482779,TR,28,Giresun Province
+TR_29,Q482788,TR,29,Gümüşhane Province
+TR_30,Q93209,TR,30,Hakkâri Province
+TR_31,Q83274,TR,31,Hatay
+TR_32,Q268043,TR,32,Isparta Province
+TR_33,Q132637,TR,33,Mersin Province
+TR_34,Q534799,TR,34,Istanbul Province
+TR_35,Q344490,TR,35,İzmir Province
+TR_36,Q83077,TR,36,Kars Province
+TR_37,Q483191,TR,37,Kastamonu Province
+TR_38,Q483472,TR,38,Kayseri Province
+TR_39,Q131597,TR,39,Kırklareli Province
+TR_40,Q134187,TR,40,Kırşehir Province
+TR_41,Q83965,TR,41,Kocaeli
+TR_42,Q81551,TR,42,Konya Province
+TR_43,Q126874,TR,43,Kütahya Province
+TR_44,Q131384,TR,44,Malatya Province
+TR_45,Q130553,TR,45,Manisa Province
+TR_46,Q482834,TR,46,Kahramanmaraş Province
+TR_47,Q131293,TR,47,Mardin Province
+TR_48,Q123934,TR,48,Muğla Province
+TR_49,Q131387,TR,49,Muş Province
+TR_50,Q430693,TR,50,Nevşehir Province
+TR_51,Q155219,TR,51,Niğde Province
+TR_52,Q483180,TR,52,Ordu Province
+TR_53,Q483481,TR,53,Rize Province
+TR_54,Q83069,TR,54,Sakarya Province
+TR_55,Q483040,TR,55,Samsun Province
+TR_56,Q482825,TR,56,Siirt Province
+TR_57,Q134413,TR,57,Sinop Province
+TR_58,Q483100,TR,58,Sivas Province
+TR_59,Q129387,TR,59,Tekirdağ Province
+TR_60,Q483195,TR,60,Tokat Province
+TR_61,Q388995,TR,61,Trabzon Province
+TR_62,Q620742,TR,62,Tunceli Province
+TR_63,Q388469,TR,63,Şanlıurfa Province
+TR_64,Q483078,TR,64,Uşak Province
+TR_65,Q80550,TR,65,Van Province
+TR_66,Q75445,TR,66,Yozgat Province
+TR_67,Q219956,TR,67,Zonguldak Province
+TR_68,Q83073,TR,68,Aksaray Province
+TR_69,Q483063,TR,69,Bayburt Province
+TR_70,Q482975,TR,70,Karaman Province
+TR_71,Q484392,TR,71,Kırıkkale Province
+TR_72,Q80370,TR,72,Batman Province
+TR_73,Q647378,TR,73,Şırnak Province
+TR_74,Q83342,TR,74,Bartın Province
+TR_75,Q79840,TR,75,Ardahan Province
+TR_76,Q125506,TR,76,Iğdır Province
+TR_77,Q483083,TR,77,Yalova Province
+TR_78,Q483168,TR,78,Karabük Province
+TR_79,Q128978,TR,79,Kilis Province
+TR_80,Q281206,TR,80,Osmaniye Province
+TR_81,Q432391,TR,81,Düzce Province
+TT_ARI,Q661405,TT,ARI,Arima
+TT_CHA,Q1444575,TT,CHA,Chaguanas
+TT_CTT,Q2679127,TT,CTT,Couva-Tabaquite-Talparo Regional Corporation
+TT_DMN,Q2679107,TT,DMN,Diego Martin Regional Corporation
+TT_ETO,Q13365873,TT,ETO,Eastern Tobago
+TT_MRC,Q2487249,TT,MRC,Rio Claro-Mayaro Regional Corporation
+TT_PED,Q2056273,TT,PED,Penal-Debe Regional Corporation
+TT_POS,Q39178,TT,POS,Port of Spain
+TT_PRT,Q2228167,TT,PRT,Princes Town Regional Corporation
+TT_PTF,Q786957,TT,PTF,Point Fortin
+TT_SFO,Q1023712,TT,SFO,San Fernando
+TT_SGE,Q290292,TT,SGE,Sangre Grande Regional Corporation
+TT_SIP,Q2679119,TT,SIP,Siparia Regional Corporation
+TT_SJL,Q979608,TT,SJL,San Juan–Laventille
+TT_TOB,Q185111,TT,TOB,Tobago
+TT_TUP,Q1899163,TT,TUP,Tunapuna-Piarco Regional Corporation
+TT_WTO,Q13365874,TT,WTO,Western Tobago
+TV_FUN,Q34126,TV,FUN,Funafuti
+TV_NIT,Q17578833,TV,NIT,Niutao Island Council
+TV_NIT,Q475219,TV,NIT,Niutao
+TV_NKF,Q745924,TV,NKF,Nukufetau
+TV_NKL,Q128654,TV,NKL,Nukulaelae
+TV_NMA,Q174618,TV,NMA,Nanumea
+TV_NMG,Q367027,TV,NMG,Nanumanga
+TV_NUI,Q547997,TV,NUI,Nui
+TV_VAI,Q632495,TV,VAI,Vaitupu
+TW_CHA,Q133865,TW,CHA,Changhua County
+TW_CYI,Q249995,TW,CYI,Chiayi City
+TW_CYQ,Q166977,TW,CYQ,Chiayi County
+TW_HSQ,Q74054,TW,HSQ,Hsinchu County
+TW_HSZ,Q249994,TW,HSZ,Hsinchu
+TW_HUA,Q249868,TW,HUA,Hualien County
+TW_ILA,Q237258,TW,ILA,Yilan County
+TW_KEE,Q249996,TW,KEE,Keelung
+TW_KHH,Q181557,TW,KHH,Kaohsiung
+TW_KHQ,Q219147,TW,KHQ,Kaohsiung County
+TW_KIN,Q249870,TW,KIN,Kinmen
+TW_LIE,Q249872,TW,LIE,Lienchiang County
+TW_MIA,Q63706,TW,MIA,Miaoli County
+TW_NAN,Q82357,TW,NAN,Nantou County
+TW_NWT,Q244898,TW,NWT,New Taipei City
+TW_PEN,Q198525,TW,PEN,Penghu County
+TW_PIF,Q194989,TW,PIF,Pingtung County
+TW_TAO,Q115256,TW,TAO,Taoyuan City
+TW_TNN,Q140631,TW,TNN,Tainan
+TW_TNQ,Q477601,TW,TNQ,Tainan County
+TW_TPE,Q1867,TW,TPE,Taipei
+TW_TTT,Q249904,TW,TTT,Taitung County
+TW_TXG,Q245023,TW,TXG,Taichung
+TW_TXQ,Q701682,TW,TXQ,Taichung County
+TW_YUN,Q153221,TW,YUN,Yunlin County
+TZ_01,Q329261,TZ,01,Arusha Region
+TZ_02,Q557539,TZ,02,Dar es Salaam Region
+TZ_03,Q213268,TZ,03,Dodoma Region
+TZ_04,Q309352,TZ,04,Iringa Region
+TZ_05,Q309190,TZ,05,Kagera Region
+TZ_06,Q498073,TZ,06,North Pemba Region
+TZ_07,Q147116,TZ,07,Zanzibar North Region
+TZ_08,Q747943,TZ,08,Kigoma Region
+TZ_09,Q328922,TZ,09,Kilimanjaro Region
+TZ_10,Q498067,TZ,10,South Pemba Region
+TZ_11,Q643120,TZ,11,Zanzibar Central/South Region
+TZ_12,Q309339,TZ,12,Lindi Region
+TZ_13,Q458406,TZ,13,Mara Region
+TZ_14,Q458382,TZ,14,Mbeya Region
+TZ_15,Q180822,TZ,15,Zanzibar Urban/West Region
+TZ_16,Q458388,TZ,16,Morogoro Region
+TZ_17,Q499465,TZ,17,Mtwara Region
+TZ_18,Q331153,TZ,18,Mwanza Region
+TZ_19,Q458412,TZ,19,Pwani Region
+TZ_20,Q153329,TZ,20,Rukwa Region
+TZ_21,Q115318,TZ,21,Ruvuma Region
+TZ_22,Q153339,TZ,22,Shinyanga Region
+TZ_23,Q153326,TZ,23,Singida Region
+TZ_24,Q153335,TZ,24,Tabora Region
+TZ_25,Q389737,TZ,25,Tanga Region
+TZ_26,Q331117,TZ,26,Manyara Region
+TZ_27,Q1848521,TZ,27,Geita Region
+TZ_28,Q2682731,TZ,28,Katavi Region
+TZ_29,Q2086273,TZ,29,Njombe Region
+TZ_30,Q2787568,TZ,30,Simiyu Region
+UA_05,Q166709,UA,05,Vinnytsia Oblast
+UA_07,Q167859,UA,07,Volyn Oblast
+UA_09,Q171965,UA,09,Luhansk Oblast
+UA_12,Q170672,UA,12,Dnipropetrovsk Oblast
+UA_14,Q2012050,UA,14,Donetsk Oblast
+UA_18,Q40637,UA,18,Zhytomyr Oblast
+UA_21,Q170213,UA,21,Zakarpattia Oblast
+UA_23,Q171334,UA,23,Zaporizhzhya Oblast
+UA_26,Q178269,UA,26,Ivano-Frankivsk Oblast
+UA_30,Q1899,UA,30,Kiev
+UA_32,Q170036,UA,32,Kyiv Oblast
+UA_35,Q180981,UA,35,Kirovohrad Oblast
+UA_40,Q4456205,UA,40,Administrative and municipal divisions of Sevastopol
+UA_40,Q7525,UA,40,Sevastopol
+UA_43,Q756294,UA,43,Autonomous Republic of Crimea
+UA_46,Q164193,UA,46,Lviv Oblast
+UA_48,Q181633,UA,48,Mykolaiv Oblast
+UA_51,Q171852,UA,51,Odessa Oblast
+UA_53,Q169501,UA,53,Poltava Oblast
+UA_56,Q174187,UA,56,Rivne Oblast
+UA_59,Q170446,UA,59,Sumy Oblast
+UA_61,Q173407,UA,61,Ternopil Oblast
+UA_63,Q170666,UA,63,Kharkiv Oblast
+UA_65,Q163271,UA,65,Kherson Oblast
+UA_68,Q171331,UA,68,Khmelnytskyi Oblast
+UA_71,Q161808,UA,71,Cherkasy Oblast
+UA_74,Q167874,UA,74,Chernihiv Oblast
+UA_77,Q168856,UA,77,Chernivtsi Oblast
+UG_101,Q867219,UG,101,Kalangala District
+UG_102,Q926417,UG,102,Kampala District
+UG_103,Q892064,UG,103,Kiboga District
+UG_104,Q1364817,UG,104,Luwero District
+UG_105,Q1032233,UG,105,Masaka District
+UG_106,Q1362109,UG,106,Mpigi District
+UG_107,Q891962,UG,107,Mubende District
+UG_108,Q1151066,UG,108,Mukono District
+UG_109,Q976859,UG,109,Nakasongola District
+UG_110,Q976873,UG,110,Rakai District
+UG_111,Q976883,UG,111,Sembabule District
+UG_112,Q1207391,UG,112,Kayunga District
+UG_113,Q976848,UG,113,Wakiso District
+UG_114,Q1375878,UG,114,Lyantonde District
+UG_115,Q1230005,UG,115,Mityana District
+UG_116,Q432438,UG,116,Nakaseke District
+UG_117,Q3321631,UG,117,Buikwe District
+UG_118,Q3321599,UG,118,Bukomansimbi District
+UG_119,Q3321622,UG,119,Butambala District
+UG_120,Q3321608,UG,120,Buvuma District
+UG_121,Q3321637,UG,121,Gomba District
+UG_122,Q3321614,UG,122,Kalungu District
+UG_123,Q534203,UG,123,Kyankwanzi District
+UG_124,Q1114954,UG,124,Lwengo District
+UG_125,Q38249546,UG,125,Kyotera District
+UG_201,Q1229798,UG,201,Bugiri District
+UG_202,Q1229800,UG,202,Busia District
+UG_203,Q1229869,UG,203,Iganga District
+UG_204,Q983748,UG,204,Jinja District
+UG_205,Q164474,UG,205,Kamuli District
+UG_206,Q1229921,UG,206,Kapchorwa District
+UG_207,Q1229930,UG,207,Katakwi District
+UG_208,Q1151062,UG,208,Kumi District
+UG_209,Q581822,UG,209,Mbale District
+UG_210,Q1375843,UG,210,Pallisa District
+UG_211,Q1091337,UG,211,Soroti District
+UG_212,Q1186541,UG,212,Tororo District
+UG_213,Q1229906,UG,213,Kaberamaido District
+UG_214,Q1364824,UG,214,Mayuge District
+UG_215,Q1375835,UG,215,Sironko District
+UG_216,Q1375762,UG,216,Amuria District
+UG_217,Q1362085,UG,217,Budaka District
+UG_218,Q1365449,UG,218,Bududa District
+UG_219,Q1375812,UG,219,Bukedea District
+UG_220,Q1375868,UG,220,Bukwo District
+UG_221,Q1375755,UG,221,Butaleja District
+UG_222,Q1375859,UG,222,Kaliro District
+UG_223,Q1375789,UG,223,Manafwa District
+UG_224,Q1375819,UG,224,Namutumba District
+UG_225,Q1114868,UG,225,Bulambuli District
+UG_226,Q1114938,UG,226,Buyende District
+UG_227,Q1114885,UG,227,Kibuku District
+UG_228,Q3321998,UG,228,Kween District
+UG_229,Q1114977,UG,229,Luuka District
+UG_230,Q1114915,UG,230,Namayingo District
+UG_231,Q1114903,UG,231,Ngora District
+UG_232,Q1114927,UG,232,Serere District
+UG_233,Q44377523,UG,233,Butebo District
+UG_234,Q44380663,UG,234,Namisindwa District
+UG_301,Q1229734,UG,301,Adjumani District
+UG_302,Q1229750,UG,302,Apac District
+UG_303,Q1229758,UG,303,Arua District
+UG_304,Q1028215,UG,304,Gulu District
+UG_305,Q500162,UG,305,Kitgum District
+UG_306,Q1318843,UG,306,Kotido District
+UG_307,Q206519,UG,307,Lira District
+UG_308,Q1375850,UG,308,Moroto District
+UG_309,Q2183668,UG,309,Moyo District
+UG_310,Q1375825,UG,310,Nebbi District
+UG_311,Q1375853,UG,311,Nakapiripirit District
+UG_312,Q1230035,UG,312,Pader District
+UG_313,Q1362587,UG,313,Yumbe District
+UG_314,Q1375780,UG,314,Abim District
+UG_315,Q1318822,UG,315,Amolatar District
+UG_316,Q1375771,UG,316,Amuru District
+UG_317,Q1318872,UG,317,Dokolo District
+UG_318,Q1229881,UG,318,Kaabong District
+UG_319,Q1318857,UG,319,Koboko District
+UG_320,Q588927,UG,320,Maracha District
+UG_321,Q1318833,UG,321,Oyam District
+UG_322,Q3536053,UG,322,Agago District
+UG_323,Q3536082,UG,323,Alebtong District
+UG_324,Q3536116,UG,324,Amudat District
+UG_325,Q3539151,UG,325,Kole District
+UG_326,Q3539277,UG,326,Lamwo District
+UG_327,Q3539495,UG,327,Napak District
+UG_328,Q3539572,UG,328,Nwoya District
+UG_329,Q3539602,UG,329,Otuke District
+UG_330,Q3539730,UG,330,Zombo District
+UG_331,Q38249597,UG,331,Omoro District
+UG_332,Q38249567,UG,332,Pakwach District
+UG_401,Q1362129,UG,401,Bundibugyo District
+UG_402,Q1229797,UG,402,Bushenyi District
+UG_403,Q1186535,UG,403,Hoima District
+UG_404,Q3526470,UG,404,Kabale District
+UG_405,Q1229910,UG,405,Kabarole District
+UG_406,Q1229919,UG,406,Kasese District
+UG_407,Q604966,UG,407,Kibaale District
+UG_408,Q580538,UG,408,Kisoro District
+UG_409,Q1032238,UG,409,Masindi District
+UG_410,Q1091595,UG,410,Mbarara District
+UG_411,Q204642,UG,411,Ntungamo District
+UG_412,Q289419,UG,412,Rukungiri District
+UG_413,Q1318806,UG,413,Kamwenge District
+UG_414,Q1032245,UG,414,Kanungu District
+UG_415,Q1318815,UG,415,Kyenjojo District
+UG_416,Q1229793,UG,416,Buliisa District
+UG_417,Q1318877,UG,417,Ibanda District
+UG_418,Q1318887,UG,418,Isingiro District
+UG_419,Q1318865,UG,419,Kiruhura District
+UG_420,Q3537661,UG,420,Buhweju District
+UG_421,Q3539116,UG,421,Kiryandongo District
+UG_422,Q3539256,UG,422,Kyegegwa District
+UG_423,Q3539414,UG,423,Mitooma District
+UG_424,Q3539547,UG,424,Ntoroko District
+UG_425,Q3539648,UG,425,Rubirizi District
+UG_426,Q3539711,UG,426,Sheema District
+UG_427,Q38249484,UG,427,Kagadi District
+UG_428,Q38249480,UG,428,Kakumiro District
+UG_429,Q38249602,UG,429,Rubanda District
+UG_430,Q38249629,UG,430,Bunyangabu District
+UG_431,Q38249615,UG,431,Rukiga District
+UG_C,Q429685,UG,C,Central Region
+UG_E,Q2559220,UG,E,Eastern Region
+UG_N,Q2559686,UG,N,Northern Region
+UG_W,Q2559188,UG,W,Western Region
+UM_67,Q131008,UM,67,Johnston Atoll
+UM_71,Q47863,UM,71,Midway Atoll
+UM_76,Q25359,UM,76,Navassa Island
+UM_79,Q43296,UM,79,Wake Island
+UM_81,Q46879,UM,81,Baker Island
+UM_84,Q131305,UM,84,Howland Island
+UM_86,Q62218,UM,86,Jarvis Island
+UM_89,Q130895,UM,89,Kingman Reef
+UM_95,Q123076,UM,95,Palmyra Atoll
+US_AK,Q797,US,AK,Alaska
+US_AL,Q173,US,AL,Alabama
+US_AR,Q1612,US,AR,Arkansas
+US_AS,Q16641,US,AS,American Samoa
+US_AZ,Q816,US,AZ,Arizona
+US_CA,Q99,US,CA,California
+US_CO,Q1261,US,CO,Colorado
+US_CT,Q779,US,CT,Connecticut
+US_DC,Q3551781,US,DC,District of Columbia
+US_DE,Q1393,US,DE,Delaware
+US_FL,Q812,US,FL,Florida
+US_GA,Q1428,US,GA,Georgia
+US_GU,Q16635,US,GU,Guam
+US_HI,Q782,US,HI,Hawaii
+US_IA,Q1546,US,IA,Iowa
+US_ID,Q1221,US,ID,Idaho
+US_IL,Q1204,US,IL,Illinois
+US_IN,Q1415,US,IN,Indiana
+US_KS,Q1558,US,KS,Kansas
+US_KY,Q1603,US,KY,Kentucky
+US_LA,Q1588,US,LA,Louisiana
+US_MA,Q771,US,MA,Massachusetts
+US_MD,Q1391,US,MD,Maryland
+US_ME,Q724,US,ME,Maine
+US_MI,Q1166,US,MI,Michigan
+US_MN,Q1527,US,MN,Minnesota
+US_MO,Q1581,US,MO,Missouri
+US_MP,Q16644,US,MP,Northern Mariana Islands
+US_MS,Q1494,US,MS,Mississippi
+US_MT,Q1212,US,MT,Montana
+US_NC,Q1454,US,NC,North Carolina
+US_ND,Q1207,US,ND,North Dakota
+US_NE,Q1553,US,NE,Nebraska
+US_NH,Q759,US,NH,New Hampshire
+US_NJ,Q1408,US,NJ,New Jersey
+US_NM,Q1522,US,NM,New Mexico
+US_NV,Q1227,US,NV,Nevada
+US_NY,Q1384,US,NY,New York
+US_OH,Q1397,US,OH,Ohio
+US_OK,Q1649,US,OK,Oklahoma
+US_OR,Q824,US,OR,Oregon
+US_PA,Q1400,US,PA,Pennsylvania
+US_PR,Q1183,US,PR,Puerto Rico
+US_RI,Q1387,US,RI,Rhode Island
+US_SC,Q1456,US,SC,South Carolina
+US_SD,Q1211,US,SD,South Dakota
+US_TN,Q1509,US,TN,Tennessee
+US_TX,Q1439,US,TX,Texas
+US_UM,Q16645,US,UM,United States Minor Outlying Islands
+US_UT,Q829,US,UT,Utah
+US_VA,Q1370,US,VA,Virginia
+US_VI,Q11703,US,VI,United States Virgin Islands
+US_VT,Q16551,US,VT,Vermont
+US_WA,Q1223,US,WA,Washington
+US_WI,Q1537,US,WI,Wisconsin
+US_WV,Q1371,US,WV,West Virginia
+US_WY,Q1214,US,WY,Wyoming
+UY_AR,Q16603,UY,AR,Artigas Department
+UY_CA,Q16577,UY,CA,Canelones Department
+UY_CL,Q16575,UY,CL,Cerro Largo Department
+UY_CO,Q16580,UY,CO,Colonia Department
+UY_DU,Q16591,UY,DU,Durazno Department
+UY_FD,Q16593,UY,FD,Florida Department
+UY_FS,Q16578,UY,FS,Flores Department
+UY_LA,Q460435,UY,LA,Lavalleja Department
+UY_MA,Q331196,UY,MA,Maldonado Department
+UY_MO,Q16594,UY,MO,Montevideo Department
+UY_PA,Q16576,UY,PA,Paysandú Department
+UY_RN,Q16596,UY,RN,Río Negro Department
+UY_RO,Q16582,UY,RO,Rocha Department
+UY_RV,Q16609,UY,RV,Rivera Department
+UY_SA,Q16595,UY,SA,Salto Department
+UY_SJ,Q16579,UY,SJ,San José Department
+UY_SO,Q16584,UY,SO,Soriano Department
+UY_TA,Q16587,UY,TA,Tacuarembó Department
+UY_TT,Q16610,UY,TT,Treinta y Tres Department
+UZ_AN,Q487384,UZ,AN,Andijan Region
+UZ_BU,Q487372,UZ,BU,Bukhara Region
+UZ_FA,Q487089,UZ,FA,Fergana Region
+UZ_JI,Q488811,UZ,JI,Jizzakh Region
+UZ_NG,Q474876,UZ,NG,Namangan Region
+UZ_NW,Q487570,UZ,NW,Navoiy Region
+UZ_QA,Q487577,UZ,QA,Qashqadaryo Region
+UZ_QR,Q484245,UZ,QR,Karakalpakstan
+UZ_SA,Q487532,UZ,SA,Samarqand Region
+UZ_SI,Q487547,UZ,SI,Sirdaryo Region
+UZ_SU,Q487537,UZ,SU,Surxondaryo Region
+UZ_TK,Q269,UZ,TK,Tashkent
+UZ_TO,Q487585,UZ,TO,Tashkent Region
+UZ_XO,Q487561,UZ,XO,Xorazm Region
+VC_01,Q2075188,VC,01,Charlotte Parish
+VC_02,Q2305115,VC,02,Saint Andrew Parish
+VC_03,Q2412394,VC,03,Saint David Parish
+VC_04,Q2300294,VC,04,Saint George Parish
+VC_05,Q1864637,VC,05,Saint Patrick Parish
+VC_06,Q2545297,VC,06,Grenadines Parish
+VE_A,Q492791,VE,A,Capital District
+VE_B,Q190922,VE,B,Anzoátegui
+VE_C,Q41146,VE,C,Apure
+VE_D,Q190687,VE,D,Aragua
+VE_E,Q43271,VE,E,Barinas
+VE_F,Q191164,VE,F,Bolívar
+VE_G,Q191186,VE,G,Carabobo
+VE_H,Q205460,VE,H,Cojedes
+VE_I,Q202071,VE,I,Falcón
+VE_J,Q202075,VE,J,Guárico
+VE_K,Q205796,VE,K,Lara
+VE_L,Q165582,VE,L,Merida
+VE_M,Q191174,VE,M,Miranda
+VE_N,Q205776,VE,N,Monagas
+VE_O,Q204876,VE,O,Nueva Esparta
+VE_P,Q205784,VE,P,Portuguesa
+VE_R,Q205824,VE,R,Sucre
+VE_S,Q41144,VE,S,Tachira
+VE_T,Q202068,VE,T,Trujillo
+VE_U,Q201121,VE,U,Yaracuy
+VE_V,Q43269,VE,V,Zulia
+VE_W,Q130343,VE,W,Federal Dependencies of Venezuela
+VE_X,Q205843,VE,X,Vargas state
+VE_Y,Q201137,VE,Y,Delta Amacuro
+VE_Z,Q170453,VE,Z,Amazonas
+VN_01,Q36409,VN,01,Lai Châu
+VN_02,Q36446,VN,02,Lào Cai
+VN_03,Q36685,VN,03,Hà Giang
+VN_04,Q36865,VN,04,Cao Bằng
+VN_05,Q33379,VN,05,Sơn La
+VN_06,Q36349,VN,06,Yên Bái
+VN_07,Q2332060,VN,07,Tuyên Quang
+VN_09,Q33403,VN,09,Lạng Sơn
+VN_13,Q33396,VN,13,Quảng Ninh
+VN_14,Q36015,VN,14,Hòa Bình
+VN_15,Q1077294,VN,15,Hà Tây
+VN_18,Q36900,VN,18,Ninh Bình
+VN_20,Q36681,VN,20,Thái Bình
+VN_21,Q36512,VN,21,Thanh Hóa
+VN_22,Q36587,VN,22,Nghệ An
+VN_23,Q33351,VN,23,Hà Tĩnh
+VN_24,Q23533,VN,24,Quảng Bình
+VN_25,Q36579,VN,25,Quảng Trị
+VN_26,Q36399,VN,26,Thừa Thiên-Huế
+VN_27,Q33356,VN,27,Quảng Nam
+VN_28,Q36315,VN,28,Kon Tum
+VN_29,Q33304,VN,29,Quảng Ngãi
+VN_30,Q36662,VN,30,Gia Lai
+VN_31,Q36693,VN,31,Bình Định
+VN_32,Q36725,VN,32,Phú Yên
+VN_33,Q36690,VN,33,Đắk Lắk
+VN_34,Q33369,VN,34,Khánh Hòa
+VN_35,Q36721,VN,35,Lâm Đồng
+VN_36,Q36903,VN,36,Ninh Thuận
+VN_37,Q36608,VN,37,Tây Ninh
+VN_39,Q33271,VN,39,Đồng Nai
+VN_40,Q36869,VN,40,Bình Thuận
+VN_41,Q26573,VN,41,Long An
+VN_43,Q36874,VN,43,Bà Rịa-Vũng Tàu
+VN_44,Q36592,VN,44,An Giang
+VN_45,Q36676,VN,45,Đồng Tháp
+VN_46,Q36666,VN,46,Tiền Giang
+VN_47,Q36576,VN,47,Kiên Giang
+VN_49,Q7333405,VN,49,Vĩnh Long
+VN_50,Q33366,VN,50,Bến Tre
+VN_51,Q36615,VN,51,Trà Vinh
+VN_52,Q33272,VN,52,Sóc Trăng
+VN_53,Q36404,VN,53,Bắc Kạn
+VN_54,Q36367,VN,54,Bắc Giang
+VN_55,Q36658,VN,55,Bạc Liêu
+VN_56,Q33408,VN,56,Bắc Ninh
+VN_57,Q36866,VN,57,Bình Dương
+VN_58,Q36672,VN,58,Bình Phước
+VN_59,Q33354,VN,59,Cà Mau
+VN_61,Q36729,VN,61,Hải Dương
+VN_63,Q36413,VN,63,Hà Nam
+VN_66,Q36235,VN,66,Hưng Yên
+VN_67,Q36907,VN,67,Nam Định
+VN_68,Q36610,VN,68,Phú Thọ
+VN_69,Q26575,VN,69,Thái Nguyên
+VN_70,Q27566,VN,70,Vĩnh Phúc
+VN_71,Q36955,VN,71,Điện Biên
+VN_72,Q36723,VN,72,Đắk Nông
+VN_73,Q36320,VN,73,Hậu Giang
+VN_CT,Q216075,VN,CT,Cần Thơ
+VN_DN,Q25282,VN,DN,Da Nang
+VN_HN,Q1858,VN,HN,Hanoi
+VN_HP,Q72818,VN,HP,Haiphong
+VN_SG,Q1854,VN,SG,Ho Chi Minh City
+VU_MAP,Q740656,VU,MAP,Malampa
+VU_PAM,Q836649,VU,PAM,Penama
+VU_SAM,Q740640,VU,SAM,Sanma
+VU_SEE,Q650617,VU,SEE,Shefa
+VU_TAE,Q576417,VU,TAE,Tafea
+VU_TOB,Q822514,VU,TOB,Torba
+WF_AL,Q2734700,WF,AL,Alo
+WF_SG,Q2554877,WF,SG,Sigave
+WF_UV,Q7903676,WF,UV,Uvea
+WS_AA,Q1154121,WS,AA,A'ana
+WS_AL,Q1144488,WS,AL,Aiga-i-le-Tai
+WS_AT,Q1154332,WS,AT,Atua
+WS_FA,Q1154134,WS,FA,Fa'asaleleaga
+WS_GE,Q1193143,WS,GE,Gaga'emauga
+WS_GI,Q1193134,WS,GI,Gaga'ifomauga
+WS_PA,Q1147216,WS,PA,Palauli
+WS_SA,Q651573,WS,SA,Satupa'itea
+WS_TU,Q1144482,WS,TU,Tuamasaga
+WS_VF,Q1154109,WS,VF,Va'a-o-Fonoti
+WS_VS,Q1193139,WS,VS,Vaisigano
+YE_AB,Q241774,YE,AB,Abyan Governorate
+YE_AD,Q275729,YE,AD,'Adan Governorate
+YE_AM,Q275720,YE,AM,'Amran Governorate
+YE_BA,Q221212,YE,BA,Al Bayda' Governorate
+YE_DA,Q328187,YE,DA,Ad Dali' Governorate
+YE_DH,Q328193,YE,DH,Dhamar Governorate
+YE_HD,Q241135,YE,HD,Hadhramaut Governorate
+YE_HJ,Q328158,YE,HJ,Hajjah Governorate
+YE_HU,Q275755,YE,HU,Al Hudaydah Governorate
+YE_IB,Q388274,YE,IB,Ibb Governorate
+YE_JA,Q328128,YE,JA,Al Jawf Governorate
+YE_LA,Q388318,YE,LA,Lahij Governorate
+YE_MA,Q498465,YE,MA,Ma'rib Governorate
+YE_MR,Q275752,YE,MR,Al Mahrah Governorate
+YE_MW,Q388280,YE,MW,Al Mahwit Governorate
+YE_RA,Q475033,YE,RA,Raymah Governorate
+YE_SA,Q2471,YE,SA,Sana'a
+YE_SD,Q275732,YE,SD,Saada Governorate
+YE_SH,Q328180,YE,SH,Shabwah Governorate
+YE_SN,Q388291,YE,SN,Sana'a Governorate
+YE_SU,Q15728745,YE,SU,Socotra Governorate
+YE_TA,Q388330,YE,TA,Ta'izz Governorate
+YU_CG,Q1150680,YU,CG,Republic of Montenegro
+YU_SR,Q934644,YU,SR,Republic of Serbia
+ZA_EC,Q130840,ZA,EC,Eastern Cape
+ZA_FS,Q160284,ZA,FS,Free State
+ZA_GP,Q133083,ZA,GP,Gauteng
+ZA_KZN,Q81725,ZA,KZN,KwaZulu-Natal
+ZA_LP,Q134907,ZA,LP,Limpopo
+ZA_MP,Q132410,ZA,MP,Mpumalanga
+ZA_NC,Q132418,ZA,NC,Northern Cape
+ZA_NW,Q165956,ZA,NW,North West
+ZA_WC,Q127167,ZA,WC,Western Cape
+ZM_01,Q748486,ZM,01,Western Province
+ZM_02,Q190718,ZM,02,Central Province
+ZM_03,Q823810,ZM,03,Eastern Province
+ZM_04,Q386667,ZM,04,Luapula Province
+ZM_05,Q778738,ZM,05,Northern Province
+ZM_06,Q846320,ZM,06,Northwestern Province
+ZM_07,Q738382,ZM,07,Southern Province
+ZM_08,Q1131523,ZM,08,Copperbelt Province
+ZM_09,Q819998,ZM,09,Lusaka Province
+ZM_10,Q6714242,ZM,10,Muchinga Province
+ZW_BU,Q24045859,ZW,BU,Bulawayo Province
+ZW_HA,Q16928358,ZW,HA,Harare Province
+ZW_MA,Q465847,ZW,MA,Manicaland
+ZW_MC,Q596156,ZW,MC,Mashonaland Central Province
+ZW_ME,Q465853,ZW,ME,Mashonaland East Province
+ZW_MI,Q456556,ZW,MI,Midlands Province
+ZW_MN,Q456562,ZW,MN,Matabeleland North Province
+ZW_MS,Q498355,ZW,MS,Matabeleland South Province
+ZW_MV,Q498351,ZW,MV,Masvingo Province
+ZW_MW,Q457189,ZW,MW,Mashonaland West Province

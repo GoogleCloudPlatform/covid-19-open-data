@@ -1,0 +1,64 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Demographics pipeline configuration
+
+schema:
+  key: str
+  f_0: int
+  f_1: int
+  f_5: int
+  f_10: int
+  f_15: int
+  f_20: int
+  f_25: int
+  f_30: int
+  f_35: int
+  f_40: int
+  f_45: int
+  f_50: int
+  f_55: int
+  f_60: int
+  f_65: int
+  f_70: int
+  f_75: int
+  f_80: int
+  m_0: int
+  m_1: int
+  m_5: int
+  m_10: int
+  m_15: int
+  m_20: int
+  m_25: int
+  m_30: int
+  m_35: int
+  m_40: int
+  m_45: int
+  m_50: int
+  m_55: int
+  m_60: int
+  m_65: int
+  m_70: int
+  m_75: int
+  m_80: int
+auxiliary:
+  metadata: ./src/data/metadata.csv
+  worldpop: ./src/data/worldpop_stratified.csv
+
+sources:
+
+  # WorldPop data comes in the form of GeoTIFF files which are processed externally, we only use
+  # pre-processed data here which is why the script reads from the internal `data` folder rather
+  # than a external URL
+  - name: pipelines.worldpop.worldpop_population.WorldPopPopulationDataSource

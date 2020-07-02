@@ -1,0 +1,68 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Demographics pipeline configuration
+
+schema:
+  key: str
+  population: int
+  population_male: int
+  population_female: int
+  rural_population: int
+  urban_population: int
+  largest_city_population: int
+  clustered_population: int
+  population_density: float
+  human_development_index: float
+  population_age_00_09: int
+  population_age_10_19: int
+  population_age_20_29: int
+  population_age_30_39: int
+  population_age_40_49: int
+  population_age_50_59: int
+  population_age_60_69: int
+  population_age_70_79: int
+  population_age_80_89: int
+  population_age_90_99: int
+
+auxiliary:
+  metadata: ./src/data/metadata.csv
+  worldpop: ./src/data/worldpop_stratified.csv
+  country_codes: ./src/data/country_codes.csv
+  knowledge_graph: ./src/data/knowledge_graph.csv
+  worldbank_indicators: ./src/data/worldbank_indicators.csv
+
+sources:
+
+  # WorldPop populations are estimates, so give them less priority
+  - name: pipelines.worldpop.worldpop_population.WorldPopPopulationDataSource
+
+  - name: pipelines._common.wikidata.WikidataDataSource
+    parse:
+      population: P1082
+      human_development_index: P1081
+
+  - name: pipelines.worldbank.worldbank.WorldbankDataSource
+    fetch:
+      - url: "http://databank.worldbank.org/data/download/WDI_csv.zip"
+    parse:
+      indicators:
+        population: "SP.POP.TOTL"
+        population_male: "SP.POP.TOTL.MA.IN"
+        population_female: "SP.POP.TOTL.FE.IN"
+        rural_population: "SP.RUR.TOTL"
+        urban_population: "SP.URB.TOTL"
+        largest_city_population: "EN.URB.LCTY"
+        clustered_population: "EN.URB.MCTY"
+        population_density: "EN.POP.DNST"

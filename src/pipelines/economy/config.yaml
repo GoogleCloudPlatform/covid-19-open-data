@@ -1,0 +1,42 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Economy pipeline configuration
+
+schema:
+  key: str
+  gdp: int
+  gdp_per_capita: int
+  human_capital_index: float
+
+auxiliary:
+  metadata: ./src/data/metadata.csv
+  country_codes: ./src/data/country_codes.csv
+  knowledge_graph: ./src/data/knowledge_graph.csv
+  worldbank_indicators: ./src/data/worldbank_indicators.csv
+
+sources:
+  - name: pipelines._common.wikidata.WikidataDataSource
+    parse:
+      gdp: P2131
+      gdp_per_capita: P2132
+
+  - name: pipelines.worldbank.worldbank.WorldbankDataSource
+    fetch:
+      - url: "http://databank.worldbank.org/data/download/WDI_csv.zip"
+    parse:
+      indicators:
+        gdp: "NY.GDP.MKTP.CD"
+        gdp_per_capita: "NY.GDP.PCAP.CD"
+        human_capital_index: "HD.HCI.OVRL"

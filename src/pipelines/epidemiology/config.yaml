@@ -1,0 +1,460 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Epidemiology pipeline configuration
+
+schema:
+  date: str
+  key: str
+  new_confirmed: int
+  new_deceased: int
+  new_recovered: int
+  new_tested: int
+  total_confirmed: int
+  total_deceased: int
+  total_recovered: int
+  total_tested: int
+
+auxiliary:
+  metadata: ./src/data/metadata.csv
+  country_codes: ./src/data/country_codes.csv
+  knowledge_graph: ./src/data/knowledge_graph.csv
+
+sources:
+
+  # Data sources for all countries level 1
+  - name: pipelines.epidemiology.xx_owid.OurWorldInDataSource
+    fetch:
+      - url: "https://covid.ourworldindata.org/data/owid-covid-data.csv"
+
+  - name: pipelines.epidemiology.xx_ecdc.ECDCDataSource
+    fetch:
+      - url: "https://opendata.ecdc.europa.eu/covid19/casedistribution/csv/"
+        opts:
+          ext: csv
+
+  # Data sources for LATAM countries level 1 + 2
+  - name: pipelines.epidemiology.xx_covid19_latinoamerica.Covid19LatinoAmericaDataSource
+    fetch:
+      - url: "https://raw.github.com/DataScienceResearchPeru/covid-19_latinoamerica/master/latam_covid_19_data/time_series/time_series_confirmed.csv"
+      - url: "https://raw.github.com/DataScienceResearchPeru/covid-19_latinoamerica/master/latam_covid_19_data/time_series/time_series_deaths.csv"
+      - url: "https://raw.github.com/DataScienceResearchPeru/covid-19_latinoamerica/master/latam_covid_19_data/time_series/time_series_recovered.csv"
+
+  # Data sources for AF level 2
+  - name: pipelines.epidemiology.af_humdata.AfghanistanHumdataDataSource
+    fetch:
+      - url: "https://docs.google.com/spreadsheets/d/1F-AMEDtqK78EA6LYME2oOsWQsgJi4CT3V_G4Uo-47Rg/export?format=csv&gid=1539509351"
+        opts:
+          ext: csv
+
+  # Data sources for AR level 2
+  - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
+    fetch:
+      - url: "https://en.wikipedia.org/wiki/Template:2019–20_coronavirus_pandemic_data/Argentina_medical_cases"
+        opts:
+          ext: html
+    parse:
+      country: AR
+      date_format: "%d %b"
+      skiprows: 1
+      cumsum: true
+
+  # Data sources for AT level 2
+  - name: pipelines.epidemiology.xx_covid19_eu_data.Covid19EuDataSource
+    fetch:
+      - url: "https://raw.github.com/covid19-eu-zh/covid19-eu-data/master/dataset/covid-19-at.csv"
+    parse:
+      country: AT
+    query: "date < '2020-04-14' or date > '2020-04-15'"
+
+  # Data sources for AU level 2
+  - name: pipelines.epidemiology.au_covid_19_au.Covid19AuDataSource
+    fetch:
+      - url: "https://raw.github.com/covid-19-au/covid-19-au.github.io/prod/src/data/state.json"
+
+  - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
+    fetch:
+      - url: "https://en.wikipedia.org/wiki/Template:2019–20_coronavirus_pandemic_data/Australia_medical_cases"
+        opts:
+          ext: html
+    parse:
+      country: AU
+      date_format: "%d %B"
+      cumsum: true
+
+  # Data sources for BD level 2
+  - name: pipelines.epidemiology.bd_humdata.BangladeshHumdataDataSource
+    fetch:
+      - url: "https://data.humdata.org/dataset/4bc533e5-03d5-4e85-ae11-7345869bbfb4/resource/f8037c99-1a73-4ae1-8471-8d8ec4ff87d1/download/district-wise-confirmed-recovered-cases_08.06.2020.xlsx"
+
+  # Data sources for BR level 2
+  - name: pipelines.epidemiology.br_covid19_brazil_timeseries.Covid19BrazilTimeseriesDataSource
+    fetch:
+      - url: "https://raw.github.com/elhenrico/covid19-Brazil-timeseries/master/confirmed-cases.csv"
+      - url: "https://raw.github.com/elhenrico/covid19-Brazil-timeseries/master/deaths.csv"
+      - url: "https://raw.github.com/elhenrico/covid19-Brazil-timeseries/master/confirmed-new.csv"
+      - url: "https://raw.github.com/elhenrico/covid19-Brazil-timeseries/master/deaths-new.csv"
+
+  # Data sources for CA level 2
+  - name: pipelines.epidemiology.ca_authority.CanadaDataSource
+    fetch:
+      - url: "https://health-infobase.canada.ca/src/data/covidLive/covid19.csv"
+
+  # Data sources for CH level 2
+  - name: pipelines.epidemiology.ch_authority.SwitzerlandSource
+    fetch:
+      - url: "https://raw.github.com/openZH/covid_19/master/COVID19_Fallzahlen_CH_total.csv"
+
+  # Data sources for CL level 2
+  - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
+    fetch:
+      - url: "https://en.wikipedia.org/wiki/Template:2019–20_coronavirus_pandemic_data/Chile_medical_cases"
+        opts:
+          ext: html
+    parse:
+      country: CL
+      date_format: "%Y-%m-%d"
+      skiprows: 1
+
+  # Data sources for CN level 2
+  - name: pipelines.epidemiology.xx_dxy.DXYDataSource
+    fetch:
+      - url: "https://raw.github.com/BlankerL/DXY-COVID-19-Data/master/csv/DXYArea.csv"
+    parse:
+      country_name: China
+
+  # Data sources for CO levels 1 + 2 + 3
+  - name: pipelines.epidemiology.co_authority.ColombiaDataSource
+    fetch:
+      - url: "https://www.datos.gov.co/api/views/gt2j-8ykr/rows.csv"
+
+  # Data sources for CZ levels 1 + 2 + 3
+  - name: pipelines.epidemiology.xx_covid19_eu_data.Covid19EuDataSource
+    fetch:
+      - url: "https://raw.github.com/covid19-eu-zh/covid19-eu-data/master/dataset/covid-19-cz.csv"
+    parse:
+      country: CZ
+
+  - name: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
+    fetch:
+      - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/osoby.csv"
+    parse:
+      column_name: 'new_confirmed'
+
+  - name: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
+    fetch:
+      - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/umrti.csv"
+    parse:
+      column_name: 'new_deceased'
+
+  - name: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
+    fetch:
+      - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/vyleceni.csv"
+    parse:
+      column_name: 'new_recovered'
+
+  - name: pipelines.epidemiology.cz_authority.CzechRepublicL3DataSource
+    fetch:
+      - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/kraj-okres-nakazeni-vyleceni-umrti.csv"
+
+  - name: pipelines.epidemiology.cz_authority.CzechRepublicL1TestedDataSource
+    fetch:
+      - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/testy.csv"
+
+  # Data sources for DE level 2
+  - name: pipelines.epidemiology.de_covid_19_germany_gae.Covid19GermanyDataSource
+    fetch:
+      - url: "https://raw.github.com/jgehrcke/covid-19-germany-gae/master/data.csv"
+
+  # Data sources for ES levels 1 + 2
+  - name: pipelines.epidemiology.es_authority.ISCIIIDataSource
+    fetch:
+      - url: "https://covid19.isciii.es/resources/serie_historica_acumulados.csv"
+    query: "date < '2020-05-22'"
+
+  # Data sources for FI levels 1 + 2
+  - name: pipelines.epidemiology.fi_authority.FinlandArcGisDataSource
+    fetch:
+      - url: https://services7.arcgis.com/nuPvVz1HGGfa0Eh7/arcgis/rest/services/korona_tapauksia_jakauma/FeatureServer/0/query?f=json&where=1%3D1&outFields=OBJECTID,alue,date,tapauksia,miehia,naisia,Ika_0_9,ika_10_19,ika_20_29,ika_30_39,ika_40_49,ika_50_59,ika_60_69,ika_70_79,ika_80_,koodi&returnGeometry=false
+        opts:
+          ext: json
+    query: "date > '2020-02-01'"
+
+  # Data sources for FR levels 1 + 2 + 3
+  - name: pipelines.epidemiology.fr_authority.FranceDataSource
+    fetch:
+      - url: "https://www.data.gouv.fr/fr/datasets/r/406c6a23-e283-4300-9484-54e78c8ae675"
+        opts:
+          ext: csv
+
+  - name: pipelines.epidemiology.fr_authority.FranceDataSource
+    fetch:
+      - url: "https://www.data.gouv.fr/fr/datasets/r/6fadff46-9efd-4c53-942a-54aca783c30c"
+        opts:
+          ext: csv
+    parse:
+      sep: ";"
+
+  # Data sources for GB levels 1 + 2 + 3
+  - name: pipelines.epidemiology.gb_covid_19_uk_data.Covid19UkDataL1DataSource
+    fetch:
+      - url: "https://raw.githubusercontent.com/tomwhite/covid-19-uk-data/master/data/covid-19-indicators-uk.csv"
+
+  - name: pipelines.epidemiology.gb_covid_19_uk_data.Covid19UkDataL2DataSource
+    fetch:
+      - url: "https://raw.githubusercontent.com/tomwhite/covid-19-uk-data/master/data/covid-19-indicators-uk.csv"
+
+  - name: pipelines.epidemiology.gb_covid_19_uk_data.Covid19UkDataL3DataSource
+    fetch:
+      - url: "https://raw.githubusercontent.com/tomwhite/covid-19-uk-data/master/data/covid-19-cases-uk.csv"
+
+  # Data sources for ID level 2
+  # Removed until explicit permission is provided
+  # - name: pipelines.epidemiology.id_catchmeup.CatchmeupDataSource
+  #   fetch:
+  #     - url: "https://docs.google.com/spreadsheets/d/1sgiz8x71QyIVJZQguYtG9n6xBEKdM4fXuDs_d8zKOmY/gviz/tq?tqx=out:csv&sheet=Data%20Provinsi"
+  #       opts:
+  #         ext: csv
+
+  # Data sources for IN level 2
+  - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
+    fetch:
+      - url: "https://en.wikipedia.org/wiki/Template:COVID-19_pandemic_data/India_medical_cases_summary"
+        opts:
+          ext: html
+    parse:
+      country: IN
+      date_format: "%b-%d"
+      skiprows: 1
+
+  # Data sources for IQ level 2
+  - name: pipelines.epidemiology.iq_humdata.IraqHumdataDataSource
+    fetch:
+      - url: https://docs.google.com/spreadsheets/d/e/2PACX-1vQh_BwL222rdcpIH2rLPIbvdKLJu3fevAy2L82FHUcl-84w6byWRITQicetYzpqX707EUc3qgAJm7Hr/pub?gid=0&single=true&output=csv
+        opts:
+          ext: csv
+
+  # Data sources for IT levels 1 + 2
+  - name: pipelines.epidemiology.it_authority.PcmDpcL1DataSource
+    fetch:
+      - url: "https://raw.github.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-andamento-nazionale.json"
+
+  - name: pipelines.epidemiology.it_authority.PcmDpcL2DataSource
+    fetch:
+      - url: "https://raw.github.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-regioni.json"
+
+  # Data sources for JP levels 1 + 2
+  - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
+    fetch:
+      - url: "https://en.wikipedia.org/wiki/Template:2019–20_coronavirus_pandemic_data/Japan_medical_cases"
+        opts:
+          ext: html
+    parse:
+      country: JP
+      date_format: "%Y/%m/%d"
+      skiprows: 2
+
+  - name: pipelines.epidemiology.jp_2019_ncov_japan.Jp2019NcovJapanByDate
+    fetch:
+      - url: "https://raw.github.com/swsoyee/2019-ncov-japan/master/50_Data/byDate.csv"
+      - url: "https://raw.github.com/swsoyee/2019-ncov-japan/master/50_Data/death.csv"
+
+  # Data sources for KR level 2
+  - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
+    fetch:
+      - url: "https://en.wikipedia.org/wiki/Template:2019–20_coronavirus_pandemic_data/South_Korea_medical_cases"
+        opts:
+          ext: html
+    parse:
+      country: KR
+      date_format: "%Y-%m-%d"
+      skiprows: 1
+
+  # Data sources for LU level 2
+  - name: pipelines.epidemiology.lu_authority.LuxembourgDataSource
+    fetch:
+      - url: "https://data.public.lu/fr/datasets/r/82e4873d-a1f3-462a-ae93-dd7b95e68787"
+        opts:
+          ext: csv
+    parse:
+      sep: ";"
+      encoding: ISO-8859-1
+
+  # Data sources for MY level 2
+  - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
+    fetch:
+      - url: "https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_Malaysia"
+        opts:
+          ext: html
+    parse:
+      country: MY
+      date_format: "%d/%m"
+      drop_column: "deceased"
+      cumsum: true
+
+  # Data sources for MX levels 1 + 2
+  - name: pipelines.epidemiology.mx_mexicovid19.Mexicovid19DataSource
+    fetch:
+      - url: "https://raw.github.com/mexicovid19/Mexico-datos/master/datos_abiertos/series_de_tiempo/nuevos/covid19_mex_confirmados.csv"
+      - url: "https://raw.github.com/mexicovid19/Mexico-datos/master/datos_abiertos/series_de_tiempo/nuevos/covid19_mex_muertes.csv"
+      - url: "https://raw.github.com/mexicovid19/Mexico-datos/master/datos_abiertos/series_de_tiempo/nuevos/covid19_mex_pruebas-totales.csv"
+      - url: "https://raw.github.com/mexicovid19/Mexico-datos/master/datos_abiertos/series_de_tiempo/nuevos/covid19_mex_hospitalizados.csv"
+      - url: "https://raw.github.com/mexicovid19/Mexico-datos/master/datos_abiertos/series_de_tiempo/nuevos/covid19_mex_uci.csv"
+
+  # Data sources for NL levels 1 + 2 + 3
+  - name: pipelines.epidemiology.nl_authority.NetherlandsDataSource
+    fetch:
+      - url: "https://data.rivm.nl/covid-19/COVID-19_aantallen_gemeente_cumulatief.csv"
+    parse:
+      sep: ";"
+
+  # Data sources for NO level 2
+  - name: pipelines.epidemiology.xx_covid19_eu_data.Covid19EuDataSource
+    fetch:
+      - url: "https://raw.github.com/covid19-eu-zh/covid19-eu-data/master/dataset/covid-19-no.csv"
+    parse:
+      country: "NO"
+
+  # Data sources for PE level 2
+  - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
+    fetch:
+      - url: "https://es.wikipedia.org/wiki/Pandemia_de_enfermedad_por_coronavirus_de_2020_en_Per%C3%BA"
+        opts:
+          ext: html
+    parse:
+      country: PE
+      date_format: "%d de %B"
+      locale: es_ES
+      skiprows: 1
+
+  # Data sources for PH levels 2 + 3
+  - name: pipelines.epidemiology.ph_authority.PhilippinesDataSource
+    fetch:
+      - url: "https://drive.google.com/uc?export=download&id=1moFBN_thU0e70frjnYjoV-UWYxVzsvCh"
+        opts:
+          ext: xlsx
+
+  # Data sources for PK level 2
+  - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
+    fetch:
+      - url: "https://en.wikipedia.org/wiki/Template:2019–20_coronavirus_pandemic_data/Pakistan_medical_cases"
+        opts:
+          ext: html
+    parse:
+      country: PK
+      date_format: "%b %d"
+      skiprows: 1
+      cumsum: true
+
+  # Data sources for PL level 2
+  - name: pipelines.epidemiology.xx_covid19_eu_data.Covid19EuDataSource
+    fetch:
+      - url: "https://raw.github.com/covid19-eu-zh/covid19-eu-data/master/dataset/covid-19-pl.csv"
+    parse:
+      country: PL
+
+  # Data sources for PT levels 1 + 2
+  - name: pipelines.epidemiology.pt_covid19.PtCovid19L1DataSource
+    fetch:
+      - url: "https://raw.githubusercontent.com/carlospramalheira/covid19/master/datasets/PT_COVID_TimeSeries.csv"
+
+  - name: pipelines.epidemiology.pt_covid19.PtCovid19L2DataSource
+    fetch:
+      - url: "https://raw.githubusercontent.com/carlospramalheira/covid19/master/datasets/PT_COVID_TimeSeries.csv"
+
+  # Data sources for RO level 1
+  - name: pipelines.epidemiology.ro_covid19romania.Covid19RomaniaDataSource
+    fetch:
+      - url: "https://raw.github.com/adrianp/covid19romania/master/total_recovered_ro.json"
+      - url: "https://raw.github.com/adrianp/covid19romania/master/icu_ro.json"
+
+  # Data sources for RU level 2
+  - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
+    fetch:
+      - url: "https://en.wikipedia.org/wiki/Template:2019–20_coronavirus_pandemic_data/Russia_medical_cases"
+        opts:
+          ext: html
+    parse:
+      country: RU
+      date_format: "%d %b"
+      skiprows: 1
+
+  # This data source does not fetch any URL because it uses an API instead
+  - name: pipelines.epidemiology.ru_authority.RussiaDataSource
+
+  # Data sources for SD level 1
+  - name: pipelines.epidemiology.sd_humdata.SudanHumdataDataSource
+    fetch:
+      - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQgIjG5wYFaK-z25ciiNNSWUTdxMWKRe5_y1YLNMpCzJziFor16xyP3R1nKz1wAkN7F4w6gx4F6yUIp/pub?gid=1817954914&single=true&output=csv"
+        opts:
+          ext: csv
+  # Data sources for SE level 2
+  - name: pipelines.epidemiology.xx_covid19_eu_data.Covid19EuDataSource
+    fetch:
+      - url: "https://raw.github.com/covid19-eu-zh/covid19-eu-data/master/dataset/covid-19-se.csv"
+    parse:
+      country: SE
+
+  - name: pipelines.epidemiology.se_authority.SwedenDataSource
+    fetch:
+      - url: "https://www.arcgis.com/sharing/rest/content/items/b5e7488e117749c19881cce45db13f7e/data"
+        opts:
+          ext: xlsx
+
+  # Data sources for SI level 1
+  - name: pipelines.epidemiology.si_authority.SloveniaDataSource
+    fetch:
+      - url: "https://www.gov.si/assets/vlada/Koronavirus-podatki/en/EN_Covid-19-all-data.xlsx"
+
+  # Data sources for US levels 2 + 3
+  - name: pipelines.epidemiology.us_covidtracking.CovidTrackingDataSource
+    fetch:
+      - url: "https://raw.github.com/COVID19Tracking/covid-tracking-data/master/data/states_daily_4pm_et.csv"
+
+  - name: pipelines.epidemiology.us_nyt_covid.NytCovidL2DataSource
+    fetch:
+      - url: "https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv"
+
+  - name: pipelines.epidemiology.us_nyt_covid.NytCovidL3DataSource
+    fetch:
+      - url: "https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv"
+
+  # Data sources for US_NY level 3 (NYC only)
+  - name: pipelines.epidemiology.us_ny_authority.NYCHealthDataSource
+    fetch:
+      - url: "https://raw.githubusercontent.com/nychealth/coronavirus-data/master/boro/boroughs-case-hosp-death.csv"
+
+  # Data sources for US_TX level 2
+  - name: pipelines.epidemiology.us_tx_authority.TexasDataSource
+    fetch:
+      - url: "https://dshs.texas.gov/coronavirus/TexasCOVID19CaseCountData.xlsx"
+
+  # Data sources for VE level 2
+  - name: pipelines.epidemiology.ve_humdata.VenezuelaHumDataSource
+    fetch:
+      - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQI4s0no2TS1dYxbv82nhKD7iz8fbDGwdsOI4kzJ0cg3gjOR51KIw_rNOff97Xic_fRQD41xmsDGUfM/pub?gid=1029482781&single=true&output=csv"
+        opts:
+          ext: csv
+
+  # Data sources for ZA levels 1 + 2
+  - name: pipelines.epidemiology.za_dsfsi.Covid19ZaCumulativeDataSource
+    fetch:
+      - url: "https://raw.github.com/dsfsi/covid19za/master/data/covid19za_provincial_cumulative_timeline_confirmed.csv"
+      - url: "https://raw.github.com/dsfsi/covid19za/master/data/covid19za_provincial_cumulative_timeline_deaths.csv"
+      - url: "https://raw.github.com/dsfsi/covid19za/master/data/covid19za_provincial_cumulative_timeline_recoveries.csv"
+      - url: "https://raw.github.com/dsfsi/covid19za/master/data/covid19za_provincial_cumulative_timeline_testing.csv"
+
+  - name: pipelines.epidemiology.za_dsfsi.Covid19ZaTimelineTestingDataSource
+    fetch:
+      - url: "https://raw.github.com/dsfsi/covid19za/master/data/covid19za_timeline_testing.csv"

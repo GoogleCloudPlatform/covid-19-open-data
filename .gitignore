@@ -1,0 +1,8 @@
+__pycache__/
+.env
+.vscode
+.mypy_cache
+.ipynb_checkpoints/
+.idea/
+tmp/
+.python-version
