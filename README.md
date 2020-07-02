@@ -19,7 +19,7 @@ keys.
 
 | Table | Keys<sup>1</sup> | Content | URL | Source<sup>2</sup> |
 | ----- | ---------------- | ------- | --- | ------------------ |
-| [Main](#main) | `[key][date]` | Flat table with records from all other tables joined by `key` and `date` | [main.csv](https://storage.googleapis.com/covid19-open-data/v2/main.csv), [main.json](https://storage.googleapis.com/covid19-open-data/v2/main.csv) | All tables below |
+| [Main](#main) | `[key][date]` | Flat table with records from all other tables joined by `key` and `date` | [main.csv](https://storage.googleapis.com/covid19-open-data/v2/main.csv), [main.json](https://storage.googleapis.com/covid19-open-data/v2/main.json) | All tables below |
 | [Index](#index) | `[key]` | Various names and codes, useful for joining with other datasets | [index.csv](https://storage.googleapis.com/covid19-open-data/v2/index.csv), [index.json](https://storage.googleapis.com/covid19-open-data/v2/index.json) | Wikidata, DataCommons |
 | [Demographics](#demographics) | `[key]` | Various (current<sup>3</sup>) population statistics | [demographics.csv](https://storage.googleapis.com/covid19-open-data/v2/demographics.csv), [demographics.json](https://storage.googleapis.com/covid19-open-data/v2/demographics.json) | Wikidata, DataCommons |
 | [Economy](#economy) | `[key]` | Various (current<sup>3</sup>) economic indicators | [economy.csv](https://storage.googleapis.com/covid19-open-data/v2/economy.csv), [economy.json](https://storage.googleapis.com/covid19-open-data/v2/economy.json) | Wikidata, DataCommons |
@@ -55,6 +55,7 @@ that it merges multiple global sources, at a fine spatial resolution, using a co
 region keys. We hope this will make it easier for researchers to use. We are also very transparent
 about the [data sources](#sources-of-data), and the [code](src/README.md) for ingesting and merging
 the data is easy to understand and modify.
+
 
 
 ## Explore the data
