@@ -19,6 +19,7 @@ from typing import Any, Callable, List, Dict, Tuple, Optional
 from tqdm import tqdm
 from numpy import unique
 from pandas import DataFrame, Series, concat, isna, merge
+from pandas.api.types import is_numeric_dtype
 from .io import fuzzy_text
 
 ROOT = Path(os.path.dirname(__file__)) / ".." / ".."
@@ -75,7 +76,7 @@ def table_rename(
         columns={ascii_name(name_old): name_new for name_old, name_new in column_adapter.items()}
     )
     if drop:
-        data = data[[col for col in column_adapter.values() if col in data.columns]]
+        data = data[[col for col in data.columns if col in column_adapter.values()]]
     return data
 
 
@@ -236,10 +237,10 @@ def stack_table(
     return output.reset_index()
 
 
-def filter_index_columns(columns: List[str], index_schema: Dict[str, str]) -> List[str]:
+def filter_index_columns(data_columns: List[str], index_columns: List[str]) -> List[str]:
     """ Private function used to infer columns that this table should be indexed by """
-    index_columns = [col for col in columns if col in index_schema.keys()]
-    return index_columns + (["date"] if "date" in columns else [])
+    index_columns = [col for col in data_columns if col in index_columns]
+    return index_columns + (["date"] if "date" in data_columns else [])
 
 
 def filter_output_columns(columns: List[str], output_schema: Dict[str, str]) -> List[str]:
@@ -247,15 +248,25 @@ def filter_output_columns(columns: List[str], output_schema: Dict[str, str]) -> 
     return [col for col in columns if col in output_schema.keys()]
 
 
-def infer_new_and_total(data: DataFrame, index_schema: Dict[str, str]) -> DataFrame:
+def infer_new_and_total(data: DataFrame) -> DataFrame:
     """
     We use the prefixes "new_" and "total_" as a convention to declare that a column contains values
     which are daily and cumulative, respectively. This helper function will infer daily values when
     only cumulative values are provided (by computing the daily difference) and, conversely, it will
     also infer cumulative values when only daily values are provided (by computing the cumsum).
+
+    Args:
+        data: The input table which may have some rows with "new_" but no "total_" values, or
+            vice-versa
+
+    Returns:
+        DataFrame: Same as input data with all possible "new_" and "total_" values filled
     """
 
-    index_columns = filter_index_columns(data.columns, index_schema)
+    # This function is only called as part of the pipeline processing, so we can assume that:
+    # 1. All records with no key have been discarded by now
+    # 2. All records have a date, since otherwise "new" vs "total" would not make sense
+    index_columns = ["key", "date"]
 
     # We only care about columns which have prefix new_ and total_
     prefix_search = ("new_", "total_")
@@ -290,7 +301,7 @@ def infer_new_and_total(data: DataFrame, index_schema: Dict[str, str]) -> DataFr
     return data
 
 
-def stratify_age_and_sex(data: DataFrame, index_schema: Dict[str, str]) -> DataFrame:
+def stratify_age_and_sex(data: DataFrame) -> DataFrame:
     """
     Some data sources contain age and sex information. The output tables enforce that each record
     must have a unique <key, date> pair (or `key` if no `date` field is present). To solve this
@@ -299,9 +310,14 @@ def stratify_age_and_sex(data: DataFrame, index_schema: Dict[str, str]) -> DataF
     the output [key, date, population, population_male, population_female].
     """
 
-    index_columns = filter_index_columns(data, index_schema)
+    # This function is only called as part of the pipeline processing, so we can assume that:
+    # 1. All records with no key have been discarded by now
+    # 2. All records must be indexable by key or <key, date>
+    index_columns = ["key"] + (["date"] if "date" in data.columns else [])
+
+    # Stratifying only makes sense for numeric columns, ignore the rest
     value_columns = [
-        col for col in data.columns if col not in index_columns and col not in ("age", "sex")
+        col for col in data.columns if col not in ("age", "sex") and is_numeric_dtype(data[col])
     ]
 
     # Stratified age uses a prefix since it's less obvious from the value names
@@ -326,7 +342,6 @@ def stratify_age_and_sex(data: DataFrame, index_schema: Dict[str, str]) -> DataF
     age_columns = {col: col.split(age_prefix, 2) for col in data.columns if age_prefix in col}
     age_buckets = unique([bucket for _, bucket in age_columns.values()])
     age_buckets_map = {bucket: f"{idx:02d}" for idx, bucket in enumerate(sorted(age_buckets))}
-    # print(data)
     data = data.rename(
         columns={
             col_name_old: f"{prefix}{age_prefix}{age_buckets_map[bucket]}"

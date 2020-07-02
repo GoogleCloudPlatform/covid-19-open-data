@@ -25,7 +25,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 import yaml
 import numpy
 import requests
-from pandas import DataFrame, Int64Dtype, isnull, isna, read_csv, NA
+from pandas import DataFrame, Int64Dtype, isna
 from tqdm import tqdm
 
 from .anomaly import detect_anomaly_all, detect_stale_columns
@@ -112,7 +112,7 @@ class DataSource:
         metadata = aux["metadata"]
 
         # Exact key match might be possible and it's the fastest option
-        if "key" in record and not isnull(record["key"]):
+        if "key" in record and not isna(record["key"]):
             if record["key"] in metadata["key"].values:
                 return record["key"]
             else:
@@ -125,7 +125,7 @@ class DataSource:
                 column = "{}_{}".format(column_prefix, column_suffix)
                 if column not in record:
                     continue
-                elif isnull(record[column]):
+                elif isna(record[column]):
                     metadata = metadata[metadata[column].isna()]
                 elif record[column]:
                     metadata = metadata[metadata[column] == record[column]]
@@ -258,16 +258,12 @@ class DataSource:
         if "query" in self.config:
             data = data.query(self.config["query"])
 
-        # Get the schema of our index table, necessary for processing to infer which columns in the
-        # data belong to the index and should not be aggregated
-        index_schema = DataPipeline.load("index").schema
-
         # Provide a stratified view of certain key variables
         if any(stratify_column in data.columns for stratify_column in ("age", "sex")):
-            data = stratify_age_and_sex(data, index_schema)
+            data = stratify_age_and_sex(data)
 
         # Process each record to add missing cumsum or daily diffs
-        data = infer_new_and_total(data, index_schema)
+        data = infer_new_and_total(data)
 
         # Return the final dataframe
         return data

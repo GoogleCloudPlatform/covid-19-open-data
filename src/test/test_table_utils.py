@@ -164,7 +164,7 @@ class TestTableUtils(ProfiledTestCase):
         )
 
         # Infer all missing new_ and total_ values, which should be none
-        inferred_data = infer_new_and_total(NEW_AND_TOTAL_TEST_DATA, index_schema={"key": "str"})
+        inferred_data = infer_new_and_total(NEW_AND_TOTAL_TEST_DATA)
 
         # Ensure that only the expected columns (and all the expected columns) are present
         self.assertSetEqual(
@@ -186,7 +186,7 @@ class TestTableUtils(ProfiledTestCase):
         self.assertSetEqual(set(new_only_data.columns), set(["key", "date", "new_value_column"]))
 
         # Compute the total_* values from new_*
-        inferred_data = infer_new_and_total(new_only_data, index_schema={"key": "str"})
+        inferred_data = infer_new_and_total(new_only_data)
 
         # Ensure that only the expected columns (and all the expected columns) are present
         self.assertSetEqual(
@@ -213,7 +213,7 @@ class TestTableUtils(ProfiledTestCase):
         self.assertSetEqual(set(new_only_data.columns), set(["key", "date", "total_value_column"]))
 
         # Compute the total_* values from new_*
-        inferred_data = infer_new_and_total(new_only_data, index_schema={"key": "str"})
+        inferred_data = infer_new_and_total(new_only_data)
 
         # Ensure that only the expected columns (and all the expected columns) are present
         self.assertSetEqual(
