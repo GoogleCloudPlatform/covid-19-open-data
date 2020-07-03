@@ -13,12 +13,10 @@
 # limitations under the License.
 
 import re
-from typing import Any, Dict, List, Tuple
-from pandas import DataFrame, Int64Dtype, merge
-from lib.cast import safe_int_cast
-from lib.data_source import DataSource, DataSource, DataPipeline
+from typing import Dict, List
+from pandas import DataFrame
+from lib.data_source import DataSource
 from lib.time import datetime_isoformat
-from lib.utils import ROOT
 
 
 class OxfordGovernmentResponseDataSource(DataSource):

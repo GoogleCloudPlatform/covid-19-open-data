@@ -12,17 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import zipfile
-from io import BytesIO
-from functools import partial
-from typing import Any, Dict, List, Tuple
-
-import requests
-from tqdm import tqdm
-from pandas import DataFrame, Series, read_csv, isnull
-
-from lib.concurrent import thread_map
-from lib.net import download
+from typing import Dict, List
+from pandas import DataFrame, Series
 from lib.data_source import DataSource
 from lib.cast import age_group
 
