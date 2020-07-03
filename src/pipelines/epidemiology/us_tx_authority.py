@@ -18,7 +18,7 @@ import numpy
 from pandas import DataFrame, concat, merge
 from lib.cast import safe_float_cast
 from lib.io import read_file
-from lib.pipeline import DataSource
+from lib.data_source import DataSource
 from lib.time import datetime_isoformat
 from lib.utils import table_multimerge, table_rename
 

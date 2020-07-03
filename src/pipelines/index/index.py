@@ -14,7 +14,7 @@
 
 from typing import Any, Dict, List, Tuple
 from pandas import DataFrame, Int64Dtype, merge
-from lib.pipeline import DataSource, DataSource, DataPipeline
+from lib.data_source import DataSource, DataSource, DataPipeline
 from lib.utils import ROOT
 
 

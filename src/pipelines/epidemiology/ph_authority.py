@@ -16,7 +16,7 @@ from typing import Dict, List
 from pandas import DataFrame, concat, merge, to_datetime
 from lib.cast import age_group, safe_datetime_parse
 from lib.io import read_file
-from lib.pipeline import DataSource
+from lib.data_source import DataSource
 from lib.utils import table_rename
 
 

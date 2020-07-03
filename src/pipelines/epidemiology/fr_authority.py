@@ -14,7 +14,7 @@
 
 from typing import Dict, List
 from pandas import DataFrame, concat, to_datetime
-from lib.pipeline import DataSource
+from lib.data_source import DataSource
 from lib.cast import age_group
 
 

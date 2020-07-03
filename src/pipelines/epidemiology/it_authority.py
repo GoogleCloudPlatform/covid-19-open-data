@@ -15,7 +15,7 @@
 from datetime import datetime
 from typing import Any, Dict, List
 from pandas import DataFrame, concat, merge
-from lib.pipeline import DataSource
+from lib.data_source import DataSource
 
 
 _column_map = {

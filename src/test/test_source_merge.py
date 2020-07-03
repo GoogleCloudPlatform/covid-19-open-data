@@ -16,7 +16,7 @@ import sys
 from unittest import main
 
 from pandas import DataFrame
-from lib.pipeline import DataSource
+from lib.data_source import DataSource
 from .profiled_test_case import ProfiledTestCase
 
 # Synthetic data used for testing

@@ -15,7 +15,7 @@
 from typing import Any, Dict, List
 from pandas import DataFrame, isnull
 from lib.cast import safe_int_cast
-from lib.pipeline import DataSource
+from lib.data_source import DataSource
 from lib.time import datetime_isoformat, date_offset
 from lib.utils import get_or_default
 

@@ -16,7 +16,7 @@ import datetime
 from typing import Dict, List
 from numpy import unique
 from pandas import DataFrame
-from lib.pipeline import DataSource
+from lib.data_source import DataSource
 
 
 class Covid19GermanyDataSource(DataSource):

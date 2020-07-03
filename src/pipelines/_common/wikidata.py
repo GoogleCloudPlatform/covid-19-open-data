@@ -18,7 +18,7 @@ from typing import Dict, List, Tuple
 from pandas import DataFrame
 from tqdm.contrib import concurrent
 
-from lib.pipeline import DataSource
+from lib.data_source import DataSource
 from lib.wikidata import wikidata_properties
 
 

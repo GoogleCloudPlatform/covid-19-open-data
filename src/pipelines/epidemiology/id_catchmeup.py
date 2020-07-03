@@ -16,7 +16,7 @@ import datetime
 from typing import Any, Dict, List
 from pandas import DataFrame, concat, merge
 from lib.cast import safe_int_cast
-from lib.pipeline import DataSource
+from lib.data_source import DataSource
 from lib.time import datetime_isoformat
 from lib.utils import pivot_table
 

@@ -15,7 +15,7 @@
 from typing import Dict, List
 from pandas import DataFrame, concat, isna
 from lib.cast import age_group
-from lib.pipeline import DataSource
+from lib.data_source import DataSource
 from lib.utils import table_rename
 
 

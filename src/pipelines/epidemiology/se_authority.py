@@ -15,7 +15,7 @@
 from typing import Dict, List
 from pandas import DataFrame
 from lib.io import read_file
-from lib.pipeline import DataSource
+from lib.data_source import DataSource
 from lib.utils import pivot_table
 
 

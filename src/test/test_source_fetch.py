@@ -20,7 +20,7 @@ from typing import Any, Dict, List
 from tempfile import TemporaryDirectory
 
 from pandas import DataFrame
-from lib.pipeline import DataSource
+from lib.data_source import DataSource
 from .profiled_test_case import ProfiledTestCase
 
 

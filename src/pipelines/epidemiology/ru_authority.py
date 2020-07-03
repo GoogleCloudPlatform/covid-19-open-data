@@ -17,7 +17,7 @@ from typing import Dict, List, Any
 from pandas import DataFrame
 from lib.cast import safe_int_cast
 from lib.concurrent import thread_map
-from lib.pipeline import DataSource
+from lib.data_source import DataSource
 from lib.time import datetime_isoformat
 
 _api_url_tpl = "https://xn--80aesfpebagmfblc0a.xn--p1ai/covid_data.json?do=region_stats&code={}"

@@ -22,7 +22,7 @@ from pandas import DataFrame, Series, read_csv, isnull
 
 from lib.concurrent import thread_map
 from lib.net import download
-from lib.pipeline import DataSource
+from lib.data_source import DataSource
 
 
 class WorldbankDataSource(DataSource):

@@ -18,7 +18,7 @@ import requests
 from pathlib import Path
 from typing import Any, Dict, List
 from pandas import DataFrame, isnull
-from lib.pipeline import DataSource
+from lib.data_source import DataSource
 
 
 _url_base = "https://covid19-static.cdn-apple.com"

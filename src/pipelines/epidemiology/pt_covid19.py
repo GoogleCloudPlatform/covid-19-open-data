@@ -15,7 +15,7 @@
 from typing import Dict, List
 from numpy import unique
 from pandas import DataFrame, concat
-from lib.pipeline import DataSource
+from lib.data_source import DataSource
 from lib.time import datetime_isoformat
 from lib.utils import pivot_table
 

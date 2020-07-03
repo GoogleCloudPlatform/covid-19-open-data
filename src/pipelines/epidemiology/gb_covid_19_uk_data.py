@@ -15,7 +15,7 @@
 from typing import Dict, List
 from pandas import DataFrame
 from lib.cast import safe_int_cast
-from lib.pipeline import DataSource
+from lib.data_source import DataSource
 
 
 class Covid19UkDataL3DataSource(DataSource):

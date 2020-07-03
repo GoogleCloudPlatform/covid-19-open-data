@@ -16,7 +16,7 @@ import json
 from typing import Dict, List
 from bs4 import BeautifulSoup
 from pandas import DataFrame
-from lib.pipeline import DataSource
+from lib.data_source import DataSource
 from lib.time import datetime_isoformat
 
 

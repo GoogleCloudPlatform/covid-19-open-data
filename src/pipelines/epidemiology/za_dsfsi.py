@@ -14,7 +14,7 @@
 
 from typing import Any, Dict, List
 from pandas import DataFrame, concat, merge
-from lib.pipeline import DataSource
+from lib.data_source import DataSource
 from lib.time import datetime_isoformat
 from lib.utils import table_rename, pivot_table, table_multimerge
 
