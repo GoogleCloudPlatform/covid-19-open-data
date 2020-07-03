@@ -13,10 +13,10 @@
 # limitations under the License.
 
 from typing import Dict, List
-from pandas import DataFrame, concat, merge
+from pandas import DataFrame
 from lib.io import read_file
 from lib.pipeline import DataSource
-from lib.utils import grouped_diff, grouped_cumsum, pivot_table
+from lib.utils import pivot_table
 
 
 class SwedenDataSource(DataSource):
@@ -35,5 +35,4 @@ class SwedenDataSource(DataSource):
         data = pivot_table(data, pivot_name="match_string")
 
         data["country_code"] = "SE"
-        data = data.rename(columns={"value": "confirmed"})
-        return grouped_cumsum(data, ["country_code", "match_string", "date"])
+        return data.rename(columns={"value": "new_confirmed"})

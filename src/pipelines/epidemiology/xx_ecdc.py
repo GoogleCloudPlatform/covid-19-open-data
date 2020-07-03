@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Any, Dict, List
-from pandas import DataFrame, isnull
+from typing import Dict, List
+from pandas import DataFrame
 from lib.cast import safe_int_cast
 from lib.pipeline import DataSource
 from lib.time import datetime_isoformat, date_offset
-from lib.utils import get_or_default, grouped_cumsum
+from lib.utils import get_or_default
 
 
 class ECDCDataSource(DataSource):
@@ -63,12 +63,14 @@ class ECDCDataSource(DataSource):
         # Remove bogus entries (cruiseships, etc.)
         data = data[~data["geoId"].apply(lambda code: len(code) > 2)]
 
-        data = data.rename(columns={"geoId": "key", "cases": "confirmed", "deaths": "deceased"})
+        data = data.rename(
+            columns={"geoId": "key", "cases": "new_confirmed", "deaths": "new_deceased"}
+        )
 
         # Adjust the date of the records to match local reporting
         data = self._adjust_date(data, metadata)
 
         # Keep only the columns we can process
-        data = data[["date", "key", "confirmed", "deceased"]]
+        data = data[["date", "key", "new_confirmed", "new_deceased"]]
 
-        return grouped_cumsum(data, ["key", "date"])
+        return data

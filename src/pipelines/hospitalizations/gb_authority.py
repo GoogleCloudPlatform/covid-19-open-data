@@ -17,7 +17,7 @@ from pandas import DataFrame
 from lib.cast import safe_float_cast
 from lib.io import read_file
 from lib.pipeline import DataSource
-from lib.utils import grouped_diff, grouped_cumsum, pivot_table
+from lib.utils import pivot_table
 
 
 class ScotlandDataSource(DataSource):
@@ -34,9 +34,6 @@ class ScotlandDataSource(DataSource):
         # Get date in ISO format
         data.date = data.date.apply(lambda x: x.date().isoformat())
 
-        # Compute cumsum of values
-        data = grouped_cumsum(data, ["match_string", "date"])
-
         # Add metadata
         data["key"] = None
         data["country_code"] = "GB"
@@ -48,10 +45,10 @@ class ScotlandDataSource(DataSource):
 
     def parse(self, sources: List[str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         hospitalized = ScotlandDataSource._parse(
-            sources[0], sheet_name="Table 3a - Hospital Confirmed", value_name="hospitalized"
+            sources[0], sheet_name="Table 3a - Hospital Confirmed", value_name="new_hospitalized"
         )
         intensive_care = ScotlandDataSource._parse(
-            sources[0], sheet_name="Table 2 - ICU patients", value_name="intensive_care"
+            sources[0], sheet_name="Table 2 - ICU patients", value_name="new_intensive_care"
         )
 
         return hospitalized.merge(intensive_care, how="outer")

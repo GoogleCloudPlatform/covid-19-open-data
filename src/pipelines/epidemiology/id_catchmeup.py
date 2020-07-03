@@ -18,7 +18,7 @@ from pandas import DataFrame, concat, merge
 from lib.cast import safe_int_cast
 from lib.pipeline import DataSource
 from lib.time import datetime_isoformat
-from lib.utils import grouped_diff, pivot_table
+from lib.utils import pivot_table
 
 
 def _parse_date(date: str):
@@ -39,12 +39,11 @@ class CatchmeupDataSource(DataSource):
         df = pivot_table(df.transpose(), pivot_name="match_string")
         df["date"] = df["date"].apply(_parse_date)
         df = df.dropna(subset=["date"])
-        df = df.rename(columns={"value": "confirmed"})
-        df["confirmed"] = df["confirmed"].apply(safe_int_cast).astype("Int64")
+        df = df.rename(columns={"value": "total_confirmed"})
+        df["total_confirmed"] = df["total_confirmed"].apply(safe_int_cast).astype("Int64")
 
-        keep_columns = ["date", "match_string", "confirmed"]
+        df = df[["date", "match_string", "total_confirmed"]]
         df = df[df["match_string"] != "Total"]
         df = df[df["match_string"] != "Dalam proses investigasi"]
-        df = grouped_diff(df[keep_columns], ["match_string", "date"])
         df["country_code"] = "ID"
         return df

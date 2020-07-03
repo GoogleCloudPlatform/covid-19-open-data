@@ -126,9 +126,22 @@ def grouped_transform(
     transform: Callable,
     skip: List[str] = None,
     prefix: Tuple[str, str] = None,
-    compat: bool = True,
 ) -> DataFrame:
-    """ Computes the transform for each item within the group determined by `keys` """
+    """
+    Computes the transform for each item within the group indexed by `keys`.
+
+    Args:
+        data: The DataFrame to which transformations will be applied to
+        keys: Columns to group the data by before applying the transformation
+        transform: The function to be passed to the GroupBy.apply(...) call
+        skip: Columns which should be kept as-is and not transformed
+        prefix: Tuple used as a prefix for the name of the new transformed columns. The first
+            element of the tuple will be the prefix of the pre-transformed columns, and the second
+            element will be the prefix of the post-transformed columns.
+
+    Returns:
+        DataFrame: Data after the given transformation is applied to the relevant columns.
+    """
     assert keys[-1] == "date", '"date" key should be last'
 
     # Keep a copy of the columns that will not be transformed
@@ -146,16 +159,7 @@ def grouped_transform(
             continue
         if data[column].isnull().all():
             continue
-        # This behavior can be simplified once all scripts are updated not to perform the
-        # grouped transformations on their own
-        if compat:
-            data[prefix[0] + column] = group[column].apply(transform)
-        else:
-            data[prefix[0] + column.replace(prefix[1], "")] = group[column].apply(transform)
-
-    # Apply the prefix to all transformed columns
-    if compat:
-        data = data.rename(columns={col: prefix[1] + col for col in value_columns})
+        data[prefix[0] + column.replace(prefix[1], "")] = group[column].apply(transform)
 
     # Restore the columns that were not transformed
     for name, col in data_skipped.items():
@@ -169,11 +173,8 @@ def grouped_diff(
     keys: List[str],
     skip: List[str] = None,
     prefix: Tuple[str, str] = ("new_", "total_"),
-    compat: bool = True,
 ) -> DataFrame:
-    return grouped_transform(
-        data, keys, lambda x: x.ffill().diff(), skip=skip, prefix=prefix, compat=compat
-    )
+    return grouped_transform(data, keys, lambda x: x.ffill().diff(), skip=skip, prefix=prefix)
 
 
 def grouped_cumsum(
@@ -181,11 +182,8 @@ def grouped_cumsum(
     keys: List[str],
     skip: List[str] = None,
     prefix: Tuple[str, str] = ("total_", "new_"),
-    compat: bool = True,
 ) -> DataFrame:
-    return grouped_transform(
-        data, keys, lambda x: x.fillna(0).cumsum(), skip=skip, prefix=prefix, compat=compat
-    )
+    return grouped_transform(data, keys, lambda x: x.fillna(0).cumsum(), skip=skip, prefix=prefix)
 
 
 def stack_table(
@@ -281,9 +279,9 @@ def infer_new_and_total(data: DataFrame) -> DataFrame:
         if col.startswith("total_") and col.replace("total_", "new_") not in value_columns
     ]
     if tot_columns:
-        new_data = grouped_diff(
-            data[index_columns + tot_columns], keys=index_columns, compat=False
-        ).drop(columns=index_columns)
+        new_data = grouped_diff(data[index_columns + tot_columns], keys=index_columns).drop(
+            columns=index_columns
+        )
         data[new_data.columns] = new_data
 
     # Perform the diff of columns which only have total_ values
@@ -293,9 +291,9 @@ def infer_new_and_total(data: DataFrame) -> DataFrame:
         if col.startswith("new_") and col.replace("new_", "total_") not in value_columns
     ]
     if new_columns:
-        tot_data = grouped_cumsum(
-            data[index_columns + new_columns], keys=index_columns, compat=False
-        ).drop(columns=index_columns)
+        tot_data = grouped_cumsum(data[index_columns + new_columns], keys=index_columns).drop(
+            columns=index_columns
+        )
         data[tot_data.columns] = tot_data
 
     return data

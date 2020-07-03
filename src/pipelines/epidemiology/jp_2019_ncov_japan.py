@@ -12,12 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Any, Dict, List
+from typing import Dict, List
 from pandas import DataFrame, concat, merge
-from lib.io import read_file
 from lib.pipeline import DataSource
 from lib.time import datetime_isoformat
-from lib.utils import pivot_table, grouped_cumsum
+from lib.utils import pivot_table
 
 
 class Jp2019NcovJapanByDate(DataSource):
@@ -42,21 +41,17 @@ class Jp2019NcovJapanByDate(DataSource):
     def parse_dataframes(
         self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
-        df1 = Jp2019NcovJapanByDate._parse_pivot(dataframes[0], "confirmed")
-        df2 = Jp2019NcovJapanByDate._parse_pivot(dataframes[1], "deceased")
+        df1 = Jp2019NcovJapanByDate._parse_pivot(dataframes[0], "new_confirmed")
+        df2 = Jp2019NcovJapanByDate._parse_pivot(dataframes[1], "new_deceased")
 
         # Keep only columns we can process
         data = merge(df1, df2)
-        data = data[["date", "country_code", "match_string", "confirmed", "deceased"]]
-        return grouped_cumsum(data, ["country_code", "match_string", "date"])
+        data = data[["date", "country_code", "match_string", "new_confirmed", "new_deceased"]]
+        return data.fillna(0)
 
 
 # Unused because it's a different region aggregation
 class Jp2019NcovJapanByRegion(DataSource):
-    # data_urls: List[str] = [
-    #     "{}/detailByRegion.csv".format(_gh_base_url),
-    # ]
-
     def parse_dataframes(
         self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
@@ -65,10 +60,10 @@ class Jp2019NcovJapanByRegion(DataSource):
             columns={
                 "日付": "date",
                 "都道府県名": "match_string",
-                "患者数": "confirmed",
-                "入院中": "hospitalized",
-                "退院者": "recovered",
-                "死亡者": "deceased",
+                "患者数": "new_confirmed",
+                "入院中": "new_hospitalized",
+                "退院者": "new_recovered",
+                "死亡者": "new_deceased",
             }
         )
 
@@ -79,10 +74,16 @@ class Jp2019NcovJapanByRegion(DataSource):
         data["country_code"] = "JP"
 
         # Keep only columns we can process
-        data = data[["date", "match_string", "confirmed", "hospitalized", "recovered", "deceased"]]
-
-        # Aggregate the region-level data
-        data = grouped_cumsum(data, ["country_code", "match_string", "date"])
+        data = data[
+            [
+                "date",
+                "match_string",
+                "new_confirmed",
+                "new_hospitalized",
+                "new_recovered",
+                "new_deceased",
+            ]
+        ]
 
         # Aggregate the country-level data
         data_country = data.groupby("date").sum().reset_index()

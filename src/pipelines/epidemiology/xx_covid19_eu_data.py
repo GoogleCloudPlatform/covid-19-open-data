@@ -13,10 +13,9 @@
 # limitations under the License.
 
 from datetime import datetime
-from typing import Any, Dict, List
-from pandas import DataFrame, concat, merge
+from typing import Dict, List
+from pandas import DataFrame
 from lib.pipeline import DataSource
-from lib.utils import grouped_diff
 
 
 class Covid19EuDataSource(DataSource):
@@ -30,12 +29,12 @@ class Covid19EuDataSource(DataSource):
                 "country": "country_code",
                 "nuts_2": "match_string",
                 "nuts_3": "match_string",
-                "cases": "confirmed",
-                "deaths": "deceased",
-                "tests": "tested",
-                "recovered": "recovered",
-                "hospitalized": "hospitalized",
-                "intensive_care": "icu",
+                "cases": "total_confirmed",
+                "deaths": "total_deceased",
+                "tests": "total_tested",
+                "recovered": "total_recovered",
+                "hospitalized": "total_hospitalized",
+                "icu": "total_intensive_care",
             }
         )
         data["date"] = data["date"].apply(lambda x: datetime.fromisoformat(x))
@@ -52,10 +51,4 @@ class Covid19EuDataSource(DataSource):
         data = data[[col for col in data.columns if not "/" in col]]
 
         # Some tables have repeated data
-        data = data.groupby(["country_code", "match_string", "date"]).last().reset_index()
-
-        return grouped_diff(
-            data,
-            ["country_code", "match_string", "date"],
-            skip=["tests", "recovered", "hospitalized", "icu"],
-        )
+        return data.groupby(["country_code", "match_string", "date"]).last().reset_index()

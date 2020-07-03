@@ -15,7 +15,6 @@
 from typing import Dict, List
 from pandas import DataFrame
 from lib.pipeline import DataSource
-from lib.utils import grouped_diff
 
 
 class Covid19AuDataSource(DataSource):
@@ -33,15 +32,14 @@ class Covid19AuDataSource(DataSource):
                     "date": idx.date().isoformat(),
                     "country_code": "AU",
                     "subregion1_code": code,
-                    "confirmed": subset[0],
+                    "total_confirmed": subset[0],
                 }
                 if len(subset) > 1:
-                    record["deceased"] = subset[1]
+                    record["total_deceased"] = subset[1]
                 if len(subset) > 2:
-                    record["recovered"] = subset[2]
+                    record["total_recovered"] = subset[2]
                 if len(subset) > 3:
-                    record["tested"] = subset[3]
+                    record["total_tested"] = subset[3]
                 records.append(record)
 
-        data = DataFrame.from_records(records)
-        return grouped_diff(data, ["country_code", "subregion1_code", "date"])
+        return DataFrame.from_records(records)

@@ -12,11 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Any, Dict, List
-from pandas import DataFrame, concat, merge
+from typing import Dict, List
+from pandas import DataFrame
 from lib.pipeline import DataSource
 from lib.time import datetime_isoformat
-from lib.utils import grouped_diff
 
 
 class CovidTrackingDataSource(DataSource):

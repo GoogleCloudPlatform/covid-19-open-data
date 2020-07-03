@@ -17,7 +17,6 @@ from typing import Dict, List
 from numpy import unique
 from pandas import DataFrame
 from lib.pipeline import DataSource
-from lib.utils import grouped_diff
 
 
 class Covid19GermanyDataSource(DataSource):
@@ -44,8 +43,8 @@ class Covid19GermanyDataSource(DataSource):
                 records.append(
                     {
                         "subregion1_code": region_code,
-                        "confirmed": row["DE-%s_cases" % region_code],
-                        "deceased": row["DE-%s_deaths" % region_code],
+                        "total_confirmed": row["DE-%s_cases" % region_code],
+                        "total_deceased": row["DE-%s_deaths" % region_code],
                         **record,
                     }
                 )
@@ -55,6 +54,5 @@ class Covid19GermanyDataSource(DataSource):
         data = data.groupby(["date", "subregion1_code"]).last().reset_index()
 
         # Output the results
-        data = grouped_diff(data, ["subregion1_code", "date"])
         data["country_code"] = "DE"
         return data

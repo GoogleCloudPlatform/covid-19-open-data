@@ -12,11 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Any, Dict, List
-from pandas import DataFrame, concat, merge
+from typing import Dict, List
+from pandas import DataFrame
 from lib.pipeline import DataSource
 from lib.time import datetime_isoformat
-from lib.utils import grouped_diff
 
 
 class CanadaDataSource(DataSource):
@@ -31,9 +30,9 @@ class CanadaDataSource(DataSource):
                 columns={
                     "prname": "subregion1_name",
                     "numconf": "confirmed",
-                    "numdeaths": "deceased",
-                    "numtested": "tested",
-                    "numrecover": "recovered",
+                    "numdeaths": "total_deceased",
+                    "numtested": "total_tested",
+                    "numrecover": "total_recovered",
                 }
             )
             .drop(columns=["prnameFR"])
@@ -41,9 +40,6 @@ class CanadaDataSource(DataSource):
 
         # Convert date to ISO format
         data["date"] = data["date"].apply(lambda x: datetime_isoformat(x, "%d-%m-%Y"))
-
-        # Compute the daily counts
-        data = grouped_diff(data, ["subregion1_name", "date"])
 
         # Make sure all records have the country code
         data["country_code"] = "CA"

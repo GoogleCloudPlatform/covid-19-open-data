@@ -12,11 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import datetime
 from typing import Dict, List
-from pandas import DataFrame, concat, merge
+from pandas import DataFrame
 from lib.pipeline import DataSource
-from lib.utils import grouped_cumsum, pivot_table
+from lib.utils import pivot_table
 
 
 class Mexicovid19DataSource(DataSource):
@@ -25,7 +24,13 @@ class Mexicovid19DataSource(DataSource):
     ) -> DataFrame:
 
         data = None
-        ordered_columns = ["confirmed", "deceased", "tested", "hospitalized", "intensive_care"]
+        ordered_columns = [
+            "new_confirmed",
+            "new_deceased",
+            "new_tested",
+            "new_hospitalized",
+            "new_intensive_care",
+        ]
         for column_name, df in zip(ordered_columns, dataframes):
             df = df.rename(columns={"Fecha": "date"}).set_index("date")
             df = pivot_table(df, pivot_name="match_string").rename(columns={"value": column_name})
@@ -34,11 +39,8 @@ class Mexicovid19DataSource(DataSource):
             else:
                 data = data.merge(df, how="left")
 
-        # Compute the cumsum of data
-        data = grouped_cumsum(data, ["match_string", "date"])
-        data["country_code"] = "MX"
-
         # Country-level have a specific label
+        data["country_code"] = "MX"
         data.loc[data.match_string == "Nacional", "key"] = "MX"
 
         return data

@@ -12,22 +12,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Any, Dict, List
-from pandas import DataFrame, concat, merge
+from typing import Dict, List
+from pandas import DataFrame
 from lib.io import read_file
 from lib.pipeline import DataSource
 from lib.time import datetime_isoformat
-from lib.utils import grouped_diff, grouped_cumsum, pivot_table
+from lib.utils import pivot_table
 
 
 class SwedenDataSource(DataSource):
     def parse(self, sources: List[str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
 
         data = read_file(sources[0], sheet_name="Antal intensivvårdade per dag").rename(
-            columns={"Datum_vårdstart": "date", "Antal_intensivvårdade": "intensive_care"}
+            columns={"Datum_vårdstart": "date", "Antal_intensivvårdade": "new_intensive_care"}
         )
 
         # Get date in ISO format
         data["key"] = "SE"
         data.date = data.date.apply(lambda x: datetime_isoformat(x, "%m/%d/%Y"))
-        return grouped_cumsum(data, ["key", "date"])
+        return data

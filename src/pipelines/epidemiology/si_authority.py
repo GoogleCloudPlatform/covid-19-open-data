@@ -15,7 +15,7 @@
 from typing import Dict, List
 from pandas import DataFrame
 from lib.pipeline import DataSource
-from lib.utils import grouped_cumsum
+from lib.cast import safe_int_cast
 
 
 class SloveniaDataSource(DataSource):
@@ -33,28 +33,26 @@ class SloveniaDataSource(DataSource):
                 "Positive (daily)": "new_confirmed",
                 "All hospitalized on certain day": "current_hospitalized",
                 "All persons in intensive care on certain day": "current_intensive_care",
-                "Discharged": "recovered",
+                "Discharged": "new_recovered",
                 "Deaths (all)": "total_deceased",
                 "Deaths (daily)": "new_deceased",
             }
         )
 
-        # Make sure all records have the country code
-        data["country_code"] = "SI"
+        # It's only country-level data so we can compute the key directly
+        data["key"] = "SI"
 
         # Make sure that the date column is a string
         data.date = data.date.astype(str)
 
-        # Compute the cumsum counts
-        data = grouped_cumsum(
-            data,
-            ["country_code", "date"],
-            skip=[
-                col
-                for col in data.columns
-                if any(kword in col for kword in ("new", "total", "current"))
-            ],
-        )
+        # Remove markers from data fields
+        value_columns = [
+            col
+            for col in data.columns
+            if any(col.startswith(token) for token in ("new", "total", "current"))
+        ]
+        for col in value_columns:
+            data[col] = data[col].apply(lambda x: safe_int_cast(str(x).replace("*", "")))
 
         # Output the results
         return data

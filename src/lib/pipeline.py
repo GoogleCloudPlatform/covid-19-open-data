@@ -256,7 +256,7 @@ class DataSource:
 
         # Filter out data according to the user-provided filter function
         if "query" in self.config:
-            data = data.query(self.config["query"])
+            data = data.query(self.config["query"]).copy()
 
         # Provide a stratified view of certain key variables
         if any(stratify_column in data.columns for stratify_column in ("age", "sex")):

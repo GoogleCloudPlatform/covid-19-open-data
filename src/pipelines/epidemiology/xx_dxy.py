@@ -13,10 +13,9 @@
 # limitations under the License.
 
 from typing import Dict, List
-from pandas import DataFrame, concat, merge
+from pandas import DataFrame
 from lib.pipeline import DataSource
 from lib.time import timezone_adjust
-from lib.utils import grouped_diff
 
 
 class DXYDataSource(DataSource):
@@ -33,9 +32,9 @@ class DXYDataSource(DataSource):
             columns={
                 "countryEnglishName": "country_name",
                 "provinceEnglishName": "match_string",
-                "province_confirmedCount": "confirmed",
-                "province_deadCount": "deceased",
-                "province_curedCount": "recovered",
+                "province_confirmedCount": "total_confirmed",
+                "province_deadCount": "total_deceased",
+                "province_curedCount": "total_recovered",
             }
         )
 
@@ -54,8 +53,8 @@ class DXYDataSource(DataSource):
             "date",
             "country_name",
             "match_string",
-            "confirmed",
-            "deceased",
-            "recovered",
+            "total_confirmed",
+            "total_deceased",
+            "total_recovered",
         ]
-        return grouped_diff(data[keep_columns], ["country_name", "match_string", "date"])
+        return data[keep_columns]

@@ -12,13 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import datetime
-from typing import Any, Dict, List
+from typing import Dict, List
 from numpy import unique
-from pandas import DataFrame, concat, merge
+from pandas import DataFrame, concat
 from lib.pipeline import DataSource
 from lib.time import datetime_isoformat
-from lib.utils import grouped_diff, pivot_table
+from lib.utils import pivot_table
 
 
 class PtCovid19L1DataSource(DataSource):
@@ -68,9 +67,14 @@ class PtCovid19L2DataSource(DataSource):
         data = subsets[0]
         for df in subsets[1:]:
             data = data.merge(df, how="outer")
-        data = data.rename(columns={"deaths": "deceased"})
+        data = data.rename(
+            columns={
+                "confirmed": "total_confirmed",
+                "deaths": "total_deceased",
+                "recovered": "total_recovered",
+            }
+        )
 
         data = data[data.match_string != "unconfirmed"]
-        data = grouped_diff(data, ["match_string", "date"])
         data["country_code"] = "PT"
         return data

@@ -13,10 +13,9 @@
 # limitations under the License.
 
 from typing import Dict, List
-from pandas import DataFrame, concat, merge, NA
+from pandas import DataFrame
 from lib.cast import safe_int_cast
 from lib.pipeline import DataSource
-from lib.utils import grouped_diff
 
 
 class Covid19UkDataL3DataSource(DataSource):
@@ -32,7 +31,7 @@ class Covid19UkDataL3DataSource(DataSource):
                     "Date": "date",
                     "Country": "subregion1_name",
                     "AreaCode": "subregion2_code",
-                    "TotalCases": "confirmed",
+                    "TotalCases": "total_confirmed",
                 }
             )
             .drop(columns=["Area"])
@@ -53,10 +52,9 @@ class Covid19UkDataL3DataSource(DataSource):
         data["key"] = "GB_" + data["subregion1_code"] + "_" + data["subregion2_code"]
 
         # Now that we have the key, we don't need any other non-value columns
-        data = data[["date", "key", "confirmed"]]
+        data = data[["date", "key", "total_confirmed"]]
 
-        data["confirmed"] = data["confirmed"].apply(safe_int_cast).astype("Int64")
-        data = grouped_diff(data, ["key", "date"])
+        data["total_confirmed"] = data["total_confirmed"].apply(safe_int_cast).astype("Int64")
         return data
 
 
@@ -80,13 +78,16 @@ class Covid19UkDataL2DataSource(DataSource):
             )
 
         data = DataFrame.from_records(records).rename(
-            columns={"ConfirmedCases": "confirmed", "Deaths": "deceased", "Tests": "tested"}
+            columns={
+                "ConfirmedCases": "total_confirmed",
+                "Deaths": "total_deceased",
+                "Tests": "total_tested",
+            }
         )
 
-        for col in ("confirmed", "deceased", "tested"):
+        for col in ("total_confirmed", "total_deceased", "total_tested"):
             data[col] = data[col].apply(safe_int_cast).astype("Int64")
 
-        data = grouped_diff(data, ["subregion1_name", "date"])
         data.loc[data["subregion1_name"] == "UK", "subregion1_name"] = None
         data["subregion2_code"] = None
         data["country_code"] = "GB"

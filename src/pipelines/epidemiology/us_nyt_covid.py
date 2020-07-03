@@ -12,11 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from datetime import datetime
-from typing import Any, Dict, List
-from pandas import DataFrame, concat, merge
+from typing import Dict, List
+from pandas import DataFrame
 from lib.pipeline import DataSource
-from lib.utils import grouped_diff
 
 
 class NytCovidL2DataSource(DataSource):
@@ -29,8 +27,8 @@ class NytCovidL2DataSource(DataSource):
             columns={
                 "date": "date",
                 "state": "subregion1_name",
-                "cases": "confirmed",
-                "deaths": "deceased",
+                "cases": "total_confirmed",
+                "deaths": "total_deceased",
             }
         )
 
@@ -46,10 +44,6 @@ class NytCovidL2DataSource(DataSource):
 
         # Manually build the key rather than doing automated merge for performance reasons
         data["key"] = "US_" + data["subregion1_code"]
-
-        # Now that we have the key, we don't need any other non-value columns
-        data = data[["date", "key", "confirmed", "deceased"]]
-        data = grouped_diff(data, ["key", "date"])
         return data
 
 
@@ -66,8 +60,8 @@ class NytCovidL3DataSource(DataSource):
                     "date": "date",
                     "state": "subregion1_name",
                     "fips": "subregion2_code",
-                    "cases": "confirmed",
-                    "deaths": "deceased",
+                    "cases": "total_confirmed",
+                    "deaths": "total_deceased",
                 }
             )
             .drop(columns=["county"])
@@ -90,7 +84,4 @@ class NytCovidL3DataSource(DataSource):
         # Manually build the key rather than doing automated merge for performance reasons
         data["key"] = "US_" + data["subregion1_code"] + "_" + data["subregion2_code"]
 
-        # Now that we have the key, we don't need any other non-value columns
-        data = data[["date", "key", "confirmed", "deceased"]]
-        data = grouped_diff(data, ["key", "date"])
         return data

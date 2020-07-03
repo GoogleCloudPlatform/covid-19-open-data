@@ -13,10 +13,9 @@
 # limitations under the License.
 
 from datetime import datetime
-from typing import Any, Dict, List
-from pandas import DataFrame, concat, merge
+from typing import Dict, List
+from pandas import DataFrame, concat
 from lib.pipeline import DataSource
-from lib.utils import grouped_diff
 
 
 class NetherlandsDataSource(DataSource):
@@ -31,9 +30,9 @@ class NetherlandsDataSource(DataSource):
                 "Municipality_code": "subregion2_code",
                 "Municipality_name": "subregion2_name",
                 "Province": "subregion1_name",
-                "Total_reported": "confirmed",
-                "Hospital_admission": "hospitalized",
-                "Deceased": "deceased",
+                "Total_reported": "total_confirmed",
+                "Hospital_admission": "total_hospitalized",
+                "Deceased": "total_deceased",
             }
         )
 
@@ -52,10 +51,7 @@ class NetherlandsDataSource(DataSource):
         data = data.merge(aux["metadata"], on="subregion2_code")
 
         # We only need to keep key-date pair for identification
-        data = data[["date", "key", "confirmed", "deceased", "hospitalized"]]
-
-        # Compute the daily counts
-        data = grouped_diff(data, ["key", "date"])
+        data = data[["date", "key", "total_confirmed", "total_deceased", "total_hospitalized"]]
 
         # Group by level 2 region, and add the parts
         l2 = data.copy()

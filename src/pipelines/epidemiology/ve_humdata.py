@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Any, Dict, List
-from pandas import DataFrame, concat, merge
+from typing import Dict, List
+from pandas import DataFrame
 from lib.pipeline import DataSource
 from lib.cast import safe_int_cast
-from lib.utils import grouped_diff, pivot_table
+from lib.utils import pivot_table
 
 
 class VenezuelaHumDataSource(DataSource):
@@ -24,14 +24,11 @@ class VenezuelaHumDataSource(DataSource):
         self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
         data = pivot_table(dataframes[0].set_index("date"), pivot_name="match_string").rename(
-            columns={"value": "confirmed"}
+            columns={"value": "total_confirmed"}
         )
 
         # Remove cities from output
         data = data[~data.match_string.isin(["La Guaira", "Los Roques"])]
-
-        # Compute daily differences
-        data = grouped_diff(data, ["match_string", "date"])
 
         # Add country code and return
         data["country_code"] = "VE"
