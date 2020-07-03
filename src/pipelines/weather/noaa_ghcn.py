@@ -155,7 +155,11 @@ class NoaaGhcnDataSource(DataSource):
         stations = stations.reset_index()
 
         # Get all the POI from metadata and go through each key
-        metadata = dataframes[0][["key", "latitude", "longitude"]].dropna()
+        keep_columns = ["key", "latitude", "longitude"]
+        metadata = dataframes[0][keep_columns].dropna()
+
+        # Only use keys present in the metadata table
+        metadata = metadata.merge(aux["metadata"])[keep_columns]
 
         # Convert all coordinates to radians
         stations["lat"] = stations.lat.apply(math.radians)

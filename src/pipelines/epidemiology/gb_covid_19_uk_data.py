@@ -41,12 +41,13 @@ class Covid19UkDataL3DataSource(DataSource):
         # Add subregion1 code to the data
         gb_meta = aux["metadata"]
         gb_meta = gb_meta[gb_meta["country_code"] == "GB"]
-        gb_meta = gb_meta[gb_meta["subregion2_code"].isna()]
-        country_map = {
-            idx: code
-            for idx, code in gb_meta.set_index("subregion1_name")["subregion1_code"].iteritems()
-        }
-        data["subregion1_code"] = data["subregion1_name"].apply(lambda x: country_map[x])
+        gb_meta = gb_meta.set_index("subregion1_name")["subregion1_code"].drop_duplicates()
+        country_map = {idx: code for idx, code in gb_meta.iteritems()}
+        data["subregion1_code"] = data["subregion1_name"].apply(country_map.get)
+
+        # All subregion codes should be found but sometimes we only have a subset available when
+        # the pipeline is run in a test environment
+        data = data.dropna(subset=["subregion1_code"])
 
         # Manually build the key rather than doing automated merge for performance reasons
         data["key"] = "GB_" + data["subregion1_code"] + "_" + data["subregion2_code"]

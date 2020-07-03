@@ -63,6 +63,8 @@ sources:
   - name: pipelines.epidemiology.co_authority.ColombiaDataSource
     fetch:
       - url: "https://www.datos.gov.co/api/views/gt2j-8ykr/rows.csv"
+    test:
+      metadata_query: "key.str.match('CO.*')"
 
   # Data sources for CZ levels 1 + 2 + 3
   - name: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
@@ -70,18 +72,24 @@ sources:
       - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/osoby.csv"
     parse:
       column_name: 'new_confirmed'
+    test:
+      metadata_query: "key.str.match('CZ.*')"
 
   - name: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
     fetch:
       - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/umrti.csv"
     parse:
       column_name: 'new_deceased'
+    test:
+      metadata_query: "key.str.match('CZ.*')"
 
   - name: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
     fetch:
       - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/vyleceni.csv"
     parse:
       column_name: 'new_recovered'
+    test:
+      metadata_query: "key.str.match('CZ.*')"
 
   # Data sources for FI level 1
   - name: pipelines.epidemiology.fi_authority.FinlandArcGisDataSource
@@ -90,6 +98,8 @@ sources:
         opts:
           ext: json
     query: "date > '2020-02-01'"
+    test:
+      metadata_query: "key == 'FI'"
 
   # Data sources for FR levels 1 + 2 + 3
   - name: pipelines.epidemiology.fr_authority.FranceDataSource
@@ -99,6 +109,8 @@ sources:
           ext: csv
     parse:
       sep: ";"
+    test:
+      metadata_query: "key.str.match('FR.*')"
 
   # Data sources for PH levels 2 + 3
   - name: pipelines.epidemiology.ph_authority.PhilippinesDataSource
@@ -106,8 +118,12 @@ sources:
       - url: "https://drive.google.com/uc?export=download&id=1moFBN_thU0e70frjnYjoV-UWYxVzsvCh"
         opts:
           ext: xlsx
+    test:
+      metadata_query: "key.str.match('PH.*')"
 
   # Data sources for ZA level 1
   - name: pipelines.epidemiology.za_dsfsi.Covid19ZaTimelineDeathsDataSource
     fetch:
       - url: "https://raw.github.com/dsfsi/covid19za/master/data/covid19za_timeline_death_statistics.csv"
+    test:
+      metadata_query: "key.str.match('ZA.*')"

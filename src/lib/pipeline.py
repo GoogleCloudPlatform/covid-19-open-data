@@ -19,7 +19,7 @@ import traceback
 from pathlib import Path
 from functools import partial
 from multiprocessing import cpu_count
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Union
 
 import yaml
 import requests
@@ -52,24 +52,39 @@ class DataPipeline:
     schema: Dict[str, Any]
     """ Names and corresponding dtypes of output columns """
 
-    data_sources: List[Tuple[DataSource, Dict[str, Any]]]
-    """ List of <data source, option> tuples executed in order """
+    data_sources: List[DataSource]
+    """ List of data sources (initialized with the appropriate config) executed in order """
 
-    auxiliary_tables: Dict[str, Union[Path, str]] = {
-        "metadata": ROOT / "src" / "data" / "metadata.csv"
-    }
+    auxiliary_tables: Dict[str, DataFrame] = {"metadata": ROOT / "src" / "data" / "metadata.csv"}
     """ Auxiliary datasets passed to the pipelines during processing """
 
     def __init__(
         self,
         schema: Dict[str, type],
         auxiliary: Dict[str, Union[Path, str]],
-        data_sources: List[Tuple[DataSource, Dict[str, Any]]],
+        data_sources: List[DataSource],
     ):
         super().__init__()
         self.schema = schema
-        self.auxiliary_tables = {**self.auxiliary_tables, **auxiliary}
         self.data_sources = data_sources
+
+        # Load the auxiliary tables into memory
+        aux = {
+            **self.auxiliary_tables,
+            **{name: read_file(table) for name, table in auxiliary.items()},
+        }
+
+        # Precompute some useful transformations in the auxiliary input files
+        aux["metadata"]["match_string_fuzzy"] = aux["metadata"].match_string.apply(fuzzy_text)
+        for category in ("country", "subregion1", "subregion2"):
+            for suffix in ("code", "name"):
+                column = "{}_{}".format(category, suffix)
+                aux["metadata"]["{}_fuzzy".format(column)] = aux["metadata"][column].apply(
+                    fuzzy_text
+                )
+
+        # Set this instance's auxiliary tables to our precomputed tables
+        self.auxiliary_tables = aux
 
     @staticmethod
     def load(name: str):
@@ -80,15 +95,15 @@ class DataPipeline:
             name: DataPipeline._parse_dtype(dtype) for name, dtype in config_yaml["schema"].items()
         }
         auxiliary = {name: ROOT / path for name, path in config_yaml.get("auxiliary", {}).items()}
-        pipelines = []
+        data_sources = []
         for pipeline_config in config_yaml["sources"]:
             module_tokens = pipeline_config["name"].split(".")
             class_name = module_tokens[-1]
             module_name = ".".join(module_tokens[:-1])
             module = importlib.import_module(module_name)
-            pipelines.append(getattr(module, class_name)(pipeline_config))
+            data_sources.append(getattr(module, class_name)(pipeline_config))
 
-        return DataPipeline(schema, auxiliary, pipelines)
+        return DataPipeline(schema, auxiliary, data_sources)
 
     @staticmethod
     def _parse_dtype(dtype_name: str) -> type:
@@ -156,24 +171,12 @@ class DataPipeline:
             cache = {}
             warnings.warn("Cache unavailable")
 
-        # Read the auxiliary input files into memory
-        aux = {name: read_file(file_name) for name, file_name in self.auxiliary_tables.items()}
-
-        # Precompute some useful transformations in the auxiliary input files
-        aux["metadata"]["match_string_fuzzy"] = aux["metadata"].match_string.apply(fuzzy_text)
-        for category in ("country", "subregion1", "subregion2"):
-            for suffix in ("code", "name"):
-                column = "{}_{}".format(category, suffix)
-                aux["metadata"]["{}_fuzzy".format(column)] = aux["metadata"][column].apply(
-                    fuzzy_text
-                )
-
         # Get all the pipeline outputs
         # This operation is parallelized but output order is preserved
 
         # Make a copy of the auxiliary table to prevent modifying it for everyone, but this way
         # we allow for local modification (which might be wanted for optimization purposes)
-        aux_copy = {name: df.copy() for name, df in aux.items()}
+        aux_copy = {name: df.copy() for name, df in self.auxiliary_tables.items()}
 
         # Create a function to be used during mapping. The nestedness is an unfortunate outcome of
         # the multiprocessing module's limitations when dealing with lambda functions, coupled with

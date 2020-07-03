@@ -37,10 +37,10 @@ class BangladeshHumdataDataSource(DataSource):
             ("recover", "total_recovered"),
         ]:
             data = dataframes[0][
-                ["_name"] + [col for col in dataframes[0].columns if keyword in col]
+                ["district_name"] + [col for col in dataframes[0].columns if keyword in col]
             ]
             data.columns = [col.split(" upto ", 2)[-1] for col in data.columns]
-            data = data.set_index("_name")[data.columns[1:]]
+            data = data.set_index("district_name")[data.columns[1:]]
             data = pivot_table_date_columns(data, pivot_name="date", value_name=value_column)
             data.date = data.date.apply(lambda x: datetime_isoformat(f"{x}-2020", "%d %B-%Y"))
             data = data.reset_index().rename(columns={"index": "match_string"})

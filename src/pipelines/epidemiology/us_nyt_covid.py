@@ -17,6 +17,22 @@ from pandas import DataFrame
 from lib.data_source import DataSource
 
 
+def _add_state_code(data: DataFrame, metadata: DataFrame) -> DataFrame:
+
+    # Add subregion1 code to the data
+    us_meta = metadata
+    us_meta = us_meta[us_meta["country_code"] == "US"]
+    us_meta = us_meta.set_index("subregion1_name")["subregion1_code"].drop_duplicates()
+    country_map = {idx: code for idx, code in us_meta.iteritems()}
+    data["subregion1_code"] = data["subregion1_name"].apply(country_map.get)
+
+    # All subregion codes should be found but sometimes we only have a subset available when
+    # the pipeline is run in a test environment
+    data = data.dropna(subset=["subregion1_code"])
+
+    return data
+
+
 class NytCovidL2DataSource(DataSource):
     def parse_dataframes(
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
@@ -33,14 +49,7 @@ class NytCovidL2DataSource(DataSource):
         )
 
         # Add state code to the data
-        us_meta = aux["metadata"]
-        us_meta = us_meta[us_meta["country_code"] == "US"]
-        us_meta = us_meta[us_meta["subregion2_code"].isna()]
-        state_map = {
-            idx: code
-            for idx, code in us_meta.set_index("subregion1_name")["subregion1_code"].iteritems()
-        }
-        data["subregion1_code"] = data["subregion1_name"].apply(lambda x: state_map[x])
+        data = _add_state_code(data, aux["metadata"])
 
         # Manually build the key rather than doing automated merge for performance reasons
         data["key"] = "US_" + data["subregion1_code"]
@@ -69,14 +78,7 @@ class NytCovidL3DataSource(DataSource):
         )
 
         # Add state code to the data
-        us_meta = aux["metadata"]
-        us_meta = us_meta[us_meta["country_code"] == "US"]
-        us_meta = us_meta[us_meta["subregion2_code"].isna()]
-        state_map = {
-            idx: code
-            for idx, code in us_meta.set_index("subregion1_name")["subregion1_code"].iteritems()
-        }
-        data["subregion1_code"] = data["subregion1_name"].apply(lambda x: state_map[x])
+        data = _add_state_code(data, aux["metadata"])
 
         # Make sure the FIPS code is well-formatted
         data["subregion2_code"] = data["subregion2_code"].apply(lambda x: "{0:05d}".format(int(x)))
