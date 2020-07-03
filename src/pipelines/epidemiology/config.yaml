@@ -565,6 +565,59 @@ sources:
     test:
       metadata_query: "key.str.match('US_.+_.+')"
 
+  # Data sources for US_AK level 2
+  - name: pipelines.epidemiology.us_ak_authority.AlaskaDataSource
+    fetch:
+      - url: "https://www.arcgis.com/sharing/rest/content/items/867f802ce1624b46b40d2bd281490078/data"
+        opts:
+          ext: xlsx
+    parse:
+      key: US_AK
+      sheet_name: "Table 1"
+    test:
+      metadata_query: "key == 'US_AK'"
+
+  - name: pipelines.epidemiology.us_ak_authority.AlaskaDataSource
+    fetch:
+      - url: "https://www.arcgis.com/sharing/rest/content/items/867f802ce1624b46b40d2bd281490078/data"
+        opts:
+          ext: xlsx
+    parse:
+      key: US_AK
+      sheet_name: "Table 4"
+    test:
+      metadata_query: "key == 'US_AK'"
+
+  # Data sources for US_DC level 2
+  - name: pipelines.epidemiology.us_dc_authority.DistrictColumbiaDataSource
+    fetch:
+      - url: "https://coronavirus.dc.gov/page/coronavirus-data"
+        opts:
+          ext: xlsx
+    parse:
+      sheet_name: "Overal Stats"
+    test:
+      metadata_query: "key == 'US_DC'"
+
+  # Data sources for US_DE level 2
+  - name: pipelines.epidemiology.us_de_authority.DelawareDataSource
+    fetch:
+      - url: "https://myhealthycommunity.dhss.delaware.gov/locations/state/download_covid_19_data"
+        opts:
+          ext: csv
+          spoof_browser: false
+    test:
+      metadata_query: "key == 'US_DE'"
+
+  # Data sources US_FL levels 2 + 3
+  # No URL is provided because an API is used instead
+  - name: pipelines.epidemiology.us_fl_authority.FloridaDataSource
+    parse:
+      # Death count is inaccurate, but we have an alternative source so we can just drop it here
+      remove_inaccurate_statistics: true
+    test:
+      metadata_query: "key.str.match('US_FL.*')"
+
   # Data sources for US_NYC level 3 (NYC only)
   - name: pipelines.epidemiology.us_nyc_authority.NYCHealthDataSource
     fetch:

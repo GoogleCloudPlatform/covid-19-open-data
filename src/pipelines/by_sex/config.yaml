@@ -121,6 +121,33 @@ sources:
     test:
       metadata_query: "key.str.match('PH.*')"
 
+  # Data sources for US_DC level 2
+  - name: pipelines.epidemiology.us_dc_authority.DistrictColumbiaDataSource
+    fetch:
+      - url: "https://coronavirus.dc.gov/page/coronavirus-data"
+        opts:
+          ext: xlsx
+    parse:
+      sheet_name: "Lives Lost by Sex"
+    test:
+      metadata_query: "key == 'US_DC'"
+
+  # Data sources for US_DE level 2
+  - name: pipelines.epidemiology.us_de_authority.DelawareDataSource
+    fetch:
+      - url: "https://myhealthycommunity.dhss.delaware.gov/locations/state/download_covid_19_data"
+        opts:
+          ext: csv
+          spoof_browser: false
+    test:
+      metadata_query: "key == 'US_DE'"
+
+  # Data sources US_FL levels 2 + 3
+  # No URL is provided because an API is used instead
+  - name: pipelines.epidemiology.us_fl_authority.FloridaDataSource
+    test:
+      metadata_query: "key.str.match('US_FL.*')"
+
   # Data sources for ZA level 1
   - name: pipelines.epidemiology.za_dsfsi.Covid19ZaTimelineDeathsDataSource
     fetch:
