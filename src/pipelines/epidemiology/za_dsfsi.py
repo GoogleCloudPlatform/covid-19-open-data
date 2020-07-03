@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Any, Dict, List
-from pandas import DataFrame, concat, merge
+from typing import Dict
+from pandas import DataFrame
 from lib.data_source import DataSource
 from lib.time import datetime_isoformat
 from lib.utils import table_rename, pivot_table, table_multimerge
@@ -28,16 +28,13 @@ class Covid19ZaCumulativeDataSource(DataSource):
         )
 
     def parse_dataframes(
-        self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
 
         data = table_multimerge(
             [
                 Covid19ZaCumulativeDataSource._parse_variable(df, name)
-                for df, name in zip(
-                    dataframes,
-                    ["total_confirmed", "total_deceased", "total_recovered", "total_tested"],
-                )
+                for name, df in dataframes.items()
             ],
             how="outer",
         )
@@ -58,7 +55,7 @@ class Covid19ZaCumulativeDataSource(DataSource):
 
 class Covid19ZaTimelineTestingDataSource(DataSource):
     def parse_dataframes(
-        self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
 
         data = table_rename(
@@ -82,7 +79,7 @@ class Covid19ZaTimelineTestingDataSource(DataSource):
 
 class Covid19ZaTimelineDeathsDataSource(DataSource):
     def parse_dataframes(
-        self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
 
         records = []

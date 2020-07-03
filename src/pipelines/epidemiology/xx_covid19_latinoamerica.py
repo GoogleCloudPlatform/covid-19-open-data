@@ -13,7 +13,7 @@
 # limitations under the License.
 
 import re
-from typing import Dict, List
+from typing import Dict
 from pandas import DataFrame
 from lib.cast import safe_int_cast
 from lib.data_source import DataSource
@@ -21,12 +21,12 @@ from lib.data_source import DataSource
 
 class Covid19LatinoAmericaDataSource(DataSource):
     def parse_dataframes(
-        self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
 
         # Read data from GitHub repo
         data = {}
-        for df, name in zip(dataframes, ("confirmed", "deceased", "recovered")):
+        for name, df in dataframes.items():
             df.rename(columns={"ISO 3166-2 Code": "key"}, inplace=True)
             df.key = df.key.str.replace("-", "_")
             data[name] = df.set_index("key")

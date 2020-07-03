@@ -13,14 +13,14 @@
 # limitations under the License.
 
 from datetime import datetime
-from typing import Dict, List
+from typing import Dict
 from pandas import DataFrame, concat
 from lib.data_source import DataSource
 
 
 class NetherlandsDataSource(DataSource):
     def parse_dataframes(
-        self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
 
         # Rename the appropriate columns

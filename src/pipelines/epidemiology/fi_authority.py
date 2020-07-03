@@ -14,7 +14,7 @@
 
 import json
 import datetime
-from typing import Dict, List
+from typing import Dict
 from pandas import DataFrame
 from lib.data_source import DataSource
 from lib.utils import table_rename
@@ -40,9 +40,10 @@ _column_adapter = {
 
 # pylint: disable=missing-class-docstring,abstract-method
 class FinlandArcGisDataSource(DataSource):
-    def parse(self, sources: List[str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
+    def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
 
-        data = json.load(open(sources[0]))["features"]
+        with open(sources[0], "r") as fd:
+            data = json.load(fd)["features"]
         data = table_rename(
             DataFrame.from_records([row["attributes"] for row in data]),
             _column_adapter,
@@ -73,7 +74,7 @@ class FinlandArcGisDataSource(DataSource):
 
 class FinlandThlDataSource(DataSource):
     def parse_dataframes(
-        self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
 
         # Rename the appropriate columns

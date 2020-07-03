@@ -12,9 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Dict, List
-from numpy import unique
-from pandas import DataFrame, concat
+from typing import Dict
+from pandas import DataFrame
 from lib.data_source import DataSource
 from lib.time import datetime_isoformat
 from lib.utils import pivot_table
@@ -22,7 +21,7 @@ from lib.utils import pivot_table
 
 class PtCovid19L1DataSource(DataSource):
     def parse_dataframes(
-        self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
 
         data = dataframes[0]
@@ -45,7 +44,7 @@ class PtCovid19L1DataSource(DataSource):
 
 class PtCovid19L2DataSource(DataSource):
     def parse_dataframes(
-        self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
 
         data = dataframes[0]

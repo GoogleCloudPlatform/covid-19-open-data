@@ -67,7 +67,7 @@ class AppleMobilityDataSource(DataSource):
         return match_string.strip()
 
     def parse_dataframes(
-        self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
 
         data = dataframes[0]

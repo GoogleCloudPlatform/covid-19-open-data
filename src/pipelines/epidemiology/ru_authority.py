@@ -40,7 +40,7 @@ def _get_province_records(key: str) -> List[Dict[str, Any]]:
 
 # pylint: disable=missing-class-docstring,abstract-method
 class RussiaDataSource(DataSource):
-    def parse(self, sources: List[str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
+    def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
 
         # Ignore sources, we use an API for this data source
         keys = aux["metadata"].query('country_code == "RU"').key

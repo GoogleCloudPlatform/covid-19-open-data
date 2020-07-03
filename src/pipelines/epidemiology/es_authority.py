@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Dict, List
+from typing import Dict
 from pandas import DataFrame
 from lib.io import read_file
 from lib.data_source import DataSource
@@ -20,7 +20,7 @@ from lib.time import datetime_isoformat
 
 
 class ISCIIIDataSource(DataSource):
-    def parse(self, sources: List[str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
+    def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
 
         # Retrieve the CSV files from https://covid19.isciii.es
         data = (

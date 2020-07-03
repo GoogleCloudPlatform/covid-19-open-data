@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Any, Dict, List
-from pandas import DataFrame, concat, merge
+from typing import Dict
+from pandas import DataFrame
 from lib.cast import safe_int_cast
 from lib.io import read_file
 from lib.data_source import DataSource
@@ -22,7 +22,7 @@ from lib.utils import table_rename
 
 
 class LuxembourgDataSource(DataSource):
-    def parse(self, sources: List[str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
+    def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
 
         data = read_file(sources[0], error_bad_lines=False, encoding="ISO-8859-1")
         data = table_rename(

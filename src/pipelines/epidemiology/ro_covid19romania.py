@@ -13,19 +13,20 @@
 # limitations under the License.
 
 import json
-from typing import Dict, List
+from typing import Dict
 from pandas import DataFrame
 from lib.data_source import DataSource
 from lib.utils import table_rename, table_multimerge
 
 
 class Covid19RomaniaDataSource(DataSource):
-    def parse(self, sources: List[str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
+    def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
 
         data_list = []
-        for idx, var in enumerate(["total_recovered", "current_intensive_care"]):
-            df = DataFrame.from_records(json.load(open(sources[idx]))["values"])
-            data_list.append(table_rename(df, {"value": var}))
+        for statistic, source_file in sources.items():
+            with open(source_file, "r") as fd:
+                df = DataFrame.from_records(json.load(fd)["values"])
+            data_list.append(table_rename(df, {"value": statistic}))
 
         data = table_multimerge(data_list)
         data["key"] = "RO"

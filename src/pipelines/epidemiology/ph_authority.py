@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Dict, List
-from pandas import DataFrame, concat, merge, to_datetime
+from typing import Dict
+from pandas import DataFrame, concat, to_datetime
 from lib.cast import age_group, safe_datetime_parse
 from lib.io import read_file
 from lib.data_source import DataSource
@@ -21,7 +21,7 @@ from lib.utils import table_rename
 
 
 class PhilippinesDataSource(DataSource):
-    def parse(self, sources: List[str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
+    def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
 
         data = read_file(sources[0], sheet_name="Sheet3")
 

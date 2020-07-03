@@ -12,16 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Dict, List
+from typing import Dict
 from pandas import DataFrame
 from lib.data_source import DataSource
-from lib.cast import safe_int_cast
 from lib.utils import pivot_table
 
 
 class VenezuelaHumDataSource(DataSource):
     def parse_dataframes(
-        self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
         data = pivot_table(dataframes[0].set_index("date"), pivot_name="match_string").rename(
             columns={"value": "total_confirmed"}

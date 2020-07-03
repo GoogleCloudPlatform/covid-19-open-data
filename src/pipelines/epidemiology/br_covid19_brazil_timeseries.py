@@ -13,7 +13,7 @@
 # limitations under the License.
 
 from datetime import datetime
-from typing import Dict, List, Tuple
+from typing import Dict, Tuple
 from pandas import DataFrame
 from lib.data_source import DataSource
 
@@ -48,14 +48,14 @@ class Covid19BrazilTimeseriesDataSource(DataSource):
         return DataFrame.from_records(records)
 
     def parse_dataframes(
-        self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
 
         # Parse cumsum and daily separately
-        data_cum = self._parse_dataframes((dataframes[0], dataframes[1]), "total_").set_index(
-            ["date", "country_code", "subregion1_code"]
-        )
-        data_new = self._parse_dataframes((dataframes[2], dataframes[3]), "new_").set_index(
-            ["date", "country_code", "subregion1_code"]
-        )
+        data_cum = self._parse_dataframes(
+            (dataframes["total_confirmed"], dataframes["total_deceased"]), "total_"
+        ).set_index(["date", "country_code", "subregion1_code"])
+        data_new = self._parse_dataframes(
+            (dataframes["new_confirmed"], dataframes["new_deceased"]), "new_"
+        ).set_index(["date", "country_code", "subregion1_code"])
         return data_new.join(data_cum).reset_index()

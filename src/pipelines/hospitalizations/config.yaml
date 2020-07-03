@@ -121,13 +121,15 @@ sources:
   # Data sources for JP levels 1 + 2
   - name: pipelines.epidemiology.jp_2019_ncov_japan.Jp2019NcovJapanByDate
     fetch:
-      - url: "https://raw.github.com/swsoyee/2019-ncov-japan/master/50_Data/byDate.csv"
-      - url: "https://raw.github.com/swsoyee/2019-ncov-japan/master/50_Data/death.csv"
+      - name: new_confirmed
+        url: "https://raw.github.com/swsoyee/2019-ncov-japan/master/50_Data/byDate.csv"
+      - name: new_deceased
+        url: "https://raw.github.com/swsoyee/2019-ncov-japan/master/50_Data/death.csv"
 
   # Data sources for LU level 1
   - name: pipelines.epidemiology.lu_authority.LuxembourgDataSource
     fetch:
-      - url: "https://data.public.lu/fr/datasets/r/82e4873d-a1f3-462a-ae93-dd7b95e68787"
+      - url: "https://data.public.lu/fr/datasets/r/a8f95152-4c79-4600-a9a0-019af7cac8c6"
         opts:
           ext: csv
     parse:
@@ -136,11 +138,10 @@ sources:
   # Data sources for MX levels 1 + 2
   - name: pipelines.epidemiology.mx_mexicovid19.Mexicovid19DataSource
     fetch:
-      - url: "https://raw.github.com/mexicovid19/Mexico-datos/master/datos_abiertos/series_de_tiempo/nuevos/covid19_mex_confirmados.csv"
-      - url: "https://raw.github.com/mexicovid19/Mexico-datos/master/datos_abiertos/series_de_tiempo/nuevos/covid19_mex_muertes.csv"
-      - url: "https://raw.github.com/mexicovid19/Mexico-datos/master/datos_abiertos/series_de_tiempo/nuevos/covid19_mex_pruebas-totales.csv"
-      - url: "https://raw.github.com/mexicovid19/Mexico-datos/master/datos_abiertos/series_de_tiempo/nuevos/covid19_mex_hospitalizados.csv"
-      - url: "https://raw.github.com/mexicovid19/Mexico-datos/master/datos_abiertos/series_de_tiempo/nuevos/covid19_mex_uci.csv"
+      - name: new_hospitalized
+        url: "https://raw.github.com/mexicovid19/Mexico-datos/master/datos_abiertos/series_de_tiempo/nuevos/covid19_mex_hospitalizados.csv"
+      - name: new_intensive_care
+        url: "https://raw.github.com/mexicovid19/Mexico-datos/master/datos_abiertos/series_de_tiempo/nuevos/covid19_mex_uci.csv"
 
   # Data sources for NL levels 1 + 2 + 3
   - name: pipelines.epidemiology.nl_authority.NetherlandsDataSource
@@ -156,6 +157,7 @@ sources:
     parse:
       key: "NO"
       date_format: "%d.%m.%Y"
+
   - name: pipelines.hospitalizations.xx_opencovid.OpenCovidDataSource
     fetch:
       - url: "https://raw.githubusercontent.com/google-research/open-covid-19-data/0d73628842d86a535d5bdd57746a963c7f74662d/data/inputs/downloaded/norway_fhi/2020-06-15/number-of-new-patients-w.csv"
@@ -178,8 +180,8 @@ sources:
   # Data sources for RO level 1
   - name: pipelines.epidemiology.ro_covid19romania.Covid19RomaniaDataSource
     fetch:
-      - url: "https://raw.github.com/adrianp/covid19romania/master/total_recovered_ro.json"
-      - url: "https://raw.github.com/adrianp/covid19romania/master/icu_ro.json"
+      - name: current_intensive_care
+        url: "https://raw.github.com/adrianp/covid19romania/master/icu_ro.json"
 
   # Data sources for SE level 1
   - name: pipelines.hospitalizations.se_authority.SwedenDataSource
@@ -206,10 +208,14 @@ sources:
   # Data sources for ZA levels 1 + 2
   - name: pipelines.epidemiology.za_dsfsi.Covid19ZaCumulativeDataSource
     fetch:
-      - url: "https://raw.github.com/dsfsi/covid19za/master/data/covid19za_provincial_cumulative_timeline_confirmed.csv"
-      - url: "https://raw.github.com/dsfsi/covid19za/master/data/covid19za_provincial_cumulative_timeline_deaths.csv"
-      - url: "https://raw.github.com/dsfsi/covid19za/master/data/covid19za_provincial_cumulative_timeline_recoveries.csv"
-      - url: "https://raw.github.com/dsfsi/covid19za/master/data/covid19za_provincial_cumulative_timeline_testing.csv"
+      - name: total_confirmed
+        url: "https://raw.github.com/dsfsi/covid19za/master/data/covid19za_provincial_cumulative_timeline_confirmed.csv"
+      - name: total_deceased
+        url: "https://raw.github.com/dsfsi/covid19za/master/data/covid19za_provincial_cumulative_timeline_deaths.csv"
+      - name: total_recovered
+        url: "https://raw.github.com/dsfsi/covid19za/master/data/covid19za_provincial_cumulative_timeline_recoveries.csv"
+      - name: total_tested
+        url: "https://raw.github.com/dsfsi/covid19za/master/data/covid19za_provincial_cumulative_timeline_testing.csv"
 
   - name: pipelines.epidemiology.za_dsfsi.Covid19ZaTimelineTestingDataSource
     fetch:

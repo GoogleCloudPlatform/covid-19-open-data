@@ -13,7 +13,7 @@
 # limitations under the License.
 
 import re
-from typing import Dict, List
+from typing import Dict
 from pandas import DataFrame
 from lib.data_source import DataSource
 from lib.time import datetime_isoformat
@@ -21,7 +21,7 @@ from lib.time import datetime_isoformat
 
 class OxfordGovernmentResponseDataSource(DataSource):
     def parse_dataframes(
-        self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
         data = dataframes[0]
         data = data.drop(columns=["CountryName", "ConfirmedCases", "ConfirmedDeaths"])

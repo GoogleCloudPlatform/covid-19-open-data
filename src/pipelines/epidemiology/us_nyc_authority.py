@@ -12,15 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import sys
-from typing import Any, Dict, List
-import numpy
-from pandas import DataFrame, concat, merge
-from lib.cast import safe_float_cast
-from lib.io import read_file
-from lib.data_source import DataSource
+from typing import Dict
+from pandas import DataFrame, concat
+from lib.pipeline import DataSource
 from lib.time import datetime_isoformat
-from lib.utils import table_multimerge, table_rename
+from lib.utils import table_rename
 
 
 def _parse_boro(data: DataFrame, column_prefix: str, fips: str) -> DataFrame:
@@ -40,7 +36,7 @@ def _parse_boro(data: DataFrame, column_prefix: str, fips: str) -> DataFrame:
 
 class NYCHealthDataSource(DataSource):
     def parse_dataframes(
-        self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
         nyc_boros = {
             "BX": "36005",  # Bronx

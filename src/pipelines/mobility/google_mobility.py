@@ -54,7 +54,7 @@ class GoogleMobilityDataSource(DataSource):
     data_urls: List[str] = ["https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv"]
 
     def parse_dataframes(
-        self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
 
         data = data = dataframes[0].rename(

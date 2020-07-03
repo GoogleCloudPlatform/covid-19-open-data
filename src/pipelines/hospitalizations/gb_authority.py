@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Dict, List
+from typing import Dict
 from pandas import DataFrame
 from lib.cast import safe_float_cast
 from lib.io import read_file
@@ -43,7 +43,7 @@ class ScotlandDataSource(DataSource):
 
         return data
 
-    def parse(self, sources: List[str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
+    def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         hospitalized = ScotlandDataSource._parse(
             sources[0], sheet_name="Table 3a - Hospital Confirmed", value_name="new_hospitalized"
         )

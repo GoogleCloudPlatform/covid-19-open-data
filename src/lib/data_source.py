@@ -50,9 +50,9 @@ class DataSource:
 
     def fetch(
         self, output_folder: Path, cache: Dict[str, str], fetch_opts: List[Dict[str, Any]]
-    ) -> List[str]:
+    ) -> Dict[str, str]:
         """
-        Downloads the required resources and returns a list of local paths.
+        Downloads the required resources and returns a dictionary of <name, local path>.
 
         Args:
             output_folder: Root folder where snapshot, intermediate and tables will be placed.
@@ -60,26 +60,29 @@ class DataSource:
             fetch_opts: Additional options defined in the DataPipeline config.yaml.
 
         Returns:
-            List[str]: List of absolute paths where the fetched resources were stored, in the same
-                order as they are defined in `config`.
+            Dict[str, str]: Dict of absolute paths where the fetched resources were stored, using
+                the "name" as the key if it is defined in `config`, otherwise the keys are ordinal
+                numbers based on the order of the URLs.
         """
-        return [
-            download_snapshot(source_config["url"], output_folder, **source_config.get("opts", {}))
-            for source_config in fetch_opts
-        ]
+        return {
+            source_config.get("name", idx): download_snapshot(
+                source_config["url"], output_folder, **source_config.get("opts", {})
+            )
+            for idx, source_config in enumerate(fetch_opts)
+        }
 
-    def _read(self, file_paths: List[str], **read_opts) -> List[DataFrame]:
+    def _read(self, file_paths: Dict[str, str], **read_opts) -> List[DataFrame]:
         """ Reads a raw file input path into a DataFrame """
-        return [read_file(file_path, **read_opts) for file_path in file_paths]
+        return {name: read_file(file_path, **read_opts) for name, file_path in file_paths.items()}
 
-    def parse(self, sources: List[str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
+    def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         """ Parses a list of raw data records into a DataFrame. """
         # Some read options are passed as parse_opts
         read_opts = {k: v for k, v in parse_opts.items() if k in ("sep",)}
         return self.parse_dataframes(self._read(sources, **read_opts), aux, **parse_opts)
 
     def parse_dataframes(
-        self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
         """ Parse the inputs into a single output dataframe """
         raise NotImplementedError()

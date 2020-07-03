@@ -13,8 +13,8 @@
 # limitations under the License.
 
 import datetime
-from typing import Any, Dict, List
-from pandas import DataFrame, concat, merge
+from typing import Dict
+from pandas import DataFrame
 from lib.cast import safe_int_cast
 from lib.data_source import DataSource
 from lib.time import datetime_isoformat
@@ -27,7 +27,7 @@ def _parse_date(date: str):
 
 class CatchmeupDataSource(DataSource):
     def parse_dataframes(
-        self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
 
         df = dataframes[0]

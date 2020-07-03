@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Dict, List
+from typing import Dict
 from pandas import DataFrame
 from lib.data_source import DataSource
 from lib.time import timezone_adjust
@@ -20,7 +20,7 @@ from lib.time import timezone_adjust
 
 class DXYDataSource(DataSource):
     def parse_dataframes(
-        self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
         data = dataframes[0]
 

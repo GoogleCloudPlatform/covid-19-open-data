@@ -12,40 +12,38 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Dict, List
-from pandas import DataFrame, concat, merge
+from typing import Dict
+from pandas import DataFrame, concat
 from lib.data_source import DataSource
 from lib.time import datetime_isoformat
-from lib.utils import pivot_table
+from lib.utils import pivot_table, table_multimerge
+
+
+def _parse_pivot(data: DataFrame, name: str):
+
+    # Remove bogus values
+    data = data.iloc[:, :-4]
+
+    # Convert date to ISO format
+    data["date"] = data["date"].apply(lambda x: datetime_isoformat(str(x), "%Y%m%d"))
+    data = pivot_table(data.set_index("date")).rename(
+        columns={"value": name, "pivot": "match_string"}
+    )
+
+    # Add the country code to all records
+    data["country_code"] = "JP"
+
+    # Output the results
+    return data
 
 
 class Jp2019NcovJapanByDate(DataSource):
-    @staticmethod
-    def _parse_pivot(data: DataFrame, name: str):
-
-        # Remove bogus values
-        data = data.iloc[:, :-4]
-
-        # Convert date to ISO format
-        data["date"] = data["date"].apply(lambda x: datetime_isoformat(str(x), "%Y%m%d"))
-        data = pivot_table(data.set_index("date")).rename(
-            columns={"value": name, "pivot": "match_string"}
-        )
-
-        # Add the country code to all records
-        data["country_code"] = "JP"
-
-        # Output the results
-        return data
-
     def parse_dataframes(
-        self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
-        df1 = Jp2019NcovJapanByDate._parse_pivot(dataframes[0], "new_confirmed")
-        df2 = Jp2019NcovJapanByDate._parse_pivot(dataframes[1], "new_deceased")
 
         # Keep only columns we can process
-        data = merge(df1, df2)
+        data = table_multimerge([_parse_pivot(df, name) for name, df in dataframes.items()])
         data = data[["date", "country_code", "match_string", "new_confirmed", "new_deceased"]]
         return data.fillna(0)
 
@@ -53,7 +51,7 @@ class Jp2019NcovJapanByDate(DataSource):
 # Unused because it's a different region aggregation
 class Jp2019NcovJapanByRegion(DataSource):
     def parse_dataframes(
-        self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
 
         data = dataframes[0].rename(

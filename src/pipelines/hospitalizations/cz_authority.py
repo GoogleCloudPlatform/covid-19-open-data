@@ -13,7 +13,7 @@
 # limitations under the License.
 
 import json
-from typing import Dict, List
+from typing import Dict
 from bs4 import BeautifulSoup
 from pandas import DataFrame
 from lib.data_source import DataSource
@@ -21,10 +21,11 @@ from lib.time import datetime_isoformat
 
 
 class CzechRepublicL1HospitalizedDataSource(DataSource):
-    def parse(self, sources: List[str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
+    def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
 
         # Get the file contents from source
-        html_content = open(sources[0]).read()
+        with open(sources[0], "r") as fd:
+            html_content = fd.read()
         page = BeautifulSoup(html_content, "lxml")
         data = page.select("#panel3-hospitalization")[0]
         data = data.select("#js-hospitalization-table-data")[0]

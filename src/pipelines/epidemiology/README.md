@@ -86,7 +86,7 @@ Here's an example of a very simple parsing script:
 ```python
 class MySourceNameDataSource(DataSource):
     def parse_dataframes(
-        self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
 
         # Data is only one source, so we only look at the first item of the list

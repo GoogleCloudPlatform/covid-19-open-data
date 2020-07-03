@@ -15,7 +15,7 @@
 import re
 import locale
 import datetime
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, Optional, Tuple
 from pandas import DataFrame, isna, isnull
 
 from lib.cast import safe_int_cast, safe_datetime_parse
@@ -35,12 +35,13 @@ class WikipediaDataSource(DataSource):
         non_null = [value for value in group if not (isna(value) or isnull(value))]
         return None if not non_null else sum(non_null)
 
-    def parse(self, sources: List[str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
+    def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         if parse_opts.get("debug"):
             print("File name:", sources[0])
 
         # Get the file contents from source
-        html_content = open(sources[0]).read()
+        with open(sources[0], "r") as fd:
+            html_content = fd.read()
 
         # We need to set locale in order to parse dates properly
         locale.setlocale(locale.LC_TIME, parse_opts.get("locale", "en_US") + ".UTF-8")

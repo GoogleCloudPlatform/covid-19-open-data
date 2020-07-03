@@ -61,7 +61,7 @@ def _parse_region_codes(data: DataFrame) -> DataFrame:
 
 class CzechRepublicL1TestedDataSource(DataSource):
     def parse_dataframes(
-        self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
         data = table_rename(dataframes[0], _column_adapter, drop=True)
         data["key"] = "CZ"
@@ -70,7 +70,7 @@ class CzechRepublicL1TestedDataSource(DataSource):
 
 class CzechRepublicL3DataSource(DataSource):
     def parse_dataframes(
-        self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
         data = table_rename(dataframes[0], _column_adapter, drop=True)
         data = _parse_region_codes(data)
@@ -79,7 +79,7 @@ class CzechRepublicL3DataSource(DataSource):
 
 class CzechRepublicAgeSexDataSource(DataSource):
     def parse_dataframes(
-        self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
 
         # Rename appropriate columns

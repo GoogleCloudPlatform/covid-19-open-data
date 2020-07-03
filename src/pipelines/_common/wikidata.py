@@ -13,7 +13,7 @@
 # limitations under the License.
 
 from functools import partial
-from typing import Dict, List, Tuple
+from typing import Dict, Tuple
 
 from pandas import DataFrame
 from tqdm.contrib import concurrent
@@ -30,7 +30,7 @@ class WikidataDataSource(DataSource):
         key, wikidata_id = key_wikidata
         return {"key": key, **wikidata_properties(props, wikidata_id)}
 
-    def parse(self, sources: List[str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
+    def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         data = aux["knowledge_graph"].merge(aux["metadata"])[["key", "wikidata"]].set_index("key")
 
         # Load wikidata using parallel processing

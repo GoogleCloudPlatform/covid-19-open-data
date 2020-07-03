@@ -13,8 +13,8 @@
 # limitations under the License.
 
 from datetime import datetime
-from typing import Any, Dict, List
-from pandas import DataFrame, concat, merge
+from typing import Dict
+from pandas import DataFrame
 from lib.data_source import DataSource
 
 
@@ -38,7 +38,7 @@ _column_map = {
 
 class PcmDpcL1DataSource(DataSource):
     def parse_dataframes(
-        self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
 
         # Rename the appropriate columns
@@ -59,7 +59,7 @@ class PcmDpcL1DataSource(DataSource):
 
 class PcmDpcL2DataSource(DataSource):
     def parse_dataframes(
-        self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
 
         # Rename the appropriate columns

@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Dict, List
+from typing import Dict
 from pandas import DataFrame
 from lib.cast import safe_int_cast
 from lib.data_source import DataSource
@@ -20,7 +20,7 @@ from lib.data_source import DataSource
 
 class Covid19UkDataL3DataSource(DataSource):
     def parse_dataframes(
-        self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
 
         # County data is already in the format we want
@@ -60,7 +60,7 @@ class Covid19UkDataL3DataSource(DataSource):
 
 class Covid19UkDataL2DataSource(DataSource):
     def parse_dataframes(
-        self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
 
         # Aggregate indicator time series data into relational format
@@ -96,7 +96,7 @@ class Covid19UkDataL2DataSource(DataSource):
 
 class Covid19UkDataL1DataSource(Covid19UkDataL2DataSource):
     def parse_dataframes(
-        self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
         data = super().parse_dataframes(dataframes, aux, **parse_opts)
 

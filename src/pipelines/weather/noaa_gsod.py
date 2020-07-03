@@ -28,9 +28,9 @@ from tqdm.contrib import concurrent
 from pandas import DataFrame, Series, read_csv, concat
 
 from lib.cast import safe_float_cast
-from lib.net import download
+from lib.net import download, download_snapshot
 from lib.data_source import DataSource
-from lib.utils import ROOT
+from lib.utils import URL_OUTPUTS_PROD
 
 
 _COLUMN_MAPPING = {
@@ -62,8 +62,10 @@ class NoaaGsodDataSource(DataSource):
     # A bit of a circular dependency but we need the latitude and longitude to compute weather
     def fetch(
         self, output_folder: Path, cache: Dict[str, str], fetch_opts: List[Dict[str, Any]]
-    ) -> List[str]:
-        return [ROOT / "output" / "tables" / "geography.csv"]
+    ) -> Dict[str, str]:
+        geo_url = f"{URL_OUTPUTS_PROD}/geography.csv"
+        download_opts = (fetch_opts or [{}])[0].get("opts", {})
+        return {0: download_snapshot(geo_url, output_folder, **download_opts)}
 
     @staticmethod
     def haversine_distance(

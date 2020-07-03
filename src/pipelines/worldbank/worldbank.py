@@ -42,9 +42,9 @@ class WorldbankDataSource(DataSource):
 
     def fetch(
         self, output_folder: Path, cache: Dict[str, str], fetch_opts: List[Dict[str, Any]]
-    ) -> List[str]:
+    ) -> Dict[str, str]:
         # Data file is too big to store in Git, so pass-through the URL to parse manually
-        return [source["url"] for source in fetch_opts]
+        return {idx: source["url"] for idx, source in enumerate(fetch_opts)}
 
     @staticmethod
     def _process_record(worldbank: DataFrame, indicators: Dict[str, str], min_year: int, key: str):

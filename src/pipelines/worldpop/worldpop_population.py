@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Dict, List
+from typing import Dict
 from pandas import DataFrame, Series
 from lib.data_source import DataSource
 from lib.cast import age_group
@@ -94,7 +94,7 @@ class WorldPopPopulationDataSource(DataSource):
     using Google Earth Engine: https://code.earthengine.google.com/f885dd559364ed8918324da355c1ee0e
     """
 
-    def parse(self, sources: List[str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
+    def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
 
         # In this script, we don't have any sources since the Worldpop data is precomputed using
         # Earth Engine: https://code.earthengine.google.com/f885dd559364ed8918324da355c1ee0e

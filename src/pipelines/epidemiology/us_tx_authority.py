@@ -12,10 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import sys
-from typing import Any, Dict, List
+from typing import Dict
 import numpy
-from pandas import DataFrame, concat, merge
+from pandas import DataFrame
 from lib.cast import safe_float_cast
 from lib.io import read_file
 from lib.data_source import DataSource
@@ -23,30 +22,32 @@ from lib.time import datetime_isoformat
 from lib.utils import table_multimerge, table_rename
 
 
+def _rename_columns(data: DataFrame, column_adapter: Dict[str, str]) -> DataFrame:
+    data.columns = data.iloc[0]
+    data.columns = [str(col).replace("\n", " ") for col in data.columns]
+    data = table_rename(data.iloc[1:].replace(".", numpy.nan), column_adapter)
+    return data[column_adapter.values()]
+
+
 class TexasDataSource(DataSource):
     @staticmethod
-    def _rename_columns(data: DataFrame, column_adapter: Dict[str, str]) -> DataFrame:
-        data.columns = data.iloc[0]
-        data.columns = [str(col).replace("\n", " ") for col in data.columns]
-        data = table_rename(data.iloc[1:].replace(".", numpy.nan), column_adapter)
-        return data[column_adapter.values()]
-
-    @staticmethod
     def _parse_trends(data: DataFrame) -> DataFrame:
-        return TexasDataSource._rename_columns(
-            data.iloc[1:],
-            {
-                "Date": "date",
-                "Cumulative Cases": "total_confirmed",
-                "Cumulative Fatalities": "total_deceased",
-                "Daily New Cases": "new_confirmed",
-                "Daily New Fatalities": "new_deceased",
-            },
-        )
+        column_adapter = {
+            "Date": "date",
+            "Cumulative Cases": "total_confirmed",
+            "Cumulative Fatalities": "total_deceased",
+            "Daily New Cases": "new_confirmed",
+            "Daily New Fatalities": "new_deceased",
+        }
+        # The data source keeps switching formats, so we just try multiple options
+        try:
+            return _rename_columns(data, column_adapter)
+        except:
+            return _rename_columns(data.iloc[1:], column_adapter)
 
     @staticmethod
     def _parse_tests(data: DataFrame) -> DataFrame:
-        return TexasDataSource._rename_columns(
+        return _rename_columns(
             data,
             {
                 "Date": "date",
@@ -58,11 +59,9 @@ class TexasDataSource(DataSource):
 
     @staticmethod
     def _parse_hospitalized(data: DataFrame) -> DataFrame:
-        return TexasDataSource._rename_columns(
-            data, {"Date": "date", "Hospitalizations": "current_hospitalized"}
-        )
+        return _rename_columns(data, {"Date": "date", "Hospitalizations": "current_hospitalized"})
 
-    def parse(self, sources: List[str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
+    def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
 
         sheets = []
         sheet_processors = {
