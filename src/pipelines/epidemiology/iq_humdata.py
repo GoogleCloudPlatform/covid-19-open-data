@@ -52,7 +52,7 @@ class IraqHumdataDataSource(DataSource):
 
         # Some regions appear split in the data
         baghdad_mask = data.match_string.apply(lambda x: "baghdad" in str(x).lower())
-        baghdad_subset = data.loc[baghdad_mask]
+        baghdad_subset = data.loc[baghdad_mask].copy()
         baghdad_subset["match_string"] = "baghdad"
         baghdad_subset = baghdad_subset.groupby(["date", "match_string"]).sum().reset_index()
         data = concat([data.loc[~baghdad_mask], baghdad_subset])
