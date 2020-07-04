@@ -18,7 +18,7 @@ from pathlib import Path
 from typing import BinaryIO
 
 import requests
-from tqdm import tqdm
+from .utils import pbar
 
 
 def download_snapshot(
@@ -71,7 +71,7 @@ def download(
     Args:
         url: The endpoint where contents are to be downloaded from
         file_handle: Writeable stream to write contents to
-        progress: Display progress during the download using the tqdm library
+        progress: Display progress during the download using the lib.utils.pbar function
         spoof_browser: Pretend to be a web browser by adding user agent string to headers
     """
     headers = {"User-Agent": "Safari"} if spoof_browser else {}
@@ -84,7 +84,7 @@ def download(
         req = requests.get(url, headers=headers, stream=True)
         req.raise_for_status()
         total_size = int(req.headers.get("content-length", 0))
-        progress_bar = tqdm(total=total_size, unit="iB", unit_scale=True)
+        progress_bar = pbar(total=total_size, unit="iB", unit_scale=True)
         for data in req.iter_content(block_size):
             progress_bar.update(len(data))
             file_handle.write(data)

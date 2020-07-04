@@ -19,19 +19,18 @@ import traceback
 from pathlib import Path
 from functools import partial
 from multiprocessing import cpu_count
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 import yaml
 import requests
 from pandas import DataFrame, Int64Dtype
-from tqdm import tqdm
 
 from .anomaly import detect_anomaly_all, detect_stale_columns
 from .cast import column_convert
 from .concurrent import process_map
 from .data_source import DataSource
 from .io import read_file, fuzzy_text, export_csv
-from .utils import ROOT, CACHE_URL, combine_tables, drop_na_records, filter_output_columns
+from .utils import ROOT, CACHE_URL, combine_tables, drop_na_records, filter_output_columns, pbar
 
 
 class DataPipeline:
@@ -158,11 +157,21 @@ class DataPipeline:
         output_folder: Path,
         process_count: int = cpu_count(),
         verify: str = "simple",
-        progress: bool = True,
     ) -> DataFrame:
         """
         Main method which executes all the associated [DataSource] objects and combines their
         outputs.
+
+        Arguments:
+            pipeline_name: Name of the folder under ./src/pipelines which contains a config.yaml.
+            output_folder: Root path of the outputs where "snapshot", "intermediate" and "tables"
+                will be created and populated with CSV files.
+            progress_count: Maximum number of processes to run in parallel.
+            verify: Level of anomaly detection to perform on outputs. Possible values are:
+                None, "simple" and "full".
+        Returns:
+            DataFrame: Processed and combined outputs from all the individual data sources into a
+                single table.
         """
         # Read the cache directory from our cloud storage
         try:
@@ -187,20 +196,15 @@ class DataPipeline:
         data_sources_count = len(self.data_sources)
         progress_label = f"Run {pipeline_name} pipeline"
         if process_count <= 1 or data_sources_count <= 1:
-            map_func = tqdm(
-                map(run_func, self.data_sources),
-                total=data_sources_count,
-                desc=progress_label,
-                disable=not progress,
+            map_func = pbar(
+                map(run_func, self.data_sources), total=data_sources_count, desc=progress_label
             )
         else:
-            map_func = process_map(
-                run_func, self.data_sources, desc=progress_label, disable=not progress
-            )
+            map_func = process_map(run_func, self.data_sources, desc=progress_label)
 
         # Save all intermediate results (to allow for reprocessing)
         intermediate_outputs = output_folder / "intermediate"
-        intermediate_outputs_files = []
+        intermediate_outputs_results: List[Tuple[DataSource, Path]] = []
         for data_source, result in zip(self.data_sources, map_func):
             data_source_class = data_source.__class__
             data_source_config = str(data_source.config)
@@ -209,7 +213,7 @@ class DataPipeline:
                 uuid.NAMESPACE_DNS, f"{source_full_name}.{data_source_config}"
             )
             intermediate_file = intermediate_outputs / f"{intermediate_name}.csv"
-            intermediate_outputs_files += [intermediate_file]
+            intermediate_outputs_results += [(data_source, intermediate_file)]
             if result is not None:
                 export_csv(result, intermediate_file)
 
@@ -217,11 +221,15 @@ class DataPipeline:
         # In-memory results are discarded, this ensures reproducibility and allows for data sources
         # to fail since the last successful intermediate result will be used in the combined output
         pipeline_outputs = []
-        for source_output in intermediate_outputs_files:
+        for data_source, source_output in intermediate_outputs_results:
             try:
                 pipeline_outputs += [read_file(source_output)]
             except Exception as exc:
-                warnings.warn(f"Failed to read intermediate file {source_output}. Error: {exc}")
+                data_source_name = data_source.__class__.__name__
+                warnings.warn(
+                    f"Failed to read output for {data_source_name} with config "
+                    f"{data_source.config}. Error: {exc}"
+                )
 
         # Get rid of all columns which are not part of the output to speed up data combination
         pipeline_outputs = [
@@ -234,8 +242,7 @@ class DataPipeline:
             warnings.warn("Empty result for pipeline chain {}".format(pipeline_name))
             data = DataFrame(columns=self.schema.keys())
         else:
-            progress_label = pipeline_name if progress else None
-            data = combine_tables(pipeline_outputs, ["date", "key"], progress_label=progress_label)
+            data = combine_tables(pipeline_outputs, ["date", "key"], progress_label=pipeline_name)
 
         # Return data using the pipeline's output parameters
         data = self.output_table(data)
@@ -255,22 +262,9 @@ class DataPipeline:
             )
             progress_label = f"Verify {pipeline_name} pipeline"
             if process_count <= 1 or len(map_iter) <= 1:
-                map_func = tqdm(
-                    map(map_func, map_iter),
-                    total=len(map_iter),
-                    desc=progress_label,
-                    disable=not progress,
-                )
+                map_func = pbar(map(map_func, map_iter), total=len(map_iter), desc=progress_label)
             else:
-                map_func = process_map(
-                    map_func, map_iter, desc=progress_label, disable=not progress
-                )
-
-            # Show progress as the results arrive if requested
-            if progress:
-                map_func = tqdm(
-                    map_func, total=len(map_iter), desc=f"Verify {pipeline_name} pipeline"
-                )
+                map_func = process_map(map_func, map_iter, desc=progress_label)
 
             # Consume the results
             _ = list(map_func)

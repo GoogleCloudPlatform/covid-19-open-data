@@ -19,8 +19,9 @@ from functools import partial
 
 import numpy as np
 import pandas as pd
-from tqdm import tqdm
 from scipy import optimize
+
+from .utils import pbar
 
 
 def _get_outbreak_mask(data: pd.DataFrame, threshold: int = 10):
@@ -134,7 +135,7 @@ def main(df):
     records = []
     map_func = partial(map_func, df)
     iter_len = len(df.Key.unique())
-    for result in tqdm(map(map_func, df.Key.unique()), total=iter_len, desc="Computing forecast"):
+    for result in pbar(map(map_func, df.Key.unique()), total=iter_len, desc="Computing forecast"):
         records += result
 
     # Do data cleanup here

@@ -23,12 +23,11 @@ from pathlib import Path
 from functools import partial
 from argparse import ArgumentParser
 
-from tqdm import tqdm
 from pandas import DataFrame, date_range
 
 from lib.concurrent import thread_map
 from lib.io import read_file, export_csv
-from lib.utils import ROOT, drop_na_records
+from lib.utils import ROOT, drop_na_records, pbar
 
 
 def subset_last_days(output_folder: Path, days: int) -> None:
@@ -115,7 +114,7 @@ def main(output_folder: Path, tables_folder: Path, show_progress: bool = True) -
     v2_folder.mkdir(exist_ok=True, parents=True)
 
     # Copy all output files to the V2 folder
-    for output_file in tqdm([*tables_folder.glob("*.csv")], desc="Copy tables"):
+    for output_file in pbar([*tables_folder.glob("*.csv")], desc="Copy tables"):
         shutil.copy(output_file, v2_folder / output_file.name)
 
     # Merge all output files into a single table
@@ -138,7 +137,7 @@ def main(output_folder: Path, tables_folder: Path, show_progress: bool = True) -
     )
 
     non_dated_columns = set(main_table.columns)
-    for output_file in tqdm([*v2_folder.glob("*.csv")], desc="Main table"):
+    for output_file in pbar([*v2_folder.glob("*.csv")], desc="Main table"):
         if output_file.name not in exclude_from_main_table:
             # Load the table and perform left outer join
             table = read_file(output_file, low_memory=False)

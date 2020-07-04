@@ -19,10 +19,10 @@ from functools import partial
 from typing import Any, Dict, List
 
 import numpy
-from tqdm.contrib import concurrent
 from pandas import DataFrame, Series, read_csv, concat
 
 from lib.cast import safe_int_cast
+from lib.concurrent import thread_map
 from lib.data_source import DataSource
 from lib.net import download_snapshot
 from lib.utils import URL_OUTPUTS_PROD, combine_tables
@@ -180,6 +180,6 @@ class NoaaGhcnDataSource(DataSource):
         shuffle(map_iter)
 
         # Bottleneck is network so we can use lots of threads in parallel
-        records = concurrent.thread_map(map_func, map_iter, total=len(metadata))
+        records = thread_map(map_func, map_iter, total=len(metadata))
 
         return concat(records)

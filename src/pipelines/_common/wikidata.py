@@ -16,10 +16,10 @@ from functools import partial
 from typing import Dict, Tuple
 
 from pandas import DataFrame
-from tqdm.contrib import concurrent
 
 from lib.data_source import DataSource
 from lib.wikidata import wikidata_properties
+from lib.concurrent import thread_map
 
 
 class WikidataDataSource(DataSource):
@@ -36,9 +36,7 @@ class WikidataDataSource(DataSource):
         # Load wikidata using parallel processing
         map_iter = data.wikidata.iteritems()
         map_func = partial(self._process_item, parse_opts)
-        records = concurrent.thread_map(
-            map_func, map_iter, total=len(data), desc="Wikidata Properties"
-        )
+        records = thread_map(map_func, map_iter, total=len(data), desc="Wikidata Properties")
 
         # Return all records in DataFrame form
         return DataFrame.from_records(records)

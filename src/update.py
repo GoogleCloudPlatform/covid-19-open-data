@@ -13,17 +13,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
+import os
 import cProfile
 from pstats import Stats
 from pathlib import Path
 from argparse import ArgumentParser
-from typing import List
 from multiprocessing import cpu_count
+from typing import List
 
 from lib.io import export_csv
 from lib.pipeline import DataPipeline
-from lib.utils import ROOT
+from lib.utils import ROOT, DISABLE_PROGRESS_ENV
 
 
 def main(
@@ -32,7 +32,7 @@ def main(
     only: List[str] = None,
     exclude: List[str] = None,
     process_count: int = cpu_count(),
-    show_progress: bool = True,
+    show_progress: bool = False,
 ) -> None:
     """
     Executes the data pipelines and places all outputs into `output_folder`. This is typically
@@ -54,6 +54,12 @@ def main(
     assert not (
         only is not None and exclude is not None
     ), "--only and --exclude options cannot be used simultaneously"
+
+    # Progress is a global flag, because progress is all done using the tqdm library and can be
+    # used within any number of functions but passing a flag around everywhere is very cumbersome
+    if not show_progress:
+        progress_env_value = os.getenv(DISABLE_PROGRESS_ENV)
+        os.environ[DISABLE_PROGRESS_ENV] = "1"
 
     # Ensure that there is an output folder to put the data in
     (output_folder / "snapshot").mkdir(parents=True, exist_ok=True)
@@ -83,13 +89,16 @@ def main(
             continue
         data_pipeline = DataPipeline.load(pipeline_name)
         pipeline_output = data_pipeline.run(
-            pipeline_name,
-            output_folder,
-            verify=verify,
-            process_count=process_count,
-            progress=show_progress,
+            pipeline_name, output_folder, verify=verify, process_count=process_count
         )
         export_csv(pipeline_output, output_folder / "tables" / f"{table_name}.csv")
+
+    # Reset the progress flag
+    if not show_progress:
+        if progress_env_value is None:
+            os.unsetenv(DISABLE_PROGRESS_ENV)
+        else:
+            os.environ[DISABLE_PROGRESS_ENV] = progress_env_value
 
 
 if __name__ == "__main__":

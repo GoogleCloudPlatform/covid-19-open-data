@@ -20,9 +20,8 @@ from typing import Iterable
 from tempfile import TemporaryDirectory
 
 import requests
-from tqdm import tqdm
 from lib.pipeline import DataPipeline
-from lib.utils import ROOT, CACHE_URL
+from lib.utils import ROOT, CACHE_URL, pbar
 from .profiled_test_case import ProfiledTestCase
 
 
@@ -65,7 +64,7 @@ class TestSourceRun(ProfiledTestCase):
         data_pipeline = DataPipeline.load(pipeline_name)
 
         # Load the data pipeline and iterate over each data source and run it to get its output
-        for data_source in tqdm(data_pipeline.data_sources, desc=pipeline_name):
+        for data_source in pbar(data_pipeline.data_sources, desc=pipeline_name):
             data_source_name = data_source.__class__.__name__
             data_source_opts = data_source.config
             failure_message = (

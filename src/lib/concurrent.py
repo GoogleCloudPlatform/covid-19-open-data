@@ -12,9 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from os import getenv
 from typing import Any, Callable, Iterable
 from tqdm.contrib import concurrent
 from multiprocess.pool import Pool, ThreadPool
+from .utils import DISABLE_PROGRESS_ENV
 
 
 class _ProcessExecutor(Pool):
@@ -34,8 +36,12 @@ class _ThreadExecutor(ThreadPool):
 
 
 def process_map(map_func: Callable, map_iter: Iterable[Any], **tqdm_kwargs):
+    tqdm_kwargs = {**tqdm_kwargs, **{"disable": getenv(DISABLE_PROGRESS_ENV)}}
+    # pylint: disable=protected-access
     return concurrent._executor_map(_ProcessExecutor, map_func, map_iter, **tqdm_kwargs)
 
 
 def thread_map(map_func: Callable, map_iter: Iterable[Any], **tqdm_kwargs):
+    tqdm_kwargs = {**tqdm_kwargs, **{"disable": getenv(DISABLE_PROGRESS_ENV)}}
+    # pylint: disable=protected-access
     return concurrent._executor_map(_ThreadExecutor, map_func, map_iter, **tqdm_kwargs)

@@ -21,15 +21,13 @@ import shutil
 import tempfile
 from pathlib import Path
 
-from tqdm import tqdm
-
 # Add our library utils to the path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from lib.forecast import main as build_forecast
 from lib.io import read_file, export_csv
 from lib.net import download
-from lib.utils import ROOT, URL_OUTPUTS_PROD, drop_na_records
+from lib.utils import ROOT, URL_OUTPUTS_PROD, drop_na_records, pbar
 
 
 def snake_to_camel_case(txt: str) -> str:
@@ -105,7 +103,7 @@ if __name__ == "__main__":
     )
 
     # Convert all v1 CSV files to JSON using record format
-    for csv_file in tqdm([*(public_folder).glob("*.csv")], desc="V1 JSON conversion"):
+    for csv_file in pbar([*(public_folder).glob("*.csv")], desc="V1 JSON conversion"):
         data = read_file(csv_file, low_memory=False)
         json_path = str(csv_file).replace("csv", "json")
         data.to_json(json_path, orient="records")
@@ -115,7 +113,7 @@ if __name__ == "__main__":
     v2_folder.mkdir(exist_ok=True, parents=True)
 
     # Download the v2 tables which can fit under 100MB
-    for table_name in tqdm(
+    for table_name in pbar(
         (
             "by-age",
             "by-sex",

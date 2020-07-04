@@ -23,14 +23,13 @@ from functools import partial
 from typing import Any, Dict, List
 
 import numpy
-from tqdm import tqdm
-from tqdm.contrib import concurrent
 from pandas import DataFrame, Series, read_csv, concat
 
 from lib.cast import safe_float_cast
+from lib.concurrent import thread_map
 from lib.net import download, download_snapshot
 from lib.data_source import DataSource
-from lib.utils import URL_OUTPUTS_PROD
+from lib.utils import URL_OUTPUTS_PROD, pbar
 
 
 _COLUMN_MAPPING = {
@@ -164,7 +163,7 @@ class NoaaGsodDataSource(DataSource):
 
             # Build the station cache by uncompressing all files in memory
             station_cache = {}
-            for member in tqdm(stations_tar.getmembers(), desc="Decompressing"):
+            for member in pbar(stations_tar.getmembers(), desc="Decompressing"):
 
                 if not member.name.endswith(".csv"):
                     continue
@@ -205,6 +204,6 @@ class NoaaGsodDataSource(DataSource):
         shuffle(map_iter)
 
         # Bottleneck is network so we can use lots of threads in parallel
-        records = concurrent.thread_map(map_func, map_iter, total=len(metadata))
+        records = thread_map(map_func, map_iter, total=len(metadata))
 
         return concat(records)
