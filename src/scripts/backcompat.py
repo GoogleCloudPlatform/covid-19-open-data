@@ -17,6 +17,9 @@
 import os
 import re
 import sys
+import shutil
+import tempfile
+from pathlib import Path
 
 from tqdm import tqdm
 
@@ -25,6 +28,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from lib.forecast import main as build_forecast
 from lib.io import read_file, export_csv
+from lib.net import download
 from lib.utils import ROOT, URL_OUTPUTS_PROD, drop_na_records
 
 
@@ -40,7 +44,7 @@ if __name__ == "__main__":
     public_folder.mkdir(exist_ok=True, parents=True)
 
     # Create the v1 data.csv file
-    main_table = read_file(f"{URL_OUTPUTS_PROD}/main.csv")
+    main_table = read_file(f"{URL_OUTPUTS_PROD}/main.csv", low_memory=False)
     data = main_table[main_table.aggregation_level < 2]
     rename_columns = {
         "date": "Date",
@@ -105,3 +109,35 @@ if __name__ == "__main__":
         data = read_file(csv_file, low_memory=False)
         json_path = str(csv_file).replace("csv", "json")
         data.to_json(json_path, orient="records")
+
+    # Create the v2 folder
+    v2_folder = public_folder / "v2"
+    v2_folder.mkdir(exist_ok=True, parents=True)
+
+    # Download the v2 tables which can fit under 100MB
+    for table_name in tqdm(
+        (
+            "by-age",
+            "by-sex",
+            "demographics",
+            "economy",
+            "epidemiology",
+            "geography",
+            "health",
+            "hospitalizations",
+            "index",
+            "mobility",
+            "oxford-government-response",
+            "weather",
+            "worldbank",
+            "worldpop",
+        ),
+        desc="V2 download",
+    ):
+        for ext in ("csv", "json"):
+            with tempfile.NamedTemporaryFile() as tmp:
+                tmp_path = Path(tmp.name)
+                download(f"{URL_OUTPUTS_PROD}/{table_name}.{ext}", tmp)
+                # Check that the output is less than 100 MB before copying it to the output folder
+                if tmp_path.stat().st_size < 100 * 1000 * 1000:
+                    shutil.copyfile(tmp_path, v2_folder / f"{table_name}.{ext}")
