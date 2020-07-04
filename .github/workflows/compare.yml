@@ -19,6 +19,7 @@ on:
   pull_request:
     branches:
       - main
+      - development
 
 jobs:
   main:
@@ -36,13 +37,21 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+    - name: Install locales
+      run: |
+        sudo apt-get install -yq tzdata locales
+        sudo locale-gen en_US.UTF-8
+        sudo locale-gen es_ES.UTF-8
+        locale -a
+
     - name: Run Pipeline Outputs Comparison
       working-directory: src
       run: |
         # TODO: only run comparisons for tables if the corresponding subfolder under
         # ./src/pipelines/ was edited as part of this PR
-        python compare.py ../output/summary.json --only epidemiology
-        cat ../output/summary.json  # Output to stdout before uploading artifact
+        python compare.py ../output/summary.json --only epidemiology,hospitalizations,by-age,by-sex
+        # Output to stdout before uploading artifact
+        cat ../output/summary.json
 
     - uses: actions/upload-artifact@v1
       with:
