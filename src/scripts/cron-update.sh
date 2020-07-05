@@ -73,9 +73,9 @@ else
         readonly GCS_OUTPUT_PATH="gs://$GCS_OUTPUT_BUCKET/"
 
         # Only update the intermediate files if this is for the main branch
-        echo "Uploading intermediate files to GCS bucket $GCS_OUTPUT_BUCKET"
-        gsutil -m cp -r "$TMPDIR/opencovid/output/snapshot" "$GCS_OUTPUT_BUCKET/"
-        gsutil -m cp -r "$TMPDIR/opencovid/output/intermediate" "$GCS_OUTPUT_BUCKET/"
+        echo "Uploading intermediate files to GCS bucket $GCS_OUTPUT_PATH"
+        gsutil -m cp -r "$TMPDIR/opencovid/output/snapshot" "$GCS_OUTPUT_PATH/"
+        gsutil -m cp -r "$TMPDIR/opencovid/output/intermediate" "$GCS_OUTPUT_PATH/"
     else
         # Outputs from any other branch go into the staging folder
         readonly GCS_OUTPUT_PATH="gs://$GCS_OUTPUT_BUCKET/staging/$BRANCH/"

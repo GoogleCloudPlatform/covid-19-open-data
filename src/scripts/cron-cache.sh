@@ -26,11 +26,12 @@
 set -xe
 
 # Parse the arguments
-readonly GCS_OUTPUT_BUCKET=$1
+readonly BRANCH="${1:-main}"
+readonly GCS_OUTPUT_BUCKET=$2
 
 # Clone the repo into a temporary directory
 readonly TMPDIR=$(mktemp -d -t opencovid-$(date +%Y-%m-%d-%H-%M-%S)-XXXX)
-git clone https://github.com/open-covid-19/data.git --single-branch -b main "$TMPDIR/opencovid"
+git clone https://github.com/open-covid-19/data.git --single-branch -b $BRANCH "$TMPDIR/opencovid"
 
 # Build the Docker image which contains all of our dependencies
 docker build "$TMPDIR/opencovid/src" -t opencovid
