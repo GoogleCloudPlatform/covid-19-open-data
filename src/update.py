@@ -13,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import os
 import cProfile
 from pstats import Stats
 from pathlib import Path
@@ -21,9 +20,9 @@ from argparse import ArgumentParser
 from multiprocessing import cpu_count
 from typing import List
 
-from lib.io import export_csv
+from lib.io import export_csv, display_progress
 from lib.pipeline import DataPipeline
-from lib.utils import ROOT, DISABLE_PROGRESS_ENV
+from lib.utils import ROOT
 
 
 def main(
@@ -55,50 +54,40 @@ def main(
         only is not None and exclude is not None
     ), "--only and --exclude options cannot be used simultaneously"
 
-    # Progress is a global flag, because progress is all done using the tqdm library and can be
-    # used within any number of functions but passing a flag around everywhere is very cumbersome
-    if not show_progress:
-        progress_env_value = os.getenv(DISABLE_PROGRESS_ENV)
-        os.environ[DISABLE_PROGRESS_ENV] = "1"
+    # Manage whether to show progress with our handy context manager
+    with display_progress(show_progress):
 
-    # Ensure that there is an output folder to put the data in
-    (output_folder / "snapshot").mkdir(parents=True, exist_ok=True)
-    (output_folder / "intermediate").mkdir(parents=True, exist_ok=True)
-    (output_folder / "tables").mkdir(parents=True, exist_ok=True)
+        # Ensure that there is an output folder to put the data in
+        (output_folder / "snapshot").mkdir(parents=True, exist_ok=True)
+        (output_folder / "intermediate").mkdir(parents=True, exist_ok=True)
+        (output_folder / "tables").mkdir(parents=True, exist_ok=True)
 
-    # A pipeline chain is any subfolder not starting with "_" in the pipelines folder
-    all_pipeline_names = []
-    for item in (ROOT / "src" / "pipelines").iterdir():
-        if not item.name.startswith("_") and not item.is_file():
-            all_pipeline_names.append(item.name)
+        # A pipeline chain is any subfolder not starting with "_" in the pipelines folder
+        all_pipeline_names = []
+        for item in (ROOT / "src" / "pipelines").iterdir():
+            if not item.name.startswith("_") and not item.is_file():
+                all_pipeline_names.append(item.name)
 
-    # Verify that all of the provided pipeline names exist as pipelines
-    for pipeline_name in (only or []) + (exclude or []):
-        module_name = pipeline_name.replace("-", "_")
-        assert module_name in all_pipeline_names, f'"{pipeline_name}" pipeline does not exist'
+        # Verify that all of the provided pipeline names exist as pipelines
+        for pipeline_name in (only or []) + (exclude or []):
+            module_name = pipeline_name.replace("-", "_")
+            assert module_name in all_pipeline_names, f'"{pipeline_name}" pipeline does not exist'
 
-    # Run all the pipelines and place their outputs into the output folder
-    # The output name for each pipeline chain will be the name of the directory that the chain is in
-    for pipeline_name in all_pipeline_names:
-        table_name = pipeline_name.replace("_", "-")
-        # Skip if `exclude` was provided and this table is in it
-        if exclude is not None and table_name in exclude:
-            continue
-        # Skip is `only` was provided and this table is not in it
-        if only is not None and not table_name in only:
-            continue
-        data_pipeline = DataPipeline.load(pipeline_name)
-        pipeline_output = data_pipeline.run(
-            pipeline_name, output_folder, verify=verify, process_count=process_count
-        )
-        export_csv(pipeline_output, output_folder / "tables" / f"{table_name}.csv")
-
-    # Reset the progress flag
-    if not show_progress:
-        if progress_env_value is None:
-            os.unsetenv(DISABLE_PROGRESS_ENV)
-        else:
-            os.environ[DISABLE_PROGRESS_ENV] = progress_env_value
+        # Run all the pipelines and place their outputs into the output folder. The output name for
+        # each pipeline chain will be the name of the directory that the chain is in.
+        for pipeline_name in all_pipeline_names:
+            table_name = pipeline_name.replace("_", "-")
+            # Skip if `exclude` was provided and this table is in it
+            if exclude is not None and table_name in exclude:
+                continue
+            # Skip is `only` was provided and this table is not in it
+            if only is not None and not table_name in only:
+                continue
+            data_pipeline = DataPipeline.load(pipeline_name)
+            pipeline_output = data_pipeline.run(
+                pipeline_name, output_folder, verify=verify, process_count=process_count
+            )
+            export_csv(pipeline_output, output_folder / "tables" / f"{table_name}.csv")
 
 
 if __name__ == "__main__":

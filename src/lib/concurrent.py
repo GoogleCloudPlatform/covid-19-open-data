@@ -16,32 +16,32 @@ from os import getenv
 from typing import Any, Callable, Iterable
 from tqdm.contrib import concurrent
 from multiprocess.pool import Pool, ThreadPool
-from .utils import DISABLE_PROGRESS_ENV
+from .io import GLOBAL_DISABLE_PROGRESS
 
 
 class _ProcessExecutor(Pool):
     def __init__(self, max_workers: int = None, **kwargs):
         super().__init__(processes=max_workers, **kwargs)
 
-    def map(self, map_func: Callable, map_iter: Iterable[Any]):
-        return self.imap(map_func, map_iter)
+    def map(self, func, iterable, chunksize=None):
+        return self.imap(func, iterable)
 
 
 class _ThreadExecutor(ThreadPool):
     def __init__(self, max_workers: int = None, **kwargs):
         super().__init__(processes=max_workers, **kwargs)
 
-    def map(self, map_func: Callable, map_iter: Iterable[Any]):
-        return self.imap(map_func, map_iter)
+    def map(self, func, iterable, chunksize=None):
+        return self.imap(func, iterable)
 
 
 def process_map(map_func: Callable, map_iter: Iterable[Any], **tqdm_kwargs):
-    tqdm_kwargs = {**tqdm_kwargs, **{"disable": getenv(DISABLE_PROGRESS_ENV)}}
+    tqdm_kwargs = {**tqdm_kwargs, **{"disable": getenv(GLOBAL_DISABLE_PROGRESS)}}
     # pylint: disable=protected-access
     return concurrent._executor_map(_ProcessExecutor, map_func, map_iter, **tqdm_kwargs)
 
 
 def thread_map(map_func: Callable, map_iter: Iterable[Any], **tqdm_kwargs):
-    tqdm_kwargs = {**tqdm_kwargs, **{"disable": getenv(DISABLE_PROGRESS_ENV)}}
+    tqdm_kwargs = {**tqdm_kwargs, **{"disable": getenv(GLOBAL_DISABLE_PROGRESS)}}
     # pylint: disable=protected-access
     return concurrent._executor_map(_ThreadExecutor, map_func, map_iter, **tqdm_kwargs)

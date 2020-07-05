@@ -21,7 +21,7 @@ import numpy as np
 import pandas as pd
 from scipy import optimize
 
-from .utils import pbar
+from .io import pbar
 
 
 def _get_outbreak_mask(data: pd.DataFrame, threshold: int = 10):

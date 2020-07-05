@@ -29,8 +29,8 @@ from .anomaly import detect_anomaly_all, detect_stale_columns
 from .cast import column_convert
 from .concurrent import process_map
 from .data_source import DataSource
-from .io import read_file, fuzzy_text, export_csv
-from .utils import ROOT, CACHE_URL, combine_tables, drop_na_records, filter_output_columns, pbar
+from .io import read_file, fuzzy_text, export_csv, pbar
+from .utils import ROOT, CACHE_URL, combine_tables, drop_na_records, filter_output_columns
 
 
 class DataPipeline:
@@ -178,7 +178,7 @@ class DataPipeline:
             cache = requests.get("{}/sitemap.json".format(CACHE_URL)).json()
         except:
             cache = {}
-            warnings.warn("Cache unavailable")
+            self.errlog("Cache unavailable")
 
         # Get all the pipeline outputs
         # This operation is parallelized but output order is preserved
@@ -226,7 +226,7 @@ class DataPipeline:
                 pipeline_outputs += [read_file(source_output)]
             except Exception as exc:
                 data_source_name = data_source.__class__.__name__
-                warnings.warn(
+                self.errlog(
                     f"Failed to read output for {data_source_name} with config "
                     f"{data_source.config}. Error: {exc}"
                 )

@@ -26,8 +26,8 @@ from argparse import ArgumentParser
 from pandas import DataFrame, date_range
 
 from lib.concurrent import thread_map
-from lib.io import read_file, export_csv
-from lib.utils import ROOT, drop_na_records, pbar
+from lib.io import read_file, export_csv, pbar
+from lib.utils import ROOT, drop_na_records
 
 
 def subset_last_days(output_folder: Path, days: int) -> None:

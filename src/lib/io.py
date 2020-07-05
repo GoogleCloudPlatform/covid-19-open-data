@@ -12,18 +12,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import os
 import re
 from io import StringIO
 from pathlib import Path
+from contextlib import contextmanager
 from typing import Callable, List, Union
 
 import pandas
-from unidecode import unidecode
+from tqdm import tqdm
 from pandas import DataFrame
 from pandas.api.types import is_numeric_dtype
+from unidecode import unidecode
 from bs4 import BeautifulSoup, Tag
 
 from .cast import safe_int_cast
+
+# Progress is a global flag, because progress is all done using the tqdm library and can be
+# used within any number of functions but passing a flag around everywhere is cumbersome. Further,
+# it needs to be an environment variable since the global module variables are reset across
+# different processes.
+GLOBAL_DISABLE_PROGRESS = "TQDM_DISABLE"
 
 
 def fuzzy_text(text: str, remove_regex: str = r"[^a-z\s]", remove_spaces: bool = True):
@@ -155,3 +164,32 @@ def export_csv(data: DataFrame, path: Union[Path, str]) -> None:
     # Write the output to the provided file
     with open(path, "w") as fd:
         fd.write(output)
+
+
+def pbar(*args, **kwargs) -> tqdm:
+    """
+    Helper function used to display a tqdm progress bar respecting global settings for whether all
+    progress bars should be disabled. All arguments are passed through to tqdm but the "disable"
+    option is set accordingly.
+    """
+    return tqdm(*args, **{**kwargs, **{"disable": os.getenv(GLOBAL_DISABLE_PROGRESS)}})
+
+
+@contextmanager
+def display_progress(enable: bool):
+    """
+    Provide a context manager so users don't have to touch global variables to disable progress.
+    """
+    try:
+        # Set the disable progress flag
+        if not enable:
+            progress_env_value = os.getenv(GLOBAL_DISABLE_PROGRESS)
+            os.environ[GLOBAL_DISABLE_PROGRESS] = "1"
+        yield None
+    finally:
+        # Reset the disable progress flag
+        if not enable:
+            if progress_env_value is None:
+                os.unsetenv(GLOBAL_DISABLE_PROGRESS)
+            else:
+                os.environ[GLOBAL_DISABLE_PROGRESS] = progress_env_value

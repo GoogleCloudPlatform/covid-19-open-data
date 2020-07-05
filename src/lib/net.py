@@ -18,7 +18,7 @@ from pathlib import Path
 from typing import BinaryIO
 
 import requests
-from .utils import pbar
+from .io import pbar
 
 
 def download_snapshot(

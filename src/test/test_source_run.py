@@ -20,8 +20,9 @@ from typing import Iterable
 from tempfile import TemporaryDirectory
 
 import requests
+from lib.io import pbar
 from lib.pipeline import DataPipeline
-from lib.utils import ROOT, CACHE_URL, pbar
+from lib.utils import ROOT, CACHE_URL
 from .profiled_test_case import ProfiledTestCase
 
 

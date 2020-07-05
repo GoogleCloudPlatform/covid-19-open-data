@@ -16,16 +16,14 @@ import os
 from pathlib import Path
 from functools import partial, reduce
 from typing import Any, Callable, List, Dict, Tuple, Optional
-from tqdm import tqdm
 from numpy import unique
 from pandas import DataFrame, Series, concat, isna, merge
 from pandas.api.types import is_numeric_dtype
-from .io import fuzzy_text
+from .io import fuzzy_text, pbar, tqdm
 
 ROOT = Path(os.path.dirname(__file__)) / ".." / ".."
 URL_OUTPUTS_PROD = "https://storage.googleapis.com/covid19-open-data/v2"
 CACHE_URL = "https://raw.githubusercontent.com/open-covid-19/data/cache"
-DISABLE_PROGRESS_ENV = "TQDM_DISABLE"
 
 
 def get_or_default(dict_like: Dict, key: Any, default: Any):
@@ -91,7 +89,7 @@ def table_multimerge(dataframes: List[DataFrame], **merge_opts) -> DataFrame:
 
 def agg_last_not_null(series: Series, progress_bar: Optional[tqdm] = None) -> Series:
     """ Aggregator function used to keep the last non-null value in a list of rows """
-    if progress_bar and os.getenv(DISABLE_PROGRESS_ENV):
+    if progress_bar:
         progress_bar.update()
     return reduce(lambda x, y: y if not isna(y) else x, series)
 
@@ -353,12 +351,3 @@ def stratify_age_and_sex(data: DataFrame) -> DataFrame:
         data[f"age_bin_{bucket_name}"] = bucket_range
 
     return data
-
-
-def pbar(*args, **kwargs) -> tqdm:
-    """
-    Helper function used to display a tqdm progress bar respecting global settings for whether all
-    progress bars should be disabled. All arguments are passed through to tqdm but the "disable"
-    option is set accordingly.
-    """
-    return tqdm(*args, **{**kwargs, **{"disable": os.getenv(DISABLE_PROGRESS_ENV)}})

@@ -25,9 +25,9 @@ from pathlib import Path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from lib.forecast import main as build_forecast
-from lib.io import read_file, export_csv
+from lib.io import read_file, export_csv, pbar
 from lib.net import download
-from lib.utils import ROOT, URL_OUTPUTS_PROD, drop_na_records, pbar
+from lib.utils import ROOT, URL_OUTPUTS_PROD, drop_na_records
 
 
 def snake_to_camel_case(txt: str) -> str:
