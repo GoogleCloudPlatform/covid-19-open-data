@@ -13,19 +13,19 @@
 # limitations under the License.
 
 import re
-import warnings
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 import numpy
 from pandas import DataFrame, isna
 
-from .net import download_snapshot
+from .error_logger import ErrorLogger
 from .io import read_file, fuzzy_text
+from .net import download_snapshot
 from .utils import infer_new_and_total, stratify_age_and_sex
 
 
-class DataSource:
+class DataSource(ErrorLogger):
     """
     Interface for data sources. A data source consists of a series of steps performed in the
     following order:
@@ -100,7 +100,7 @@ class DataSource:
             if record["key"] in metadata["key"].values:
                 return record["key"]
             else:
-                warnings.warn("Key provided but not found in metadata: {}".format(record))
+                self.errlog(f"Key provided but not found in metadata:\n{record}")
                 return None
 
         # Start by filtering the auxiliary dataset as much as possible
@@ -158,7 +158,7 @@ class DataSource:
             # print(metadata)
             # raise ValueError()
 
-        warnings.warn("No key match found for:\n{}".format(record))
+        self.errlog(f"No key match found for:\n{record}")
         return None
 
     def run(

@@ -13,7 +13,6 @@
 # limitations under the License.
 
 import uuid
-import warnings
 import importlib
 import traceback
 from pathlib import Path
@@ -29,11 +28,12 @@ from .anomaly import detect_anomaly_all, detect_stale_columns
 from .cast import column_convert
 from .concurrent import process_map
 from .data_source import DataSource
+from .error_logger import ErrorLogger
 from .io import read_file, fuzzy_text, export_csv, pbar
 from .utils import ROOT, CACHE_URL, combine_tables, drop_na_records, filter_output_columns
 
 
-class DataPipeline:
+class DataPipeline(ErrorLogger):
     """
     A pipeline chain is a collection of individual [DataSource]s which produce a full table
     ready for output. This is a very thin wrapper that runs the data pipelines and combines their
@@ -145,7 +145,7 @@ class DataPipeline:
             return data_source.run(output_folder, cache, aux)
         except Exception:
             data_source_name = data_source.__class__.__name__
-            warnings.warn(
+            data_source.errlog(
                 f"Error running data source {data_source_name} with config {data_source.config}"
             )
             traceback.print_exc()
@@ -239,7 +239,7 @@ class DataPipeline:
 
         # Combine all pipeline outputs into a single DataFrame
         if not pipeline_outputs:
-            warnings.warn("Empty result for pipeline chain {}".format(pipeline_name))
+            self.errlog("Empty result for pipeline chain {}".format(pipeline_name))
             data = DataFrame(columns=self.schema.keys())
         else:
             data = combine_tables(pipeline_outputs, ["date", "key"], progress_label=pipeline_name)
