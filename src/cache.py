@@ -26,9 +26,9 @@ from lib.utils import ROOT
 
 def parse_command(cmd: str) -> List[str]:
     if cmd == "curl":
-        return ["python", str(ROOT / "src" / "cache" / "commands" / "curl_fetch.py")]
+        return ["python3", str(ROOT / "src" / "cache" / "commands" / "curl_fetch.py")]
     if cmd == "static_fetch":
-        return ["python", str(ROOT / "src" / "cache" / "commands" / "static_fetch.py")]
+        return ["python3", str(ROOT / "src" / "cache" / "commands" / "static_fetch.py")]
     if cmd == "dynamic_fetch":
         return ["node", str(ROOT / "src" / "cache" / "commands" / "dynamic_fetch.js")]
     if cmd.startswith("dynamic_custom/"):
@@ -98,7 +98,7 @@ snapshot_path.mkdir(parents=True, exist_ok=True)
 
 # Iterate over each source and process it
 map_func = partial(process_source, snapshot_path, error_handler)
-for source in json.loads(open(ROOT / "src" / "cache" / "config.json", "r").read()):
+for source in json.load((ROOT / "src" / "cache" / "config.json").open("r")):
     map_func(source)
 
 # Build a "sitemap" of the cache output folder

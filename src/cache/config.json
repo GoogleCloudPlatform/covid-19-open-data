@@ -5,20 +5,24 @@
         "output": "US_CA-mortality-stratified.html"
     },
     {
-        "url": "https://public.domo.com/embed/pages/aQVpq",
-        "cmd": "dynamic_custom/scrape_iowa.js",
-        "output": "US_IA-mortality-stratified.json"
-    },
-    {
         "url": "https://www.dph.illinois.gov/sitefiles/COVIDHistoricalTestResults.json",
         "cmd": "static_fetch",
         "output": "US_IL-DPH.json"
     },
     {
-        "url": "https://public.tableau.com/views/COVID-19TableauVersion2/AgeandDemographics?%3Aembed=y&amp%3B%3AshowVizHome=no",
-        "cmd": "dynamic_custom/scrape_tableau_deaths.js",
-        "button-text": "death summary",
+        "url": "https://public.tableau.com/static/images/CO/COVID-19TableauVersion2/DeathSummary/1_rss.png",
+        "cmd": "static_fetch",
         "output": "US_KS-mortality-stratified.png"
+    },
+    {
+        "url": "https://public.tableau.com/static/images/CO/COVID-19TableauVersion2/AgeandDemographics/1_rss.png",
+        "cmd": "static_fetch",
+        "output": "US_KS-confirmed-stratified.png"
+    },
+    {
+        "url": "https://public.tableau.com/static/images/CO/COVID-19TableauVersion2/HospitalizationandEmergencyDepartment/1_rss.png",
+        "cmd": "static_fetch",
+        "output": "US_KS-hospitalized-stratified.png"
     },
     {
         "url": "https://public.tableau.com/views/EpiProfile/DemoStory?%3Aembed=y&%3AshowVizHome=no",
@@ -26,6 +30,11 @@
         "button-text": "reported deaths",
         "height": 4096,
         "output": "US_SC-mortality-stratified.png"
+    },
+    {
+        "url": "https://public.tableau.com/static/images/Ep/EpiProfile/DemoStory/1_rss.png",
+        "cmd": "static_fetch",
+        "output": "US_SC-confirmed-stratified.png"
     },
     {
         "url": "https://services1.arcgis.com/9H64STM3PyG3DqUs/arcgis/rest/services/Cases_by_state/FeatureServer/0/query?f=json&where=1%3D1&outFields=*&returnGeometry=false",

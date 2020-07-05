@@ -21,7 +21,7 @@ const args = require('yargs').parse();
 
 (async () => {
     // Launch the browser and setup a 1024x2048 page
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] });
     const page = await browser.newPage();
     await page.setViewport({
         width: parseInt(args.width) || 1024,

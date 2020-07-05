@@ -21,7 +21,7 @@ const puppeteer = require('puppeteer');
 const args = require('yargs').parse();
 
 (async () => {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] });
     const page = await browser.newPage();
     await page.goto(args.url).catch(exc => void exc);
     const response = await page.waitForResponse(response => {
