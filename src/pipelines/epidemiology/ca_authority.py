@@ -29,7 +29,8 @@ class CanadaDataSource(DataSource):
             .rename(
                 columns={
                     "prname": "subregion1_name",
-                    "numconf": "confirmed",
+                    "numconf": "total_confirmed",
+                    "numtoday": "new_confirmed",
                     "numdeaths": "total_deceased",
                     "numtested": "total_tested",
                     "numrecover": "total_recovered",
