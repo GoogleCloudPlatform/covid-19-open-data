@@ -37,6 +37,8 @@ sources:
   - name: pipelines.mobility.google_mobility.GoogleMobilityDataSource
     fetch:
       - url: "https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv"
+    parse:
+      low_memory: false
 
   # - name: pipelines.mobility.apple_mobility.AppleMobilityDataSource
   #   fetch:

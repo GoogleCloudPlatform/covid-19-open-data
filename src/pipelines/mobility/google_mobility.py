@@ -15,6 +15,7 @@
 import re
 from typing import Dict, List
 from pandas import DataFrame, isna, concat
+from lib.cast import safe_int_cast
 from lib.data_source import DataSource
 
 
@@ -88,19 +89,25 @@ class GoogleMobilityDataSource(DataSource):
 
         # Drop intra-country records for which we don't have regional data
         regional_data_countries = meta.loc[~meta.subregion1_code.isna(), "country_code"].unique()
-        data = data[~data.key.isna() | data.country_code.isin(regional_data_countries)]
         meta = meta[meta.country_code.isin(regional_data_countries)]
 
         # Try best-effort matching for records that do not have a key value
-        data = data[data.key.isna()].copy()
+        data_match = data[data.key.isna() & data.country_code.isin(regional_data_countries)].copy()
+        data_match["match_string"] = data_match.apply(_process_record, axis=1)
+        data_match["subregion2_code"] = ""
+        data_match["subregion2_name"] = ""
 
-        # Clean up known issues with subregion names
-        data["match_string"] = data.apply(_process_record, axis=1)
-        usa_mask = data.country_code == "US"
-        data.loc[~usa_mask & ~data.subregion1_name.isna(), "subregion1_name"] = ""
-        data.loc[~data.subregion2_name.isna(), "subregion2_name"] = ""
+        # USA counties should all have FIPS code
+        usa_mask = data_match.country_code == "US"
+        data_match.loc[usa_mask, "subregion2_code"] = data_match.loc[
+            usa_mask, "census_fips_code"
+        ].apply(lambda x: f"{safe_int_cast(x) or 0:05d}")
+
+        # Non-USA subregions should simply use the match_string column
+        data_match.loc[~usa_mask & ~data_match.subregion1_name.isna(), "subregion1_name"] = ""
 
         # GB data is actually county-level even if reported as subregion1
-        data.loc[data.country_code == "GB", "subregion2_name"] = ""
+        data_match.loc[data.country_code == "GB", "subregion2_name"] = ""
 
-        return concat([data_keyed, data])
+        # return concat([data_keyed, data_match])
+        return concat([data_keyed, data_match])

@@ -83,13 +83,11 @@ class TestSourceRun(ProfiledTestCase):
             metadata_query = data_source_opts.get("test", {}).get("metadata_query")
             if metadata_query:
                 aux["metadata"] = aux["metadata"].query(metadata_query)
-            # print(aux['metadata'])
 
             # Get a small sample of metadata, since we are testing for whether a source produces
             # _any_ output, not if the output is exhaustive
             sample_size = min(len(aux["metadata"]), METADATA_SAMPLE_SIZE)
             aux["metadata"] = aux["metadata"].sample(sample_size, random_state=random_seed)
-            # print(aux['metadata'])
 
             # Use a different temporary working directory for each data source
             with TemporaryDirectory() as output_folder:

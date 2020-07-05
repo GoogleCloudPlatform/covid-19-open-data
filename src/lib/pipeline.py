@@ -223,7 +223,7 @@ class DataPipeline(ErrorLogger):
         pipeline_outputs = []
         for data_source, source_output in intermediate_outputs_results:
             try:
-                pipeline_outputs += [read_file(source_output)]
+                pipeline_outputs += [read_file(source_output, low_memory=False)]
             except Exception as exc:
                 data_source_name = data_source.__class__.__name__
                 self.errlog(

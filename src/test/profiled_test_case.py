@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import cProfile
+import warnings
 from pstats import Stats
 from unittest import TestCase
 
@@ -22,6 +23,7 @@ class ProfiledTestCase(TestCase):
     def setUpClass(cls):
         cls.profiler = cProfile.Profile()
         cls.profiler.enable()
+        warnings.filterwarnings("ignore", category=UserWarning)
 
     @classmethod
     def tearDownClass(cls):
