@@ -49,11 +49,12 @@ jobs:
       run: |
         # TODO: only run comparisons for tables if the corresponding subfolder under
         # ./src/pipelines/ was edited as part of this PR
-        python compare.py ../output/summary.json --only epidemiology,hospitalizations,by-age,by-sex
-        # Output to stdout before uploading artifact
-        cat ../output/summary.json
+        python compare.py --table epidemiology | tee ../output/epidemiology.json
+        python compare.py --table hospitalizations | tee ../output/hospitalizations.json
+        python compare.py --table by-age | tee ../output/by-age.json
+        python compare.py --table by-sex | tee ../output/by-sex.json
 
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v2
       with:
-        name: data-change-summary
-        path: './output/summary.json'
+        name: pipeline-output-comparisons
+        path: './output/*.json'
