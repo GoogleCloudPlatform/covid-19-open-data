@@ -257,6 +257,8 @@ sources:
       - url: "https://www.data.gouv.fr/fr/datasets/r/406c6a23-e283-4300-9484-54e78c8ae675"
         opts:
           ext: csv
+    parse:
+      sep: ";"
     test:
       metadata_query: "key.str.match('FR.*')"
 
@@ -311,8 +313,6 @@ sources:
       skiprows: 1
     test:
       metadata_query: "key.str.match('IN_.*')"
-
-
 
   # Data sources for IQ level 2
   - name: pipelines.epidemiology.iq_humdata.IraqHumdataDataSource
@@ -549,7 +549,7 @@ sources:
   # Data sources for US levels 2 + 3
   - name: pipelines.epidemiology.us_covidtracking.CovidTrackingDataSource
     fetch:
-      - url: "https://raw.github.com/COVID19Tracking/covid-tracking-data/master/data/states_daily_4pm_et.csv"
+      - url: "https://covidtracking.com/api/v1/states/daily.csv"
     test:
       metadata_query: "key.str.match('US_[^_]+$')"
 
