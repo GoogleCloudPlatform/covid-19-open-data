@@ -23,6 +23,7 @@ class LibyaHumdataDataSource(DataSource):
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
     	 # TODO (pranalipy)  to fill the logic  in for parsing Libya data
+    	 daata = []
        
         # Make sure all records have the country code
         data["country_code"] = "LY"
