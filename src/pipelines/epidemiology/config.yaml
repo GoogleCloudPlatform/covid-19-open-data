@@ -445,7 +445,7 @@ sources:
   # Data sources for PH levels 2 + 3
   - name: pipelines.epidemiology.ph_authority.PhilippinesDataSource
     fetch:
-      - url: "https://drive.google.com/uc?export=download&id=1moFBN_thU0e70frjnYjoV-UWYxVzsvCh"
+      - url: "https://drive.google.com/uc?export=download&id=1N2xGPdA8SJTebvf0s9qZHHK8mAb0NdHi"
         opts:
           ext: xlsx
     test:
