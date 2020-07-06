@@ -45,7 +45,10 @@ DATA_SOURCE_SKIP_OPTS = [
     # Skip Myanmar from Wikipedia because the article no longer exists
     # The source can be deleted once an alternative data source is found, until then keeping it
     # results in an error but the last known intermediate output is used so old data is not deleted
-    lambda x: (x.get("parse", {}).get("country") == "MY")
+    lambda x: (x.get("parse", {}).get("country") == "MY"),
+    # Skip India from Wikipedia because the article changed the table format
+    # TODO: fix data source and remove this skipped test case
+    lambda x: (x.get("parse", {}).get("country") == "IN"),
 ]
 
 
