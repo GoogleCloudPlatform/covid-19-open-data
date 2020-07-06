@@ -285,13 +285,12 @@ sources:
       metadata_query: "key == 'US_DC'"
 
   # Data sources US_FL levels 2 + 3
-  # No URL is provided because an API is used instead
   - name: pipelines.epidemiology.us_fl_authority.FloridaDataSource
-    fetch:
-      - opts:
-          skip_existing: true
+    # No URL is provided because an API is used instead
     test:
       metadata_query: "key.str.match('US_FL.*')"
+      # Skip Florida because download takes a long time
+      skip: true
 
   # Data sources for US_TX level 2
   - name: pipelines.epidemiology.us_tx_authority.TexasDataSource

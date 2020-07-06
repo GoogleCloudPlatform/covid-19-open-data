@@ -55,6 +55,7 @@ sources:
 
   - name: pipelines.worldbank.worldbank.WorldbankDataSource
     fetch:
+      # TODO: Use output from worldbank pipeline
       - url: "http://databank.worldbank.org/data/download/WDI_csv.zip"
     parse:
       indicators:
@@ -66,3 +67,7 @@ sources:
         largest_city_population: "EN.URB.LCTY"
         clustered_population: "EN.URB.MCTY"
         population_density: "EN.POP.DNST"
+    test:
+      metadata_query: "key.str.match('^..$')"
+      # Skip because it's too slow
+      skip: true

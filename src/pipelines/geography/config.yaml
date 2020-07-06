@@ -42,6 +42,7 @@ sources:
 
   - name: pipelines.worldbank.worldbank.WorldbankDataSource
     fetch:
+      # TODO: Use output from worldbank pipeline
       - url: "http://databank.worldbank.org/data/download/WDI_csv.zip"
     parse:
       min_year: 2000
@@ -49,3 +50,7 @@ sources:
         area: "AG.SRF.TOTL.K2"
         rural_area: "AG.LND.TOTL.RU.K2"
         urban_area: "AG.LND.TOTL.UR.K2"
+    test:
+      metadata_query: "key.str.match('^..$')"
+      # Skip because it's too slow
+      skip: true

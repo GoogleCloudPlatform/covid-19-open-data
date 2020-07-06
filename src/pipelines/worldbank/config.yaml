@@ -1431,5 +1431,10 @@ sources:
   - name: pipelines.worldbank.worldbank.WorldbankDataSource
     fetch:
       - url: "http://databank.worldbank.org/data/download/WDI_csv.zip"
+        opts:
+          # No need to re-download since this is yearly data
+          skip_existing: true
     test:
       metadata_query: "key.str.match('^..$')"
+      # Skip because it's too slow
+      skip: true

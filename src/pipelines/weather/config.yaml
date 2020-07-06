@@ -33,4 +33,12 @@ auxiliary:
 sources:
   # Data is fetched dynamically, so no URL can be declared here
   # - name: pipelines.weather.noaa_ghcn.NoaaGhcnDataSource
+  #   test:
+  #     # Skip because it's too slow
+  #     skip: true
+
+  # Data is fetched dynamically, so no URL can be declared here
   - name: pipelines.weather.noaa_gsod.NoaaGsodDataSource
+    test:
+      # Skip because it's too slow
+      skip: true

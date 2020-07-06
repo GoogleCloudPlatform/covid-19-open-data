@@ -313,6 +313,9 @@ sources:
       skiprows: 1
     test:
       metadata_query: "key.str.match('IN_.*')"
+      # Skip India from Wikipedia because the article changed the table format
+      # TODO: fix data source and remove this skipped test case
+      skip: true
 
   # Data sources for IQ level 2
   - name: pipelines.epidemiology.iq_humdata.IraqHumdataDataSource
@@ -395,7 +398,12 @@ sources:
       drop_column: "deceased"
       cumsum: true
     test:
-      metadata_query: "key.str.match('MY_.*')"
+        metadata_query: "key.str.match('MY_.*')"
+        # Skip MY from Wikipedia because the article no longer exists
+        # The source can be deleted once an alternative data source is found, until then keeping it
+        # results in an error but the last known intermediate output is used so old data is not
+        # deleted
+        skip: true
 
   # Data sources for MX levels 1 + 2
   - name: pipelines.epidemiology.mx_mexicovid19.Mexicovid19DataSource
@@ -608,15 +616,20 @@ sources:
           spoof_browser: false
     test:
       metadata_query: "key == 'US_DE'"
+      # Skip because endpoint fails frequently
+      skip: true
 
   # Data sources US_FL levels 2 + 3
   # No URL is provided because an API is used instead
   - name: pipelines.epidemiology.us_fl_authority.FloridaDataSource
     parse:
       # Death count is inaccurate, but we have an alternative source so we can just drop it here
+      # TODO: add option to drop columns for all data sources
       remove_inaccurate_statistics: true
     test:
       metadata_query: "key.str.match('US_FL.*')"
+      # Skip Florida because download takes a long time
+      skip: true
 
   # Data sources for US_NYC level 3 (NYC only)
   - name: pipelines.epidemiology.us_nyc_authority.NYCHealthDataSource

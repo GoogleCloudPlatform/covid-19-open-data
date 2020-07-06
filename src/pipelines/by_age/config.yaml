@@ -285,14 +285,20 @@ sources:
         opts:
           ext: csv
           spoof_browser: false
+          # Only download data from source once (in epidemiology pipeline)
+          skip_existing: true
     test:
       metadata_query: "key == 'US_DE'"
+      # Skip because endpoint fails frequently
+      skip: true
 
   # Data sources US_FL levels 2 + 3
-  # No URL is provided because an API is used instead
   - name: pipelines.epidemiology.us_fl_authority.FloridaDataSource
+    # No URL is provided because an API is used instead
     test:
       metadata_query: "key.str.match('US_FL.*')"
+      # Skip Florida because download takes a long time
+      skip: true
 
   # Data sources for ZA level 1
   - name: pipelines.epidemiology.za_dsfsi.Covid19ZaTimelineDeathsDataSource

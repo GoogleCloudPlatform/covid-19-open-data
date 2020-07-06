@@ -29,28 +29,6 @@ from .profiled_test_case import ProfiledTestCase
 # Arbitrarily chosen to make sure tests run in a reasonable time
 METADATA_SAMPLE_SIZE = 24
 
-DATA_SOURCE_SKIP_NAMES = [
-    # Skip Weather because it's very slow
-    "NoaaGhcnDataSource",
-    "NoaaGsodDataSource",
-    # Skip WorldBank because it's very slow
-    "WorldbankDataSource",
-    # Skip Delaware because the endpoint fails frequently
-    "DelawareDataSource",
-    # Skip Florida because download takes a long time
-    "FloridaDataSource",
-]
-
-DATA_SOURCE_SKIP_OPTS = [
-    # Skip Myanmar from Wikipedia because the article no longer exists
-    # The source can be deleted once an alternative data source is found, until then keeping it
-    # results in an error but the last known intermediate output is used so old data is not deleted
-    lambda x: (x.get("parse", {}).get("country") == "MY"),
-    # Skip India from Wikipedia because the article changed the table format
-    # TODO: fix data source and remove this skipped test case
-    lambda x: (x.get("parse", {}).get("country") == "IN"),
-]
-
 
 def _get_all_pipelines() -> Iterable[str]:
     for item in (ROOT / "src" / "pipelines").iterdir():
@@ -67,16 +45,14 @@ class TestSourceRun(ProfiledTestCase):
         # Load the data pipeline
         data_pipeline = DataPipeline.load(pipeline_name)
 
-        # Load the data pipeline and iterate over each data source and run it to get its output
+        # Load the data pipeline, iterate over each data source and run it to get its output
         for data_source in pbar(data_pipeline.data_sources, desc=pipeline_name):
             data_source_name = data_source.__class__.__name__
             data_source_opts = data_source.config
             failure_message = (
                 f"Data source run failed: {pipeline_name} {data_source_name} {data_source_opts}"
             )
-            if data_source_name in DATA_SOURCE_SKIP_NAMES:
-                continue
-            if any(option_filter(data_source_opts) for option_filter in DATA_SOURCE_SKIP_OPTS):
+            if data_source_opts.get("test", {}).get("skip"):
                 continue
 
             # Make a copy of all auxiliary files
