@@ -13,5 +13,14 @@
 # limitations under the License.
 
 class LibyaHumdataDataSource(DataSource):
-    # TODO (pranalipy)  to fill the logic  in for parsing Libya data
-    return []
+   
+    def parse_dataframes(
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
+    ) -> DataFrame:
+    	 # TODO (pranalipy)  to fill the logic  in for parsing Libya data
+       
+        # Make sure all records have the country code
+        data["country_code"] = "LY"
+
+        # Output the results
+        return data
