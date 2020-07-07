@@ -21,6 +21,7 @@ from lib.cast import safe_float_cast
 from lib.io import read_file
 from lib.net import download_snapshot, download
 from lib.pipeline import DataSource
+from lib.time import datetime_isoformat
 from lib.utils import pivot_table_date_columns, table_rename
 
 
@@ -106,7 +107,7 @@ class DistrictColumbiaDataSource(DataSource):
         data = _sheet_processors[parse_opts.get("sheet_name")](data)
 
         # Fix up the date format
-        data.date = data.date.apply(lambda x: x.date().isoformat())
+        data["date"] = data["date"].apply(lambda x: datetime_isoformat(x, "%Y-%m-%d %H:%M:%S"))
 
         # Add a key to all the records (state-level only)
         data["key"] = "US_DC"
