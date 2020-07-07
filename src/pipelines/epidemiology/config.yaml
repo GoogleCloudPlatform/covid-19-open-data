@@ -143,6 +143,15 @@ sources:
     test:
       metadata_query: "key.str.match('CA_.+')"
 
+  # Data sources for CD level 2
+  - name: pipelines.epidemiology.cd_humdata.CongoDRCHumdataDataSource
+    fetch:
+      - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQGOGhcfVhfuE_wP5Y78ZoKd6xPlc0BVt6uEPTNJ_6J_dqI29LlwC2KHFqw-9viNsBN60z7wC5ruOtt/pub?gid=0&single=true&output=csv"
+        opts:
+          ext: csv
+    test:
+      metadata_query: "key.str.match('CD_.+')"
+
   # Data sources for CH level 2
   - name: pipelines.epidemiology.ch_authority.SwitzerlandSource
     fetch:
