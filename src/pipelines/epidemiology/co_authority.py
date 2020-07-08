@@ -14,6 +14,7 @@
 
 from typing import Dict
 from pandas import DataFrame, concat
+from datetime import datetime
 from lib.cast import safe_datetime_parse, age_group
 from lib.data_source import DataSource
 from lib.utils import table_rename
@@ -60,7 +61,12 @@ class ColombiaDataSource(DataSource):
         value_columns = ["new_confirmed", "new_deceased", "new_recovered"]
         for value_column in value_columns:
             subset = data.rename(columns={"date_{}".format(value_column): "date"})[index_columns]
-            subset = subset[~subset.date.isna() & (subset.date != "-   -")].dropna()
+            # Parse dates to ISO format.
+            subset.date = subset.date.apply(safe_datetime_parse)
+            # Some dates are badly formatted as 31/12/1899 in the raw data
+            # we can drop these.
+            subset = subset[(subset.date != datetime(1899, 12, 31))].dropna()
+            subset.date = subset.date.apply(lambda x: x.date().isoformat())
             subset[value_column] = 1
             subset = subset.groupby(index_columns).sum().reset_index()
             if merged is None:
@@ -68,10 +74,6 @@ class ColombiaDataSource(DataSource):
             else:
                 merged = merged.merge(subset, how="outer")
 
-        # Convert date to ISO format
-        merged.date = merged.date.apply(safe_datetime_parse)
-        merged = merged[~merged.date.isna()]
-        merged.date = merged.date.apply(lambda x: x.date().isoformat())
         merged = merged.fillna(0)
 
         # Group by level 2 region, and add the parts
