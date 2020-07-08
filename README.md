@@ -518,6 +518,7 @@ from the relevant authorities, like a country's ministry of health.
 | Costa Rica | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
 | Cuba | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
 | Czech Republic | [Ministry of Health of the Czech Republic](https://onemocneni-aktualne.mzcr.cz/covid-19) | [Open Data](https://www.jmir.org/2020/5/e19367) |
+| Democratic Republic of Congo | [HDX](https://data.humdata.org/dataset/democratic-republic-of-the-congo-coronavirus-covid-19-subnational-cases) | [CC BY-SA][28] |
 | Ecuador | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
 | El Salvador | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
 | Finland | [Finnish institute for health and welfare](https://thl.fi/en/web/thlfi-en) | [CC BY 4.0](https://thl.fi/en/web/thlfi-en/statistics/statistical-databases/open-data) |
