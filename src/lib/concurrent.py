@@ -36,12 +36,12 @@ class _ThreadExecutor(ThreadPool):
 
 
 def process_map(map_func: Callable, map_iter: Iterable[Any], **tqdm_kwargs):
-    tqdm_kwargs = {**tqdm_kwargs, **{"disable": getenv(GLOBAL_DISABLE_PROGRESS)}}
+    tqdm_kwargs = {**{"disable": getenv(GLOBAL_DISABLE_PROGRESS)}, **tqdm_kwargs}
     # pylint: disable=protected-access
     return concurrent._executor_map(_ProcessExecutor, map_func, map_iter, **tqdm_kwargs)
 
 
 def thread_map(map_func: Callable, map_iter: Iterable[Any], **tqdm_kwargs):
-    tqdm_kwargs = {**tqdm_kwargs, **{"disable": getenv(GLOBAL_DISABLE_PROGRESS)}}
+    tqdm_kwargs = {**{"disable": getenv(GLOBAL_DISABLE_PROGRESS)}, **tqdm_kwargs}
     # pylint: disable=protected-access
     return concurrent._executor_map(_ThreadExecutor, map_func, map_iter, **tqdm_kwargs)

@@ -85,7 +85,7 @@ def main(
                 continue
             data_pipeline = DataPipeline.load(pipeline_name)
             pipeline_output = data_pipeline.run(
-                pipeline_name, output_folder, verify=verify, process_count=process_count
+                output_folder, process_count=process_count, verify_level=verify
             )
             export_csv(pipeline_output, output_folder / "tables" / f"{table_name}.csv")
 
