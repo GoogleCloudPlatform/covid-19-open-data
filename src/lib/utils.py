@@ -21,7 +21,7 @@ from pandas import DataFrame, Series, concat, isna, merge
 from pandas.api.types import is_numeric_dtype
 from .io import fuzzy_text, pbar, tqdm
 
-ROOT = Path(os.path.dirname(__file__)) / ".." / ".."
+SRC = Path(os.path.dirname(__file__)) / ".."
 URL_OUTPUTS_PROD = "https://storage.googleapis.com/covid19-open-data/v2"
 CACHE_URL = "https://raw.githubusercontent.com/open-covid-19/data/cache"
 

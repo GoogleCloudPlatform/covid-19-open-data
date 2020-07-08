@@ -23,7 +23,7 @@ import datacommons as dc
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from lib.io import read_file
-from lib.utils import ROOT
+from lib.utils import SRC
 
 
 # Parse arguments from the command line
@@ -34,11 +34,11 @@ argparser.add_argument("--dc-api-key", type=str, default=os.environ["DATACOMMONS
 args = argparser.parse_args()
 
 # Get the country name
-aux = read_file(ROOT / "src" / "data" / "metadata.csv").set_index("key")
+aux = read_file(SRC / "data" / "metadata.csv").set_index("key")
 country_name = aux.loc[args.country_code, "country_name"]
 
 # Convert 2-letter to 3-letter country code
-iso_codes = read_file(ROOT / "src" / "data" / "country_codes.csv").set_index("key")
+iso_codes = read_file(SRC / "data" / "country_codes.csv").set_index("key")
 country_code_alpha_3 = iso_codes.loc[args.country_code, "3166-1-alpha-3"]
 
 dc.set_api_key(args.dc_api_key)

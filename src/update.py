@@ -22,7 +22,7 @@ from typing import List
 
 from lib.io import export_csv, display_progress
 from lib.pipeline import DataPipeline
-from lib.utils import ROOT
+from lib.utils import SRC
 
 
 def main(
@@ -64,7 +64,7 @@ def main(
 
         # A pipeline chain is any subfolder not starting with "_" in the pipelines folder
         all_pipeline_names = []
-        for item in (ROOT / "src" / "pipelines").iterdir():
+        for item in (SRC / "pipelines").iterdir():
             if not item.name.startswith("_") and not item.is_file():
                 all_pipeline_names.append(item.name)
 
@@ -100,7 +100,7 @@ if __name__ == "__main__":
     argparser.add_argument("--profile", action="store_true")
     argparser.add_argument("--no-progress", action="store_true")
     argparser.add_argument("--process-count", type=int, default=cpu_count())
-    argparser.add_argument("--output-folder", type=str, default=str(ROOT / "output"))
+    argparser.add_argument("--output-folder", type=str, default=str(SRC / ".." / "output"))
     args = argparser.parse_args()
 
     if args.profile:

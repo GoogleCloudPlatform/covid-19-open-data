@@ -25,10 +25,10 @@ schema:
   urban_area: int
 
 auxiliary:
-  metadata: ./src/data/metadata.csv
-  country_codes: ./src/data/country_codes.csv
-  knowledge_graph: ./src/data/knowledge_graph.csv
-  worldbank_indicators: ./src/data/worldbank_indicators.csv
+  metadata: ./data/metadata.csv
+  country_codes: ./data/country_codes.csv
+  knowledge_graph: ./data/knowledge_graph.csv
+  worldbank_indicators: ./data/worldbank_indicators.csv
 
 sources:
 

@@ -27,9 +27,9 @@ schema:
   total_tested: int
 
 auxiliary:
-  metadata: ./src/data/metadata.csv
-  country_codes: ./src/data/country_codes.csv
-  knowledge_graph: ./src/data/knowledge_graph.csv
+  metadata: ./data/metadata.csv
+  country_codes: ./data/country_codes.csv
+  knowledge_graph: ./data/knowledge_graph.csv
 
 sources:
 
@@ -653,6 +653,9 @@ sources:
       - url: "https://dshs.texas.gov/coronavirus/TexasCOVID19CaseCountData.xlsx"
     test:
       metadata_query: "key == 'US_TX'"
+      # Skip Texas because the data source is very flaky and keeps changing schema
+      # TODO: fix this data source and make it more resilient
+      skip: true
 
   # Data sources for VE level 2
   - name: pipelines.epidemiology.ve_humdata.VenezuelaHumDataSource

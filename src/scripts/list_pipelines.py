@@ -28,12 +28,12 @@ sys.path.append(path)
 
 from pandas import DataFrame
 from lib.pipeline import DataPipeline
-from lib.utils import ROOT
+from lib.utils import SRC
 from typing import List, Iterator, Dict
 
 
 def get_pipeline_names() -> Iterator[str]:
-    for item in (ROOT / "src" / "pipelines").iterdir():
+    for item in (SRC / "pipelines").iterdir():
         if not item.name.startswith("_") and not item.is_file():
             yield item.name
 
@@ -65,7 +65,7 @@ def get_source_configs(pipeline_names: List[str]) -> Iterator[Dict]:
 def get_cache_configs() -> Iterator[Dict]:
     """Generate a list of configurations for cached data sources."""
 
-    config_json = ROOT / "src" / "cache" / "config.json"
+    config_json = SRC / "cache" / "config.json"
     with open(config_json, "r") as fd:
         cache_pipelines_config = json.load(fd)
         for pipeline_config in cache_pipelines_config:
@@ -79,5 +79,5 @@ if __name__ == "__main__":
     print(source_configs_df)
     print(cache_configs_df)
 
-    source_configs_df.to_csv(ROOT / "tmp" / "source_configs.csv")
-    cache_configs_df.to_csv(ROOT / "tmp" / "cache_configs.csv")
+    source_configs_df.to_csv(SRC / ".." / "tmp" / "source_configs.csv")
+    cache_configs_df.to_csv(SRC / ".." / "tmp" / "cache_configs.csv")

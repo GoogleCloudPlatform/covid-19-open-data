@@ -27,7 +27,7 @@ from pandas import DataFrame, date_range
 
 from lib.concurrent import thread_map
 from lib.io import read_file, export_csv, pbar
-from lib.utils import ROOT, drop_na_records
+from lib.utils import SRC, drop_na_records
 
 
 def subset_last_days(output_folder: Path, days: int) -> None:
@@ -178,11 +178,12 @@ def main(output_folder: Path, tables_folder: Path, show_progress: bool = True) -
 if __name__ == "__main__":
 
     # Process command-line arguments
+    output_root = SRC / ".." / "output"
     argparser = ArgumentParser()
     argparser.add_argument("--profile", action="store_true")
     argparser.add_argument("--no-progress", action="store_true")
-    argparser.add_argument("--tables-folder", type=str, default=str(ROOT / "output" / "tables"))
-    argparser.add_argument("--output-folder", type=str, default=str(ROOT / "output" / "public"))
+    argparser.add_argument("--tables-folder", type=str, default=str(output_root / "tables"))
+    argparser.add_argument("--output-folder", type=str, default=str(output_root / "public"))
     args = argparser.parse_args()
 
     if args.profile:

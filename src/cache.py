@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # Copyright 2020 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,21 +22,21 @@ from functools import partial
 from argparse import ArgumentParser
 from typing import Any, Callable, Dict, List
 
-from lib.utils import ROOT
+from lib.utils import SRC
 
 
 def parse_command(cmd: str) -> List[str]:
     if cmd == "curl":
-        return ["python3", str(ROOT / "src" / "cache" / "commands" / "curl_fetch.py")]
+        return ["python3", str(SRC / "cache" / "commands" / "curl_fetch.py")]
     if cmd == "static_fetch":
-        return ["python3", str(ROOT / "src" / "cache" / "commands" / "static_fetch.py")]
+        return ["python3", str(SRC / "cache" / "commands" / "static_fetch.py")]
     if cmd == "dynamic_fetch":
-        return ["node", str(ROOT / "src" / "cache" / "commands" / "dynamic_fetch.js")]
+        return ["node", str(SRC / "cache" / "commands" / "dynamic_fetch.js")]
     if cmd.startswith("dynamic_custom/"):
         script_name = cmd.split("/")[-1]
         script_extension = script_name.split(".")[-1]
         assert script_extension == "js", "Dynamic script must be a NodeJS script"
-        return ["node", str(ROOT / "src" / "cache" / "commands" / "dynamic_custom" / script_name)]
+        return ["node", str(SRC / "cache" / "commands" / "dynamic_custom" / script_name)]
     raise ValueError(f"Unknown command {cmd}")
 
 
@@ -92,13 +93,13 @@ def error_handler(error_message: str):
 # Create the output folder for the nearest hour in UTC time
 now = datetime.utcnow()
 output_name = now.strftime("%Y-%m-%d-%H")
-output_path = ROOT / "output" / "cache"
+output_path = SRC / ".." / "output" / "cache"
 snapshot_path = output_path / output_name
 snapshot_path.mkdir(parents=True, exist_ok=True)
 
 # Iterate over each source and process it
 map_func = partial(process_source, snapshot_path, error_handler)
-for source in json.load((ROOT / "src" / "cache" / "config.json").open("r")):
+for source in json.load((SRC / "cache" / "config.json").open("r")):
     map_func(source)
 
 # Build a "sitemap" of the cache output folder

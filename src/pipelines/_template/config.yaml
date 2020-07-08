@@ -24,9 +24,9 @@ schema:
 
 # Auxiliary datasets passed to each pipeline as argument to `parse`
 auxiliary:
-  metadata: ./src/data/metadata.csv
-  country_codes: ./src/data/country_codes.csv
-  knowledge_graph: ./src/data/knowledge_graph.csv
+  metadata: ./data/metadata.csv
+  country_codes: ./data/country_codes.csv
+  knowledge_graph: ./data/knowledge_graph.csv
 
 # Defines the pipelines to be run in order to produce the combined, full output
 sources:

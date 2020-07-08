@@ -27,7 +27,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from lib.forecast import main as build_forecast
 from lib.io import read_file, export_csv, pbar
 from lib.net import download
-from lib.utils import ROOT, URL_OUTPUTS_PROD, drop_na_records
+from lib.utils import SRC, URL_OUTPUTS_PROD, drop_na_records
 
 
 def snake_to_camel_case(txt: str) -> str:
@@ -38,7 +38,7 @@ def snake_to_camel_case(txt: str) -> str:
 if __name__ == "__main__":
 
     # Create the folder which will be published
-    public_folder = ROOT / "output" / "public"
+    public_folder = SRC / ".." / "output" / "public"
     public_folder.mkdir(exist_ok=True, parents=True)
 
     # Create the v1 data.csv file

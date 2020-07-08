@@ -26,9 +26,9 @@ schema:
   snowfall: float
 
 auxiliary:
-  metadata: ./src/data/metadata.csv
-  country_codes: ./src/data/country_codes.csv
-  knowledge_graph: ./src/data/knowledge_graph.csv
+  metadata: ./data/metadata.csv
+  country_codes: ./data/country_codes.csv
+  knowledge_graph: ./data/knowledge_graph.csv
 
 sources:
   # Data is fetched dynamically, so no URL can be declared here

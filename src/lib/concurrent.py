@@ -15,7 +15,7 @@
 from os import getenv
 from typing import Any, Callable, Iterable
 from tqdm.contrib import concurrent
-from multiprocess.pool import Pool, ThreadPool
+from multiprocessing.pool import Pool, ThreadPool
 from .io import GLOBAL_DISABLE_PROGRESS
 
 

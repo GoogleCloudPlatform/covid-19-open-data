@@ -53,8 +53,8 @@ schema:
   m_75: int
   m_80: int
 auxiliary:
-  metadata: ./src/data/metadata.csv
-  worldpop: ./src/data/worldpop_stratified.csv
+  metadata: ./data/metadata.csv
+  worldpop: ./data/worldpop_stratified.csv
 
 sources:
 

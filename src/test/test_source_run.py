@@ -22,7 +22,7 @@ from tempfile import TemporaryDirectory
 import requests
 from lib.io import pbar
 from lib.pipeline import DataPipeline
-from lib.utils import ROOT, CACHE_URL
+from lib.utils import SRC, CACHE_URL
 from .profiled_test_case import ProfiledTestCase
 
 
@@ -31,7 +31,7 @@ METADATA_SAMPLE_SIZE = 24
 
 
 def _get_all_pipelines() -> Iterable[str]:
-    for item in (ROOT / "src" / "pipelines").iterdir():
+    for item in (SRC / "pipelines").iterdir():
         if not item.name.startswith("_") and not item.is_file():
             yield item.name
 

@@ -30,7 +30,7 @@ from .concurrent import process_map
 from .data_source import DataSource
 from .error_logger import ErrorLogger
 from .io import read_file, fuzzy_text, export_csv, pbar
-from .utils import ROOT, CACHE_URL, combine_tables, drop_na_records, filter_output_columns
+from .utils import SRC, CACHE_URL, combine_tables, drop_na_records, filter_output_columns
 
 
 class DataPipeline(ErrorLogger):
@@ -54,7 +54,7 @@ class DataPipeline(ErrorLogger):
     data_sources: List[DataSource]
     """ List of data sources (initialized with the appropriate config) executed in order """
 
-    auxiliary_tables: Dict[str, DataFrame] = {"metadata": ROOT / "src" / "data" / "metadata.csv"}
+    auxiliary_tables: Dict[str, DataFrame] = {"metadata": SRC / "data" / "metadata.csv"}
     """ Auxiliary datasets passed to the pipelines during processing """
 
     def __init__(
@@ -87,13 +87,13 @@ class DataPipeline(ErrorLogger):
 
     @staticmethod
     def load(name: str):
-        config_path = ROOT / "src" / "pipelines" / name / "config.yaml"
+        config_path = SRC / "pipelines" / name / "config.yaml"
         with open(config_path, "r") as fd:
             config_yaml = yaml.safe_load(fd)
         schema = {
             name: DataPipeline._parse_dtype(dtype) for name, dtype in config_yaml["schema"].items()
         }
-        auxiliary = {name: ROOT / path for name, path in config_yaml.get("auxiliary", {}).items()}
+        auxiliary = {name: SRC / path for name, path in config_yaml.get("auxiliary", {}).items()}
         data_sources = []
         for pipeline_config in config_yaml["sources"]:
             module_tokens = pipeline_config["name"].split(".")
@@ -257,6 +257,7 @@ class DataPipeline(ErrorLogger):
 
             # Perform stale column detection for each known key
             map_iter = data.key.unique()
+            # TODO: convert into a regular function since lambdas cannot be pickled
             map_func = lambda key: detect_stale_columns(
                 self.schema, data[data.key == key], (pipeline_name, key)
             )
