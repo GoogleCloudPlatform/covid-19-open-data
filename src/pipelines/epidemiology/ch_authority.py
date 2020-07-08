@@ -43,7 +43,5 @@ class SwitzerlandSource(DataSource):
 
         # Country-level data is reported as "ZH"
         data["country_code"] = "CH"
-        country_mask = data.subregion1_code == "ZH"
-        data.loc[country_mask, "subregion1_code"] = None
 
         return data
