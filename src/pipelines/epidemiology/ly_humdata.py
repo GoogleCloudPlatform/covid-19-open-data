@@ -35,7 +35,7 @@ class LibyaHumdataDataSource(DataSource):
                     "Confirmed Cases": "total_confirmed",
                     "Deaths": "total_deceased",
                     "Recoveries": "total_recovered",
-                    "Date": "date",
+                    "Date": "date",  # is already in format "%Y-%m-%d"
                 }
             )
             .drop(columns=["Active"])
@@ -43,10 +43,7 @@ class LibyaHumdataDataSource(DataSource):
 
         # The first row is metadata info about column names - discard it
         data = data[data.subregion1_name != '#loc+name']
-
-        # Convert date to ISO format
-        data["date"] = data["date"].apply(lambda x: datetime.datetime.strptime(x, "%Y-%m-%d").strftime('%d-%m-%Y'))
-        
+      
         # Convert string numbers to int
         # Parse integers
         for column in ("total_confirmed", "total_deceased", "total_recovered"):
