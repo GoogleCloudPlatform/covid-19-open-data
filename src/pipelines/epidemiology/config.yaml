@@ -32,7 +32,6 @@ auxiliary:
   knowledge_graph: ./data/knowledge_graph.csv
 
 sources:
-
   # Data sources for all countries level 1
   - name: pipelines.epidemiology.xx_owid.OurWorldInDataSource
     fetch:
@@ -425,6 +424,18 @@ sources:
         url: "https://raw.github.com/mexicovid19/Mexico-datos/master/datos_abiertos/series_de_tiempo/nuevos/covid19_mex_pruebas-totales.csv"
     test:
       metadata_query: "key.str.match('MX.*')"
+
+  # Data sources for MZ level 2
+  - name: pipelines.epidemiology.mz_humdata.MozambiqueHumdataDataSource
+    fetch:
+      - url: https://data.humdata.org/dataset/96f9bc99-28ee-4046-8a96-9f7c1a1462d7/resource/2857979e-a528-429e-b7ce-e4b1c3317718/download/mozambique-covid-19-cases.xlsx
+        opts:
+          ext: xlsx
+        parse:
+          skiprows: 1
+    test:
+      metadata_query: "key.str.match('MZ_.*')"
+
 
   # Data sources for NL levels 1 + 2 + 3
   - name: pipelines.epidemiology.nl_authority.NetherlandsDataSource

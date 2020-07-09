@@ -2404,6 +2404,17 @@ MY_14,MY,Malaysia,14,Kuala Lumpur,,,KL,
 MY_15,MY,Malaysia,15,Labuan,,,LB,
 MY_16,MY,Malaysia,16,Putrajaya,,,PT,
 MZ,MZ,Mozambique,,,,,,-1
+MZ_A,MZ,Mozambique,A,Niassa Province,,,Niassa,
+MZ_B,MZ,Mozambique,B,Manica Province,,,Manica,
+MZ_G,MZ,Mozambique,G,Gaza Province,,,Gaza,
+MZ_I,MZ,Mozambique,I,Inhambane Province,,,Inhambane,
+MZ_L,MZ,Mozambique,L,Maputo Province,,,Província de Maputo,
+MZ_MPM,MZ,Mozambique,MPM,Maputo,,,Cidade de Maputo,
+MZ_N,MZ,Mozambique,N,Nampula Province,,,Nampula,
+MZ_P,MZ,Mozambique,P,Cabo Delgado Province,,,Cabo Delgado,
+MZ_Q,MZ,Mozambique,Q,Zambezia Province,,,Zambézia,
+MZ_S,MZ,Mozambique,S,Sofala,,,Sofala,
+MZ_T,MZ,Mozambique,T,Tete Province,,,Tete,
 NA,NA,Namibia,,,,,,0
 NC,NC,New Caledonia,,,,,,-1
 NE,NE,Niger,,,,,,-1
