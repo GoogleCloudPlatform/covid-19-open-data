@@ -24,7 +24,6 @@ from typing import Any, Dict, List, Set
 
 from pandas import DataFrame, concat
 from lib.io import read_file, display_progress
-from lib.net import download
 from lib.pipeline import DataPipeline
 from lib.utils import URL_OUTPUTS_PROD
 
@@ -110,7 +109,7 @@ if __name__ == "__main__":
                 data_pipeline = DataPipeline.load(pipeline_name)
                 (output_folder / "snapshot").mkdir()
                 (output_folder / "intermediate").mkdir()
-                table_curr = data_pipeline.run(pipeline_name, output_folder)
+                table_curr = data_pipeline.run(output_folder)
 
         # Download the table from the production server if it exists
         try:
