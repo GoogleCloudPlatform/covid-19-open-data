@@ -13,18 +13,44 @@
 # limitations under the License.
 
 from typing import Dict
+import math
 from pandas import DataFrame
 from lib.data_source import DataSource
-from lib.cast import safe_int_cast
+from lib.time import datetime_isoformat
+import  datetime
 
 class LibyaHumdataDataSource(DataSource):
    
     def parse_dataframes(
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
-         # TODO (pranalipy)  to fill the logic  in for parsing Libya data
-        data = {}
-       
+
+        # Rename the appropriate columns
+        data = (
+            dataframes[0]
+            .rename(
+                columns={
+                    "Location": "subregion1_name",
+                    "Confirmed Cases": "total_confirmed",
+                    "Deaths": "total_deceased",
+                    "Recoveries": "total_recovered",
+                    "Date": "date",
+                }
+            )
+            .drop(columns=["Active"])
+            .drop(columns=["total_deceased"])
+        )
+
+        # The first row is metadata info about column names - discard it
+        data = data[data.subregion1_name != '#loc+name']
+
+        # Convert date to ISO format
+        data["date"] = data["date"].apply(lambda x: datetime.datetime.strptime(x, "%Y-%m-%d").strftime('%d-%m-%Y'))
+        
+        # Convert string numbers to int
+        data["total_confirmed"] = data["total_confirmed"].apply(lambda x: 0 if(math.isnan(float(x))) else  int(x))
+        data["total_recovered"] = data["total_recovered"].apply(lambda x: 0 if(math.isnan(float(x))) else  int(x))
+        
         # Make sure all records have the country code
         data["country_code"] = "LY"
 
