@@ -68,6 +68,15 @@ sources:
     test:
       metadata_query: "key.str.match('AF_.+')"
 
+  # Data sources for LY level 2
+  - name: pipelines.epidemiology.ly_humdata.LibyaHumdataDataSource
+    fetch:
+      - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQQWJZmGZJfUm22CPWoeW6rSS7Xh4K54r4A8RlN214ZCIPBUBOug3UbxFPrbiT3FQic6HS8wGdUhv3f/pub?single=true&output=csv"
+        opts:
+          ext: csv
+    test:
+      metadata_query: "key.str.match('LY*')"
+
   # Data sources for AR level 2
   - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
     fetch:
