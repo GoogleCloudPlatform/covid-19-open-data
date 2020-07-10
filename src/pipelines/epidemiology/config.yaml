@@ -327,12 +327,8 @@ sources:
     parse:
       country: IN
       date_format: "%b-%d"
-      skiprows: 1
     test:
       metadata_query: "key.str.match('IN_.*')"
-      # Skip India from Wikipedia because the article changed the table format
-      # TODO: fix data source and remove this skipped test case
-      skip: true
 
   # Data sources for IQ level 2
   - name: pipelines.epidemiology.iq_humdata.IraqHumdataDataSource
