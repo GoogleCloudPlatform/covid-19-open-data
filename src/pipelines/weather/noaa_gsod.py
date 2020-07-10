@@ -27,10 +27,10 @@ from pandas import DataFrame, Series, read_csv, concat
 
 from lib.cast import safe_float_cast
 from lib.concurrent import thread_map
+from lib.constants import URL_OUTPUTS_PROD
 from lib.data_source import DataSource
 from lib.io import pbar
 from lib.net import download, download_snapshot
-from lib.utils import URL_OUTPUTS_PROD
 
 
 _COLUMN_MAPPING = {

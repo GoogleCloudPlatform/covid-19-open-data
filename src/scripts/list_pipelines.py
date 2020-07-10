@@ -27,8 +27,8 @@ path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(path)
 
 from pandas import DataFrame
+from lib.constants import SRC
 from lib.pipeline import DataPipeline
-from lib.utils import SRC
 from typing import List, Iterator, Dict
 
 

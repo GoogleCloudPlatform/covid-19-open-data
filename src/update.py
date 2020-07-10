@@ -20,9 +20,9 @@ from argparse import ArgumentParser
 from multiprocessing import cpu_count
 from typing import List
 
+from lib.constants import SRC
 from lib.io import export_csv, display_progress
 from lib.pipeline import DataPipeline
-from lib.utils import SRC
 
 
 def main(

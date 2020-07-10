@@ -53,7 +53,9 @@ class LuxembourgDataSource(DataSource):
         ]
 
         # Convert recovered into a number
-        data.new_recovered = data.new_recovered.apply(lambda x: safe_int_cast(x.replace("-", "0")))
+        data.new_recovered = data.new_recovered.apply(
+            lambda x: safe_int_cast(str(x).replace("-", "0"))
+        )
 
         # Only country-level data is provided
         data["key"] = "LU"

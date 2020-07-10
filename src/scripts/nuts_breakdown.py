@@ -22,8 +22,8 @@ import datacommons as dc
 # Add our library utils to the path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
+from lib.constants import SRC
 from lib.io import read_file
-from lib.utils import SRC
 
 
 # Parse arguments from the command line

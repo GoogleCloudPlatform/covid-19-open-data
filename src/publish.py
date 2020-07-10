@@ -26,8 +26,9 @@ from argparse import ArgumentParser
 from pandas import DataFrame, date_range
 
 from lib.concurrent import thread_map
-from lib.io import read_file, export_csv, pbar
-from lib.utils import SRC, drop_na_records
+from lib.constants import SRC
+from lib.io import display_progress, read_file, export_csv, pbar
+from lib.utils import drop_na_records
 
 
 def subset_last_days(output_folder: Path, days: int) -> None:
@@ -97,82 +98,81 @@ def main(output_folder: Path, tables_folder: Path, show_progress: bool = True) -
         3. Create different slices of data, such as the latest known record for each region, files
            for the last N days of data, files for each individual region
     """
-    # TODO: respect disable progress flag
-    disable_progress = not show_progress
+    with display_progress(show_progress):
 
-    # Wipe the output folder first
-    for item in output_folder.glob("*"):
-        if item.name.startswith("."):
-            continue
-        if item.is_file():
-            item.unlink()
-        else:
-            shutil.rmtree(item)
+        # Wipe the output folder first
+        for item in output_folder.glob("*"):
+            if item.name.startswith("."):
+                continue
+            if item.is_file():
+                item.unlink()
+            else:
+                shutil.rmtree(item)
 
-    # Create the folder which will be published using a stable schema
-    v2_folder = output_folder / "v2"
-    v2_folder.mkdir(exist_ok=True, parents=True)
+        # Create the folder which will be published using a stable schema
+        v2_folder = output_folder / "v2"
+        v2_folder.mkdir(exist_ok=True, parents=True)
 
-    # Copy all output files to the V2 folder
-    for output_file in pbar([*tables_folder.glob("*.csv")], desc="Copy tables"):
-        shutil.copy(output_file, v2_folder / output_file.name)
+        # Copy all output files to the V2 folder
+        for output_file in pbar([*tables_folder.glob("*.csv")], desc="Copy tables"):
+            shutil.copy(output_file, v2_folder / output_file.name)
 
-    # Merge all output files into a single table
-    main_table = read_file(v2_folder / "index.csv")
+        # Merge all output files into a single table
+        main_table = read_file(v2_folder / "index.csv")
 
-    # Add a date to each region from index to allow iterative left joins
-    max_date = (datetime.datetime.now() + datetime.timedelta(days=7)).date().isoformat()
-    date_list = [date.date().isoformat() for date in date_range("2020-01-01", max_date)]
-    date_table = DataFrame(date_list, columns=["date"], dtype=str)
-    main_table = table_cross_product(main_table, date_table)
+        # Add a date to each region from index to allow iterative left joins
+        max_date = (datetime.datetime.now() + datetime.timedelta(days=7)).date().isoformat()
+        date_list = [date.date().isoformat() for date in date_range("2020-01-01", max_date)]
+        date_table = DataFrame(date_list, columns=["date"], dtype=str)
+        main_table = table_cross_product(main_table, date_table)
 
-    # Some tables are not included into the main table
-    exclude_from_main_table = (
-        "main.csv",
-        "index.csv",
-        "worldbank.csv",
-        "worldpop.csv",
-        "by-age.csv",
-        "by-sex.csv",
-    )
+        # Some tables are not included into the main table
+        exclude_from_main_table = (
+            "main.csv",
+            "index.csv",
+            "worldbank.csv",
+            "worldpop.csv",
+            "by-age.csv",
+            "by-sex.csv",
+        )
 
-    non_dated_columns = set(main_table.columns)
-    for output_file in pbar([*v2_folder.glob("*.csv")], desc="Main table"):
-        if output_file.name not in exclude_from_main_table:
-            # Load the table and perform left outer join
-            table = read_file(output_file, low_memory=False)
-            main_table = main_table.merge(table, how="left")
-            # Keep track of columns which are not indexed by date
-            if not "date" in table.columns:
-                non_dated_columns = non_dated_columns | set(table.columns)
+        non_dated_columns = set(main_table.columns)
+        for output_file in pbar([*v2_folder.glob("*.csv")], desc="Main table"):
+            if output_file.name not in exclude_from_main_table:
+                # Load the table and perform left outer join
+                table = read_file(output_file, low_memory=False)
+                main_table = main_table.merge(table, how="left")
+                # Keep track of columns which are not indexed by date
+                if not "date" in table.columns:
+                    non_dated_columns = non_dated_columns | set(table.columns)
 
-    # There can only be one record per <key, date> pair
-    main_table = main_table.groupby(["key", "date"]).first().reset_index()
+        # There can only be one record per <key, date> pair
+        main_table = main_table.groupby(["key", "date"]).first().reset_index()
 
-    # Drop rows with null date or without a single dated record
-    main_table = drop_na_records(main_table.dropna(subset=["date"]), non_dated_columns)
-    export_csv(main_table, v2_folder / "main.csv")
+        # Drop rows with null date or without a single dated record
+        main_table = drop_na_records(main_table.dropna(subset=["date"]), non_dated_columns)
+        export_csv(main_table, v2_folder / "main.csv")
 
-    # Create subsets with the last 30, 14 and 7 days of data
-    map_func = partial(subset_last_days, v2_folder)
-    for _ in thread_map(map_func, (30, 14, 7), desc="Last N days subsets"):
-        pass
+        # Create subsets with the last 30, 14 and 7 days of data
+        map_func = partial(subset_last_days, v2_folder)
+        for _ in thread_map(map_func, (30, 14, 7), desc="Last N days subsets"):
+            pass
 
-    # Create a subset with the latest known day of data for each key
-    map_func = partial(subset_latest, v2_folder)
-    for _ in thread_map(map_func, [*(v2_folder).glob("*.csv")], desc="Latest subset"):
-        pass
+        # Create a subset with the latest known day of data for each key
+        map_func = partial(subset_latest, v2_folder)
+        for _ in thread_map(map_func, [*(v2_folder).glob("*.csv")], desc="Latest subset"):
+            pass
 
-    # Create subsets with each known key
-    main_indexed = main_table.set_index("key")
-    map_func = partial(subset_grouped_key, main_indexed, v2_folder)
-    for _ in thread_map(map_func, main_indexed.index.unique(), desc="Grouped key subsets"):
-        pass
+        # Create subsets with each known key
+        main_indexed = main_table.set_index("key")
+        map_func = partial(subset_grouped_key, main_indexed, v2_folder)
+        for _ in thread_map(map_func, main_indexed.index.unique(), desc="Grouped key subsets"):
+            pass
 
-    # Convert all CSV files to JSON using values format
-    map_func = export_json_without_index
-    for _ in thread_map(map_func, [*(v2_folder).glob("**/*.csv")], desc="JSON conversion"):
-        pass
+        # Convert all CSV files to JSON using values format
+        map_func = export_json_without_index
+        for _ in thread_map(map_func, [*(v2_folder).glob("**/*.csv")], desc="JSON conversion"):
+            pass
 
 
 if __name__ == "__main__":

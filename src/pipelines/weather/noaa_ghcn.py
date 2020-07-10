@@ -23,9 +23,10 @@ from pandas import DataFrame, Series, read_csv, concat
 
 from lib.cast import safe_int_cast
 from lib.concurrent import thread_map
+from lib.constants import URL_OUTPUTS_PROD
 from lib.data_source import DataSource
 from lib.net import download_snapshot
-from lib.utils import URL_OUTPUTS_PROD, combine_tables
+from lib.utils import combine_tables
 
 
 _COLUMN_MAPPING = {

@@ -23,9 +23,9 @@ from tempfile import TemporaryDirectory
 from typing import Any, Dict, List, Set
 
 from pandas import DataFrame, concat
+from lib.constants import URL_OUTPUTS_PROD
 from lib.io import read_file, display_progress
 from lib.pipeline import DataPipeline
-from lib.utils import URL_OUTPUTS_PROD
 
 
 def compare_sets(curr: Set[str], prod: Set[str]) -> List[str]:

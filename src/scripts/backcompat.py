@@ -24,10 +24,11 @@ from pathlib import Path
 # Add our library utils to the path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
+from lib.constants import SRC, URL_OUTPUTS_PROD
 from lib.forecast import main as build_forecast
 from lib.io import read_file, export_csv, pbar
 from lib.net import download
-from lib.utils import SRC, URL_OUTPUTS_PROD, drop_na_records
+from lib.utils import drop_na_records
 
 
 def snake_to_camel_case(txt: str) -> str:

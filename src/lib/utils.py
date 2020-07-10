@@ -12,18 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import os
-from pathlib import Path
 from functools import partial, reduce
 from typing import Any, Callable, List, Dict, Tuple, Optional
 from numpy import unique
 from pandas import DataFrame, Series, concat, isna, merge
 from pandas.api.types import is_numeric_dtype
 from .io import fuzzy_text, pbar, tqdm
-
-SRC = Path(os.path.dirname(__file__)) / ".."
-URL_OUTPUTS_PROD = "https://storage.googleapis.com/covid19-open-data/v2"
-CACHE_URL = "https://raw.githubusercontent.com/open-covid-19/data/cache"
 
 
 def get_or_default(dict_like: Dict, key: Any, default: Any):

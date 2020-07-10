@@ -26,11 +26,12 @@ from pandas import DataFrame, Int64Dtype
 
 from .anomaly import detect_anomaly_all, detect_stale_columns
 from .cast import column_convert
+from .constants import SRC, CACHE_URL
 from .concurrent import process_map
 from .data_source import DataSource
 from .error_logger import ErrorLogger
 from .io import read_file, fuzzy_text, export_csv, pbar
-from .utils import SRC, CACHE_URL, combine_tables, drop_na_records, filter_output_columns
+from .utils import combine_tables, drop_na_records, filter_output_columns
 
 
 def _gen_intermediate_name(data_source: DataSource) -> str:

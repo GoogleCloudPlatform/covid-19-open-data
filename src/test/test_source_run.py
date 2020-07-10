@@ -22,7 +22,7 @@ from tempfile import TemporaryDirectory
 import requests
 from lib.io import pbar
 from lib.pipeline import DataPipeline
-from lib.utils import SRC, CACHE_URL
+from lib.constants import SRC, CACHE_URL
 from .profiled_test_case import ProfiledTestCase
 
 

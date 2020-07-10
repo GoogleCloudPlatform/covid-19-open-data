@@ -22,7 +22,7 @@ from functools import partial
 from argparse import ArgumentParser
 from typing import Any, Callable, Dict, List
 
-from lib.utils import SRC
+from lib.constants import SRC
 
 
 def parse_command(cmd: str) -> List[str]:
