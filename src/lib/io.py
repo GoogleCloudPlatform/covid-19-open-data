@@ -134,31 +134,36 @@ def read_html(
     return data
 
 
-def export_csv(data: DataFrame, path: Union[Path, str], convert: bool = True) -> None:
-    """
-    Exports a DataFrame to CSV using consistent options. This function will modify fields of the
-    input DataFrame in place to format them for output, consider making a copy prior to passing the
-    data into this function.
+def export_csv(data: DataFrame, path: Union[Path, str]) -> None:
+    """ Exports a DataFrame to CSV using consistent options """
+    # Make a copy of the data to avoid overwriting
+    data = data.copy()
 
-    Arguments:
-        data: DataFrame to be output as CSV
-        path: Location on disk to write the CSV to
-        convert: Flag indicating whether to format numeric fields for output
-    """
+    # Convert Int64 to string representation to avoid scientific notation of big numbers
+    for column in data.columns:
+        if is_numeric_dtype(data[column]):
+            values = data[column].dropna()
+            if len(values) > 0 and max(values) > 1e8:
+                try:
+                    data[column] = data[column].apply(safe_int_cast).astype("Int64")
+                except:
+                    data[column] = data[column].astype(str).fillna("")
 
-    if convert:
-        for column in data.columns:
-            if is_numeric_dtype(data[column]):
-                values = data[column].dropna()
-                # Convert Int64 to string representation to avoid scientific notation of big numbers
-                if len(values) > 0 and max(values) > 1e8:
-                    try:
-                        data[column] = data[column].apply(safe_int_cast).astype("Int64")
-                    except:
-                        data[column] = data[column].astype(str).fillna("")
+    # Output to a buffer first
+    buffer = StringIO()
+    # Since all large quantities use Int64, we can assume floats will not be represented using the
+    # exponential notation that %G formatting uses for large numbers
+    data.to_csv(buffer, index=False, float_format="%.8G")
+    output = buffer.getvalue()
+
+    # Workaround for Namibia's code, which is interpreted as NaN when read back
+    output = re.sub(r"^NA,", '"NA",', output)
+    output = re.sub(r",NA,", ',"NA",', output)
+    output = re.sub(r"\nNA,", '\n"NA",', output)
 
     # Write the output to the provided file
-    data.to_csv(path, index=False, float_format="%.8G", chunksize=1024)
+    with open(path, "w") as fd:
+        fd.write(output)
 
 
 def pbar(*args, **kwargs) -> tqdm:
