@@ -1,0 +1,10 @@
+type,value,alias
+sex,male,m
+sex,female,f
+ethnicity,asian,
+ethnicity,black,preta
+ethnicity,indigenous,indigena
+ethnicity,latino,latinx
+ethnicity,mixed,parda
+ethnicity,native_american,
+ethnicity,white,branca

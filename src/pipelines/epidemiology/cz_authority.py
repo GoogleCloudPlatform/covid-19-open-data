@@ -14,7 +14,8 @@
 
 from typing import Dict, List
 from pandas import DataFrame, concat, isna
-from lib.cast import age_group
+from lib.case_line import convert_cases_to_time_series
+
 from lib.data_source import DataSource
 from lib.utils import table_rename
 
@@ -36,9 +37,10 @@ _column_adapter = {
 def _aggregate_regions(data: DataFrame, index_columns: List[str]) -> DataFrame:
     l2 = data.drop(columns=["subregion2_code"])
     l2 = l2.groupby(index_columns).sum().reset_index()
+    data = data[data["subregion2_code"] != ""].copy()
 
-    l2["key"] = "CZ_" + l2.subregion1_code
-    data["key"] = "CZ_" + data.subregion1_code + "_" + data.subregion2_code
+    l2["key"] = "CZ_" + l2["subregion1_code"]
+    data["key"] = "CZ_" + data["subregion1_code"] + "_" + data["subregion2_code"]
 
     l2 = l2.drop(columns=["subregion1_code"])
     data = data.drop(columns=["subregion1_code", "subregion2_code"])
@@ -83,18 +85,27 @@ class CzechRepublicAgeSexDataSource(DataSource):
     ) -> DataFrame:
 
         # Rename appropriate columns
-        data = table_rename(dataframes[0], _column_adapter)
-        data = _parse_region_codes(data).dropna(subset=["date"])
-
-        # Create stratified age bands
-        data.age = data.age.apply(age_group)
+        col = parse_opts["column_name"]
+        cases = table_rename(dataframes[0], _column_adapter)
+        cases = cases.rename(columns={"date": f"date_{col}"})
+        cases = _parse_region_codes(cases).dropna(subset=[f"date_{col}"])
 
         # Rename the sex values
-        data.sex = data.sex.apply({"M": "male", "Z": "female"}.get)
+        cases["sex"] = cases["sex"].apply({"M": "male", "Z": "female"}.get)
 
         # Go from individual case records to key-grouped records in a flat table
-        data[parse_opts["column_name"]] = 1
-        data = data.groupby(["date", "subregion1_code", "subregion2_code", "age", "sex"]).sum()
+        data = convert_cases_to_time_series(
+            cases, index_columns=["subregion1_code", "subregion2_code"]
+        )
+
+        data["subregion1_code"] = data["subregion1_code"].astype(str)
+        data["subregion2_code"] = data["subregion2_code"].astype(str)
 
         # Aggregate L2 + L3 data
-        return _aggregate_regions(data.reset_index(), ["date", "subregion1_code", "age", "sex"])
+        data = _aggregate_regions(data, ["date", "subregion1_code", "age", "sex"])
+
+        # Remove bogus values
+        data = data[data["key"] != "CZ_99"]
+        data = data[data["key"] != "CZ_99_99Y"]
+
+        return data

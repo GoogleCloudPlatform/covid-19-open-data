@@ -145,15 +145,18 @@ class TestTableUtils(ProfiledTestCase):
         self.assertEqual(buffer1.getvalue(), buffer2.getvalue())
 
     def test_age_group(self):
-        self.assertEqual("0-9", age_group(0, bin_count=10, max_age=100))
-        self.assertEqual("0-9", age_group(0.0, bin_count=10, max_age=100))
-        self.assertEqual("0-9", age_group(9, bin_count=10, max_age=100))
-        self.assertEqual("10-19", age_group(10, bin_count=10, max_age=100))
-        self.assertEqual("10-19", age_group(19, bin_count=10, max_age=100))
-        self.assertEqual("90-", age_group(90, bin_count=10, max_age=100))
-        self.assertEqual("90-", age_group(100, bin_count=10, max_age=100))
-        self.assertEqual("90-", age_group(1e9, bin_count=10, max_age=100))
-        self.assertEqual(None, age_group(-1, bin_count=10, max_age=100))
+        self.assertEqual("0-9", age_group(0, bin_count=10, age_cutoff=90))
+        self.assertEqual("0-9", age_group(0.0, bin_count=10, age_cutoff=90))
+        self.assertEqual("0-9", age_group(9, bin_count=10, age_cutoff=90))
+        self.assertEqual("10-19", age_group(10, bin_count=10, age_cutoff=90))
+        self.assertEqual("10-19", age_group(19, bin_count=10, age_cutoff=90))
+        self.assertEqual("90-", age_group(90, bin_count=10, age_cutoff=90))
+        self.assertEqual("90-", age_group(100, bin_count=10, age_cutoff=90))
+        self.assertEqual("90-", age_group(110, bin_count=10, age_cutoff=90))
+        self.assertEqual("90-", age_group(1e9, bin_count=10, age_cutoff=90))
+        self.assertEqual(None, age_group(-1, bin_count=10, age_cutoff=90))
+        self.assertEqual(None, age_group(None, bin_count=10, age_cutoff=90))
+        self.assertEqual(None, age_group(numpy.nan, bin_count=10, age_cutoff=90))
 
     def test_infer_nothing(self):
 
@@ -234,7 +237,7 @@ class TestTableUtils(ProfiledTestCase):
         )
 
     # TODO: Add test for complex infer example (e.g. missing values)
-    # TODO: Add test for stratify_age_and_sex
+    # TODO: Add test for stratify_age_sex_ethnicity
 
 
 if __name__ == "__main__":

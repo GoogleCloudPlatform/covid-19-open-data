@@ -93,7 +93,7 @@ class Covid19ZaTimelineDeathsDataSource(DataSource):
                     {
                         "key": "ZA",
                         "date": datetime_isoformat(row.date, "%d-%m-%Y"),
-                        "age": age_bucket,
+                        "age": None if age_bucket == "unknown" else age_bucket,
                         "total_deceased": row[age_col],
                     }
                 )

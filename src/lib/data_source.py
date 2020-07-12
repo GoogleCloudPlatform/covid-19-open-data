@@ -22,7 +22,7 @@ from pandas import DataFrame, isna
 from .error_logger import ErrorLogger
 from .io import read_file, fuzzy_text
 from .net import download_snapshot
-from .utils import infer_new_and_total, stratify_age_and_sex
+from .utils import infer_new_and_total, stratify_age_sex_ethnicity
 
 
 class DataSource(ErrorLogger):
@@ -78,7 +78,7 @@ class DataSource(ErrorLogger):
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         """ Parses a list of raw data records into a DataFrame. """
         # Some read options are passed as parse_opts
-        read_opts = {k: v for k, v in parse_opts.items() if k in ("sep", "low_memory")}
+        read_opts = {k: v for k, v in parse_opts.items() if k in ("sep", "encoding", "low_memory")}
         return self.parse_dataframes(self._read(sources, **read_opts), aux, **parse_opts)
 
     def parse_dataframes(
@@ -244,7 +244,7 @@ class DataSource(ErrorLogger):
 
         # Provide a stratified view of certain key variables
         if any(stratify_column in data.columns for stratify_column in ("age", "sex")):
-            data = stratify_age_and_sex(data)
+            data = stratify_age_sex_ethnicity(data)
 
         # Process each record to add missing cumsum or daily diffs
         data = infer_new_and_total(data)
