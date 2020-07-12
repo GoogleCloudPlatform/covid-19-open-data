@@ -46,7 +46,7 @@ function install_python {
 $(sleep 3600 && self_destruct)&
 
 # Declare the branch to use to run code
-readonly BRANCH=appengine
+readonly BRANCH=main
 
 # Determine action from the metadata
 readonly ACTION=$(read_metadata action)

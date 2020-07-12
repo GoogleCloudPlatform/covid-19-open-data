@@ -51,7 +51,11 @@ def get_cron_jobs() -> Iterator[Dict]:
     # The job that publishes data into the prod bucket runs every 4 hours
     # TODO(owahltinez): disabled because it goes over the memory limit of appengine, which is 4GB
     # for the largest available configuration. This is being run by a cron script in a VM instead.
-    # yield {"url": f"/publish", "schedule": "every 4 hours", **copy.deepcopy(retry_params)}
+    # yield {
+    #     "url": f"/publish",
+    #     "schedule": "every 4 hours synchronized",
+    #     **copy.deepcopy(retry_params),
+    # }
 
     for data_pipeline in get_pipelines():
         # The job that combines data sources into a table runs hourly
