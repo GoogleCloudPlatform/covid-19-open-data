@@ -16,24 +16,14 @@
 
 schema:
   key: str
-  wikidata: str
-  datacommons: str
-  country_code: str
-  country_name: str
-  subregion1_code: str
-  subregion1_name: str
-  subregion2_code: str
-  subregion2_name: str
-  locality_code: str
-  locality_name: str
-  3166-1-alpha-2: str
-  3166-1-alpha-3: str
-  aggregation_level: int
+  related_locality: str
 
 auxiliary:
   metadata: ./data/metadata.csv
-  country_codes: ./data/country_codes.csv
-  knowledge_graph: ./data/knowledge_graph.csv
+  localities: ./data/localities.csv
 
 sources:
-  - name: pipelines.index.index.IndexDataSource
+  - name: pipelines.locality.locality.LocalityDataSource
+    test:
+      # Test for US_GA_ATL
+      metadata_query: "key.isin(['US_GA_13067', 'US_GA_13089', 'US_GA_13121', 'US_GA_13135'])"

@@ -12,28 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Index pipeline configuration
+from typing import Dict, List
+from pandas import DataFrame
+from lib.data_source import DataSource
 
-schema:
-  key: str
-  wikidata: str
-  datacommons: str
-  country_code: str
-  country_name: str
-  subregion1_code: str
-  subregion1_name: str
-  subregion2_code: str
-  subregion2_name: str
-  locality_code: str
-  locality_name: str
-  3166-1-alpha-2: str
-  3166-1-alpha-3: str
-  aggregation_level: int
 
-auxiliary:
-  metadata: ./data/metadata.csv
-  country_codes: ./data/country_codes.csv
-  knowledge_graph: ./data/knowledge_graph.csv
-
-sources:
-  - name: pipelines.index.index.IndexDataSource
+class LocalityDataSource(DataSource):
+    def parse(self, sources: List[str], aux: Dict[str, DataFrame], **parse_opts):
+        return aux["localities"].merge(aux["metadata"], how="left")

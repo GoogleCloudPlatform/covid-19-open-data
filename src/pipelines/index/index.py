@@ -27,9 +27,11 @@ class IndexDataSource(DataSource):
 
         # Determine the level of aggregation for each datapoint
         data["aggregation_level"] = None
-        subregion1_null = data.subregion1_code.isna()
-        subregion2_null = data.subregion2_code.isna()
+        subregion1_null = data["subregion1_code"].isna()
+        subregion2_null = data["subregion2_code"].isna()
+        locality_null = data["locality_code"].isna()
         data.loc[subregion1_null & subregion2_null, "aggregation_level"] = 0
         data.loc[~subregion1_null & subregion2_null, "aggregation_level"] = 1
         data.loc[~subregion1_null & ~subregion2_null, "aggregation_level"] = 2
+        data.loc[~locality_null, "aggregation_level"] = 3
         return data
