@@ -87,6 +87,76 @@ def table_cross_product(table1: DataFrame, table2: DataFrame) -> DataFrame:
     return table1.merge(table2, on=[tmp_col_name]).drop(columns=[tmp_col_name])
 
 
+def copy_tables(tables_folder: Path, public_folder: Path) -> None:
+    """
+    Copy tables as-is from the tables folder into the public folder.
+
+    Arguments:
+        tables_folder: Input folder where all CSV files exist.
+        public_folder: Output folder where the CSV files will be copied to.
+    """
+    for output_file in pbar([*tables_folder.glob("*.csv")], desc="Copy tables"):
+        shutil.copy(output_file, public_folder / output_file.name)
+
+
+def make_main_table(tables_folder: Path) -> DataFrame:
+    """
+    Build a flat view of all tables combined, joined by <key> or <key, date>.
+
+    Arguments:
+        tables_folder: Input folder where all CSV files exist.
+    Returns:
+        DataFrame: Flat table with all data combined.
+    """
+
+    # Merge all output files into a single table
+    main_table = read_file(
+        tables_folder / "index.csv",
+        dtype={
+            "country_code": "category",
+            "country_name": "category",
+            "subregion1_code": "category",
+            "subregion1_name": "category",
+            "subregion2_code": "category",
+            "subregion2_name": "category",
+            "3166-1-alpha-2": "category",
+            "3166-1-alpha-3": "category",
+            "aggregation_level": "category",
+        },
+    )
+
+    # Add a date to each region from index to allow iterative left joins
+    max_date = (datetime.datetime.now() + datetime.timedelta(days=1)).date().isoformat()
+    date_list = [date.date().isoformat() for date in date_range("2020-01-01", max_date)]
+    date_table = DataFrame(date_list, columns=["date"], dtype="category")
+    main_table = table_cross_product(main_table, date_table)
+
+    # Some tables are not included into the main table
+    exclude_from_main_table = (
+        "main.csv",
+        "index.csv",
+        "worldbank.csv",
+        "worldpop.csv",
+        "by-age.csv",
+        "by-sex.csv",
+    )
+
+    non_dated_columns = set(main_table.columns)
+    for output_file in pbar([*tables_folder.glob("*.csv")], desc="Main table"):
+        if output_file.name not in exclude_from_main_table:
+            # Load the table and perform left outer join
+            table = read_file(output_file, low_memory=False)
+            main_table = main_table.merge(table, how="left")
+            # Keep track of columns which are not indexed by date
+            if not "date" in table.columns:
+                non_dated_columns = non_dated_columns | set(table.columns)
+
+    # Drop rows with null date or without a single dated record
+    main_table = drop_na_records(main_table.dropna(subset=["date"]), non_dated_columns)
+
+    return main_table
+
+
 def main(output_folder: Path, tables_folder: Path, show_progress: bool = True) -> None:
     """
     This script takes the processed outputs located in `tables_folder` and publishes them into the
@@ -114,43 +184,10 @@ def main(output_folder: Path, tables_folder: Path, show_progress: bool = True) -
         v2_folder.mkdir(exist_ok=True, parents=True)
 
         # Copy all output files to the V2 folder
-        for output_file in pbar([*tables_folder.glob("*.csv")], desc="Copy tables"):
-            shutil.copy(output_file, v2_folder / output_file.name)
+        copy_tables(tables_folder, v2_folder)
 
-        # Merge all output files into a single table
-        main_table = read_file(v2_folder / "index.csv")
-
-        # Add a date to each region from index to allow iterative left joins
-        max_date = (datetime.datetime.now() + datetime.timedelta(days=7)).date().isoformat()
-        date_list = [date.date().isoformat() for date in date_range("2020-01-01", max_date)]
-        date_table = DataFrame(date_list, columns=["date"], dtype=str)
-        main_table = table_cross_product(main_table, date_table)
-
-        # Some tables are not included into the main table
-        exclude_from_main_table = (
-            "main.csv",
-            "index.csv",
-            "worldbank.csv",
-            "worldpop.csv",
-            "by-age.csv",
-            "by-sex.csv",
-        )
-
-        non_dated_columns = set(main_table.columns)
-        for output_file in pbar([*v2_folder.glob("*.csv")], desc="Main table"):
-            if output_file.name not in exclude_from_main_table:
-                # Load the table and perform left outer join
-                table = read_file(output_file, low_memory=False)
-                main_table = main_table.merge(table, how="left")
-                # Keep track of columns which are not indexed by date
-                if not "date" in table.columns:
-                    non_dated_columns = non_dated_columns | set(table.columns)
-
-        # There can only be one record per <key, date> pair
-        main_table = main_table.groupby(["key", "date"]).first().reset_index()
-
-        # Drop rows with null date or without a single dated record
-        main_table = drop_na_records(main_table.dropna(subset=["date"]), non_dated_columns)
+        # Create the main table and write it to disk
+        main_table = make_main_table(tables_folder)
         export_csv(main_table, v2_folder / "main.csv")
 
         # Create subsets with the last 30, 14 and 7 days of data

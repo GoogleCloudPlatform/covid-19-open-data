@@ -1,0 +1,9 @@
+key,wikidata,datacommons,country_code,country_name,subregion1_code,subregion1_name,subregion2_code,subregion2_name,3166-1-alpha-2,3166-1-alpha-3,aggregation_level
+AD,Q228,country/AND,AD,Andorra,,,,,AD,AND,0
+CZ,Q213,country/CZE,CZ,Czech Republic,,,,,CZ,CZE,0
+CZ_10,Q1085,nuts/CZ010,CZ,Czech Republic,10,Prague,,,CZ,CZE,1
+AU_NSW,Q3224,,AU,Australia,NSW,New South Wales,,,AU,AUS,1
+US_FL,Q812,geoId/12,US,United States of America,FL,Florida,,,US,USA,1
+US_DE,Q1393,geoId/10,US,United States of America,DE,Delaware,,,US,USA,1
+US_FL_12001,Q488826,geoId/12001,US,United States of America,FL,Florida,12001,Alachua County,US,USA,2
+US_NY_36061,Q11299,geoId/36061,US,United States of America,NY,New York,36061,New York County,US,USA,2
