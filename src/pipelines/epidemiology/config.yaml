@@ -330,6 +330,15 @@ sources:
     test:
       metadata_query: "key.str.match('IN_.*')"
 
+  # Alternate, highly supported data source for IN level 2.
+  - name: pipelines.epidemiology.in_covid19india_org.Covid19IndiaOrgDataSource
+    fetch:
+      - url: "https://api.covid19india.org/csv/latest/state_wise_daily.csv"
+        opts:
+          ext: csv
+    test:
+      metadata_query: "key.str.match('IN_.*')"
+
   # Data sources for IQ level 2
   - name: pipelines.epidemiology.iq_humdata.IraqHumdataDataSource
     fetch:
