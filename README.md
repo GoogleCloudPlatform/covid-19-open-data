@@ -511,6 +511,7 @@ from the relevant authorities, like a country's ministry of health.
 | Austria | [COVID19 EU Data](https://github.com/covid19-eu-zh/covid19-eu-data) | [MIT](https://github.com/covid19-eu-zh/covid19-eu-data/issues/57) |
 | Bolivia | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
 | Brazil | <https://github.com/elhenrico/covid19-Brazil-timeseries> | [Public Domain](https://github.com/elhenrico/covid19-Brazil-timeseries/blob/master/README.md#public-domain-and-open-data) |
+| Brazil (Rio de Janeiro) | <http://www.data.rio/> | [Attribution Required](https://www.data.rio/datasets/f314453b3a55434ea8c8e8caaa2d8db5) |
 | Canada | [Department of Health Canada](https://www.canada.ca/en/public-health) | [Attribution required](https://www.canada.ca/en/transparency/terms.html) |
 | Chile | [Wikipedia](https://en.wikipedia.org/wiki/Template:2019-20_coronavirus_pandemic_data/Chile_medical_cases) | [CC BY-SA][24] |
 | Chile | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |

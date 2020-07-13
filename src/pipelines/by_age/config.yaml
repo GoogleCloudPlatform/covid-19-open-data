@@ -205,6 +205,18 @@ auxiliary:
 
 sources:
 
+  # Data sources for BR_RJ level 3
+  - name: pipelines.epidemiology.br_rj_authority.RioStratifiedDataSource
+    fetch:
+      - url: "https://pcrj.maps.arcgis.com/sharing/rest/content/items/754cc0698129404ba8bfb053cbdbd158/data"
+        opts:
+          ext: csv
+    parse:
+      sep: ";"
+      encoding: "ISO-8859-1"
+    test:
+      metadata_query: "key == 'BR_RJ_GIG'"
+
   # Data sources for CO levels 1 + 2 + 3
   - name: pipelines.epidemiology.co_authority.ColombiaDataSource
     fetch:

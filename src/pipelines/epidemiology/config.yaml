@@ -32,6 +32,7 @@ auxiliary:
   knowledge_graph: ./data/knowledge_graph.csv
 
 sources:
+
   # Data sources for all countries level 1
   - name: pipelines.epidemiology.xx_owid.OurWorldInDataSource
     fetch:
@@ -68,15 +69,6 @@ sources:
     test:
       metadata_query: "key.str.match('AF_.+')"
 
-  # Data sources for LY level 2
-  - name: pipelines.epidemiology.ly_humdata.LibyaHumdataDataSource
-    fetch:
-      - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQQWJZmGZJfUm22CPWoeW6rSS7Xh4K54r4A8RlN214ZCIPBUBOug3UbxFPrbiT3FQic6HS8wGdUhv3f/pub?single=true&output=csv"
-        opts:
-          ext: csv
-    test:
-      metadata_query: "key.str.match('LY*')"
-
   # Data sources for AR level 2
   - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
     fetch:
@@ -90,8 +82,6 @@ sources:
       cumsum: true
     test:
       metadata_query: "key.str.match('AR_.+')"
-
-
 
   # Data sources for AT level 2
   - name: pipelines.epidemiology.xx_covid19_eu_data.Covid19EuDataSource
@@ -143,6 +133,17 @@ sources:
     test:
       metadata_query: "key.str.match('BR_.+')"
 
+  # Data sources for BR_RJ level 3
+  - name: pipelines.epidemiology.br_rj_authority.RioStratifiedDataSource
+    fetch:
+      - url: "https://pcrj.maps.arcgis.com/sharing/rest/content/items/754cc0698129404ba8bfb053cbdbd158/data"
+        opts:
+          ext: csv
+    parse:
+      sep: ";"
+      encoding: "ISO-8859-1"
+    test:
+      metadata_query: "key == 'BR_RJ_GIG'"
 
   # Data sources for CA level 2
   - name: pipelines.epidemiology.ca_authority.CanadaDataSource
@@ -426,6 +427,15 @@ sources:
         # results in an error but the last known intermediate output is used so old data is not
         # deleted
         skip: true
+
+  # Data sources for LY level 2
+  - name: pipelines.epidemiology.ly_humdata.LibyaHumdataDataSource
+    fetch:
+      - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQQWJZmGZJfUm22CPWoeW6rSS7Xh4K54r4A8RlN214ZCIPBUBOug3UbxFPrbiT3FQic6HS8wGdUhv3f/pub?single=true&output=csv"
+        opts:
+          ext: csv
+    test:
+      metadata_query: "key.str.match('LY*')"
 
   # Data sources for MX levels 1 + 2
   - name: pipelines.epidemiology.mx_mexicovid19.Mexicovid19DataSource

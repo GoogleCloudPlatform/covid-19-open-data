@@ -337,7 +337,13 @@ def stratify_age_sex_ethnicity(data: DataFrame) -> DataFrame:
         # Age ranges are not uniform, so we add a helper variable which indicates the actual range
         # and make sure that the columns which contain the counts are uniform across all sources
         age_columns = {col: col.split(age_prefix, 2) for col in data.columns if age_prefix in col}
-        age_buckets = unique([bucket for _, bucket in age_columns.values()])
+
+        # Remove unknown ages from the buckets
+        age_columns = {
+            col: bucket for col, bucket in age_columns.items() if bucket[-1] != "unknown"
+        }
+        age_buckets = unique([bucket[-1] for bucket in age_columns.values()])
+
         sort_func = lambda x: safe_int_cast(str(x).split("-")[0].split("_")[0]) or 0
         age_buckets_map = {
             bucket: f"{idx:02d}" for idx, bucket in enumerate(sorted(age_buckets, key=sort_func))
