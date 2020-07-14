@@ -108,10 +108,10 @@ def combine_tables(
         return combined
 
 
-def drop_na_records(table: DataFrame, keys: List[str]) -> DataFrame:
+def drop_na_records(table: DataFrame, keys: List[str], inplace: bool = False) -> DataFrame:
     """ Drops all records which have no data outside of the provided keys """
     value_columns = [col for col in table.columns if not col in keys]
-    return table.dropna(subset=value_columns, how="all")
+    return table.dropna(subset=value_columns, how="all", inplace=inplace)
 
 
 def grouped_transform(

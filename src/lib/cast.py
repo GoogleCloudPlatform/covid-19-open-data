@@ -65,12 +65,12 @@ def safe_datetime_parse(
         return None
 
 
-def column_convert(series: pandas.Series, dtype: type) -> pandas.Series:
+def column_convert(series: pandas.Series, dtype: Any) -> pandas.Series:
     if dtype == pandas.Int64Dtype():
         return series.apply(safe_int_cast).astype(dtype)
-    if dtype == float:
+    if dtype == "float":
         return series.apply(safe_float_cast).astype(dtype)
-    if dtype == str:
+    if dtype == "str":
         return series.fillna("").astype(str)
 
     raise ValueError("Unsupported dtype %r" % dtype)

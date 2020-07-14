@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Iterator
+from typing import Iterator, Dict
 from lib.constants import SRC
 from lib.pipeline import DataPipeline
 
@@ -34,3 +34,11 @@ def get_pipelines() -> Iterator[DataPipeline]:
     """ Iterator with all the available data pipelines """
     for pipeline_name in get_pipeline_names():
         yield DataPipeline.load(pipeline_name)
+
+
+def get_schema() -> Dict[str, type]:
+    """ Outputs all known column schemas """
+    schema: Dict[str, type] = {}
+    for pipeline in get_pipelines():
+        schema.update(pipeline.schema)
+    return schema

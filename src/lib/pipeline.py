@@ -22,7 +22,7 @@ from typing import Any, Dict, Iterable, List, Optional, Tuple, Union
 
 import yaml
 import requests
-from pandas import DataFrame, Int64Dtype
+from pandas import DataFrame
 
 from .anomaly import detect_anomaly_all, detect_stale_columns
 from .cast import column_convert
@@ -30,7 +30,7 @@ from .constants import SRC, CACHE_URL
 from .concurrent import process_map
 from .data_source import DataSource
 from .error_logger import ErrorLogger
-from .io import read_file, fuzzy_text, export_csv, pbar
+from .io import read_file, fuzzy_text, export_csv, parse_dtype, pbar
 from .utils import combine_tables, drop_na_records, filter_output_columns
 
 
@@ -111,9 +111,7 @@ class DataPipeline(ErrorLogger):
         config_path = SRC / "pipelines" / name / "config.yaml"
         with open(config_path, "r") as fd:
             config_yaml = yaml.safe_load(fd)
-        schema = {
-            name: DataPipeline._parse_dtype(dtype) for name, dtype in config_yaml["schema"].items()
-        }
+        schema = {name: parse_dtype(dtype) for name, dtype in config_yaml["schema"].items()}
         auxiliary = {name: SRC / path for name, path in config_yaml.get("auxiliary", {}).items()}
         data_sources = []
         for pipeline_config in config_yaml["sources"]:
@@ -124,16 +122,6 @@ class DataPipeline(ErrorLogger):
             data_sources.append(getattr(module, class_name)(pipeline_config))
 
         return DataPipeline(name, schema, auxiliary, data_sources)
-
-    @staticmethod
-    def _parse_dtype(dtype_name: str) -> type:
-        if dtype_name == "str":
-            return str
-        if dtype_name == "int":
-            return Int64Dtype()
-        if dtype_name == "float":
-            return float
-        raise TypeError(f"Unsupported dtype: {dtype_name}")
 
     def output_table(self, data: DataFrame) -> DataFrame:
         """
@@ -293,7 +281,7 @@ class DataPipeline(ErrorLogger):
         for data_source, result in intermediate_results:
             if result is not None:
                 file_name = f"{_gen_intermediate_name(data_source)}.csv"
-                export_csv(result, intermediate_folder / file_name)
+                export_csv(result, intermediate_folder / file_name, schema=self.schema)
             else:
                 data_source_name = data_source.__class__.__name__
                 self.errlog(f"No output for {data_source_name} with config {data_source.config}")
@@ -304,7 +292,7 @@ class DataPipeline(ErrorLogger):
         for data_source in data_sources:
             intermediate_path = intermediate_folder / f"{_gen_intermediate_name(data_source)}.csv"
             try:
-                yield (data_source, read_file(intermediate_path))
+                yield (data_source, read_file(intermediate_path, dtype=self.schema))
             except Exception as exc:
                 data_source_name = data_source.__class__.__name__
                 self.errlog(

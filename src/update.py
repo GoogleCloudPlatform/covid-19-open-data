@@ -87,7 +87,11 @@ def main(
             pipeline_output = data_pipeline.run(
                 output_folder, process_count=process_count, verify_level=verify
             )
-            export_csv(pipeline_output, output_folder / "tables" / f"{table_name}.csv")
+            export_csv(
+                pipeline_output,
+                output_folder / "tables" / f"{table_name}.csv",
+                schema=data_pipeline.schema,
+            )
 
 
 if __name__ == "__main__":
