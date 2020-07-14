@@ -13,30 +13,53 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 import json
 import shutil
 import datetime
 import cProfile
+import traceback
 from pstats import Stats
 from pathlib import Path
 from functools import partial
 from argparse import ArgumentParser
+from tempfile import TemporaryDirectory
+from typing import Dict, Iterable, TextIO, Tuple
 
 from pandas import DataFrame, date_range
 
 from lib.concurrent import thread_map
-from lib.constants import SRC
-from lib.io import display_progress, read_file, export_csv, pbar
-from lib.utils import drop_na_records
+from lib.constants import SRC, EXCLUDE_FROM_MAIN_TABLE
+from lib.io import display_progress, read_file, read_lines, export_csv, pbar
+from lib.pipeline_tools import get_schema
 
 
-def subset_last_days(output_folder: Path, days: int) -> None:
+# Anything under 100 MB can use the fast JSON converter
+JSON_FAST_CONVERTER_SIZE_THRESHOLD_BYTES = 100 * 1000 * 1000
+
+
+def _read_main_table(path: Path) -> DataFrame:
+    return read_file(
+        path,
+        dtype={
+            "country_code": "category",
+            "country_name": "category",
+            "subregion1_code": "category",
+            "subregion1_name": "category",
+            "subregion2_code": "category",
+            "subregion2_name": "category",
+            "3166-1-alpha-2": "category",
+            "3166-1-alpha-3": "category",
+            "aggregation_level": "category",
+        },
+    )
+
+
+def _subset_last_days(output_folder: Path, days: int) -> None:
     """ Outputs last N days of data """
     n_days_folder = output_folder / str(days)
     n_days_folder.mkdir(exist_ok=True)
     for csv_file in (output_folder).glob("*.csv"):
-        table = read_file(csv_file, low_memory=False)
+        table = read_file(csv_file)
 
         # Degenerate case: this table has no date
         if not "date" in table.columns or len(table.date.dropna()) == 0:
@@ -48,35 +71,131 @@ def subset_last_days(output_folder: Path, days: int) -> None:
             export_csv(table[table.date >= first_date.isoformat()], n_days_folder / csv_file.name)
 
 
-def subset_latest(output_folder: Path, csv_file: Path) -> DataFrame:
+def _subset_latest(output_folder: Path, csv_file: Path) -> None:
     """ Outputs latest data for each key """
     latest_folder = output_folder / "latest"
     latest_folder.mkdir(exist_ok=True)
-    table = read_file(csv_file, low_memory=False)
+    output_file = latest_folder / csv_file.name
 
-    # Degenerate case: this table has no date
-    if not "date" in table.columns or len(table.date.dropna()) == 0:
-        return export_csv(table, latest_folder / csv_file.name)
+    with csv_file.open("r") as fd:
+        header = fd.readline().split(",")
+
+    if not "date" in header:
+        # Degenerate case: this table has no date
+        shutil.copyfile(csv_file, output_file)
     else:
-        non_null_columns = [col for col in table.columns if not col in ("key", "date")]
-        table = table.dropna(subset=non_null_columns, how="all")
-        table = table.sort_values("date").groupby(["key"]).tail(1).reset_index()
-        export_csv(table, latest_folder / csv_file.name)
+        # To stay memory-efficient, do the latest subset "by hand" instead of using pandas grouping
+        # This assumes that the CSV file is sorted in ascending order, which should always be true
+        records = {}
+        for line in read_lines(csv_file):
+            key, data = line.split(",", 1)
+            records[key] = data.strip()
+
+        with output_file.open("w") as fd:
+            for key, data in records.items():
+                fd.write(f"{key},{data}\n")
 
 
-def subset_grouped_key(table_indexed: DataFrame, output_folder: Path, key: str) -> None:
-    """ Outputs a subset of the table with only records with the given key """
-    key_folder = output_folder / key
-    key_folder.mkdir(exist_ok=True)
-    export_csv(table_indexed.loc[key:key].reset_index(), key_folder / "main.csv")
+def _subset_grouped_key(main_table_path: Path, output_folder: Path, desc: str = None) -> None:
+    """ Outputs a subsets of the table with only records with a particular key """
+
+    # Read the header of the main file to get the columns
+    with main_table_path.open("r") as fd:
+        header = fd.readline()
+
+    # Do a first sweep to get the number of keys so we can accurately report progress
+    key_set = set()
+    for line in read_lines(main_table_path):
+        key, data = line.split(",", 1)
+        key_set.add(key)
+
+    # We make use of the main table being sorted by <key, date> and do a linear sweep of the file
+    # assuming that once the key changes we won't see it again in future lines
+    current_key: str = None
+    file_handle: TextIO = None
+    progress_bar = pbar(total=len(key_set), desc=desc)
+    for idx, line in enumerate(read_lines(main_table_path)):
+        key, data = line.split(",", 1)
+
+        # Skip the header line
+        if idx == 0:
+            continue
+
+        # When the key changes, close the previous file handle and open a new one
+        if current_key != key:
+            if file_handle:
+                file_handle.close()
+            current_key = key
+            key_folder = output_folder / key
+            key_folder.mkdir(exist_ok=True)
+            file_handle = (key_folder / "main.csv").open("w")
+            file_handle.write(f"{header}\n")
+            progress_bar.update(1)
+
+        file_handle.write(f"{key},{data}")
+
+    # Close the last file handle and we are done
+    file_handle.close()
+    progress_bar.close()
 
 
-def export_json_without_index(csv_file: Path) -> None:
-    table = read_file(csv_file, low_memory=False)
-    json_path = str(csv_file).replace("csv", "json")
+def convert_csv_to_json_records(
+    schema: Dict[str, type], csv_file: Path, json_output: Path = None
+) -> None:
+    json_coverter_method = convert_csv_to_json_records_fast
+    if csv_file.stat().st_size > JSON_FAST_CONVERTER_SIZE_THRESHOLD_BYTES:
+        json_coverter_method = convert_csv_to_json_records_slow
+
+    # Converting to JSON is not critical and it may fail in some corner cases
+    # As long as the "important" JSON files are created, this should be OK
+    try:
+        json_coverter_method(schema, csv_file, json_output=json_output)
+    except Exception as exc:
+        print(f"Unable to convert CSV file {csv_file} to JSON: ${exc}")
+        traceback.print_exc()
+
+
+def convert_csv_to_json_records_slow(
+    schema: Dict[str, type], csv_file: Path, json_output: Path = None
+) -> None:
+    """
+    Slow but memory efficient method to convert the provided CSV file to a record-like JSON format
+    """
+    # JSON output defaults to same as the CSV file but with extension swapped
+    if json_output is None:
+        json_output = Path(str(csv_file).replace(".csv", ".json"))
+
+    with json_output.open("w") as fd_out:
+        # Write the header first
+        with csv_file.open("r") as fd_in:
+            columns = fd_in.readline().strip().split(",")
+            fd_out.write(f'{{"columns":{json.dumps(columns)},"data":[')
+
+        # Read the CSV file in chunks but keep only the values
+        first_record = True
+        for chunk in read_file(csv_file, chunksize=4096, dtype=schema):
+            if first_record:
+                first_record = False
+            else:
+                fd_out.write(",")
+            fd_out.write(chunk.to_json(orient="values")[1:-1])
+
+        fd_out.write("]}")
+
+
+def convert_csv_to_json_records_fast(
+    schema: Dict[str, type], csv_file: Path, json_output: Path = None
+) -> None:
+    """
+    Fast but memory intensive method to convert the provided CSV file to a record-like JSON format
+    """
+    if json_output is None:
+        json_output = Path(str(csv_file).replace(".csv", ".json"))
+
+    table = read_file(csv_file, dtype=schema)
     json_dict = json.loads(table.to_json(orient="split"))
     del json_dict["index"]
-    with open(json_path, "w") as fd:
+    with open(json_output, "w") as fd:
         json.dump(json_dict, fd)
 
 
@@ -99,7 +218,60 @@ def copy_tables(tables_folder: Path, public_folder: Path) -> None:
         shutil.copy(output_file, public_folder / output_file.name)
 
 
-def make_main_table(tables_folder: Path) -> DataFrame:
+def join_main_tables(tables_folder: Path, output_folder: Path) -> Tuple[Path, Path]:
+
+    # Read the pipeline configs to infer schema
+    schema = get_schema()
+
+    # Merge all output files into a single table
+    main_by_key = _read_main_table(tables_folder / "index.csv")
+
+    # Add a date to each region from index to allow iterative left joins
+    max_date = (datetime.datetime.now() + datetime.timedelta(days=1)).date().isoformat()
+    date_list = [date.date().isoformat() for date in date_range("2020-01-01", max_date)]
+    date_table = DataFrame(date_list, columns=["date"], dtype="category")
+    main_by_key_and_date = table_cross_product(main_by_key[["key"]].copy(), date_table)
+
+    main_by_key.set_index("key", inplace=True)
+    main_by_key_and_date.set_index(["key", "date"], inplace=True)
+
+    non_dated_columns = set(main_by_key_and_date.columns)
+    for output_file in pbar([*tables_folder.glob("*.csv")], desc="Make main table"):
+        table_name = output_file.stem
+        if table_name not in EXCLUDE_FROM_MAIN_TABLE:
+            # Load the table and perform left outer join
+            table = read_file(output_file, low_memory=True, dtype=schema)
+
+            if "date" in table.columns:
+                table.set_index(["key", "date"], inplace=True)
+                main_by_key_and_date = main_by_key_and_date.join(table)
+            else:
+                table.set_index(["key"], inplace=True)
+                main_by_key = main_by_key.join(table)
+
+                # Keep track of columns which are not indexed by date
+                non_dated_columns = non_dated_columns | set(table.columns)
+
+    # Drop rows with null date or without a single dated record
+    main_by_key_and_date.reset_index(inplace=True)
+    main_by_key_and_date.dropna(how="all", inplace=True)
+    main_by_key_and_date.dropna(subset=["date"], inplace=True)
+
+    # Ensure that the tables are appropriately sorted
+    main_by_key.reset_index(inplace=True)
+    main_by_key.sort_values("key", inplace=True)
+    main_by_key_and_date.sort_values(["key", "date"], inplace=True)
+
+    # Write the resulting tables to disk
+    main_by_key_path = output_folder / "main-by-key.csv"
+    main_by_key_and_date_path = output_folder / "main-by-key-and-date.csv"
+    export_csv(main_by_key, main_by_key_path)
+    export_csv(main_by_key_and_date, main_by_key_and_date_path)
+
+    return main_by_key_path, main_by_key_and_date_path
+
+
+def make_main_table(tables_folder: Path, output_path: Path) -> None:
     """
     Build a flat view of all tables combined, joined by <key> or <key, date>.
 
@@ -110,51 +282,46 @@ def make_main_table(tables_folder: Path) -> DataFrame:
     """
 
     # Merge all output files into a single table
-    main_table = read_file(
-        tables_folder / "index.csv",
-        dtype={
-            "country_code": "category",
-            "country_name": "category",
-            "subregion1_code": "category",
-            "subregion1_name": "category",
-            "subregion2_code": "category",
-            "subregion2_name": "category",
-            "3166-1-alpha-2": "category",
-            "3166-1-alpha-3": "category",
-            "aggregation_level": "category",
-        },
-    )
+    with TemporaryDirectory() as workdir:
+        workdir = Path(workdir)
+        main_by_key_path, main_by_key_and_date_path = join_main_tables(tables_folder, workdir)
 
-    # Add a date to each region from index to allow iterative left joins
-    max_date = (datetime.datetime.now() + datetime.timedelta(days=1)).date().isoformat()
-    date_list = [date.date().isoformat() for date in date_range("2020-01-01", max_date)]
-    date_table = DataFrame(date_list, columns=["date"], dtype="category")
-    main_table = table_cross_product(main_table, date_table)
+        # Because the join takes up a lot of memory, we do it by hand... It's much faster this way
 
-    # Some tables are not included into the main table
-    exclude_from_main_table = (
-        "main.csv",
-        "index.csv",
-        "worldbank.csv",
-        "worldpop.csv",
-        "by-age.csv",
-        "by-sex.csv",
-    )
+        map_by_key = {}
+        for line in read_lines(main_by_key_path):
+            key, data = line.split(",", 1)
+            map_by_key[key] = data.strip()
 
-    non_dated_columns = set(main_table.columns)
-    for output_file in pbar([*tables_folder.glob("*.csv")], desc="Main table"):
-        if output_file.name not in exclude_from_main_table:
-            # Load the table and perform left outer join
-            table = read_file(output_file, low_memory=False)
-            main_table = main_table.merge(table, how="left")
-            # Keep track of columns which are not indexed by date
-            if not "date" in table.columns:
-                non_dated_columns = non_dated_columns | set(table.columns)
+        with output_path.open("w") as fd:
+            for line in read_lines(main_by_key_and_date_path):
+                key, data = line.split(",", 1)
+                fd.write(f"{key},{data.strip()},{map_by_key[key]}\n")
 
-    # Drop rows with null date or without a single dated record
-    main_table = drop_na_records(main_table.dropna(subset=["date"]), non_dated_columns)
 
-    return main_table
+def create_table_subsets(main_table_path: Path, output_path: Path) -> None:
+
+    # # Create subsets with the last 30, 14 and 7 days of data
+    # print("30, 14 and 7 days")
+    # map_func = partial(_subset_last_days, output_path)
+    # for _ in thread_map(map_func, (30, 14, 7), desc="Last N days subsets"):
+    #     pass
+
+    # Create a subset with the latest known day of data for each key
+    map_func = partial(_subset_latest, output_path)
+    for _ in thread_map(map_func, [*output_path.glob("*.csv")], desc="Latest subset"):
+        pass
+
+    # Create subsets with each known key
+    _subset_grouped_key(main_table_path, output_path, desc="Grouped key subsets")
+
+
+def convert_tables_to_json(csv_files: Iterable[Path]):
+
+    # Convert all CSV files to JSON using values format
+    map_func = partial(convert_csv_to_json_records, get_schema())
+    for _ in thread_map(map_func, csv_files, desc="JSON conversion"):
+        pass
 
 
 def main(output_folder: Path, tables_folder: Path, show_progress: bool = True) -> None:
@@ -187,29 +354,15 @@ def main(output_folder: Path, tables_folder: Path, show_progress: bool = True) -
         copy_tables(tables_folder, v2_folder)
 
         # Create the main table and write it to disk
-        main_table = make_main_table(tables_folder)
-        export_csv(main_table, v2_folder / "main.csv")
+        main_table_path = v2_folder / "main.csv"
+        make_main_table(tables_folder, main_table_path)
+        main_table = _read_main_table(main_table_path).set_index("key")
 
-        # Create subsets with the last 30, 14 and 7 days of data
-        map_func = partial(subset_last_days, v2_folder)
-        for _ in thread_map(map_func, (30, 14, 7), desc="Last N days subsets"):
-            pass
-
-        # Create a subset with the latest known day of data for each key
-        map_func = partial(subset_latest, v2_folder)
-        for _ in thread_map(map_func, [*(v2_folder).glob("*.csv")], desc="Latest subset"):
-            pass
-
-        # Create subsets with each known key
-        main_indexed = main_table.set_index("key")
-        map_func = partial(subset_grouped_key, main_indexed, v2_folder)
-        for _ in thread_map(map_func, main_indexed.index.unique(), desc="Grouped key subsets"):
-            pass
+        # Create subsets for easy API-like access to slices of data
+        create_table_subsets(main_table, v2_folder)
 
         # Convert all CSV files to JSON using values format
-        map_func = export_json_without_index
-        for _ in thread_map(map_func, [*(v2_folder).glob("**/*.csv")], desc="JSON conversion"):
-            pass
+        convert_tables_to_json([*v2_folder.glob("**/*.csv")])
 
 
 if __name__ == "__main__":

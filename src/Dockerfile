@@ -19,4 +19,4 @@ RUN python3 -m pip install -r requirements.txt && rm requirements.txt
 ADD . ${HOME}
 
 # Run a WSGI server to serve the application
-CMD gunicorn -b :$PORT appengine:app
+CMD gunicorn -b :$PORT appengine:app --timeout 3600

@@ -20,3 +20,6 @@ GCS_BUCKET_TEST = "open-covid-data"
 GCS_BUCKET_PROD = "covid19-open-data"
 URL_OUTPUTS_PROD = f"https://storage.googleapis.com/{GCS_BUCKET_PROD}/v2"
 CACHE_URL = "https://raw.githubusercontent.com/open-covid-19/data/cache"
+
+# Some tables are not included into the main table
+EXCLUDE_FROM_MAIN_TABLE = ("main", "index", "worldbank", "worldpop", "by-age", "by-sex")

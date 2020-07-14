@@ -40,7 +40,7 @@ from lib.io import export_csv
 from lib.net import download
 from lib.pipeline import DataPipeline
 from lib.pipeline_tools import get_table_names
-from publish import main as publish_tables
+from publish import copy_tables, convert_tables_to_json, create_table_subsets, make_main_table
 
 app = Flask(__name__)
 BLOB_OP_MAX_RETRIES = 3
@@ -52,11 +52,12 @@ def get_storage_client():
     the default credentials are used.
     """
     token_env_key = "GCP_TOKEN"
-    if os.getenv(token_env_key) is None:
+    token_env_value = os.getenv(token_env_key)
+    if token_env_value is None:
         return storage.Client()
     else:
-        credentials = Credentials(os.getenv(token_env_key))
-        return storage.Client(credentials=credentials)
+        credentials = Credentials(token_env_value)
+        return storage.Client(credentials=credentials, project="github-open-covid-19")
 
 
 def get_storage_bucket(bucket_name: str):
@@ -219,7 +220,11 @@ def combine_table(table_name: str = None) -> None:
         pipeline_output = data_pipeline.combine(intermediate_results)
 
         # Output combined data to disk
-        export_csv(pipeline_output, output_folder / "tables" / f"{table_name}.csv")
+        export_csv(
+            pipeline_output,
+            output_folder / "tables" / f"{table_name}.csv",
+            schema=data_pipeline.schema,
+        )
 
         # Upload results to the test bucket because these are not prod files
         upload_folder(GCS_BUCKET_TEST, "tables", output_folder / "tables")
@@ -231,17 +236,29 @@ def combine_table(table_name: str = None) -> None:
 def publish() -> None:
     with TemporaryDirectory() as workdir:
         workdir = Path(workdir)
-        (workdir / "tables").mkdir(parents=True, exist_ok=True)
-        (workdir / "public").mkdir(parents=True, exist_ok=True)
+        tables_folder = workdir / "tables"
+        public_folder = workdir / "public"
+        tables_folder.mkdir(parents=True, exist_ok=True)
+        public_folder.mkdir(parents=True, exist_ok=True)
 
         # Download all the combined tables into our local storage
-        download_folder(GCS_BUCKET_TEST, "tables", workdir / "tables")
+        download_folder(GCS_BUCKET_TEST, "tables", tables_folder)
 
         # Prepare all files for publishing and add them to the public folder
-        publish_tables(workdir / "public", workdir / "tables", show_progress=False)
+        copy_tables(tables_folder, public_folder)
+
+        # Create the joint main table for all records
+        main_table_path = public_folder / "main.csv"
+        make_main_table(tables_folder, main_table_path)
+
+        # Create subsets for easy API-like access to slices of data
+        create_table_subsets(main_table_path, public_folder)
+
+        # Convert all files to JSON
+        convert_tables_to_json([*public_folder.glob("**/*.csv")])
 
         # Upload the results to the prod bucket
-        upload_folder(GCS_BUCKET_PROD, "", workdir / "public")
+        upload_folder(GCS_BUCKET_PROD, "v2", public_folder)
 
     return "OK"
 

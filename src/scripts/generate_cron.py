@@ -53,7 +53,8 @@ def get_cron_jobs() -> Iterator[Dict]:
     # for the largest available configuration. This is being run by a cron script in a VM instead.
     # yield {
     #     "url": f"/publish",
-    #     "schedule": "every 4 hours synchronized",
+    #     # Offset by 30 minutes to let other hourly tasks finish
+    #     "schedule": "every 4 hours from 00:30 to 23:30",
     #     **copy.deepcopy(retry_params),
     # }
 
@@ -61,7 +62,8 @@ def get_cron_jobs() -> Iterator[Dict]:
         # The job that combines data sources into a table runs hourly
         yield {
             "url": f"/combine_table?table={data_pipeline.table}",
-            **copy.deepcopy(sched_hourly),
+            # Offset by 15 minutes to let other hourly tasks finish
+            "schedule": "every 1 hours from 00:15 to 23:15",
             **copy.deepcopy(retry_params),
         }
 

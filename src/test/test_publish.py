@@ -13,15 +13,23 @@
 # limitations under the License.
 
 import sys
+import json
 from pathlib import Path
 from unittest import main
 from tempfile import TemporaryDirectory
 from typing import List
 
 from pandas import DataFrame
-from publish import make_main_table, copy_tables
-from lib.constants import SRC
+from lib.constants import SRC, EXCLUDE_FROM_MAIN_TABLE
+from lib.io import read_file, read_lines, export_csv
+from lib.pipeline_tools import get_pipelines, get_schema
 from .profiled_test_case import ProfiledTestCase
+from publish import (
+    make_main_table,
+    copy_tables,
+    convert_csv_to_json_records_fast,
+    convert_csv_to_json_records_slow,
+)
 
 
 class TestPublish(ProfiledTestCase):
@@ -44,7 +52,30 @@ class TestPublish(ProfiledTestCase):
             copy_tables(SRC / "test" / "data", workdir)
 
             # Create the main table
-            main_table = make_main_table(workdir).set_index("key")
+            main_table_path = workdir / "main.csv"
+            make_main_table(workdir, main_table_path)
+            main_table = read_file(main_table_path)
+
+            # Verify that all columns from all tables exist
+            for pipeline in get_pipelines():
+                if pipeline.table in EXCLUDE_FROM_MAIN_TABLE:
+                    continue
+                for column_name in pipeline.schema.keys():
+                    self.assertTrue(
+                        column_name in main_table.columns,
+                        f"Column {column_name} missing from main table",
+                    )
+
+            # Main table should follow a lexical sort (outside of header)
+            main_table_records = []
+            for line in read_lines(main_table_path):
+                main_table_records.append(line)
+            main_table_records = main_table_records[1:]
+            self.assertListEqual(main_table_records, list(sorted(main_table_records)))
+
+            # Make the main table easier to deal with since we optimize for memory usage
+            main_table.set_index("key", inplace=True)
+            main_table["date"] = main_table["date"].astype(str)
 
             # Define sets of columns to check
             epi_basic = ["new_confirmed", "total_confirmed", "new_deceased", "total_deceased"]
@@ -57,6 +88,29 @@ class TestPublish(ProfiledTestCase):
 
             # Spot check: Alachua County
             self._spot_check_subset(main_table, "US_FL_12001", epi_basic, "2020-03-10")
+
+    def test_convert_csv_to_json_records(self):
+        for json_convert_method in (
+            convert_csv_to_json_records_fast,
+            convert_csv_to_json_records_slow,
+        ):
+            with TemporaryDirectory() as workdir:
+                workdir = Path(workdir)
+                schema = get_schema()
+
+                for csv_file in (SRC / "test" / "data").glob("*.csv"):
+                    json_output = workdir / csv_file.name.replace("csv", "json")
+                    json_convert_method(schema, csv_file, json_output)
+
+                    with json_output.open("r") as fd:
+                        json_obj = json.load(fd)
+                        json_df = DataFrame(data=json_obj["data"], columns=json_obj["columns"])
+
+                    csv_test_file = workdir / json_output.name.replace("json", "csv")
+                    export_csv(json_df, csv_test_file, schema=schema)
+
+                    for line1, line2 in zip(read_lines(csv_file), read_lines(csv_test_file)):
+                        self.assertEqual(line1, line2)
 
 
 if __name__ == "__main__":
