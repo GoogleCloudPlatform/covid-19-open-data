@@ -16,13 +16,15 @@ import sys
 import traceback
 from unittest import main
 from pathlib import Path
-from typing import Iterable
+from functools import partial
 from tempfile import TemporaryDirectory
 
 import requests
-from lib.io import pbar
+from lib.concurrent import process_map, thread_map
+from lib.constants import CACHE_URL
+from lib.data_source import DataSource
 from lib.pipeline import DataPipeline
-from lib.constants import SRC, CACHE_URL
+from lib.pipeline_tools import get_pipeline_names
 from .profiled_test_case import ProfiledTestCase
 
 
@@ -30,57 +32,68 @@ from .profiled_test_case import ProfiledTestCase
 METADATA_SAMPLE_SIZE = 24
 
 
-def _get_all_pipelines() -> Iterable[str]:
-    for item in (SRC / "pipelines").iterdir():
-        if not item.name.startswith("_") and not item.is_file():
-            yield item.name
+def _test_data_source(
+    pipeline_name: DataPipeline, data_source_idx: DataSource, random_seed: int = 0
+):
+    # Re-load the data pipeline and data source
+    # It seems inefficient but it's necessary because we can't move these objects across
+    # processes
+    pipeline = DataPipeline.load(pipeline_name)
+    data_source = pipeline.data_sources[data_source_idx]
+
+    # Load the real cache files
+    cache = requests.get("{}/sitemap.json".format(CACHE_URL)).json()
+
+    data_source_name = data_source.__class__.__name__
+    data_source_opts = data_source.config
+    failure_message = (
+        f"Data source run failed: {pipeline_name} {data_source_name} {data_source_opts}"
+    )
+    if data_source_opts.get("test", {}).get("skip"):
+        return
+
+    # Make a copy of all auxiliary files
+    aux = {name: table.copy() for name, table in pipeline.auxiliary_tables.items()}
+
+    # If we have a hint for the expected keys, use only those from metadata
+    metadata_query = data_source_opts.get("test", {}).get("metadata_query")
+    if metadata_query:
+        aux["metadata"] = aux["metadata"].query(metadata_query)
+
+    # Get a small sample of metadata, since we are testing for whether a source produces
+    # _any_ output, not if the output is exhaustive
+    sample_size = min(len(aux["metadata"]), METADATA_SAMPLE_SIZE)
+    aux["metadata"] = aux["metadata"].sample(sample_size, random_state=random_seed)
+
+    # Use a different temporary working directory for each data source
+    with TemporaryDirectory() as output_folder:
+        output_folder = Path(output_folder)
+        try:
+            output_data = data_source.run(output_folder, cache, aux)
+        except Exception as exc:
+            traceback.print_exc()
+            raise RuntimeError(failure_message)
+
+        # Run our battery of tests against the output data to ensure it looks correct
+
+        # Data source has at least one row in output
+        assert len(output_data) >= 1, failure_message
+
+        # TODO: run more tests
 
 
 class TestSourceRun(ProfiledTestCase):
     def _test_pipeline(self, pipeline_name: str, random_seed: int = 0):
 
-        # Load the real cache files
-        cache = requests.get("{}/sitemap.json".format(CACHE_URL)).json()
-
-        # Load the data pipeline
+        # Load the data pipeline to get the number of data sources
         data_pipeline = DataPipeline.load(pipeline_name)
 
         # Load the data pipeline, iterate over each data source and run it to get its output
-        for data_source in pbar(data_pipeline.data_sources, desc=pipeline_name):
-            data_source_name = data_source.__class__.__name__
-            data_source_opts = data_source.config
-            failure_message = (
-                f"Data source run failed: {pipeline_name} {data_source_name} {data_source_opts}"
-            )
-            if data_source_opts.get("test", {}).get("skip"):
-                continue
+        map_func = partial(_test_data_source, pipeline_name, random_seed=random_seed)
+        _ = process_map(map_func, range(len(data_pipeline.data_sources)))
 
-            # Make a copy of all auxiliary files
-            aux = {name: table.copy() for name, table in data_pipeline.auxiliary_tables.items()}
-
-            # If we have a hint for the expected keys, use only those from metadata
-            metadata_query = data_source_opts.get("test", {}).get("metadata_query")
-            if metadata_query:
-                aux["metadata"] = aux["metadata"].query(metadata_query)
-
-            # Get a small sample of metadata, since we are testing for whether a source produces
-            # _any_ output, not if the output is exhaustive
-            sample_size = min(len(aux["metadata"]), METADATA_SAMPLE_SIZE)
-            aux["metadata"] = aux["metadata"].sample(sample_size, random_state=random_seed)
-
-            # Use a different temporary working directory for each data source
-            with TemporaryDirectory() as output_folder:
-                output_folder = Path(output_folder)
-                try:
-                    output_data = data_source.run(output_folder, cache, aux)
-                except Exception as exc:
-                    traceback.print_exc()
-                    self.assertFalse(exc, failure_message)
-
-                # Run our battery of tests against the output data to ensure it looks correct
-                self.assertGreaterEqual(len(output_data), 1, failure_message)
-
-                # TODO: run more tests
+        # Consume the results
+        list(_)
 
     def test_dry_run_pipeline(self):
         """
@@ -89,8 +102,11 @@ class TestSourceRun(ProfiledTestCase):
         running the provided `test.metadata_query` for the metadata auxiliary table or, if the
         query is not present, a random sample is selected instead.
         """
-        for pipeline_name in _get_all_pipelines():
-            self._test_pipeline(pipeline_name)
+        map_func = self._test_pipeline
+        _ = thread_map(map_func, get_pipeline_names(), total=None)
+
+        # Consume the results
+        list(_)
 
 
 if __name__ == "__main__":
