@@ -600,12 +600,34 @@ If you do something cool with the data (e.g., visualization or analysis), please
 
 
 
-## Contributors
+## Acknowledgments
 
 The following persons have made significant contributions to this project:
+
 * Oscar Wahltinez
+* Kevin Murphy
+* Michael Brenner
 * Matt Lee
 * Anthony Erlinger
+* Mayank Daswani
+
+
+
+# Recommended citation
+
+Please use the following when citing this project as a source of data:
+
+```
+@article{Wahltinez2020,
+  author = "Oscar Wahltinez and and Kevin Murphy and Michael Brenner Matt Lee and Anthony Erlinger and Mayank Daswani",
+  year = 2020,
+  title = "COVID-Open-Data: curating a fine-grained, global-scale COVID-19 data repository",
+  note = "Work in progress",
+  url = {https://github.com/open-covid-19/data/blob/main/README.md}
+}
+```
+
+
 
 [1]: https://github.com/CSSEGISandData/COVID-19
 [2]: https://www.ecdc.europa.eu
