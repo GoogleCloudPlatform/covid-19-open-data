@@ -314,6 +314,17 @@ sources:
     test:
       metadata_query: "key.str.match('GB_.+_.+')"
 
+  - name: pipelines.epidemiology.ht_humdata.HaitiHumdataDataSource
+    fetch:
+      - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTqVOxCSrhEiZ_CRME3Xqhu_DWZv74FvrvOr77rIXOlorClEi0huwVKxXXcVr2hn8pml82tlwmf59UX/pub?output=xlsx"
+        opts:
+          ext: xlsx
+    parse:
+      # Get all sheets
+      sheet_name: ["data_asofMay5", "data_fromMay6"]
+    test:
+      metadata_query: "key.str.match('HT_.*')"
+
   # Data sources for ID level 2
   # Removed until explicit permission is provided
   # - name: pipelines.epidemiology.id_catchmeup.CatchmeupDataSource

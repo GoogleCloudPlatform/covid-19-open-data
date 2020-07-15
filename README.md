@@ -527,10 +527,10 @@ from the relevant authorities, like a country's ministry of health.
 | France | [data.gouv.fr](https://data.gouv.fr) | [Open License 2.0](https://www.etalab.gouv.fr/licence-ouverte-open-licence) |
 | Germany | <https://github.com/jgehrcke/covid-19-germany-gae> | [MIT](https://github.com/jgehrcke/covid-19-germany-gae/blob/master/LICENSE) |
 | Guatemala | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
-| Haiti | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
+| Haiti | [HDX](https://data.humdata.org/dataset/haiti-covid-19-subnational-cases) | [CC BY-SA][28] |
 | Honduras | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
 | India | [Wikipedia](https://en.wikipedia.org/wiki/Template:2019-20_coronavirus_pandemic_data/India_medical_cases) | [CC BY-SA][24] |
-| India | [Covid 19 India Organisation](https://github.com/covid19india/api) | [CC BY-SA][24] |
+| India | [Covid 19 India Organisation](https://github.com/covid19india/api) | [CC BY-SA][29] |
 | Indonesia | <https://catchmeup.id/covid-19> | [Permission required](https://catchmeup.id/ketentuan-pelayanan) |
 | Italy | [Italy's Department of Civil Protection](https://github.com/pcm-dpc/COVID-19) | [CC BY 4.0](https://github.com/pcm-dpc/COVID-19/blob/master/LICENSE) |
 | Iraq | [HDX](https://data.humdata.org/dataset/iraq-coronavirus-covid-19-subnational-cases) | [CC BY-SA][28] |

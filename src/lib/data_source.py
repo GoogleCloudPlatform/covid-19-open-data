@@ -78,7 +78,11 @@ class DataSource(ErrorLogger):
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         """ Parses a list of raw data records into a DataFrame. """
         # Some read options are passed as parse_opts
-        read_opts = {k: v for k, v in parse_opts.items() if k in ("sep", "encoding", "low_memory")}
+        read_opts = {
+            k: v
+            for k, v in parse_opts.items()
+            if k in ("sep", "encoding", "low_memory", "sheet_name")
+        }
         return self.parse_dataframes(self._read(sources, **read_opts), aux, **parse_opts)
 
     def parse_dataframes(
