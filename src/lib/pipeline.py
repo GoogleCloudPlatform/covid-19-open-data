@@ -25,12 +25,12 @@ import requests
 from pandas import DataFrame
 
 from .anomaly import detect_anomaly_all, detect_stale_columns
-from .cast import column_convert
+from .cast import column_converters
 from .constants import SRC, CACHE_URL
 from .concurrent import process_map
 from .data_source import DataSource
 from .error_logger import ErrorLogger
-from .io import read_file, fuzzy_text, export_csv, parse_dtype, pbar
+from .io import read_file, table_reader_builder, fuzzy_text, export_csv, parse_dtype, pbar
 from .utils import combine_tables, drop_na_records, filter_output_columns
 
 
@@ -134,10 +134,10 @@ class DataPipeline(ErrorLogger):
         output_columns = list(self.schema.keys())
 
         # Make sure all columns are present and have the appropriate type
-        for column, dtype in self.schema.items():
+        for column, converter in column_converters(self.schema).items():
             if column not in data:
                 data[column] = None
-            data[column] = column_convert(data[column], dtype)
+            data[column] = data[column].apply(converter)
 
         # Filter only output columns and output the sorted data
         return drop_na_records(data[output_columns], ["date", "key"]).sort_values(output_columns)
@@ -289,10 +289,14 @@ class DataPipeline(ErrorLogger):
     def _load_intermediate_results(
         self, intermediate_folder: Path, data_sources: Iterable[DataSource]
     ) -> Iterable[Tuple[DataSource, DataFrame]]:
+
+        # Create a custom CSV parser specific to our schema
+        read_table = table_reader_builder(self.schema)
+
         for data_source in data_sources:
             intermediate_path = intermediate_folder / f"{_gen_intermediate_name(data_source)}.csv"
             try:
-                yield (data_source, read_file(intermediate_path, dtype=self.schema))
+                yield (data_source, read_table(intermediate_path))
             except Exception as exc:
                 data_source_name = data_source.__class__.__name__
                 self.errlog(

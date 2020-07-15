@@ -16,7 +16,7 @@ import re
 import datetime
 import warnings
 import pandas
-from typing import Any, Callable, Optional
+from typing import Any, Dict, Callable, Optional
 
 
 def safe_float_cast(value: Any) -> Optional[float]:
@@ -50,6 +50,16 @@ def safe_int_cast(value: Any, round_function: Callable[[float], int] = round) ->
         return None
 
 
+def safe_str_cast(value: Any) -> Optional[str]:
+    if pandas.isna(value):
+        return None
+    try:
+        value = str(value)
+        return value
+    except:
+        return None
+
+
 def safe_datetime_parse(
     value: str, date_format: str = None, warn: bool = False
 ) -> Optional[datetime.datetime]:
@@ -65,15 +75,18 @@ def safe_datetime_parse(
         return None
 
 
-def column_convert(series: pandas.Series, dtype: Any) -> pandas.Series:
-    if dtype == pandas.Int64Dtype():
-        return series.apply(safe_int_cast).astype(dtype)
-    if dtype == "float":
-        return series.apply(safe_float_cast).astype(dtype)
-    if dtype == "str":
-        return series.fillna("").astype(str)
-
-    raise ValueError("Unsupported dtype %r" % dtype)
+def column_converters(schema: Dict[str, Any]) -> Dict[str, Callable]:
+    converters: Dict[str, Callable] = {}
+    for column, dtype in schema.items():
+        if dtype == "int" or dtype == pandas.Int64Dtype():
+            converters[column] = safe_int_cast
+        elif dtype == "float":
+            converters[column] = safe_float_cast
+        elif dtype == "str":
+            converters[column] = safe_str_cast
+        else:
+            raise ValueError(f"Unsupported dtype {dtype} for column {column}")
+    return converters
 
 
 def age_group(age: int, bin_count: int = 10, age_cutoff: int = 90) -> str:

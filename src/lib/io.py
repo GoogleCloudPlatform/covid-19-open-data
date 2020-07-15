@@ -15,8 +15,9 @@
 import os
 import re
 from pathlib import Path
+from functools import partial
 from contextlib import contextmanager
-from typing import Any, Callable, Dict, Iterator, List, Union
+from typing import Any, Callable, Dict, Iterator, List, Optional, Union
 
 import pandas
 from tqdm import tqdm
@@ -24,7 +25,7 @@ from pandas import DataFrame, Int64Dtype
 from unidecode import unidecode
 from bs4 import BeautifulSoup, Tag
 
-from .cast import safe_int_cast, column_convert
+from .cast import safe_int_cast, column_converters
 
 # Progress is a global flag, because progress is all done using the tqdm library and can be
 # used within any number of functions but passing a flag around everywhere is cumbersome. Further,
@@ -63,7 +64,7 @@ def parse_dtype(dtype_name: str) -> Any:
     | column type label | pandas dtype |
     | ----------------- | ------------ |
     | str               | str          |
-    | int               | int64        |
+    | int               | Int64        |
     | float             | float        |
 
     Arguments:
@@ -80,7 +81,7 @@ def parse_dtype(dtype_name: str) -> Any:
     raise TypeError(f"Unsupported dtype: {dtype_name}")
 
 
-def read_file(path: Union[Path, str], **read_opts):
+def read_file(path: Union[Path, str], **read_opts) -> DataFrame:
     ext = str(path).split(".")[-1]
 
     if ext == "csv":
@@ -111,6 +112,19 @@ def read_lines(path: Path, mode: str = "r") -> Iterator[str]:
     with path.open(mode) as fd:
         for line in fd:
             yield line
+
+
+def table_reader_builder(schema: Dict[str, Any]) -> Callable[[Union[Path, str]], DataFrame]:
+    """
+    Returns a schema-aware version of `read_file` which converts the columns to the appropriate
+    type according to the given schema.
+
+    Arguments:
+        schema: Dictionary of <column, type>
+    Returns:
+        Callable[[Union[Path, str]], DataFrame]: Function like `read_file`
+    """
+    return partial(read_file, converters=column_converters(schema))
 
 
 def _get_html_columns(row: Tag) -> List[Tag]:
@@ -172,8 +186,8 @@ def read_html(
 
 
 def export_csv(
-    data: DataFrame, path: Union[Path, str], schema: Dict[str, Any] = None, **csv_opts
-) -> None:
+    data: DataFrame, path: Union[Path, str] = None, schema: Dict[str, Any] = None, **csv_opts
+) -> Optional[str]:
     """
     Exports a DataFrame to CSV using consistent options. This function will modify fields of the
     input DataFrame in place to format them for output, consider making a copy prior to passing the
@@ -183,13 +197,17 @@ def export_csv(
         path: Location on disk to write the CSV to
     """
     # If a schema is provided, convert all the columns prior to dumping the CSV file
-    for column, dtype in (schema or {}).items():
+    for column, converter in column_converters(schema or {}).items():
         if column in data.columns:
-            data[column] = column_convert(data[column], dtype)
+            data[column] = data[column].apply(converter)
 
-    # Since all large quantities use Int64, we can assume floats will not be represented using the
-    # exponential notation that %G formatting uses for large numbers
-    data.to_csv(str(path), index=False, float_format="%.8G", **csv_opts)
+    # Path may be None which means output CSV gets returned as a string
+    if path is not None:
+        path = str(path)
+
+    # The format used for numbers has the potential of storing a very large number of digits for
+    # floating point type but it's necessary for consistent representation of large integers
+    return data.to_csv(path_or_buf=path, index=False, float_format="%.13G", **csv_opts)
 
 
 def pbar(*args, **kwargs) -> tqdm:
