@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import csv
 import json
 import shutil
 import datetime
@@ -23,7 +24,7 @@ from pathlib import Path
 from functools import partial
 from argparse import ArgumentParser
 from tempfile import TemporaryDirectory
-from typing import Dict, Iterable, TextIO, Tuple
+from typing import Dict, Iterable, List, TextIO, Tuple
 
 from pandas import DataFrame, date_range
 
@@ -77,23 +78,34 @@ def _subset_latest(output_folder: Path, csv_file: Path) -> None:
     latest_folder.mkdir(exist_ok=True)
     output_file = latest_folder / csv_file.name
 
-    with csv_file.open("r") as fd:
-        header = fd.readline().split(",")
+    with csv_file.open("r") as fd_in:
+        reader = csv.reader(fd_in)
+        columns = {name: idx for idx, name in enumerate(next(reader))}
 
-    if not "date" in header:
-        # Degenerate case: this table has no date
-        shutil.copyfile(csv_file, output_file)
-    else:
-        # To stay memory-efficient, do the latest subset "by hand" instead of using pandas grouping
-        # This assumes that the CSV file is sorted in ascending order, which should always be true
-        records = {}
-        for line in read_lines(csv_file):
-            key, data = line.split(",", 1)
-            records[key] = data.strip()
+        if not "date" in columns.keys():
+            # Degenerate case: this table has no date
+            shutil.copyfile(csv_file, output_file)
+        else:
+            has_epi = "total_confirmed" in columns
 
-        with output_file.open("w") as fd:
-            for key, data in records.items():
-                fd.write(f"{key},{data}\n")
+            # To stay memory-efficient, do the latest subset "by hand" instead of using pandas grouping
+            # This assumes that the CSV file is sorted in ascending order, which should always be true
+            latest_date: Dict[str, str] = {}
+            records: Dict[str, List[str]] = {}
+            for record in reader:
+                key = record[columns["key"]]
+                date = record[columns["date"]]
+                total_confirmed = record[columns["total_confirmed"]] if has_epi else True
+                latest_seen = latest_date.get(key, date) < date and total_confirmed is not None
+                if key not in records or latest_seen:
+                    latest_date[key] = date
+                    records[key] = record
+
+            with output_file.open("w") as fd_out:
+                writer = csv.writer(fd_out)
+                writer.writerow(columns.keys())
+                for key, record in records.items():
+                    writer.writerow(record)
 
 
 def _subset_grouped_key(main_table_path: Path, output_folder: Path, desc: str = None) -> None:

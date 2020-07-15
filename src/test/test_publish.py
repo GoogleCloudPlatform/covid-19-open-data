@@ -21,15 +21,20 @@ from typing import List
 
 from pandas import DataFrame
 from lib.constants import SRC, EXCLUDE_FROM_MAIN_TABLE
-from lib.io import read_file, read_lines, export_csv
+from lib.io import table_reader_builder, read_lines, export_csv
 from lib.pipeline_tools import get_pipelines, get_schema
 from .profiled_test_case import ProfiledTestCase
 from publish import (
     make_main_table,
+    _subset_latest,
     copy_tables,
     convert_csv_to_json_records_fast,
     convert_csv_to_json_records_slow,
 )
+
+# Make the main schema a global variable so we don't have to reload it in every test
+SCHEMA = get_schema()
+read_table = table_reader_builder(SCHEMA)
 
 
 class TestPublish(ProfiledTestCase):
@@ -54,7 +59,7 @@ class TestPublish(ProfiledTestCase):
             # Create the main table
             main_table_path = workdir / "main.csv"
             make_main_table(workdir, main_table_path)
-            main_table = read_file(main_table_path)
+            main_table = read_table(main_table_path)
 
             # Verify that all columns from all tables exist
             for pipeline in get_pipelines():
@@ -96,21 +101,42 @@ class TestPublish(ProfiledTestCase):
         ):
             with TemporaryDirectory() as workdir:
                 workdir = Path(workdir)
-                schema = get_schema()
 
                 for csv_file in (SRC / "test" / "data").glob("*.csv"):
                     json_output = workdir / csv_file.name.replace("csv", "json")
-                    json_convert_method(schema, csv_file, json_output)
+                    json_convert_method(SCHEMA, csv_file, json_output)
 
                     with json_output.open("r") as fd:
                         json_obj = json.load(fd)
                         json_df = DataFrame(data=json_obj["data"], columns=json_obj["columns"])
 
                     csv_test_file = workdir / json_output.name.replace("json", "csv")
-                    export_csv(json_df, csv_test_file, schema=schema)
+                    export_csv(json_df, csv_test_file, schema=SCHEMA)
 
                     for line1, line2 in zip(read_lines(csv_file), read_lines(csv_test_file)):
                         self.assertEqual(line1, line2)
+
+    def test_make_latest_slice(self):
+        with TemporaryDirectory() as workdir:
+            workdir = Path(workdir)
+
+            for table_path in (SRC / "test" / "data").glob("*.csv"):
+                table = read_table(table_path)
+
+                # Create the latest slice of the given table
+                _subset_latest(workdir, table_path)
+
+                # Read the created latest slice
+                latest_ours = read_table(workdir / "latest" / table_path.name)
+
+                # Create a latest slice using pandas grouping
+                if "total_confirmed" in table.columns:
+                    table = table.dropna(subset=["total_confirmed"])
+                latest_pandas = table.groupby(["key"]).tail(1)
+
+                self.assertEqual(
+                    export_csv(latest_ours, schema=SCHEMA), export_csv(latest_pandas, schema=SCHEMA)
+                )
 
 
 if __name__ == "__main__":
