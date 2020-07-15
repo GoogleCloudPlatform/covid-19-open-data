@@ -181,8 +181,6 @@ sources:
     test:
       metadata_query: "key.str.match('CL_.+')"
 
-
-
   # Data sources for CN level 2
   - name: pipelines.epidemiology.xx_dxy.DXYDataSource
     fetch:
@@ -252,12 +250,19 @@ sources:
       metadata_query: "key.str.match('DE.*')"
 
   # Data sources for ES levels 1 + 2
-  - name: pipelines.epidemiology.es_authority.ISCIIIDataSource
+  - name: pipelines.epidemiology.es_authority.ISCIIIConfirmedDataSource
     fetch:
-      - url: "https://covid19.isciii.es/resources/serie_historica_acumulados.csv"
-    query: "date < '2020-05-22'"
+      - name: confirmed
+        url: "https://cnecovid.isciii.es/covid19/resources/datos_ccaas.csv"
     test:
-      metadata_query: "key.str.match('ES.*')"
+      metadata_query: "key.str.match('ES_*')"
+
+  - name: pipelines.epidemiology.es_authority.MSCBSDeceasedDataSource
+    fetch:
+      - name: deceased
+        url: "https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov-China/documentos/Fallecidos_COVID19.xlsx"
+    test:
+      metadata_query: "key.str.match('ES_*')"
 
   # Data sources for FI levels 1 + 2
   - name: pipelines.epidemiology.fi_authority.FinlandArcGisDataSource
@@ -478,21 +483,6 @@ sources:
       country: "NO"
     test:
       metadata_query: "key.str.match('NO_.*')"
-
-
-  # Data sources for PE level 2
-  - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
-    fetch:
-      - url: "https://es.wikipedia.org/wiki/Pandemia_de_enfermedad_por_coronavirus_de_2020_en_Per%C3%BA"
-        opts:
-          ext: html
-    parse:
-      country: PE
-      date_format: "%d de %B"
-      locale: es_ES
-      skiprows: 1
-    test:
-      metadata_query: "key.str.match('PE_.*')"
 
   # Data sources for PH levels 2 + 3
   - name: pipelines.epidemiology.ph_authority.PhilippinesDataSource

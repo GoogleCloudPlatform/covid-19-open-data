@@ -1711,26 +1711,26 @@ EE,EE,Estonia,,,,,,,,-1
 EG,EG,Egypt,,,,,,,,-1
 EH,EH,Western Sahara,,,,,,,,-1
 ER,ER,Eritrea,,,,,,,,-1
-ES,ES,Spain,,,,,,,Total,0
-ES_AN,ES,Spain,AN,Andalucía,,,,,Andalusia,
-ES_AR,ES,Spain,AR,Aragón,,,,,Aragón,
-ES_AS,ES,Spain,AS,Asturias,,,,,Asturias,
-ES_CB,ES,Spain,CB,Cantabria,,,,,Cantabria,
-ES_CE,ES,Spain,CE,Ceuta,,,,,Ceuta,
-ES_CL,ES,Spain,CL,Castilla y León,,,,,Castile and Leon,
-ES_CM,ES,Spain,CM,Castilla-La Mancha,,,,,Castile-La Mancha,
-ES_CN,ES,Spain,CN,Islas Canarias,,,,,(Canary Islands)|(Canarias),
-ES_CT,ES,Spain,CT,Catalonia,,,,,Cataluña,
-ES_EX,ES,Spain,EX,Extremadura,,,,,Extremadura,
-ES_GA,ES,Spain,GA,Galicia,,,,,Galicia,
-ES_IB,ES,Spain,IB,Islas Baleares,,,,,(Balearic Islands)|(Baleares),
-ES_MC,ES,Spain,MC,Murcia,,,,,Region of Murcia,
-ES_MD,ES,Spain,MD,Comunidad de Madrid,,,,,(Community of )?Madrid,
-ES_ML,ES,Spain,ML,Melilla,,,,,Melilla,
-ES_NC,ES,Spain,NC,Navarra,,,,,Navarre,
-ES_PV,ES,Spain,PV,País Vasco,,,,,Basque Country,
-ES_RI,ES,Spain,RI,La Rioja,,,,,La Rioja,
-ES_VC,ES,Spain,VC,Comunidad Valenciana,,,,,(Valencian Community)|(C. Valenciana),
+ES,ES,Spain,,,,,,,España,0
+ES_AN,ES,Spain,AN,Andalucía,,,,,,
+ES_AR,ES,Spain,AR,Aragón,,,,,,
+ES_AS,ES,Spain,AS,Asturias,,,,,,
+ES_CB,ES,Spain,CB,Cantabria,,,,,,
+ES_CE,ES,Spain,CE,Ceuta,,,,,,
+ES_CL,ES,Spain,CL,Castilla y León,,,,,,
+ES_CM,ES,Spain,CM,Castilla-La Mancha,,,,,,
+ES_CN,ES,Spain,CN,Islas Canarias,,,,,Canarias,
+ES_CT,ES,Spain,CT,Cataluña,,,,,,
+ES_EX,ES,Spain,EX,Extremadura,,,,,,
+ES_GA,ES,Spain,GA,Galicia,,,,,,
+ES_IB,ES,Spain,IB,Islas Baleares,,,,,Baleares,
+ES_MC,ES,Spain,MC,Region de Murcia,,,,,Murcia,
+ES_MD,ES,Spain,MD,Comunidad de Madrid,,,,,Madrid,
+ES_ML,ES,Spain,ML,Melilla,,,,,,
+ES_NC,ES,Spain,NC,Navarra,,,,,,
+ES_PV,ES,Spain,PV,País Vasco,,,,,,
+ES_RI,ES,Spain,RI,La Rioja,,,,,,
+ES_VC,ES,Spain,VC,Comunidad Valenciana,,,,,C. Valenciana,
 ET,ET,Ethiopia,,,,,,,,-1
 FI,FI,Finland,,,,,,,,-1
 FJ,FJ,Fiji,,,,,,,,0
