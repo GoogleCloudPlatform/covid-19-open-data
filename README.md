@@ -619,7 +619,7 @@ Please use the following when citing this project as a source of data:
 
 ```
 @article{Wahltinez2020,
-  author = "Oscar Wahltinez and and Kevin Murphy and Michael Brenner Matt Lee and Anthony Erlinger and Mayank Daswani",
+  author = "Oscar Wahltinez and  Kevin Murphy and Michael Brenner and Matt Lee and Anthony Erlinger and Mayank Daswani",
   year = 2020,
   title = "COVID-Open-Data: curating a fine-grained, global-scale COVID-19 data repository",
   note = "Work in progress",
