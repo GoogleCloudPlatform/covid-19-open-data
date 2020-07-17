@@ -30,7 +30,7 @@ from .constants import SRC, CACHE_URL
 from .concurrent import process_map
 from .data_source import DataSource
 from .error_logger import ErrorLogger
-from .io import read_file, table_reader_builder, fuzzy_text, export_csv, parse_dtype, pbar
+from .io import read_file, read_table, fuzzy_text, export_csv, parse_dtype, pbar
 from .utils import combine_tables, drop_na_records, filter_output_columns
 
 
@@ -290,13 +290,10 @@ class DataPipeline(ErrorLogger):
         self, intermediate_folder: Path, data_sources: Iterable[DataSource]
     ) -> Iterable[Tuple[DataSource, DataFrame]]:
 
-        # Create a custom CSV parser specific to our schema
-        read_table = table_reader_builder(self.schema)
-
         for data_source in data_sources:
             intermediate_path = intermediate_folder / f"{_gen_intermediate_name(data_source)}.csv"
             try:
-                yield (data_source, read_table(intermediate_path))
+                yield (data_source, read_table(intermediate_path, self.schema))
             except Exception as exc:
                 data_source_name = data_source.__class__.__name__
                 self.errlog(

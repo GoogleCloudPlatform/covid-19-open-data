@@ -15,7 +15,6 @@
 import os
 import re
 from pathlib import Path
-from functools import partial
 from contextlib import contextmanager
 from typing import Any, Callable, Dict, Iterator, List, Optional, Union
 
@@ -100,7 +99,7 @@ def read_file(path: Union[Path, str], **read_opts) -> DataFrame:
         raise ValueError("Unrecognized extension: %s" % ext)
 
 
-def read_lines(path: Path, mode: str = "r") -> Iterator[str]:
+def read_lines(path: Path, mode: str = "r", skip_empty: bool = False) -> Iterator[str]:
     """
     Efficiently reads a line by line and closes it using a context manager.
 
@@ -111,20 +110,22 @@ def read_lines(path: Path, mode: str = "r") -> Iterator[str]:
     """
     with path.open(mode) as fd:
         for line in fd:
+            if skip_empty and (not line or line.isspace()):
+                continue
             yield line
 
 
-def table_reader_builder(schema: Dict[str, Any]) -> Callable[[Union[Path, str]], DataFrame]:
+def read_table(path: Union[Path, str], schema: Dict[str, Any] = None, **read_opts) -> DataFrame:
     """
-    Returns a schema-aware version of `read_file` which converts the columns to the appropriate
-    type according to the given schema.
+    Schema-aware version of `read_file` which converts the columns to the appropriate type
+    according to the given schema.
 
     Arguments:
         schema: Dictionary of <column, type>
     Returns:
         Callable[[Union[Path, str]], DataFrame]: Function like `read_file`
     """
-    return partial(read_file, converters=column_converters(schema))
+    return read_file(path, converters=column_converters(schema or {}), **read_opts)
 
 
 def _get_html_columns(row: Tag) -> List[Tag]:

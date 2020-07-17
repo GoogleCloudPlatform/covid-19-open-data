@@ -49,14 +49,28 @@ def get_cron_jobs() -> Iterator[Dict]:
     yield {"url": f"/cache_pull", **copy.deepcopy(sched_hourly), **copy.deepcopy(retry_params)}
 
     # The job that publishes data into the prod bucket runs every 4 hours
-    # TODO(owahltinez): disabled because it goes over the memory limit of appengine, which is 4GB
-    # for the largest available configuration. This is being run by a cron script in a VM instead.
-    # yield {
-    #     "url": f"/publish",
-    #     # Offset by 30 minutes to let other hourly tasks finish
-    #     "schedule": "every 4 hours from 00:30 to 23:30",
-    #     **copy.deepcopy(retry_params),
-    # }
+    yield {
+        "url": f"/publish",
+        # Offset by 30 minutes to let other hourly tasks finish
+        "schedule": "every 4 hours from 00:30 to 23:30",
+        **copy.deepcopy(retry_params),
+    }
+
+    # Converting the outputs to JSON is less critical but also slow so it's run separately
+    yield {
+        "url": f"/convert_json_1",
+        # Offset by 30 minutes to run after publishing
+        "schedule": "every 4 hours from 01:00 to 21:00",
+        **copy.deepcopy(retry_params),
+    }
+
+    # The convert to JSON task is split in two because otherwise it takes too long
+    yield {
+        "url": f"/convert_json_2",
+        # Offset by 30 minutes to run after publishing
+        "schedule": "every 4 hours from 01:00 to 21:00",
+        **copy.deepcopy(retry_params),
+    }
 
     for data_pipeline in get_pipelines():
         # The job that combines data sources into a table runs hourly

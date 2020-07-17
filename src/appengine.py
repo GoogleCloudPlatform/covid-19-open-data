@@ -13,8 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import re
 import sys
 import json
+import time
 import os.path
 import datetime
 import traceback
@@ -23,7 +25,7 @@ from pathlib import Path
 from functools import partial
 from argparse import ArgumentParser
 from tempfile import TemporaryDirectory
-from typing import Dict, List
+from typing import Callable, Dict, List
 
 from flask import Flask, request
 from google.cloud import storage
@@ -43,7 +45,7 @@ from lib.pipeline_tools import get_table_names
 from publish import copy_tables, convert_tables_to_json, create_table_subsets, make_main_table
 
 app = Flask(__name__)
-BLOB_OP_MAX_RETRIES = 3
+BLOB_OP_MAX_RETRIES = 10
 
 
 def get_storage_client():
@@ -73,38 +75,56 @@ def get_storage_bucket(bucket_name: str):
     return client.bucket(bucket_name)
 
 
-def download_folder(bucket_name: str, remote_path: str, local_folder: Path) -> None:
+def download_folder(
+    bucket_name: str,
+    remote_path: str,
+    local_folder: Path,
+    filter_func: Callable[[Path], bool] = None,
+) -> None:
     bucket = get_storage_bucket(bucket_name)
 
     def _download_blob(local_folder: Path, blob: Blob) -> None:
         # Remove the prefix from the remote path
-        rel_path = blob.name.split(f"{remote_path}/", 2)[-1]
-        print(f"Downloading {rel_path} to {local_folder}/")
-        file_path = local_folder / rel_path
-        file_path.parent.mkdir(parents=True, exist_ok=True)
-        for _ in range(BLOB_OP_MAX_RETRIES):
-            try:
-                return blob.download_to_filename(file_path)
-            except Exception as exc:
-                print(exc, file=sys.stderr)
+        rel_path = blob.name.split(f"{remote_path}/", 1)[-1]
+        if filter_func is None or filter_func(Path(rel_path)):
+            print(f"Downloading {rel_path} to {local_folder}/")
+            file_path = local_folder / rel_path
+            file_path.parent.mkdir(parents=True, exist_ok=True)
+            for i in range(BLOB_OP_MAX_RETRIES):
+                try:
+                    return blob.download_to_filename(file_path)
+                except Exception as exc:
+                    print(exc, file=sys.stderr)
+                    # Exponential back-off
+                    time.sleep(2 ** i)
+            raise IOError(f"Error downloading {rel_path}")
 
     map_func = partial(_download_blob, local_folder)
     _ = thread_map(map_func, bucket.list_blobs(prefix=remote_path), total=None, disable=True)
     list(_)  # consume the results
 
 
-def upload_folder(bucket_name: str, remote_path: str, local_folder: Path) -> None:
+def upload_folder(
+    bucket_name: str,
+    remote_path: str,
+    local_folder: Path,
+    filter_func: Callable[[Path], bool] = None,
+) -> None:
     bucket = get_storage_bucket(bucket_name)
 
     def _upload_file(remote_path: str, file_path: Path):
-        print(f"Uploading {file_path} to {remote_path}/")
         target_path = file_path.relative_to(local_folder)
-        blob = bucket.blob(os.path.join(remote_path, target_path))
-        for _ in range(BLOB_OP_MAX_RETRIES):
-            try:
-                return blob.upload_from_filename(file_path)
-            except Exception as exc:
-                print(exc, file=sys.stderr)
+        if filter_func is None or filter_func(target_path):
+            print(f"Uploading {target_path} to {remote_path}/")
+            blob = bucket.blob(os.path.join(remote_path, target_path))
+            for i in range(BLOB_OP_MAX_RETRIES):
+                try:
+                    return blob.upload_from_filename(file_path)
+                except Exception as exc:
+                    print(exc, file=sys.stderr)
+                    # Exponential back-off
+                    time.sleep(2 ** i)
+            raise IOError(f"Error uploading {target_path}")
 
     map_func = partial(_upload_file, remote_path)
     _ = thread_map(map_func, local_folder.glob("**/*.*"), total=None, disable=True)
@@ -150,7 +170,9 @@ def cache_pull() -> None:
                 traceback.print_exc()
 
         # Pull each of the sources from the cache config
-        _ = thread_map(_pull_source, json.load((SRC / "cache" / "config.json").open("r")))
+        with (SRC / "cache" / "config.json").open("r") as fd:
+            cache_list = json.load(fd)
+        _ = thread_map(_pull_source, cache_list)
         list(_)  # consume the results
 
         # Upload all cached data to the bucket
@@ -227,6 +249,7 @@ def combine_table(table_name: str = None) -> None:
         )
 
         # Upload results to the test bucket because these are not prod files
+        # They will be copied to prod in the publish step, so main.csv is in sync
         upload_folder(GCS_BUCKET_TEST, "tables", output_folder / "tables")
 
     return "OK"
@@ -246,21 +269,58 @@ def publish() -> None:
 
         # Prepare all files for publishing and add them to the public folder
         copy_tables(tables_folder, public_folder)
+        print("Output tables copied to public folder")
 
         # Create the joint main table for all records
         main_table_path = public_folder / "main.csv"
         make_main_table(tables_folder, main_table_path)
+        print("Main table created")
 
         # Create subsets for easy API-like access to slices of data
-        create_table_subsets(main_table_path, public_folder)
-
-        # Convert all files to JSON
-        convert_tables_to_json([*public_folder.glob("**/*.csv")])
+        list(create_table_subsets(main_table_path, public_folder))
+        print("Table subsets created")
 
         # Upload the results to the prod bucket
         upload_folder(GCS_BUCKET_PROD, "v2", public_folder)
 
     return "OK"
+
+
+def convert_json(expr: str) -> None:
+    with TemporaryDirectory() as workdir:
+        workdir = Path(workdir)
+        json_folder = workdir / "json"
+        public_folder = workdir / "public"
+        json_folder.mkdir(parents=True, exist_ok=True)
+        public_folder.mkdir(parents=True, exist_ok=True)
+
+        # Download all the processed tables into our local storage
+        download_folder(
+            GCS_BUCKET_PROD,
+            "v2",
+            public_folder,
+            # Only download the CSV files but avoid the big main.csv table
+            lambda x: re.match(expr, str(x)),
+        )
+
+        # Convert all files to JSON
+        list(convert_tables_to_json(public_folder, json_folder))
+        print("CSV files converted to JSON")
+
+        # Upload the results to the prod bucket
+        upload_folder(GCS_BUCKET_PROD, "v2", json_folder)
+
+    return "OK"
+
+
+@app.route("/convert_json_1")
+def convert_json_1() -> None:
+    return convert_json(r"(\d+/)?\w+.csv")
+
+
+@app.route("/convert_json_2")
+def convert_json_2() -> None:
+    return convert_json(r"[A-Z]{2}(_\w+)?\/\w+.csv")
 
 
 if __name__ == "__main__":
@@ -283,6 +343,7 @@ if __name__ == "__main__":
         "server": _start_server,
         "update_table": update_table,
         "combine_table": combine_table,
-        "publish": publish,
         "cache_pull": cache_pull,
+        "publish": publish,
+        "convert_json": convert_json,
     }.get(args.command, _unknown_command)(**json.loads(args.args or "{}"))

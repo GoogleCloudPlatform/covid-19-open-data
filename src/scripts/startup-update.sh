@@ -71,13 +71,9 @@ then
     gcloud --quiet app deploy "$TMPDIR/opencovid/src/app.yaml"
     gcloud --quiet app deploy "$TMPDIR/opencovid/src/cron.yaml"
 
-elif [ $ACTION == "publish" ]
-then
-    # Run the publish command
-    $HOME/python/bin/python3.8 "$TMPDIR/opencovid/src/appengine.py" --command publish
-
 else
-    echo "No action provided"
+    # Run the publish command
+    $HOME/python/bin/python3.8 "$TMPDIR/opencovid/src/appengine.py" --command $ACTION
 fi
 
 # Turn off this instance

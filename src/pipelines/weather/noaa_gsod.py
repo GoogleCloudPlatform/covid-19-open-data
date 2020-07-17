@@ -57,6 +57,37 @@ _DISTANCE_THRESHOLD = 300
 _INVENTORY_URL = "https://www1.ncdc.noaa.gov/pub/data/noaa/isd-history.csv"
 
 
+def haversine_distance(
+    stations: DataFrame, lat: float, lon: float, radius: float = 6373.0
+) -> Series:
+    """ Compute the distance between two <latitude, longitude> pairs in kilometers """
+
+    # Compute the pairwise deltas
+    lat_diff = stations.lat - lat
+    lon_diff = stations.lon - lon
+
+    # Apply Haversine formula
+    a = numpy.sin(lat_diff / 2) ** 2
+    a += math.cos(lat) * numpy.cos(stations.lat) * numpy.sin(lon_diff / 2) ** 2
+    c = numpy.arctan2(numpy.sqrt(a), numpy.sqrt(1 - a)) * 2
+
+    return radius * c
+
+
+def noaa_number(value: int):
+    return None if re.match(r"999+", str(value).replace(".", "")) else safe_float_cast(value)
+
+
+def conv_temp(value: int):
+    value = noaa_number(value)
+    return numpy.nan if value is None else (value - 32) * 5 / 9
+
+
+def conv_dist(value: int):
+    value = noaa_number(value)
+    return numpy.nan if value is None else value * 25.4
+
+
 class NoaaGsodDataSource(DataSource):
 
     # A bit of a circular dependency but we need the latitude and longitude to compute weather
@@ -68,50 +99,19 @@ class NoaaGsodDataSource(DataSource):
         return {0: download_snapshot(geo_url, output_folder, **download_opts)}
 
     @staticmethod
-    def haversine_distance(
-        stations: DataFrame, lat: float, lon: float, radius: float = 6373.0
-    ) -> Series:
-        """ Compute the distance between two <latitude, longitude> pairs in kilometers """
-
-        # Compute the pairwise deltas
-        lat_diff = stations.lat - lat
-        lon_diff = stations.lon - lon
-
-        # Apply Haversine formula
-        a = numpy.sin(lat_diff / 2) ** 2
-        a += math.cos(lat) * numpy.cos(stations.lat) * numpy.sin(lon_diff / 2) ** 2
-        c = numpy.arctan2(numpy.sqrt(a), numpy.sqrt(1 - a)) * 2
-
-        return radius * c
-
-    @staticmethod
-    def noaa_number(value: int):
-        return None if re.match(r"999+", str(value).replace(".", "")) else safe_float_cast(value)
-
-    @staticmethod
-    def conv_temp(value: int):
-        value = NoaaGsodDataSource.noaa_number(value)
-        return numpy.nan if value is None else (value - 32) * 5 / 9
-
-    @staticmethod
-    def conv_dist(value: int):
-        value = NoaaGsodDataSource.noaa_number(value)
-        return numpy.nan if value is None else value * 25.4
-
-    @staticmethod
     def process_location(
         station_cache: Dict[str, DataFrame], stations: DataFrame, location: Series
     ):
-        nearest = stations.copy()
-        nearest["key"] = location.key
-
         # Get the nearest stations from our list of stations given lat and lon
-        nearest["distance"] = NoaaGsodDataSource.haversine_distance(
-            nearest, location.lat, location.lon
-        )
+        distance = haversine_distance(stations, location.lat, location.lon)
 
         # Filter out all but the 10 nearest stations
-        nearest = nearest[nearest.distance < _DISTANCE_THRESHOLD].sort_values("distance").iloc[:10]
+        mask = distance < _DISTANCE_THRESHOLD
+        nearest = stations.loc[mask].copy()
+        nearest["key"] = location.key
+        nearest["distance"] = distance.loc[mask]
+        nearest.sort_values("distance", inplace=True)
+        nearest = nearest.iloc[:10]
 
         # Early exit: no stations found within distance threshold
         if len(nearest) == 0 or all(
@@ -170,15 +170,17 @@ class NoaaGsodDataSource(DataSource):
                     continue
 
                 # Read the records from the provided station
-                data = read_csv(stations_tar.extractfile(member)).rename(columns=_COLUMN_MAPPING)
+                data = read_csv(
+                    stations_tar.extractfile(member), usecols=_COLUMN_MAPPING.keys()
+                ).rename(columns=_COLUMN_MAPPING)
 
                 # Fix data types
                 data.noaa_station = data.noaa_station.astype(str)
-                data.rainfall = data.rainfall.apply(NoaaGsodDataSource.conv_dist)
-                data.snowfall = data.snowfall.apply(NoaaGsodDataSource.conv_dist)
+                data.rainfall = data.rainfall.apply(conv_dist)
+                data.snowfall = data.snowfall.apply(conv_dist)
                 for temp_type in ("average", "minimum", "maximum"):
                     col = f"{temp_type}_temperature"
-                    data[col] = data[col].apply(NoaaGsodDataSource.conv_temp)
+                    data[col] = data[col].apply(conv_temp)
 
                 station_cache[member.name.replace(".csv", "")] = data
 
@@ -205,6 +207,6 @@ class NoaaGsodDataSource(DataSource):
         shuffle(map_iter)
 
         # Bottleneck is network so we can use lots of threads in parallel
-        records = thread_map(map_func, map_iter, total=len(metadata))
+        records = thread_map(map_func, map_iter, total=len(metadata), max_workers=4)
 
         return concat(records)
