@@ -57,6 +57,10 @@ CASE_LINE_DATA_NULL_VALUES = f"""{CASE_LINE_DATA_HEADER}
 AA,,,,2020-01-01,2020-01-01
 """
 
+CASE_LINE_DATA_AGE_FLOATS = f"""{CASE_LINE_DATA_HEADER}
+AA,22.0,,,2020-01-01,2020-01-01
+"""
+
 
 class TestCaseLine(ProfiledTestCase):
     def test_convert_cases_to_time_series_simple(self):
@@ -115,6 +119,11 @@ class TestCaseLine(ProfiledTestCase):
         self.assertSetEqual({"age_unknown"}, set(table.age))
         self.assertSetEqual({"sex_unknown"}, set(table.sex))
         self.assertSetEqual({"ethnicity_unknown"}, set(table.ethnicity))
+
+    def test_convert_cases_to_time_series_age_float_values(self):
+        cases = read_csv(StringIO(CASE_LINE_DATA_AGE_FLOATS))
+        table = convert_cases_to_time_series(cases)
+        self.assertSetEqual({"20-29"}, set(table.age))
 
 
 if __name__ == "__main__":

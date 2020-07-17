@@ -16,7 +16,7 @@ import re
 from typing import Any, Callable, Dict, List
 from pandas import DataFrame, isna
 from unidecode import unidecode
-from lib.cast import age_group
+from lib.cast import age_group, safe_int_cast
 from lib.constants import SRC
 from lib.io import read_file
 from lib.utils import get_or_default
@@ -44,11 +44,16 @@ def _default_adapter_factory(key: str) -> Callable[[str], str]:
 def _default_age_adapter(value: Any) -> str:
     if isna(value):
         return "age_unknown"
-    value = str(value)
-    if value.isnumeric():
-        return age_group(int(value))
-    if re.match(r"\d\d?\-\d*", value):
-        return value
+
+    try:
+        value = str(value)
+        if re.match(r"\d+(\.\d*)?", value):
+            return age_group(safe_int_cast(value))
+        if re.match(r"\d\d?\-\d*", value):
+            return value
+    except ValueError:
+        pass
+
     return "age_unknown"
 
 
