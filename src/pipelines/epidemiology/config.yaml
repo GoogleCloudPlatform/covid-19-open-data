@@ -424,6 +424,7 @@ sources:
       encoding: ISO-8859-1
     test:
       metadata_query: "key == 'LU'"
+      skip: true
 
   # Data sources for MY level 2
   - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource

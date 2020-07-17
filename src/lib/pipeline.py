@@ -36,7 +36,7 @@ from .utils import combine_tables, drop_na_records, filter_output_columns
 
 def _gen_intermediate_name(data_source: DataSource) -> str:
     data_source_class = data_source.__class__
-    data_source_config = str(data_source.config)
+    data_source_config = str({k: v for k, v in data_source.config.items() if k not in ("test",)})
     source_full_name = f"{data_source_class.__module__}.{data_source_class.__name__}"
     return uuid.uuid5(uuid.NAMESPACE_DNS, f"{source_full_name}.{data_source_config}")
 

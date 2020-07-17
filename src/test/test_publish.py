@@ -46,8 +46,8 @@ class TestPublish(ProfiledTestCase):
         # The first date provided has non-null values
         self.assertGreaterEqual(first_date, subset.dropna(subset=columns, how="all").date.min())
 
-        # More than 2/3 of the rows don't have any null values after the first date
-        self.assertGreaterEqual(len(subset.dropna()), len(subset[subset.date > first_date]) * 2 / 3)
+        # Less than half of the rows have null values in any column after the first date
+        self.assertGreaterEqual(len(subset.dropna()), len(subset[subset.date > first_date]) / 2)
 
     def test_make_main_table(self):
         with TemporaryDirectory() as workdir:
