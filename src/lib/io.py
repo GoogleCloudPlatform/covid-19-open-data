@@ -15,7 +15,9 @@
 import os
 import re
 from pathlib import Path
+from zipfile import ZipFile
 from contextlib import contextmanager
+from tempfile import TemporaryDirectory
 from typing import Any, Callable, Dict, Iterator, List, Optional, Union
 
 import pandas
@@ -83,20 +85,38 @@ def parse_dtype(dtype_name: str) -> Any:
 def read_file(path: Union[Path, str], **read_opts) -> DataFrame:
     ext = str(path).split(".")[-1]
 
+    # Keep a list of known extensions here so we don't forget to update it
+    known_extensions = ("csv", "json", "html", "xls", "xlsx", "zip")
+
     if ext == "csv":
         return pandas.read_csv(
             path, **{**{"keep_default_na": False, "na_values": ["", "N/A"]}, **read_opts}
         )
-    elif ext == "json":
+    if ext == "json":
         return pandas.read_json(path, **read_opts)
-    elif ext == "html":
-        return read_html(open(path).read(), **read_opts)
-    elif ext == "xls" or ext == "xlsx":
+    if ext == "html":
+        with open(path, "r") as fd:
+            return read_html(fd.read(), **read_opts)
+    if ext == "xls" or ext == "xlsx":
         return pandas.read_excel(
             path, **{**{"keep_default_na": False, "na_values": ["", "N/A"]}, **read_opts}
         )
-    else:
-        raise ValueError("Unrecognized extension: %s" % ext)
+    if ext == "zip":
+        with TemporaryDirectory() as tmpdir:
+            tmpdir = Path(tmpdir)
+            with ZipFile(path, "r") as archive:
+                if "file_name" in read_opts:
+                    file_name = read_opts.pop("file_name")
+                else:
+                    file_name = next(
+                        name
+                        for name in archive.namelist()
+                        if name.rsplit(".", 1)[-1] in known_extensions
+                    )
+                archive.extract(file_name, tmpdir)
+                return read_file(tmpdir / file_name, **read_opts)
+
+    raise ValueError("Unrecognized extension: %s" % ext)
 
 
 def read_lines(path: Path, mode: str = "r", skip_empty: bool = False) -> Iterator[str]:
