@@ -35,3 +35,18 @@ WHERE
   ?place wdt:P31/wdt:P279* wd:Q6465.
   SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE]". }
 }
+
+# Get all instances of municipalities of Brazil
+SELECT ?subregion1 ?subregion1Label ?subregion2 ?subregion1_code ?subregion2_code ?subregion2Label
+WHERE
+{
+  # subregion2 is type municipality of Brazil
+  ?subregion2 wdt:P31/wdt:P279* wd:Q3184121.
+  # subregion2 is located within subregion1
+  ?subregion2 wdt:P131 ?subregion1.
+  # subregion2_code is Brazilian municipality code of subregion2
+  ?subregion2 wdt:P1585 ?subregion2_code.
+  # subregion1_code is short name for subregion1
+  ?subregion1 wdt:P1813 ?subregion1_code.
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE]". }
+}
