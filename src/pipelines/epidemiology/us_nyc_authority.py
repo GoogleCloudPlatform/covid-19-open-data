@@ -28,6 +28,7 @@ def _parse_boro(data: DataFrame, column_prefix: str, fips: str) -> DataFrame:
             f"{column_prefix}_HOSPITALIZED_COUNT": "new_hospitalized",
             f"{column_prefix}_DEATH_COUNT": "new_deceased",
         },
+        drop=True,
     )
     data.date = data.date.apply(lambda x: datetime_isoformat(x, "%m/%d/%Y"))
     data["key"] = f"US_NY_{fips}"
@@ -45,4 +46,12 @@ class NYCHealthDataSource(DataSource):
             "QN": "36081",  # Queens
             "SI": "36085",  # Richmond AKA Staten Island
         }
-        return concat([_parse_boro(dataframes[0], boro, fips) for boro, fips in nyc_boros.items()])
+
+        # Extract data for the individual boroughs
+        boros = concat([_parse_boro(dataframes[0], boro, fips) for boro, fips in nyc_boros.items()])
+
+        # NYC is the collection of all boroughs
+        city = boros.groupby("date").sum().reset_index()
+        city["key"] = "US_NY_NYC"
+
+        return concat([city, boros])
