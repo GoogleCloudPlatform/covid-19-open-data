@@ -994,6 +994,15 @@ sources:
       # Skip Florida because download takes a long time
       skip: true
 
+  # Data sources for US_IN level 3 (includes age/sex)
+  - name: pipelines.epidemiology.us_in_authority.IndianaDataSource
+    fetch:
+      - url: "https://hub.mph.in.gov/dataset/6b57a4f2-b754-4f79-a46b-cff93e37d851/resource/46b310b9-2f29-4a51-90dc-3886d9cf4ac1/download/covid_report.xlsx"
+        opts:
+          ext: xlsx
+    test:
+      metadata_query: "key.str.match('US_IN_.*')"
+
   # Data sources for US_NYC level 3 (NYC only)
   - name: pipelines.epidemiology.us_nyc_authority.NYCHealthDataSource
     fetch:

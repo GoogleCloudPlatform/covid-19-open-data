@@ -636,6 +636,16 @@ sources:
       # Skip Florida because download takes a long time
       skip: true
 
+  - name: pipelines.epidemiology.us_in_authority.IndianaDataSource
+    fetch:
+      - url: "https://hub.mph.in.gov/dataset/6b57a4f2-b754-4f79-a46b-cff93e37d851/resource/46b310b9-2f29-4a51-90dc-3886d9cf4ac1/download/covid_report.xlsx"
+        opts:
+          ext: xlsx
+          # Only download data from source once (in epidemiology pipeline)
+          skip_existing: true
+    test:
+      metadata_query: "key.str.match('US_IN.*')"
+
   # Data sources for ZA level 1
   - name: pipelines.epidemiology.za_dsfsi.Covid19ZaTimelineDeathsDataSource
     fetch:
