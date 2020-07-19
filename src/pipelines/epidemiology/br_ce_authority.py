@@ -35,16 +35,24 @@ class CearaDataSource(DataSource):
                 "dataResultadoExame": "date_new_tested",
                 "dataObito": "date_new_deceased",
                 "dataEntradaUtisSvep": "date_new_intensive_care",
+                "evolucaoCasoSivep": "_prognosis",
+                "dataInicioSintomas": "_date_onset",
+                "dataEvolucaoCasoSivep": "_date_update",
                 "resultadoFinalExame": "_test_result",
             },
             drop=True,
         )
 
+        # Follow the procedure described in the data documentation to compute the confirmed cases:
+        # https://drive.google.com/file/d/1DUwST2zcXUnCJmJauiM5zmpSVWqLiAYI/view
         cases["date_new_confirmed"] = None
         confirmed_mask = cases["_test_result"] == "Positivo"
         cases.loc[confirmed_mask, "date_new_confirmed"] = cases.loc[
             confirmed_mask, "date_new_tested"
         ]
+
+        # Only count intensive care patients if they had a positive test result
+        cases.loc[~confirmed_mask, "date_new_intensive_care"] = None
 
         # Drop columns which we have no use for
         cases = cases[[col for col in cases.columns if not col.startswith("_")]]
@@ -64,11 +72,10 @@ class CearaDataSource(DataSource):
         # Convert date to ISO format
         data["date"] = data["date"].apply(lambda x: datetime_isoformat(x, "%Y-%m-%d %H:%M:%S"))
 
-        # State-wide data cannot be aggregated because the municipalities' numbers appear to be
-        # incomplete, with the sum only amounting to ~75% of total cases in the state
-        # state = data.drop(columns=["subregion2_code"]).groupby(["date", "age", "sex"]).sum()
-        # state.reset_index(inplace=True)
-        # state["key"] = "BR_CE"
+        # Aggregate state-level data by adding all municipalities
+        state = data.drop(columns=["subregion2_code"]).groupby(["date", "age", "sex"]).sum()
+        state.reset_index(inplace=True)
+        state["key"] = "BR_CE"
 
         # Fortaleza is both a subregion of the state and a "locality"
         city = data.loc[data["subregion2_code"] == "230440"].copy()
@@ -80,4 +87,4 @@ class CearaDataSource(DataSource):
         # We can build the key for the data directly from the subregion code
         data["key"] = "BR_CE_" + data["subregion2_code"]
 
-        return concat([data, city])
+        return concat([state, data, city])
