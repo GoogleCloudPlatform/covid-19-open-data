@@ -1,9 +1,10 @@
 # Open COVID-19 Dataset
 
-This repository contains datasets of daily time-series data related to COVID-19 for 30+ countries
-around the world. For most countries, the data is at the spatial resolution of states/provinces,
-although for US, UK, NL and CO, it is at the finer resolution of county/municipality. All regions
-are assigned a unique key, which resolves discrepancies between ISO / NUTS / FIPS codes, etc.
+This repository contains datasets of daily time-series data related to COVID-19 for 50+ countries
+around the world. For most countries, the data is at the spatial resolution of states/provinces for
+most regions and at county/municipality resolution for Brazil, Chile, Colombia, United Kingdom, and
+USA. All regions are assigned a unique key, which resolves discrepancies between ISO / NUTS / FIPS
+codes, etc.
 
 There are multiple types of data:
 * Outcome data `Y(i,t)`, such as cases, deaths, tests, for regions i and time t
@@ -514,10 +515,9 @@ from the relevant authorities, like a country's ministry of health.
 | Brazil (Rio de Janeiro) | <http://www.data.rio/> | [Dados abertos](https://www.data.rio/datasets/f314453b3a55434ea8c8e8caaa2d8db5) |
 | Brazil (Ceará) | <https://saude.ce.gov.br> | [Dados abertos](https://cearatransparente.ce.gov.br/portal-da-transparencia) |
 | Canada | [Department of Health Canada](https://www.canada.ca/en/public-health) | [Attribution required](https://www.canada.ca/en/transparency/terms.html) |
-| Chile | [Wikipedia](https://en.wikipedia.org/wiki/Template:2019-20_coronavirus_pandemic_data/Chile_medical_cases) | [CC BY-SA][24] |
-| Chile | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
+| Chile | [Ministerio de Ciencia de Chile](http://www.minciencia.gob.cl/COVID19) | [Terms of use](http://www.minciencia.gob.cl/sites/default/files/1771596.pdf) |
 | China | [DXY COVID-19 dataset](https://github.com/BlankerL/DXY-COVID-19-Data) | [MIT](https://github.com/BlankerL/DXY-COVID-19-Data/blob/master/LICENSE) |
-| Colombia | [Government Authority](https://www.datos.gov.co) | [Attribution required](https://herramientas.datos.gov.co/es/terms-and-conditions-es) |
+| Colombia | [Datos Abiertos Colombia](https://www.datos.gov.co) | [Attribution required](https://herramientas.datos.gov.co/es/terms-and-conditions-es) |
 | Costa Rica | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
 | Cuba | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
 | Czech Republic | [Ministry of Health of the Czech Republic](https://onemocneni-aktualne.mzcr.cz/covid-19) | [Open Data](https://www.jmir.org/2020/5/e19367) |

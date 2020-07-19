@@ -104,3 +104,23 @@ def age_group(age: int, bin_count: int = 10, age_cutoff: int = 90) -> str:
     lo = int(bin_idx * bin_size)
     hi = lo + bin_size - 1
     return f"{lo}-{hi}"
+
+
+def numeric_code_as_string(code: Any, digits: int = 0) -> str:
+    """
+    Converts a code, which is typically a (potentially null) number, into its integer string
+    representation. This is very convenient to parse things like FIPS codes.
+
+    Arguments:
+        code: The input to cast into a string.
+        digits: The number of digits to force on the output, left-padding with zeroes. If this
+            argument is <= 0 then the output is unpadded.
+    Returns:
+        str: The input cast as a string, or None if it could not be converted into an integer.
+    """
+    code = safe_int_cast(code)
+    if code is None:
+        return code
+    else:
+        fmt = f"%0{digits}d" if digits > 0 else "%d"
+        return fmt % code

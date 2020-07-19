@@ -57,6 +57,7 @@ sources:
         url: "https://raw.github.com/DataScienceResearchPeru/covid-19_latinoamerica/master/latam_covid_19_data/time_series/time_series_deaths.csv"
       - name: recovered
         url: "https://raw.github.com/DataScienceResearchPeru/covid-19_latinoamerica/master/latam_covid_19_data/time_series/time_series_recovered.csv"
+    query: "~key.str.match('CL_.+')"
     test:
       metadata_query: "key.str.match('PE_.+')"
 
@@ -485,16 +486,13 @@ sources:
     test:
       metadata_query: "key.str.match('CH_.+')"
 
-  # Data sources for CL level 2
-  - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
+  # Data sources for CL levels 2 + 3
+  - name: pipelines.epidemiology.cl_authority.ChileDataSource
     fetch:
-      - url: "https://en.wikipedia.org/wiki/Template:2019–20_coronavirus_pandemic_data/Chile_medical_cases"
-        opts:
-          ext: html
-    parse:
-      country: CL
-      date_format: "%Y-%m-%d"
-      skiprows: 1
+      - name: confirmed
+        url: "https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto1/Covid-19_std.csv"
+      - name: deceased
+        url: "https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto38/CasosFallecidosPorComuna_std.csv"
     test:
       metadata_query: "key.str.match('CL_.+')"
 
