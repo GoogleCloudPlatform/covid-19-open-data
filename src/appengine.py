@@ -92,9 +92,9 @@ def download_folder(
             file_path.parent.mkdir(parents=True, exist_ok=True)
             for i in range(BLOB_OP_MAX_RETRIES):
                 try:
-                    return blob.download_to_filename(file_path)
+                    return blob.download_to_filename(str(file_path))
                 except Exception as exc:
-                    print(exc, file=sys.stderr)
+                    traceback.print_exc()
                     # Exponential back-off
                     time.sleep(2 ** i)
             raise IOError(f"Error downloading {rel_path}")
@@ -119,9 +119,9 @@ def upload_folder(
             blob = bucket.blob(os.path.join(remote_path, target_path))
             for i in range(BLOB_OP_MAX_RETRIES):
                 try:
-                    return blob.upload_from_filename(file_path)
+                    return blob.upload_from_filename(str(file_path))
                 except Exception as exc:
-                    print(exc, file=sys.stderr)
+                    traceback.print_exc()
                     # Exponential back-off
                     time.sleep(2 ** i)
             raise IOError(f"Error uploading {target_path}")

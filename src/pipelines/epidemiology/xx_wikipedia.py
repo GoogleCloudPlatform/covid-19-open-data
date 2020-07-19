@@ -13,7 +13,6 @@
 # limitations under the License.
 
 import re
-import locale
 import datetime
 from typing import Dict, Optional, Tuple
 from pandas import DataFrame, isna, isnull
@@ -42,9 +41,6 @@ class WikipediaDataSource(DataSource):
         # Get the file contents from source
         with open(sources[0], "r") as fd:
             html_content = fd.read()
-
-        # We need to set locale in order to parse dates properly
-        locale.setlocale(locale.LC_TIME, parse_opts.get("locale", "en_US") + ".UTF-8")
 
         # Tables keep changing order, so iterate through all until one looks good
         table_count = count_html_tables(html_content, selector="table.wikitable")

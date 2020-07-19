@@ -1,5 +1,18 @@
-runtime: python38
-instance_class: B8
+runtime: python
+env: flex
 entrypoint: gunicorn -b :$PORT appengine:app --timeout 3600
-basic_scaling:
-    max_instances: 25
+
+runtime_config:
+    python_version: 3.7
+
+automatic_scaling:
+    min_num_instances: 1
+    max_num_instances: 50
+    cool_down_period_sec: 60
+    cpu_utilization:
+        target_utilization: 0.75
+
+resources:
+    cpu: 4
+    memory_gb: 8
+    disk_size_gb: 20
