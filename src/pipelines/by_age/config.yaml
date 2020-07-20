@@ -594,6 +594,15 @@ sources:
     test:
       metadata_query: "key.str.match('FR.*')"
 
+  # Data sources for MX levels 1, 2 and 3
+  - name: pipelines.epidemiology.mx_authority.MexicoDataSource
+    fetch:
+      - url: "http://187.191.75.115/gobmx/salud/datos_abiertos/datos_abiertos_covid19.zip"
+    parse:
+      encoding: "ISO-8859-1"
+    test:
+      metadata_query: "key.str.match('MX_.+')"
+
   # Data sources for PH levels 2 + 3
   - name: pipelines.epidemiology.ph_authority.PhilippinesDataSource
     fetch:
