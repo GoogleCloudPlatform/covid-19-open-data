@@ -62,3 +62,5 @@ sources:
   # pre-processed data here which is why the script reads from the internal `data` folder rather
   # than a external URL
   - name: pipelines.worldpop.worldpop_population.WorldPopPopulationDataSource
+    test:
+      metadata_query: "key.str.match('^..$')"

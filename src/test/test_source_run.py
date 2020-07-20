@@ -82,19 +82,21 @@ def _test_data_source(
         # TODO: run more tests
 
 
+def _test_data_pipeline(pipeline_name: str, random_seed: int = 0):
+
+    # Load the data pipeline to get the number of data sources
+    data_pipeline = DataPipeline.load(pipeline_name)
+
+    # Load the data pipeline, iterate over each data source and run it to get its output
+    pipeline_count = len(data_pipeline.data_sources)
+    map_func = partial(_test_data_source, pipeline_name, random_seed=random_seed)
+    _ = thread_map(map_func, range(pipeline_count), total=pipeline_count, max_workers=4)
+
+    # Consume the results
+    list(_)
+
+
 class TestSourceRun(ProfiledTestCase):
-    def _test_pipeline(self, pipeline_name: str, random_seed: int = 0):
-
-        # Load the data pipeline to get the number of data sources
-        data_pipeline = DataPipeline.load(pipeline_name)
-
-        # Load the data pipeline, iterate over each data source and run it to get its output
-        map_func = partial(_test_data_source, pipeline_name, random_seed=random_seed)
-        _ = process_map(map_func, range(len(data_pipeline.data_sources)))
-
-        # Consume the results
-        list(_)
-
     def test_dry_run_pipeline(self):
         """
         This test loads the real configuration for all sources in a pipeline, and runs them against
@@ -102,11 +104,7 @@ class TestSourceRun(ProfiledTestCase):
         running the provided `test.metadata_query` for the metadata auxiliary table or, if the
         query is not present, a random sample is selected instead.
         """
-        map_func = self._test_pipeline
-        _ = thread_map(map_func, get_pipeline_names(), total=None)
-
-        # Consume the results
-        list(_)
+        list(process_map(_test_data_pipeline, list(get_pipeline_names()), max_workers=2))
 
 
 if __name__ == "__main__":

@@ -1,0 +1,197 @@
+subregion1_code,subregion1_name,province_code,province_name
+AMA,Amazonas,01,Chachapoyas
+AMA,Amazonas,02,Bagua
+AMA,Amazonas,03,Bongará
+AMA,Amazonas,04,Condorcanqui
+AMA,Amazonas,05,Luya
+AMA,Amazonas,06,Rodríguez de Mendoza
+AMA,Amazonas,07,Utcubamba
+ANC,Áncash,01,Huaraz
+ANC,Áncash,02,Aija
+ANC,Áncash,03,Antonio Raymondi
+ANC,Áncash,04,Asunción
+ANC,Áncash,05,Bolognesi
+ANC,Áncash,06,Carhuaz
+ANC,Áncash,07,Carlos Fermín Fitzcarrald
+ANC,Áncash,08,Casma
+ANC,Áncash,09,Corongo
+ANC,Áncash,10,Huari
+ANC,Áncash,11,Huarmey
+ANC,Áncash,12,Huaylas
+ANC,Áncash,13,Mariscal Luzuriaga
+ANC,Áncash,14,Ocros
+ANC,Áncash,15,Pallasca
+ANC,Áncash,16,Pomabamba
+ANC,Áncash,17,Recuay
+ANC,Áncash,18,Santa
+ANC,Áncash,19,Sihuas
+ANC,Áncash,20,Yungay
+APU,Apurímac,01,Abancay
+APU,Apurímac,02,Andahuaylas
+APU,Apurímac,03,Antabamba
+APU,Apurímac,04,Aymaraes
+APU,Apurímac,05,Cotabambas
+APU,Apurímac,06,Chincheros
+APU,Apurímac,07,Grau
+ARE,Arequipa,01,Arequipa
+ARE,Arequipa,02,Camaná
+ARE,Arequipa,03,Caravelí
+ARE,Arequipa,04,Castilla
+ARE,Arequipa,05,Caylloma
+ARE,Arequipa,06,Condesuyos
+ARE,Arequipa,07,Islay
+ARE,Arequipa,08,La Uniòn
+AYA,Ayacucho,01,Huamanga
+AYA,Ayacucho,02,Cangallo
+AYA,Ayacucho,03,Huanca Sancos
+AYA,Ayacucho,04,Huanta
+AYA,Ayacucho,05,La Mar
+AYA,Ayacucho,06,Lucanas
+AYA,Ayacucho,07,Parinacochas
+AYA,Ayacucho,08,Pàucar del Sara Sara
+AYA,Ayacucho,09,Sucre
+AYA,Ayacucho,10,Víctor Fajardo
+AYA,Ayacucho,11,Vilcas Huamán
+CAJ,Cajamarca,01,Cajamarca
+CAJ,Cajamarca,02,Cajabamba
+CAJ,Cajamarca,03,Celendín
+CAJ,Cajamarca,04,Chota
+CAJ,Cajamarca,05,Contumazá
+CAJ,Cajamarca,06,Cutervo
+CAJ,Cajamarca,07,Hualgayoc
+CAJ,Cajamarca,08,Jaén
+CAJ,Cajamarca,09,San Ignacio
+CAJ,Cajamarca,10,San Marcos
+CAJ,Cajamarca,11,San Miguel
+CAJ,Cajamarca,12,San Pablo
+CAJ,Cajamarca,13,Santa Cruz
+CAL,Callao,01,Prov. Const. del Callao
+CUS,Cusco,01,Cusco
+CUS,Cusco,02,Acomayo
+CUS,Cusco,03,Anta
+CUS,Cusco,04,Calca
+CUS,Cusco,05,Canas
+CUS,Cusco,06,Canchis
+CUS,Cusco,07,Chumbivilcas
+CUS,Cusco,08,Espinar
+CUS,Cusco,09,La Convención
+CUS,Cusco,10,Paruro
+CUS,Cusco,11,Paucartambo
+CUS,Cusco,12,Quispicanchi
+CUS,Cusco,13,Urubamba
+HUC,Huancavelica,01,Huancavelica
+HUC,Huancavelica,02,Acobamba
+HUC,Huancavelica,03,Angaraes
+HUC,Huancavelica,04,Castrovirreyna
+HUC,Huancavelica,05,Churcampa
+HUC,Huancavelica,06,Huaytará
+HUC,Huancavelica,07,Tayacaja
+HUV,Huánuco,01,Huánuco
+HUV,Huánuco,02,Ambo
+HUV,Huánuco,03,Dos de Mayo
+HUV,Huánuco,04,Huacaybamba
+HUV,Huánuco,05,Huamalíes
+HUV,Huánuco,06,Leoncio Prado
+HUV,Huánuco,07,Marañón
+HUV,Huánuco,08,Pachitea
+HUV,Huánuco,09,Puerto Inca
+HUV,Huánuco,10,Lauricocha
+HUV,Huánuco,11,Yarowilca
+ICA,Ica,01,Ica
+ICA,Ica,02,Chincha
+ICA,Ica,03,Nasca
+ICA,Ica,04,Palpa
+ICA,Ica,05,Pisco
+JUN,Junín,01,Huancayo
+JUN,Junín,02,Concepción
+JUN,Junín,03,Chanchamayo
+JUN,Junín,04,Jauja
+JUN,Junín,05,Junín
+JUN,Junín,06,Satipo
+JUN,Junín,07,Tarma
+JUN,Junín,08,Yauli
+JUN,Junín,09,Chupaca
+LAL,La Libertad,01,Trujillo
+LAL,La Libertad,02,Ascope
+LAL,La Libertad,03,Bolívar
+LAL,La Libertad,04,Chepén
+LAL,La Libertad,05,Julcán
+LAL,La Libertad,06,Otuzco
+LAL,La Libertad,07,Pacasmayo
+LAL,La Libertad,08,Pataz
+LAL,La Libertad,09,Sánchez Carrión
+LAL,La Libertad,10,Santiago de Chuco
+LAL,La Libertad,11,Gran Chimú
+LAL,La Libertad,12,Virú
+LAM,Lambayeque,01,Chiclayo
+LAM,Lambayeque,02,Ferreñafe
+LAM,Lambayeque,03,Lambayeque
+LMA,Lima,01,Lima
+LMA,Lima,02,Barranca
+LMA,Lima,03,Cajatambo
+LMA,Lima,04,Canta
+LMA,Lima,05,Cañete
+LMA,Lima,06,Huaral
+LMA,Lima,07,Huarochirí
+LMA,Lima,08,Huaura
+LMA,Lima,09,Oyón
+LMA,Lima,10,Yauyos
+LOR,Loreto,01,Maynas
+LOR,Loreto,02,Alto Amazonas
+LOR,Loreto,03,Loreto
+LOR,Loreto,04,Mariscal Ramón Castilla
+LOR,Loreto,05,Requena
+LOR,Loreto,06,Ucayali
+LOR,Loreto,07,Datem del Marañón
+LOR,Loreto,08,Putumayo
+MDD,Madre de Dios,01,Tambopata
+MDD,Madre de Dios,02,Manu
+MDD,Madre de Dios,03,Tahuamanu
+MOQ,Moquegua,01,Mariscal Nieto
+MOQ,Moquegua,02,General Sánchez Cerro
+MOQ,Moquegua,03,Ilo
+PAS,Pasco,01,Pasco
+PAS,Pasco,02,Daniel Alcides Carrión
+PAS,Pasco,03,Oxapampa
+PIU,Piura,01,Piura
+PIU,Piura,02,Ayabaca
+PIU,Piura,03,Huancabamba
+PIU,Piura,04,Morropón
+PIU,Piura,05,Paita
+PIU,Piura,06,Sullana
+PIU,Piura,07,Talara
+PIU,Piura,08,Sechura
+PUN,Puno,01,Puno
+PUN,Puno,02,Azángaro
+PUN,Puno,03,Carabaya
+PUN,Puno,04,Chucuito
+PUN,Puno,05,El Collao
+PUN,Puno,06,Huancané
+PUN,Puno,07,Lampa
+PUN,Puno,08,Melgar
+PUN,Puno,09,Moho
+PUN,Puno,10,San Antonio de Putina
+PUN,Puno,11,San Román
+PUN,Puno,12,Sandia
+PUN,Puno,13,Yunguyo
+SAM,San Martín,01,Moyobamba
+SAM,San Martín,02,Bellavista
+SAM,San Martín,03,El Dorado
+SAM,San Martín,04,Huallaga
+SAM,San Martín,05,Lamas
+SAM,San Martín,06,Mariscal Cáceres
+SAM,San Martín,07,Picota
+SAM,San Martín,08,Rioja
+SAM,San Martín,09,San Martín
+SAM,San Martín,10,Tocache
+TAC,Tacna,01,Tacna
+TAC,Tacna,02,Candarave
+TAC,Tacna,03,Jorge Basadre
+TAC,Tacna,04,Tarata
+TUM,Tumbes,01,Tumbes
+TUM,Tumbes,02,Contralmirante Villar
+TUM,Tumbes,03,Zarumilla
+UCA,Ucayali,01,Coronel Portillo
+UCA,Ucayali,02,Atalaya
+UCA,Ucayali,03,Padre Abad
+UCA,Ucayali,04,Purús

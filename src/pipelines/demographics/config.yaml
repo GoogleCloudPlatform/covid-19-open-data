@@ -47,6 +47,8 @@ sources:
 
   # WorldPop populations are estimates, so give them less priority
   - name: pipelines.worldpop.worldpop_population.WorldPopPopulationDataSource
+    test:
+      metadata_query: "key.str.match('^..$')"
 
   - name: pipelines._common.wikidata.WikidataDataSource
     parse:
