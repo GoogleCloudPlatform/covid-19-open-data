@@ -43,7 +43,48 @@ def _extract_cities(data: DataFrame) -> DataFrame:
     return DataFrame(columns=data.columns)
 
 
-class ChileDataSource(DataSource):
+class ChileRegionsDataSource(DataSource):
+    def parse_dataframes(
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
+    ) -> DataFrame:
+
+        data = table_multimerge(
+            [
+                table_rename(
+                    dataframes["confirmed"],
+                    {"Fecha": "date", "Total": "new_confirmed", "Region": "match_string"},
+                    drop=True,
+                ),
+                table_rename(
+                    dataframes["deceased"],
+                    {"Fecha": "date", "Total": "new_deceased", "Region": "match_string"},
+                    drop=True,
+                ),
+                table_rename(
+                    dataframes["tested"],
+                    {"Fecha": "date", "numero": "new_tested", "Region": "match_string"},
+                    drop=True,
+                ),
+            ]
+        )
+
+        # Convert date to ISO format
+        data["date"] = data["date"].astype(str)
+
+        # Extract cities from the regions
+        city = _extract_cities(data)
+
+        # Make sure all records have country code and no subregion code
+        data["country_code"] = "CL"
+        data["subregion2_code"] = None
+
+        # Drop bogus records from the data
+        data.dropna(subset=["date", "match_string"], inplace=True)
+
+        return concat([data, city])
+
+
+class ChileMunicipalitiesDataSource(DataSource):
     def parse_dataframes(
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
@@ -87,11 +128,6 @@ class ChileDataSource(DataSource):
         # Use proper ISO codes for the subregion1 level
         data["subregion1_code"] = data["subregion1_code"].apply(_SUBREGION1_CODE_MAP.get)
 
-        # Aggregate state-level data by adding all municipalities
-        state = data.drop(columns=["subregion2_code"]).groupby(["date", "subregion1_code"]).sum()
-        state.reset_index(inplace=True)
-        state["key"] = "CL_" + state["subregion1_code"]
-
         # Extract cities from the municipalities
         city = _extract_cities(data)
 
@@ -99,7 +135,6 @@ class ChileDataSource(DataSource):
         data["key"] = "CL_" + data["subregion1_code"] + "_" + data["subregion2_code"]
 
         # Drop bogus records from the data
-        state.dropna(subset=["subregion1_code"], inplace=True)
         data.dropna(subset=["subregion1_code", "subregion2_code"], inplace=True)
 
-        return concat([state, data, city])
+        return concat([data, city])

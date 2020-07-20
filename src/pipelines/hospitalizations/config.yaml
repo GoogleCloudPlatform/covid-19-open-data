@@ -50,6 +50,14 @@ sources:
     test:
       metadata_query: "key.str.match('CH_.+')"
 
+  # Data sources for CL level 2
+  - name: pipelines.hospitalizations.cl_authority.ChileRegionsDataSource
+    fetch:
+      - name: intensive_care
+        url: "https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto8/UCI_std.csv"
+    test:
+      metadata_query: "key.str.match('CL_[^_]+$')"
+
   # Data sources for CZ level 1
   - name: pipelines.hospitalizations.xx_opencovid.OpenCovidDataSource
     fetch:

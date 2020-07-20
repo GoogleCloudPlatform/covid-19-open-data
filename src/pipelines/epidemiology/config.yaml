@@ -487,14 +487,25 @@ sources:
       metadata_query: "key.str.match('CH_.+')"
 
   # Data sources for CL levels 2 + 3
-  - name: pipelines.epidemiology.cl_authority.ChileDataSource
+  - name: pipelines.epidemiology.cl_authority.ChileRegionsDataSource
+    fetch:
+      - name: confirmed
+        url: "https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto13/CasosNuevosCumulativo_std.csv"
+      - name: deceased
+        url: "https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto14/FallecidosCumulativo_std.csv"
+      - name: tested
+        url: "https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto7/PCR_std.csv"
+    test:
+      metadata_query: "key.str.match('CL_[^_]+$')"
+
+  - name: pipelines.epidemiology.cl_authority.ChileMunicipalitiesDataSource
     fetch:
       - name: confirmed
         url: "https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto1/Covid-19_std.csv"
       - name: deceased
         url: "https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto38/CasosFallecidosPorComuna_std.csv"
     test:
-      metadata_query: "key.str.match('CL_.+')"
+      metadata_query: "key.str.match('CL_.+_.+')"
 
   # Data sources for CN level 2
   - name: pipelines.epidemiology.xx_dxy.DXYDataSource
