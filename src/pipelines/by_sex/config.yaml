@@ -437,16 +437,7 @@ sources:
     test:
       metadata_query: "key == 'FI'"
 
-  # Data sources for FR levels 1 + 2 + 3
-  - name: pipelines.epidemiology.fr_authority.FranceDataSource
-    fetch:
-      - url: "https://www.data.gouv.fr/fr/datasets/r/63352e38-d353-4b54-bfd1-f1b3ee1cabd7"
-        opts:
-          ext: csv
-    parse:
-      sep: ";"
-    test:
-      metadata_query: "key.str.match('FR.*')"
+  # TODO(owahltinez): Parse stratified information from FR data source
 
   # Data sources for MX levels 1, 2 and 3
   - name: pipelines.epidemiology.mx_authority.MexicoDataSource

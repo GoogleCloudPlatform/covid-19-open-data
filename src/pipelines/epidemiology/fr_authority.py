@@ -12,113 +12,63 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from functools import partial
 from typing import Dict
-from pandas import DataFrame, concat, to_datetime
+
+from pandas import DataFrame, concat
 from lib.data_source import DataSource
-from lib.cast import age_group
+from lib.io import read_file
+from lib.constants import SRC
+from lib.concurrent import thread_map
+from lib.time import datetime_isoformat
+from lib.utils import table_rename
+
+
+_column_adapter = {
+    "key": "key",
+    "date": "date",
+    "deces": "new_deceased",
+    "testsPositifs": "new_confirmed",
+    "testsRealises": "new_tested",
+    "gueris": "new_recovered",
+    "hospitalises": "current_hospitalized",
+    "reanimation": "current_intensive_care",
+}
+
+_api_url_tpl = "https://dashboard.covid19.data.gouv.fr/data/code-{}.json"
+
+
+def _get_department(record: Dict[str, str]):
+    subregion1_code = record["subregion1_code"]
+    subregion2_code = record["subregion2_code"]
+    code = f"DEP-{subregion2_code}"
+    data = read_file(_api_url_tpl.format(code))
+    data["key"] = f"FR_{subregion1_code}_{subregion2_code}"
+    return table_rename(data, _column_adapter, drop=True)
+
+
+def _get_region(iso_map: Dict[str, str], subregion1_code: str):
+    code = iso_map[subregion1_code]
+    data = read_file(_api_url_tpl.format(code))
+    data["key"] = f"FR_{subregion1_code}"
+    return table_rename(data, _column_adapter, drop=True)
 
 
 class FranceDataSource(DataSource):
+    def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
 
-    column_adapter = {
-        "jour": "date",
-        "cl_age90": "age",
-        "sexe": "sex",
-        "dep": "subregion2_code",
-        "reg": "subregion2_code",
-        "p": "new_confirmed",
-        "t": "new_tested",
-        "incid_hosp": "new_hospitalized",
-        "incid_dc": "new_deceased",
-        "incid_rad": "new_recovered",
-        "hosp": "current_hospitalized",
-        "rea": "current_intensive_care",
-        "rad": "total_recovered",
-        "dc": "total_deceased",
-    }
+        metadata = aux["metadata"]
+        metadata = metadata[metadata["country_code"] == "FR"]
 
-    region_adapter = {"971": "GUA", "972": "MQ", "973": "GF", "974": "LRE", "976": "MAY"}
+        fr_isos = read_file(SRC / "data" / "fr_iso_codes.csv")
+        fr_iso_map = {iso: code for iso, code in zip(fr_isos["iso_code"], fr_isos["region_code"])}
+        fr_codes = metadata[["subregion1_code", "subregion2_code"]].dropna()
+        regions_iter = fr_codes["subregion1_code"].unique()
+        deps_iter = (record for _, record in fr_codes.iterrows())
 
-    def parse_dataframes(
-        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
-    ) -> DataFrame:
+        regions = concat(list(thread_map(partial(_get_region, fr_iso_map), regions_iter)))
+        departments = concat(list(thread_map(_get_department, deps_iter, total=len(fr_codes))))
 
-        # Rename the appropriate columns
-        data = dataframes[0].rename(columns=self.column_adapter)
-
-        # Make sure that the department is a string
-        data.subregion2_code = data.subregion2_code.apply(
-            lambda x: f"{x:02d}" if isinstance(x, int) else str(x)
-        )
-
-        # Add subregion1_code field to all records
-        data["subregion1_code"] = ""
-
-        # Adjust for special regions
-        for subregion2_code, subregion1_code in self.region_adapter.items():
-            mask = data.subregion2_code == subregion2_code
-            data.loc[mask, "subregion2_code"] = None
-            data.loc[mask, "subregion1_code"] = subregion1_code
-
-        # Get date in ISO format
-        data.date = to_datetime(data.date).apply(lambda x: x.date().isoformat())
-
-        # Get keys from metadata auxiliary table
-        data["country_code"] = "FR"
-        subregion1_mask = data.subregion2_code.isna()
-        data1 = data[subregion1_mask].merge(
-            aux["metadata"], on=("country_code", "subregion1_code", "subregion2_code")
-        )
-        data2 = (
-            data[~subregion1_mask]
-            .drop(columns=["subregion1_code"])
-            .merge(aux["metadata"], on=("country_code", "subregion2_code"))
-        )
-        data = concat([data1, data2])
-
-        # We only need to keep key-date pair for identification
-        data = data.drop(columns=["subregion1_code", "subregion2_code"])
-
-        # Use age as an indexing key only if it exists
-        extra_indexing_columns = []
-        if "age" in data.columns:
-            # Zero means "no age group" which we don't care about
-            data = data[data.age > 0]
-            # Convert to the expected age range format to stratify later
-            data.age = data.age.apply(age_group)
-            # Add 'age' to the indexing columns
-            extra_indexing_columns += ["age"]
-
-        # Use sex as an index key only if it exists
-        if "sex" in data.columns:
-            # Zero means ungrouped, which we don't care about
-            data = data[data.sex > 0]
-            # Convert to known variable names
-            data.sex = data.sex.apply({1: "male", 2: "female"}.get)
-            # Add 'dex' to the indexing columns
-            extra_indexing_columns += ["sex"]
-
-        # Group by level 2 region, and add the parts
-        l2 = data.copy()
-        l2["key"] = l2.key.apply(lambda x: "_".join(x.split("_")[:2]))
-        l2 = l2.groupby(extra_indexing_columns + ["key", "date"]).sum().reset_index()
-
-        # Group by country level, and add the parts
-        l1 = l2.copy().drop(columns=["key"])
-        l1 = l1.groupby(extra_indexing_columns + ["date"]).sum().reset_index()
-        l1["key"] = "FR"
-
-        # Country-level data greatly differs from what's available from other sources, because only
-        # hospitalization records are available via France's authoritative source. For that reason,
-        # we remove the data types which can be obtained by other means at the country level.
-        drop_country_columns = ["new_confirmed", "new_tested"]
-        if any([col in l1.columns for col in drop_country_columns]):
-            l1 = DataFrame(data=[], columns=l1.columns)
-
-        # Remove unnecessary columns (needed for concat to work properly)
-        data = data.drop(
-            columns=[col for col in aux["metadata"].columns if col in data and col != "key"]
-        )
-
-        # Output the results
-        return concat([l1, l2, data])
+        data = concat([regions, departments])
+        data["date"] = data["date"].apply(lambda x: datetime_isoformat(x, "%Y-%m-%d %H:%M:%S"))
+        return data

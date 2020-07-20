@@ -6,11 +6,11 @@ runtime_config:
     python_version: 3.7
 
 automatic_scaling:
-    min_num_instances: 2
+    min_num_instances: 4
     max_num_instances: 50
     cool_down_period_sec: 60
     cpu_utilization:
-        target_utilization: 0.75
+        target_utilization: 0.5
 
 resources:
     cpu: 4

@@ -94,24 +94,10 @@ sources:
 
   # Data sources for FR levels 1 + 2 + 3
   - name: pipelines.epidemiology.fr_authority.FranceDataSource
-    fetch:
-      - url: "https://www.data.gouv.fr/fr/datasets/r/6fadff46-9efd-4c53-942a-54aca783c30c"
-        opts:
-          ext: csv
-    parse:
-      sep: ";"
+    # No URL is defined because data is queried via API
+    # TODO(owahltinez): Parse stratified information as well
     test:
-      metadata_query: "key.str.match('FR.*')"
-
-  - name: pipelines.epidemiology.fr_authority.FranceDataSource
-    fetch:
-      - url: "https://www.data.gouv.fr/fr/datasets/r/63352e38-d353-4b54-bfd1-f1b3ee1cabd7"
-        opts:
-          ext: csv
-    parse:
-      sep: ";"
-    test:
-      metadata_query: "key.str.match('FR.*')"
+      metadata_query: "key.str.match('FR_.+')"
 
   # Data sources for GB levels 1 + 2 + 3
   - name: pipelines.hospitalizations.gb_authority.ScotlandDataSource
