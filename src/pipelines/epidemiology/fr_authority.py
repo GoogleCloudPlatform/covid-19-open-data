@@ -27,7 +27,7 @@ from lib.utils import table_rename
 _column_adapter = {
     "key": "key",
     "date": "date",
-    "deces": "new_deceased",
+    "deces": "total_deceased",
     "testsPositifs": "new_confirmed",
     "testsRealises": "new_tested",
     "gueris": "new_recovered",
