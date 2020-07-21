@@ -34,6 +34,7 @@ class Mexicovid19DataSource(DataSource):
 
         # Country-level have a specific label
         data["country_code"] = "MX"
+        data["subregion2_code"] = None
         data.loc[data.match_string == "Nacional", "key"] = "MX"
 
         return data

@@ -168,7 +168,7 @@ sources:
       - name: new_intensive_care
         url: "https://raw.github.com/mexicovid19/Mexico-datos/master/datos_abiertos/series_de_tiempo/nuevos/covid19_mex_uci.csv"
     test:
-      metadata_query: "key.str.match('MX.*')"
+      metadata_query: "key.str.match('MX_...$')"
 
   # Data sources for NL levels 1 + 2 + 3
   - name: pipelines.epidemiology.nl_authority.NetherlandsDataSource

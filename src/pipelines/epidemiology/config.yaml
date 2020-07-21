@@ -866,7 +866,7 @@ sources:
       - name: new_tested
         url: "https://raw.github.com/mexicovid19/Mexico-datos/master/datos_abiertos/series_de_tiempo/nuevos/covid19_mex_pruebas-totales.csv"
     test:
-      metadata_query: "key.str.match('MX.*')"
+      metadata_query: "key.str.match('MX_...$')"
 
   # Data sources for MX levels 1, 2 and 3
   - name: pipelines.epidemiology.mx_authority.MexicoDataSource
@@ -875,6 +875,8 @@ sources:
     parse:
       encoding: "ISO-8859-1"
     test:
+      # Skip this data source because it's too slow
+      skip: true
       metadata_query: "key.str.match('MX_.+')"
 
   # Data sources for MZ level 2
@@ -1084,6 +1086,8 @@ sources:
     parse:
       sheet_name: "Overal Stats"
     test:
+      # Skip because it's too flakey
+      skip: true
       metadata_query: "key == 'US_DC'"
 
   # Data sources for US_DE level 2

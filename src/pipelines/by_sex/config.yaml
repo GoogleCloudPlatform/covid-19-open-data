@@ -492,6 +492,8 @@ sources:
     parse:
       encoding: "ISO-8859-1"
     test:
+      # Skip this data source because it's too slow
+      skip: true
       metadata_query: "key.str.match('MX_.+')"
 
   # Data sources for PH levels 2 + 3
@@ -512,6 +514,8 @@ sources:
     parse:
       sheet_name: "Lives Lost by Sex"
     test:
+      # Skip because it's too flakey
+      skip: true
       metadata_query: "key == 'US_DC'"
 
   # Data sources for US_DE level 2
