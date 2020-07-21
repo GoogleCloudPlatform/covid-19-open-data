@@ -31,7 +31,7 @@ class LibyaHumdataDataSource(DataSource):
             dataframes[0]
             .rename(
                 columns={
-                    "Location": "match_string",
+                    "Location": "subregion2_name",
                     "Confirmed Cases": "total_confirmed",
                     "Deaths": "total_deceased",
                     "Recoveries": "total_recovered",
@@ -42,7 +42,7 @@ class LibyaHumdataDataSource(DataSource):
         )
 
         # The first row is metadata info about column names - discard it
-        data = data[data.match_string != '#loc+name']
+        data = data[data.subregion2_name != '#loc+name']
       
         # Convert string numbers to int
         # Parse integers
