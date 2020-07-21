@@ -71,6 +71,8 @@ sources:
       metadata_query: "key.str.match('BR_AC_.+')"
       # Skip because it's too slow
       skip: true
+    automation:
+      job_group: brazil_federal
 
   # Data sources for BR_AL level 3
   - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
@@ -84,6 +86,8 @@ sources:
       metadata_query: "key.str.match('BR_AL_.+')"
       # Skip because it's too slow
       skip: true
+    automation:
+      job_group: brazil_federal
 
   # Data sources for BR_AM level 3
   - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
@@ -110,6 +114,8 @@ sources:
       metadata_query: "key.str.match('BR_AP_.+')"
       # Skip because it's too slow
       skip: true
+    automation:
+      job_group: brazil_federal
 
   # Data sources for BR_BA level 3
   - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
@@ -123,6 +129,8 @@ sources:
       metadata_query: "key.str.match('BR_BA_.+')"
       # Skip because it's too slow
       skip: true
+    automation:
+      job_group: brazil_federal
 
   # Data sources for BR_CE level 3
   - name: pipelines.epidemiology.br_ce_authority.CearaDataSource
@@ -145,6 +153,8 @@ sources:
       metadata_query: "key.str.match('BR_DF_.+')"
       # Skip because it's too slow
       skip: true
+    automation:
+      job_group: brazil_federal
 
   # Data sources for BR_ES level 3
   - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
@@ -158,6 +168,8 @@ sources:
       metadata_query: "key.str.match('BR_ES_.+')"
       # Skip because it's too slow
       skip: true
+    automation:
+      job_group: brazil_federal
 
   # Data sources for BR_GO level 3
   - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
@@ -171,6 +183,8 @@ sources:
       metadata_query: "key.str.match('BR_GO_.+')"
       # Skip because it's too slow
       skip: true
+    automation:
+      job_group: brazil_federal
 
   # Data sources for BR_MA level 3
   - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
@@ -184,6 +198,8 @@ sources:
       metadata_query: "key.str.match('BR_MA_.+')"
       # Skip because it's too slow
       skip: true
+    automation:
+      job_group: brazil_federal
 
   # TODO(owahltinez): work around CSV parsing error
   # # Data sources for BR_MG level 3
@@ -198,6 +214,8 @@ sources:
   #     metadata_query: "key.str.match('BR_MG_.+')"
   #     # Skip because it's too slow
   #     skip: true
+  #   automation:
+  #     job_group: brazil_federal
 
   # Data sources for BR_MS level 3
   - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
@@ -211,6 +229,8 @@ sources:
       metadata_query: "key.str.match('BR_MS_.+')"
       # Skip because it's too slow
       skip: true
+    automation:
+      job_group: brazil_federal
 
   # Data sources for BR_MT level 3
   - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
@@ -224,6 +244,8 @@ sources:
       metadata_query: "key.str.match('BR_MT_.+')"
       # Skip because it's too slow
       skip: true
+    automation:
+      job_group: brazil_federal
 
   # Data sources for BR_PA level 3
   - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
@@ -237,6 +259,8 @@ sources:
       metadata_query: "key.str.match('BR_PA_.+')"
       # Skip because it's too slow
       skip: true
+    automation:
+      job_group: brazil_federal
 
   # Data sources for BR_PB level 3
   - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
@@ -250,6 +274,8 @@ sources:
       metadata_query: "key.str.match('BR_PB_.+')"
       # Skip because it's too slow
       skip: true
+    automation:
+      job_group: brazil_federal
 
   # TODO(owahltinez): fix key mismatch for BR_PE_260545
   # Data sources for BR_PE level 3
@@ -264,6 +290,8 @@ sources:
       metadata_query: "key.str.match('BR_PE_.+')"
       # Skip because it's too slow
       skip: true
+    automation:
+      job_group: brazil_federal
 
   # Data sources for BR_PI level 3
   - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
@@ -277,6 +305,8 @@ sources:
       metadata_query: "key.str.match('BR_PI_.+')"
       # Skip because it's too slow
       skip: true
+    automation:
+      job_group: brazil_federal
 
   # TODO(owahltinez): work around CSV parsing error
   # # Data sources for BR_PR level 3
@@ -291,6 +321,8 @@ sources:
   #     metadata_query: "key.str.match('BR_PR_.+')"
   #     # Skip because it's too slow
   #     skip: true
+  #   automation:
+  #     job_group: brazil_federal
 
   # Data sources for BR_RJ level 3
   - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
@@ -304,6 +336,8 @@ sources:
       metadata_query: "key.str.match('BR_RJ_.+')"
       # Skip because it's too slow
       skip: true
+    automation:
+      job_group: brazil_federal
 
   # Data sources for BR_RJ level 3
   - name: pipelines.epidemiology.br_rj_authority.RioStratifiedDataSource
@@ -329,6 +363,8 @@ sources:
       metadata_query: "key.str.match('BR_RN_.+')"
       # Skip because it's too slow
       skip: true
+    automation:
+      job_group: brazil_federal
 
   # Data sources for BR_RS level 3
   - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
@@ -342,6 +378,8 @@ sources:
       metadata_query: "key.str.match('BR_RS_.+')"
       # Skip because it's too slow
       skip: true
+    automation:
+      job_group: brazil_federal
 
   # Data sources for BR_SC level 3
   - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
@@ -355,6 +393,8 @@ sources:
       metadata_query: "key.str.match('BR_SC_.+')"
       # Skip because it's too slow
       skip: true
+    automation:
+      job_group: brazil_federal
 
   # Data sources for BR_SE level 3
   - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
@@ -368,6 +408,8 @@ sources:
       metadata_query: "key.str.match('BR_SE_.+')"
       # Skip because it's too slow
       skip: true
+    automation:
+      job_group: brazil_federal
 
   # Data sources for BR_SP level 3
   - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
@@ -381,6 +423,8 @@ sources:
       metadata_query: "key.str.match('BR_SP_.+')"
       # Skip because it's too slow
       skip: true
+    automation:
+      job_group: brazil_federal
 
   # Data sources for BR_TO level 3
   - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
@@ -394,6 +438,8 @@ sources:
       metadata_query: "key.str.match('BR_TO_.+')"
       # Skip because it's too slow
       skip: true
+    automation:
+      job_group: brazil_federal
 
   # Data sources for CO levels 1 + 2 + 3
   - name: pipelines.epidemiology.co_authority.ColombiaDataSource

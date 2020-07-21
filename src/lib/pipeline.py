@@ -36,7 +36,9 @@ from .utils import combine_tables, drop_na_records, filter_output_columns
 
 def _gen_intermediate_name(data_source: DataSource) -> str:
     data_source_class = data_source.__class__
-    data_source_config = str({k: v for k, v in data_source.config.items() if k not in ("test",)})
+    cfg = data_source.config
+    config_invariant = ("test", "automation")
+    data_source_config = str({key: val for key, val in cfg.items() if key not in config_invariant})
     source_full_name = f"{data_source_class.__module__}.{data_source_class.__name__}"
     return uuid.uuid5(uuid.NAMESPACE_DNS, f"{source_full_name}.{data_source_config}")
 
@@ -108,18 +110,31 @@ class DataPipeline(ErrorLogger):
         Returns:
             DataPipeline: The DataPipeline object corresponding to the input name.
         """
+        # Read config from the yaml file
         config_path = SRC / "pipelines" / name / "config.yaml"
         with open(config_path, "r") as fd:
             config_yaml = yaml.safe_load(fd)
+
+        # The pipeline's schema and auxiliary tables are part of the config
         schema = {name: parse_dtype(dtype) for name, dtype in config_yaml["schema"].items()}
         auxiliary = {name: SRC / path for name, path in config_yaml.get("auxiliary", {}).items()}
+
         data_sources = []
-        for pipeline_config in config_yaml["sources"]:
-            module_tokens = pipeline_config["name"].split(".")
+        for idx, source_config in enumerate(config_yaml["sources"]):
+            # Add the job group to all configs
+            source_config["automation"] = source_config.get("automation", {})
+            source_config["automation"]["job_group"] = source_config["automation"].get(
+                "job_group", str(idx)
+            )
+
+            # Use reflection to create an instance of the corresponding DataSource class
+            module_tokens = source_config["name"].split(".")
             class_name = module_tokens[-1]
             module_name = ".".join(module_tokens[:-1])
             module = importlib.import_module(module_name)
-            data_sources.append(getattr(module, class_name)(pipeline_config))
+
+            # Create the DataSource class with the appropriate config
+            data_sources.append(getattr(module, class_name)(source_config))
 
         return DataPipeline(name, schema, auxiliary, data_sources)
 

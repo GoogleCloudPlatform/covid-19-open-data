@@ -188,10 +188,13 @@ def cache_pull() -> None:
 
 
 @app.route("/update_table")
-def update_table(table_name: str = None, idx: int = None) -> None:
+def update_table(table_name: str = None, job_group: int = None) -> None:
     table_name = table_name or request.args.get("table")
-    idx = idx or safe_int_cast(request.args.get("idx"))
     assert table_name in list(get_table_names())
+    try:
+        job_group = request.args.get("job_group")
+    except:
+        pass
     with TemporaryDirectory() as output_folder:
         output_folder = Path(output_folder)
         (output_folder / "snapshot").mkdir(parents=True, exist_ok=True)
@@ -201,9 +204,16 @@ def update_table(table_name: str = None, idx: int = None) -> None:
         pipeline_name = table_name.replace("-", "_")
         data_pipeline = DataPipeline.load(pipeline_name)
 
-        # Limit the sources to only the index provided
-        if idx is not None:
-            data_pipeline.data_sources = [data_pipeline.data_sources[idx]]
+        # Limit the sources to only the job_group provided
+        if job_group is not None:
+            data_pipeline.data_sources = [
+                data_source
+                for data_source in data_pipeline.data_sources
+                if data_source.config.get("automation", {}).get("job_group") == job_group
+            ]
+            assert (
+                data_pipeline.data_sources
+            ), f"No data sources matched job group {job_group} for table {table_name}"
 
         # Produce the intermediate files from the data source
         intermediate_results = data_pipeline.parse(output_folder, process_count=1)
@@ -220,7 +230,10 @@ def update_table(table_name: str = None, idx: int = None) -> None:
 
 @app.route("/combine_table")
 def combine_table(table_name: str = None) -> None:
-    table_name = table_name or request.args.get("table")
+    try:
+        table_name = request.args.get("table")
+    except:
+        pass
     assert table_name in list(get_table_names())
     with TemporaryDirectory() as output_folder:
         output_folder = Path(output_folder)

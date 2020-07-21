@@ -72,6 +72,9 @@ def get_cron_jobs() -> Iterator[Dict]:
         **copy.deepcopy(retry_params),
     }
 
+    # Keep track of the different job groups to only output them once
+    job_urls_seen = set()
+
     for data_pipeline in get_pipelines():
         # The job that combines data sources into a table runs hourly
         yield {
@@ -81,15 +84,19 @@ def get_cron_jobs() -> Iterator[Dict]:
             **copy.deepcopy(retry_params),
         }
 
-        for idx, _ in enumerate(data_pipeline.data_sources):
+        for idx, data_source in enumerate(data_pipeline.data_sources):
             # The job to pull each individual data source runs hourly unless specified otherwise
-            # TODO(owahltinez): add parameter to YAML config data sources to allow override of
-            # default scheduling
-            yield {
-                "url": f"/update_table?table={data_pipeline.table}&idx={idx}",
-                **copy.deepcopy(sched_hourly),
-                **copy.deepcopy(retry_params),
-            }
+            job_sched = data_source.config.get("automation", {}).get("schedule", sched_hourly)
+
+            # Each data source has a job group. All data sources within the same job group are run
+            # as part of the same job in series. The default job group is the index of the data
+            # source.
+            job_group = data_source.config.get("automation", {}).get("job_group", idx)
+            job_url = f"/update_table?table={data_pipeline.table}&job_group={job_group}"
+
+            if job_url not in job_urls_seen:
+                job_urls_seen.add(job_url)
+                yield {"url": job_url, **copy.deepcopy(job_sched), **copy.deepcopy(retry_params)}
 
 
 if __name__ == "__main__":
