@@ -1077,6 +1077,16 @@ sources:
     test:
       metadata_query: "key == 'US_AK'"
 
+  # Data sources for US_CA_SFO
+  - name: pipelines.epidemiology.us_ca_sfo_authority.SanFranciscoDataSource
+    fetch:
+      - name: cases
+        url: "https://data.sfgov.org/api/views/tvq9-ec9w/rows.csv"
+      - name: tests
+        url: "https://data.sfgov.org/api/views/nfpa-mg4g/rows.csv"
+    test:
+      metadata_query: "key == 'US_CA_SFO'"
+
   # Data sources for US_DC level 2
   - name: pipelines.epidemiology.us_dc_authority.DistrictColumbiaDataSource
     fetch:
