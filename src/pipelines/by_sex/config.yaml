@@ -496,6 +496,22 @@ sources:
       skip: true
       metadata_query: "key.str.match('MX_.+')"
 
+  # Data sources for PE levels 2 + 3
+  - name: pipelines.epidemiology.pe_authority.PeruDataSource
+    fetch:
+      - name: confirmed
+        url: "https://cloud.minsa.gob.pe/s/Y8w3wHsEdYQSZRp/download"
+        opts:
+          ext: csv
+      - name: deceased
+        url: "https://cloud.minsa.gob.pe/s/Md37cjXmjT9qYSa/download"
+        opts:
+          ext: csv
+    parse:
+      encoding: "ISO-8859-1"
+    test:
+      metadata_query: "key.str.match('PE_.+')"
+
   # Data sources for PH levels 2 + 3
   - name: pipelines.epidemiology.ph_authority.PhilippinesDataSource
     fetch:

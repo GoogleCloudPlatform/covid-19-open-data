@@ -918,7 +918,7 @@ sources:
         opts:
           ext: csv
       - name: deceased
-        url: "https://cloud.minsa.gob.pe/s/Y8w3wHsEdYQSZRp/download"
+        url: "https://cloud.minsa.gob.pe/s/Md37cjXmjT9qYSa/download"
         opts:
           ext: csv
     parse:
