@@ -228,7 +228,7 @@ def export_csv(
 
     # The format used for numbers has the potential of storing a very large number of digits for
     # floating point type but it's necessary for consistent representation of large integers
-    return data.to_csv(path_or_buf=path, index=False, float_format="%.13G", **csv_opts)
+    return data.to_csv(path_or_buf=path, index=False, float_format="%.15G", **csv_opts)
 
 
 def pbar(*args, **kwargs) -> tqdm:
