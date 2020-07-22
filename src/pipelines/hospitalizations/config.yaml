@@ -34,6 +34,15 @@ auxiliary:
 
 sources:
 
+  # Data sources for AR levels 2 + 3
+  - name: pipelines.epidemiology.ar_authority.ArgentinaDataSource
+    fetch:
+      - url: "https://sisa.msal.gov.ar/datos/descargas/covid-19/files/Covid19Casos.csv"
+    test:
+      # Skip because it's too slow
+      skip: true
+      metadata_query: "key.str.match('AR_.*')"
+
   # Data sources for AU level 1
   - name: pipelines.hospitalizations.xx_opencovid.OpenCovidDataSource
     fetch:

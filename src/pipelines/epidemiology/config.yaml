@@ -71,21 +71,14 @@ sources:
     automation:
       job_group: 'google_sheets'
 
-  # Data sources for AR level 2
-  - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
+  # Data sources for AR levels 2 + 3
+  - name: pipelines.epidemiology.ar_authority.ArgentinaDataSource
     fetch:
-      - url: "https://en.wikipedia.org/wiki/Template:2019–20_coronavirus_pandemic_data/Argentina_medical_cases"
-        opts:
-          ext: html
-    parse:
-      country: AR
-      date_format: "%d %b"
-      skiprows: 1
-      cumsum: true
+      - url: "https://sisa.msal.gov.ar/datos/descargas/covid-19/files/Covid19Casos.csv"
     test:
-      metadata_query: "key.str.match('AR_.+')"
-    automation:
-      job_group: 'wikipedia'
+      # Skip because it's too slow
+      skip: true
+      metadata_query: "key.str.match('AR_.*')"
 
   # Data sources for AT level 2
   - name: pipelines.epidemiology.xx_covid19_eu_data.Covid19EuDataSource
