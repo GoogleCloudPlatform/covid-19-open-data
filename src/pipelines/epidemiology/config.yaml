@@ -57,9 +57,8 @@ sources:
         url: "https://raw.github.com/DataScienceResearchPeru/covid-19_latinoamerica/master/latam_covid_19_data/time_series/time_series_deaths.csv"
       - name: recovered
         url: "https://raw.github.com/DataScienceResearchPeru/covid-19_latinoamerica/master/latam_covid_19_data/time_series/time_series_recovered.csv"
-    query: "~key.str.match('CL_.+')"
     test:
-      metadata_query: "key.str.match('PE_.+')"
+      metadata_query: "key.str.match('CU_.+')"
 
   # Data sources for AF level 2
   - name: pipelines.epidemiology.af_humdata.AfghanistanHumdataDataSource

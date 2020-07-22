@@ -14,7 +14,7 @@
 
 import re
 from typing import Dict
-from pandas import DataFrame
+from pandas import DataFrame, isna
 from lib.cast import safe_int_cast
 from lib.data_source import DataSource
 
@@ -30,6 +30,7 @@ class Covid19LatinoAmericaDataSource(DataSource):
             df.rename(columns={"ISO 3166-2 Code": "key"}, inplace=True)
             df.key = df.key.str.replace("-", "_")
             data[name] = df.set_index("key")
+        value_columns = [f"total_{statistic}" for statistic in data.keys()]
 
         # Transform the data from non-tabulated format to record format
         records = []
@@ -42,8 +43,8 @@ class Covid19LatinoAmericaDataSource(DataSource):
                     {
                         **{"date": col, "key": key},
                         **{
-                            f"total_{var}": safe_int_cast(df.loc[key, col])
-                            for var, df in data.items()
+                            f"total_{statistic}": safe_int_cast(df.loc[key, col])
+                            for statistic, df in data.items()
                         },
                     }
                 )
@@ -51,12 +52,15 @@ class Covid19LatinoAmericaDataSource(DataSource):
         # Zeroes can be considered NaN in this data
         data = DataFrame.from_records(records).replace(0, None)
 
+        # Remove all data without a proper date
+        data = data.dropna(subset=["date"])
+
         # Since it's cumsum data, we can forward fill relatively safely
         data = data.sort_values(["key", "date"]).groupby("key").apply(lambda x: x.ffill())
 
-        # We already have CO data directly from the authoritative source, ideally we would match
-        # the keys from here to the source which uses DIVIPOLA codes. That's left as a TODO for now.
-        data = data[~data.key.str.startswith("CO_")]
+        # We already have BR, CO, MX and PE data directly from the authoritative source
+        for country_code in ("BR", "CL", "CO", "MX", "PE"):
+            data = data[~data.key.str.startswith(f"{country_code}_")]
 
         # Correct the French colonies since we are using something different to the ISO 3166-2 code
         data.loc[data.key == "FR_GP", "key"] = "FR_GUA"
@@ -64,5 +68,21 @@ class Covid19LatinoAmericaDataSource(DataSource):
         # VE_W are "external territories" of Venezuela, which can't be mapped to any particular
         # geographical region and therefore we exclude them
         data = data[data.key != "VE_W"]
+
+        # The data appears to be very unreliable prior to March 12
+        data.loc[data["date"] <= "2020-03-12", value_columns] = None
+
+        # In many cases, total counts go down dramatically; filter out all dates prior to that
+        # We lose a lot of data by setting such a low threshold, but this data source is unreliable
+        skip_threshold = 0
+        for key in data["key"].unique():
+            rm_date = "2020-01-01"
+            subset = data[data["key"] == key]
+            diffs = subset.set_index("date")[value_columns].diff()
+            for col in value_columns:
+                max_date = diffs.loc[diffs[col] < skip_threshold].index.max()
+                if not isna(max_date) and max_date > rm_date:
+                    rm_date = max_date
+            data.loc[(data["key"] == key) & (data["date"] < rm_date), value_columns] = None
 
         return data
