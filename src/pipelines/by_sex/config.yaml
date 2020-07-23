@@ -69,7 +69,7 @@ sources:
       metadata_query: "key.str.match('AR_.*')"
 
   # Data sources for BR_AC level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
+  - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
     parse:
@@ -84,7 +84,7 @@ sources:
       job_group: brazil_federal
 
   # Data sources for BR_AL level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
+  - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
     parse:
@@ -99,7 +99,7 @@ sources:
       job_group: brazil_federal
 
   # Data sources for BR_AM level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
+  - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
     parse:
@@ -112,7 +112,7 @@ sources:
       skip: true
 
   # Data sources for BR_AP level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
+  - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
     parse:
@@ -127,7 +127,7 @@ sources:
       job_group: brazil_federal
 
   # Data sources for BR_BA level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
+  - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
     parse:
@@ -151,7 +151,7 @@ sources:
       metadata_query: "key.str.match('BR_CE.+')"
 
   # Data sources for BR_DF level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
+  - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
     parse:
@@ -166,7 +166,7 @@ sources:
       job_group: brazil_federal
 
   # Data sources for BR_ES level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
+  - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
     parse:
@@ -181,7 +181,7 @@ sources:
       job_group: brazil_federal
 
   # Data sources for BR_GO level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
+  - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
     parse:
@@ -196,7 +196,7 @@ sources:
       job_group: brazil_federal
 
   # Data sources for BR_MA level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
+  - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
     parse:
@@ -212,7 +212,7 @@ sources:
 
   # TODO(owahltinez): work around CSV parsing error
   # # Data sources for BR_MG level 3
-  # - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
+  # - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
   #   fetch:
   #     - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
   #   parse:
@@ -227,7 +227,7 @@ sources:
   #     job_group: brazil_federal
 
   # Data sources for BR_MS level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
+  - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
     parse:
@@ -242,7 +242,7 @@ sources:
       job_group: brazil_federal
 
   # Data sources for BR_MT level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
+  - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
     parse:
@@ -257,7 +257,7 @@ sources:
       job_group: brazil_federal
 
   # Data sources for BR_PA level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
+  - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
     parse:
@@ -272,7 +272,7 @@ sources:
       job_group: brazil_federal
 
   # Data sources for BR_PB level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
+  - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
     parse:
@@ -288,7 +288,7 @@ sources:
 
   # TODO(owahltinez): fix key mismatch for BR_PE_260545
   # Data sources for BR_PE level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
+  - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
     parse:
@@ -303,7 +303,7 @@ sources:
       job_group: brazil_federal
 
   # Data sources for BR_PI level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
+  - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
     parse:
@@ -319,7 +319,7 @@ sources:
 
   # TODO(owahltinez): work around CSV parsing error
   # # Data sources for BR_PR level 3
-  # - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
+  # - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
   #   fetch:
   #     - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
   #   parse:
@@ -334,7 +334,7 @@ sources:
   #     job_group: brazil_federal
 
   # Data sources for BR_RJ level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
+  - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
     parse:
@@ -361,7 +361,7 @@ sources:
       metadata_query: "key == 'BR_RJ_GIG'"
 
   # Data sources for BR_RN level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
+  - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
     parse:
@@ -376,7 +376,7 @@ sources:
       job_group: brazil_federal
 
   # Data sources for BR_RS level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
+  - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
     parse:
@@ -391,7 +391,7 @@ sources:
       job_group: brazil_federal
 
   # Data sources for BR_SC level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
+  - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
     parse:
@@ -406,7 +406,7 @@ sources:
       job_group: brazil_federal
 
   # Data sources for BR_SE level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
+  - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
     parse:
@@ -421,7 +421,7 @@ sources:
       job_group: brazil_federal
 
   # Data sources for BR_SP level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
+  - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
     parse:
@@ -436,7 +436,7 @@ sources:
       job_group: brazil_federal
 
   # Data sources for BR_TO level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
+  - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
     parse:

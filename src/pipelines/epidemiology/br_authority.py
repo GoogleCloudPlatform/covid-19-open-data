@@ -14,9 +14,12 @@
 
 from pathlib import Path
 from typing import Any, Dict, List
-from pandas import DataFrame, isna
+
+import requests
+from pandas import DataFrame, concat, isna
+
 from lib.case_line import convert_cases_to_time_series
-from lib.cast import safe_int_cast
+from lib.cast import safe_int_cast, numeric_code_as_string
 from lib.pipeline import DataSource
 from lib.time import datetime_isoformat
 from lib.utils import table_rename
@@ -57,7 +60,29 @@ _IBGE_STATES = {
 }
 
 
-class BrazilStatesDataSource(DataSource):
+class BrazilMunicipalitiesDataSource(DataSource):
+    def fetch(
+        self, output_folder: Path, cache: Dict[str, str], fetch_opts: List[Dict[str, Any]]
+    ) -> Dict[str, str]:
+        # Get the URL from a fake browser request
+        url = requests.get(
+            "https://xx9p7hp1p7.execute-api.us-east-1.amazonaws.com/prod/PortalGeral",
+            headers={
+                "Accept": "application/json, text/plain, */*",
+                "Accept-Language": "en-GB,en;q=0.5",
+                "X-Parse-Application-Id": "unAFkcaNDeXajurGB7LChj8SgQYS2ptm",
+                "Origin": "https://covid.saude.gov.br",
+                "Connection": "keep-alive",
+                "Referer": "https://covid.saude.gov.br/",
+                "Pragma": "no-cache",
+                "Cache-Control": "no-cache",
+                "TE": "Trailers",
+            },
+        ).json()["results"][0]["arquivo"]["url"]
+
+        # Pass the actual URL down to fetch it
+        return super().fetch(output_folder, cache, [{"url": url}])
+
     def parse_dataframes(
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
@@ -65,25 +90,43 @@ class BrazilStatesDataSource(DataSource):
         data = table_rename(
             dataframes[0],
             {
-                "date": "date",
-                "state": "match_string",
-                "cases": "total_confirmed",
-                "deaths": "total_deceased",
+                "data": "date",
+                "estado": "subregion1_code",
+                "codmun": "subregion2_code",
+                "municipio": "subregion2_name",
+                "casosNovos": "new_confirmed",
+                "obitosNovos": "new_deceased",
+                "casosAcumulado": "total_confirmed",
+                "obitosAcumulado": "total_deceased",
+                "Recuperadosnovos": "new_recovered",
             },
             drop=True,
         )
 
-        # Make sure date is of str type
+        # Convert date to ISO format
         data["date"] = data["date"].astype(str)
 
-        # Match only with subregion1 level
-        data["country_code"] = "BR"
-        data["locality_code"] = None
-        data["subregion2_code"] = None
+        # Parse region codes as strings
+        data["subregion2_code"] = data["subregion2_code"].apply(
+            lambda x: numeric_code_as_string(x, 6)
+        )
 
-        # Drop rows without useful data
-        data = data[data["match_string"] != ""]
-        data.dropna(subset=["date", "match_string"], inplace=True)
+        # Country-level data has null state
+        data["key"] = None
+        country_mask = data["subregion1_code"].isna()
+        data.loc[country_mask, "key"] = "BR"
+
+        # State-level data has null municipality
+        state_mask = data["subregion2_code"].isna()
+        data.loc[~country_mask & state_mask, "key"] = "BR_" + data["subregion1_code"]
+
+        # We can derive the key from subregion1 + subregion2
+        data.loc[~country_mask & ~state_mask, "key"] = (
+            "BR_" + data["subregion1_code"] + "_" + data["subregion2_code"]
+        )
+
+        # Drop bogus data
+        data = data[data["subregion2_code"].str.slice(-4) != "0000"]
 
         return data
 
@@ -93,14 +136,16 @@ _column_adapter = {
     "idade": "age",
     "municipioIBGE": "subregion2_code",
     "dataTeste": "date_new_tested",
+    "dataInicioSintomas": "_date_onset",
     "estadoIBGE": "_state_code",
     "evolucaoCaso": "_prognosis",
     "dataEncerramento": "_date_update",
     "resultadoTeste": "_test_result",
+    "classificacaoFinal": "_classification",
 }
 
 
-class BrazilMunicipalitiesDataSource(DataSource):
+class BrazilStratifiedDataSource(DataSource):
     def fetch(
         self, output_folder: Path, cache: Dict[str, str], fetch_opts: List[Dict[str, Any]]
     ) -> Dict[str, str]:
@@ -176,10 +221,8 @@ class BrazilMunicipalitiesDataSource(DataSource):
         # Convert date to ISO format
         data["date"] = data["date"].apply(lambda x: datetime_isoformat(x, "%Y-%m-%dT%H:%M:%S.%fZ"))
 
-        # Cumulative counts are not reliable, so we make sure that they are not estimated
-        data["total_confirmed"] = None
-        data["total_deceased"] = None
-        data["total_recovered"] = None
-        data["total_tested"] = None
+        # Aggregate for the whole state
+        state = data.drop(columns=["key"]).groupby(["date", "age", "sex"]).sum().reset_index()
+        state["key"] = f"BR_{subregion1_code}"
 
-        return data
+        return concat([data, state])
