@@ -310,7 +310,7 @@ potential missing data. All of that makes the total counts *drift* away from the
 counts over time, which is why the cumulative values, if reported, are kept in a separate column.
 
 ### Mobility
-[Google's][17] Mobility Reports are presented in CSV form as
+[Google's Mobility Reports][17] are presented in CSV form joined with our known location keys as
 [mobility.csv](https://storage.googleapis.com/covid19-open-data/v2/mobility.csv) with the following columns:
 
 | Name | Type | Description | Example |
@@ -323,6 +323,14 @@ counts over time, which is why the cumulative values, if reported, are kept in a
 | **mobility_parks** | `double` `[%]` |  Percentage change in visits to park locations compared to baseline | -15 |
 | **mobility_residential** | `double` `[%]` |  Percentage change in visits to residential locations compared to baseline | -15 |
 | **mobility_workplaces** | `double` `[%]` |  Percentage change in visits to workplace locations compared to baseline | -15 |
+
+These Community Mobility Reports aim to provide insights into what has changed in response to
+policies aimed at combating COVID-19. The reports chart movement trends over time by geography,
+across different categories of places.
+
+* Link to data: https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv
+* Help Center: https://support.google.com/covid19-mobility
+* Terms: In order to download or use the data or reports, you must agree to the [Google Terms of Service](https://policies.google.com/terms)
 
 ### Oxford Government Response
 Summary of a government's response to the events, including a *stringency index*, collected from
@@ -505,7 +513,7 @@ from the relevant authorities, like a country's ministry of health.
 | Health | [Wikidata](https://wikidata.org) | [CC0][23] |
 | Health | [WorldBank](https://worldbank.org) | [CC BY 4.0](https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets) |
 | Weather | [NOAA](https://www.ncei.noaa.gov) | [Attribution required, non-commercial use](https://www.wmo.int/pages/prog/www/ois/Operational_Information/Publications/Congress/Cg_XII/res40_en.html) |
-| Google Mobility data | <https://www.google.com/covid19/mobility/> | [Attribution required](https://www.google.com/help/terms_maps/?hl=en) |
+| Google Mobility data | <https://www.google.com/covid19/mobility/> | [Google Terms of Service](https://policies.google.com/terms) |
 | Government response data | [Oxford COVID-19 government response tracker][18] | [CC BY 4.0](https://github.com/OxCGRT/covid-policy-tracker/blob/master/LICENSE.txt) |
 | Country-level data | [ECDC](https://www.ecdc.europa.eu) | [Attribution required](https://www.ecdc.europa.eu/en/copyright) |
 | Country-level data | [Our World in Data](https://ourworldindata.org) | [CC BY 4.0](https://ourworldindata.org/how-to-use-our-world-in-data#how-is-our-work-copyrighted) |
@@ -651,7 +659,7 @@ Please use the following when citing this project as a source of data:
 [14]: https://www.starlords3k.com/covid19.php
 [15]: https://kiksu.net/covid-19/
 [16]: https://www.canada.ca/en/public-health/services/diseases/2019-novel-coronavirus-infection.html
-[17]: https://www.google.com/covid19/mobility/
+[17]: ./docs/google-mobility-reports.md
 [18]: https://www.bsg.ox.ac.uk/research/research-projects/oxford-covid-19-government-response-tracker
 [19]: https://auditter.info/covid-timeline
 [20]: https://www.coronavirusdailytracker.info/
