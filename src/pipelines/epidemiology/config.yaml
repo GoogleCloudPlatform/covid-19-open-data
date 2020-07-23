@@ -57,9 +57,8 @@ sources:
         url: "https://raw.github.com/DataScienceResearchPeru/covid-19_latinoamerica/master/latam_covid_19_data/time_series/time_series_deaths.csv"
       - name: recovered
         url: "https://raw.github.com/DataScienceResearchPeru/covid-19_latinoamerica/master/latam_covid_19_data/time_series/time_series_recovered.csv"
-    query: "~key.str.match('CL_.+')"
     test:
-      metadata_query: "key.str.match('PE_.+')"
+      metadata_query: "key.str.match('CU_.+')"
 
   # Data sources for AF level 2
   - name: pipelines.epidemiology.af_humdata.AfghanistanHumdataDataSource
@@ -72,21 +71,14 @@ sources:
     automation:
       job_group: 'google_sheets'
 
-  # Data sources for AR level 2
-  - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
+  # Data sources for AR levels 2 + 3
+  - name: pipelines.epidemiology.ar_authority.ArgentinaDataSource
     fetch:
-      - url: "https://en.wikipedia.org/wiki/Template:2019–20_coronavirus_pandemic_data/Argentina_medical_cases"
-        opts:
-          ext: html
-    parse:
-      country: AR
-      date_format: "%d %b"
-      skiprows: 1
-      cumsum: true
+      - url: "https://sisa.msal.gov.ar/datos/descargas/covid-19/files/Covid19Casos.csv"
     test:
-      metadata_query: "key.str.match('AR_.+')"
-    automation:
-      job_group: 'wikipedia'
+      # Skip because it's too slow
+      skip: true
+      metadata_query: "key.str.match('AR_.*')"
 
   # Data sources for AT level 2
   - name: pipelines.epidemiology.xx_covid19_eu_data.Covid19EuDataSource
@@ -126,390 +118,10 @@ sources:
     test:
       metadata_query: "key.str.match('BD_.+')"
 
-  # Data sources for BR level 2
-  - name: pipelines.epidemiology.br_authority.BrazilStatesDataSource
-    fetch:
-      - url: "https://covid.lais.ufrn.br/dados_abertos/evolucao_brasil.json"
-    test:
-      metadata_query: "key.str.match('BR_[^_]+$')"
-
-  # Data sources for BR_AC level 3
+  # Data sources for BR levels 2 + 3
   - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
-    fetch:
-      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
-    parse:
-        sep: ";"
-        encoding: "ISO-8859-1"
-        subregion1_code: AC
     test:
-      metadata_query: "key.str.match('BR_AC_.+')"
-      # Skip because it's too slow
-      skip: true
-    automation:
-      job_group: brazil_federal
-
-  # Data sources for BR_AL level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
-    fetch:
-      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
-    parse:
-        sep: ";"
-        encoding: "ISO-8859-1"
-        subregion1_code: AL
-    test:
-      metadata_query: "key.str.match('BR_AL_.+')"
-      # Skip because it's too slow
-      skip: true
-    automation:
-      job_group: brazil_federal
-
-  # Data sources for BR_AM level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
-    fetch:
-      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
-    parse:
-        sep: ";"
-        encoding: "ISO-8859-1"
-        subregion1_code: AM
-    test:
-      metadata_query: "key.str.match('BR_AM_.+')"
-      # Skip because it's too slow
-      skip: true
-
-  # Data sources for BR_AP level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
-    fetch:
-      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
-    parse:
-        sep: ";"
-        encoding: "ISO-8859-1"
-        subregion1_code: AP
-    test:
-      metadata_query: "key.str.match('BR_AP_.+')"
-      # Skip because it's too slow
-      skip: true
-    automation:
-      job_group: brazil_federal
-
-  # Data sources for BR_BA level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
-    fetch:
-      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
-    parse:
-        sep: ";"
-        encoding: "ISO-8859-1"
-        subregion1_code: BA
-    test:
-      metadata_query: "key.str.match('BR_BA_.+')"
-      # Skip because it's too slow
-      skip: true
-    automation:
-      job_group: brazil_federal
-
-  # Data sources for BR_CE level 3
-  - name: pipelines.epidemiology.br_ce_authority.CearaDataSource
-    fetch:
-      - url: "http://download-integrasus.saude.ce.gov.br/download"
-        opts:
-          ext: zip
-    test:
-      metadata_query: "key.str.match('BR_CE.+')"
-
-  # Data sources for BR_DF level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
-    fetch:
-      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
-    parse:
-        sep: ";"
-        encoding: "ISO-8859-1"
-        subregion1_code: DF
-    test:
-      metadata_query: "key.str.match('BR_DF_.+')"
-      # Skip because it's too slow
-      skip: true
-    automation:
-      job_group: brazil_federal
-
-  # Data sources for BR_ES level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
-    fetch:
-      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
-    parse:
-        sep: ";"
-        encoding: "ISO-8859-1"
-        subregion1_code: ES
-    test:
-      metadata_query: "key.str.match('BR_ES_.+')"
-      # Skip because it's too slow
-      skip: true
-    automation:
-      job_group: brazil_federal
-
-  # Data sources for BR_GO level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
-    fetch:
-      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
-    parse:
-        sep: ";"
-        encoding: "ISO-8859-1"
-        subregion1_code: GO
-    test:
-      metadata_query: "key.str.match('BR_GO_.+')"
-      # Skip because it's too slow
-      skip: true
-    automation:
-      job_group: brazil_federal
-
-  # Data sources for BR_MA level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
-    fetch:
-      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
-    parse:
-        sep: ";"
-        encoding: "ISO-8859-1"
-        subregion1_code: MA
-    test:
-      metadata_query: "key.str.match('BR_MA_.+')"
-      # Skip because it's too slow
-      skip: true
-    automation:
-      job_group: brazil_federal
-
-  # TODO(owahltinez): work around CSV parsing error
-  # # Data sources for BR_MG level 3
-  # - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
-  #   fetch:
-  #     - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
-  #   parse:
-  #       sep: ";"
-  #       encoding: "ISO-8859-1"
-  #       subregion1_code: MG
-  #   test:
-  #     metadata_query: "key.str.match('BR_MG_.+')"
-  #     # Skip because it's too slow
-  #     skip: true
-  #   automation:
-  #     job_group: brazil_federal
-
-  # Data sources for BR_MS level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
-    fetch:
-      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
-    parse:
-        sep: ";"
-        encoding: "ISO-8859-1"
-        subregion1_code: MS
-    test:
-      metadata_query: "key.str.match('BR_MS_.+')"
-      # Skip because it's too slow
-      skip: true
-    automation:
-      job_group: brazil_federal
-
-  # Data sources for BR_MT level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
-    fetch:
-      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
-    parse:
-        sep: ";"
-        encoding: "ISO-8859-1"
-        subregion1_code: MT
-    test:
-      metadata_query: "key.str.match('BR_MT_.+')"
-      # Skip because it's too slow
-      skip: true
-    automation:
-      job_group: brazil_federal
-
-  # Data sources for BR_PA level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
-    fetch:
-      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
-    parse:
-        sep: ";"
-        encoding: "ISO-8859-1"
-        subregion1_code: PA
-    test:
-      metadata_query: "key.str.match('BR_PA_.+')"
-      # Skip because it's too slow
-      skip: true
-    automation:
-      job_group: brazil_federal
-
-  # Data sources for BR_PB level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
-    fetch:
-      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
-    parse:
-        sep: ";"
-        encoding: "ISO-8859-1"
-        subregion1_code: PB
-    test:
-      metadata_query: "key.str.match('BR_PB_.+')"
-      # Skip because it's too slow
-      skip: true
-    automation:
-      job_group: brazil_federal
-
-  # TODO(owahltinez): fix key mismatch for BR_PE_260545
-  # Data sources for BR_PE level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
-    fetch:
-      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
-    parse:
-        sep: ";"
-        encoding: "ISO-8859-1"
-        subregion1_code: PE
-    test:
-      metadata_query: "key.str.match('BR_PE_.+')"
-      # Skip because it's too slow
-      skip: true
-    automation:
-      job_group: brazil_federal
-
-  # Data sources for BR_PI level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
-    fetch:
-      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
-    parse:
-        sep: ";"
-        encoding: "ISO-8859-1"
-        subregion1_code: PI
-    test:
-      metadata_query: "key.str.match('BR_PI_.+')"
-      # Skip because it's too slow
-      skip: true
-    automation:
-      job_group: brazil_federal
-
-  # TODO(owahltinez): work around CSV parsing error
-  # # Data sources for BR_PR level 3
-  # - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
-  #   fetch:
-  #     - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
-  #   parse:
-  #       sep: ";"
-  #       encoding: "ISO-8859-1"
-  #       subregion1_code: PR
-  #   test:
-  #     metadata_query: "key.str.match('BR_PR_.+')"
-  #     # Skip because it's too slow
-  #     skip: true
-  #   automation:
-  #     job_group: brazil_federal
-
-  # Data sources for BR_RJ level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
-    fetch:
-      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
-    parse:
-        sep: ";"
-        encoding: "ISO-8859-1"
-        subregion1_code: RJ
-    test:
-      metadata_query: "key.str.match('BR_RJ_.+')"
-      # Skip because it's too slow
-      skip: true
-    automation:
-      job_group: brazil_federal
-
-  # Data sources for BR_RJ level 3
-  - name: pipelines.epidemiology.br_rj_authority.RioStratifiedDataSource
-    fetch:
-      - url: "https://pcrj.maps.arcgis.com/sharing/rest/content/items/754cc0698129404ba8bfb053cbdbd158/data"
-        opts:
-          ext: csv
-    parse:
-      sep: ";"
-      encoding: "ISO-8859-1"
-    test:
-      metadata_query: "key == 'BR_RJ_GIG'"
-
-  # Data sources for BR_RN level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
-    fetch:
-      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
-    parse:
-        sep: ";"
-        encoding: "ISO-8859-1"
-        subregion1_code: RN
-    test:
-      metadata_query: "key.str.match('BR_RN_.+')"
-      # Skip because it's too slow
-      skip: true
-    automation:
-      job_group: brazil_federal
-
-  # Data sources for BR_RS level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
-    fetch:
-      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
-    parse:
-        sep: ";"
-        encoding: "ISO-8859-1"
-        subregion1_code: RS
-    test:
-      metadata_query: "key.str.match('BR_RS_.+')"
-      # Skip because it's too slow
-      skip: true
-    automation:
-      job_group: brazil_federal
-
-  # Data sources for BR_SC level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
-    fetch:
-      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
-    parse:
-        sep: ";"
-        encoding: "ISO-8859-1"
-        subregion1_code: SC
-    test:
-      metadata_query: "key.str.match('BR_SC_.+')"
-      # Skip because it's too slow
-      skip: true
-    automation:
-      job_group: brazil_federal
-
-  # Data sources for BR_SE level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
-    fetch:
-      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
-    parse:
-        sep: ";"
-        encoding: "ISO-8859-1"
-        subregion1_code: SE
-    test:
-      metadata_query: "key.str.match('BR_SE_.+')"
-      # Skip because it's too slow
-      skip: true
-    automation:
-      job_group: brazil_federal
-
-  # Data sources for BR_SP level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
-    fetch:
-      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
-    parse:
-        sep: ";"
-        encoding: "ISO-8859-1"
-        subregion1_code: SP
-    test:
-      metadata_query: "key.str.match('BR_SP_.+')"
-      # Skip because it's too slow
-      skip: true
-    automation:
-      job_group: brazil_federal
-
-  # Data sources for BR_TO level 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
-    fetch:
-      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
-    parse:
-        sep: ";"
-        encoding: "ISO-8859-1"
-        subregion1_code: TO
-    test:
-      metadata_query: "key.str.match('BR_TO_.+')"
+      metadata_query: "key.str.match('BR_.+')"
       # Skip because it's too slow
       skip: true
     automation:
@@ -866,7 +478,7 @@ sources:
       - name: new_tested
         url: "https://raw.github.com/mexicovid19/Mexico-datos/master/datos_abiertos/series_de_tiempo/nuevos/covid19_mex_pruebas-totales.csv"
     test:
-      metadata_query: "key.str.match('MX.*')"
+      metadata_query: "key.str.match('MX_...$')"
 
   # Data sources for MX levels 1, 2 and 3
   - name: pipelines.epidemiology.mx_authority.MexicoDataSource
@@ -875,6 +487,8 @@ sources:
     parse:
       encoding: "ISO-8859-1"
     test:
+      # Skip this data source because it's too slow
+      skip: true
       metadata_query: "key.str.match('MX_.+')"
 
   # Data sources for MZ level 2
@@ -915,7 +529,7 @@ sources:
         opts:
           ext: csv
       - name: deceased
-        url: "https://cloud.minsa.gob.pe/s/Y8w3wHsEdYQSZRp/download"
+        url: "https://cloud.minsa.gob.pe/s/Md37cjXmjT9qYSa/download"
         opts:
           ext: csv
     parse:
@@ -1075,6 +689,16 @@ sources:
     test:
       metadata_query: "key == 'US_AK'"
 
+  # Data sources for US_CA_SFO
+  - name: pipelines.epidemiology.us_ca_sfo_authority.SanFranciscoDataSource
+    fetch:
+      - name: cases
+        url: "https://data.sfgov.org/api/views/tvq9-ec9w/rows.csv"
+      - name: tests
+        url: "https://data.sfgov.org/api/views/nfpa-mg4g/rows.csv"
+    test:
+      metadata_query: "key == 'US_CA_SFO'"
+
   # Data sources for US_DC level 2
   - name: pipelines.epidemiology.us_dc_authority.DistrictColumbiaDataSource
     fetch:
@@ -1084,6 +708,8 @@ sources:
     parse:
       sheet_name: "Overal Stats"
     test:
+      # Skip because it's too flakey
+      skip: true
       metadata_query: "key == 'US_DC'"
 
   # Data sources for US_DE level 2
