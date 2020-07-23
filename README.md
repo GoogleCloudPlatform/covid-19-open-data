@@ -1,10 +1,15 @@
 # Open COVID-19 Dataset
 
 This repository contains datasets of daily time-series data related to COVID-19 for 50+ countries
-around the world. For most countries, the data is at the spatial resolution of states/provinces for
-most regions and at county/municipality resolution for Brazil, Chile, Colombia, United Kingdom, and
-USA. All regions are assigned a unique key, which resolves discrepancies between ISO / NUTS / FIPS
-codes, etc.
+around the world. The data is at the spatial resolution of states/provinces for most regions and at
+county/municipality resolution for Brazil, Chile, Colombia, United Kingdom, and USA. All regions are
+assigned a unique key, which resolves discrepancies between ISO / NUTS / FIPS codes, etc. The
+different aggregation levels are:
+* 0: Country
+* 1: Province, state, or local equivalent
+* 2: Municipality, county, or local equivalent
+* 3: Locality which may not follow strict hierarchical order, such as "city" or "nursing homes in X
+  location"
 
 There are multiple types of data:
 * Outcome data `Y(i,t)`, such as cases, deaths, tests, for regions i and time t
@@ -20,7 +25,7 @@ keys.
 
 | Table | Keys<sup>1</sup> | Content | URL | Source<sup>2</sup> |
 | ----- | ---------------- | ------- | --- | ------------------ |
-| [Main](#main) | `[key][date]` | Flat table with records from all other tables joined by `key` and `date` | [main.csv](https://storage.googleapis.com/covid19-open-data/v2/main.csv), [main.json](https://storage.googleapis.com/covid19-open-data/v2/main.json) | All tables below |
+| [Main](#main) | `[key][date]` | Flat table with records from (almost) all other tables joined by `date` and/or `key`  | [main.csv](https://storage.googleapis.com/covid19-open-data/v2/main.csv) | All tables below |
 | [Index](#index) | `[key]` | Various names and codes, useful for joining with other datasets | [index.csv](https://storage.googleapis.com/covid19-open-data/v2/index.csv), [index.json](https://storage.googleapis.com/covid19-open-data/v2/index.json) | Wikidata, DataCommons |
 | [Demographics](#demographics) | `[key]` | Various (current<sup>3</sup>) population statistics | [demographics.csv](https://storage.googleapis.com/covid19-open-data/v2/demographics.csv), [demographics.json](https://storage.googleapis.com/covid19-open-data/v2/demographics.json) | Wikidata, DataCommons |
 | [Economy](#economy) | `[key]` | Various (current<sup>3</sup>) economic indicators | [economy.csv](https://storage.googleapis.com/covid19-open-data/v2/economy.csv), [economy.json](https://storage.googleapis.com/covid19-open-data/v2/economy.json) | Wikidata, DataCommons |
@@ -93,9 +98,6 @@ The subsets can be found by appending the number of days to the path. For exampl
 the main table are available at the following locations:
 * Full version: https://storage.googleapis.com/covid19-open-data/v2/main.csv
 * Latest: https://storage.googleapis.com/covid19-open-data/v2/latest/main.csv
-* Last 7 days: https://storage.googleapis.com/covid19-open-data/v2/7/main.csv
-* Last 14 days: https://storage.googleapis.com/covid19-open-data/v2/14/main.csv
-* Last 30 days: https://storage.googleapis.com/covid19-open-data/v2/30/main.csv
 
 Note that the `latest` version contains the last non-null record for each key, whereas all others
 contain the last `N` days of data (all of which could be null for some keys). All of the above
@@ -395,7 +397,7 @@ by age and sex groupings.
 | Name | Type | Description | Example |
 | ---- | ---- | ----------- | ------- |
 | **key** | `string` | Unique string identifying the region | ES |
-| **`${sex}`_`${age_bin}`** | `double` | Total number of people categorized as `${sex}` (`m` or `f`) in age bin `${age_bin}` | 1334716 |
+| **`${sex}`\_`${age_bin}`** | `double` | Total number of people categorized as `${sex}` (`m` or `f`) in age bin `${age_bin}` | 1334716 |
 
 Refer to the [WorldPop documentation](https://www.worldpop.org/geodata/summary?id=24798) for more
 details. This data is normalized into buckets that are consistent with other tables and added into
@@ -507,9 +509,11 @@ from the relevant authorities, like a country's ministry of health.
 | Government response data | [Oxford COVID-19 government response tracker][18] | [CC BY 4.0](https://github.com/OxCGRT/covid-policy-tracker/blob/master/LICENSE.txt) |
 | Country-level data | [ECDC](https://www.ecdc.europa.eu) | [Attribution required](https://www.ecdc.europa.eu/en/copyright) |
 | Country-level data | [Our World in Data](https://ourworldindata.org) | [CC BY 4.0](https://ourworldindata.org/how-to-use-our-world-in-data#how-is-our-work-copyrighted) |
-| Argentina | [Wikipedia](https://en.wikipedia.org/wiki/Template:2019-20_coronavirus_pandemic_data/Argentina_medical_cases) | [CC BY-SA][24] |
+| Afghanistan | [HDX](https://data.humdata.org/dataset/afghanistan-covid-19-statistics-per-province) | [CC BY-SA][28] |
+| Argentina | [Datos Argentina](https://datos.gob.ar/) | [Public domain](https://datos.gob.ar/acerca/seccion/marco-legal) |
 | Australia | <https://covid-19-au.com/> | [Attribution required, educational and academic research purposes](https://covid-19-au.com/faq) |
 | Austria | [COVID19 EU Data](https://github.com/covid19-eu-zh/covid19-eu-data) | [MIT](https://github.com/covid19-eu-zh/covid19-eu-data/issues/57) |
+| Bangladesh | [HDX](https://data.humdata.org/dataset/district-wise-quarantine-for-covid-19) | [CC BY-SA][28] |
 | Bolivia | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
 | Brazil | [Brazil Ministério da Saúde](https://coronavirus.saude.gov.br/) | [Creative Commons Atribuição](http://www.opendefinition.org/licenses/cc-by) |
 | Brazil (Rio de Janeiro) | <http://www.data.rio/> | [Dados abertos](https://www.data.rio/datasets/f314453b3a55434ea8c8e8caaa2d8db5) |
@@ -536,6 +540,7 @@ from the relevant authorities, like a country's ministry of health.
 | Italy | [Italy's Department of Civil Protection](https://github.com/pcm-dpc/COVID-19) | [CC BY 4.0](https://github.com/pcm-dpc/COVID-19/blob/master/LICENSE) |
 | Iraq | [HDX](https://data.humdata.org/dataset/iraq-coronavirus-covid-19-subnational-cases) | [CC BY-SA][28] |
 | Japan | <https://github.com/swsoyee/2019-ncov-japan> | [MIT](https://github.com/swsoyee/2019-ncov-japan/blob/master/LICENSE) |
+| Libya | [HDX](https://data.humdata.org/dataset/libya-coronavirus-covid-19-subnational-cases) | [CC BY-SA][28] |
 | Luxembourg | [data.public.lu](https://data.public.lu/fr/datasets/donnees-covid19)| [CC0](https://data.public.lu/fr/datasets/?license=cc-zero) |
 | Malaysia | [Wikipedia](https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_Malaysia) | [CC BY-SA][24] |
 | Mexico | <https://github.com/mexicovid19/Mexico-datos> | [MIT](https://github.com/mexicovid19/Mexico-datos/blob/master/LICENSE.md) |
@@ -547,14 +552,12 @@ from the relevant authorities, like a country's ministry of health.
 | Pakistan | [Wikipedia](https://en.wikipedia.org/wiki/Template:2019-20_coronavirus_pandemic_data/Pakistan_medical_cases) | [CC BY-SA][24] |
 | Panama | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
 | Paraguay | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
-| Peru | [Wikipedia](https://es.wikipedia.org/wiki/Pandemia_de_enfermedad_por_coronavirus_de_2020_en_Per%C3%BA) | [CC BY-SA][24] |
-| Peru | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
+| Peru | [Datos Abiertos Peru](https://www.datosabiertos.gob.pe/group/datos-abiertos-de-covid-19) | [ODC BY][31] |
 | Philippines | [Philippines Department of Health](http://www.doh.gov.ph/covid19tracker) | [Attribution required](https://drive.google.com/file/d/1LzY2eLzZQdLR9yuoNufGEBN5Ily8ZTdV) |
 | Poland | [COVID19 EU Data](https://github.com/covid19-eu-zh/covid19-eu-data) | [MIT](https://github.com/covid19-eu-zh/covid19-eu-data/issues/57) |
 | Portugal | [COVID-19: Portugal](https://github.com/carlospramalheira/covid19) | [MIT](https://github.com/carlospramalheira/covid19/blob/master/LICENSE) |
 | Romania | <https://github.com/adrianp/covid19romania> | [CC0](https://github.com/adrianp/covid19romania/blob/master/LICENSE) |
-| Russia | <https://xn--80aesfpebagmfblc0a.xn--p1ai> | [CC BY-SA][29] |
-| Russia | [Wikipedia](https://en.wikipedia.org/wiki/Template:2019-20_coronavirus_pandemic_data/Russia_medical_cases) | [CC BY-SA][24] |
+| Russia | <https://стопкоронавирус.рф> | [CC BY-SA][29] |
 | Slovenia | <https://www.gov.si> | [CC BY-SA][24] |
 | South Africa| [Data Science for Social Impact research group, the University of Pretoria](https://github.com/dsfsi/covid19za) | [CC BY-SA](https://github.com/dsfsi/covid19za/blob/master/data/LICENSE.md) |
 | South Korea | [Wikipedia](https://en.wikipedia.org/wiki/Template:2019%E2%80%9320_coronavirus_pandemic_data/South_Korea_medical_cases) | [CC BY-SA][24] |
@@ -613,6 +616,7 @@ The following persons have made significant contributions to this project:
 * Matt Lee
 * Anthony Erlinger
 * Mayank Daswani
+* Pranali Yawalkar
 
 
 
@@ -622,7 +626,7 @@ Please use the following when citing this project as a source of data:
 
 ```
 @article{Wahltinez2020,
-  author = "Oscar Wahltinez and Kevin Murphy and Michael Brenner and Matt Lee and Anthony Erlinger and Mayank Daswani",
+  author = "Oscar Wahltinez and Kevin Murphy and Michael Brenner and Matt Lee and Anthony Erlinger and Mayank Daswani and Pranali Yawalkar",
   year = 2020,
   title = "COVID-Open-Data: curating a fine-grained, global-scale COVID-19 data repository",
   note = "Work in progress",
@@ -661,3 +665,4 @@ Please use the following when citing this project as a source of data:
 [28]: https://data.humdata.org/about/license
 [29]: http://creativecommons.org/licenses/by/4.0/
 [30]: https://reproduction.live/
+[31]: http://opendefinition.org/licenses/odc-by/
