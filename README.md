@@ -646,11 +646,11 @@ Please use the following when citing this project as a source of data:
 
 ```
 @article{Wahltinez2020,
-  author = "Oscar Wahltinez and Kevin Murphy and Michael Brenner and Matt Lee and Anthony Erlinger and Mayank Daswani and Pranali Yawalkar",
+  author = "Oscar Wahltinez and Matt Lee and Anthony Erlinger and Mayank Daswani and Pranali Yawalkar and Kevin Murphy and Michael Brenner",
   year = 2020,
-  title = "COVID-Open-Data: curating a fine-grained, global-scale COVID-19 data repository",
+  title = "COVID-19 Open-Data: curating a fine-grained, global-scale data repository for SARS-CoV-2",
   note = "Work in progress",
-  url = {https://github.com/open-covid-19/data/blob/main/README.md}
+ url = {https://github.com/GoogleCloudPlatform/covid-19-open-data},
 }
 ```
 
