@@ -32,7 +32,7 @@ class LibyaHumdataDataSource(DataSource):
             .rename(
                 columns={
                     "Location": "match_string",
-                    "Confirmed Cases": "total_confirmed",
+                    "Confirmed": "total_confirmed",
                     "Deaths": "total_deceased",
                     "Recoveries": "total_recovered",
                     "Date": "date",  # is already in format "%Y-%m-%d"

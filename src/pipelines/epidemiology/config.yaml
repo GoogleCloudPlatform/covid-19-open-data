@@ -465,8 +465,6 @@ sources:
           ext: csv
     test:
       metadata_query: "key.str.match('LY*')"
-      # Skip because the data source changed the language of the locations
-      skip: true
     automation:
       job_group: 'google_sheets'
 
