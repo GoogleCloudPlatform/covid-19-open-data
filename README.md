@@ -1,10 +1,10 @@
-# Open COVID-19 Dataset
+# COVID-19 Open Data
 
 This repository contains datasets of daily time-series data related to COVID-19 for 50+ countries
 around the world. The data is at the spatial resolution of states/provinces for most regions and at
-county/municipality resolution for Brazil, Chile, Colombia, United Kingdom, and USA. All regions are
-assigned a unique key, which resolves discrepancies between ISO / NUTS / FIPS codes, etc. The
-different aggregation levels are:
+county/municipality resolution for Argentina, Brazil, Chile, Colombia, Czech Republic, Mexico,
+Netherlands, Peru, United Kingdom, and USA. All regions are assigned a unique location key, which
+resolves discrepancies between ISO / NUTS / FIPS codes, etc. The different aggregation levels are:
 * 0: Country
 * 1: Province, state, or local equivalent
 * 2: Municipality, county, or local equivalent
@@ -21,8 +21,6 @@ The data is drawn from multiple sources, as listed [below](#sources-of-data), an
 csv / json files, which can be easily merged due to the use of consistent geographic (and temporal)
 keys.
 
-**NOTE: The URL endpoint for the data has changed, please see the updated links below**
-
 | Table | Keys<sup>1</sup> | Content | URL | Source<sup>2</sup> |
 | ----- | ---------------- | ------- | --- | ------------------ |
 | [Main](#main) | `[key][date]` | Flat table with records from (almost) all other tables joined by `date` and/or `key`  | [main.csv](https://storage.googleapis.com/covid19-open-data/v2/main.csv) | All tables below |
@@ -33,8 +31,8 @@ keys.
 | [Geography](#geography) | `[key]` | Geographical information about the region | [geography.csv](https://storage.googleapis.com/covid19-open-data/v2/geography.csv), [geography.json](https://storage.googleapis.com/covid19-open-data/v2/geography.json) | Wikidata |
 | [Health](#health) | `[key]` | Health indicators for the region | [health.csv](https://storage.googleapis.com/covid19-open-data/v2/health.csv), [health.json](https://storage.googleapis.com/covid19-open-data/v2/geography.json) | Wikidata, WorldBank |
 | [Hospitalizations](#hospitalizations) | `[key][date]` | Information related to patients of COVID-19 and hospitals |  [hospitalizations.csv](https://storage.googleapis.com/covid19-open-data/v2/hospitalizations.csv), [hospitalizations.json](https://storage.googleapis.com/covid19-open-data/v2/hospitalization.json) | Various<sup>2</sup> |
-| [Mobility](#mobility) | `[key][date]` | Various metrics related to the movement of people | [mobility.csv](https://storage.googleapis.com/covid19-open-data/v2/mobility.csv), [mobility.json](https://storage.googleapis.com/covid19-open-data/v2/mobility.json) | Google, Apple |
-| [Oxford Government Response](#oxford-government-response) | `[key][date]` | Government interventions and their relative stringency | [oxford-government-response.csv](https://storage.googleapis.com/covid19-open-data/v2/oxford-government-response.csv), [oxford-government-response.json](https://storage.googleapis.com/covid19-open-data/v2/oxford-government-response.json) | University of Oxford |
+| [Mobility](#mobility) | `[key][date]` | Various metrics related to the movement of people | [mobility.csv](https://storage.googleapis.com/covid19-open-data/v2/mobility.csv), [mobility.json](https://storage.googleapis.com/covid19-open-data/v2/mobility.json) | Google |
+| [Government Response](#government-response) | `[key][date]` | Government interventions and their relative stringency | [oxford-government-response.csv](https://storage.googleapis.com/covid19-open-data/v2/oxford-government-response.csv), [oxford-government-response.json](https://storage.googleapis.com/covid19-open-data/v2/oxford-government-response.json) | University of Oxford |
 | [Weather](#weather) | `[key][date]` | Dated meteorological information for each region | [weather.csv](https://storage.googleapis.com/covid19-open-data/v2/weather.csv), [weather.json](https://storage.googleapis.com/covid19-open-data/v2/weather.json) | NOAA |
 | [WorldBank](#worldbank) | `[key]` | Latest record for each indicator from WorldBank for all reporting countries | [worldbank.csv](https://storage.googleapis.com/covid19-open-data/v2/worldbank.csv), [worldbank.json](https://storage.googleapis.com/covid19-open-data/v2/worldbank.json) | WorldBank |
 | [WorldPop](#worldpop) | `[key]` | Demographics data extracted from WorldPop | [worldpop.csv](https://storage.googleapis.com/covid19-open-data/v2/worldpop.csv), [worldpop.json](https://storage.googleapis.com/covid19-open-data/v2/worldpop.json) | WorldPop |
@@ -66,13 +64,11 @@ the data is easy to understand and modify.
 
 ## Explore the data
 
-|     |     |
-| --- | --- |
-| A simple visualization tool was built to explore the Open COVID-19 datasets, the [Open COVID-19 Explorer][12]: [![](https://github.com/open-covid-19/explorer/raw/master/screenshots/explorer.png)][12] | If you want to see [interactive charts with a unique UX][14], don't miss what [@Mahks](https://github.com/Mahks) built using the Open COVID-19 dataset: [![](https://i.imgur.com/cIODOtp.png)][14] |
-| You can also check out the great work of [@quixote79](https://github.com/quixote79), [a MapBox-powered interactive map site][13]: [![](https://i.imgur.com/nFwxJId.png)][13] | Experience [clean, clear graphs with smooth animations][15] thanks to the work of [@jmullo](https://github.com/jmullo): [![](https://i.imgur.com/xdCzsUO.png)][15] |
-| Become an armchair epidemiologist with the [COVID-19 timeline simulation tool][19] built by [@LeviticusMB](https://github.com/LeviticusMB): [![](https://i.imgur.com/4iWaP7E.png)][19] | Whether you want an interactive map, compare stats or look at charts, [@saadmas](https://github.com/saadmas) has you covered with a [COVID-19 Daily Tracking site][20]: [![](https://i.imgur.com/rAJvLSI.png)][20] |
-| Compare per-million data at [Omnimodel][21] thanks to [@OmarJay1](https://github.com/OmarJay1): [![](https://i.imgur.com/RG7ZKXp.png)][21] | Look at responsive, comprehensive charts thanks to the work of [@davidjohnstone](https://github.com/davidjohnstone): [![](https://i.imgur.com/ZbfMKvu.png)](https://www.cyclinganalytics.com/covid19) |
-| [Reproduction Live][30] lets you track COVID-19 outbreaks in your region and visualise the spread of the virus over time: [![](https://reproduction.live/open-covid-19.png)][30] |
+|     |     |     |
+| --- | --- | --- |
+| A simple visualization tool was built to explore the Open COVID-19 datasets, the [Open COVID-19 Explorer][12]: [![](https://github.com/open-covid-19/explorer/raw/master/screenshots/explorer.png)][12] | If you want to see [interactive charts with a unique UX][14], don't miss what [@Mahks](https://github.com/Mahks) built using the Open COVID-19 dataset: [![](https://i.imgur.com/cIODOtp.png)][14] | You can also check out the great work of [@quixote79](https://github.com/quixote79), [a MapBox-powered interactive map site][13]: [![](https://i.imgur.com/nFwxJId.png)][13] |
+| Experience [clean, clear graphs with smooth animations][15] thanks to the work of [@jmullo](https://github.com/jmullo): [![](https://i.imgur.com/xdCzsUO.png)][15] | Become an armchair epidemiologist with the [COVID-19 timeline simulation tool][19] built by [@LeviticusMB](https://github.com/LeviticusMB): [![](https://i.imgur.com/4iWaP7E.png)][19] | Whether you want an interactive map, compare stats or look at charts, [@saadmas](https://github.com/saadmas) has you covered with a [COVID-19 Daily Tracking site][20]: [![](https://i.imgur.com/rAJvLSI.png)][20] |
+| Compare per-million data at [Omnimodel][21] thanks to [@OmarJay1](https://github.com/OmarJay1): [![](https://i.imgur.com/RG7ZKXp.png)][21] | Look at responsive, comprehensive charts thanks to the work of [@davidjohnstone](https://github.com/davidjohnstone): [![](https://i.imgur.com/ZbfMKvu.png)](https://www.cyclinganalytics.com/covid19) | [Reproduction Live][30] lets you track COVID-19 outbreaks in your region and visualise the spread of the virus over time: [![](https://reproduction.live/open-covid-19.png)][30] |
 
 
 
@@ -111,6 +107,11 @@ countries use NUTS2, others NUTS3 and many ISO 3166-2 codes.
 You can find several examples in the [examples subfolder](examples) with code showcasing how to load
 and analyze the data for several programming environments. If you want the short version, here are a
 few snippets to get started.
+
+### BigQuery
+This dataset is part of the [BigQuery Public Datasets Program][22], so you may use BigQuery to run
+SQL queries directly from the
+[online query editor](https://cloud.google.com/bigquery?p=bigquery-public-data&d=covid19_open_data&page=dataset).
 
 ### Google Colab
 You can use Google Colab if you want to run your analysis without having to install anything in your
@@ -158,7 +159,7 @@ Invoke-WebRequest 'https://storage.googleapis.com/covid19-open-data/v2/latest/ep
 
 ## Understand the data
 
-Make sure that you are using the URL [linked at the table above](#open-covid-19-dataset) and not the
+Make sure that you are using the URL [linked at the table above](#covid-19-open-data) and not the
 raw GitHub file, the latter is subject to change at any moment in non-compatible ways, and due to
 the configuration of GitHub's raw file server you may run into potential caching issues.
 
@@ -332,7 +333,7 @@ across different categories of places.
 * Help Center: https://support.google.com/covid19-mobility
 * Terms: In order to download or use the data or reports, you must agree to the [Google Terms of Service](https://policies.google.com/terms)
 
-### Oxford Government Response
+### Government Response
 Summary of a government's response to the events, including a *stringency index*, collected from
 [University of Oxford][18]:
 
@@ -664,7 +665,7 @@ Please use the following when citing this project as a source of data:
 [19]: https://auditter.info/covid-timeline
 [20]: https://www.coronavirusdailytracker.info/
 [21]: https://omnimodel.com/
-[22]: https://www.apple.com/covid19/mobility
+[22]: https://cloud.google.com/marketplace/product/bigquery-public-datasets/covid19-open-data
 [23]: https://www.wikidata.org/wiki/Wikidata:Licensing
 [24]: https://en.wikipedia.org/wiki/Wikipedia:Copyrights
 [25]: https://worldbank.org
