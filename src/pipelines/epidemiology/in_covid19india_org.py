@@ -16,7 +16,7 @@ from typing import Dict
 import math
 from pandas import DataFrame, melt
 from lib.data_source import DataSource
-from lib.cast import safe_datetime_parse
+from lib.time import datetime_isoformat
 import datetime
 
 
@@ -46,7 +46,7 @@ class Covid19IndiaOrgDataSource(DataSource):
             }
         )
 
-        data.date = data.date.apply(lambda x: safe_datetime_parse(x, "%d-%b-%y"))
+        data.date = data.date.apply(lambda x: datetime_isoformat(x, "%d-%b-%y"))
 
         data["country_code"] = "IN"
 

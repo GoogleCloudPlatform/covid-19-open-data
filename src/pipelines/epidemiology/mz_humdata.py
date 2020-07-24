@@ -15,7 +15,7 @@
 from typing import Dict
 from pandas import DataFrame
 from lib.data_source import DataSource
-from lib.time import safe_datetime_parse
+from lib.time import datetime_isoformat
 
 
 class MozambiqueHumdataDataSource(DataSource):
@@ -38,7 +38,7 @@ class MozambiqueHumdataDataSource(DataSource):
             .drop([0])
         )
 
-        data.date = data.date.apply(safe_datetime_parse)
+        data.date = data.date.apply(lambda x: datetime_isoformat(x, "%Y-%m-%d %H:%M:%S"))
 
         # Make sure all records have the country code
         data["country_code"] = "MZ"
