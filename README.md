@@ -485,6 +485,30 @@ the requested subset.
 
 
 
+## Contribute
+
+Technical contributions to the data extraction pipeline are welcomed, take a look at the
+[source directory](src/README.md) for more information.
+
+If you spot an error in the data, feel free to open an issue on this repository and we will review
+it.
+
+If you do something cool with the data, for example related to visualization or analysis, please let
+us know!
+
+
+
+## For Data Owners
+We have carefully checked the license and attribution information on each data source included in
+this repository, and in many cases have contacted the data owners directly to ask how they would
+like to be attributed.
+
+If you are the owner of a data source included here and would like us to remove data, add or alter
+an attribution, or add or alter license information, please open an issue on this repository and
+we will happily consider your request.
+
+
+
 ## Licensing
 
 The output data files are published under the [CC BY-SA](./CC-BY-SA) license. All data is
@@ -587,7 +611,7 @@ from the relevant authorities, like a country's ministry of health.
 
 ## Running the data extraction pipeline
 
-To update the contents of the [output folder](output), first install the dependencies:
+To run the data extraction pipeline, first install the dependencies:
 ```sh
 pip install -r requirements.txt
 ```
@@ -599,19 +623,6 @@ python update.py
 ```
 
 See the [source documentation](src) for more technical details.
-
-
-
-## Contribute
-
-If you spot an error in the data, or there's a country you would like to include, the best way to
-contribute to this project is by helping maintain the data on the relevant Wikipedia article. Not
-only can that data be parsed automatically by this project, but it will also help inform millions of
-others that receive their information from Wikipedia.
-
-For code contributions, take a look at the [source directory](src/README.md) for more information.
-
-If you do something cool with the data (e.g., visualization or analysis), please let us know!
 
 
 
