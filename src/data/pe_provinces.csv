@@ -79,24 +79,24 @@ CUS,Cusco,10,Paruro
 CUS,Cusco,11,Paucartambo
 CUS,Cusco,12,Quispicanchi
 CUS,Cusco,13,Urubamba
-HUC,Huancavelica,01,Huancavelica
-HUC,Huancavelica,02,Acobamba
-HUC,Huancavelica,03,Angaraes
-HUC,Huancavelica,04,Castrovirreyna
-HUC,Huancavelica,05,Churcampa
-HUC,Huancavelica,06,Huaytará
-HUC,Huancavelica,07,Tayacaja
-HUV,Huánuco,01,Huánuco
-HUV,Huánuco,02,Ambo
-HUV,Huánuco,03,Dos de Mayo
-HUV,Huánuco,04,Huacaybamba
-HUV,Huánuco,05,Huamalíes
-HUV,Huánuco,06,Leoncio Prado
-HUV,Huánuco,07,Marañón
-HUV,Huánuco,08,Pachitea
-HUV,Huánuco,09,Puerto Inca
-HUV,Huánuco,10,Lauricocha
-HUV,Huánuco,11,Yarowilca
+HUC,Huánuco,01,Huánuco
+HUC,Huánuco,02,Ambo
+HUC,Huánuco,03,Dos de Mayo
+HUC,Huánuco,04,Huacaybamba
+HUC,Huánuco,05,Huamalíes
+HUC,Huánuco,06,Leoncio Prado
+HUC,Huánuco,07,Marañón
+HUC,Huánuco,08,Pachitea
+HUC,Huánuco,09,Puerto Inca
+HUC,Huánuco,10,Lauricocha
+HUC,Huánuco,11,Yarowilca
+HUV,Huancavelica,01,Huancavelica
+HUV,Huancavelica,02,Acobamba
+HUV,Huancavelica,03,Angaraes
+HUV,Huancavelica,04,Castrovirreyna
+HUV,Huancavelica,05,Churcampa
+HUV,Huancavelica,06,Huaytará
+HUV,Huancavelica,07,Tayacaja
 ICA,Ica,01,Ica
 ICA,Ica,02,Chincha
 ICA,Ica,03,Nasca
@@ -126,16 +126,16 @@ LAL,La Libertad,12,Virú
 LAM,Lambayeque,01,Chiclayo
 LAM,Lambayeque,02,Ferreñafe
 LAM,Lambayeque,03,Lambayeque
-LMA,Lima,01,Lima
-LMA,Lima,02,Barranca
-LMA,Lima,03,Cajatambo
-LMA,Lima,04,Canta
-LMA,Lima,05,Cañete
-LMA,Lima,06,Huaral
-LMA,Lima,07,Huarochirí
-LMA,Lima,08,Huaura
-LMA,Lima,09,Oyón
-LMA,Lima,10,Yauyos
+LIM,Lima,01,Lima
+LIM,Lima,02,Barranca
+LIM,Lima,03,Cajatambo
+LIM,Lima,04,Canta
+LIM,Lima,05,Cañete
+LIM,Lima,06,Huaral
+LIM,Lima,07,Huarochirí
+LIM,Lima,08,Huaura
+LIM,Lima,09,Oyón
+LIM,Lima,10,Yauyos
 LOR,Loreto,01,Maynas
 LOR,Loreto,02,Alto Amazonas
 LOR,Loreto,03,Loreto
