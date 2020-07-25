@@ -103,15 +103,5 @@ class PeruDataSource(DataSource):
                 mask = (data["province_name"] == province) & (data["match_string"] == district)
                 data.loc[mask, "match_string"] = f"{district}, {province}"
 
-        # TODO: Add province disambiguation for these:
-        # ('AYA', 'sancos'),
-        # ('CAJ', 'santacruz'),
-        # ('HUC', 'huachocolpa'),
-        # ('JUN', 'paccha'),
-        # ('JUN', 'yauli'),
-        # ('LMA', 'laraos'),
-        # ('PIU', 'salitral'),
-        # ('PUN', 'santarosa')
-
         # Output the results
         return concat([subregion1, data])

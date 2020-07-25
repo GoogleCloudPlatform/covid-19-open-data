@@ -58,7 +58,7 @@ sudo apt-get install -yq git wget curl
 
 # Clone the repo into a temporary directory
 readonly TMPDIR=$(mktemp -d -t opencovid-$(date +%Y-%m-%d-%H-%M-%S)-XXXX)
-git clone https://github.com/open-covid-19/data.git --single-branch -b $BRANCH "$TMPDIR/opencovid"
+git clone https://github.com/GoogleCloudPlatform/covid-19-open-data.git --single-branch -b $BRANCH "$TMPDIR/opencovid"
 
 # Install Python and its dependencies
 install_python
