@@ -209,6 +209,8 @@ sources:
   - name: pipelines.epidemiology.ar_authority.ArgentinaDataSource
     fetch:
       - url: "https://sisa.msal.gov.ar/datos/descargas/covid-19/files/Covid19Casos.csv"
+    parse:
+      encoding: UTF-16-LE
     test:
       # Skip because it's too slow
       skip: true
