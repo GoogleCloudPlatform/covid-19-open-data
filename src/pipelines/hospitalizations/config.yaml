@@ -327,10 +327,10 @@ sources:
       - name: total_tested
         url: "https://raw.github.com/dsfsi/covid19za/master/data/covid19za_provincial_cumulative_timeline_testing.csv"
     test:
-      metadata_query: "key.str.match('ZA.*')"
+      metadata_query: "key.str.match('ZA_[^_]+')"
 
   - name: pipelines.epidemiology.za_dsfsi.Covid19ZaTimelineTestingDataSource
     fetch:
       - url: "https://raw.github.com/dsfsi/covid19za/master/data/covid19za_timeline_testing.csv"
     test:
-      metadata_query: "key.str.match('ZA.*')"
+      metadata_query: "key == 'ZA'"

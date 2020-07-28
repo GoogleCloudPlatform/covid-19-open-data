@@ -724,4 +724,4 @@ sources:
     fetch:
       - url: "https://raw.github.com/dsfsi/covid19za/master/data/covid19za_timeline_death_statistics.csv"
     test:
-      metadata_query: "key.str.match('ZA.*')"
+      metadata_query: "key == 'ZA'"

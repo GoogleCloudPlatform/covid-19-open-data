@@ -581,7 +581,6 @@ from the relevant authorities, like a country's ministry of health.
 | Netherlands | [RIVM](https://data.rivm.nl/covid-19) | [Public Domain](https://databronnencovid19.nl/Disclaimer) |
 | Nicaragua | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
 | Norway | [COVID19 EU Data](https://github.com/covid19-eu-zh/covid19-eu-data) | [MIT](https://github.com/covid19-eu-zh/covid19-eu-data/issues/57) |
-| Norway | [COVID19 EU Data](https://github.com/covid19-eu-zh/covid19-eu-data) | [MIT](https://github.com/covid19-eu-zh/covid19-eu-data/issues/57) |
 | Pakistan | [Wikipedia](https://en.wikipedia.org/wiki/Template:2019-20_coronavirus_pandemic_data/Pakistan_medical_cases) | [CC BY-SA][24] |
 | Panama | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
 | Paraguay | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
@@ -592,6 +591,7 @@ from the relevant authorities, like a country's ministry of health.
 | Romania | <https://github.com/adrianp/covid19romania> | [CC0](https://github.com/adrianp/covid19romania/blob/master/LICENSE) |
 | Russia | <https://стопкоронавирус.рф> | [CC BY-SA][29] |
 | Slovenia | <https://www.gov.si> | [CC BY-SA][24] |
+| South Africa| [FinMango COVID-19 Data](https://finmango.org/covid) | [CC BY-SA](https://finmango.org/covid) |
 | South Africa| [Data Science for Social Impact research group, the University of Pretoria](https://github.com/dsfsi/covid19za) | [CC BY-SA](https://github.com/dsfsi/covid19za/blob/master/data/LICENSE.md) |
 | South Korea | [Wikipedia](https://en.wikipedia.org/wiki/Template:2019%E2%80%9320_coronavirus_pandemic_data/South_Korea_medical_cases) | [CC BY-SA][24] |
 | Spain | [Government Authority](https://covid19.isciii.es) | [Attribution required](https://www.mscbs.gob.es/avisoLegal/home.html) |
