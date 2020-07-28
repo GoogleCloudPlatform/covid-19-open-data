@@ -314,6 +314,7 @@ sources:
     test:
       metadata_query: "key.str.match('GB_.+_.+')"
 
+  # Data sources for HT level 2
   - name: pipelines.epidemiology.ht_humdata.HaitiHumdataDataSource
     fetch:
       - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTqVOxCSrhEiZ_CRME3Xqhu_DWZv74FvrvOr77rIXOlorClEi0huwVKxXXcVr2hn8pml82tlwmf59UX/pub?output=xlsx"
@@ -794,3 +795,31 @@ sources:
       - url: "https://raw.github.com/dsfsi/covid19za/master/data/covid19za_timeline_testing.csv"
     test:
       metadata_query: "key.str.match('ZA.*')"
+
+  # Data sources for ZA level 2
+  - name: pipelines.epidemiology.za_finmango.FinMangoDataSource
+    fetch:
+      - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTcFHgpRTw9ntN0SNaNVE_grZxR5yJSXkRz0DvO7IRV-d47FdvpUVCx1qxynHtzzZSgYSRjoAIpqhIq/pub?output=xlsx"
+        opts:
+          ext: xlsx
+    parse:
+      country: ZA
+      sheet_name: ["Eastern Cape", "Free State", "Gauteng", "KwaZulu-Natal", "North West", "Western Cape", "Limpopo", "Mpumalanga", "Northern Cape"]
+    test:
+      metadata_query: "key.str.match('ZA_[^_]+')"
+    automation:
+      job_group: 'google_sheets'
+
+  # Data sources for ZA level 3
+  - name: pipelines.epidemiology.za_finmango.FinMangoDataSource
+    fetch:
+      - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQsJrAqu_CeRIup81s4mw82iiMi-r3nyKcO3wSVNjOMpjjLoDLlkWAovbcegGOHw5cFaLraL83b9c17/pub?output=xlsx"
+        opts:
+          ext: xlsx
+    parse:
+      country: ZA
+      sheet_name: ["Eastern Cape", "Free State", "Gauteng", "KwaZulu-Natal", "North West", "Western Cape", "Limpopo", "Mpumalanga", "Northern Cape"]
+    test:
+      metadata_query: "key.str.match('ZA_.+_.+')"
+    automation:
+      job_group: 'google_sheets'
