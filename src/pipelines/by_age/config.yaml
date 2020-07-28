@@ -666,11 +666,18 @@ sources:
       metadata_query: "key.str.match('PE_.+')"
 
   # Data sources for PH levels 2 + 3
+  # To update this data source:
+  # 1. Go to http://bit.ly/DataDropArchives
+  # 2. Find the folder with the latest date available
+  # 3. Get the sharing URL for the "04 Case Information.csv" file
+  # 4. Use https://sites.google.com/site/gdocs2direct/ to get a direct link
+  # 5. Replace the URL below with that link in epidemiology, hospitalizations, by-age and by-sex
+  # and replace the link with
   - name: pipelines.epidemiology.ph_authority.PhilippinesDataSource
     fetch:
-      - url: "https://drive.google.com/uc?export=download&id=1moFBN_thU0e70frjnYjoV-UWYxVzsvCh"
+      - url: "https://drive.google.com/uc?export=download&id=1nTq39yB2w4ZpL2qmbkSCByv_nqaEL7Cd"
         opts:
-          ext: xlsx
+          ext: csv
     test:
       metadata_query: "key.str.match('PH.*')"
 
