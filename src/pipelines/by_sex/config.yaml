@@ -150,6 +150,9 @@ sources:
         opts:
           ext: zip
     test:
+      # Skip non-working pipeline
+      # TODO(owahltinez): replace with br_authority source
+      skip: true
       metadata_query: "key.str.match('BR_CE.+')"
 
   # Data sources for BR_DF level 3
