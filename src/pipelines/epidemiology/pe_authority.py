@@ -14,6 +14,7 @@
 
 from typing import Dict
 from pandas import DataFrame, concat
+from lib.cast import safe_int_cast, safe_str_cast
 from lib.data_source import DataSource
 from lib.case_line import convert_cases_to_time_series
 from lib.constants import SRC
@@ -64,7 +65,9 @@ class PeruDataSource(DataSource):
 
         # Set country code and get date in ISO format
         data["country_code"] = "PE"
-        data["date"] = data["date"].apply(lambda x: datetime_isoformat(x, "%d/%m/%Y"))
+        data["date"] = data["date"].apply(safe_int_cast)
+        data["date"] = data["date"].apply(safe_str_cast)
+        data["date"] = data["date"].apply(lambda x: datetime_isoformat(x, "%Y%m%d"))
 
         # Join with our metadata codes
         provinces = read_file(SRC / "data" / "pe_provinces.csv")
