@@ -58,8 +58,8 @@ class Covid19LatinoAmericaDataSource(DataSource):
         # Since it's cumsum data, we can forward fill relatively safely
         data = data.sort_values(["key", "date"]).groupby("key").apply(lambda x: x.ffill())
 
-        # We already have BR, CO, MX and PE data directly from the authoritative source
-        for country_code in ("BR", "CL", "CO", "MX", "PE"):
+        # We already have AR, BR, CO, MX and PE data directly from the authoritative source
+        for country_code in ("AR", "BR", "CL", "CO", "MX", "PE"):
             data = data[~data.key.str.startswith(f"{country_code}_")]
 
         # Correct the French colonies since we are using something different to the ISO 3166-2 code
