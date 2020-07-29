@@ -44,7 +44,6 @@ class SloveniaDataSource(DataSource):
         data["key"] = "SI"
 
         # Make sure that the date column is a string
-        print(data)
         data["date"] = data["date"].apply(lambda x: datetime_isoformat(str(x)[:10], "%Y-%m-%d"))
 
         # Remove non-numeric markers from data fields

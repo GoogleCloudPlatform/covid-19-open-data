@@ -162,10 +162,11 @@ sources:
   # Data sources for LU level 1
   - name: pipelines.epidemiology.lu_authority.LuxembourgDataSource
     fetch:
-      - url: "https://data.public.lu/fr/datasets/r/a8f95152-4c79-4600-a9a0-019af7cac8c6"
+      - url: "https://data.public.lu/fr/datasets/r/c9fd593c-fe7a-43ec-9ae4-09a6c1604b6b"
         opts:
-          ext: csv
+          ext: xls
     parse:
+      sep: ";"
       encoding: ISO-8859-1
     test:
       metadata_query: "key == 'LU'"
