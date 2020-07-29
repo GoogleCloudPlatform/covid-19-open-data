@@ -169,7 +169,6 @@ sources:
       encoding: ISO-8859-1
     test:
       metadata_query: "key == 'LU'"
-      skip: true
 
   # Data sources for MX levels 1 + 2
   - name: pipelines.epidemiology.mx_mexicovid19.Mexicovid19DataSource
