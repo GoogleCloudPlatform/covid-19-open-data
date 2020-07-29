@@ -14,6 +14,7 @@
 
 from typing import Dict
 from pandas import DataFrame, concat
+from lib.cast import safe_int_cast
 from lib.data_source import DataSource
 from lib.utils import table_rename
 
@@ -72,6 +73,14 @@ class FinMangoDataSource(DataSource):
             current_columns[idx] = col
         data.columns = current_columns
         data = data[replace_columns]
+
+        # Make sure that all data is numeric
+        for col in data.columns:
+            if col not in ("date", "name", "key"):
+                data[col] = data[col].apply(safe_int_cast)
+
+        # Remove the "new" columns since cumulative data is more reliable
+        data = data.drop(columns=["new_confirmed", "new_deceased"])
 
         # Output the results
         return data
