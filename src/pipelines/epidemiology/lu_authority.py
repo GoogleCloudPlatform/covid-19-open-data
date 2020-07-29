@@ -14,48 +14,33 @@
 
 from typing import Dict
 from pandas import DataFrame
-from lib.cast import safe_int_cast
-from lib.io import read_file
 from lib.data_source import DataSource
 from lib.time import datetime_isoformat
 from lib.utils import table_rename
 
 
 class LuxembourgDataSource(DataSource):
-    def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
+    def parse_dataframes(
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
+    ) -> DataFrame:
+        # The headers are a bit funny-looking, so we must manually manipulate them first
+        data = dataframes[0]
+        data.columns = [col.split("|")[0].split("~")[0] for col in data.iloc[0]]
+        data = data.iloc[1:]
 
-        data = read_file(sources[0], error_bad_lines=False, encoding="ISO-8859-1")
         data = table_rename(
             data,
             {
                 "Date": "date",
-                "Nombre de personnes en soins normaux": "current_hospitalized",
-                "Nombre de personnes en soins intensifs (sans patients du Grand Est)": "current_intensive_care",
-                "Nombre de décès - cumulé (sans patients du Grand Est)": "total_deceased",
-                "Total patients COVID ayant quitté l'hôpital (hospitalisations stationnaires, données brutes)": "new_recovered",
-                "Nombre de nouvelles personnes testées COVID+ par jour ": "new_tested",
+                "Nombre de personnes en soins intensifs": "current_intensive_care",
+                "Nombre cumulé de décès": "total_deceased",
+                "Nombre de personnes testées COVID+": "new_tested",
             },
+            drop=True,
         )
 
         # Get date in ISO format
-        data.date = data.date.apply(lambda x: datetime_isoformat(x, "%d/%m/%Y"))
-
-        # Keep only columns we can provess
-        data = data[
-            [
-                "date",
-                "current_hospitalized",
-                "current_intensive_care",
-                "total_deceased",
-                "new_recovered",
-                "new_tested",
-            ]
-        ]
-
-        # Convert recovered into a number
-        data.new_recovered = data.new_recovered.apply(
-            lambda x: safe_int_cast(str(x).replace("-", "0"))
-        )
+        data["date"] = data["date"].apply(lambda x: datetime_isoformat(x, "%d/%m/%Y"))
 
         # Only country-level data is provided
         data["key"] = "LU"
