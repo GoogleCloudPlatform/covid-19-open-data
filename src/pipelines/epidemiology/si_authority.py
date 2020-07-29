@@ -16,6 +16,7 @@ from typing import Dict
 from pandas import DataFrame
 from lib.data_source import DataSource
 from lib.cast import safe_int_cast
+from lib.time import datetime_isoformat
 
 
 class SloveniaDataSource(DataSource):
@@ -26,16 +27,16 @@ class SloveniaDataSource(DataSource):
         # Rename the appropriate columns
         data = dataframes[0].rename(
             columns={
-                "Date": "date",
-                "Tested (all)": "total_tested",
-                "Tested (daily)": "new_tested",
-                "Positive (all)": "total_confirmed",
-                "Positive (daily)": "new_confirmed",
-                "All hospitalized on certain day": "current_hospitalized",
-                "All persons in intensive care on certain day": "current_intensive_care",
-                "Discharged": "new_recovered",
-                "Deaths (all)": "total_deceased",
-                "Deaths (daily)": "new_deceased",
+                "Dátum": "date",
+                "Mintavételek száma (összesen)": "total_tested",
+                "mintavételek száma": "new_tested",
+                "pozitív esetek száma (összesen)": "total_confirmed",
+                "napi pozitív esetszám": "new_confirmed",
+                "hospitalizált": "current_hospitalized",
+                "intenzív ellátásra szoruló": "current_intensive_care",
+                "a kórházból elbocsátottak napi száma": "new_recovered",
+                "elhunytak száma összesen": "total_deceased",
+                "elhunytak": "new_deceased",
             }
         )
 
@@ -43,9 +44,10 @@ class SloveniaDataSource(DataSource):
         data["key"] = "SI"
 
         # Make sure that the date column is a string
-        data.date = data.date.astype(str)
+        print(data)
+        data["date"] = data["date"].apply(lambda x: datetime_isoformat(str(x)[:10], "%Y-%m-%d"))
 
-        # Remove markers from data fields
+        # Remove non-numeric markers from data fields
         value_columns = [
             col
             for col in data.columns
