@@ -83,9 +83,18 @@ overwritten if more trusted data is available.
 are part of the pipeline may output some or all columns defined in the schema, but columns not in
 the schema will be filtered out in the final output.
 
-### Overview
-The following diagram summarizes the architecture:
+### Data Flow Overview
+The following diagram summarizes the data flow architecture:
 ![](./data/architecture.png)
+
+### Google Cloud Infrastructure
+This project can be run locally and therefore it is agnostic to any specific infrastructure, but it
+makes use of several Google Cloud products to ensure robustness and continuous updates. Some of the
+configuration files are checked in with the code, such as AppEngine's [app.yaml](./app.yaml) file.
+This serves as a reference implementation for users of this code who might want to reproduce our
+infrastructure setup. Here is a brief overview of the different Google Cloud products used as part
+of this project:
+![](./data/infrastructure.png)
 
 ## Publish
 Data tables are made available for use via the `publish.py` script which uploads the files to a file
