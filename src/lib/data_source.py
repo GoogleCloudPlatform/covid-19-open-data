@@ -20,6 +20,7 @@ import numpy
 from pandas import DataFrame, isna
 
 from .error_logger import ErrorLogger
+from .cast import safe_datetime_parse
 from .io import read_file, fuzzy_text
 from .net import download_snapshot
 from .utils import infer_new_and_total, stratify_age_sex_ethnicity
@@ -98,6 +99,16 @@ class DataSource(ErrorLogger):
         """
         # Merge only needs the metadata auxiliary data table
         metadata = aux["metadata"]
+
+        # If date is provided, make sure it follows ISO format
+        if "date" in record:
+            date = safe_datetime_parse(record["date"], "%Y-%m-%d")
+            if date is None:
+                self.errlog(f"Invalid date:\n{record}")
+                return None
+            else:
+                # Re-set the record's date to make sure it's the appropriate type
+                record["date"] = date
 
         # Exact key match might be possible and it's the fastest option
         if "key" in record and not isna(record["key"]):
