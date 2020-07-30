@@ -17,11 +17,11 @@ import math
 from pandas import DataFrame
 from lib.data_source import DataSource
 from lib.time import datetime_isoformat
-import  datetime
+import datetime
 from lib.cast import safe_int_cast
 
+
 class LibyaHumdataDataSource(DataSource):
-   
     def parse_dataframes(
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
@@ -35,20 +35,23 @@ class LibyaHumdataDataSource(DataSource):
                     "Confirmed": "total_confirmed",
                     "Deaths": "total_deceased",
                     "Recoveries": "total_recovered",
-                    "Date": "date",  # is already in format "%Y-%m-%d"
+                    "Date": "date",
                 }
             )
             .drop(columns=["Active"])
         )
 
+        # Convert date to ISO format
+        data["date"] = data["date"].apply(lambda x: datetime_isoformat(x, "%m/%d/%Y"))
+
         # The first row is metadata info about column names - discard it
-        data = data[data.match_string != '#loc+name']
-      
+        data = data[data.match_string != "#loc+name"]
+
         # Convert string numbers to int
         # Parse integers
         for column in ("total_confirmed", "total_deceased", "total_recovered"):
             data[column] = data[column].apply(lambda x: safe_int_cast(str(x).replace(",", "")))
-        
+
         # Make sure all records have the country code
         data["country_code"] = "LY"
 
