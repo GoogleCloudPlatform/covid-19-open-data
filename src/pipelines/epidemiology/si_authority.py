@@ -27,6 +27,18 @@ class SloveniaDataSource(DataSource):
         # Rename the appropriate columns
         data = dataframes[0].rename(
             columns={
+                # Sometimes the column names are in the local language
+                "Dátum": "date",
+                "Mintavételek száma (összesen)": "total_tested",
+                "mintavételek száma": "new_tested",
+                "pozitív esetek száma (összesen)": "total_confirmed",
+                "napi pozitív esetszám": "new_confirmed",
+                "hospitalizált": "current_hospitalized",
+                "intenzív ellátásra szoruló": "current_intensive_care",
+                "a kórházból elbocsátottak napi száma": "new_recovered",
+                "elhunytak száma összesen": "total_deceased",
+                "elhunytak": "new_deceased",
+                # Sometimes de column names are in English
                 "Date": "date",
                 "Tested (all)": "total_tested",
                 "Tested (daily)": "new_tested",
