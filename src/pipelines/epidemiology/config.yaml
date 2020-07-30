@@ -324,7 +324,7 @@ sources:
       # We only include data past 1 April 2020, prior to this there is bad agreement with our previous data source.
       query: (date >= '2020-04-01')
     test:
-      metadata_query: "key.str.match('GB')"
+      metadata_query: "key == 'GB'"
 
   - name: pipelines.epidemiology.gb_authority.Covid19UkL2DataSource
     fetch:
