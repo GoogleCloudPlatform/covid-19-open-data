@@ -458,7 +458,6 @@ sources:
       encoding: ISO-8859-1
     test:
       metadata_query: "key == 'LU'"
-      skip: true
 
   # Data sources for LY level 2
   - name: pipelines.epidemiology.ly_humdata.LibyaHumdataDataSource
@@ -493,6 +492,27 @@ sources:
       # Skip this data source because it's too slow
       skip: true
       metadata_query: "key.str.match('MX_.+')"
+
+  # Data sources for MY level 2
+  - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
+    fetch:
+      - url: "https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_Malaysia"
+        opts:
+          ext: html
+    parse:
+      country: MY
+      date_format: "%d/%m"
+      drop_column: "deceased"
+      cumsum: true
+    test:
+      metadata_query: "key.str.match('MY_.*')"
+      # Skip MY from Wikipedia because the article no longer exists
+      # The source can be deleted once an alternative data source is found, until then keeping it
+      # results in an error but the last known intermediate output is used so old data is not
+      # deleted
+      skip: true
+    automation:
+      job_group: 'wikipedia'
 
   # Data sources for MZ level 2
   - name: pipelines.epidemiology.mz_humdata.MozambiqueHumdataDataSource
