@@ -126,16 +126,6 @@ sources:
     test:
       metadata_query: "key == 'IE'"
 
-  # Data sources for IS level 1
-  - name: pipelines.hospitalizations.xx_opencovid.OpenCovidDataSource
-    fetch:
-      - url: "https://raw.githubusercontent.com/google-research/open-covid-19-data/master/data/inputs/downloaded/iceland_hospitalizations/2020-06-18/Sheet%201.csv"
-    parse:
-      key: IS
-      date_column: unnamed
-    test:
-      metadata_query: "key == 'IS'"
-
   # Data sources for IT levels 1 + 2
   - name: pipelines.epidemiology.it_authority.PcmDpcL1DataSource
     fetch:
