@@ -92,7 +92,6 @@ class Covid19UkDataL2DataSource(DataSource):
         data.loc[data["subregion1_name"] == "UK", "subregion1_name"] = None
         data["subregion2_code"] = None
         data["country_code"] = "GB"
-
         return data
 
 
