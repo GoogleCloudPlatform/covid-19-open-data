@@ -27,16 +27,16 @@ class SloveniaDataSource(DataSource):
         # Rename the appropriate columns
         data = dataframes[0].rename(
             columns={
-                "Dátum": "date",
-                "Mintavételek száma (összesen)": "total_tested",
-                "mintavételek száma": "new_tested",
-                "pozitív esetek száma (összesen)": "total_confirmed",
-                "napi pozitív esetszám": "new_confirmed",
-                "hospitalizált": "current_hospitalized",
-                "intenzív ellátásra szoruló": "current_intensive_care",
-                "a kórházból elbocsátottak napi száma": "new_recovered",
-                "elhunytak száma összesen": "total_deceased",
-                "elhunytak": "new_deceased",
+                "Date": "date",
+                "Tested (all)": "total_tested",
+                "Tested (daily)": "new_tested",
+                "Positive (all)": "total_confirmed",
+                "Positive (daily)": "new_confirmed",
+                "All hospitalized on certain day": "current_hospitalized",
+                "All persons in intensive care on certain day": "current_intensive_care",
+                "Discharged": "new_recovered",
+                "Deaths (all)": "total_deceased",
+                "Deaths (daily)": "new_deceased",
             }
         )
 
