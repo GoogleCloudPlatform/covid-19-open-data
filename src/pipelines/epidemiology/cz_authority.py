@@ -17,6 +17,7 @@ from pandas import DataFrame, concat, isna
 from lib.case_line import convert_cases_to_time_series
 
 from lib.data_source import DataSource
+from lib.time import datetime_isoformat
 from lib.utils import table_rename
 
 
@@ -98,6 +99,7 @@ class CzechRepublicAgeSexDataSource(DataSource):
             cases, index_columns=["subregion1_code", "subregion2_code"]
         )
 
+        # Make sure the region codes are strings before parsing them
         data["subregion1_code"] = data["subregion1_code"].astype(str)
         data["subregion2_code"] = data["subregion2_code"].astype(str)
 
@@ -107,5 +109,12 @@ class CzechRepublicAgeSexDataSource(DataSource):
         # Remove bogus values
         data = data[data["key"] != "CZ_99"]
         data = data[data["key"] != "CZ_99_99Y"]
+
+        # Convert all dates to ISO format
+        data["date"] = (
+            data["date"]
+            .astype(str)
+            .apply(lambda x: datetime_isoformat(x, "%d.%m.%Y" if "." in x else "%Y-%m-%d"))
+        )
 
         return data
