@@ -20,9 +20,9 @@ import numpy
 from pandas import DataFrame, isna
 
 from .error_logger import ErrorLogger
-from .cast import safe_datetime_parse
 from .io import read_file, fuzzy_text
 from .net import download_snapshot
+from .time import datetime_isoformat
 from .utils import infer_new_and_total, stratify_age_sex_ethnicity
 
 
@@ -102,7 +102,7 @@ class DataSource(ErrorLogger):
 
         # If date is provided, make sure it follows ISO format
         if "date" in record:
-            date = safe_datetime_parse(record["date"], "%Y-%m-%d")
+            date = datetime_isoformat(record["date"], "%Y-%m-%d")
             if date is None:
                 self.errlog(f"Invalid date:\n{record}")
                 return None
