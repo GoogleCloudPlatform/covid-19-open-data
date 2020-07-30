@@ -637,6 +637,8 @@ The following persons have made significant contributions to this project:
 * Anthony Erlinger
 * Mayank Daswani
 * Pranali Yawalkar
+* Zack Ontiveros
+* Ruth Alcantara
 
 
 
@@ -650,7 +652,7 @@ Please use the following when citing this project as a source of data:
   year = 2020,
   title = "COVID-19 Open-Data: curating a fine-grained, global-scale data repository for SARS-CoV-2",
   note = "Work in progress",
- url = {https://github.com/GoogleCloudPlatform/covid-19-open-data},
+  url = {https://github.com/GoogleCloudPlatform/covid-19-open-data},
 }
 ```
 
