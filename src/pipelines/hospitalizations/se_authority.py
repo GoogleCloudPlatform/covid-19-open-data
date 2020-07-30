@@ -28,5 +28,6 @@ class SwedenDataSource(DataSource):
 
         # Get date in ISO format
         data["key"] = "SE"
-        data.date = data.date.apply(lambda x: datetime_isoformat(x, "%m/%d/%Y"))
+        # The source is actually %m/%d/%Y but pandas silently converts it to date object
+        data["date"] = data["date"].astype(str).apply(lambda x: datetime_isoformat(x, "%Y-%m-%d"))
         return data
