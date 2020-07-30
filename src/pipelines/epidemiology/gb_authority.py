@@ -42,9 +42,6 @@ class Covid19UkL2DataSource(DataSource):
         data = data[data["subregion1_name"] != "UK"]
         data.date = data.date.apply(lambda x: datetime_isoformat(x, "%Y-%m-%d"))
 
-        # Bug in data at time of writing.
-        data = data[data["date"] != "2020-12-07"]
-
         # Make sure all records have country code and no subregion code
         data["country_code"] = "GB"
         data["subregion2_code"] = None
