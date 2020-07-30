@@ -599,6 +599,7 @@ from the relevant authorities, like a country's ministry of health.
 | Sweden | [Public Health Agency of Sweden](https://www.folkhalsomyndigheten.se/the-public-health-agency-of-sweden/) |  |
 | Switzerland | [OpenZH data](https://open.zh.ch) | [CC 4.0](https://github.com/openZH/covid_19/blob/master/LICENSE) |
 | United Kingdom | <https://github.com/tomwhite/covid-19-uk-data> | [The Unlicense](https://github.com/tomwhite/covid-19-uk-data/blob/master/LICENSE.txt) |
+| United Kingdom | <https://coronavirus-staging.data.gov.uk/> | Attribution required, [Open Government Licence v3.0][32] |
 | Uruguay | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
 | USA | [NYT COVID Dataset](https://github.com/nytimes) | [Attribution required, non-commercial use](https://github.com/nytimes/covid-19-data/blob/master/LICENSE) |
 | USA | [COVID Tracking Project](https://covidtracking.com) | [CC BY-NC 4.0](https://covidtracking.com/license) |
@@ -686,3 +687,4 @@ Please use the following when citing this project as a source of data:
 [29]: http://creativecommons.org/licenses/by/4.0/
 [30]: https://reproduction.live/
 [31]: http://opendefinition.org/licenses/odc-by/
+[32]: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
