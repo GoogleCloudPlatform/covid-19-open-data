@@ -88,19 +88,18 @@ def read_file(path: Union[Path, str], **read_opts) -> DataFrame:
     # Keep a list of known extensions here so we don't forget to update it
     known_extensions = ("csv", "json", "html", "xls", "xlsx", "zip")
 
+    # Hard-code a set of sensible defaults to reduce the amount of magic Pandas provides
+    default_read_opts = {"keep_default_na": False, "na_values": ["", "N/A"]}
+
     if ext == "csv":
-        return pandas.read_csv(
-            path, **{**{"keep_default_na": False, "na_values": ["", "N/A"]}, **read_opts}
-        )
+        return pandas.read_csv(path, **{**default_read_opts, **read_opts})
     if ext == "json":
         return pandas.read_json(path, **read_opts)
     if ext == "html":
         with open(path, "r") as fd:
             return read_html(fd.read(), **read_opts)
     if ext == "xls" or ext == "xlsx":
-        return pandas.read_excel(
-            path, **{**{"keep_default_na": False, "na_values": ["", "N/A"]}, **read_opts}
-        )
+        return pandas.read_excel(path, **{**default_read_opts, **read_opts})
     if ext == "zip":
         with TemporaryDirectory() as tmpdir:
             tmpdir = Path(tmpdir)
