@@ -15,5 +15,6 @@
 steps:
 
     # Deploy code to Google App Engine
-    - name: 'gcr.io/cloud-builders/gcloud'
+    - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+      entrypoint: 'gcloud'
       args: ['app', 'deploy', './src/app.yaml']
