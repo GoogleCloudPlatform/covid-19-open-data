@@ -16,9 +16,13 @@ steps:
 
     # Deploy code to Google App Engine
     - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-      entrypoint: 'gcloud'
-      args: ['app', 'deploy', './src/app.yaml']
-      timeout: 1200s
+      entrypoint: 'bash'
+      dir: './src'
+      args:
+        - '-c'
+        - |
+          gcloud config set app/cloud_build_timeout 1200
+          gcloud app deploy ./app.yaml
 
     # Schedule all tasks via Google Cloud Scheduler
     - name: python
@@ -30,5 +34,5 @@ steps:
           pip install -r requirements.txt
           python3 ./scripts/setup_scheduler.py
 
-# Define global timeout
+# Define global timeout since the deployment takes >10m
 timeout: 1800s
