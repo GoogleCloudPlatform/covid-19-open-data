@@ -314,6 +314,27 @@ sources:
     test:
       metadata_query: "key.str.match('GB_.+_.+')"
 
+  # Authoritative Data sources for GB_UK
+  - name: pipelines.epidemiology.gb_authority.Covid19UkL1DataSource
+    fetch:
+      - url: "https://api.coronavirus-staging.data.gov.uk/v1/data?filters=areaType=nation&structure=%7B%22areaType%22:%22areaType%22,%22areaName%22:%22areaName%22,%22areaCode%22:%22areaCode%22,%22date%22:%22date%22,%22cumCasesByPublishDate%22:%22cumCasesByPublishDate%22,%22cumDeathsByPublishDate%22:%22cumDeathsByPublishDate%22,%22cumPillarOneTestsByPublishDate%22:%22cumPillarOneTestsByPublishDate%22%7D&format=csv"
+        opts:
+          ext: csv
+    # We only include data past 1 April 2020, prior to this there is bad agreement with our previous data source.
+    query: (date >= '2020-04-01')
+    test:
+      metadata_query: "key == 'GB'"
+
+  - name: pipelines.epidemiology.gb_authority.Covid19UkL2DataSource
+    fetch:
+      - url: "https://api.coronavirus-staging.data.gov.uk/v1/data?filters=areaType=nation&structure=%7B%22areaType%22:%22areaType%22,%22areaName%22:%22areaName%22,%22areaCode%22:%22areaCode%22,%22date%22:%22date%22,%22cumCasesByPublishDate%22:%22cumCasesByPublishDate%22,%22cumDeathsByPublishDate%22:%22cumDeathsByPublishDate%22,%22cumPillarOneTestsByPublishDate%22:%22cumPillarOneTestsByPublishDate%22%7D&format=csv"
+        opts:
+          ext: csv
+    # We only include data past 1 April 2020, prior to this there is bad agreement with our previous data source.
+    query: (date >= '2020-04-01')
+    test:
+      metadata_query: "key.str.match('GB_[^_]+$')"
+
   # Data sources for HT level 2
   - name: pipelines.epidemiology.ht_humdata.HaitiHumdataDataSource
     fetch:
