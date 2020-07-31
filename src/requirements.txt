@@ -7,6 +7,7 @@ Scrapy==2.0.0
 tqdm==4.43.0
 Unidecode==1.1.1
 xlrd==1.2.0
+google-cloud-scheduler==1.3.0
 google-cloud-storage==1.29.0
 gunicorn==20.0.4
 Flask==1.1.2
