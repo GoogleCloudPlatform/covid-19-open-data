@@ -18,3 +18,17 @@ steps:
     - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
       entrypoint: 'gcloud'
       args: ['app', 'deploy', './src/app.yaml']
+      timeout: '1200s'
+
+    # Schedule all tasks via Google Cloud Scheduler
+    - name: python
+      entrypoint: 'bash'
+      dir: './src'
+      args:
+        - '-c'
+        - |
+          pip install -r requirements.txt
+          python3 ./scripts/setup_scheduler.py
+
+# Define global timeout
+timeout: '1800s'
