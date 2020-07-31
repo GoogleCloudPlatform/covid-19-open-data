@@ -16,4 +16,4 @@ steps:
 
     # Deploy code to Google App Engine
     - name: 'gcr.io/cloud-builders/gcloud'
-      args: ['app', 'deploy', 'app.yaml']
+      args: ['app', 'deploy', './src/app.yaml']
