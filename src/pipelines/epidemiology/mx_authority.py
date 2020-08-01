@@ -78,7 +78,7 @@ class MexicoDataSource(DataSource):
                 # "ENTIDAD_NAC": "",
                 "ENTIDAD_RES": "subregion1_code",
                 "MUNICIPIO_RES": "subregion2_code",
-                # "TIPO_PACIENTE": "",
+                "TIPO_PACIENTE": "_type",
                 "FECHA_INGRESO": "date_new_confirmed",
                 # "FECHA_SINTOMAS": "",
                 "FECHA_DEF": "date_new_deceased",
@@ -99,11 +99,11 @@ class MexicoDataSource(DataSource):
                 # "RENAL_CRONICA": "",
                 # "TABAQUISMO": "",
                 # "OTRO_CASO": "",
-                # "RESULTADO": "",
+                "RESULTADO": "_diagnosis",
                 # "MIGRANTE": "",
                 # "PAIS_NACIONALIDAD": "",
                 # "PAIS_ORIGEN": "",
-                # "UCI": "",
+                "UCI": "_intensive_care",
             },
             drop=True,
         )
@@ -112,6 +112,16 @@ class MexicoDataSource(DataSource):
         for col in cases.columns:
             if col.startswith("date_"):
                 cases.loc[cases[col] == "9999-99-99", col] = None
+
+        # Discard all cases with negative test result
+        cases = cases[cases["_diagnosis"] == 1]
+
+        # Type 1 is normal, type 2 is hospitalized
+        cases["date_new_hospitalized"] = None
+        hospitalized_mask = cases["_type"] == 2
+        cases.loc[hospitalized_mask, "date_new_hospitalized"] = cases.loc[
+            hospitalized_mask, "date_new_confirmed"
+        ]
 
         # Parse region codes as strings
         cases["subregion1_code"] = cases["subregion1_code"].apply(

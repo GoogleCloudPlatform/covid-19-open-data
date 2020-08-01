@@ -470,22 +470,10 @@ sources:
     automation:
       job_group: 'google_sheets'
 
-  # Data sources for MX levels 1 + 2
-  - name: pipelines.epidemiology.mx_mexicovid19.Mexicovid19DataSource
-    fetch:
-      - name: new_confirmed
-        url: "https://raw.github.com/mexicovid19/Mexico-datos/master/datos_abiertos/series_de_tiempo/nuevos/covid19_mex_confirmados.csv"
-      - name: new_deceased
-        url: "https://raw.github.com/mexicovid19/Mexico-datos/master/datos_abiertos/series_de_tiempo/nuevos/covid19_mex_muertes.csv"
-      - name: new_tested
-        url: "https://raw.github.com/mexicovid19/Mexico-datos/master/datos_abiertos/series_de_tiempo/nuevos/covid19_mex_pruebas-totales.csv"
-    test:
-      metadata_query: "key.str.match('MX_...$')"
-
   # Data sources for MX levels 1, 2 and 3
   - name: pipelines.epidemiology.mx_authority.MexicoDataSource
     fetch:
-      - url: "http://187.191.75.115/gobmx/salud/datos_abiertos/datos_abiertos_covid19.zip"
+      - url: "http://epidemiologia.salud.gob.mx/gobmx/salud/datos_abiertos/datos_abiertos_covid19.zip"
     parse:
       encoding: "ISO-8859-1"
     test:
