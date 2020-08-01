@@ -50,7 +50,7 @@ def schedule_job(
 ) -> None:
     """ Schedules the given job for the specified project and location """
     # Create a Job to schedule
-    target = AppEngineHttpTarget(relative_uri=path)
+    target = AppEngineHttpTarget(relative_uri=path, http_method="GET")
     job = Job(app_engine_http_target=target, schedule=schedule, time_zone=timezone)
 
     # Schedule the Job we just created
@@ -58,20 +58,24 @@ def schedule_job(
     client.create_job(parent, job)
 
 
-def setup_scheduler(project_id: str, location_id: str, timezone: str) -> None:
+def schedule_all_jobs(project_id: str, location_id: str, timezone: str) -> None:
     """
     Clears all previously scheduled jobs and schedules all necessary jobs for the current
     configuration.
     """
+    client = scheduler_v1.CloudSchedulerClient()
 
     # Create a custom method with our parameters for ease of use
     _schedule_job = partial(
         schedule_job,
-        client=scheduler_v1.CloudSchedulerClient(),
+        client=client,
         project_id=project_id,
         location_id=location_id,
         timezone=timezone,
     )
+
+    # Clear all pre-existing jobs
+    clear_jobs(client=client, project_id=project_id, location_id=location_id)
 
     # Cache pull job runs hourly
     _schedule_job(schedule="0 * * * *", path="/cache_pull")
@@ -125,18 +129,21 @@ def setup_scheduler(project_id: str, location_id: str, timezone: str) -> None:
 
 if __name__ == "__main__":
 
+    # Get default values from environment
+    default_project = os.environ.get("GCP_PROJECT")
+    default_location = os.environ.get("GCP_LOCATION", "us-east1")
+    default_timezone = os.environ.get("GCP_TIMEZONE", "EST")
+
     # Parse arguments from the command line
     argparser = ArgumentParser()
-    argparser.add_argument("--project-id", type=str, default=os.environ.get("GCP_PROJECT"))
-    argparser.add_argument(
-        "--location-id", type=str, default=os.environ.get("GCP_LOCATION", "us-east1")
-    )
-    argparser.add_argument("--timezone", type=str, default=os.environ.get("GCP_TIMEZONE", "EST"))
+    argparser.add_argument("--project-id", type=str, default=default_project)
+    argparser.add_argument("--location-id", type=str, default=default_location)
+    argparser.add_argument("--timezone", type=str, default=default_timezone)
     args = argparser.parse_args()
 
     # Ensure project ID is not empty, since we don't have a default value for it
     assert args.project_id is not None, 'Argument "project-id" must not be empty'
 
     # Clear all preexisting jobs and schedule the new ones, this assumes the current code has
-    # already been deployed to GAE
-    setup_scheduler(args.project_id, args.location_id, args.timezone)
+    # already been successfully deployed to GAE in a previous build step
+    schedule_all_jobs(args.project_id, args.location_id, args.timezone)
