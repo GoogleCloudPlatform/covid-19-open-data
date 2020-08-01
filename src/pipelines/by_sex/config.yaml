@@ -502,7 +502,7 @@ sources:
   # Data sources for MX levels 1, 2 and 3
   - name: pipelines.epidemiology.mx_authority.MexicoDataSource
     fetch:
-      - url: "http://187.191.75.115/gobmx/salud/datos_abiertos/datos_abiertos_covid19.zip"
+      - url: "http://epidemiologia.salud.gob.mx/gobmx/salud/datos_abiertos/datos_abiertos_covid19.zip"
     parse:
       encoding: "ISO-8859-1"
     test:
