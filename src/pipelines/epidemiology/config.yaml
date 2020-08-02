@@ -296,7 +296,7 @@ sources:
       metadata_query: "key.str.match('FR.*')"
 
   # Data sources for GB levels 1 + 2 + 3
-  - name: pipelines.epidemiology.gb_covid_19_uk_data.Covid19UkDataL1DataSource
+  - name: çcovid_19_uk_data.Covid19UkDataL1DataSource
     fetch:
       - url: "https://raw.githubusercontent.com/tomwhite/covid-19-uk-data/master/data/covid-19-indicators-uk.csv"
     test:
@@ -320,8 +320,8 @@ sources:
       - url: "https://api.coronavirus-staging.data.gov.uk/v1/data?filters=areaType=nation&structure=%7B%22areaType%22:%22areaType%22,%22areaName%22:%22areaName%22,%22areaCode%22:%22areaCode%22,%22date%22:%22date%22,%22cumCasesByPublishDate%22:%22cumCasesByPublishDate%22,%22cumDeathsByPublishDate%22:%22cumDeathsByPublishDate%22,%22cumPillarOneTestsByPublishDate%22:%22cumPillarOneTestsByPublishDate%22%7D&format=csv"
         opts:
           ext: csv
-    # We only include data past 1 April 2020, prior to this there is bad agreement with our previous data source.
-    query: (date >= '2020-04-01')
+    # The official data has a bug when going from 01/07/2020 to 02/07/2020 in the cumulative case total.
+    query: (date >= '2020-07-03')
     test:
       metadata_query: "key == 'GB'"
 
@@ -330,8 +330,8 @@ sources:
       - url: "https://api.coronavirus-staging.data.gov.uk/v1/data?filters=areaType=nation&structure=%7B%22areaType%22:%22areaType%22,%22areaName%22:%22areaName%22,%22areaCode%22:%22areaCode%22,%22date%22:%22date%22,%22cumCasesByPublishDate%22:%22cumCasesByPublishDate%22,%22cumDeathsByPublishDate%22:%22cumDeathsByPublishDate%22,%22cumPillarOneTestsByPublishDate%22:%22cumPillarOneTestsByPublishDate%22%7D&format=csv"
         opts:
           ext: csv
-    # We only include data past 1 April 2020, prior to this there is bad agreement with our previous data source.
-    query: (date >= '2020-04-01')
+    # The official data has a bug when going from 01/07/2020 to 02/07/2020 in the cumulative case total.
+    query: (date >= '2020-07-03')
     test:
       metadata_query: "key.str.match('GB_[^_]+$')"
 
