@@ -24,7 +24,11 @@ class ScotlandDataSource(DataSource):
     @staticmethod
     def _parse(file_path: str, sheet_name: str, value_name: str):
         data = read_file(file_path, sheet_name=sheet_name)
+
         data.columns = [col.replace("NHS ", "").replace(" total", "") for col in data.iloc[1]]
+        # Drop Golden Jubilee National Hospital - it has no hospitalizations and does not fit
+        # any current matches in metadata.csv.
+        data = data.drop(columns=["Golden Jubilee National Hospital"])
         data = data.iloc[2:].rename(columns={"Date": "date"})
 
         data = pivot_table(data.set_index("date"), pivot_name="match_string")
@@ -48,7 +52,7 @@ class ScotlandDataSource(DataSource):
             sources[0], sheet_name="Table 3a - Hospital Confirmed", value_name="new_hospitalized"
         )
         intensive_care = ScotlandDataSource._parse(
-            sources[0], sheet_name="Table 2 - ICU patients", value_name="new_intensive_care"
+            sources[0], sheet_name="Table 2a - ICU patients", value_name="new_intensive_care"
         )
 
         return hospitalized.merge(intensive_care, how="outer")
