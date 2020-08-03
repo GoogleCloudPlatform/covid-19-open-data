@@ -111,7 +111,7 @@ few snippets to get started.
 ### BigQuery
 This dataset is part of the [BigQuery Public Datasets Program][22], so you may use BigQuery to run
 SQL queries directly from the
-[online query editor](https://cloud.google.com/bigquery?p=bigquery-public-data&d=covid19_open_data&page=dataset).
+[online query editor](https://console.cloud.google.com/bigquery?p=bigquery-public-data&d=covid19_open_data&page=dataset).
 
 ### Google Colab
 You can use Google Colab if you want to run your analysis without having to install anything in your
@@ -678,7 +678,7 @@ Please use the following when citing this project as a source of data:
 [19]: https://auditter.info/covid-timeline
 [20]: https://www.coronavirusdailytracker.info/
 [21]: https://omnimodel.com/
-[22]: https://cloud.google.com/marketplace/product/bigquery-public-datasets/covid19-open-data
+[22]: https://console.cloud.google.com/marketplace/product/bigquery-public-datasets/covid19-open-data
 [23]: https://www.wikidata.org/wiki/Wikidata:Licensing
 [24]: https://en.wikipedia.org/wiki/Wikipedia:Copyrights
 [25]: https://worldbank.org
