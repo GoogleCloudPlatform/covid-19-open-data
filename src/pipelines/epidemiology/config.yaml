@@ -296,7 +296,7 @@ sources:
       metadata_query: "key.str.match('FR.*')"
 
   # Data sources for GB levels 1 + 2 + 3
-  - name: çcovid_19_uk_data.Covid19UkDataL1DataSource
+  - name: covid_19_uk_data.Covid19UkDataL1DataSource
     fetch:
       - url: "https://raw.githubusercontent.com/tomwhite/covid-19-uk-data/master/data/covid-19-indicators-uk.csv"
     test:
