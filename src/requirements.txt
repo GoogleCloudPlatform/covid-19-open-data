@@ -11,3 +11,4 @@ google-cloud-scheduler==1.3.0
 google-cloud-storage==1.29.0
 gunicorn==20.0.4
 Flask==1.1.2
+uk-covid19==1.1.2
