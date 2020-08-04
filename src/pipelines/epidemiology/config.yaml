@@ -760,6 +760,18 @@ sources:
     test:
       metadata_query: "key.str.match('US_IN_.*')"
 
+  # Data sources for US_MA level 3
+  - name: pipelines.epidemiology.us_ma_authority.MassachusettsCountiesDataSource
+    fetch:
+      - name: counties
+        url: "https://www.mass.gov/doc/covid-19-raw-data-august-3-2020/download"
+        opts:
+          ext: zip
+    parse:
+      file_name: County.csv
+    test:
+      metadata_query: "key == 'US_MA'"
+
   # Data sources for US_NYC level 3 (NYC only)
   - name: pipelines.epidemiology.us_nyc_authority.NYCHealthDataSource
     fetch:

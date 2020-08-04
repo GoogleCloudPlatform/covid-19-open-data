@@ -82,7 +82,16 @@ class DataSource(ErrorLogger):
         read_opts = {
             k: v
             for k, v in parse_opts.items()
-            if k in ("sep", "encoding", "low_memory", "sheet_name", "usecols", "error_bad_lines")
+            if k
+            in (
+                "sep",
+                "encoding",
+                "low_memory",
+                "file_name",
+                "sheet_name",
+                "usecols",
+                "error_bad_lines",
+            )
         }
         return self.parse_dataframes(self._read(sources, **read_opts), aux, **parse_opts)
 
