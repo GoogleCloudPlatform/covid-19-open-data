@@ -130,5 +130,10 @@
         "url": "https://ga-covid19.ondemand.sas.com/docs/ga_covid_data.zip",
         "cmd": "static_fetch",
         "output": "US_GA_stratified.zip"
+    },
+    {
+        "url": "https://docs.google.com/spreadsheets/d/13Rbm5zKKLTFNyLZ2Z9YYHc5v6YpO_erMz1pZwiUtfiQ/export?format=xlsx",
+        "cmd": "static_fetch",
+        "output": "US_ME_stratified.zip"
     }
 ]
