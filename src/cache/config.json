@@ -10,6 +10,11 @@
         "output": "US_IL-DPH.json"
     },
     {
+        "url": "https://dph.illinois.gov/sitefiles/COVIDZip.json",
+        "cmd": "static_fetch",
+        "output": "US_IL-stratified.json"
+    },
+    {
         "url": "https://public.tableau.com/static/images/CO/COVID-19TableauVersion2/DeathSummary/1_rss.png",
         "cmd": "static_fetch",
         "output": "US_KS-mortality-stratified.png"
