@@ -716,6 +716,7 @@ sources:
       # Skip Florida because download takes a long time
       skip: true
 
+  # Data sources for US_IN level 3
   - name: pipelines.epidemiology.us_in_authority.IndianaDataSource
     fetch:
       - url: "https://hub.mph.in.gov/dataset/6b57a4f2-b754-4f79-a46b-cff93e37d851/resource/46b310b9-2f29-4a51-90dc-3886d9cf4ac1/download/covid_report.xlsx"
@@ -725,6 +726,18 @@ sources:
           skip_existing: true
     test:
       metadata_query: "key.str.match('US_IN.*')"
+
+  # Data sources for US_MA level 3
+  - name: pipelines.epidemiology.us_ma_authority.MassachusettsByAgeDataSource
+    fetch:
+      - name: by-age
+        url: "https://www.mass.gov/doc/covid-19-raw-data-august-3-2020/download"
+        opts:
+          ext: zip
+    parse:
+      file_name: Age.csv
+    test:
+      metadata_query: "key == 'US_MA'"
 
   # Data sources for ZA level 1
   - name: pipelines.epidemiology.za_dsfsi.Covid19ZaTimelineDeathsDataSource
