@@ -17,8 +17,6 @@ from pandas import DataFrame, concat
 from lib.cast import safe_int_cast, safe_str_cast
 from lib.data_source import DataSource
 from lib.case_line import convert_cases_to_time_series
-from lib.constants import SRC
-from lib.io import read_file, fuzzy_text
 from lib.time import datetime_isoformat
 from lib.utils import table_multimerge, table_rename
 
@@ -26,10 +24,23 @@ _column_adapter = {
     "FECHA_RESULTADO": "date",
     "FECHA_FALLECIMIENTO": "date",
     "DISTRITO": "subregion2_name",
+    "DEPARTAMENTO": "subregion1_name",
     "PROVINCIA": "province_name",
     "EDAD": "age",
     "EDAD_DECLARADA": "age",
     "SEXO": "sex",
+}
+
+# Used only for departments with mismatching names or special characters
+_department_map = {
+    "ANCASH": "Áncash",
+    "APURIMAC": "Apurímac",
+    "HUANUCO": "Huánuco",
+    "JUNIN": "Junín",
+    "LIMA": "Metropolitan Municipality of Lima",
+    "LIMA REGION": "Lima Department",
+    "MADRE DE DIOS": "Madre de Dios",
+    "SAN MARTIN": "San Martín",
 }
 
 
@@ -50,15 +61,12 @@ class PeruDataSource(DataSource):
             df["sex"] = df["sex"].apply({"MASCULINO": "male", "FEMENINO": "female"}.get)
 
         # Convert to time series
-        data_confirmed = convert_cases_to_time_series(
-            cases_confirmed, ["province_name", "subregion2_name"]
-        )
-        data_deceased = convert_cases_to_time_series(
-            cases_deceased, ["province_name", "subregion2_name"]
-        )
+        index_columns = ["subregion1_name", "province_name", "subregion2_name"]
+        data_confirmed = convert_cases_to_time_series(cases_confirmed, index_columns)
+        data_deceased = convert_cases_to_time_series(cases_deceased, index_columns)
 
         # Join into a single dataset
-        data = table_multimerge([data_confirmed, data_deceased])
+        data = table_multimerge([data_confirmed, data_deceased], how="outer")
 
         # Remove bogus records
         data.dropna(subset=["date"], inplace=True)
@@ -69,20 +77,15 @@ class PeruDataSource(DataSource):
         data["date"] = data["date"].apply(safe_str_cast)
         data["date"] = data["date"].apply(lambda x: datetime_isoformat(x, "%Y%m%d"))
 
-        # Join with our metadata codes
-        provinces = read_file(SRC / "data" / "pe_provinces.csv")
-        data["province_name"] = data["province_name"].apply(fuzzy_text)
-        data["subregion2_name"] = data["subregion2_name"].apply(fuzzy_text)
-        provinces["province_name"] = provinces["province_name"].apply(fuzzy_text)
-        data = data.merge(provinces)
-
-        # Remove unnecessary columns now that we have subregion1_code and subregion2_name
-        data = data.drop(columns=["subregion1_name"])
+        # Properly capitalize department to allow for exact matching
+        data["subregion1_name"] = data["subregion1_name"].apply(
+            lambda x: _department_map.get(x, x.title())
+        )
 
         # Aggregate by admin level 1
         subregion1 = (
-            data.drop(columns=["subregion2_name"])
-            .groupby(["date", "country_code", "subregion1_code", "age", "sex"])
+            data.drop(columns=["subregion2_name", "province_name"])
+            .groupby(["date", "country_code", "subregion1_name", "age", "sex"])
             .sum()
             .reset_index()
         )
@@ -92,6 +95,10 @@ class PeruDataSource(DataSource):
         # an empty string to turn off exact matching
         data = data.rename(columns={"subregion2_name": "match_string"})
         data["subregion2_name"] = ""
+
+        # Drop bogus records
+        data = data[~data["match_string"].isna()]
+        data = data[~data["match_string"].isin(["", "EN INVESTIGACIÓN", "EXTRANJERO"])]
 
         # Because we are skipping provinces and going directly from region to district, there are
         # some name collisions which we have to disambiguate manually
