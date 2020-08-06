@@ -260,6 +260,7 @@ Information related to the geography for each region:
 | **area** | `integer` [squared kilometers] | Area encompassing this region | 3729 |
 | **rural_area** | `integer` [squared kilometers] | Area encompassing rural land in this region | 3729 |
 | **urban_area** | `integer` [squared kilometers] | Area encompassing urban land this region | 3729 |
+| **open_street_maps** | `string` | OpenStreetMap relation ID corresponding to this key | 165475 |
 
 ### Health
 Health related indicators for each region:
