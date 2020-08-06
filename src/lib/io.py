@@ -82,8 +82,8 @@ def parse_dtype(dtype_name: str) -> Any:
     raise TypeError(f"Unsupported dtype: {dtype_name}")
 
 
-def read_file(path: Union[Path, str], **read_opts) -> DataFrame:
-    ext = str(path).split(".")[-1]
+def read_file(path: Union[Path, str], file_type: str = None, **read_opts) -> DataFrame:
+    ext = file_type or str(path).split(".")[-1]
 
     # Keep a list of known extensions here so we don't forget to update it
     known_extensions = ("csv", "json", "html", "xls", "xlsx", "zip")
