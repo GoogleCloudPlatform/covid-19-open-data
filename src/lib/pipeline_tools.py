@@ -19,7 +19,7 @@ from lib.pipeline import DataPipeline
 
 def get_pipeline_names() -> Iterator[str]:
     """ Iterator with all the names of available data pipelines """
-    for item in (SRC / "pipelines").iterdir():
+    for item in sorted((SRC / "pipelines").iterdir()):
         if not item.name.startswith("_") and not item.is_file():
             yield item.name
 
