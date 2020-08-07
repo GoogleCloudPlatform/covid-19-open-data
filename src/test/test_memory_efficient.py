@@ -18,7 +18,7 @@ from pathlib import Path
 from unittest import main
 from functools import partial
 from tempfile import TemporaryDirectory
-from typing import Callable, Dict
+from typing import Callable, Dict, List
 
 from pandas import DataFrame
 from lib.constants import SRC
@@ -46,7 +46,7 @@ class TestTableJoins(ProfiledTestCase):
         schema: Dict[str, str],
         left: Path,
         right: Path,
-        on: str,
+        on: List[str],
         how: str,
     ):
         with TemporaryDirectory() as workdir:
@@ -57,10 +57,14 @@ class TestTableJoins(ProfiledTestCase):
             test_result = export_csv(read_table_(tmpfile), schema=schema)
             pandas_how = how.replace("outer", "left")
             pandas_result = export_csv(
-                read_table_(left).merge(read_table_(right), how=pandas_how), schema=schema
+                read_table_(left).merge(read_table_(right), on=on, how=pandas_how), schema=schema
             )
 
-            for line1, line2 in zip(test_result.split("\n"), pandas_result.split("\n")):
+            # Converting to a CSV in memory sometimes produces out-of-order values
+            test_result_lines = sorted(test_result.split("\n"))
+            pandas_result_lines = sorted(pandas_result.split("\n"))
+
+            for line1, line2 in zip(test_result_lines, pandas_result_lines):
                 self.assertEqual(line1, line2)
 
     def _test_join_all(self, how: str):
