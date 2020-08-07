@@ -17,15 +17,15 @@
 schema:
   date: str
   key: str
-  # mobility_driving: float
-  # mobility_transit: float
-  # mobility_walking: float
-  mobility_retail_and_recreation: float
-  mobility_grocery_and_pharmacy: float
-  mobility_parks: float
-  mobility_transit_stations: float
-  mobility_workplaces: float
-  mobility_residential: float
+  # mobility_driving: int
+  # mobility_transit: int
+  # mobility_walking: int
+  mobility_retail_and_recreation: int
+  mobility_grocery_and_pharmacy: int
+  mobility_parks: int
+  mobility_transit_stations: int
+  mobility_workplaces: int
+  mobility_residential: int
 
 auxiliary:
   metadata: ./data/metadata.csv

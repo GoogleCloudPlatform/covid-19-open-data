@@ -140,7 +140,7 @@ def read_table(path: Union[Path, str], schema: Dict[str, Any] = None, **read_opt
     according to the given schema.
 
     Arguments:
-        schema: Dictionary of <column, type>
+        schema: Dictionary of <column, dtype>
     Returns:
         Callable[[Union[Path, str]], DataFrame]: Function like `read_file`
     """
@@ -205,6 +205,25 @@ def read_html(
     return data
 
 
+def _dtype_formatter(dtype: Any) -> Callable[[Any], str]:
+    """
+    Parse a dtype name and output the formatter used for printing it as a string.
+
+    Arguments:
+        dtype: dtype object.
+    Returns:
+        str: formatting string.
+    """
+
+    if dtype == "str" or dtype == str:
+        return "{:s}".format
+    if dtype == "float" or dtype == float:
+        return lambda val: round(val, 6)
+    if dtype == "int" or isinstance(dtype, Int64Dtype):
+        return lambda val: "%d" % val
+    raise TypeError(f"Unsupported dtype: {dtype}")
+
+
 def export_csv(
     data: DataFrame, path: Union[Path, str] = None, schema: Dict[str, Any] = None, **csv_opts
 ) -> Optional[str]:
@@ -213,21 +232,34 @@ def export_csv(
     input DataFrame in place to format them for output, consider making a copy prior to passing the
     data into this function.
     Arguments:
-        data: DataFrame to be output as CSV
-        path: Location on disk to write the CSV to
+        data: DataFrame to be output as CSV.
+        path: Location on disk to write the CSV to.
+        schema: Dictionary of <column, dtype>.
+        csv_opts: Additional options passed to the `DataFrame.to_csv()` method.
+    Returns:
+        Optional[str]: The CSV output as a string, if no path is provided.
     """
-    # If a schema is provided, convert all the columns prior to dumping the CSV file
-    for column, converter in column_converters(schema or {}).items():
-        if column in data.columns:
-            data[column] = data[column].apply(converter)
 
     # Path may be None which means output CSV gets returned as a string
     if path is not None:
         path = str(path)
 
-    # The format used for numbers has the potential of storing a very large number of digits for
-    # floating point type but it's necessary for consistent representation of large integers
-    return data.to_csv(path_or_buf=path, index=False, float_format="%.15G", **csv_opts)
+    # Get the CSV file header from schema if provided, otherwise use data columns
+    header = schema.keys() if schema is not None else data.columns
+    header = [col for col in header if col in data.columns]
+
+    if schema is None:
+        formatters = [str for _ in header]
+    else:
+        formatters = [_dtype_formatter(dtype) for col, dtype in schema.items() if col in header]
+
+    # Format the data one column at a time
+    data_fmt = DataFrame(columns=header, index=data.index)
+    for col, fmt in zip(header, formatters):
+        # pylint: disable=cell-var-from-loop
+        data_fmt[col] = data[col].apply(lambda val: "" if pandas.isna(val) else fmt(val))
+
+    return data_fmt.to_csv(path_or_buf=path, index=False, **csv_opts)
 
 
 def pbar(*args, **kwargs) -> tqdm:

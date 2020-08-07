@@ -1,3 +1,3 @@
 key,life_expectancy,smoking_prevalence,diabetes_prevalence,infant_mortality_rate,adult_male_mortality_rate,adult_female_mortality_rate,pollution_mortality_rate,comorbidity_mortality_rate,hospital_beds,nurses,physicians,health_expenditure,out_of_pocket_health_expenditure
 AD,,33.5,7.7,2.7,,,,,,4.0128,3.3333,4040.7866,1688.1215
-CZ,79.029268,34.3,7,2.7,108.785,51.325,29.6,15,6.5,8.3955,4.1208,1475.9152,218.56979
+CZ,79.029268,34.3,7.0,2.7,108.785,51.325,29.6,15.0,6.5,8.3955,4.1208,1475.9152,218.56979
