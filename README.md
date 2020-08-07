@@ -74,10 +74,9 @@ the data is easy to understand and modify.
 
 ## Use the data
 
-The data is available as CSV and JSON files, which are published in Github Pages so they can be
-served directly to Javascript applications without the need of a proxy to set the correct headers
-for CORS and content type. Even if you only want the CSV files, using the URL served by Github Pages
-is preferred in order to avoid caching issues and potential, future breaking changes.
+The data is available as CSV and JSON files, which are published in Google Cloud Storage so they can
+be served directly to Javascript applications without the need of a proxy to set the correct headers
+for CORS and content type.
 
 For the purpose of making the data as easy to use as possible, there is a [main](#main) table
 which contains the columns of all other tables joined by `key` and `date`. However,
@@ -88,15 +87,14 @@ region using a single endpoint, the URL for each region is:
 * Data for `key` in CSV format: `https://storage.googleapis.com/covid19-open-data/v2/${key}/main.csv`
 * Data for `key` in JSON format: `https://storage.googleapis.com/covid19-open-data/v2/${key}/main.json`
 
-Each table has a full version as well as subsets with only the last 30, 14, 7 and 1 days of data.
+Each table has a full version as well as subsets with only the last day of data.
 The full version is accessible at the URL described [in the table above](#open-covid-19-dataset).
-The subsets can be found by appending the number of days to the path. For example, the subsets of
-the main table are available at the following locations:
+The subsets can be found by appending `latest` to the path. For example, the subsets of the main
+table are available at the following locations:
 * Full version: https://storage.googleapis.com/covid19-open-data/v2/main.csv
 * Latest: https://storage.googleapis.com/covid19-open-data/v2/latest/main.csv
 
-Note that the `latest` version contains the last non-null record for each key, whereas all others
-contain the last `N` days of data (all of which could be null for some keys). All of the above
+Note that the `latest` version contains the last non-null record for each key. All of the above
 listed tables have a corresponding JSON version; simply replace `csv` with `json` in the link.
 
 If you are trying to use this data alongside your own datasets, then you can use the [Index](#index)
@@ -262,6 +260,7 @@ Information related to the geography for each region:
 | **area** | `integer` [squared kilometers] | Area encompassing this region | 3729 |
 | **rural_area** | `integer` [squared kilometers] | Area encompassing rural land in this region | 3729 |
 | **urban_area** | `integer` [squared kilometers] | Area encompassing urban land this region | 3729 |
+| **open_street_maps** | `string` | OpenStreetMap relation ID corresponding to this key | 165475 |
 
 ### Health
 Health related indicators for each region:
@@ -372,15 +371,15 @@ Daily weather information from nearest station reported by NOAA:
 | **key** | `string` | Unique string identifying the region | US_CA |
 | **noaa_station\*** | `string` | Identifier for the weather station | USC00206080 |
 | **noaa_distance\*** | `double` `[kilometers]` | Distance between the location coordinates and the weather station | 28.693 |
-| **average_temperature** | `double` `[celsius]` | Recorded hourly average temperature | 11.2 |
-| **minimum_temperature** | `double` `[celsius]` | Recorded hourly minimum temperature | 1.7 |
-| **maximum_temperature** | `double` `[celsius]` | Recorded hourly maximum temperature | 19.4 |
+| **average_temperature** | `double` `[celsius]` | Recorded hourly average temperature | 11.22 |
+| **minimum_temperature** | `double` `[celsius]` | Recorded hourly minimum temperature | 1.74 |
+| **maximum_temperature** | `double` `[celsius]` | Recorded hourly maximum temperature | 19.42 |
 | **rainfall** | `double` `[millimeters]` | Rainfall during the entire day | 51.0 |
 | **snowfall** | `double` `[millimeters]` | Snowfall during the entire day | 0.0 |
+| **dew_point** | `double` `[celsius]` | Temperature to which air must be cooled to become saturated with water vapor | 10.88 |
 
-\*The reported weather station refers to the nearest station which provides temperature
-measurements, but rainfall and snowfall may come from a different nearby weather station. In all
-cases, only weather stations which are at most 300km from the location coordinates are considered.
+\*The reported data corresponds to the average of the nearest 10 stations within a 300km radius. The
+columns `noaa_station` and `noaa_distance` refer to the nearest station only.
 
 ### WorldBank
 Most recent value for each indicator of the [WorldBank Database][25].
@@ -639,6 +638,7 @@ The following persons have made significant contributions to this project:
 * Pranali Yawalkar
 * Zack Ontiveros
 * Ruth Alcantara
+* Donny Cheung
 
 
 

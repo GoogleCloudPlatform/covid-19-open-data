@@ -24,6 +24,7 @@ schema:
   maximum_temperature: float
   rainfall: float
   snowfall: float
+  dew_point: float
 
 auxiliary:
   metadata: ./data/metadata.csv
@@ -37,8 +38,16 @@ sources:
   #     # Skip because it's too slow
   #     skip: true
 
-  # Data is fetched dynamically, so no URL can be declared here
+  # Use NOAA's global summary of the day dataset
   - name: pipelines.weather.noaa_gsod.NoaaGsodDataSource
+    fetch:
+      - name: inventory
+        url: https://www1.ncdc.noaa.gov/pub/data/noaa/isd-history.csv
+      - name: gsod
+        url: https://www.ncei.noaa.gov/data/global-summary-of-the-day/archive/2020.tar.gz
+      # A bit of a circular dependency but we need the latitude and longitude to compute weather
+      - name: geography
+        url: https://storage.googleapis.com/covid19-open-data/v2/geography.csv
     test:
       # Skip because it's too slow
       skip: true
