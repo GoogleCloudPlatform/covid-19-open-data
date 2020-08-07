@@ -50,6 +50,42 @@ wales_utla_map = {
     "W06000012": "W11000031",
 }
 
+# Source: https://www.opendata.nhs.scot/en_AU/dataset/cbd1802e-0e04-4282-88eb-d7bdcfb120f0/resource/c698f450-eeed-41a0-88f7-c1e40a568acc
+scotland_utla_to_nhs_board_map = {
+    "S12000005": "S08000019",
+    "S12000006": "S08000017",
+    "S12000008": "S08000015",
+    "S12000010": "S08000024",
+    "S12000011": "S08000031",
+    "S12000013": "S08000028",
+    "S12000014": "S08000019",
+    "S12000017": "S08000022",
+    "S12000018": "S08000031",
+    "S12000019": "S08000024",
+    "S12000020": "S08000020",
+    "S12000021": "S08000015",
+    "S12000023": "S08000025",
+    "S12000026": "S08000016",
+    "S12000027": "S08000026",
+    "S12000028": "S08000015",
+    "S12000029": "S08000032",
+    "S12000030": "S08000019",
+    "S12000033": "S08000020",
+    "S12000034": "S08000020",
+    "S12000035": "S08000022",
+    "S12000036": "S08000024",
+    "S12000038": "S08000031",
+    "S12000039": "S08000031",
+    "S12000040": "S08000024",
+    "S12000041": "S08000030",
+    "S12000042": "S08000030",
+    "S12000045": "S08000031",
+    "S12000047": "S08000029",
+    "S12000048": "S08000030",
+    "S12000049": "S08000031",
+    "S12000050": "S08000032",
+}
+
 
 class Covid19UkL2DataSource(DataSource):
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
@@ -100,6 +136,15 @@ class Covid19UkL1DataSource(Covid19UkL2DataSource):
         return data
 
 
+def _apply_area_code_map(x):
+    if x in wales_utla_map:
+        return wales_utla_map[x]
+    elif x in scotland_utla_to_nhs_board_map:
+        return scotland_utla_to_nhs_board_map[x]
+    else:
+        return x
+
+
 class Covid19UkL3DataSource(DataSource):
     """ This API can be used to get historical case data for utla and ltla in the UK """
 
@@ -115,9 +160,7 @@ class Covid19UkL3DataSource(DataSource):
         utla_json = api.get_json()
         data = DataFrame.from_dict(utla_json["data"])
 
-        data.areaCode = data.areaCode.apply(
-            lambda x: wales_utla_map[x] if x in wales_utla_map else x
-        )
+        data.areaCode = data.areaCode.apply(_apply_area_code_map)
         data = data.groupby(["date", "areaCode"], as_index=False).sum()
 
         data = table_rename(
