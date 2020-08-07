@@ -18,7 +18,7 @@ from pathlib import Path
 from unittest import main
 from functools import partial
 from tempfile import TemporaryDirectory
-from typing import Callable
+from typing import Callable, Dict
 
 from pandas import DataFrame
 from lib.constants import SRC
@@ -35,30 +35,41 @@ from lib.utils import pbar
 from .profiled_test_case import ProfiledTestCase
 
 
+# Read the expected dtypes to ensure casting does not throw off test results
+SCHEMA = get_schema()
+
+
 class TestTableJoins(ProfiledTestCase):
-    def _test_join_pair(self, read_table_: Callable, left: Path, right: Path, on: str, how: str):
+    def _test_join_pair(
+        self,
+        read_table_: Callable,
+        schema: Dict[str, str],
+        left: Path,
+        right: Path,
+        on: str,
+        how: str,
+    ):
         with TemporaryDirectory() as workdir:
             workdir = Path(workdir)
             tmpfile = workdir / "tmpfile.csv"
 
             table_join(left, right, on, tmpfile, how=how)
-            test_result = export_csv(read_table_(tmpfile))
+            test_result = export_csv(read_table_(tmpfile), schema=schema)
             pandas_how = how.replace("outer", "left")
-            pandas_result = export_csv(read_table_(left).merge(read_table_(right), how=pandas_how))
+            pandas_result = export_csv(
+                read_table_(left).merge(read_table_(right), how=pandas_how), schema=schema
+            )
 
             for line1, line2 in zip(test_result.split("\n"), pandas_result.split("\n")):
                 self.assertEqual(line1, line2)
 
     def _test_join_all(self, how: str):
 
-        # Read the expected dtypes to ensure casting does not throw off test results
-        schema = get_schema()
-
         # Create a custom function used to read tables casting to the expected schema
-        read_table_ = partial(read_table, schema=schema, low_memory=False)
+        read_table_ = partial(read_table, schema=SCHEMA, low_memory=False)
 
-        for left in pbar([*(SRC / "test" / "data").glob("*.csv")]):
-            for right in (SRC / "test" / "data").glob("*.csv"):
+        for left in pbar([*(SRC / "test" / "data").glob("*.csv")], leave=False):
+            for right in pbar([*(SRC / "test" / "data").glob("*.csv")], leave=False):
                 if left.name == right.name:
                     continue
 
@@ -66,13 +77,13 @@ class TestTableJoins(ProfiledTestCase):
                 right_columns = read_table_(right).columns
 
                 if not "date" in right_columns:
-                    self._test_join_pair(read_table_, left, right, ["key"], how)
+                    self._test_join_pair(read_table_, SCHEMA, left, right, ["key"], how)
 
                 if "date" in left_columns and not "date" in right_columns:
-                    self._test_join_pair(read_table_, left, right, ["key"], how)
+                    self._test_join_pair(read_table_, SCHEMA, left, right, ["key"], how)
 
                 if "date" in left_columns and "date" in right_columns:
-                    self._test_join_pair(read_table_, left, right, ["key", "date"], how)
+                    self._test_join_pair(read_table_, SCHEMA, left, right, ["key", "date"], how)
 
     def test_inner_join(self):
         self._test_join_all("inner")
@@ -136,21 +147,19 @@ class TestTableJoins(ProfiledTestCase):
             _convert_csv_to_json_records_fast,
             _convert_csv_to_json_records_slow,
         ):
-            schema = get_schema()
-
             with TemporaryDirectory() as workdir:
                 workdir = Path(workdir)
 
-                for csv_file in (SRC / "test" / "data").glob("*.csv"):
+                for csv_file in pbar([*(SRC / "test" / "data").glob("*.csv")], leave=False):
                     json_output = workdir / csv_file.name.replace("csv", "json")
-                    json_convert_method(schema, csv_file, json_output)
+                    json_convert_method(SCHEMA, csv_file, json_output)
 
                     with json_output.open("r") as fd:
                         json_obj = json.load(fd)
                         json_df = DataFrame(data=json_obj["data"], columns=json_obj["columns"])
 
                     csv_test_file = workdir / json_output.name.replace("json", "csv")
-                    export_csv(json_df, csv_test_file, schema=schema)
+                    export_csv(json_df, csv_test_file, schema=SCHEMA)
 
                     for line1, line2 in zip(read_lines(csv_file), read_lines(csv_test_file)):
                         self.assertEqual(line1, line2)
@@ -158,17 +167,16 @@ class TestTableJoins(ProfiledTestCase):
     def test_table_group_tail(self):
         with TemporaryDirectory() as workdir:
             workdir = Path(workdir)
-            schema = get_schema()
 
             for table_path in (SRC / "test" / "data").glob("*.csv"):
-                table = read_table(table_path, schema=schema)
+                table = read_table(table_path, schema=SCHEMA)
                 output_path = workdir / f"latest_{table_path.name}"
 
                 # Create the latest slice of the given table
                 table_group_tail(table_path, output_path)
 
                 # Read the created latest slice
-                latest_ours = read_table(output_path, schema=schema)
+                latest_ours = read_table(output_path, schema=SCHEMA)
 
                 # Create a latest slice using pandas grouping
                 if "total_confirmed" in table.columns:
@@ -176,7 +184,7 @@ class TestTableJoins(ProfiledTestCase):
                 latest_pandas = table.groupby(["key"]).tail(1)
 
                 self.assertEqual(
-                    export_csv(latest_ours, schema=schema), export_csv(latest_pandas, schema=schema)
+                    export_csv(latest_ours, schema=SCHEMA), export_csv(latest_pandas, schema=SCHEMA)
                 )
 
 

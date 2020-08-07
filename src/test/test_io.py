@@ -53,9 +53,7 @@ class TestIOFunctions(ProfiledTestCase):
         non_numeric_matrix = "_" + DataFrame(random_matrix).astype(str)
         self._test_reimport_csv_helper(non_numeric_matrix.values, "non-numeric")
 
-        # Large values
-        # Note: this test is expected to fail if there's a combination of large and small values,
-        # since all values get coerced into Int64 if the largest value is over 1E8
+        # Large numeric values
         large_value_matrix = numpy.copy(random_matrix) * 1e10
         self._test_reimport_csv_helper(large_value_matrix, "large values")
 
