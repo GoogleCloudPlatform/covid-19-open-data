@@ -147,21 +147,19 @@ class TestTableJoins(ProfiledTestCase):
             _convert_csv_to_json_records_fast,
             _convert_csv_to_json_records_slow,
         ):
-            schema = get_schema()
-
             with TemporaryDirectory() as workdir:
                 workdir = Path(workdir)
 
                 for csv_file in pbar([*(SRC / "test" / "data").glob("*.csv")], leave=False):
                     json_output = workdir / csv_file.name.replace("csv", "json")
-                    json_convert_method(schema, csv_file, json_output)
+                    json_convert_method(SCHEMA, csv_file, json_output)
 
                     with json_output.open("r") as fd:
                         json_obj = json.load(fd)
                         json_df = DataFrame(data=json_obj["data"], columns=json_obj["columns"])
 
                     csv_test_file = workdir / json_output.name.replace("json", "csv")
-                    export_csv(json_df, csv_test_file, schema=schema)
+                    export_csv(json_df, csv_test_file, schema=SCHEMA)
 
                     for line1, line2 in zip(read_lines(csv_file), read_lines(csv_test_file)):
                         self.assertEqual(line1, line2)
@@ -169,17 +167,16 @@ class TestTableJoins(ProfiledTestCase):
     def test_table_group_tail(self):
         with TemporaryDirectory() as workdir:
             workdir = Path(workdir)
-            schema = get_schema()
 
             for table_path in (SRC / "test" / "data").glob("*.csv"):
-                table = read_table(table_path, schema=schema)
+                table = read_table(table_path, schema=SCHEMA)
                 output_path = workdir / f"latest_{table_path.name}"
 
                 # Create the latest slice of the given table
                 table_group_tail(table_path, output_path)
 
                 # Read the created latest slice
-                latest_ours = read_table(output_path, schema=schema)
+                latest_ours = read_table(output_path, schema=SCHEMA)
 
                 # Create a latest slice using pandas grouping
                 if "total_confirmed" in table.columns:
@@ -187,7 +184,7 @@ class TestTableJoins(ProfiledTestCase):
                 latest_pandas = table.groupby(["key"]).tail(1)
 
                 self.assertEqual(
-                    export_csv(latest_ours, schema=schema), export_csv(latest_pandas, schema=schema)
+                    export_csv(latest_ours, schema=SCHEMA), export_csv(latest_pandas, schema=SCHEMA)
                 )
 
 
