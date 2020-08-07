@@ -57,7 +57,8 @@ class ChileRegionsDataSource(DataSource):
                 ),
                 table_rename(
                     dataframes["deceased"],
-                    {"Fecha": "date", "Total": "new_deceased", "Region": "match_string"},
+                    # The file name indicates the counts are cumulative, but they are not
+                    {"Fecha": "date", "Total": "total_deceased", "Region": "match_string"},
                     drop=True,
                 ),
                 table_rename(
@@ -105,7 +106,7 @@ class ChileMunicipalitiesDataSource(DataSource):
                     dataframes["deceased"],
                     {
                         "Fecha": "date",
-                        "Casos fallecidos": "new_deceased",
+                        "Casos fallecidos": "total_deceased",
                         "Codigo region": "subregion1_code",
                         "Codigo comuna": "subregion2_code",
                     },
