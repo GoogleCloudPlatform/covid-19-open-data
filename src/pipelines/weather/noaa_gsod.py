@@ -85,6 +85,13 @@ def conv_dist(value: int):
     return numpy.nan if value is None else value * 25.4
 
 
+def relative_humidity(temp: float, dew_point: float) -> float:
+    """ http://bmcnoldy.rsmas.miami.edu/humidity_conversions.pdf """
+    a = 17.625
+    b = 243.04
+    return 100 * numpy.exp(a * dew_point / (b + dew_point)) / numpy.exp(a * temp / (b + temp))
+
+
 class NoaaGsodDataSource(DataSource):
     @staticmethod
     def process_location(
@@ -167,6 +174,11 @@ class NoaaGsodDataSource(DataSource):
                 for temp_type in ("average", "minimum", "maximum"):
                     col = f"{temp_type}_temperature"
                     data[col] = data[col].apply(conv_temp)
+
+                # Compute the relative humidity from the dew point and average temperature
+                data["relative_humidity"] = data.apply(
+                    lambda x: relative_humidity(x["average_temperature"], x["dew_point"]), axis=1
+                )
 
                 station_cache[member.name.replace(".csv", "")] = data
 

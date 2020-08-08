@@ -377,6 +377,7 @@ Daily weather information from nearest station reported by NOAA:
 | **rainfall** | `double` `[millimeters]` | Rainfall during the entire day | 51.0 |
 | **snowfall** | `double` `[millimeters]` | Snowfall during the entire day | 0.0 |
 | **dew_point** | `double` `[celsius]` | Temperature to which air must be cooled to become saturated with water vapor | 10.88 |
+| **relative_humidity** | `double` `[%]` | The amount of water vapor present in air expressed as a percentage of the amount needed for saturation at the same temperature | 43.09 |
 
 \*The reported data corresponds to the average of the nearest 10 stations within a 300km radius. The
 columns `noaa_station` and `noaa_distance` refer to the nearest station only.
