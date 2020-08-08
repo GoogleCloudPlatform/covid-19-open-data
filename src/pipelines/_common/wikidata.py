@@ -31,12 +31,12 @@ class WikidataDataSource(DataSource):
         return {"key": key, **wikidata_properties(props, wikidata_id)}
 
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
-        data = aux["knowledge_graph"].merge(aux["metadata"])[["key", "wikidata"]].set_index("key")
+        data = aux["knowledge_graph"].merge(aux["metadata"])[["key", "wikidata"]]
 
         # Load wikidata using parallel processing
-        map_iter = data.wikidata.iteritems()
         map_func = partial(self._process_item, parse_opts)
-        records = thread_map(map_func, map_iter, total=len(data), desc="Wikidata Properties")
+        map_iter = data.dropna().set_index("key")["wikidata"].iteritems()
+        records = thread_map(map_func, list(map_iter), desc="Wikidata Properties")
 
         # Return all records in DataFrame form
         return DataFrame.from_records(records)
