@@ -216,7 +216,7 @@ def _dtype_formatter(dtype: Any) -> Callable[[Any], str]:
     """
 
     if dtype == "str" or dtype == str:
-        return "{:s}".format
+        return lambda val: str(val)
     if dtype == "float" or dtype == float:
         return lambda val: round(val, 6)
     if dtype == "int" or isinstance(dtype, Int64Dtype):
@@ -246,18 +246,25 @@ def export_csv(
 
     # Get the CSV file header from schema if provided, otherwise use data columns
     header = schema.keys() if schema is not None else data.columns
-    header = [col for col in header if col in data.columns]
+    header = [column for column in header if column in data.columns]
 
     if schema is None:
-        formatters = [str for _ in header]
+        formatters = [_dtype_formatter(str) for _ in header]
     else:
         formatters = [_dtype_formatter(dtype) for col, dtype in schema.items() if col in header]
 
-    # Format the data one column at a time
+    # Convert all columns to appropriate type
+    for column, converter in column_converters(schema or {}).items():
+        if column in header:
+            data[column] = data[column].apply(converter)
+
+    # Format the data as a string one column at a time
     data_fmt = DataFrame(columns=header, index=data.index)
     for col, fmt in zip(header, formatters):
         # pylint: disable=cell-var-from-loop
-        data_fmt[col] = data[col].apply(lambda val: "" if pandas.isna(val) else fmt(val))
+        data_fmt[col] = data[col].apply(
+            lambda val: "" if val is None or pandas.isna(val) else fmt(val)
+        )
 
     return data_fmt.to_csv(path_or_buf=path, index=False, **csv_opts)
 
