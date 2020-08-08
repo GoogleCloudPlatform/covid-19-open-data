@@ -39,18 +39,7 @@ _COLUMN_MAPPING = {
     "SNDP": "snowfall",
     "DEWP": "dew_point",
 }
-_OUTPUT_COLUMNS = [
-    "date",
-    "key",
-    "noaa_station",
-    "noaa_distance",
-    "average_temperature",
-    "minimum_temperature",
-    "maximum_temperature",
-    "rainfall",
-    "snowfall",
-    "dew_point",
-]
+_OUTPUT_COLUMNS = ["date", "key", "noaa_station", "noaa_distance"]
 _DISTANCE_THRESHOLD = 300
 
 
@@ -129,6 +118,7 @@ class NoaaGsodDataSource(DataSource):
             "rainfall",
             "snowfall",
             "dew_point",
+            "relative_humidity",
         ]
         agg_functions = {col: "mean" for col in value_columns}
         agg_functions["noaa_station"] = "first"
@@ -136,7 +126,7 @@ class NoaaGsodDataSource(DataSource):
         data = data.groupby(["date", "key"]).agg(agg_functions).reset_index()
 
         # Return all the available data from the records
-        return data[[col for col in _OUTPUT_COLUMNS if col in data.columns]]
+        return data[[col for col in _OUTPUT_COLUMNS + value_columns if col in data.columns]]
 
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
 
