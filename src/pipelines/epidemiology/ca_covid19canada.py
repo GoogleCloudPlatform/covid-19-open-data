@@ -69,9 +69,11 @@ class Covid19CanadaDataSource(DataSource):
         l1_index = ["date", "subregion1_code"]
         l1 = data.drop(columns=["match_string"]).groupby(l1_index).sum().reset_index()
 
-        # Make sure all records have the country code
+        # Make sure all records have the country code and subregion2_name
         l1["country_code"] = "CA"
+        l1["subregion2_name"] = None
         data["country_code"] = "CA"
+        data["subregion2_name"] = ""
 
         # Remove bogus data
         data = data[data["match_string"] != "Not Reported"]
