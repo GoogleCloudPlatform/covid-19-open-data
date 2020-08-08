@@ -138,12 +138,16 @@ sources:
         url: "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/timeseries_hr/mortality_timeseries_hr.csv"
     test:
       metadata_query: "key.str.match('CA_.+')"
+    automation:
+      job_group: canada
 
   - name: pipelines.epidemiology.ca_authority.CanadaDataSource
     fetch:
       - url: "https://health-infobase.canada.ca/src/data/covidLive/covid19.csv"
     test:
       metadata_query: "key.str.match('CA_.+')"
+    automation:
+      job_group: canada
 
   # Data sources for CD level 2
   - name: pipelines.epidemiology.cd_humdata.CongoDRCHumdataDataSource
