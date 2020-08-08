@@ -129,7 +129,16 @@ sources:
     automation:
       job_group: brazil_federal
 
-  # Data sources for CA level 2
+  # Data sources for CA levels 2 + 3
+  - name: pipelines.epidemiology.ca_covid19canada.Covid19CanadaDataSource
+    fetch:
+      - name: confirmed
+        url: "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/timeseries_hr/cases_timeseries_hr.csv"
+      - name: deceased
+        url: "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/timeseries_hr/mortality_timeseries_hr.csv"
+    test:
+      metadata_query: "key.str.match('CA_.+')"
+
   - name: pipelines.epidemiology.ca_authority.CanadaDataSource
     fetch:
       - url: "https://health-infobase.canada.ca/src/data/covidLive/covid19.csv"
