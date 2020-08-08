@@ -35,7 +35,6 @@ from google.cloud.storage.blob import Blob
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 # pylint: disable=wrong-import-position
-from lib.cast import safe_int_cast
 from lib.concurrent import thread_map
 from lib.constants import SRC, GCS_BUCKET_PROD, GCS_BUCKET_TEST
 from lib.io import export_csv
@@ -46,6 +45,9 @@ from publish import copy_tables, convert_tables_to_json, create_table_subsets, m
 
 app = Flask(__name__)
 BLOB_OP_MAX_RETRIES = 10
+ENV_TOKEN = "GCP_TOKEN"
+ENV_PROJECT = "GOOGLE_CLOUD_PROJECT"
+ENV_BUCKET = "GCS_BUCKET_NAME"
 
 
 def get_storage_client():
@@ -53,13 +55,16 @@ def get_storage_client():
     Creates an instance of google.cloud.storage.Client using a token if provided via, otherwise
     the default credentials are used.
     """
-    token_env_key = "GCP_TOKEN"
-    token_env_value = os.getenv(token_env_key)
-    if token_env_value is None:
-        return storage.Client()
-    else:
-        credentials = Credentials(token_env_value)
-        return storage.Client(credentials=credentials, project="github-open-covid-19")
+    gcp_token = os.getenv(ENV_TOKEN)
+    gcp_project = os.getenv(ENV_PROJECT)
+
+    client_opts = {}
+    if gcp_token is not None:
+        client_opts["credentials"] = Credentials(gcp_token)
+    if gcp_project is not None:
+        client_opts["project"] = gcp_project
+
+    return storage.Client(**client_opts)
 
 
 def get_storage_bucket(bucket_name: str):
@@ -69,9 +74,8 @@ def get_storage_bucket(bucket_name: str):
     client = get_storage_client()
 
     # If bucket name is not provided, read it from env var
-    bucket_env_key = "GCS_BUCKET_NAME"
-    bucket_name = bucket_name or os.getenv(bucket_env_key)
-    assert bucket_name is not None, f"{bucket_env_key} not set"
+    bucket_name = bucket_name or os.getenv(ENV_BUCKET)
+    assert bucket_name is not None, f"{ENV_BUCKET} not set"
     return client.bucket(bucket_name)
 
 
