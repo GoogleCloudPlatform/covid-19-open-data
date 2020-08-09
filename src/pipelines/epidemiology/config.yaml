@@ -33,31 +33,6 @@ auxiliary:
 
 sources:
 
-  # Data sources for JP levels 1 + 2
-  - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
-    fetch:
-      - url: "https://en.wikipedia.org/wiki/Template:2019–20_coronavirus_pandemic_data/Japan_medical_cases"
-        opts:
-          ext: html
-    parse:
-      country: JP
-      date_format: "%Y/%m/%d"
-      skiprows: 2
-    test:
-      metadata_query: "key.str.match('JP_.*')"
-    automation:
-      job_group: 'wikipedia'
-
-  - name: pipelines.epidemiology.jp_2019_ncov_japan.Jp2019NcovJapanByDate
-    fetch:
-      - name: new_confirmed
-        url: "https://raw.github.com/swsoyee/2019-ncov-japan/master/50_Data/byDate.csv"
-      - name: new_deceased
-        url: "https://raw.github.com/swsoyee/2019-ncov-japan/master/50_Data/death.csv"
-    test:
-      metadata_query: "key.str.match('JP_.*')"
-
-other:
   # Data sources for all countries level 1
   - name: pipelines.epidemiology.xx_owid.OurWorldInDataSource
     fetch:
