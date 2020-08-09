@@ -243,12 +243,22 @@ def combine_table(table_name: str = None) -> None:
         output_folder = Path(output_folder)
         (output_folder / "tables").mkdir(parents=True, exist_ok=True)
 
-        # Download all the intermediate files
-        download_folder(GCS_BUCKET_TEST, "intermediate", output_folder / "intermediate")
-
         # Load the pipeline configuration given its name
         pipeline_name = table_name.replace("-", "_")
         data_pipeline = DataPipeline.load(pipeline_name)
+
+        # Get a list of the intermediate files used by this data pipeline
+        intermediate_file_names = []
+        for data_source in data_pipeline.data_sources:
+            intermediate_file_names.append(f"{data_source.uuid}.csv")
+
+        # Download only the necessary intermediate files
+        download_folder(
+            GCS_BUCKET_TEST,
+            "intermediate",
+            output_folder / "intermediate",
+            lambda x: x.name in intermediate_file_names,
+        )
 
         # Re-load all intermediate results
         intermediate_results = data_pipeline._load_intermediate_results(

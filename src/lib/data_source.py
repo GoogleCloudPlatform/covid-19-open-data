@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import re
+import uuid
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -279,3 +280,18 @@ class DataSource(ErrorLogger):
 
         # Return the final dataframe
         return data
+
+    def uuid(self, table_name: str) -> str:
+        """
+        Generates a deterministic identifier based on this data source's class and configuration.
+
+        Returns:
+            str: A uuid which can be used to uniquely identify this data source + config
+        """
+        data_source_class = self.__class__
+        configs = self.config.items()
+        config_invariant = ("test", "automation")
+        data_source_config = str({key: val for key, val in configs if key not in config_invariant})
+        source_full_name = f"{data_source_class.__module__}.{data_source_class.__name__}"
+        hash_name = f"{table_name}.{source_full_name}.{data_source_config}"
+        return uuid.uuid5(uuid.NAMESPACE_DNS, hash_name)
