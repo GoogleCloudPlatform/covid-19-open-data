@@ -28,6 +28,6 @@ class Covid19RomaniaDataSource(DataSource):
                 df = DataFrame.from_records(json.load(fd)["values"])
             data_list.append(table_rename(df, {"value": statistic}))
 
-        data = table_multimerge(data_list)
+        data = table_multimerge(data_list, how="outer")
         data["key"] = "RO"
         return data

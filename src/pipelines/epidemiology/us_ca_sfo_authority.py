@@ -33,7 +33,7 @@ class SanFranciscoDataSource(DataSource):
     ) -> DataFrame:
 
         tables = [table_rename(table, _column_adapter, drop=True) for table in dataframes.values()]
-        data = table_multimerge(tables, on="date")
+        data = table_multimerge(tables, on="date", how="outer")
 
         data["date"] = data["date"].apply(lambda x: datetime_isoformat(x, "%Y/%m/%d"))
         data["key"] = "US_CA_SFO"
