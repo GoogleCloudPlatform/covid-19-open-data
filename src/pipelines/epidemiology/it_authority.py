@@ -16,6 +16,7 @@ from datetime import datetime
 from typing import Dict
 from pandas import DataFrame
 from lib.data_source import DataSource
+from lib.utils import table_rename
 
 
 _column_map = {
@@ -42,13 +43,10 @@ class PcmDpcL1DataSource(DataSource):
     ) -> DataFrame:
 
         # Rename the appropriate columns
-        data = dataframes[0].rename(columns=_column_map)
+        data = table_rename(dataframes[0], _column_map, drop=True)
 
         # Convert dates to ISO format
         data["date"] = data["date"].apply(lambda x: datetime.fromisoformat(x).date().isoformat())
-
-        # Keep only data we can process
-        data = data[[col for col in data.columns if col in _column_map.values()]]
 
         # We can compute the key directly
         data["key"] = "IT"
@@ -63,13 +61,10 @@ class PcmDpcL2DataSource(DataSource):
     ) -> DataFrame:
 
         # Rename the appropriate columns
-        data = dataframes[0].rename(columns=_column_map)
+        data = table_rename(dataframes[0], _column_map, drop=True)
 
         # Convert dates to ISO format
         data["date"] = data["date"].apply(lambda x: datetime.fromisoformat(x).date().isoformat())
-
-        # Keep only data we can process
-        data = data[[col for col in data.columns if col in _column_map.values()]]
 
         # Make sure all records have the country code
         data["country_code"] = "IT"
