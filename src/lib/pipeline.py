@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import uuid
 import importlib
 import traceback
 from pathlib import Path
@@ -32,15 +31,6 @@ from .data_source import DataSource
 from .error_logger import ErrorLogger
 from .io import read_file, read_table, fuzzy_text, export_csv, parse_dtype, pbar
 from .utils import combine_tables, drop_na_records, filter_output_columns
-
-
-def _gen_intermediate_name(data_source: DataSource) -> str:
-    data_source_class = data_source.__class__
-    cfg = data_source.config
-    config_invariant = ("test", "automation")
-    data_source_config = str({key: val for key, val in cfg.items() if key not in config_invariant})
-    source_full_name = f"{data_source_class.__module__}.{data_source_class.__name__}"
-    return uuid.uuid5(uuid.NAMESPACE_DNS, f"{source_full_name}.{data_source_config}")
 
 
 class DataPipeline(ErrorLogger):
@@ -295,7 +285,7 @@ class DataPipeline(ErrorLogger):
     ) -> None:
         for data_source, result in intermediate_results:
             if result is not None:
-                file_name = f"{_gen_intermediate_name(data_source)}.csv"
+                file_name = f"{data_source.uuid(self.table)}.csv"
                 export_csv(result, intermediate_folder / file_name, schema=self.schema)
             else:
                 data_source_name = data_source.__class__.__name__
@@ -306,7 +296,7 @@ class DataPipeline(ErrorLogger):
     ) -> Iterable[Tuple[DataSource, DataFrame]]:
 
         for data_source in data_sources:
-            intermediate_path = intermediate_folder / f"{_gen_intermediate_name(data_source)}.csv"
+            intermediate_path = intermediate_folder / f"{data_source.uuid(self.table)}.csv"
             try:
                 yield (data_source, read_table(intermediate_path, self.schema))
             except Exception as exc:
