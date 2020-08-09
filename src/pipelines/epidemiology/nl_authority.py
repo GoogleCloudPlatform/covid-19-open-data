@@ -47,8 +47,11 @@ class NetherlandsDataSource(DataSource):
         # Make sure the region code is zero-padded and without prefix
         data["subregion2_code"] = data["subregion2_code"].apply(lambda x: x[2:])
 
+        # Add the country to help with matching
+        metadata = aux["metadata"]
+        metadata = metadata[metadata["country_code"] == "NL"]
         data = data.drop(columns=["subregion1_name", "subregion2_name"])
-        data = data.merge(aux["metadata"], on="subregion2_code")
+        data = data.merge(metadata, on=["subregion2_code"])
 
         # We only need to keep key-date pair for identification
         data = data[["date", "key", "total_confirmed", "total_deceased", "total_hospitalized"]]

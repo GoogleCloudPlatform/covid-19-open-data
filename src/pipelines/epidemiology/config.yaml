@@ -523,7 +523,6 @@ sources:
     test:
       metadata_query: "key.str.match('MZ_.*')"
 
-
   # Data sources for NL levels 1 + 2 + 3
   - name: pipelines.epidemiology.nl_authority.NetherlandsDataSource
     fetch:
