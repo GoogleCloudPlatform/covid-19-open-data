@@ -66,7 +66,8 @@ class ChileRegionsDataSource(DataSource):
                     {"Fecha": "date", "numero": "new_tested", "Region": "match_string"},
                     drop=True,
                 ),
-            ]
+            ],
+            how="outer",
         )
 
         # Convert date to ISO format
@@ -112,7 +113,8 @@ class ChileMunicipalitiesDataSource(DataSource):
                     },
                     drop=True,
                 ),
-            ]
+            ],
+            how="outer",
         )
 
         # Convert date to ISO format

@@ -43,7 +43,9 @@ class Jp2019NcovJapanByDate(DataSource):
     ) -> DataFrame:
 
         # Keep only columns we can process
-        data = table_multimerge([_parse_pivot(df, name) for name, df in dataframes.items()])
+        data = table_multimerge(
+            [_parse_pivot(df, name) for name, df in dataframes.items()], how="outer"
+        )
         data = data[["date", "country_code", "match_string", "new_confirmed", "new_deceased"]]
         return data.fillna(0)
 
