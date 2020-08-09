@@ -64,10 +64,10 @@ class PhilippinesDataSource(DataSource):
         ]
 
         # Create stratified age bands
-        cases.age = cases.age.apply(age_group)
+        cases["age"] = cases["age"].apply(age_group)
 
         # Rename the sex values
-        cases.sex = cases.sex.apply(lambda x: x.lower())
+        cases["sex"] = cases["sex"].apply({"MALE": "male", "FEMALE": "female"}.get)
 
         # Drop columns which we have no use for
         cases = cases[[col for col in cases.columns if not col.startswith("_")]]
@@ -78,22 +78,22 @@ class PhilippinesDataSource(DataSource):
         )
 
         # Convert date to ISO format
-        data.date = data.date.apply(safe_datetime_parse)
-        data = data[~data.date.isna()]
-        data.date = data.date.apply(lambda x: x.date().isoformat())
+        data["date"] = data["date"].apply(safe_datetime_parse)
+        data = data[~data["date"].isna()]
+        data["date"] = data["date"].apply(lambda x: x.date().isoformat())
         data = data.fillna(0)
 
         # Aggregate regions and provinces separately
         l3 = data.rename(columns={"match_string_province": "match_string"})
         l2 = data.rename(columns={"match_string_region": "match_string"})
-        l2.match_string = l2.match_string.apply(lambda x: x.split(": ")[-1])
+        l2["match_string"] = l2["match_string"].apply(lambda x: x.split(": ")[-1])
 
         # Ensure matching by flagging whether a record must be L2 or L3
         l2["subregion2_code"] = None
         l3["subregion2_code"] = ""
 
         data = concat([l2, l3]).dropna(subset=["match_string"])
-        data = data[data.match_string != "Repatriate"]
+        data = data[data["match_string"] != "Repatriate"]
         data["country_code"] = "PH"
 
         return data
