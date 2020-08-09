@@ -31,6 +31,7 @@ from .concurrent import process_map
 from .data_source import DataSource
 from .error_logger import ErrorLogger
 from .io import read_file, read_table, fuzzy_text, export_csv, parse_dtype, pbar
+from .lazy_property import lazy_property
 from .utils import combine_tables, drop_na_records, filter_output_columns
 
 
@@ -65,7 +66,7 @@ class DataPipeline(ErrorLogger):
     data_sources: List[DataSource]
     """ List of data sources (initialized with the appropriate config) executed in order """
 
-    auxiliary_tables: Dict[str, DataFrame]
+    _auxiliary: Dict[str, Union[Path, str]]
     """ Auxiliary datasets passed to the pipelines during processing """
 
     def __init__(
@@ -80,9 +81,14 @@ class DataPipeline(ErrorLogger):
         self.schema = schema
         self.data_sources = data_sources
         self.table = name.replace("_", "-")
+        self._auxiliary = auxiliary
+
+    @lazy_property
+    def auxiliary_tables(self):
+        """ Auxiliary datasets passed to the pipelines during processing """
 
         # Metadata table can be overridden but must always be present
-        auxiliary = {"metadata": SRC / "data" / "metadata.csv", **auxiliary}
+        auxiliary = {"metadata": SRC / "data" / "metadata.csv", **self._auxiliary}
 
         # Load the auxiliary tables into memory
         aux = {name: read_file(table) for name, table in auxiliary.items()}
@@ -96,8 +102,7 @@ class DataPipeline(ErrorLogger):
                     fuzzy_text
                 )
 
-        # Set this instance's auxiliary tables to our precomputed tables
-        self.auxiliary_tables = aux
+        return aux
 
     @staticmethod
     def load(name: str) -> "DataPipeline":
