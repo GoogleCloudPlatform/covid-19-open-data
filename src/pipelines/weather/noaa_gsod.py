@@ -39,18 +39,7 @@ _COLUMN_MAPPING = {
     "SNDP": "snowfall",
     "DEWP": "dew_point",
 }
-_OUTPUT_COLUMNS = [
-    "date",
-    "key",
-    "noaa_station",
-    "noaa_distance",
-    "average_temperature",
-    "minimum_temperature",
-    "maximum_temperature",
-    "rainfall",
-    "snowfall",
-    "dew_point",
-]
+_OUTPUT_COLUMNS = ["date", "key", "noaa_station", "noaa_distance"]
 _DISTANCE_THRESHOLD = 300
 
 
@@ -83,6 +72,13 @@ def conv_temp(value: int):
 def conv_dist(value: int):
     value = noaa_number(value)
     return numpy.nan if value is None else value * 25.4
+
+
+def relative_humidity(temp: float, dew_point: float) -> float:
+    """ http://bmcnoldy.rsmas.miami.edu/humidity_conversions.pdf """
+    a = 17.625
+    b = 243.04
+    return 100 * numpy.exp(a * dew_point / (b + dew_point)) / numpy.exp(a * temp / (b + temp))
 
 
 class NoaaGsodDataSource(DataSource):
@@ -122,6 +118,7 @@ class NoaaGsodDataSource(DataSource):
             "rainfall",
             "snowfall",
             "dew_point",
+            "relative_humidity",
         ]
         agg_functions = {col: "mean" for col in value_columns}
         agg_functions["noaa_station"] = "first"
@@ -129,7 +126,7 @@ class NoaaGsodDataSource(DataSource):
         data = data.groupby(["date", "key"]).agg(agg_functions).reset_index()
 
         # Return all the available data from the records
-        return data[[col for col in _OUTPUT_COLUMNS if col in data.columns]]
+        return data[[col for col in _OUTPUT_COLUMNS + value_columns if col in data.columns]]
 
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
 
@@ -167,6 +164,11 @@ class NoaaGsodDataSource(DataSource):
                 for temp_type in ("average", "minimum", "maximum"):
                     col = f"{temp_type}_temperature"
                     data[col] = data[col].apply(conv_temp)
+
+                # Compute the relative humidity from the dew point and average temperature
+                data["relative_humidity"] = data.apply(
+                    lambda x: relative_humidity(x["average_temperature"], x["dew_point"]), axis=1
+                )
 
                 station_cache[member.name.replace(".csv", "")] = data
 

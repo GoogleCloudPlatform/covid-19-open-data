@@ -25,6 +25,7 @@ schema:
   rainfall: float
   snowfall: float
   dew_point: float
+  relative_humidity: float
 
 auxiliary:
   metadata: ./data/metadata.csv
