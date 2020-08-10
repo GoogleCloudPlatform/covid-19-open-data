@@ -250,7 +250,7 @@ def combine_table(table_name: str = None) -> None:
         # Get a list of the intermediate files used by this data pipeline
         intermediate_file_names = []
         for data_source in data_pipeline.data_sources:
-            intermediate_file_names.append(f"{data_source.uuid}.csv")
+            intermediate_file_names.append(f"{data_source.uuid(data_pipeline.table)}.csv")
 
         # Download only the necessary intermediate files
         download_folder(
