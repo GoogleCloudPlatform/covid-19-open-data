@@ -75,6 +75,7 @@ sources:
   - name: pipelines.epidemiology.ar_authority.ArgentinaDataSource
     fetch:
       - url: "https://sisa.msal.gov.ar/datos/descargas/covid-19/files/Covid19Casos.csv"
+    query: "date >= '2019-12-30'"
     test:
       # Skip because it's too slow
       skip: true
