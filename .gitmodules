@@ -1,0 +1,3 @@
+[submodule "src/earthengine"]
+	path = src/earthengine
+	url = https://earthengine.googlesource.com/users/owahltinez/open-covid-admin

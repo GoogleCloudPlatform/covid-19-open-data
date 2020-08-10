@@ -3,6 +3,7 @@ This folder contains all the code necessary to update the data tables. It is a s
 with the following modules:
 * [cache](./cache): used to help aggregating data sources which do not provide historical data
 * [data](./data): auxiliary and help data files used during processing of input
+* [earthengine](./earthengine): submodule containing code used to perform computations in [Google Earth Engine](https://earthengine.google.com)
 * [lib](./lib): core functions and utilities used across the package
 * [pipelines](./pipelines): contains all the individual pipelines that produce the data tables
 * [scripts](./scripts): collection of miscellaneous scripts, used only for manual processing
@@ -95,6 +96,12 @@ This serves as a reference implementation for users of this code who might want 
 infrastructure setup. Here is a brief overview of the different Google Cloud products used as part
 of this project:
 ![](./data/infrastructure.png)
+
+### Google Earth Engine
+Some data is computed using [Google Earth Engine](https://earthengine.google.com). The code used is
+stored under the git submodule under [earthengine](./earthengine); you may need to sign in using
+your Google account and request access via
+[this link](https://earthengine.googlesource.com/new-password) to be able to clone the submodule.
 
 ## Publish
 Data tables are made available for use via the `publish.py` script which uploads the files to a file
