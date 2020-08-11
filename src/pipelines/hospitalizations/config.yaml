@@ -101,6 +101,13 @@ sources:
     test:
       metadata_query: "key.str.match('ES.*')"
 
+  # Data sources for ES_CN level 2
+  - name: pipelines.hospitalizations.es_cn_authority.CanaryIslandsHospitalizationsDataSource
+    fetch:
+      - url: "https://services9.arcgis.com/CgZpnNiCwFObjaOT/arcgis/rest/services/CentrosSanitarios/FeatureServer/1/query?f=json&where=1%3D1&returnGeometry=false&outFields=*&resultRecordCount=32000"
+    test:
+      metadata_query: "key == 'ES_CN'"
+
   # Data sources for FR levels 1 + 2 + 3
   - name: pipelines.epidemiology.fr_authority.FranceDataSource
     # No URL is defined because data is queried via API

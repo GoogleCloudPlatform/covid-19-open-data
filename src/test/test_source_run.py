@@ -68,6 +68,7 @@ def _test_data_source(
     # Use a different temporary working directory for each data source
     with TemporaryDirectory() as output_folder:
         output_folder = Path(output_folder)
+        (output_folder / "snapshot").mkdir(parents=True, exist_ok=True)
         try:
             output_data = data_source.run(output_folder, cache, aux)
         except Exception as exc:
