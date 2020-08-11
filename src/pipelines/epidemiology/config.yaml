@@ -277,7 +277,7 @@ sources:
         opts:
           ext: json
     test:
-      metadata_query: "key.str.match('ES_CN_.+')"
+      metadata_query: "key.str.match('ES_CN.*')"
 
   # Data sources for FI levels 1 + 2
   - name: pipelines.epidemiology.fi_authority.FinlandArcGisDataSource
