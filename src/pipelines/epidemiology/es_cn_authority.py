@@ -47,7 +47,6 @@ def _download_arcgis(
 
     try:
         res = requests.get(url_tpl.format(offset=offset)).json()["features"]
-        print(url_tpl.format(offset=offset))
     except Exception as exc:
         if log_func:
             log_func(requests.get(url_tpl.format(offset=offset)).text)
