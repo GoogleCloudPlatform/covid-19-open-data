@@ -628,7 +628,11 @@ See the [source documentation](src) for more technical details.
 
 
 
-## Acknowledgments
+## Acknowledgments and collaborations
+
+This project has been done in collaboration with [FinMango](https://finmango.org/covid), which
+provided great insights about the impact of the pandemic on the local economies and also helped with
+research and manual curation of data sources for many regions including South Africa and US states.
 
 The following persons have made significant contributions to this project:
 
