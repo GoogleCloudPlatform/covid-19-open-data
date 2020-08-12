@@ -23,7 +23,7 @@ keys.
 
 | Table | Keys<sup>1</sup> | Content | URL | Source<sup>2</sup> |
 | ----- | ---------------- | ------- | --- | ------------------ |
-| [Main](#main) | `[key][date]` | Flat table with records from (almost) all other tables joined by `date` and/or `key`  | [main.csv](https://storage.googleapis.com/covid19-open-data/v2/main.csv) | All tables below |
+| [Main](#main) | `[key][date]` | Flat table with records from (almost) all other tables joined by `date` and/or `key`; see below for more details | [main.csv](https://storage.googleapis.com/covid19-open-data/v2/main.csv) | All tables below |
 | [Index](#index) | `[key]` | Various names and codes, useful for joining with other datasets | [index.csv](https://storage.googleapis.com/covid19-open-data/v2/index.csv), [index.json](https://storage.googleapis.com/covid19-open-data/v2/index.json) | Wikidata, DataCommons |
 | [Demographics](#demographics) | `[key]` | Various (current<sup>3</sup>) population statistics | [demographics.csv](https://storage.googleapis.com/covid19-open-data/v2/demographics.csv), [demographics.json](https://storage.googleapis.com/covid19-open-data/v2/demographics.json) | Wikidata, DataCommons |
 | [Economy](#economy) | `[key]` | Various (current<sup>3</sup>) economic indicators | [economy.csv](https://storage.googleapis.com/covid19-open-data/v2/economy.csv), [economy.json](https://storage.googleapis.com/covid19-open-data/v2/economy.json) | Wikidata, DataCommons |
@@ -33,7 +33,7 @@ keys.
 | [Hospitalizations](#hospitalizations) | `[key][date]` | Information related to patients of COVID-19 and hospitals |  [hospitalizations.csv](https://storage.googleapis.com/covid19-open-data/v2/hospitalizations.csv), [hospitalizations.json](https://storage.googleapis.com/covid19-open-data/v2/hospitalization.json) | Various<sup>2</sup> |
 | [Mobility](#mobility) | `[key][date]` | Various metrics related to the movement of people | [mobility.csv](https://storage.googleapis.com/covid19-open-data/v2/mobility.csv), [mobility.json](https://storage.googleapis.com/covid19-open-data/v2/mobility.json) | Google |
 | [Government Response](#government-response) | `[key][date]` | Government interventions and their relative stringency | [oxford-government-response.csv](https://storage.googleapis.com/covid19-open-data/v2/oxford-government-response.csv), [oxford-government-response.json](https://storage.googleapis.com/covid19-open-data/v2/oxford-government-response.json) | University of Oxford |
-| [Weather](#weather) | `[key][date]` | Dated meteorological information for each region | [weather.csv](https://storage.googleapis.com/covid19-open-data/v2/weather.csv), [weather.json](https://storage.googleapis.com/covid19-open-data/v2/weather.json) | NOAA |
+| [Weather](#weather) | `[key][date]` | Dated meteorological information for each region | [weather.csv](https://storage.googleapis.com/covid19-open-data/v2/weather.csv) | NOAA |
 | [WorldBank](#worldbank) | `[key]` | Latest record for each indicator from WorldBank for all reporting countries | [worldbank.csv](https://storage.googleapis.com/covid19-open-data/v2/worldbank.csv), [worldbank.json](https://storage.googleapis.com/covid19-open-data/v2/worldbank.json) | WorldBank |
 | [WorldPop](#worldpop) | `[key]` | Demographics data extracted from WorldPop | [worldpop.csv](https://storage.googleapis.com/covid19-open-data/v2/worldpop.csv), [worldpop.json](https://storage.googleapis.com/covid19-open-data/v2/worldpop.json) | WorldPop |
 | [By Age](#by-age) | `[key][date]` | Epidemiology and hospitalizations data stratified by age | [by-age.csv](https://storage.googleapis.com/covid19-open-data/v2/by-age.csv), [by-age.json](https://storage.googleapis.com/covid19-open-data/v2/by-age.json) | Various<sup>2</sup> |
@@ -178,7 +178,9 @@ about all the different tables and columns. Tables not included in the main tabl
 
 ### Index
 Non-temporal data related to countries and regions. It includes keys, codes and names for each
-region, which is helpful for displaying purposes or when merging with other data:
+region, which is helpful for displaying purposes or when merging with other data.
+<details>
+<summary>Show table schema</summary>
 
 | Name | Type | Description | Example |
 | ---- | ---- | ----------- | ------- |
@@ -195,8 +197,12 @@ region, which is helpful for displaying purposes or when merging with other data
 | **3166-1-alpha-3** | `string` | ISO 3166-1 alphanumeric 3-letter code of the country | USA |
 | **aggregation_level** | `integer` `[0-2]` | Level at which data is aggregated, i.e. country, state/province or county level | 2 |
 
+</details>
+
 ### Demographics
-Information related to the population demographics for each region:
+Information related to the population demographics for each region.
+<details>
+<summary>Show table schema</summary>
 
 | Name | Type | Description | Example |
 | ---- | ---- | ----------- | ------- |
@@ -212,8 +218,12 @@ Information related to the population demographics for each region:
 | **human_development_index** | `double` `[0-1]` | Composite index of life expectancy, education, and per capita income indicators | 0.903 |
 | **population_age_`${lower}`_`${upper}`** | `integer` | Estimated population between the ages of `${lower}` and `${upper}`, both inclusive | 42038247 |
 
+</details>
+
 ### Economy
-Information related to the economic development for each region:
+Information related to the economic development for each region.
+<details>
+<summary>Show table schema</summary>
 
 | Name | Name | Description | Example |
 | ---- | ---- | ----------- | ------- |
@@ -222,8 +232,12 @@ Information related to the economic development for each region:
 | **gdp_per_capita** | `integer` `[USD]` | Gross domestic product divided by total population | 1148 |
 | **human_capital_index** | `double` `[0-1]` | Mobilization of the economic and professional potential of citizens | 0.765 |
 
+</details>
+
 ### Epidemiology
-Information related to the COVID-19 infections for each date-region pair:
+Information related to the COVID-19 infections for each date-region pair.
+<details>
+<summary>Show table schema</summary>
 
 | Name | Type | Description | Example |
 | ---- | ---- | ----------- | ------- |
@@ -248,8 +262,12 @@ also potential missing data. All of that makes the total counts *drift* away fro
 daily counts over time, which is why the cumulative values, if reported, are kept in a separate
 column.
 
+</details>
+
 ### Geography
-Information related to the geography for each region:
+Information related to the geography for each region.
+<details>
+<summary>Show table schema</summary>
 
 | Name | Type | Description | Example |
 | ---- | ---- | ----------- | ------- |
@@ -262,8 +280,12 @@ Information related to the geography for each region:
 | **urban_area** | `integer` [squared kilometers] | Area encompassing urban land this region | 3729 |
 | **open_street_maps** | `string` | OpenStreetMap relation ID corresponding to this key | 165475 |
 
+</details>
+
 ### Health
-Health related indicators for each region:
+Health related indicators for each region.
+<details>
+<summary>Show table schema</summary>
 
 | Name | Type | Description | Example |
 | ---- | ---- | ----------- | ------- |
@@ -284,8 +306,12 @@ Health related indicators for each region:
 
 Note that the majority of the health indicators are only available at the country level.
 
+</details>
+
 ### Hospitalizations
-Information related to patients of COVID-19 and hospitals:
+Information related to patients of COVID-19 and hospitals.
+<details>
+<summary>Show table schema</summary>
 
 | Name | Type | Description | Example |
 | ---- | ---- | ----------- | ------- |
@@ -309,9 +335,13 @@ changes to criteria for counting cases, but not always make adjustments to the d
 potential missing data. All of that makes the total counts *drift* away from the sum of all daily
 counts over time, which is why the cumulative values, if reported, are kept in a separate column.
 
+</details>
+
 ### Mobility
 [Google's Mobility Reports][17] are presented in CSV form joined with our known location keys as
-[mobility.csv](https://storage.googleapis.com/covid19-open-data/v2/mobility.csv) with the following columns:
+[mobility.csv](https://storage.googleapis.com/covid19-open-data/v2/mobility.csv).
+<details>
+<summary>Show table schema</summary>
 
 | Name | Type | Description | Example |
 | ---- | ---- | ----------- | ------- |
@@ -324,6 +354,8 @@ counts over time, which is why the cumulative values, if reported, are kept in a
 | **mobility_residential** | `double` `[%]` |  Percentage change in visits to residential locations compared to baseline | -15 |
 | **mobility_workplaces** | `double` `[%]` |  Percentage change in visits to workplace locations compared to baseline | -15 |
 
+</details>
+
 These Community Mobility Reports aim to provide insights into what has changed in response to
 policies aimed at combating COVID-19. The reports chart movement trends over time by geography,
 across different categories of places.
@@ -335,6 +367,8 @@ across different categories of places.
 ### Government Response
 Summary of a government's response to the events, including a *stringency index*, collected from
 [University of Oxford][18]:
+<details>
+<summary>Show table schema</summary>
 
 | Name | Type | Description | Example |
 | ---- | ---- | ----------- | ------- |
@@ -359,11 +393,15 @@ Summary of a government's response to the events, including a *stringency index*
 | **investment_in_vaccines** | `integer` `[USD]` | Emergency funding allocated to vaccine research | 100000 |
 | **stringency_index** | `double` `[0-100]` | Overall stringency index | 71.43 |
 
+</details>
+
 For more information about each field and how the overall stringency index is
 computed, see the [Oxford COVID-19 government response tracker][18].
 
 ### Weather
-Daily weather information from nearest station reported by NOAA:
+Daily weather information from nearest station reported by NOAA.
+<details>
+<summary>Show table schema</summary>
 
 | Name | Type | Description | Example |
 | ---- | ---- | ----------- | ------- |
@@ -382,13 +420,19 @@ Daily weather information from nearest station reported by NOAA:
 \*The reported data corresponds to the average of the nearest 10 stations within a 300km radius. The
 columns `noaa_station` and `noaa_distance` refer to the nearest station only.
 
+</details>
+
 ### WorldBank
 Most recent value for each indicator of the [WorldBank Database][25].
+<details>
+<summary>Show table schema</summary>
 
 | Name | Type | Description | Example |
 | ---- | ---- | ----------- | ------- |
 | **key** | `string` | Unique string identifying the region | ES |
 | **`${indicator}`** | `double` | Value of the indicator corresponding to this column, column name is indicator code | 0 |
+
+</details>
 
 Refer to the [WorldBank documentation][25] for more details, or refer to the
 [worldbank_indicators.csv](./src/data/worldbank_indicators.csv) file for a short description of each
@@ -414,7 +458,9 @@ the [demographics](#demographics) table; it is kept as a separate table to prese
 original data without any modification beyond aggregation by regional unit.
 
 ### By Age
-Epidemiology and hospitalizations data stratified by age:
+Epidemiology and hospitalizations data stratified by age.
+<details>
+<summary>Show table schema</summary>
 
 | Name | Type | Description | Example |
 | ---- | ---- | ----------- | ------- |
@@ -422,6 +468,8 @@ Epidemiology and hospitalizations data stratified by age:
 | **key** | `string` | Unique string identifying the region | FR |
 | **`${statistic}`\_age\_bin\_`${index}`** | `integer` | Value of `${statistic}` for age bin `${index}` | 139 |
 | **age\_bin\_`${index}`** | `integer` | Range for the age values inside of bin `${index}`, both ends inclusive | 30-39 |
+
+</details>
 
 Values in this table are stratified versions of the columns available in the
 [epidemiology](#epidemiology) and [hospitalizatons](#hospitalizations) tables. Each row contains up
@@ -445,6 +493,8 @@ Several things worth noting about this table:
 
 ### By Sex
 Epidemiology and hospitalizations data stratified by sex:
+<details>
+<summary>Show table schema</summary>
 
 | Name | Type | Description | Example |
 | ---- | ---- | ----------- | ------- |
@@ -452,6 +502,8 @@ Epidemiology and hospitalizations data stratified by sex:
 | **key** | `string` | Unique string identifying the region | FR |
 | **`${statistic}_sex_male`** | `integer` | Value of `${statistic}` for male individuals | 87 |
 | **`${statistic}_sex_female`** | `integer` | Value of `${statistic}` for female individuals | 68 |
+
+</details>
 
 Values in this table are stratified versions of the columns available in the
 [epidemiology](#epidemiology) and [hospitalizatons](#hospitalizations) tables. Each row contains
@@ -522,6 +574,9 @@ under the [Apache License 2.0](./LICENSE).
 
 All data in this repository is retrieved automatically. When possible, data is retrieved directly
 from the relevant authorities, like a country's ministry of health.
+<details>
+<summary>Show data sources</summary>
+
 
 | Data | Source | License and Terms of Use |
 | ---- | ------ | ------------------------ |
@@ -609,20 +664,11 @@ from the relevant authorities, like a country's ministry of health.
 | Venezuela | [HDX](https://data.humdata.org/dataset/corona-virus-covid-19-cases-and-deaths-in-venezuela) | [CC BY-SA][28] |
 | Venezuela | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
 
+</details>
+
 
 
 ## Running the data extraction pipeline
-
-To run the data extraction pipeline, first install the dependencies:
-```sh
-pip install -r requirements.txt
-```
-
-Then run the following script from the source folder to update all datasets:
-```sh
-cd src
-python update.py
-```
 
 See the [source documentation](src) for more technical details.
 
