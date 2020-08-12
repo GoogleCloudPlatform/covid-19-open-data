@@ -854,7 +854,7 @@ sources:
           ext: xlsx
     parse:
       country: ZA
-      sheet_name: ["Eastern_Cape", "Free_State", "Gauteng", "KwaZulu-Natal", "North_West", "Western_Cape", "Limpopo", "Mpumalanga", "Northern _Cape"]
+      sheet_name: ["Eastern_Cape", "Free_State", "Gauteng", "KwaZulu-Natal", "North_West", "Western_Cape", "Limpopo", "Mpumalanga", "Northern_Cape"]
     test:
       metadata_query: "key.str.match('ZA_[^_]+')"
     automation:
@@ -868,7 +868,7 @@ sources:
           ext: xlsx
     parse:
       country: ZA
-      sheet_name: ["Eastern_Cape", "Free_State", "Gauteng", "KwaZulu-Natal", "North_West", "Western_Cape", "Limpopo", "Mpumalanga", "Northern _Cape"]
+      sheet_name: ["Eastern_Cape", "Free_State", "Gauteng", "KwaZulu-Natal", "North_West", "Western_Cape", "Limpopo", "Mpumalanga", "Northern_Cape"]
     test:
       metadata_query: "key.str.match('ZA_.+_.+')"
     automation:
