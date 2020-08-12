@@ -341,16 +341,22 @@ sources:
     # The official data has a bug when going from 01/07/2020 to 02/07/2020 in the cumulative case total.
     query: (date >= '2020-07-03')
     test:
+      # TODO(owahltinez): skip test since it's very flakey
+      skip: true
       metadata_query: "key == 'GB'"
 
   - name: pipelines.epidemiology.gb_authority.Covid19UkL2DataSource
     # The official data has a bug when going from 01/07/2020 to 02/07/2020 in the cumulative case total.
     query: (date >= '2020-07-03')
     test:
+      # TODO(owahltinez): skip test since it's very flakey
+      skip: true
       metadata_query: "key.str.match('GB_[^_]+$')"
 
   - name: pipelines.epidemiology.gb_authority.Covid19UkL3DataSource
     test:
+      # TODO(owahltinez): skip test since it's very flakey
+      skip: true
       metadata_query: "key.str.match('GB_.+_.+')"
 
   # Data sources for HT level 2
@@ -848,7 +854,7 @@ sources:
           ext: xlsx
     parse:
       country: ZA
-      sheet_name: ["Eastern Cape", "Free State", "Gauteng", "KwaZulu-Natal", "North West", "Western Cape", "Limpopo", "Mpumalanga", "Northern Cape"]
+      sheet_name: ["Eastern_Cape", "Free_State", "Gauteng", "KwaZulu-Natal", "North_West", "Western_Cape", "Limpopo", "Mpumalanga", "Northern_Cape"]
     test:
       metadata_query: "key.str.match('ZA_[^_]+')"
     automation:
@@ -862,7 +868,7 @@ sources:
           ext: xlsx
     parse:
       country: ZA
-      sheet_name: ["Eastern Cape", "Free State", "Gauteng", "KwaZulu-Natal", "North West", "Western Cape", "Limpopo", "Mpumalanga", "Northern Cape"]
+      sheet_name: ["Eastern_Cape", "Free_State", "Gauteng", "KwaZulu-Natal", "North_West", "Western_Cape", "Limpopo", "Mpumalanga", "Northern_Cape"]
     test:
       metadata_query: "key.str.match('ZA_.+_.+')"
     automation:
