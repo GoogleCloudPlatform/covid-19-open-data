@@ -77,7 +77,7 @@ def convert_geojson_to_csv(geojson_directory: Path, csv_path: Path) -> None:
             fd_csv.write("key,WKT\n")
             csv_files = list(sorted(workdir.glob("*.csv")))
             for csv_path in tqdm(csv_files, desc="Merging all CSV files"):
-                with open(csv_tmp, "r") as fd_tmp:
+                with open(csv_path, "r") as fd_tmp:
                     fd_csv.write(f"{csv_path.stem},{fd_tmp.readlines()[-1]}")
 
 
@@ -95,4 +95,4 @@ if __name__ == "__main__":
 
     geo = fetch_geometry().set_index("key")
     fetch_geojson(geojson_dir, list(geo.iterrows()))
-    convert_geojson_to_csv(output_dir, csv_dir / "open-covid-admin.csv")
+    convert_geojson_to_csv(geojson_dir, csv_dir / "open-covid-regions.csv")

@@ -35,6 +35,7 @@ schema:
   population_age_70_79: int
   population_age_80_89: int
   population_age_90_99: int
+  population_age_80_and_older: int
 
 auxiliary:
   metadata: ./data/metadata.csv
@@ -46,7 +47,7 @@ auxiliary:
 sources:
 
   # WorldPop populations are estimates, so give them less priority
-  - name: pipelines.worldpop.worldpop_population.WorldPopPopulationDataSource
+  - name: pipelines.demographics.worldpop.WorldPopPopulationDataSource
     test:
       metadata_query: "key.str.match('^..$')"
 

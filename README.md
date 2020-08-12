@@ -35,7 +35,6 @@ keys.
 | [Government Response](#government-response) | `[key][date]` | Government interventions and their relative stringency | [oxford-government-response.csv](https://storage.googleapis.com/covid19-open-data/v2/oxford-government-response.csv), [oxford-government-response.json](https://storage.googleapis.com/covid19-open-data/v2/oxford-government-response.json) | University of Oxford |
 | [Weather](#weather) | `[key][date]` | Dated meteorological information for each region | [weather.csv](https://storage.googleapis.com/covid19-open-data/v2/weather.csv) | NOAA |
 | [WorldBank](#worldbank) | `[key]` | Latest record for each indicator from WorldBank for all reporting countries | [worldbank.csv](https://storage.googleapis.com/covid19-open-data/v2/worldbank.csv), [worldbank.json](https://storage.googleapis.com/covid19-open-data/v2/worldbank.json) | WorldBank |
-| [WorldPop](#worldpop) | `[key]` | Demographics data extracted from WorldPop | [worldpop.csv](https://storage.googleapis.com/covid19-open-data/v2/worldpop.csv), [worldpop.json](https://storage.googleapis.com/covid19-open-data/v2/worldpop.json) | WorldPop |
 | [By Age](#by-age) | `[key][date]` | Epidemiology and hospitalizations data stratified by age | [by-age.csv](https://storage.googleapis.com/covid19-open-data/v2/by-age.csv), [by-age.json](https://storage.googleapis.com/covid19-open-data/v2/by-age.json) | Various<sup>2</sup> |
 | [By Sex](#by-sex) | `[key][date]` | Epidemiology and hospitalizations data stratified by sex | [by-sex.csv](https://storage.googleapis.com/covid19-open-data/v2/by-sex.csv), [by-sex.json](https://storage.googleapis.com/covid19-open-data/v2/by-sex.json) | Various<sup>2</sup> |
 
@@ -169,8 +168,6 @@ Flat table with records from all other tables joined by `key` and `date`. See be
 about all the different tables and columns. Tables not included in the main table are:
 * [WorldBank](#worldbank): A subset of individual indicators are added as columns to other tables
   instead; for example, the [health](#health) table.
-* [WorldPop](#worldpop): Age and sex demographics breakdowns are normalized and added to the
-  [demographics](#demographics) table instead.
 * [By Age](#by-age): Age breakdowns of epidemiology and hospitalization data are normalized and
   added to the by-age-normalized table instead (TABLE TO BE ADDED).
 * [By Sex](#by-sex): Sex breakdowns of epidemiology and hospitalization data are normalized and
@@ -216,7 +213,11 @@ Information related to the population demographics for each region.
 | **clustered_population** | `integer` | Population in urban agglomerations of more than 1 million | 25893097 |
 | **population_density** | `double` `[persons per squared kilometer]` | Population per squared kilometer of land area | 529.3585 |
 | **human_development_index** | `double` `[0-1]` | Composite index of life expectancy, education, and per capita income indicators | 0.903 |
-| **population_age_`${lower}`_`${upper}`** | `integer` | Estimated population between the ages of `${lower}` and `${upper}`, both inclusive | 42038247 |
+| **population_age_`${lower}`_`${upper}`\*** | `integer` | Estimated population between the ages of `${lower}` and `${upper}`, both inclusive | 42038247 |
+| **population_age_80_and_older\*** | `integer` | Estimated population over the age of 80 | 477081 |
+
+\*Structured population data is estimated from the WorldPop project. Refer to the
+[WorldPop documentation](https://www.worldpop.org/geodata/summary?id=24798) for more details.
 
 </details>
 
@@ -442,20 +443,6 @@ for the corresponding `key`.
 Note that WorldBank data is only available at the country level and it's not included in the main
 table. If no values are reported by WorldBank for the country since 2015, the row value will be
 null.
-
-### WorldPop
-Demographics data extracted from WorldPop, estimating total number of people per region broken down
-by age and sex groupings.
-
-| Name | Type | Description | Example |
-| ---- | ---- | ----------- | ------- |
-| **key** | `string` | Unique string identifying the region | ES |
-| **`${sex}`\_`${age_bin}`** | `double` | Total number of people categorized as `${sex}` (`m` or `f`) in age bin `${age_bin}` | 1334716 |
-
-Refer to the [WorldPop documentation](https://www.worldpop.org/geodata/summary?id=24798) for more
-details. This data is normalized into buckets that are consistent with other tables and added into
-the [demographics](#demographics) table; it is kept as a separate table to preserve access to the
-original data without any modification beyond aggregation by regional unit.
 
 ### By Age
 Epidemiology and hospitalizations data stratified by age.
