@@ -169,21 +169,21 @@ def table_group_tail(table: Path, output: Path) -> None:
         # Degenerate case: this table has no date
         shutil.copyfile(table, output)
     else:
-        has_epi = "total_confirmed" in columns
-
         # To stay memory-efficient, do the latest subset "by hand" instead of using pandas grouping
         # This assumes that the CSV file is sorted in ascending order, which should always be true
-        latest_date: Dict[str, str] = {}
-        records: Dict[str, List[str]] = {}
+        # We simply keep track of records grouped by index and overwrite all values with latest
+        records: Dict[str, Dict[str, str]] = {}
         for record in reader:
+            if not record:
+                continue
             try:
                 key = record[columns["key"]]
-                date = record[columns["date"]]
-                total_confirmed = record[columns["total_confirmed"]] if has_epi else True
-                latest_seen = latest_date.get(key, date) < date and total_confirmed is not None
-                if key not in records or latest_seen:
-                    latest_date[key] = date
-                    records[key] = record
+                if key not in records:
+                    records[key] = {name: None for name in columns.keys()}
+                for name, idx in columns.items():
+                    value = record[idx]
+                    if value != "" and value is not None:
+                        records[key][name] = value
             except Exception as exc:
                 print(f"Error parsing record {record} in table {table}: {exc}", file=sys.stderr)
                 traceback.print_exc()
@@ -191,8 +191,8 @@ def table_group_tail(table: Path, output: Path) -> None:
         with open(output, "w") as fd_out:
             writer = csv.writer(fd_out)
             writer.writerow(columns.keys())
-            for key, record in records.items():
-                writer.writerow(record)
+            for record in records.values():
+                writer.writerow(record[name] for name in columns.keys())
 
 
 def convert_csv_to_json_records(
