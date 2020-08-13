@@ -29,7 +29,7 @@ from pandas import DataFrame, date_range
 
 from lib.concurrent import thread_map
 from lib.constants import SRC, EXCLUDE_FROM_MAIN_TABLE
-from lib.io import display_progress, read_file, read_lines, export_csv, pbar
+from lib.io import display_progress, export_csv, read_file, read_lines, pbar
 from lib.memory_efficient import (
     get_table_columns,
     table_join,
@@ -200,13 +200,6 @@ def make_main_table(tables_folder: Path, output_path: Path) -> None:
 
 
 def create_table_subsets(main_table_path: Path, output_path: Path) -> Iterable[Path]:
-
-    # Create subsets with the last 30, 14 and 7 days of data
-    # TODO(owahltinez): figure out a memory-efficient way to do this
-    # print("30, 14 and 7 days")
-    # map_func = partial(_subset_last_days, output_path)
-    # for _ in thread_map(map_func, (30, 14, 7), desc="Last N days subsets"):
-    #     pass
 
     latest_path = output_path / "latest"
     latest_path.mkdir(parents=True, exist_ok=True)
