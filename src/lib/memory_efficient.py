@@ -19,7 +19,7 @@ import shutil
 import warnings
 import traceback
 from pathlib import Path
-from typing import Any, Dict, Iterable, List
+from typing import Dict, Iterable, List
 from .io import read_lines, read_table
 
 
@@ -174,6 +174,8 @@ def table_group_tail(table: Path, output: Path) -> None:
         # We simply keep track of records grouped by index and overwrite all values with latest
         records: Dict[str, Dict[str, str]] = {}
         for record in reader:
+            if not record:
+                continue
             try:
                 key = record[columns["key"]]
                 if key not in records:
