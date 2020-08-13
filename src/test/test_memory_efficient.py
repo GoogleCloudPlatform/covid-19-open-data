@@ -31,7 +31,7 @@ from lib.memory_efficient import (
     _convert_csv_to_json_records_slow,
 )
 from lib.pipeline_tools import get_schema
-from lib.utils import pbar
+from lib.utils import agg_last_not_null, pbar
 from .profiled_test_case import ProfiledTestCase
 
 
@@ -174,22 +174,22 @@ class TestTableJoins(ProfiledTestCase):
 
             for table_path in (SRC / "test" / "data").glob("*.csv"):
                 table = read_table(table_path, schema=SCHEMA)
-                output_path = workdir / f"latest_{table_path.name}"
+                test_output_path = workdir / f"latest_{table_path.name}"
+                pandas_output_path = workdir / f"latest_pandas_{table_path.name}"
 
                 # Create the latest slice of the given table
-                table_group_tail(table_path, output_path)
-
-                # Read the created latest slice
-                latest_ours = read_table(output_path, schema=SCHEMA)
+                table_group_tail(table_path, test_output_path)
 
                 # Create a latest slice using pandas grouping
-                if "total_confirmed" in table.columns:
-                    table = table.dropna(subset=["total_confirmed"])
-                latest_pandas = table.groupby(["key"]).tail(1)
+                table = table.groupby("key").aggregate(agg_last_not_null).reset_index()
+                export_csv(table, path=pandas_output_path, schema=SCHEMA)
 
-                self.assertEqual(
-                    export_csv(latest_ours, schema=SCHEMA), export_csv(latest_pandas, schema=SCHEMA)
-                )
+                # Converting to a CSV in memory sometimes produces out-of-order values
+                test_result_lines = sorted(read_lines(test_output_path))
+                pandas_result_lines = sorted(read_lines(pandas_output_path))
+
+                for line1, line2 in zip(test_result_lines, pandas_result_lines):
+                    self.assertEqual(line1, line2)
 
 
 if __name__ == "__main__":

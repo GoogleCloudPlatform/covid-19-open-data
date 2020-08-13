@@ -172,15 +172,15 @@ def table_group_tail(table: Path, output: Path) -> None:
         # To stay memory-efficient, do the latest subset "by hand" instead of using pandas grouping
         # This assumes that the CSV file is sorted in ascending order, which should always be true
         # We simply keep track of records grouped by index and overwrite all values with latest
-        records: Dict[str, Dict[str, Any]] = {}
+        records: Dict[str, Dict[str, str]] = {}
         for record in reader:
             try:
                 key = record[columns["key"]]
                 if key not in records:
-                    records[key] = {}
+                    records[key] = {name: None for name in columns.keys()}
                 for name, idx in columns.items():
                     value = record[idx]
-                    if value is not None:
+                    if value != "" and value is not None:
                         records[key][name] = value
             except Exception as exc:
                 print(f"Error parsing record {record} in table {table}: {exc}", file=sys.stderr)
@@ -190,7 +190,7 @@ def table_group_tail(table: Path, output: Path) -> None:
             writer = csv.writer(fd_out)
             writer.writerow(columns.keys())
             for record in records.values():
-                writer.writerow(record[idx] for idx in columns.values())
+                writer.writerow(record[name] for name in columns.keys())
 
 
 def convert_csv_to_json_records(
