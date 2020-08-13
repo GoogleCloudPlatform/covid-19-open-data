@@ -98,7 +98,7 @@ class BrazilMunicipalitiesDataSource(DataSource):
                 "obitosNovos": "new_deceased",
                 "casosAcumulado": "total_confirmed",
                 "obitosAcumulado": "total_deceased",
-                "Recuperadosnovos": "new_recovered",
+                "Recuperadosnovos": "total_recovered",
             },
             drop=True,
         )
