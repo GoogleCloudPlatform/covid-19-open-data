@@ -24,7 +24,10 @@ from lib.data_source import DataSource
 from .profiled_test_case import ProfiledTestCase
 
 
-DUMMY_DATA_SOURCE_AUX = {"metadata": DataFrame()}
+DUMMY_DATA_SOURCE_AUX = {
+    "metadata": DataFrame(columns=["key"]),
+    "localities": DataFrame(columns=["key", "locality"]),
+}
 DUMMY_DATA_SOURCE_CONFIG = {
     "fetch": [
         {
@@ -40,7 +43,9 @@ class DummyDataSouce(DataSource):
         super().__init__(config=DUMMY_DATA_SOURCE_CONFIG)
 
     def parse_dataframes(self, dataframes, aux, **parse_opts):
-        return dataframes[0]
+        data = dataframes[0]
+        data["key"] = "AAA"
+        return data
 
 
 class TestSourceFetch(ProfiledTestCase):

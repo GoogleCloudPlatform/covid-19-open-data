@@ -18,13 +18,13 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 import numpy
-from pandas import DataFrame, isna
+from pandas import DataFrame, concat, isna
 
 from .error_logger import ErrorLogger
 from .io import read_file, fuzzy_text
 from .net import download_snapshot
 from .time import datetime_isoformat
-from .utils import infer_new_and_total, stratify_age_sex_ethnicity
+from .utils import derive_localities, infer_new_and_total, stratify_age_sex_ethnicity
 
 
 class DataSource(ErrorLogger):
@@ -270,6 +270,9 @@ class DataSource(ErrorLogger):
         # Filter out data according to the user-provided filter function
         if "query" in self.config:
             data = data.query(self.config["query"]).copy()
+
+        # Derive localities from all regions
+        data = concat([data, derive_localities(aux["localities"], data)])
 
         # Provide a stratified view of certain key variables
         if any(stratify_column in data.columns for stratify_column in ("age", "sex")):
