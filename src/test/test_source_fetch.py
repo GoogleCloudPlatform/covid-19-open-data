@@ -24,7 +24,7 @@ from lib.data_source import DataSource
 from .profiled_test_case import ProfiledTestCase
 
 
-DUMMY_DATA_SOURCE_AUX = {"metadata": DataFrame()}
+DUMMY_DATA_SOURCE_AUX = {"metadata": DataFrame(), "localities": DataFrame()}
 DUMMY_DATA_SOURCE_CONFIG = {
     "fetch": [
         {
