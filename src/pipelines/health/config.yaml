@@ -32,6 +32,7 @@ schema:
 
 auxiliary:
   metadata: ./data/metadata.csv
+  localities: ./data/localities.csv
   country_codes: ./data/country_codes.csv
   knowledge_graph: ./data/knowledge_graph.csv
   worldbank_indicators: ./data/worldbank_indicators.csv

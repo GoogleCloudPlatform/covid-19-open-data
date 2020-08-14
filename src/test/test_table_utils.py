@@ -19,7 +19,9 @@ from unittest import main
 import numpy
 from pandas import DataFrame, isnull
 from lib.cast import age_group
-from lib.utils import combine_tables, stack_table, infer_new_and_total
+from lib.constants import SRC
+from lib.io import read_file
+from lib.utils import combine_tables, derive_localities, infer_new_and_total, stack_table
 from .profiled_test_case import ProfiledTestCase
 
 # Synthetic data used for testing
@@ -65,6 +67,20 @@ NEW_AND_TOTAL_TEST_DATA = DataFrame.from_records(
         {"key": "B", "date": "2020-01-02", "new_value_column": -1, "total_value_column": 9},
         {"key": "B", "date": "2020-01-03", "new_value_column": 5, "total_value_column": 14},
         {"key": "B", "date": "2020-01-04", "new_value_column": 1, "total_value_column": 15},
+    ]
+)
+LOCALITY_TEST_DATA = DataFrame.from_records(
+    [
+        {"key": "BR_RJ_330455", "date": "2020-01-01", "val": 1},
+        {"key": "BR_RJ_330455", "date": "2020-01-02", "val": 1},
+        {"key": "US_GA_13067", "date": "2020-01-01", "val": 1},
+        {"key": "US_GA_13089", "date": "2020-01-01", "val": 1},
+        {"key": "US_GA_13121", "date": "2020-01-01", "val": 1},
+        {"key": "US_GA_13135", "date": "2020-01-01", "val": 1},
+        {"key": "US_GA_13067", "date": "2020-01-02", "val": 1},
+        {"key": "US_GA_13089", "date": "2020-01-02", "val": 1},
+        {"key": "US_GA_13121", "date": "2020-01-02", "val": 1},
+        {"key": "US_GA_13135", "date": "2020-01-02", "val": 1},
     ]
 )
 
@@ -235,6 +251,22 @@ class TestTableUtils(ProfiledTestCase):
         self.assertListEqual(
             inferred_new_values.dropna().to_list(), expected_new_values.dropna().to_list()
         )
+
+    def test_derive_localities(self):
+        localities = read_file(SRC / "data" / "localities.csv")
+        test_data = LOCALITY_TEST_DATA.copy()
+        expected = DataFrame.from_records(
+            [
+                {"key": "BR_RJ_GIG", "date": "2020-01-01", "val": 1},
+                {"key": "BR_RJ_GIG", "date": "2020-01-02", "val": 1},
+                {"key": "US_GA_ATL", "date": "2020-01-01", "val": 4},
+                {"key": "US_GA_ATL", "date": "2020-01-02", "val": 4},
+            ]
+        )
+
+        columns = test_data.columns
+        test_result = derive_localities(localities, test_data)[columns]
+        self.assertEqual(test_result.to_csv(index=False), expected.to_csv(index=False))
 
     # TODO: Add test for complex infer example (e.g. missing values)
     # TODO: Add test for stratify_age_sex_ethnicity

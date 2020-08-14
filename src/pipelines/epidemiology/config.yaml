@@ -28,10 +28,32 @@ schema:
 
 auxiliary:
   metadata: ./data/metadata.csv
+  localities: ./data/localities.csv
   country_codes: ./data/country_codes.csv
   knowledge_graph: ./data/knowledge_graph.csv
 
 sources:
+
+  # Data sources for US levels 2 + 3
+  - name: pipelines.epidemiology.us_covidtracking.CovidTrackingDataSource
+    fetch:
+      - url: "https://covidtracking.com/api/v1/states/daily.csv"
+    test:
+      metadata_query: "key.str.match('US_[^_]+$')"
+
+  - name: pipelines.epidemiology.us_nyt_covid.NytCovidL2DataSource
+    fetch:
+      - url: "https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv"
+    test:
+      metadata_query: "key.str.match('US_[^_]+$')"
+
+  - name: pipelines.epidemiology.us_nyt_covid.NytCovidL3DataSource
+    fetch:
+      - url: "https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv"
+    test:
+      metadata_query: "key.str.match('US_.+_.+')"
+
+other:
 
   # Data sources for all countries level 1
   - name: pipelines.epidemiology.xx_owid.OurWorldInDataSource

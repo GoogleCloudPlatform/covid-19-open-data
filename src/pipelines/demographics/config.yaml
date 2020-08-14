@@ -39,6 +39,7 @@ schema:
 
 auxiliary:
   metadata: ./data/metadata.csv
+  localities: ./data/localities.csv
   worldpop: ./data/worldpop_stratified.csv
   country_codes: ./data/country_codes.csv
   knowledge_graph: ./data/knowledge_graph.csv

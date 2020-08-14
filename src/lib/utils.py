@@ -360,3 +360,26 @@ def stratify_age_sex_ethnicity(data: DataFrame) -> DataFrame:
             data[f"age_bin_{bucket_name}"] = bucket_range
 
     return data
+
+
+def derive_localities(localities: DataFrame, data: DataFrame) -> DataFrame:
+    """
+    Given a table, extract the keys which have an equivalent locality and return that subset using
+    the locality keys. Equivalency between key:locality can be 1:1 or many:1.
+
+    Arguments:
+        localities: Auxiliary table with mapping between key->locality
+    Returns:
+        DataFrame: Subset of localities found in `data`, using the keys from localities
+    """
+    # Aggregation sums all numeric columns and takes the first value of the rest
+    numeric_columns = [col for col in data.columns if is_numeric_dtype(data[col])]
+    non_numeric_columns = [col for col in data.columns if not is_numeric_dtype(data[col])]
+    agg_func = {}
+    agg_func.update({col: "sum" for col in numeric_columns})
+    agg_func.update({col: "first" for col in non_numeric_columns})
+
+    locs = data.merge(localities, on="key", how="inner")
+    locs["key"] = locs["locality"]
+    index_columns = ["key", "date"] if "date" in data.columns else ["key"]
+    return locs.groupby(index_columns).agg(agg_func)
