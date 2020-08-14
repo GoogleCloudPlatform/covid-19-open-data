@@ -322,13 +322,7 @@ def convert_json(expr: str) -> None:
         public_folder.mkdir(parents=True, exist_ok=True)
 
         # Download all the processed tables into our local storage
-        download_folder(
-            GCS_BUCKET_PROD,
-            "v2",
-            public_folder,
-            # Only download the CSV files but avoid the big main.csv table
-            lambda x: re.match(expr, str(x)),
-        )
+        download_folder(GCS_BUCKET_PROD, "v2", public_folder, lambda x: re.match(expr, str(x)))
 
         # Convert all files to JSON
         list(convert_tables_to_json(public_folder, json_folder))
@@ -342,7 +336,7 @@ def convert_json(expr: str) -> None:
 
 @app.route("/convert_json_1")
 def convert_json_1() -> None:
-    return convert_json(r"(\d+/)?\w+.csv")
+    return convert_json(r"[a-z_]+.csv")
 
 
 @app.route("/convert_json_2")
