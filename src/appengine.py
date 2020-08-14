@@ -42,6 +42,7 @@ from lib.net import download
 from lib.pipeline import DataPipeline
 from lib.pipeline_tools import get_table_names
 from publish import copy_tables, convert_tables_to_json, create_table_subsets, make_main_table
+from scripts.cloud_error_processing import register_new_errors
 
 app = Flask(__name__)
 BLOB_OP_MAX_RETRIES = 10
@@ -350,6 +351,11 @@ def convert_json_2() -> None:
     return convert_json(r"[A-Z]{2}(_\w+)?\/\w+.csv")
 
 
+@app.route("/errors_to_github")
+def errors_to_github() -> None:
+    return register_new_errors()
+
+
 if __name__ == "__main__":
 
     # Process command-line arguments
@@ -373,4 +379,5 @@ if __name__ == "__main__":
         "cache_pull": cache_pull,
         "publish": publish,
         "convert_json": convert_json,
+        "errors_to_github": errors_to_github,
     }.get(args.command, _unknown_command)(**json.loads(args.args or "{}"))

@@ -1,10 +1,15 @@
-import requests
+import os
 import json
+import requests
+import sys
 from google.cloud import firestore
 from googleapiclient.discovery import build
 from google.cloud import secretmanager
 
-ISSUES_API_URL = "https://api.github.com/repos/GoogleCloudPlatform/covid-19-open-data/issues"
+# Add our library utils to the path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from lib.constants import ISSUES_API_URL, GCS_PROJECT_NAME
 
 
 class GithubIssueHandler:
@@ -21,7 +26,7 @@ class GithubIssueHandler:
 
     def _get_github_token(self):
         client = secretmanager.SecretManagerServiceClient()
-        name = client.secret_version_path("github-open-covid-19", "github-token", "latest")
+        name = client.secret_version_path(GCS_PROJECT_NAME, "github-token", "latest")
         response = client.access_secret_version(name)
         return response.payload.data
 
@@ -45,7 +50,7 @@ def register_new_errors():
     errors_past_day = (
         service.projects()
         .groupStats()
-        .list(projectName="projects/github-open-covid-19", timeRange_period="PERIOD_1_DAY")
+        .list(projectName="projects/{}".format(GCS_PROJECT_NAME), timeRange_period="PERIOD_1_DAY")
         .execute()
     )
     gh_issue_handler = GithubIssueHandler()
