@@ -314,26 +314,6 @@ sources:
     test:
       metadata_query: "key.str.match('FR_.+')"
 
-  - name: pipelines.epidemiology.fr_authority.FranceDataSource
-    fetch:
-      - url: "https://www.data.gouv.fr/fr/datasets/r/406c6a23-e283-4300-9484-54e78c8ae675"
-        opts:
-          ext: csv
-    parse:
-      sep: ";"
-    test:
-      metadata_query: "key.str.match('FR.*')"
-
-  - name: pipelines.epidemiology.fr_authority.FranceDataSource
-    fetch:
-      - url: "https://www.data.gouv.fr/fr/datasets/r/6fadff46-9efd-4c53-942a-54aca783c30c"
-        opts:
-          ext: csv
-    parse:
-      sep: ";"
-    test:
-      metadata_query: "key.str.match('FR.*')"
-
   # Data sources for GB levels 1 + 2 + 3
   - name: pipelines.epidemiology.gb_covid_19_uk_data.Covid19UkDataL1DataSource
     fetch:
@@ -705,6 +685,12 @@ sources:
       - url: "https://www.gov.si/assets/vlada/Koronavirus-podatki/en/EN_Covid-19-all-data.xlsx"
     test:
       metadata_query: "key.str.match('SI')"
+
+  # Data sources for UA levels 1 + 2
+  - name: pipelines.epidemiology.ua_authority.UkraineDataSource
+    # No URL is defined because data is queried via API
+    test:
+      metadata_query: "key.str.match('UA_.+')"
 
   # Data sources for US levels 2 + 3
   - name: pipelines.epidemiology.us_covidtracking.CovidTrackingDataSource

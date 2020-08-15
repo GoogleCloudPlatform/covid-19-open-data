@@ -14362,8 +14362,32 @@ TV,TV,Tuvalu,,,,,,,,0
 TW,TW,Taiwan,,,,,,,,-1
 TZ,TZ,Tanzania,,,,,,,,-1
 UA,UA,Ukraine,,,,,,,,-1
+UA_05,UA,Ukraine,05,Vinnytsia,,,,,,
+UA_07,UA,Ukraine,07,Volyn,,,,,Volynska,
+UA_09,UA,Ukraine,09,Luhansk,,,,,Luhanska,
+UA_12,UA,Ukraine,12,Dnipropetrovsk,,,,,Dnipropetrovska,
+UA_14,UA,Ukraine,14,Donetsk,,,,,Donetska,
+UA_18,UA,Ukraine,18,Zhytomyr,,,,,Zhytomyr,
+UA_21,UA,Ukraine,21,Zakarpattia,,,,,Zakarpatska,
+UA_23,UA,Ukraine,23,Zaporizhzhya,,,,,Zaporizka,
+UA_26,UA,Ukraine,26,Ivano-Frankivsk,,,,,Ivano-Frankivska,
+UA_32,UA,Ukraine,32,Kyiv,,,,,Kyivska,
+UA_35,UA,Ukraine,35,Kirovohrad,,,,,Kirovohradska,
 UA_40,RU,Russia,40,Sevastopol,,,,,,0
 UA_43,RU,Russia,43,Republic of Crimea,,,,,Республика Крым,0
+UA_46,UA,Ukraine,46,Lviv,,,,,Lvivska,
+UA_48,UA,Ukraine,48,Mykolaiv,,,,,Mykolaivska,
+UA_51,UA,Ukraine,51,Odessa,,,,,Odeska,
+UA_53,UA,Ukraine,53,Poltava,,,,,Poltavska,
+UA_56,UA,Ukraine,56,Rivne,,,,,Rivnenska,
+UA_59,UA,Ukraine,59,Sumy,,,,,Sumska,
+UA_61,UA,Ukraine,61,Ternopil,,,,,Ternopilska,
+UA_63,UA,Ukraine,63,Kharkiv,,,,,Kharkivska,
+UA_65,UA,Ukraine,65,Kherson,,,,,Khersonska,
+UA_68,UA,Ukraine,68,Khmelnytskyi,,,,,Khmelnytska,
+UA_71,UA,Ukraine,71,Cherkasy,,,,,Cherkaska,
+UA_74,UA,Ukraine,74,Chernihiv,,,,,Chernihivska,
+UA_77,UA,Ukraine,77,Chernivtsi,,,,,Chernivetska,
 UG,UG,Uganda,,,,,,,,-1
 UM,UM,United States Minor Outlying Islands,,,,,,,,-1
 US,US,United States of America,,,,,,,,-1
