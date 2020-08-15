@@ -336,7 +336,7 @@ def convert_json(expr: str) -> None:
 
 @app.route("/convert_json_1")
 def convert_json_1() -> None:
-    return convert_json(r"[a-z_]+.csv")
+    return convert_json(r"(latest\/)?[a-z_]+.csv")
 
 
 @app.route("/convert_json_2")
