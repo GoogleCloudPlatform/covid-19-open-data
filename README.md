@@ -589,7 +589,7 @@ from the relevant authorities, like a country's ministry of health.
 | Australia | <https://covid-19-au.com/> | [Attribution required, educational and academic research purposes](https://covid-19-au.com/faq) |
 | Austria | [COVID19 EU Data](https://github.com/covid19-eu-zh/covid19-eu-data) | [MIT](https://github.com/covid19-eu-zh/covid19-eu-data/issues/57) |
 | Bangladesh | [HDX](https://data.humdata.org/dataset/district-wise-quarantine-for-covid-19) | [CC BY-SA][28] |
-| Belgium | [Belgian institute for health][https://epistat.wiv-isp.be] | [Attribution required, educational and academic research purposes](https://www.health.belgium.be/en/legal-information) |
+| Belgium | [Belgian institute for health](https://epistat.wiv-isp.be) | [Attribution required, educational and academic research purposes](https://www.health.belgium.be/en/legal-information) |
 | Bolivia | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
 | Brazil | [Brazil Ministério da Saúde](https://coronavirus.saude.gov.br/) | [Creative Commons Atribuição](http://www.opendefinition.org/licenses/cc-by) |
 | Brazil (Rio de Janeiro) | <http://www.data.rio/> | [Dados abertos](https://www.data.rio/datasets/f314453b3a55434ea8c8e8caaa2d8db5) |
