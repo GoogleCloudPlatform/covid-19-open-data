@@ -135,7 +135,7 @@ sources:
     parse:
       sheet_name: "TESTS"
     test:
-      metadata_query: "key.str.match('BE_.+')"
+      metadata_query: "key == 'BE'"
 
   # Data sources for BR levels 2 + 3
   - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
