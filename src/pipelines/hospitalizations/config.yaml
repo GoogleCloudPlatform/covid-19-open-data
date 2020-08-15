@@ -53,6 +53,15 @@ sources:
     test:
       metadata_query: "key == 'AU'"
 
+  # Data sources for BE levels 1 + 2
+  - name: pipelines.epidemiology.be_authority.BelgiumDataSource
+    fetch:
+      - url: "https://epistat.sciensano.be/Data/COVID19BE.xlsx"
+    parse:
+      sheet_name: "HOSP"
+    test:
+      metadata_query: "key.str.match('BE_.+')"
+
   # Data sources for CH level 2
   - name: pipelines.epidemiology.ch_authority.SwitzerlandSource
     fetch:

@@ -687,6 +687,17 @@ BD_F,BD,Bangladesh,F,Rangpur Division,,,,,,
 BD_G,BD,Bangladesh,G,Sylhet Division,,,,,,
 BD_H,BD,Bangladesh,H,Mymensingh Division,,,,,,
 BE,BE,Belgium,,,,,,,,-1
+BE_BRU,BE,Belgium,BRU,Brussels,,,,,,
+BR_VAN,BE,Belgium,VAN,Antwerp,,,,,Antwerpen,
+BR_VLG,BE,Belgium,VLG,Flemish Brabant,,,,,VlaamsBrabant,
+BR_VLI,BE,Belgium,VLI,Limburg,,,,,,
+BR_VOV,BE,Belgium,VOV,East Flanders,,,,,OostVlaanderen,
+BR_VWV,BE,Belgium,VWV,West Flanders,,,,,WestVlaanderen,
+BR_WBR,BE,Belgium,WBR,Walloon Brabant,,,,,BrabantWallon,
+BR_WHT,BE,Belgium,WHT,Hainaut,,,,,,
+BR_WLG,BE,Belgium,WLG,Liège,,,,,,
+BR_WLX,BE,Belgium,WLX,Luxembourg,,,,,,
+BR_WNA,BE,Belgium,WNA,Namur,,,,,,
 BF,BF,Burkina Faso,,,,,,,,-1
 BG,BG,Bulgaria,,,,,,,,-1
 BH,BH,Bahrain,,,,,,,,-1

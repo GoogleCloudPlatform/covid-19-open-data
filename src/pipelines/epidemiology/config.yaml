@@ -120,6 +120,23 @@ sources:
     test:
       metadata_query: "key.str.match('BD_.+')"
 
+  # Data sources for BE levels 1 + 2
+  - name: pipelines.epidemiology.be_authority.BelgiumDataSource
+    fetch:
+      - url: "https://epistat.sciensano.be/Data/COVID19BE.xlsx"
+    parse:
+      sheet_name: "CASES_AGESEX"
+    test:
+      metadata_query: "key.str.match('BE_.+')"
+
+  - name: pipelines.epidemiology.be_authority.BelgiumDataSource
+    fetch:
+      - url: "https://epistat.sciensano.be/Data/COVID19BE.xlsx"
+    parse:
+      sheet_name: "TESTS"
+    test:
+      metadata_query: "key == 'BE'"
+
   # Data sources for BR levels 2 + 3
   - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
     test:
