@@ -21,7 +21,6 @@ GCS_BUCKET_PROD = "covid19-open-data"
 URL_OUTPUTS_PROD = f"https://storage.googleapis.com/{GCS_BUCKET_PROD}/v2"
 CACHE_URL = "https://raw.githubusercontent.com/open-covid-19/data/cache"
 ISSUES_API_URL = "https://api.github.com/repos/GoogleCloudPlatform/covid-19-open-data/issues"
-GCS_PROJECT_NAME = "github-open-covid-19"
 
 
 # Some tables are not included into the main table

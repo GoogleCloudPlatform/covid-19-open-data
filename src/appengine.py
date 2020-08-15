@@ -351,9 +351,9 @@ def convert_json_2() -> None:
     return convert_json(r"[A-Z]{2}(_\w+)?\/\w+.csv")
 
 
-@app.route("/errors_to_github")
-def errors_to_github() -> None:
-    return register_new_errors()
+@app.route("/report_errors_to_github")
+def report_errors_to_github() -> None:
+    return register_new_errors(os.getenv(ENV_PROJECT))
 
 
 if __name__ == "__main__":
@@ -379,5 +379,5 @@ if __name__ == "__main__":
         "cache_pull": cache_pull,
         "publish": publish,
         "convert_json": convert_json,
-        "errors_to_github": errors_to_github,
+        "report_errors_to_github": report_errors_to_github,
     }.get(args.command, _unknown_command)(**json.loads(args.args or "{}"))
