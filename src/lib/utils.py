@@ -379,6 +379,10 @@ def derive_localities(localities: DataFrame, data: DataFrame) -> DataFrame:
     agg_func.update({col: "sum" for col in numeric_columns})
     agg_func.update({col: "first" for col in non_numeric_columns})
 
+    # Remove localities that are already part of the data
+    localities = localities[~localities["locality"].isin(data["key"])]
+
+    # Merge and aggregate
     locs = data.merge(localities, on="key", how="inner")
     locs["key"] = locs["locality"]
     index_columns = ["key", "date"] if "date" in data.columns else ["key"]
