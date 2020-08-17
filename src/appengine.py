@@ -347,7 +347,8 @@ def convert_json_2() -> None:
 
 @app.route("/report_errors_to_github")
 def report_errors_to_github() -> None:
-    return register_new_errors(os.getenv(ENV_PROJECT))
+    register_new_errors(os.getenv(ENV_PROJECT))
+    return "OK"
 
 
 if __name__ == "__main__":
