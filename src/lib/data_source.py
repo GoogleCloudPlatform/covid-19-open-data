@@ -128,12 +128,8 @@ class DataSource(ErrorLogger):
                 self.errlog(f"Key provided but not found in metadata:\n{record}")
                 return None
 
-        # Localities should only be matched using a key directly
-        if "locality_code" in metadata.columns:
-            metadata = metadata[metadata["locality_code"].isna()]
-
         # Start by filtering the auxiliary dataset as much as possible
-        for column_prefix in ("country", "subregion1", "subregion2"):
+        for column_prefix in ("country", "subregion1", "subregion2", "locality"):
             for column_suffix in ("code", "name"):
                 column = "{}_{}".format(column_prefix, column_suffix)
                 if column not in record:
@@ -152,7 +148,7 @@ class DataSource(ErrorLogger):
 
         # Provided match string could be a subregion code / name
         if match_string is not None:
-            for column_prefix in ("subregion1", "subregion2"):
+            for column_prefix in ("subregion1", "subregion2", "locality"):
                 for column_suffix in ("code", "name"):
                     column = "{}_{}".format(column_prefix, column_suffix)
                     aux_match = metadata[column + "_fuzzy"] == match_string
