@@ -94,8 +94,8 @@ class Covid19UkL2DataSource(DataSource):
             "areaName": "areaName",
             "newCasesByPublishDate": "newCasesByPublishDate",
             "cumCasesByPublishDate": "cumCasesByPublishDate",
-            "newDeathsByPublishDate": "newDeathsByPublishDate",
-            "cumDeathsByPublishDate": "cumDeathsByPublishDate",
+            "newDeaths60DaysByPublishDate": "newDeaths60DaysByPublishDate",
+            "cumDeaths60DaysByPublishDate": "cumDeaths60DaysByPublishDate",
             "cumPillarOneTestsByPublishDate": "cumPillarOneTestsByPublishDate",
         }
         api = Cov19API(filters=["areaType=nation"], structure=cases_and_deaths)
@@ -108,8 +108,8 @@ class Covid19UkL2DataSource(DataSource):
                 "areaName": "subregion1_name",
                 "newCasesByPublishDate": "new_confirmed",
                 "cumCasesByPublishDate": "total_confirmed",
-                "newDeathsByPublishDate": "new_deceased",
-                "cumDeathsByPublishDate": "total_deceased",
+                "newDeaths60DaysByPublishDate": "new_deceased",
+                "cumDeaths60DaysByDeathDate": "total_deceased",
                 "cumPillarOneTestsByPublishDate": "total_tested",
                 "date": "date",
             },
