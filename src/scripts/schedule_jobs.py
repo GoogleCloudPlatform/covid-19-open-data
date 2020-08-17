@@ -101,6 +101,9 @@ def schedule_all_jobs(project_id: str, location_id: str, timezone: str) -> None:
         schedule="0 1-23/4 * * *",
     )
 
+    # Get new errors once a day at midday.
+    _schedule_job(path="/report_errors_to_github", schedule="0 12 * * *")
+
     # Keep track of the different job groups to only output them once
     job_urls_seen = set()
 
