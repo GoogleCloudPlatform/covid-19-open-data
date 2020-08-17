@@ -9,7 +9,7 @@ from google.cloud import secretmanager
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from lib.constants import ISSUES_API_URL
-from lib.error_logging import ErrorLogger
+from lib.error_logger import ErrorLogger
 
 
 class GithubIssueHandler(ErrorLogger):
