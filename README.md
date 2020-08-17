@@ -339,8 +339,7 @@ counts over time, which is why the cumulative values, if reported, are kept in a
 </details>
 
 ### Mobility
-[Google's Mobility Reports][17] are presented in CSV form joined with our known location keys as
-[mobility.csv](https://storage.googleapis.com/covid19-open-data/v2/mobility.csv).
+[Google's Mobility Reports][17] are presented in CSV form joined with our known location keys.
 <details>
 <summary>Show table schema</summary>
 
@@ -357,13 +356,20 @@ counts over time, which is why the cumulative values, if reported, are kept in a
 
 </details>
 
-These Community Mobility Reports aim to provide insights into what has changed in response to
-policies aimed at combating COVID-19. The reports chart movement trends over time by geography,
-across different categories of places.
+Google's Mobility Reports aim to provide insights into what has changed in response to policies
+aimed at combating COVID-19. It reports movement trends over time by geography, across different
+categories of places.
 
-* Link to data: https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv
-* Help Center: https://support.google.com/covid19-mobility
-* Terms: In order to download or use the data or reports, you must agree to the [Google Terms of Service](https://policies.google.com/terms)
+**This dataset is intended to help remediate the impact of COVID-19**. It shouldn’t be used for
+medical diagnostic, prognostic, or treatment purposes. It also isn’t intended to be used for
+guidance on personal travel plans.
+
+To learn more about the dataset, the place categories and how we calculate these trends and preserve
+privacy, visit our [help center](https://support.google.com/covid19-mobility) or read the
+[data documentation](https://www.google.com/covid19/mobility/data_documentation.html).
+
+Terms: In order to download or use the data or reports, you must agree to the
+[Google Terms of Service](https://policies.google.com/terms).
 
 ### Government Response
 Summary of a government's response to the events, including a *stringency index*, collected from
@@ -715,7 +721,7 @@ Please use the following when citing this project as a source of data:
 [14]: https://www.starlords3k.com/covid19.php
 [15]: https://kiksu.net/covid-19/
 [16]: https://www.canada.ca/en/public-health/services/diseases/2019-novel-coronavirus-infection.html
-[17]: ./docs/google-mobility-reports.md
+[17]: https://www.google.com/covid19/mobility/
 [18]: https://www.bsg.ox.ac.uk/research/research-projects/oxford-covid-19-government-response-tracker
 [19]: https://auditter.info/covid-timeline
 [20]: https://www.coronavirusdailytracker.info/
