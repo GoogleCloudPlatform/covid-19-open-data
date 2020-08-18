@@ -212,7 +212,9 @@ class BrazilStratifiedDataSource(DataSource):
         # Convert ages to int, and translate sex (no "other" sex/gender reported)
         cases["age"] = cases["age"].apply(safe_int_cast)
         cases["sex"] = (
-            cases["sex"].str.lower().apply({"masculino": "male", "femenino": "female"}.get)
+            cases["sex"]
+            .str.lower()
+            .apply({"masculino": "male", "feminino": "female", "indefinido": None}.get)
         )
 
         # Convert to time series format
