@@ -94,8 +94,8 @@ class Covid19UkL2DataSource(DataSource):
             "areaName": "areaName",
             "newCasesByPublishDate": "newCasesByPublishDate",
             "cumCasesByPublishDate": "cumCasesByPublishDate",
-            "newDeaths60DaysByPublishDate": "newDeaths60DaysByPublishDate",
-            "cumDeaths60DaysByPublishDate": "cumDeaths60DaysByPublishDate",
+            "newDeaths28DaysByPublishDate": "newDeaths28DaysByPublishDate",
+            "cumDeaths28DaysByPublishDate": "cumDeaths28DaysByPublishDate",
             "cumPillarOneTestsByPublishDate": "cumPillarOneTestsByPublishDate",
         }
         api = Cov19API(filters=["areaType=nation"], structure=cases_and_deaths)
@@ -108,15 +108,14 @@ class Covid19UkL2DataSource(DataSource):
                 "areaName": "subregion1_name",
                 "newCasesByPublishDate": "new_confirmed",
                 "cumCasesByPublishDate": "total_confirmed",
-                "newDeaths60DaysByPublishDate": "new_deceased",
-                "cumDeaths60DaysByDeathDate": "total_deceased",
+                "newDeaths28DaysByPublishDate": "new_deceased",
+                "cumDeaths28DaysByDeathDate": "total_deceased",
                 "cumPillarOneTestsByPublishDate": "total_tested",
                 "date": "date",
             },
             drop=True,
         )
 
-        data = data[data["subregion1_name"] != "UK"]
         data.date = data.date.apply(lambda x: datetime_isoformat(x, "%Y-%m-%d"))
 
         # Make sure all records have country code and no subregion code
@@ -126,13 +125,42 @@ class Covid19UkL2DataSource(DataSource):
         return data
 
 
-class Covid19UkL1DataSource(Covid19UkL2DataSource):
+class Covid19UkL1DataSource(DataSource):
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
-        data = super().parse(sources, aux, **parse_opts)
+        cases_and_deaths = {
+            "date": "date",
+            "areaCode": "areaCode",
+            "newCasesByPublishDate": "newCasesByPublishDate",
+            "cumCasesByPublishDate": "cumCasesByPublishDate",
+            "newDeaths28DaysByPublishDate": "newDeaths28DaysByPublishDate",
+            "cumDeaths28DaysByPublishDate": "cumDeaths28DaysByPublishDate",
+            "cumPillarOneTestsByPublishDate": "cumPillarOneTestsByPublishDate",
+        }
+        api = Cov19API(filters=["areaType=overview"], structure=cases_and_deaths)
+        data_json = api.get_json()
+        data = DataFrame.from_dict(data_json["data"])
 
-        # Aggregate data to the country level
-        data = data.groupby("date").sum().reset_index()
+        data = table_rename(
+            data,
+            {
+                "areaCode": "country_code",
+                "newCasesByPublishDate": "new_confirmed",
+                "cumCasesByPublishDate": "total_confirmed",
+                "newDeaths28DaysByPublishDate": "new_deceased",
+                "cumDeaths28DaysByDeathDate": "total_deceased",
+                "cumPillarOneTestsByPublishDate": "total_tested",
+                "date": "date",
+            },
+            drop=True,
+        )
+
+        data.date = data.date.apply(lambda x: datetime_isoformat(x, "%Y-%m-%d"))
+
+        # Make sure all records have country code and no subregion code
         data["key"] = "GB"
+        data["country_code"] = "GB"
+        data["subregion2_code"] = None
+
         return data
 
 
