@@ -42,7 +42,7 @@ class GithubIssueHandler(ErrorLogger):
             )
             self.errlog(msg=error_message, tags=["github"])
             raise ConnectionError(error_message)
-        return response.json()["url"]
+        return response.json()["html_url"]
 
 
 def register_new_errors(gcs_project_name):
@@ -59,6 +59,9 @@ def register_new_errors(gcs_project_name):
     errors_db = db.collection("errors")
     for error_group in errors_past_day["errorGroupStats"]:
         group_id = error_group["group"]["groupId"]
+        if int(error_group["count"]) < 2:
+            # Don't add one-off errors to the db
+            continue
         doc = errors_db.document(group_id)
         if not doc.get().exists and error_group["group"]["resolutionStatus"] == "OPEN":
             try:
