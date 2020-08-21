@@ -15,6 +15,36 @@
 import datetime
 import warnings
 from typing import List
+import json
+import logging
+from functools import lru_cache
+from pandas import Series
+
+# Based on recipe for structured logging
+# https://docs.python.org/3/howto/logging-cookbook.html#implementing-structured-logging
+
+
+class LogEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, set):
+            return tuple(o)
+        elif isinstance(o, str):
+            return o.encode("unicode_escape").decode("ascii")
+        elif isinstance(o, Series):
+            return o.to_dict()
+        elif isinstance(o, Exception):
+            return f"{o.__class__.__name__}: {str(o)}"
+        return super(LogEncoder, self).default(o)
+
+
+class StructuredMessage:
+    def __init__(self, message, **kwargs):
+        self._kwargs = kwargs
+        self._kwargs["message"] = message
+
+    @lru_cache()
+    def __str__(self):
+        return LogEncoder().encode(self._kwargs)
 
 
 class ErrorLogger:
@@ -22,9 +52,14 @@ class ErrorLogger:
     Simple class to be inherited by other classes to add error logging functions.
     """
 
+    logging.basicConfig(format="%(message)s")
+
     def timestamp(self) -> str:
         return datetime.datetime.now().isoformat()[:24]
 
-    def errlog(self, msg: str, tags: List[str] = None) -> None:
-        tags = [self.timestamp(), self.__class__.__name__] + (tags or [])
-        warnings.warn(f"{''.join((f'[{tag}]' for tag in tags))} {msg}")
+    def errlog(self, msg: str, **kwargs) -> None:
+        logging.warning(
+            StructuredMessage(
+                msg, timestamp=self.timestamp(), classname=self.__class__.__name__, **kwargs
+            )
+        )

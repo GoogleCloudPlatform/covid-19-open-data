@@ -115,7 +115,7 @@ class DataSource(ErrorLogger):
         if "date" in record:
             date = datetime_isoformat(record["date"], "%Y-%m-%d")
             if date is None:
-                self.errlog(f"Invalid date:\n{record}")
+                self.errlog(f"Invalid date", record=record)
                 return None
             else:
                 # Re-set the record's date to make sure it's the appropriate type
@@ -126,7 +126,7 @@ class DataSource(ErrorLogger):
             if record["key"] in metadata["key"].values:
                 return record["key"]
             else:
-                self.errlog(f"Key provided but not found in metadata:\n{record}")
+                self.errlog(f"Key provided but not found in metadata", record=record)
                 return None
 
         # Start by filtering the auxiliary dataset as much as possible
@@ -184,7 +184,7 @@ class DataSource(ErrorLogger):
             # print(metadata)
             # raise ValueError()
 
-        self.errlog(f"No key match found for:\n{record}")
+        self.errlog(f"No key match found", record=record)
         return None
 
     def run(
