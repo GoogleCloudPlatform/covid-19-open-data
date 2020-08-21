@@ -297,6 +297,27 @@ sources:
     test:
       metadata_query: "key.str.match('ES_CN.*')"
 
+  # Data sources for ES_MD levels 2 + 3
+  - name: pipelines.epidemiology.es_md_authority.MadridDataSource
+    fetch:
+      - url: "http://datos.comunidad.madrid/catalogo/dataset/7da43feb-8d4d-47e0-abd5-3d022d29d09e/resource/b2a3a3f9-1f82-42c2-89c7-cbd3ef801412/download/covid19_tia_muni_y_distritos.csv"
+    parse:
+      sep: ";"
+      dtype: str
+      encoding: ISO-8859-1
+    test:
+      metadata_query: "key.str.match('ES_MD_.+')"
+
+  - name: pipelines.epidemiology.es_md_authority.MadridDataSource
+    fetch:
+      - url: "http://datos.comunidad.madrid/catalogo/dataset/7da43feb-8d4d-47e0-abd5-3d022d29d09e/resource/f22c3f43-c5d0-41a4-96dc-719214d56968/download/covid19_tia_muni_y_distritos_s.csv"
+    parse:
+      sep: ";"
+      dtype: str
+      encoding: ISO-8859-1
+    test:
+      metadata_query: "key.str.match('ES_MD_.+')"
+
   # Data sources for FI levels 1 + 2
   - name: pipelines.epidemiology.fi_authority.FinlandArcGisDataSource
     fetch:
