@@ -17,13 +17,14 @@ import warnings
 from typing import List
 import json
 import logging
+from functools import lru_cache
 from pandas import Series
 
 # Based on recipe for structured logging
 # https://docs.python.org/3/howto/logging-cookbook.html#implementing-structured-logging
 
 
-class Encoder(json.JSONEncoder):
+class LogEncoder(json.JSONEncoder):
     def default(self, o):
         if isinstance(o, set):
             return tuple(o)
@@ -33,25 +34,25 @@ class Encoder(json.JSONEncoder):
             return o.to_dict()
         elif isinstance(o, Exception):
             return f"{o.__class__.__name__}: {str(o)}"
-        return super(Encoder, self).default(o)
+        return super(LogEncoder, self).default(o)
 
 
 class StructuredMessage:
     def __init__(self, message, **kwargs):
-        self.kwargs = kwargs
-        self.kwargs["message"] = message
+        self._kwargs = kwargs
+        self._kwargs["message"] = message
 
+    @lru_cache()
     def __str__(self):
-        return Encoder().encode(self.kwargs)
-
-
-logging.basicConfig(format="%(message)s")
+        return LogEncoder().encode(self._kwargs)
 
 
 class ErrorLogger:
     """
     Simple class to be inherited by other classes to add error logging functions.
     """
+
+    logging.basicConfig(format="%(message)s")
 
     def timestamp(self) -> str:
         return datetime.datetime.now().isoformat()[:24]
