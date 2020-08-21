@@ -165,9 +165,11 @@ class DataPipeline(ErrorLogger):
         except Exception:
             data_source_name = data_source.__class__.__name__
             data_source.errlog(
-                f"Error running data source {data_source_name} with config {data_source.config}"
+                "Error running data source.",
+                source_name=data_source_name,
+                config=data_source.config,
+                traceback=traceback.format_exc(),
             )
-            traceback.print_exc()
         return None
 
     def parse(
@@ -294,7 +296,11 @@ class DataPipeline(ErrorLogger):
                 export_csv(result, intermediate_folder / file_name, schema=self.schema)
             else:
                 data_source_name = data_source.__class__.__name__
-                self.errlog(f"No output for {data_source_name} with config {data_source.config}")
+                self.errlog(
+                    "No output while saving intermediate results",
+                    source_name=data_source_name,
+                    source_config=data_source.config,
+                )
 
     def _load_intermediate_results(
         self, intermediate_folder: Path, data_sources: Iterable[DataSource]
@@ -307,8 +313,10 @@ class DataPipeline(ErrorLogger):
             except Exception as exc:
                 data_source_name = data_source.__class__.__name__
                 self.errlog(
-                    f"Failed to read intermediate output for {data_source_name} with config "
-                    f"{data_source.config}\nError: {exc}"
+                    "Failed to load intermediate output",
+                    source_name=data_source_name,
+                    source_config=data_source.config,
+                    exception=exc,
                 )
 
     def run(
