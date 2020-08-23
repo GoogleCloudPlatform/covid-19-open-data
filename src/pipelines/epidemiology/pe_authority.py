@@ -17,6 +17,7 @@ from pandas import DataFrame, concat
 from lib.cast import safe_int_cast, safe_str_cast
 from lib.data_source import DataSource
 from lib.case_line import convert_cases_to_time_series
+from lib.io import fuzzy_text
 from lib.time import datetime_isoformat
 from lib.utils import table_multimerge, table_rename
 
@@ -37,8 +38,8 @@ _department_map = {
     "APURIMAC": "Apurímac",
     "HUANUCO": "Huánuco",
     "JUNIN": "Junín",
-    "LIMA": "Metropolitan Municipality of Lima",
-    "LIMA REGION": "Lima Department",
+    "LIMA": "Lima Department",
+    "LIMA REGION": "Metropolitan Municipality of Lima",
     "MADRE DE DIOS": "Madre de Dios",
     "SAN MARTIN": "San Martín",
 }
@@ -96,9 +97,13 @@ class PeruDataSource(DataSource):
         data = data.rename(columns={"subregion2_name": "match_string"})
         data["subregion2_name"] = ""
 
+        # Convert other text fields to lowercase for consistent processing
+        data["match_string"] = data["match_string"].apply(fuzzy_text)
+        data["province_name"] = data["province_name"].apply(fuzzy_text)
+
         # Drop bogus records
         data = data[~data["match_string"].isna()]
-        data = data[~data["match_string"].isin(["", "EN INVESTIGACIÓN", "EXTRANJERO"])]
+        data = data[~data["match_string"].isin(["", "eninvestigacion", "extranjero"])]
 
         # Because we are skipping provinces and going directly from region to district, there are
         # some name collisions which we have to disambiguate manually
@@ -108,6 +113,12 @@ class PeruDataSource(DataSource):
             ("ica", "chincha", "pueblonuevo"),
             ("canete", "huarochiri", "sanantonio"),
             ("bolognesi", "huaylas", "huallanca"),
+            ("lucanas", "huancasancos", "sancos"),
+            ("santacruz", "cutervo", "santacruz"),
+            ("yauli", "jauja", "yauli"),
+            ("yauli", "jauja", "paccha"),
+            ("huarochiri", "yauyos", "laraos"),
+            ("elcollao", "melgar", "santarosa"),
         ]:
             for province in (province1, province2):
                 mask = (data["province_name"] == province) & (data["match_string"] == district)
