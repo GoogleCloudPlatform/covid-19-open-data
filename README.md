@@ -524,10 +524,6 @@ Please note that, sometimes, the country-level data and the region-level data co
 sources so adding up all region-level values may not equal exactly to the reported country-level
 value. See the [data loading tutorial][7] for more information.
 
-There is also a [notices.csv](src/data/notices.csv) file which is manually updated with quirks about
-the data. The goal is to be able to query by key and date, to get a list of applicable notices to
-the requested subset.
-
 
 
 ## Contribute
