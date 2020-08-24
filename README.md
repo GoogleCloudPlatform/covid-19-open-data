@@ -632,6 +632,7 @@ from the relevant authorities, like a country's ministry of health.
 | Panama | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
 | Paraguay | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
 | Peru | [Datos Abiertos Peru](https://www.datosabiertos.gob.pe/group/datos-abiertos-de-covid-19) | [ODC BY][31] |
+| Peru (2017 Census) | [INEI](https://censos2017.inei.gob.pe/redatam/) | [ODC BY][31] |
 | Philippines | [Philippines Department of Health](http://www.doh.gov.ph/covid19tracker) | [Attribution required](https://drive.google.com/file/d/1LzY2eLzZQdLR9yuoNufGEBN5Ily8ZTdV) |
 | Poland | [COVID19 EU Data](https://github.com/covid19-eu-zh/covid19-eu-data) | [MIT](https://github.com/covid19-eu-zh/covid19-eu-data/issues/57) |
 | Portugal | [COVID-19: Portugal](https://github.com/carlospramalheira/covid19) | [MIT](https://github.com/carlospramalheira/covid19/blob/master/LICENSE) |

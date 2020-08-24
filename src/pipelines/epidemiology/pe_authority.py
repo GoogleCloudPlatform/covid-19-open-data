@@ -87,8 +87,8 @@ class PeruDataSource(DataSource):
         # Sometimes region is something different, so for Lima province we only need `province_name`
         lima_region_mask = data["subregion1_name"].str.lower() == "lima"
         lima_province_mask = data["province_name"].str.lower() == "lima"
-        data.loc[lima_province_mask, "subregion1_name"] = "Lima Province"
-        data.loc[lima_region_mask & ~lima_province_mask, "subregion1_name"] = "Lima Department"
+        data.loc[lima_province_mask, "subregion1_name"] = "Metropolitan Municipality of Lima"
+        data.loc[lima_region_mask & ~lima_province_mask, "subregion1_name"] = "Lima Region"
 
         # Aggregate by admin level 1
         subregion1 = (

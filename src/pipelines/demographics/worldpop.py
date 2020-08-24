@@ -36,6 +36,21 @@ class WorldPopPopulationDataSource(DataSource):
         column_map = {col: f"population_{col}" for col in data.columns if col != "key"}
         data = data.rename(columns=column_map)
 
+        # There are several Limas:
+        # 1. Lima Province (Metropolitan Municipality of Lima), where the city of Lima is contained
+        # 2. Lima Department (Lima Region), adjacent to Lima Province but otherwise unrelated
+        # 3. Lima District, which is one of the districts within Lima Province
+        # Even though #1 and #2 are disjoint, OpenStreetMap relation ID for #2 contains #1, so we
+        # manually subtract the values until the error is corrected upstream which includes
+        # conflicting information in Wikipedia, OpenStreetMap and DataCommons.
+        lima_province_mask = data["key"] == "PE_LMA"
+        lima_department_mask = data["key"] == "PE_LIM"
+        for col in column_map.values():
+            lima_province_pop = data.loc[lima_province_mask, col].iloc[0]
+            lima_department_pop = data.loc[lima_department_mask, col].iloc[0]
+            if lima_department_pop > lima_province_pop:
+                data.loc[lima_department_mask, col] = lima_department_pop - lima_province_pop
+
         # WorldPop only provides data for people up to 80 years old, but we want 10-year buckets
         # until 90, and 90+ instead. We estimate that, within the 80+ group, 80% are 80-90 and
         # 20% are 90+. This is based on multiple reports, for example:
