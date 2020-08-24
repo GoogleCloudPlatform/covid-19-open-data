@@ -45,11 +45,14 @@ class WorldPopPopulationDataSource(DataSource):
         # conflicting information in Wikipedia, OpenStreetMap and DataCommons.
         lima_province_mask = data["key"] == "PE_LMA"
         lima_department_mask = data["key"] == "PE_LIM"
-        for col in column_map.values():
-            lima_province_pop = data.loc[lima_province_mask, col].iloc[0]
-            lima_department_pop = data.loc[lima_department_mask, col].iloc[0]
-            if lima_department_pop > lima_province_pop:
-                data.loc[lima_department_mask, col] = lima_department_pop - lima_province_pop
+
+        # During testing, some regions may not exist in the data
+        if len(data[lima_province_mask]) > 0 and len(data[lima_department_mask]) > 0:
+            for col in column_map.values():
+                lima_province_pop = data.loc[lima_province_mask, col].iloc[0]
+                lima_department_pop = data.loc[lima_department_mask, col].iloc[0]
+                if lima_department_pop > lima_province_pop:
+                    data.loc[lima_department_mask, col] = lima_department_pop - lima_province_pop
 
         # WorldPop only provides data for people up to 80 years old, but we want 10-year buckets
         # until 90, and 90+ instead. We estimate that, within the 80+ group, 80% are 80-90 and
