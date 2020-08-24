@@ -38,8 +38,8 @@ _department_map = {
     "APURIMAC": "Apurímac",
     "HUANUCO": "Huánuco",
     "JUNIN": "Junín",
-    "LIMA": "Lima Department",
-    "LIMA REGION": "Metropolitan Municipality of Lima",
+    "LIMA": "Lima Province",
+    "LIMA REGION": "Lima Department",
     "MADRE DE DIOS": "Madre de Dios",
     "SAN MARTIN": "San Martín",
 }
