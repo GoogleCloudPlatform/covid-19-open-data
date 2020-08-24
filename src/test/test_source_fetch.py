@@ -24,8 +24,9 @@ from lib.data_source import DataSource
 from .profiled_test_case import ProfiledTestCase
 
 
+DUMMY_DATA_KEY = "AAA"
 DUMMY_DATA_SOURCE_AUX = {
-    "metadata": DataFrame(columns=["key"]),
+    "metadata": DataFrame.from_records([{"key": DUMMY_DATA_KEY}]),
     "localities": DataFrame(columns=["key", "locality"]),
 }
 DUMMY_DATA_SOURCE_CONFIG = {
@@ -44,7 +45,7 @@ class DummyDataSouce(DataSource):
 
     def parse_dataframes(self, dataframes, aux, **parse_opts):
         data = dataframes[0]
-        data["key"] = "AAA"
+        data["key"] = DUMMY_DATA_KEY
         return data
 
 
