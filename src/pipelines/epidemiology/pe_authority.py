@@ -38,8 +38,8 @@ _department_map = {
     "APURIMAC": "Apurímac",
     "HUANUCO": "Huánuco",
     "JUNIN": "Junín",
-    "LIMA": "Lima Province",
-    "LIMA REGION": "Lima Department",
+    "LIMA": "Lima",
+    "LIMA REGION": "Lima",
     "MADRE DE DIOS": "Madre de Dios",
     "SAN MARTIN": "San Martín",
 }
@@ -82,6 +82,13 @@ class PeruDataSource(DataSource):
         data["subregion1_name"] = data["subregion1_name"].apply(
             lambda x: _department_map.get(x, x.title())
         )
+
+        # Lima region and lima department are mixed in data, we can distinguish based on province
+        # Sometimes region is something different, so for Lima province we only need `province_name`
+        lima_region_mask = data["subregion1_name"].str.lower() == "lima"
+        lima_province_mask = data["province_name"].str.lower() == "lima"
+        data.loc[lima_province_mask, "subregion1_name"] = "Lima Province"
+        data.loc[lima_region_mask & ~lima_province_mask, "subregion1_name"] = "Lima Department"
 
         # Aggregate by admin level 1
         subregion1 = (
