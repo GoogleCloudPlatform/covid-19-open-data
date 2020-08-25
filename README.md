@@ -90,8 +90,8 @@ Each table has a full version as well as subsets with only the last day of data.
 The full version is accessible at the URL described [in the table above](#open-covid-19-dataset).
 The subsets can be found by appending `latest` to the path. For example, the subsets of the main
 table are available at the following locations:
-* Full version: https://storage.googleapis.com/covid19-open-data/v2/main.csv
 * Latest: https://storage.googleapis.com/covid19-open-data/v2/latest/main.csv
+* Time series: https://storage.googleapis.com/covid19-open-data/v2/main.csv
 
 Note that the `latest` version contains the last non-null record for each key. All of the above
 listed tables have a corresponding JSON version; simply replace `csv` with `json` in the link.
@@ -112,7 +112,7 @@ SQL queries directly from the
 
 ### Google Colab
 You can use Google Colab if you want to run your analysis without having to install anything in your
-computer, simply go to this URL: https://colab.research.google.com/github/open-covid-19/data.
+computer, simply go to this URL: https://colab.research.google.com/github/GoogleCloudPlatform/covid-19-open-data.
 
 ### Google Sheets
 You can import the data directly into Google Sheets, as long as you stay within the size limits.
@@ -196,7 +196,7 @@ value. See the [data loading tutorial][7] for more information.
 ## Contribute
 
 Technical contributions to the data extraction pipeline are welcomed, take a look at the
-[source directory](src/README.md) for more information.
+[source directory](./src/README.md) for more information.
 
 If you spot an error in the data, feel free to open an issue on this repository and we will review
 it.
