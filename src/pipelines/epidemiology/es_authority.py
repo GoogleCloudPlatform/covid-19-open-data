@@ -36,8 +36,10 @@ class ISCIIIConfirmedDataSource(DataSource):
         # Convert dates to ISO format
         confirmed["date"] = confirmed["date"].astype(str)
 
-        # Add the country code to all records
+        # Add the country code to all records and declare matching as subregion1
         confirmed["country_code"] = "ES"
+        confirmed["subregion2_code"] = None
+        confirmed["locality_code"] = None
 
         # Output the results
         return confirmed
@@ -56,8 +58,14 @@ class MSCBSDeceasedDataSource(DataSource):
         # Convert dates to ISO format
         deceased["date"] = deceased["date"].apply(lambda x: str(x)[:10])
 
-        # Add the country code to all records
+        # Add the country code to all records and declare matching as subregion1
         deceased["country_code"] = "ES"
+        deceased["subregion2_code"] = None
+        deceased["locality_code"] = None
+
+        # Country level is declared as "espana"
+        deceased["key"] = None
+        deceased.loc[deceased["match_string"] == "espana", "key"] = "ES"
 
         # Output the results
         return deceased
