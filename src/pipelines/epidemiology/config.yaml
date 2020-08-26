@@ -378,6 +378,12 @@ sources:
       skip: true
       metadata_query: "key.str.match('GB_.+_.+')"
 
+  - name: pipelines.epidemiology.gb_authority.Covid19UkRegionsDataSource
+    test:
+      # TODO(owahltinez): skip test since it's very flakey
+      skip: true
+      metadata_query: key.str.match('GB_UK[^_]+$')"
+
   # Data sources for HT level 2
   - name: pipelines.epidemiology.ht_humdata.HaitiHumdataDataSource
     fetch:

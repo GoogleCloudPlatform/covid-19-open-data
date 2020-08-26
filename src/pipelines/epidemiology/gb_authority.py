@@ -87,8 +87,41 @@ scotland_utla_to_nhs_board_map = {
 }
 
 
+class Covid19UkRegionsDataSource(DataSource):
+    def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
+        cases = {
+            "date": "date",
+            "areaCode": "areaCode",
+            "newCasesBySpecimenDate": "newCasesBySpecimenDate",
+            "cumCasesBySpecimenDate": "cumCasesBySpecimenDate",
+        }
+
+        api = Cov19API(filters=["areaType=region"], structure=cases)
+        regions_json = api.get_json()
+        data = DataFrame.from_dict(regions_json["data"])
+        data = table_rename(
+            data,
+            {
+                "areaCode": "subregion1_code",
+                "newCasesBySpecimenDate": "new_confirmed",
+                "cumCasesBySpecimenDate": "total_confirmed",
+                "date": "date",
+            },
+            drop=True,
+        )
+
+        data.date = data.date.apply(lambda x: datetime_isoformat(x, "%Y-%m-%d"))
+
+        # Make sure all records have country code and no subregion code
+        data["country_code"] = "GB"
+        data["subregion2_code"] = None
+
+        return data
+
+
 class Covid19UkL2DataSource(DataSource):
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
+
         cases_and_deaths = {
             "date": "date",
             "areaName": "areaName",
@@ -99,8 +132,8 @@ class Covid19UkL2DataSource(DataSource):
             "cumPillarOneTestsByPublishDate": "cumPillarOneTestsByPublishDate",
         }
         api = Cov19API(filters=["areaType=nation"], structure=cases_and_deaths)
-        data_json = api.get_json()
-        data = DataFrame.from_dict(data_json["data"])
+        nation_json = api.get_json()
+        data = DataFrame.from_dict(nation_json["data"])
 
         data = table_rename(
             data,
