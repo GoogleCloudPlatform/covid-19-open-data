@@ -506,6 +506,8 @@ sources:
       sep: ";"
       encoding: ISO-8859-1
     test:
+      # Skip this data source as it is flaky.
+      skip: true
       metadata_query: "key == 'LU'"
 
   # Data sources for LY level 2
