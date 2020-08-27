@@ -8895,6 +8895,15 @@ GB_WLS_W11000028,GB,United Kingdom,WLS,Wales,W11000028,Aneurin Bevan,,,,
 GB_WLS_W11000029,GB,United Kingdom,WLS,Wales,W11000029,Cardiff and Vale,,,Cardiff,
 GB_WLS_W11000030,GB,United Kingdom,WLS,Wales,W11000030,Cwm Taf,,,,
 GB_WLS_W11000031,GB,United Kingdom,WLS,Wales,W11000031,Swansea Bay,,,Swansea,
+GB_UKC,GB,United Kingdom,UKC,North East,,,,,E12000001,
+GB_UKD,GB,United Kingdom,UKD,North West,,,,,E12000002,
+GB_UKE,GB,United Kingdom,UKE,Yorkshire and the Humber,,,,,E12000003,
+GB_UKF,GB,United Kingdom,UKF,East Midlands,,,,,E12000004,
+GB_UKG,GB,United Kingdom,UKG,West Midlands,,,,,E12000005,
+GB_UKH,GB,United Kingdom,UKH,East of England,,,,,E12000006,
+GB_UKI,GB,United Kingdom,UKI,Greater London,,,,,E12000007,
+GB_UKJ,GB,United Kingdom,UKJ,South East,,,,,E12000008,
+GB_UKK,GB,United Kingdom,UKK,South West,,,,,E12000009,
 GD,GD,Grenada,,,,,,,,-
 GE,GE,Georgia,,,,,,,,-1
 GF,GF,French Guiana,,,,,,,,-1
