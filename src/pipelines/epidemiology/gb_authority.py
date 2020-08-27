@@ -89,6 +89,9 @@ scotland_utla_to_nhs_board_map = {
 
 class Covid19UkRegionsDataSource(DataSource):
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
+        # Regions have case data on a "by specimen date" basis.
+        # This means they don't add up to the counts for nation which are on a
+        # "by publish date" basis.
         cases = {
             "date": "date",
             "areaCode": "areaCode",
@@ -102,7 +105,7 @@ class Covid19UkRegionsDataSource(DataSource):
         data = table_rename(
             data,
             {
-                "areaCode": "subregion1_code",
+                "areaCode": "match_string",
                 "newCasesBySpecimenDate": "new_confirmed",
                 "cumCasesBySpecimenDate": "total_confirmed",
                 "date": "date",
@@ -129,7 +132,8 @@ class Covid19UkL2DataSource(DataSource):
             "cumCasesByPublishDate": "cumCasesByPublishDate",
             "newDeaths28DaysByPublishDate": "newDeaths28DaysByPublishDate",
             "cumDeaths28DaysByPublishDate": "cumDeaths28DaysByPublishDate",
-            "cumPillarOneTestsByPublishDate": "cumPillarOneTestsByPublishDate",
+            "cumTestsByPublishDate": "cumTestsByPublishDate",
+            "newTestsByPublishDate": "newTestsByPublishDate",
         }
         api = Cov19API(filters=["areaType=nation"], structure=cases_and_deaths)
         nation_json = api.get_json()
@@ -143,7 +147,8 @@ class Covid19UkL2DataSource(DataSource):
                 "cumCasesByPublishDate": "total_confirmed",
                 "newDeaths28DaysByPublishDate": "new_deceased",
                 "cumDeaths28DaysByDeathDate": "total_deceased",
-                "cumPillarOneTestsByPublishDate": "total_tested",
+                "newTestsByPublishDate": "new_tested",
+                "cumTestsByPublishDate": "total_tested",
                 "date": "date",
             },
             drop=True,
@@ -167,7 +172,8 @@ class Covid19UkL1DataSource(DataSource):
             "cumCasesByPublishDate": "cumCasesByPublishDate",
             "newDeaths28DaysByPublishDate": "newDeaths28DaysByPublishDate",
             "cumDeaths28DaysByPublishDate": "cumDeaths28DaysByPublishDate",
-            "cumPillarOneTestsByPublishDate": "cumPillarOneTestsByPublishDate",
+            "cumTestsByPublishDate": "cumTestsByPublishDate",
+            "newTestsByPublishDate": "newTestsByPublishDate",
         }
         api = Cov19API(filters=["areaType=overview"], structure=cases_and_deaths)
         data_json = api.get_json()
@@ -181,7 +187,8 @@ class Covid19UkL1DataSource(DataSource):
                 "cumCasesByPublishDate": "total_confirmed",
                 "newDeaths28DaysByPublishDate": "new_deceased",
                 "cumDeaths28DaysByDeathDate": "total_deceased",
-                "cumPillarOneTestsByPublishDate": "total_tested",
+                "newTestsByPublishDate": "new_tested",
+                "cumTestsByPublishDate": "total_tested",
                 "date": "date",
             },
             drop=True,
