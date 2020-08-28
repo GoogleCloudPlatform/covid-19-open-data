@@ -425,13 +425,22 @@ sources:
       job_group: 'wikipedia'
 
   # Alternate, highly supported data source for IN level 2.
-  - name: pipelines.epidemiology.in_covid19india_org.Covid19IndiaOrgDataSource
+  - name: pipelines.epidemiology.in_covid19india_org.Covid19IndiaOrgL2DataSource
     fetch:
       - url: "https://api.covid19india.org/csv/latest/state_wise_daily.csv"
         opts:
           ext: csv
     test:
       metadata_query: "key.str.match('IN_.*')"
+
+  # Data source for IN level 3
+  - name: pipelines.epidemiology.in_covid19india_org.Covid19IndiaOrgL3DataSource
+    fetch:
+      - url: "https://api.covid19india.org/csv/latest/districts.csv"
+        opts:
+          ext: csv
+    test:
+      metadata_query: "key.str.match('IN_[^_]+$')"
 
   # Data sources for IQ level 2
   - name: pipelines.epidemiology.iq_humdata.IraqHumdataDataSource
