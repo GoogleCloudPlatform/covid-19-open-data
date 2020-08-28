@@ -141,16 +141,16 @@ class Covid19IndiaOrgL3DataSource(DataSource):
         data = table_rename(
             data,
             {
-                "Confirmed": "new_confirmed",
-                "Deaths": "new_deceased",
-                "Recovered": "new_recovered",
+                "Confirmed": "total_confirmed",
+                "Deceased": "total_deceased",
+                "Recovered": "total_recovered",
+                "Tested": "total_tested",
                 "Date": "date",
                 "District": "match_string",
                 "State": "subregion1_name",
             },
             drop=True,
         )
-
         data.match_string = data.match_string.apply(self._replace_subregion)
 
         data = data[~data.match_string.isin(L3_INDIA_REMOVE_SET)]
