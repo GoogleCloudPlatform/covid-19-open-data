@@ -62,6 +62,6 @@ sources:
         health_expenditure: "SH.XPD.CHEX.PC.CD"
         out_of_pocket_health_expenditure: "SH.XPD.OOPC.PC.CD"
     test:
-      metadata_query: "key.str.match('^..$')"
+      metadata_query: key.str.match("^..$")
     automation:
       job_group: 'worldbank'

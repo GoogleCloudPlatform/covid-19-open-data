@@ -42,6 +42,6 @@ sources:
         gdp_per_capita: "NY.GDP.PCAP.CD"
         human_capital_index: "HD.HCI.OVRL"
     test:
-      metadata_query: "key.str.match('^..$')"
+      metadata_query: key.str.match("^..$")
     automation:
       job_group: 'worldbank'
