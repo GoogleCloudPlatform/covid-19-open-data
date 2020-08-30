@@ -61,7 +61,7 @@ sources:
         physicians: "SH.MED.PHYS.ZS"
         health_expenditure: "SH.XPD.CHEX.PC.CD"
         out_of_pocket_health_expenditure: "SH.XPD.OOPC.PC.CD"
-      test:
-        metadata_query: "key.str.match('^..$')"
-      automation:
-        job_group: 'worldbank'
+    test:
+      metadata_query: "key.str.match('^..$')"
+    automation:
+      job_group: 'worldbank'

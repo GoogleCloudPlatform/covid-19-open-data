@@ -71,10 +71,10 @@ sources:
         largest_city_population: "EN.URB.LCTY"
         clustered_population: "EN.URB.MCTY"
         population_density: "EN.POP.DNST"
-      test:
-        metadata_query: "key.str.match('^..$')"
-      automation:
-        job_group: 'worldbank'
+    test:
+      metadata_query: key.str.match("^..$")
+    automation:
+      job_group: 'worldbank'
 
   # This data is manually curated into a table using official census estimates
   - name: pipelines.demographics.census.CensusDataSource
