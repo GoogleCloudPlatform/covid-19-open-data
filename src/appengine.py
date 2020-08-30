@@ -177,15 +177,15 @@ def cache_pull() -> None:
         # Pull each of the sources from the cache config
         with (SRC / "cache" / "config.json").open("r") as fd:
             cache_list = json.load(fd)
-        _ = thread_map(_pull_source, cache_list)
-        list(_)  # consume the results
+        list(thread_map(_pull_source, cache_list))
 
         # Upload all cached data to the bucket
-        upload_folder(GCS_BUCKET_TEST, "cache", workdir)
+        upload_folder(GCS_BUCKET_PROD, "cache", workdir)
 
         # Build the sitemap for all cached files
+        print("Building sitemap")
         sitemap = cache_build_map()
-        bucket = get_storage_bucket(GCS_BUCKET_TEST)
+        bucket = get_storage_bucket(GCS_BUCKET_PROD)
         blob = bucket.blob("cache/sitemap.json")
         blob.upload_from_string(json.dumps(sitemap))
 
