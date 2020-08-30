@@ -13,10 +13,9 @@
 # limitations under the License.
 
 from typing import Dict
-from pandas import DataFrame, concat, to_datetime
+from pandas import DataFrame, concat
 from lib.case_line import convert_cases_to_time_series
 from lib.cast import age_group, safe_datetime_parse
-from lib.io import read_file
 from lib.data_source import DataSource
 from lib.utils import table_rename
 
@@ -93,7 +92,13 @@ class PhilippinesDataSource(DataSource):
         l3["subregion2_code"] = ""
 
         data = concat([l2, l3]).dropna(subset=["match_string"])
-        data = data[data["match_string"] != "Repatriate"]
         data["country_code"] = "PH"
+
+        # Remove bogus records
+        data = data[data["match_string"].notna()]
+        data = data[data["match_string"] != ""]
+        data = data[data["match_string"] != "REPATRIATE"]
+        data = data[data["match_string"] != "CITY OF ISABELA (NOT A PROVINCE)"]
+        data = data[data["match_string"] != "COTABATO CITY (NOT A PROVINCE)"]
 
         return data
