@@ -503,7 +503,7 @@ sources:
     fetch:
       - url: "https://raw.github.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-andamento-nazionale.json"
     test:
-      metadata_query: key.str.match("IT.*")
+      metadata_query: key == "IT"
     automation:
       job_group: 'italy'
 
