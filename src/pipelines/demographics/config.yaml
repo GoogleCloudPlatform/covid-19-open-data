@@ -60,8 +60,7 @@ sources:
 
   - name: pipelines.worldbank.worldbank.WorldbankDataSource
     fetch:
-      # TODO: Use output from worldbank pipeline
-      - url: "http://databank.worldbank.org/data/download/WDI_csv.zip"
+      - url: "https://storage.googleapis.com/covid19-open-data/cache/2020-01-01-00/WDI_csv.zip"
     parse:
       indicators:
         population: "SP.POP.TOTL"
@@ -73,9 +72,9 @@ sources:
         clustered_population: "EN.URB.MCTY"
         population_density: "EN.POP.DNST"
     test:
-      metadata_query: "key.str.match('^..$')"
-      # Skip because it's too slow
-      skip: true
+      metadata_query: key.str.match("^..$")
+    automation:
+      job_group: 'worldbank'
 
   # This data is manually curated into a table using official census estimates
   - name: pipelines.demographics.census.CensusDataSource

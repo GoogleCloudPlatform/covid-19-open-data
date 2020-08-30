@@ -45,8 +45,7 @@ sources:
 
   - name: pipelines.worldbank.worldbank.WorldbankDataSource
     fetch:
-      # TODO: Use output from worldbank pipeline
-      - url: "http://databank.worldbank.org/data/download/WDI_csv.zip"
+      - url: "https://storage.googleapis.com/covid19-open-data/cache/2020-01-01-00/WDI_csv.zip"
     parse:
       indicators:
         life_expectancy: "SP.DYN.LE00.IN"
@@ -64,5 +63,5 @@ sources:
         out_of_pocket_health_expenditure: "SH.XPD.OOPC.PC.CD"
     test:
       metadata_query: "key.str.match('^..$')"
-      # Skip because it's too slow
-      skip: true
+    automation:
+      job_group: 'worldbank'
