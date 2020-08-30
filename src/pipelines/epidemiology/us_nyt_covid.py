@@ -73,7 +73,6 @@ class NytCovidL3DataSource(DataSource):
                     "deaths": "total_deceased",
                 }
             )
-            .drop(columns=["county"])
             .dropna(subset=["subregion2_code"])
         )
 
