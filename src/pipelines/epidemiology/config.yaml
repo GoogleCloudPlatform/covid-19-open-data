@@ -128,6 +128,8 @@ sources:
       sheet_name: "CASES_AGESEX"
     test:
       metadata_query: key.str.match("BE_.+")
+    automation:
+      job_group: 'belgium'
 
   - name: pipelines.epidemiology.be_authority.BelgiumDataSource
     fetch:
@@ -136,6 +138,8 @@ sources:
       sheet_name: "TESTS"
     test:
       metadata_query: "key == 'BE'"
+    automation:
+      job_group: 'belgium'
 
   # Data sources for BR levels 2 + 3
   - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
@@ -195,6 +199,8 @@ sources:
         url: "https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto7/PCR_std.csv"
     test:
       metadata_query: key.str.match("CL_[^_]+$")
+    automation:
+      job_group: 'chile'
 
   - name: pipelines.epidemiology.cl_authority.ChileMunicipalitiesDataSource
     fetch:
@@ -204,6 +210,8 @@ sources:
         url: "https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto38/CasosFallecidosPorComuna_std.csv"
     test:
       metadata_query: key.str.match("CL_.+_.+")
+    automation:
+      job_group: 'chile'
 
   # Data sources for CN level 2
   - name: pipelines.epidemiology.xx_dxy.DXYDataSource
@@ -229,6 +237,8 @@ sources:
       country: CZ
     test:
       metadata_query: key.str.match("CZ_.+")
+    automation:
+      job_group: 'czech_republic'
 
   - name: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
     fetch:
@@ -237,6 +247,8 @@ sources:
       column_name: 'new_confirmed'
     test:
       metadata_query: key.str.match("CZ_.+")
+    automation:
+      job_group: 'czech_republic'
 
   - name: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
     fetch:
@@ -245,6 +257,8 @@ sources:
       column_name: 'new_deceased'
     test:
       metadata_query: key.str.match("CZ_.+")
+    automation:
+      job_group: 'czech_republic'
 
   - name: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
     fetch:
@@ -253,18 +267,24 @@ sources:
       column_name: 'new_recovered'
     test:
       metadata_query: key.str.match("CZ_.+")
+    automation:
+      job_group: 'czech_republic'
 
   - name: pipelines.epidemiology.cz_authority.CzechRepublicL3DataSource
     fetch:
       - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/kraj-okres-nakazeni-vyleceni-umrti.csv"
     test:
       metadata_query: key.str.match("CZ_.+")
+    automation:
+      job_group: 'czech_republic'
 
   - name: pipelines.epidemiology.cz_authority.CzechRepublicL1TestedDataSource
     fetch:
       - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/testy.csv"
     test:
       metadata_query: "key == 'CZ'"
+    automation:
+      job_group: 'czech_republic'
 
   # Data sources for DE level 2
   - name: pipelines.epidemiology.de_covid_19_germany_gae.Covid19GermanyDataSource
@@ -280,6 +300,8 @@ sources:
         url: "https://cnecovid.isciii.es/covid19/resources/datos_ccaas.csv"
     test:
       metadata_query: key.str.match("ES_*")
+    automation:
+      job_group: 'spain'
 
   - name: pipelines.epidemiology.es_authority.MSCBSDeceasedDataSource
     fetch:
@@ -287,6 +309,8 @@ sources:
         url: "https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov-China/documentos/Fallecidos_COVID19.xlsx"
     test:
       metadata_query: key.str.match("ES_*")
+    automation:
+      job_group: 'spain'
 
   # Data sources for ES_CN levels 2 + 3
   - name: pipelines.epidemiology.es_cn_authority.CanaryIslandsDataSource
@@ -296,6 +320,8 @@ sources:
           ext: json
     test:
       metadata_query: key.str.match("ES_CN.*")
+    automation:
+      job_group: 'spain'
 
   # Data sources for ES_MD levels 2 + 3
   - name: pipelines.epidemiology.es_md_authority.MadridDataSource
@@ -307,6 +333,8 @@ sources:
       encoding: ISO-8859-1
     test:
       metadata_query: key.str.match("ES_MD_.+")
+    automation:
+      job_group: 'spain'
 
   - name: pipelines.epidemiology.es_md_authority.MadridDataSource
     fetch:
@@ -317,6 +345,8 @@ sources:
       encoding: ISO-8859-1
     test:
       metadata_query: key.str.match("ES_MD_.+")
+    automation:
+      job_group: 'spain'
 
   # Data sources for FI levels 1 + 2
   - name: pipelines.epidemiology.fi_authority.FinlandArcGisDataSource
@@ -341,18 +371,24 @@ sources:
       - url: "https://raw.githubusercontent.com/tomwhite/covid-19-uk-data/master/data/covid-19-indicators-uk.csv"
     test:
       metadata_query: "key == 'GB'"
+    automation:
+      job_group: 'united_kingdom'
 
   - name: pipelines.epidemiology.gb_covid_19_uk_data.Covid19UkDataL2DataSource
     fetch:
       - url: "https://raw.githubusercontent.com/tomwhite/covid-19-uk-data/master/data/covid-19-indicators-uk.csv"
     test:
       metadata_query: key.str.match("GB_[^_]+$")
+    automation:
+      job_group: 'united_kingdom'
 
   - name: pipelines.epidemiology.gb_covid_19_uk_data.Covid19UkDataL3DataSource
     fetch:
       - url: "https://raw.githubusercontent.com/tomwhite/covid-19-uk-data/master/data/covid-19-cases-uk.csv"
     test:
       metadata_query: key.str.match("GB_.+_.+")
+    automation:
+      job_group: 'united_kingdom'
 
   # Authoritative Data sources for GB_UK
   # We make use of the uk_covid19 API provided by PHE, so there is no fetch URL listed here.
@@ -363,6 +399,8 @@ sources:
       # TODO(owahltinez): skip test since it's very flakey
       skip: true
       metadata_query: "key == 'GB'"
+    automation:
+      job_group: 'united_kingdom'
 
   - name: pipelines.epidemiology.gb_authority.Covid19UkL2DataSource
     # The official data has a bug when going from 01/07/2020 to 02/07/2020 in the cumulative case total.
@@ -371,18 +409,24 @@ sources:
       # TODO(owahltinez): skip test since it's very flakey
       skip: true
       metadata_query: key.str.match("GB_[^_]+$")
+    automation:
+      job_group: 'united_kingdom'
 
   - name: pipelines.epidemiology.gb_authority.Covid19UkL3DataSource
     test:
       # TODO(owahltinez): skip test since it's very flakey
       skip: true
       metadata_query: key.str.match("GB_.+_.+")
+    automation:
+      job_group: 'united_kingdom'
 
   - name: pipelines.epidemiology.gb_authority.Covid19UkRegionsDataSource
     test:
       # TODO(owahltinez): skip test since it's very flakey
       skip: true
       metadata_query: key.str.match('GB_UK[^_]+$')"
+    automation:
+      job_group: 'united_kingdom'
 
   # Data sources for HT level 2
   - name: pipelines.epidemiology.ht_humdata.HaitiHumdataDataSource
@@ -459,18 +503,24 @@ sources:
       - url: "https://raw.github.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-andamento-nazionale.json"
     test:
       metadata_query: key.str.match("IT.*")
+    automation:
+      job_group: 'italy'
 
   - name: pipelines.epidemiology.it_authority.PcmDpcL2DataSource
     fetch:
       - url: "https://raw.github.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-regioni.json"
     test:
       metadata_query: key.str.match("^IT_..$")
+    automation:
+      job_group: 'italy'
 
   - name: pipelines.epidemiology.it_authority.PcmDpcL3DataSource
     fetch:
       - url: "https://raw.github.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-province.json"
     test:
       metadata_query: key.str.match("IT_.+_.+")
+    automation:
+      job_group: 'italy'
 
   # Data sources for JP levels 1 + 2
   - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
@@ -742,18 +792,24 @@ sources:
       - url: "https://covidtracking.com/api/v1/states/daily.csv"
     test:
       metadata_query: key.str.match("US_[^_]+$")
+    automation:
+      job_group: 'united_states'
 
   - name: pipelines.epidemiology.us_nyt_covid.NytCovidL2DataSource
     fetch:
       - url: "https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv"
     test:
       metadata_query: key.str.match("US_[^_]+$")
+    automation:
+      job_group: 'united_states'
 
   - name: pipelines.epidemiology.us_nyt_covid.NytCovidL3DataSource
     fetch:
       - url: "https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv"
     test:
       metadata_query: key.str.match("US_.+_.+")
+    automation:
+      job_group: 'united_states'
 
   # Data sources for US_AK level 2
   - name: pipelines.epidemiology.us_ak_authority.AlaskaDataSource
@@ -768,6 +824,8 @@ sources:
       # TODO(owahltinez): skip because format changed
       skip: true
       metadata_query: "key == 'US_AK'"
+    automation:
+      job_group: 'united_states'
 
   - name: pipelines.epidemiology.us_ak_authority.AlaskaDataSource
     fetch:
@@ -781,6 +839,8 @@ sources:
       # TODO(owahltinez): skip because format changed
       skip: true
       metadata_query: "key == 'US_AK'"
+    automation:
+      job_group: 'united_states'
 
   # Data sources for US_CA_SFO
   - name: pipelines.epidemiology.us_ca_sfo_authority.SanFranciscoDataSource
@@ -791,6 +851,8 @@ sources:
         url: "https://data.sfgov.org/api/views/nfpa-mg4g/rows.csv"
     test:
       metadata_query: "key == 'US_CA_SFO'"
+    automation:
+      job_group: 'united_states'
 
   # Data sources for US_DC level 2
   - name: pipelines.epidemiology.us_dc_authority.DistrictColumbiaDataSource
@@ -804,6 +866,8 @@ sources:
       # Skip because it's too flakey
       skip: true
       metadata_query: "key == 'US_DC'"
+    automation:
+      job_group: 'united_states'
 
   # Data sources for US_DE level 2
   - name: pipelines.epidemiology.us_de_authority.DelawareDataSource
@@ -816,6 +880,8 @@ sources:
       metadata_query: "key == 'US_DE'"
       # Skip because endpoint fails frequently
       skip: true
+    automation:
+      job_group: 'united_states'
 
   # Data sources US_FL levels 2 + 3
   # No URL is provided because an API is used instead
@@ -828,6 +894,8 @@ sources:
       metadata_query: key.str.match("US_FL.*")
       # Skip Florida because download takes a long time
       skip: true
+    automation:
+      job_group: 'united_states'
 
   # Data sources for US_IN level 3 (includes age/sex)
   - name: pipelines.epidemiology.us_in_authority.IndianaDataSource
@@ -837,6 +905,8 @@ sources:
           ext: xlsx
     test:
       metadata_query: key.str.match("US_IN_.*")
+    automation:
+      job_group: 'united_states'
 
   # Data sources for US_MA level 3
   - name: pipelines.epidemiology.us_ma_authority.MassachusettsCountiesDataSource
@@ -849,6 +919,8 @@ sources:
       file_name: County.csv
     test:
       metadata_query: "key == 'US_MA'"
+    automation:
+      job_group: 'united_states'
 
   # Data sources for US_NYC level 3 (NYC only)
   - name: pipelines.epidemiology.us_nyc_authority.NYCHealthDataSource
@@ -856,6 +928,8 @@ sources:
       - url: "https://raw.githubusercontent.com/nychealth/coronavirus-data/master/boro/boroughs-case-hosp-death.csv"
     test:
       metadata_query: key.str.match("US_NY_.*")
+    automation:
+      job_group: 'united_states'
 
   # Data sources for US_TX level 2
   - name: pipelines.epidemiology.us_tx_authority.TexasDataSource
@@ -866,6 +940,8 @@ sources:
       # Skip Texas because the data source is very flaky and keeps changing schema
       # TODO: fix this data source and make it more resilient
       skip: true
+    automation:
+      job_group: 'united_states'
 
   # Data sources for VE level 2
   - name: pipelines.epidemiology.ve_humdata.VenezuelaHumDataSource
