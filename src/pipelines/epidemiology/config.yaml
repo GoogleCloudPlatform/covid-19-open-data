@@ -466,6 +466,12 @@ sources:
     test:
       metadata_query: key.str.match("^IT_..$")
 
+  - name: pipelines.epidemiology.it_authority.PcmDpcL3DataSource
+    fetch:
+      - url: "https://raw.github.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-province.json"
+    test:
+      metadata_query: key.str.match("IT_.+_.+")
+
   # Data sources for JP levels 1 + 2
   - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
     fetch:
