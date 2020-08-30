@@ -19,7 +19,7 @@ from pandas import DataFrame, isna, isnull
 
 from lib.cast import safe_int_cast, safe_datetime_parse
 from lib.data_source import DataSource
-from lib.io import count_html_tables, read_html, wiki_html_cell_parser
+from lib.io import count_html_tables, read_html, wiki_html_cell_parser, fuzzy_text
 from lib.utils import pivot_table
 
 
@@ -171,7 +171,7 @@ class WikipediaDataSource(DataSource):
         data[null_column] = None
 
         # Remove known values that are just noise
-        data["_match_string"] = data["match_string"].apply(lambda x: x.lower())
+        data["_match_string"] = data["match_string"].apply(fuzzy_text)
         data = data[
             ~data["_match_string"].isin(
                 [
@@ -184,12 +184,13 @@ class WikipediaDataSource(DataSource):
                     "airport",
                     "current",
                     "newcases",
+                    "newdeaths",
                     "acumulado",
                     "repatriated",
                     "totaltested",
-                    "confirmed cases",
-                    "unassigned\ncases",
-                    "airport screening",
+                    "confirmedcases",
+                    "unassignedcases",
+                    "airportscreening",
                 ]
             )
         ]
