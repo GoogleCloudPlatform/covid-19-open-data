@@ -9,8 +9,8 @@ computed, see the [Oxford COVID-19 government response tracker][1].
 
 ## URL
 This table can be found at the following URLs depending on the choice of format:
-* [demographics.csv](https://storage.googleapis.com/covid19-open-data/v2/demographics.csv)
-* [demographics.json](https://storage.googleapis.com/covid19-open-data/v2/demographics.json)
+* [oxford-government-response.csv](https://storage.googleapis.com/covid19-open-data/v2/oxford-government-response.csv)
+* [oxford-government-response.json](https://storage.googleapis.com/covid19-open-data/v2/oxford-government-response.json)
 
 ## Schema
 | Name | Type | Description | Example |
