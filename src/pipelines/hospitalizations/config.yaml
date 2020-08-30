@@ -42,7 +42,7 @@ sources:
     test:
       # Skip because it's too slow
       skip: true
-      metadata_query: "key.str.match('AR_.*')"
+      metadata_query: key.str.match("AR_.*")
 
   # Data sources for AU level 1
   - name: pipelines.hospitalizations.xx_opencovid.OpenCovidDataSource
@@ -60,14 +60,14 @@ sources:
     parse:
       sheet_name: "HOSP"
     test:
-      metadata_query: "key.str.match('BE_.+')"
+      metadata_query: key.str.match("BE_.+")
 
   # Data sources for CH level 2
   - name: pipelines.epidemiology.ch_authority.SwitzerlandSource
     fetch:
       - url: "https://raw.github.com/openZH/covid_19/master/COVID19_Fallzahlen_CH_total.csv"
     test:
-      metadata_query: "key.str.match('CH_.+')"
+      metadata_query: key.str.match("CH_.+")
 
   # Data sources for CL level 2
   - name: pipelines.hospitalizations.cl_authority.ChileRegionsDataSource
@@ -75,7 +75,7 @@ sources:
       - name: intensive_care
         url: "https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto8/UCI_std.csv"
     test:
-      metadata_query: "key.str.match('CL_[^_]+$')"
+      metadata_query: key.str.match("CL_[^_]+$")
 
   # Data sources for CZ level 1
   - name: pipelines.hospitalizations.xx_opencovid.OpenCovidDataSource
@@ -109,7 +109,7 @@ sources:
       - url: "https://covid19.isciii.es/resources/serie_historica_acumulados.csv"
     query: "date < '2020-05-22'"
     test:
-      metadata_query: "key.str.match('ES.*')"
+      metadata_query: key.str.match("ES.*")
 
   # Data sources for ES_CN level 2
   - name: pipelines.hospitalizations.es_cn_authority.CanaryIslandsHospitalizationsDataSource
@@ -123,14 +123,14 @@ sources:
     # No URL is defined because data is queried via API
     # TODO(owahltinez): Parse stratified information as well
     test:
-      metadata_query: "key.str.match('FR_.+')"
+      metadata_query: key.str.match("FR_.+")
 
   # Data sources for GB levels 1 + 2 + 3
   - name: pipelines.hospitalizations.gb_authority.ScotlandDataSource
     fetch:
       - url: "https://www.gov.scot/binaries/content/documents/govscot/publications/statistics/2020/04/coronavirus-covid-19-trends-in-daily-data/documents/covid-19-data-by-nhs-board/covid-19-data-by-nhs-board/govscot%3Adocument/COVID-19%2Bdata%2Bby%2BNHS%2BBoard.xlsx"
     test:
-      metadata_query: "key.str.match('GB_SCT.*')"
+      metadata_query: key.str.match("GB_SCT.*")
 
   # Data sources for IE level 1
   - name: pipelines.hospitalizations.xx_opencovid.OpenCovidDataSource
@@ -152,7 +152,7 @@ sources:
     fetch:
       - url: "https://raw.github.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-regioni.json"
     test:
-      metadata_query: "key.str.match('IT_.+')"
+      metadata_query: key.str.match("IT_.+")
 
   # Data sources for JP levels 1 + 2
   - name: pipelines.epidemiology.jp_2019_ncov_japan.Jp2019NcovJapanByDate
@@ -162,7 +162,7 @@ sources:
       - name: new_deceased
         url: "https://raw.github.com/swsoyee/2019-ncov-japan/master/50_Data/death.csv"
     test:
-      metadata_query: "key.str.match('JP.*')"
+      metadata_query: key.str.match("JP.*")
 
   # Data sources for LU level 1
   - name: pipelines.epidemiology.lu_authority.LuxembourgDataSource
@@ -186,7 +186,7 @@ sources:
       - name: new_intensive_care
         url: "https://raw.github.com/mexicovid19/Mexico-datos/master/datos_abiertos/series_de_tiempo/nuevos/covid19_mex_uci.csv"
     test:
-      metadata_query: "key.str.match('MX_...$')"
+      metadata_query: key.str.match("MX_...$")
 
   # Data sources for NL levels 1 + 2 + 3
   - name: pipelines.epidemiology.nl_authority.NetherlandsDataSource
@@ -195,7 +195,7 @@ sources:
     parse:
       sep: ";"
     test:
-      metadata_query: "key.str.match('NL.*')"
+      metadata_query: key.str.match("NL.*")
 
   # Data sources for NO level 1
   - name: pipelines.hospitalizations.xx_opencovid.OpenCovidDataSource
@@ -230,7 +230,7 @@ sources:
         opts:
           ext: csv
     test:
-      metadata_query: "key.str.match('PH.*')"
+      metadata_query: key.str.match("PH.*")
 
   # Data sources for PT level 1
   - name: pipelines.epidemiology.pt_covid19.PtCovid19L1DataSource
@@ -268,7 +268,7 @@ sources:
     fetch:
       - url: "https://covidtracking.com/api/v1/states/daily.csv"
     test:
-      metadata_query: "key.str.match('US_[^_]+$')"
+      metadata_query: key.str.match("US_[^_]+$")
 
   # Data sources for US_AK level 2
   - name: pipelines.epidemiology.us_ak_authority.AlaskaDataSource
@@ -319,7 +319,7 @@ sources:
   - name: pipelines.epidemiology.us_fl_authority.FloridaDataSource
     # No URL is provided because an API is used instead
     test:
-      metadata_query: "key.str.match('US_FL.*')"
+      metadata_query: key.str.match("US_FL.*")
       # Skip Florida because download takes a long time
       skip: true
 
@@ -345,7 +345,7 @@ sources:
       - name: total_tested
         url: "https://raw.github.com/dsfsi/covid19za/master/data/covid19za_provincial_cumulative_timeline_testing.csv"
     test:
-      metadata_query: "key.str.match('ZA_[^_]+')"
+      metadata_query: key.str.match("ZA_[^_]+")
 
   - name: pipelines.epidemiology.za_dsfsi.Covid19ZaTimelineTestingDataSource
     fetch:

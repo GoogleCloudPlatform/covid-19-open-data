@@ -67,7 +67,7 @@ sources:
     test:
       # Skip because it's too slow
       skip: true
-      metadata_query: "key.str.match('AR_.*')"
+      metadata_query: key.str.match("AR_.*")
 
   # Data sources for BR_AC level 3
   - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
@@ -78,7 +78,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: AC
     test:
-      metadata_query: "key.str.match('BR_AC_.+')"
+      metadata_query: key.str.match("BR_AC_.+")
       # Skip because it's too slow
       skip: true
     automation:
@@ -93,7 +93,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: AL
     test:
-      metadata_query: "key.str.match('BR_AL_.+')"
+      metadata_query: key.str.match("BR_AL_.+")
       # Skip because it's too slow
       skip: true
     automation:
@@ -108,7 +108,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: AM
     test:
-      metadata_query: "key.str.match('BR_AM_.+')"
+      metadata_query: key.str.match("BR_AM_.+")
       # Skip because it's too slow
       skip: true
 
@@ -121,7 +121,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: AP
     test:
-      metadata_query: "key.str.match('BR_AP_.+')"
+      metadata_query: key.str.match("BR_AP_.+")
       # Skip because it's too slow
       skip: true
     automation:
@@ -136,7 +136,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: BA
     test:
-      metadata_query: "key.str.match('BR_BA_.+')"
+      metadata_query: key.str.match("BR_BA_.+")
       # Skip because it's too slow
       skip: true
     automation:
@@ -152,7 +152,7 @@ sources:
       # Skip non-working pipeline
       # TODO(owahltinez): replace with br_authority source
       skip: true
-      metadata_query: "key.str.match('BR_CE.+')"
+      metadata_query: key.str.match("BR_CE.+")
 
   # Data sources for BR_DF level 3
   - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
@@ -163,7 +163,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: DF
     test:
-      metadata_query: "key.str.match('BR_DF_.+')"
+      metadata_query: key.str.match("BR_DF_.+")
       # Skip because it's too slow
       skip: true
     automation:
@@ -178,7 +178,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: ES
     test:
-      metadata_query: "key.str.match('BR_ES_.+')"
+      metadata_query: key.str.match("BR_ES_.+")
       # Skip because it's too slow
       skip: true
     automation:
@@ -193,7 +193,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: GO
     test:
-      metadata_query: "key.str.match('BR_GO_.+')"
+      metadata_query: key.str.match("BR_GO_.+")
       # Skip because it's too slow
       skip: true
     automation:
@@ -208,7 +208,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: MA
     test:
-      metadata_query: "key.str.match('BR_MA_.+')"
+      metadata_query: key.str.match("BR_MA_.+")
       # Skip because it's too slow
       skip: true
     automation:
@@ -224,7 +224,7 @@ sources:
   #       encoding: "ISO-8859-1"
   #       subregion1_code: MG
   #   test:
-  #     metadata_query: "key.str.match('BR_MG_.+')"
+  #     metadata_query: key.str.match("BR_MG_.+")
   #     # Skip because it's too slow
   #     skip: true
   #   automation:
@@ -239,7 +239,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: MS
     test:
-      metadata_query: "key.str.match('BR_MS_.+')"
+      metadata_query: key.str.match("BR_MS_.+")
       # Skip because it's too slow
       skip: true
     automation:
@@ -254,7 +254,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: MT
     test:
-      metadata_query: "key.str.match('BR_MT_.+')"
+      metadata_query: key.str.match("BR_MT_.+")
       # Skip because it's too slow
       skip: true
     automation:
@@ -269,7 +269,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: PA
     test:
-      metadata_query: "key.str.match('BR_PA_.+')"
+      metadata_query: key.str.match("BR_PA_.+")
       # Skip because it's too slow
       skip: true
     automation:
@@ -284,7 +284,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: PB
     test:
-      metadata_query: "key.str.match('BR_PB_.+')"
+      metadata_query: key.str.match("BR_PB_.+")
       # Skip because it's too slow
       skip: true
     automation:
@@ -300,7 +300,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: PE
     test:
-      metadata_query: "key.str.match('BR_PE_.+')"
+      metadata_query: key.str.match("BR_PE_.+")
       # Skip because it's too slow
       skip: true
     automation:
@@ -315,7 +315,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: PI
     test:
-      metadata_query: "key.str.match('BR_PI_.+')"
+      metadata_query: key.str.match("BR_PI_.+")
       # Skip because it's too slow
       skip: true
     automation:
@@ -331,7 +331,7 @@ sources:
   #       encoding: "ISO-8859-1"
   #       subregion1_code: PR
   #   test:
-  #     metadata_query: "key.str.match('BR_PR_.+')"
+  #     metadata_query: key.str.match("BR_PR_.+")
   #     # Skip because it's too slow
   #     skip: true
   #   automation:
@@ -346,7 +346,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: RJ
     test:
-      metadata_query: "key.str.match('BR_RJ_.+')"
+      metadata_query: key.str.match("BR_RJ_.+")
       # Skip because it's too slow
       skip: true
     automation:
@@ -373,7 +373,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: RN
     test:
-      metadata_query: "key.str.match('BR_RN_.+')"
+      metadata_query: key.str.match("BR_RN_.+")
       # Skip because it's too slow
       skip: true
     automation:
@@ -388,7 +388,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: RS
     test:
-      metadata_query: "key.str.match('BR_RS_.+')"
+      metadata_query: key.str.match("BR_RS_.+")
       # Skip because it's too slow
       skip: true
     automation:
@@ -403,7 +403,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: SC
     test:
-      metadata_query: "key.str.match('BR_SC_.+')"
+      metadata_query: key.str.match("BR_SC_.+")
       # Skip because it's too slow
       skip: true
     automation:
@@ -418,7 +418,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: SE
     test:
-      metadata_query: "key.str.match('BR_SE_.+')"
+      metadata_query: key.str.match("BR_SE_.+")
       # Skip because it's too slow
       skip: true
     automation:
@@ -433,7 +433,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: SP
     test:
-      metadata_query: "key.str.match('BR_SP_.+')"
+      metadata_query: key.str.match("BR_SP_.+")
       # Skip because it's too slow
       skip: true
     automation:
@@ -448,7 +448,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: TO
     test:
-      metadata_query: "key.str.match('BR_TO_.+')"
+      metadata_query: key.str.match("BR_TO_.+")
       # Skip because it's too slow
       skip: true
     automation:
@@ -459,7 +459,7 @@ sources:
     fetch:
       - url: "https://www.datos.gov.co/api/views/gt2j-8ykr/rows.csv"
     test:
-      metadata_query: "key.str.match('CO.*')"
+      metadata_query: key.str.match("CO.*")
 
   # Data sources for CZ levels 1 + 2 + 3
   - name: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
@@ -468,7 +468,7 @@ sources:
     parse:
       column_name: 'new_confirmed'
     test:
-      metadata_query: "key.str.match('CZ.*')"
+      metadata_query: key.str.match("CZ.*")
 
   - name: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
     fetch:
@@ -476,7 +476,7 @@ sources:
     parse:
       column_name: 'new_deceased'
     test:
-      metadata_query: "key.str.match('CZ.*')"
+      metadata_query: key.str.match("CZ.*")
 
   - name: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
     fetch:
@@ -484,7 +484,7 @@ sources:
     parse:
       column_name: 'new_recovered'
     test:
-      metadata_query: "key.str.match('CZ.*')"
+      metadata_query: key.str.match("CZ.*")
 
   # Data sources for FI level 1
   - name: pipelines.epidemiology.fi_authority.FinlandArcGisDataSource
@@ -507,7 +507,7 @@ sources:
     test:
       # Skip this data source because it's too slow
       skip: true
-      metadata_query: "key.str.match('MX_.+')"
+      metadata_query: key.str.match("MX_.+")
 
   # Data sources for PE levels 2 + 3
   - name: pipelines.epidemiology.pe_authority.PeruDataSource
@@ -523,7 +523,7 @@ sources:
     parse:
       encoding: "ISO-8859-1"
     test:
-      metadata_query: "key.str.match('PE_.+')"
+      metadata_query: key.str.match("PE_.+")
 
   # Data sources for PH levels 2 + 3
   # To update this data source:
@@ -539,7 +539,7 @@ sources:
         opts:
           ext: csv
     test:
-      metadata_query: "key.str.match('PH.*')"
+      metadata_query: key.str.match("PH.*")
 
   # Data sources for US_DC level 2
   - name: pipelines.epidemiology.us_dc_authority.DistrictColumbiaDataSource
@@ -572,7 +572,7 @@ sources:
   - name: pipelines.epidemiology.us_fl_authority.FloridaDataSource
     # No URL is provided because an API is used instead
     test:
-      metadata_query: "key.str.match('US_FL.*')"
+      metadata_query: key.str.match("US_FL.*")
       # Skip Florida because download takes a long time
       skip: true
 
@@ -585,7 +585,7 @@ sources:
           # Only download data from source once (in epidemiology pipeline)
           skip_existing: true
     test:
-      metadata_query: "key.str.match('US_IN.*')"
+      metadata_query: key.str.match("US_IN.*")
 
   # Data sources for US_MA level 3
   - name: pipelines.epidemiology.us_ma_authority.MassachusettsBySexDataSource

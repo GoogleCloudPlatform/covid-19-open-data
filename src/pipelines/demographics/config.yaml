@@ -51,7 +51,7 @@ sources:
   # WorldPop populations are estimates, so give them less priority
   - name: pipelines.demographics.worldpop.WorldPopPopulationDataSource
     test:
-      metadata_query: "key.str.match('^..$')"
+      metadata_query: key.str.match("^..$")
 
   - name: pipelines._common.wikidata.WikidataDataSource
     parse:
@@ -79,4 +79,4 @@ sources:
   # This data is manually curated into a table using official census estimates
   - name: pipelines.demographics.census.CensusDataSource
     test:
-      metadata_query: "key.str.match('MX.*')"
+      metadata_query: key.str.match("MX.*")
