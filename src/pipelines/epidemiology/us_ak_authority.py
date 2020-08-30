@@ -21,7 +21,7 @@ from lib.utils import table_rename
 
 _column_adapter = {
     "Date Reported": "date",
-    "Date Completed": "date",
+    "Date Collected": "date",
     "All Cases": "new_confirmed",
     "All Cases Cumulative": "total_confirmed",
     "Deceased Cases": "new_deceased",
@@ -52,8 +52,8 @@ class AlaskaDataSource(DataSource):
         data = read_file(sources[0], sheet_name=parse_opts.get("sheet_name"))
         data.columns = data.iloc[1]
         data = table_rename(data.iloc[2:], _column_adapter, drop=True)
-        data.date = data.date.astype(str).apply(lambda x: x[:10])
-        data.date = data.date.apply(lambda x: datetime_isoformat(x, "%Y-%m-%d"))
+        data["date"] = data["date"].astype(str).apply(lambda x: x[:10])
+        data["date"] = data["date"].apply(lambda x: datetime_isoformat(x, "%Y-%m-%d"))
         data = data.dropna(subset=["date"])
 
         if parse_opts.get("key"):
