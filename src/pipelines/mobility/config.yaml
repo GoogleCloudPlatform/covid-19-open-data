@@ -40,6 +40,9 @@ sources:
       - url: "https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv"
     parse:
       low_memory: false
+    test:
+      # Skip because it's too slow
+      skip: true
 
   # - name: pipelines.mobility.apple_mobility.AppleMobilityDataSource
   #   fetch:

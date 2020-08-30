@@ -31,6 +31,10 @@ from .profiled_test_case import ProfiledTestCase
 # Arbitrarily chosen to make sure tests run in a reasonable time
 METADATA_SAMPLE_SIZE = 24
 
+# Used to avoid logging warnings during tests
+def _errlog(*args, **kwargs):
+    pass
+
 
 def _test_data_source(
     pipeline_name: DataPipeline, data_source_idx: DataSource, random_seed: int = 0
@@ -40,6 +44,9 @@ def _test_data_source(
     # processes
     pipeline = DataPipeline.load(pipeline_name)
     data_source = pipeline.data_sources[data_source_idx]
+
+    # Replace the error logging function to keep logs cleaner during tests
+    data_source.errlog = _errlog
 
     # Load the real cache files
     cache = requests.get("{}/sitemap.json".format(CACHE_URL)).json()
