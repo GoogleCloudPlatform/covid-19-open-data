@@ -32,6 +32,9 @@ sources:
     parse:
       gdp: P2131
       gdp_per_capita: P2132
+    test:
+      # Skip because it's too slow
+      skip: true
 
   - name: pipelines.worldbank.worldbank.WorldbankDataSource
     fetch:

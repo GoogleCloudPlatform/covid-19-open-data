@@ -42,6 +42,9 @@ sources:
   - name: pipelines._common.wikidata.WikidataDataSource
     parse:
       life_expectancy: P2250
+    test:
+      # Skip because it's too slow
+      skip: true
 
   - name: pipelines.worldbank.worldbank.WorldbankDataSource
     fetch:

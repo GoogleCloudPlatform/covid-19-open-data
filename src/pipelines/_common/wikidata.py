@@ -13,12 +13,12 @@
 # limitations under the License.
 
 from functools import partial
-from typing import Dict, Tuple
+from typing import Dict, List
 
 from pandas import DataFrame
 
 from lib.data_source import DataSource
-from lib.wikidata import wikidata_properties
+from lib.wikidata import wikidata_property
 from lib.concurrent import thread_map
 
 
@@ -26,17 +26,19 @@ class WikidataDataSource(DataSource):
     """ Retrieves the requested properties from Wikidata for all items in metadata.csv """
 
     @staticmethod
-    def _process_item(props: Dict[str, str], key_wikidata: Tuple[str, str]):
-        key, wikidata_id = key_wikidata
-        return {"key": key, **wikidata_properties(props, wikidata_id)}
+    def _process_item(entities: List[str], prop: str) -> DataFrame:
+        return prop, wikidata_property(prop, entities)
 
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         data = aux["knowledge_graph"].merge(aux["metadata"])[["key", "wikidata"]]
+        entities = data.dropna().set_index("wikidata")
 
         # Load wikidata using parallel processing
-        map_func = partial(self._process_item, parse_opts)
-        map_iter = data.dropna().set_index("key")["wikidata"].iteritems()
-        records = thread_map(map_func, list(map_iter), desc="Wikidata Properties")
+        wikidata_props = {v: k for k, v in parse_opts.items()}
+        map_func = partial(self._process_item, entities.index)
+        for prop, values in thread_map(map_func, wikidata_props.keys(), desc="Wikidata Properties"):
+            df = DataFrame.from_records(values, columns=["wikidata", wikidata_props[prop]])
+            entities = entities.join(df.set_index("wikidata"), how="outer")
 
         # Return all records in DataFrame form
-        return DataFrame.from_records(records)
+        return entities

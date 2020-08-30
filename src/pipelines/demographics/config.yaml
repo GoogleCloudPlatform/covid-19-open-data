@@ -57,6 +57,9 @@ sources:
     parse:
       population: P1082
       human_development_index: P1081
+    test:
+      # Skip because it's too slow
+      skip: true
 
   - name: pipelines.worldbank.worldbank.WorldbankDataSource
     fetch:
