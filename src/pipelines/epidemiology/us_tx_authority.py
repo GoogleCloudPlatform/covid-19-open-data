@@ -15,7 +15,7 @@
 from typing import Dict
 import numpy
 from pandas import DataFrame
-from lib.cast import safe_float_cast
+from lib.cast import safe_float_cast, safe_str_cast
 from lib.io import read_file
 from lib.data_source import DataSource
 from lib.time import datetime_isoformat
@@ -37,7 +37,7 @@ class TexasDataSource(DataSource):
             "Cumulative Cases": "total_confirmed",
             "Cumulative Fatalities": "total_deceased",
             "Daily New Cases": "new_confirmed",
-            "Daily New Fatalities": "new_deceased",
+            "Fatalities by Date of Death": "new_deceased",
         }
         # The data source keeps switching formats, so we just try multiple options
         try:
@@ -51,7 +51,7 @@ class TexasDataSource(DataSource):
             data,
             {
                 "Date": "date",
-                "Viral Tests": "total_tested",
+                "Molecular Tests": "total_tested",
                 "Antibody Tests": "total_tested_antibody",
                 "Total Tests reported": "total_tested_all",
             },
@@ -71,9 +71,9 @@ class TexasDataSource(DataSource):
         }
         for sheet_name, sheet_processor in sheet_processors.items():
             df = sheet_processor(read_file(sources[0], sheet_name=sheet_name))
+            df["date"] = df["date"].apply(safe_str_cast)
+            df["date"] = df["date"].apply(lambda x: datetime_isoformat(x, "%Y-%m-%d %H:%M:%S"))
             df = df.dropna(subset=["date"])
-            df.date = df.date.astype(str)
-            df.date = df.date.apply(lambda x: datetime_isoformat(x, "%Y-%m-%d %H:%M:%S"))
             sheets.append(df)
 
         data = table_multimerge(sheets, how="outer")
