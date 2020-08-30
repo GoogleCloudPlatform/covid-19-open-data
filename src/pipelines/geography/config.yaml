@@ -52,3 +52,5 @@ sources:
         urban_area: "AG.LND.TOTL.UR.K2"
     test:
       metadata_query: "key.str.match('^..$')"
+    automation:
+      job_group: 'worldbank'
