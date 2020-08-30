@@ -75,13 +75,14 @@ def download(
         spoof_browser: Pretend to be a web browser by adding user agent string to headers
     """
     headers = {"User-Agent": "Safari"} if spoof_browser else {}
+    request_options = {"url": url, "headers": headers, "allow_redirects": True}
     if not progress:
-        req = requests.get(url, headers=headers)
+        req = requests.get(**request_options)
         req.raise_for_status()
         file_handle.write(req.content)
     else:
         block_size = 1024
-        req = requests.get(url, headers=headers, stream=True)
+        req = requests.get(**request_options, stream=True)
         req.raise_for_status()
         total_size = int(req.headers.get("content-length", 0))
         progress_bar = pbar(total=total_size, unit="iB", unit_scale=True)

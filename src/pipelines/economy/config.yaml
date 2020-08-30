@@ -35,8 +35,7 @@ sources:
 
   - name: pipelines.worldbank.worldbank.WorldbankDataSource
     fetch:
-      # TODO: Use output from worldbank pipeline
-      - url: "http://databank.worldbank.org/data/download/WDI_csv.zip"
+      - url: "https://storage.googleapis.com/covid19-open-data/cache/2020-01-01-00/WDI_csv.zip"
     parse:
       indicators:
         gdp: "NY.GDP.MKTP.CD"
@@ -44,5 +43,3 @@ sources:
         human_capital_index: "HD.HCI.OVRL"
     test:
       metadata_query: "key.str.match('^..$')"
-      # Skip because it's too slow
-      skip: true

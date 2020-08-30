@@ -1431,10 +1431,7 @@ sources:
 
   - name: pipelines.worldbank.worldbank.WorldbankDataSource
     fetch:
-      - url: "http://databank.worldbank.org/data/download/WDI_csv.zip"
-        opts:
-          # No need to re-download since this is yearly data
-          skip_existing: true
+      - url: "https://storage.googleapis.com/covid19-open-data/cache/2020-01-01-00/WDI_csv.zip"
     test:
       metadata_query: "key.str.match('^..$')"
       # Skip because it's too slow
