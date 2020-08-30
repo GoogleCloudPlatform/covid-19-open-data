@@ -226,7 +226,7 @@ sources:
   # and replace the link with
   - name: pipelines.epidemiology.ph_authority.PhilippinesDataSource
     fetch:
-      - url: "https://drive.google.com/uc?export=download&id=18PwyFgQxp7ckypXALItzAclvNQC0T8bv"
+      - url: "https://drive.google.com/uc?export=download&id=1KXQjTE98BrgowrxwKZaCMjPr_OO706OB"
         opts:
           ext: csv
     test:
