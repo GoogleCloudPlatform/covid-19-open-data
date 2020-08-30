@@ -40,6 +40,9 @@ sources:
       longitude: P625
       elevation: P2044
       area: P2046
+    test:
+      # Skip because it's too slow
+      skip: true
 
   - name: pipelines.worldbank.worldbank.WorldbankDataSource
     fetch:

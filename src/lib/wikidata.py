@@ -12,67 +12,34 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import sys
-from typing import Any, Dict
+from typing import Any, Iterable, List, Tuple
 import requests
-from lib.cast import safe_float_cast
 
 
-def _all_property_keys(props: Dict[str, str]):
-    for key in props.keys():
-        for part in key.split("|"):
-            yield part
+def _query_property(prop: str) -> Iterable[Tuple[str, Any]]:
+    url = "https://query.wikidata.org/bigdata/namespace/wdq/sparql"
+    query = f"SELECT ?pid ?prop WHERE {{ ?pid wdt:{prop} ?prop }}"
+    data = requests.get(url, params={"query": query, "format": "json"}).json()
+    for item in data["results"]["bindings"]:
+        yield item["pid"]["value"].split("/")[-1], item["prop"]["value"]
 
 
-def _obj_get(obj, *keys):
-    for key in keys:
-        if isinstance(obj, list):
-            obj = obj[key]
-        else:
-            obj = obj.get(key, {})
-    return obj
+def wikidata_property(prop: str, entities: List[str]) -> Iterable[Tuple[str, Any]]:
+    """
+    Query a single property from Wikidata, and return all entities which are part of the provided
+    list which contain that property.
 
+    Arguments:
+        prop: Wikidata property, for example P1082 for population
+        entities: List of Wikidata identifiers to query the desired property
+    Returns:
+        Iterable[Tuple[str, Any]]: Iterable of <Wikidata ID, property value>
+    """
+    properties = {}
+    entities_set = set(entities)
+    values = filter(lambda x: x[0] in entities_set, _query_property(prop))
+    for entity, prop_value in values:
+        properties[entity] = prop_value
 
-def _cast_property_amount(value):
-    return safe_float_cast((value or "").replace("+", ""))
-
-
-def _process_property(obj, name: str, prop: str):
-    # Attempt to sort by "point in time" P585
-    value_array = list(
-        sorted(
-            _obj_get(obj, "claims", prop),
-            key=lambda x: _obj_get(x, "qualifiers", "P585", 0, "datavalue", "value", "time") or "0",
-        )
-    )
-    # Get the latest known value
-    value = _obj_get(value_array, -1, "mainsnak", "datavalue", "value") if value_array else {}
-    if "amount" in value:
-        value = {name: _cast_property_amount(value.get("amount"))}
-
-    # Some values do not have an "amount" envelope
-    elif not isinstance(value, dict):
-        value = {name: value}
-
-    return value
-
-
-def wikidata_properties(props: Dict[str, str], entity: str) -> Dict[str, Any]:
-    api_base = "https://www.wikidata.org/w/api.php?action=wbgetclaims&format=json"
-    res = requests.get("{}&entity={}".format(api_base, entity)).json()
-
-    # Early exit: entity not found
-    if not res.get("claims"):
-        print("Request: {}&entity={}".format(api_base, entity), file=sys.stderr)
-        print("Response: {}".format(res), file=sys.stderr)
-        return {}
-
-    # When props is empty, we return all properties
-    output: Dict[str, Any] = {} if props else res["claims"]
-
-    # Traverse the returned object and find the properties requested
-    for name, prop in (props or {}).items():
-        output = {**output, **_process_property(res, name, prop)}
-
-    # Return the object with all properties found
-    return output
+    for entity in entities:
+        yield entity, properties.get(entity)
