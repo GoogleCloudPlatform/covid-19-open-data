@@ -15,13 +15,17 @@
 from datetime import datetime
 from typing import Dict
 from pandas import DataFrame
+from lib.cast import numeric_code_as_string
 from lib.data_source import DataSource
 from lib.utils import table_rename
 
 
 _column_map = {
     "data": "date",
-    "denominazione_regione": "match_string",
+    "codice_regione": "subregion1_code",
+    "sigla_provincia": "subregion2_code",
+    "denominazione_regione": "subregion1_name",
+    "denominazione_provincia": "subregion2_name",
     "ricoverati_con_sintomi": "total_hospitalized_symptomatic",
     "terapia_intensiva": "current_intensive_care",
     "totale_ospedalizzati": "current_hospitalized",
@@ -36,12 +40,40 @@ _column_map = {
     "casi_testati": "cases_tested?",
 }
 
+# The data source uses some arbitrary codes for regions instead of ISO
+_region_code_map = {
+    "01": "21",
+    "02": "23",
+    "03": "25",
+    "05": "34",
+    "06": "36",
+    "07": "42",
+    "08": "45",
+    "09": "52",
+    "10": "55",
+    "11": "57",
+    "12": "62",
+    "13": "65",
+    "14": "67",
+    "15": "72",
+    "16": "75",
+    "17": "77",
+    "18": "78",
+    "19": "82",
+    "20": "88",
+    "21": "BZ",
+    "22": "TN",
+}
+
+
+def _subregion1_code_converter(code: int):
+    return _region_code_map.get(numeric_code_as_string(code, 2))
+
 
 class PcmDpcL1DataSource(DataSource):
     def parse_dataframes(
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
-
         # Rename the appropriate columns
         data = table_rename(dataframes[0], _column_map, drop=True)
 
@@ -55,19 +87,35 @@ class PcmDpcL1DataSource(DataSource):
         return data
 
 
-class PcmDpcL2DataSource(DataSource):
+class PcmDpcL2DataSource(PcmDpcL1DataSource):
     def parse_dataframes(
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
+        data = super().parse_dataframes(dataframes, aux, **parse_opts)
 
-        # Rename the appropriate columns
-        data = table_rename(dataframes[0], _column_map, drop=True)
+        # Make sure the region codes are strings
+        data["subregion1_code"] = data["subregion1_code"].apply(_subregion1_code_converter)
 
-        # Convert dates to ISO format
-        data["date"] = data["date"].apply(lambda x: datetime.fromisoformat(x).date().isoformat())
+        # Build the keys from the codes in the records
+        data["key"] = "IT_" + data["subregion1_code"]
 
-        # Make sure all records have the country code
-        data["country_code"] = "IT"
+        # Output the results
+        return data
+
+
+class PcmDpcL3DataSource(PcmDpcL2DataSource):
+    def parse_dataframes(
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
+    ) -> DataFrame:
+        data = super().parse_dataframes(dataframes, aux, **parse_opts)
+
+        # Build the keys from the codes in the records
+        data["key"] = "IT_" + data["subregion1_code"] + "_" + data["subregion2_code"]
+
+        # Remove bogus records
+        data = data[data["subregion1_code"].notna()]
+        data = data[data["subregion2_code"].notna()]
+        data = data[~data["subregion2_code"].isin(["", "AO", "BZ", "TN"])]
 
         # Output the results
         return data

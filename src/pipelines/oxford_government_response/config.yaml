@@ -47,4 +47,4 @@ sources:
     fetch:
       - url: "https://raw.github.com/OxCGRT/covid-policy-tracker/master/data/OxCGRT_latest.csv"
     test:
-      metadata_query: "key.str.match('^..$')"
+      metadata_query: key.str.match("^..$")
