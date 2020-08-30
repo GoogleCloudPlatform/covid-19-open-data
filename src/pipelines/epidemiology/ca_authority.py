@@ -42,8 +42,9 @@ class CanadaDataSource(DataSource):
         # Convert date to ISO format
         data["date"] = data["date"].apply(lambda x: datetime_isoformat(x, "%d-%m-%Y"))
 
-        # Make sure all records have the country code
+        # Make sure all records have the country code and match subregion1 only
         data["country_code"] = "CA"
+        data["subregion2_code"] = None
 
         # Country-level records should have null region name
         country_mask = data["subregion1_name"] == "Canada"
