@@ -71,6 +71,9 @@ class GoogleMobilityDataSource(DataSource):
             for col in data.columns
         ]
 
+        # Keep only regions which are not metro areas
+        data = data[data["metro_area"].isna()]
+
         # We can derive the key directly from country code for country-level data
         data["key"] = None
         country_level_mask = data.subregion1_name.isna() & data.subregion2_name.isna()
@@ -78,6 +81,10 @@ class GoogleMobilityDataSource(DataSource):
 
         # Guadeloupe is considered a subregion of France for reporting purposes
         data.loc[data.country_code == "GP", "key"] = "FR_GUA"
+
+        # Some regions are using old ISO codes
+        data.loc[data.iso_3166_2_code == "ZA-GT", "key"] = "ZA_GP"
+        data.loc[data.iso_3166_2_code == "ZA-NL", "key"] = "ZA_KZN"
 
         # Mobility reports now have the ISO code, which makes joining with our data much easier!
         # Try to match as many records as possible using the key
@@ -99,6 +106,7 @@ class GoogleMobilityDataSource(DataSource):
 
         # USA counties should all have FIPS code
         usa_mask = data_match.country_code == "US"
+        data_match.loc[usa_mask, "match_string"] = None
         data_match.loc[usa_mask, "subregion2_code"] = data_match.loc[
             usa_mask, "census_fips_code"
         ].apply(lambda x: f"{safe_int_cast(x) or 0:05d}")
