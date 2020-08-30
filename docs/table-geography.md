@@ -5,8 +5,8 @@ Information related to the geography for each region.
 
 ## URL
 This table can be found at the following URLs depending on the choice of format:
-* [demographics.csv](https://storage.googleapis.com/covid19-open-data/v2/demographics.csv)
-* [demographics.json](https://storage.googleapis.com/covid19-open-data/v2/demographics.json)
+* [geography.csv](https://storage.googleapis.com/covid19-open-data/v2/geography.csv)
+* [geography.json](https://storage.googleapis.com/covid19-open-data/v2/geography.json)
 
 ## Schema
 | Name | Type | Description | Example |

@@ -5,8 +5,8 @@ Information related to the economic development for each region.
 
 ## URL
 This table can be found at the following URLs depending on the choice of format:
-* [demographics.csv](https://storage.googleapis.com/covid19-open-data/v2/demographics.csv)
-* [demographics.json](https://storage.googleapis.com/covid19-open-data/v2/demographics.json)
+* [economy.csv](https://storage.googleapis.com/covid19-open-data/v2/economy.csv)
+* [economy.json](https://storage.googleapis.com/covid19-open-data/v2/economy.json)
 
 ## Schema
 | Name | Name | Description | Example |

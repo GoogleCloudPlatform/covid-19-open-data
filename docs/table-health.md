@@ -5,8 +5,8 @@ Health related indicators for each region.
 
 ## URL
 This table can be found at the following URLs depending on the choice of format:
-* [demographics.csv](https://storage.googleapis.com/covid19-open-data/v2/demographics.csv)
-* [demographics.json](https://storage.googleapis.com/covid19-open-data/v2/demographics.json)
+* [health.csv](https://storage.googleapis.com/covid19-open-data/v2/health.csv)
+* [health.json](https://storage.googleapis.com/covid19-open-data/v2/health.json)
 
 ## Schema
 | Name | Type | Description | Example |

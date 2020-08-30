@@ -6,8 +6,8 @@ region, which is helpful for displaying purposes or when merging with other data
 
 ## URL
 This table can be found at the following URLs depending on the choice of format:
-* [demographics.csv](https://storage.googleapis.com/covid19-open-data/v2/demographics.csv)
-* [demographics.json](https://storage.googleapis.com/covid19-open-data/v2/demographics.json)
+* [index.csv](https://storage.googleapis.com/covid19-open-data/v2/index.csv)
+* [index.json](https://storage.googleapis.com/covid19-open-data/v2/index.json)
 
 ## Schema
 | Name | Type | Description | Example |
