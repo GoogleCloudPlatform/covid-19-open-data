@@ -293,25 +293,6 @@ sources:
     test:
       metadata_query: key.str.match("DE.*")
 
-  # Data sources for ES levels 1 + 2
-  - name: pipelines.epidemiology.es_authority.ISCIIIConfirmedDataSource
-    fetch:
-      - name: confirmed
-        url: "https://cnecovid.isciii.es/covid19/resources/datos_ccaas.csv"
-    test:
-      metadata_query: key.str.match("ES_*")
-    automation:
-      job_group: 'spain'
-
-  - name: pipelines.epidemiology.es_authority.MSCBSDeceasedDataSource
-    fetch:
-      - name: deceased
-        url: "https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov-China/documentos/Fallecidos_COVID19.xlsx"
-    test:
-      metadata_query: key.str.match("ES_*")
-    automation:
-      job_group: 'spain'
-
   # Data sources for ES_CN levels 2 + 3
   - name: pipelines.epidemiology.es_cn_authority.CanaryIslandsDataSource
     fetch:
@@ -345,6 +326,26 @@ sources:
       encoding: ISO-8859-1
     test:
       metadata_query: key.str.match("ES_MD_.+")
+    automation:
+      job_group: 'spain'
+
+  # Data sources for ES levels 1 + 2
+  # This goes after the individual regions to ensure reporting is consistent across all regions
+  - name: pipelines.epidemiology.es_authority.ISCIIIConfirmedDataSource
+    fetch:
+      - name: confirmed
+        url: "https://cnecovid.isciii.es/covid19/resources/datos_ccaas.csv"
+    test:
+      metadata_query: key.str.match("ES_*")
+    automation:
+      job_group: 'spain'
+
+  - name: pipelines.epidemiology.es_authority.MSCBSDeceasedDataSource
+    fetch:
+      - name: deceased
+        url: "https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov-China/documentos/Fallecidos_COVID19.xlsx"
+    test:
+      metadata_query: key.str.match("ES_*")
     automation:
       job_group: 'spain'
 
