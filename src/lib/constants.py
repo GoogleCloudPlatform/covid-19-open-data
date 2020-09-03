@@ -24,4 +24,13 @@ ISSUES_API_URL = "https://api.github.com/repos/GoogleCloudPlatform/covid-19-open
 
 
 # Some tables are not included into the main table
-EXCLUDE_FROM_MAIN_TABLE = ("main", "index", "worldbank", "worldpop", "by-age", "by-sex")
+EXCLUDE_FROM_MAIN_TABLE = (
+    "main",
+    "index",
+    "worldbank",
+    "worldpop",
+    "by-age",
+    "by-sex",
+    "search-trends-daily",
+    "search-trends-weekly",
+)
