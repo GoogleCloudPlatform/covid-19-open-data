@@ -1436,3 +1436,6 @@ sources:
       metadata_query: key.str.match("^..$")
       # Skip because it's too slow
       skip: true
+    automation:
+      # In theory, this won't be updated again so only run it once daily
+      schedule: "0 0 * * *"

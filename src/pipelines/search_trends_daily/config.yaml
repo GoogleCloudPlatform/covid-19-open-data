@@ -465,3 +465,6 @@ sources:
     test:
       # Skip because it's too slow
       skip: true
+    automation:
+      # Run only twice a day, since it's so resource consuming
+      schedule: "0 */12 * * *"
