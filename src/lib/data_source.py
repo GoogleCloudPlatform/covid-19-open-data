@@ -175,7 +175,8 @@ class DataSource(ErrorLogger):
                 lambda x: re.compile(x, re.IGNORECASE)
             )
             for search_string in (match_string, record["match_string"]):
-                aux_match = aux_regex.apply(lambda x: True if x.match(search_string) else False)
+                # pylint: disable=cell-var-from-loop
+                aux_match = aux_regex.apply(lambda x: bool(x.match(search_string)))
                 if sum(aux_match) == 1:
                     metadata = metadata[aux_mask]
                     return metadata[aux_match].iloc[0]["key"]
@@ -242,18 +243,6 @@ class DataSource(ErrorLogger):
             data["key"] = data.apply(merge_func, axis=1)
 
         else:
-            # "_nan_magic_number" replacement necessary to work around
-            # https://github.com/pandas-dev/pandas/issues/3729
-            # This issue will be fixed in Pandas 1.1
-            # _nan_magic_number = -123456789
-            # grouped_data = (
-            #     data.fillna(_nan_magic_number)
-            #     .groupby(key_merge_columns)
-            #     .first()
-            #     .reset_index()
-            #     .replace([_nan_magic_number], numpy.nan)
-            # )
-
             # Build a _vec column used to merge the key back from the groups into data
             make_key_vec = lambda x: "|".join([str(x[col]) for col in key_merge_columns])
             data["_vec"] = data[key_merge_columns].apply(make_key_vec, axis=1)

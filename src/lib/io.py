@@ -263,24 +263,17 @@ def export_csv(
         formatters = {col: _dtype_formatter(dtype) for col, dtype in schema.items()}
 
     # Convert all columns to appropriate type
-    # converters = column_converters(schema or {}).items()
-    # map_conv_dict = {name: converter for name, converter in converters if name in header}
-    # for name, values in parallel_column_process(data, map_conv_dict).items():
-    #     data[name] = values
-
     for column, converter in column_converters(schema or {}).items():
         if column in header:
             converter = partial(converter, skip_pandas_nan=True)
             data[column] = data[column].fillna(numpy.nan).apply(converter)
 
     # Format the data as a string one column at a time
-    # map_fmt_dict = {name: formatter for name, formatter in formatters.items() if name in header}
-    # data_fmt = parallel_column_process(data, map_fmt_dict)
-
     data_fmt = DataFrame(columns=header, index=data.index)
-    for col, format_func in formatters.items():
-        map_func = partial(_format_call, format_func)
-        data_fmt[col] = data[col].apply(map_func)
+    for column, format_func in formatters.items():
+        if column in header:
+            map_func = partial(_format_call, format_func)
+            data_fmt[column] = data[column].apply(map_func)
 
     return data_fmt.to_csv(path_or_buf=path, index=False, **csv_opts)
 
