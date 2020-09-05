@@ -41,13 +41,14 @@ def isna(value: Any, skip_pandas_nan: bool = False) -> bool:
 
 
 def safe_float_cast(value: Any, skip_pandas_nan: bool = False) -> Optional[float]:
-    if isna(value, skip_pandas_nan=skip_pandas_nan):
-        return None
-    if isinstance(value, int):
-        return float(value)
     if isinstance(value, float):
         return value
+    if isinstance(value, int):
+        return float(value)
+    if isna(value, skip_pandas_nan=skip_pandas_nan):
+        return None
     if value == "":
+        # Handle common special case to avoid unnecessary try-catch
         return None
     try:
         value = _clean_numeric(value)
@@ -57,24 +58,22 @@ def safe_float_cast(value: Any, skip_pandas_nan: bool = False) -> Optional[float
 
 
 def safe_int_cast(value: Any, skip_pandas_nan: bool = False) -> Optional[int]:
-    if isna(value, skip_pandas_nan=skip_pandas_nan):
-        return None
     if isinstance(value, int):
         return value
     try:
         # Converting to float first might seem inefficient, but we want to
         # implicitly round numbers to the nearest integer
-        value = safe_float_cast(value)
+        value = safe_float_cast(value, skip_pandas_nan=skip_pandas_nan)
         return int(value)
     except:
         return None
 
 
 def safe_str_cast(value: Any, skip_pandas_nan: bool = False) -> Optional[str]:
-    if isna(value, skip_pandas_nan=skip_pandas_nan):
-        return None
     if isinstance(value, str):
         return value
+    if isna(value, skip_pandas_nan=skip_pandas_nan):
+        return None
     try:
         return str(value)
     except:

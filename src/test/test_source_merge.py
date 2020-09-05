@@ -162,78 +162,79 @@ TEST_AUX_DATA = DataFrame.from_records(
         },
     ]
 )
+TEST_METADATA_KEYS = set(TEST_AUX_DATA["key"].values)
 
 
 class TestSourceMerge(ProfiledTestCase):
     def test_merge_no_match(self):
         aux = TEST_AUX_DATA.copy()
-        pipeline = DataSource()
+        data_source = DataSource()
         record = {"country_code": "__"}
-        key = pipeline.merge(record, {"metadata": aux})
+        key = data_source.merge(record, {"metadata": aux}, keys=TEST_METADATA_KEYS)
         self.assertTrue(key is None)
 
     def test_merge_by_key(self):
         aux = TEST_AUX_DATA.copy()
-        pipeline = DataSource()
+        data_source = DataSource()
         record = {"key": "AE_1_2"}
-        key = pipeline.merge(record, {"metadata": aux})
+        key = data_source.merge(record, {"metadata": aux}, keys=TEST_METADATA_KEYS)
         self.assertEqual(key, record["key"])
 
     def test_merge_zero_subregions(self):
         aux = TEST_AUX_DATA.copy()
-        pipeline = DataSource()
+        data_source = DataSource()
         record = {"country_code": "AA"}
-        key = pipeline.merge(record, {"metadata": aux})
+        key = data_source.merge(record, {"metadata": aux}, keys=TEST_METADATA_KEYS)
         self.assertEqual(key, "AA")
 
     def test_merge_one_subregion(self):
         aux = TEST_AUX_DATA.copy()
-        pipeline = DataSource()
+        data_source = DataSource()
 
         record = {"country_code": "AB"}
-        key = pipeline.merge(record, {"metadata": aux})
+        key = data_source.merge(record, {"metadata": aux}, keys=TEST_METADATA_KEYS)
         self.assertTrue(key is None)
 
         record = {"country_code": "AB", "subregion1_code": None}
-        key = pipeline.merge(record, {"metadata": aux})
+        key = data_source.merge(record, {"metadata": aux}, keys=TEST_METADATA_KEYS)
         self.assertEqual(key, "AB")
 
         record = {"country_code": "AB", "subregion1_code": "1"}
-        key = pipeline.merge(record, {"metadata": aux})
+        key = data_source.merge(record, {"metadata": aux}, keys=TEST_METADATA_KEYS)
         self.assertEqual(key, "AB_1")
 
     def test_merge_null_vs_empty(self):
         aux = TEST_AUX_DATA.copy()
-        pipeline = DataSource()
+        data_source = DataSource()
 
         # Only one record has null region1_code
         record = {"country_code": "AD", "subregion1_code": None}
-        key = pipeline.merge(record, {"metadata": aux})
+        key = data_source.merge(record, {"metadata": aux}, keys=TEST_METADATA_KEYS)
         self.assertEqual(key, "AD")
 
         # Empty means "do not compare" rather than "filter non-null"
         record = {"country_code": "AD", "subregion1_code": ""}
-        key = pipeline.merge(record, {"metadata": aux})
+        key = data_source.merge(record, {"metadata": aux}, keys=TEST_METADATA_KEYS)
         self.assertEqual(key, None)
 
         # There are multiple records that fit this merge, so it's ambiguous
         record = {"country_code": "AD", "subregion1_code": "1"}
-        key = pipeline.merge(record, {"metadata": aux})
+        key = data_source.merge(record, {"metadata": aux}, keys=TEST_METADATA_KEYS)
         self.assertEqual(key, None)
 
         # Match fails because subregion1_code is not null
         record = {"country_code": "AD", "subregion1_code": None, "subregion2_code": "1"}
-        key = pipeline.merge(record, {"metadata": aux})
+        key = data_source.merge(record, {"metadata": aux}, keys=TEST_METADATA_KEYS)
         self.assertEqual(key, None)
 
         # Match is exact so the merge is unambiguous
         record = {"country_code": "AD", "subregion1_code": "1", "subregion2_code": "1"}
-        key = pipeline.merge(record, {"metadata": aux})
+        key = data_source.merge(record, {"metadata": aux}, keys=TEST_METADATA_KEYS)
         self.assertEqual(key, "AD_1_1")
 
         # Even though we don't have subregion1_code, there's only one record that matches
         record = {"country_code": "AD", "subregion1_code": "", "subregion2_code": "1"}
-        key = pipeline.merge(record, {"metadata": aux})
+        key = data_source.merge(record, {"metadata": aux}, keys=TEST_METADATA_KEYS)
         self.assertEqual(key, "AD_1_1")
 
 
