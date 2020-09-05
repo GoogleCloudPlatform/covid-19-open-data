@@ -22,6 +22,11 @@ URL_OUTPUTS_PROD = f"https://storage.googleapis.com/{GCS_BUCKET_PROD}/v2"
 CACHE_URL = "https://raw.githubusercontent.com/open-covid-19/data/cache"
 ISSUES_API_URL = "https://api.github.com/repos/GoogleCloudPlatform/covid-19-open-data/issues"
 
+# Progress is a global flag, because progress is all done using the tqdm library and can be
+# used within any number of functions but passing a flag around everywhere is cumbersome. Further,
+# it needs to be an environment variable since the global module variables are reset across
+# different processes.
+GLOBAL_DISABLE_PROGRESS = "TQDM_DISABLE"
 
 # Some tables are not included into the main table
 EXCLUDE_FROM_MAIN_TABLE = (

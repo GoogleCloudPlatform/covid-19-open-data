@@ -263,7 +263,7 @@ def combine_table(table_name: str = None) -> None:
 
         # Re-load all intermediate results
         intermediate_results = data_pipeline._load_intermediate_results(
-            output_folder / "intermediate", data_pipeline.data_sources
+            output_folder / "intermediate"
         )
 
         # Combine all intermediate results into a single dataframe

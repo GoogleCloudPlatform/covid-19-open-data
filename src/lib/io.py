@@ -14,25 +14,22 @@
 
 import os
 import re
-from pathlib import Path
-from zipfile import ZipFile
 from contextlib import contextmanager
+from functools import partial
+from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import Any, Callable, Dict, Iterator, List, Optional, Union
+from zipfile import ZipFile
 
+import numpy
 import pandas
-from tqdm import tqdm
-from pandas import DataFrame, Int64Dtype
-from unidecode import unidecode
 from bs4 import BeautifulSoup, Tag
+from pandas import DataFrame, Int64Dtype
+from tqdm import tqdm
+from unidecode import unidecode
 
-from .cast import safe_int_cast, column_converters
-
-# Progress is a global flag, because progress is all done using the tqdm library and can be
-# used within any number of functions but passing a flag around everywhere is cumbersome. Further,
-# it needs to be an environment variable since the global module variables are reset across
-# different processes.
-GLOBAL_DISABLE_PROGRESS = "TQDM_DISABLE"
+from .cast import column_converters, isna, safe_int_cast
+from .constants import GLOBAL_DISABLE_PROGRESS
 
 
 def fuzzy_text(text: str, remove_regex: str = r"[^a-z\s]", remove_spaces: bool = True):
@@ -224,6 +221,18 @@ def _dtype_formatter(dtype: Any) -> Callable[[Any], str]:
     raise TypeError(f"Unsupported dtype: {dtype}")
 
 
+def _format_call(format_func: Callable[[Any], str], val: Any) -> str:
+    """
+    Wrap the format function call to return empty string when value is null.
+    Arguments:
+        format_func: Formatting function.
+        val: Value to be formatted.
+    Returns:
+        str: Empty string if val is null, otherwise the result of `format_func(val)`.
+    """
+    return "" if isna(val, skip_pandas_nan=True) else format_func(val)
+
+
 def export_csv(
     data: DataFrame, path: Union[Path, str] = None, schema: Dict[str, Any] = None, **csv_opts
 ) -> Optional[str]:
@@ -249,22 +258,29 @@ def export_csv(
     header = [column for column in header if column in data.columns]
 
     if schema is None:
-        formatters = [_dtype_formatter(str) for _ in header]
+        formatters = {col: _dtype_formatter(str) for col in header}
     else:
-        formatters = [_dtype_formatter(dtype) for col, dtype in schema.items() if col in header]
+        formatters = {col: _dtype_formatter(dtype) for col, dtype in schema.items()}
 
     # Convert all columns to appropriate type
+    # converters = column_converters(schema or {}).items()
+    # map_conv_dict = {name: converter for name, converter in converters if name in header}
+    # for name, values in parallel_column_process(data, map_conv_dict).items():
+    #     data[name] = values
+
     for column, converter in column_converters(schema or {}).items():
         if column in header:
-            data[column] = data[column].apply(converter)
+            converter = partial(converter, skip_pandas_nan=True)
+            data[column] = data[column].fillna(numpy.nan).apply(converter)
 
     # Format the data as a string one column at a time
+    # map_fmt_dict = {name: formatter for name, formatter in formatters.items() if name in header}
+    # data_fmt = parallel_column_process(data, map_fmt_dict)
+
     data_fmt = DataFrame(columns=header, index=data.index)
-    for col, fmt in zip(header, formatters):
-        # pylint: disable=cell-var-from-loop
-        data_fmt[col] = data[col].apply(
-            lambda val: "" if val is None or pandas.isna(val) else fmt(val)
-        )
+    for col, format_func in formatters.items():
+        map_func = partial(_format_call, format_func)
+        data_fmt[col] = data[col].apply(map_func)
 
     return data_fmt.to_csv(path_or_buf=path, index=False, **csv_opts)
 

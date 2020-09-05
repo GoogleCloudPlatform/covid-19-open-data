@@ -12,17 +12,36 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import re
 import datetime
 import warnings
-import pandas
 from typing import Any, Dict, Callable, Optional
 
+import pandas
 
-def safe_float_cast(value: Any) -> Optional[float]:
+
+def _clean_numeric(value: Any) -> str:
+    if not isinstance(value, str):
+        value = str(value)
+    if "," in value:
+        value = value.replace(",", "")
+    if "−" in value:
+        value = value.replace("−", "-")
+    return value
+
+
+def isna(value: Any, skip_pandas_nan: bool = False) -> bool:
+    if not skip_pandas_nan and pandas.isna(value):
+        return True
     if value is None:
-        return None
-    if pandas.isna(value):
+        return True
+    if value != value:
+        # NaN != NaN
+        return True
+    return False
+
+
+def safe_float_cast(value: Any, skip_pandas_nan: bool = False) -> Optional[float]:
+    if isna(value, skip_pandas_nan=skip_pandas_nan):
         return None
     if isinstance(value, int):
         return float(value)
@@ -31,31 +50,33 @@ def safe_float_cast(value: Any) -> Optional[float]:
     if value == "":
         return None
     try:
-        value = str(value)
-        value = re.sub(r",", "", value)
-        value = re.sub(r"−", "-", value)
+        value = _clean_numeric(value)
         return float(value)
     except:
         return None
 
 
-def safe_int_cast(value: Any, round_function: Callable[[float], int] = round) -> Optional[int]:
-    value = safe_float_cast(value)
-    if value is None:
+def safe_int_cast(value: Any, skip_pandas_nan: bool = False) -> Optional[int]:
+    if isna(value, skip_pandas_nan=skip_pandas_nan):
         return None
-    try:
-        value = round_function(value)
+    if isinstance(value, int):
         return value
+    try:
+        # Converting to float first might seem inefficient, but we want to
+        # implicitly round numbers to the nearest integer
+        value = safe_float_cast(value)
+        return int(value)
     except:
         return None
 
 
-def safe_str_cast(value: Any) -> Optional[str]:
-    if pandas.isna(value):
+def safe_str_cast(value: Any, skip_pandas_nan: bool = False) -> Optional[str]:
+    if isna(value, skip_pandas_nan=skip_pandas_nan):
         return None
-    try:
-        value = str(value)
+    if isinstance(value, str):
         return value
+    try:
+        return str(value)
     except:
         return None
 
