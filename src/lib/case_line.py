@@ -14,9 +14,9 @@
 
 import re
 from typing import Any, Callable, Dict, List
-from pandas import DataFrame, isna
+from pandas import DataFrame
 from unidecode import unidecode
-from lib.cast import age_group, safe_int_cast
+from lib.cast import age_group, isna, safe_int_cast
 from lib.constants import SRC
 from lib.io import read_file
 from lib.utils import get_or_default

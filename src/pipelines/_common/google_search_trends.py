@@ -39,7 +39,8 @@ def _rename_columns(data: DataFrame) -> DataFrame:
     data.columns = [
         col
         if col in column_adapter.values()
-        else f"search_trends_{col.replace('symptom:', '').replace(' ', '').lower()}"
+        else "search_trends_"
+        + col.lower().replace("symptom:", "").replace(" ", "_").replace("'", "")
         for col in data.columns
     ]
 
@@ -58,18 +59,20 @@ class GoogleSearchTrendsL1DataSource(DataSource):
 
         # We can derive the keys directly for all data, because it's US-only
         data["key"] = None
+        subregion1_isna_mask = data.subregion1_code.isna()
+        subregion2_isna_mask = data.subregion2_code.isna()
 
-        country_level_mask = data.subregion1_code.isna() & data.subregion2_code.isna()
+        country_level_mask = subregion1_isna_mask & subregion2_isna_mask
         data.loc[country_level_mask, "key"] = data.loc[country_level_mask, "country_code"]
 
-        state_level_mask = ~data.subregion1_code.isna() & data.subregion2_code.isna()
+        state_level_mask = ~subregion1_isna_mask & subregion2_isna_mask
         data.loc[state_level_mask, "key"] = (
             data.loc[state_level_mask, "country_code"]
             + "_"
             + data.loc[state_level_mask, "subregion1_code"]
         )
 
-        county_level_mask = ~data.subregion1_code.isna() & ~data.subregion2_code.isna()
+        county_level_mask = ~subregion1_isna_mask & ~subregion2_isna_mask
         data.loc[county_level_mask, "key"] = (
             data.loc[county_level_mask, "country_code"]
             + "_"

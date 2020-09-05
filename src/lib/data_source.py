@@ -15,12 +15,13 @@
 import re
 import uuid
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Set
 
 import numpy
-from pandas import DataFrame, concat, isna
+from pandas import DataFrame
 
 from .error_logger import ErrorLogger
+from .cast import isna
 from .io import read_file, fuzzy_text
 from .net import download_snapshot
 from .time import datetime_isoformat
@@ -103,7 +104,9 @@ class DataSource(ErrorLogger):
         """ Parse the inputs into a single output dataframe """
         raise NotImplementedError()
 
-    def merge(self, record: Dict[str, Any], aux: Dict[str, DataFrame]) -> Optional[str]:
+    def merge(
+        self, record: Dict[str, Any], aux: Dict[str, DataFrame], keys: Set[str]
+    ) -> Optional[str]:
         """
         Outputs a key used to merge this record with the datasets.
         The key must be present in the `aux` DataFrame index.
@@ -172,7 +175,8 @@ class DataSource(ErrorLogger):
                 lambda x: re.compile(x, re.IGNORECASE)
             )
             for search_string in (match_string, record["match_string"]):
-                aux_match = aux_regex.apply(lambda x: True if x.match(search_string) else False)
+                # pylint: disable=cell-var-from-loop
+                aux_match = aux_regex.apply(lambda x: bool(x.match(search_string)))
                 if sum(aux_match) == 1:
                     metadata = metadata[aux_mask]
                     return metadata[aux_match].iloc[0]["key"]
@@ -225,6 +229,10 @@ class DataSource(ErrorLogger):
         # Merge expects for null values to be NaN (otherwise grouping does not work as expected)
         data.replace([None], numpy.nan, inplace=True)
 
+        # Get a set with all the known keys so we can use the information during the merge step
+        known_keys = set(aux["metadata"]["key"].values)
+        merge_func = lambda x: self.merge(x, aux, known_keys)
+
         # Merging is done record by record, but can be sped up if we build a map first aggregating
         # by the non-temporal fields and only matching the aggregated records with keys
         merge_opts = self.config.get("merge", {})
@@ -232,28 +240,16 @@ class DataSource(ErrorLogger):
             col for col in data if col in aux["metadata"].columns and len(data[col].unique()) > 1
         ]
         if not key_merge_columns or (merge_opts and merge_opts.get("serial")):
-            data["key"] = data.apply(lambda x: self.merge(x, aux), axis=1)
+            data["key"] = data.apply(merge_func, axis=1)
 
         else:
-            # "_nan_magic_number" replacement necessary to work around
-            # https://github.com/pandas-dev/pandas/issues/3729
-            # This issue will be fixed in Pandas 1.1
-            _nan_magic_number = -123456789
-            grouped_data = (
-                data.fillna(_nan_magic_number)
-                .groupby(key_merge_columns)
-                .first()
-                .reset_index()
-                .replace([_nan_magic_number], numpy.nan)
-            )
-
             # Build a _vec column used to merge the key back from the groups into data
             make_key_vec = lambda x: "|".join([str(x[col]) for col in key_merge_columns])
-            grouped_data["_vec"] = grouped_data.apply(make_key_vec, axis=1)
-            data["_vec"] = data.apply(make_key_vec, axis=1)
+            data["_vec"] = data[key_merge_columns].apply(make_key_vec, axis=1)
 
             # Iterate only over the grouped data to merge with the metadata key
-            grouped_data["key"] = grouped_data.apply(lambda x: self.merge(x, aux), axis=1)
+            grouped_data = data.groupby("_vec").first().reset_index()
+            grouped_data["key"] = grouped_data.apply(merge_func, axis=1)
 
             # Merge the grouped data which has key back with the original data
             if "key" in data.columns:
@@ -269,7 +265,9 @@ class DataSource(ErrorLogger):
             data = data.query(self.config["query"]).copy()
 
         # Derive localities from all regions
-        data = concat([data, derive_localities(aux["localities"], data)])
+        localities = derive_localities(aux["localities"], data)
+        if len(localities) > 0:
+            data = data.append(localities)
 
         # Provide a stratified view of certain key variables
         if any(stratify_column in data.columns for stratify_column in ("age", "sex")):

@@ -15,9 +15,9 @@
 from functools import partial, reduce
 from typing import Any, Callable, List, Dict, Tuple, Optional
 from numpy import unique
-from pandas import DataFrame, Series, concat, isna, merge
+from pandas import DataFrame, Series, concat, merge
 from pandas.api.types import is_numeric_dtype
-from .cast import safe_int_cast
+from .cast import isna, safe_int_cast
 from .io import fuzzy_text, pbar, tqdm
 
 
@@ -93,17 +93,16 @@ def combine_tables(
     tables: List[DataFrame], keys: List[str], progress_label: str = None
 ) -> DataFrame:
     """ Combine a list of tables, keeping the last non-null value for every column """
-    data = concat(tables)
+    data = concat(tables) if len(tables) > 1 else tables[0]
     grouped = data.groupby([col for col in keys if col in data.columns])
     if not progress_label:
         return grouped.aggregate(agg_last_not_null).reset_index()
     else:
-        progress_bar = pbar(
-            total=len(grouped) * len(data.columns), desc=f"Combine {progress_label} outputs"
-        )
+        total_estimate = len(grouped) * len(data.columns)
+        progress_bar = pbar(total=total_estimate, desc=f"Combine {progress_label} outputs")
         agg_func = partial(agg_last_not_null, progress_bar=progress_bar)
         combined = grouped.aggregate(agg_func).reset_index()
-        progress_bar.n = len(grouped) * len(data.columns)
+        progress_bar.n = total_estimate
         progress_bar.refresh()
         return combined
 

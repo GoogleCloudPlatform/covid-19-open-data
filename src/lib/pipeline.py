@@ -117,10 +117,9 @@ class DataPipeline(ErrorLogger):
         data_sources = []
         for idx, source_config in enumerate(config_yaml["sources"]):
             # Add the job group to all configs
-            source_config["automation"] = source_config.get("automation", {})
-            source_config["automation"]["job_group"] = source_config["automation"].get(
-                "job_group", str(idx)
-            )
+            automation_config = source_config.get("automation", {})
+            source_config["automation"] = automation_config
+            source_config["automation"]["job_group"] = automation_config.get("job_group", str(idx))
 
             # Use reflection to create an instance of the corresponding DataSource class
             module_tokens = source_config["name"].split(".")
@@ -207,9 +206,8 @@ class DataPipeline(ErrorLogger):
         data_sources_count = len(self.data_sources)
         progress_label = f"Run {self.name} pipeline"
         if process_count <= 1 or data_sources_count <= 1:
-            map_result = pbar(
-                map(map_func, self.data_sources), total=data_sources_count, desc=progress_label
-            )
+            map_iter = map(map_func, self.data_sources)
+            map_result = pbar(map_iter, total=data_sources_count, desc=progress_label)
         else:
             map_result = process_map(map_func, self.data_sources, desc=progress_label)
 
@@ -303,13 +301,13 @@ class DataPipeline(ErrorLogger):
                 )
 
     def _load_intermediate_results(
-        self, intermediate_folder: Path, data_sources: Iterable[DataSource]
+        self, intermediate_folder: Path
     ) -> Iterable[Tuple[DataSource, DataFrame]]:
 
-        for data_source in data_sources:
+        for data_source in self.data_sources:
             intermediate_path = intermediate_folder / f"{data_source.uuid(self.table)}.csv"
             try:
-                yield (data_source, read_table(intermediate_path, self.schema))
+                yield (data_source, read_table(intermediate_path, schema=self.schema))
             except Exception as exc:
                 data_source_name = data_source.__class__.__name__
                 self.errlog(
@@ -344,9 +342,7 @@ class DataPipeline(ErrorLogger):
         self._save_intermediate_results(intermediate_folder, intermediate_results)
 
         # Re-load all intermediate results
-        intermediate_results = self._load_intermediate_results(
-            intermediate_folder, self.data_sources
-        )
+        intermediate_results = self._load_intermediate_results(intermediate_folder)
 
         # Combine all intermediate results into a single dataframe
         pipeline_output = self.combine(intermediate_results)

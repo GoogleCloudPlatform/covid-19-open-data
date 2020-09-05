@@ -12,8 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Mobility reports pipeline configuration
-
 schema:
   date: str
   key: str
@@ -73,7 +71,7 @@ schema:
   search_trends_bone_tumor: float
   search_trends_bowel_obstruction: float
   search_trends_bradycardia: float
-  search_trends_braxton_Hicks_contractions: float
+  search_trends_braxton_hicks_contractions: float
   search_trends_breakthrough_bleeding: float
   search_trends_breast_pain: float
   search_trends_bronchitis: float
@@ -81,7 +79,7 @@ schema:
   search_trends_bruxism: float
   search_trends_bunion: float
   search_trends_burn: float
-  search_trends_burning_Chest_Pain: float
+  search_trends_burning_chest_pain: float
   search_trends_burning_mouth_syndrome: float
   search_trends_candidiasis: float
   search_trends_canker_sore: float
@@ -169,7 +167,7 @@ schema:
   search_trends_food_craving: float
   search_trends_food_intolerance: float
   search_trends_frequent_urination: float
-  search_trends_fastroesophageal_reflux_disease: float
+  search_trends_gastroesophageal_reflux_disease: float
   search_trends_gastroparesis: float
   search_trends_generalized_anxiety_disorder: float
   search_trends_generalized_tonic–clonic_seizure: float
@@ -249,7 +247,7 @@ schema:
   search_trends_jaundice: float
   search_trends_kidney_failure: float
   search_trends_kidney_stone: float
-  search_trends_knee_Pain: float
+  search_trends_knee_pain: float
   search_trends_kyphosis: float
   search_trends_lactose_intolerance: float
   search_trends_laryngitis: float
@@ -263,7 +261,7 @@ schema:
   search_trends_major_depressive_disorder: float
   search_trends_malabsorption: float
   search_trends_male_infertility: float
-  search_trends_manic_Disorder: float
+  search_trends_manic_disorder: float
   search_trends_melasma: float
   search_trends_melena: float
   search_trends_meningitis: float
