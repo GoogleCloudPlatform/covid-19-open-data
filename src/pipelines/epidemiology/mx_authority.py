@@ -24,7 +24,7 @@ _SUBREGION1_CODE_MAP = {
     "02": "BCN",
     "03": "BCS",
     "04": "CAM",
-    "05": "COL",
+    "05": "COA",
     "06": "COL",
     "07": "CHP",
     "08": "CHH",
