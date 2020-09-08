@@ -45,9 +45,9 @@ for any other table.
 ### New Tables
 To create a new table output, it is recommended to start by making a copy of the
 [_template](./pipelines/_template) folder. The name of the folder will determine the file name of the
-output table, which will be placed under the output folder. For the data pipeline to be
-automatically run, add an import statement to the
-[pipelines module init file](./pipelines/__init__.py).
+output table, which will be placed under the output folder. Because of limitations with Python
+imports, the folder name cannot use dashes (`-`). Instead, use underscores (`_`) which will be
+replaced by dashes in the output table name.
 
 ## Architecture
 ### Data Source
