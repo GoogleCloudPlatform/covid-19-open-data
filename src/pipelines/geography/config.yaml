@@ -36,13 +36,20 @@ sources:
   - name: pipelines._common.wikidata.WikidataDataSource
     parse:
       open_street_maps: P402
-      latitude: P625
-      longitude: P625
       elevation: P2044
       area: P2046
-    test:
-      # Skip because it's too slow
-      skip: true
+    automation:
+      job_group: 'wikidata'
+      # Run only twice a day, since it's so resource consuming and does not change often
+      schedule: "0 */12 * * *"
+
+  - name: pipelines.geography.wikidata.WikidataCoordinatesDataSource
+    parse:
+      coordinates: P625
+    automation:
+      job_group: 'coordinates'
+      # Run only twice a day, since it's so resource consuming and does not change often
+      schedule: "0 */12 * * *"
 
   - name: pipelines.worldbank.worldbank.WorldbankDataSource
     fetch:
@@ -57,3 +64,5 @@ sources:
       metadata_query: key.str.match("^..$")
     automation:
       job_group: 'worldbank'
+      # Run only twice a day, since it's so resource consuming and does not change often
+      schedule: "0 */12 * * *"

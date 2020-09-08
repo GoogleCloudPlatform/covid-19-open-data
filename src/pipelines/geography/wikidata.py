@@ -21,14 +21,30 @@ from lib.data_source import DataSource
 from lib.wikidata import wikidata_property
 from lib.concurrent import thread_map
 
+_query_string_coordinates = """
+SELECT ?pid ?prop WHERE {{
+    ?pid p:{prop} ?statement .
+    ?statement psv:{prop} ?node .
+    ?node wikibase:geoLatitude ?latitude .
+    ?node wikibase:geoLongitude ?longitude .
+    BIND (CONCAT(STR(?latitude), ",", STR(?longitude)) AS ?prop) .
+    FILTER (?pid = wd:{entity})
+}}
+"""
 
-class WikidataDataSource(DataSource):
-    """ Retrieves the requested properties from Wikidata for all items in metadata.csv """
 
+class WikidataCoordinatesDataSource(DataSource):
     def _process_item(self, entities: List[str], prop: str) -> DataFrame:
         return (
             prop,
-            wikidata_property(prop, entities, error_logger=self, desc="Wikidata Entities"),
+            wikidata_property(
+                prop,
+                entities,
+                query=_query_string_coordinates,
+                error_logger=self,
+                desc="Wikidata Entities",
+                max_workers=4,
+            ),
         )
 
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
@@ -38,8 +54,9 @@ class WikidataDataSource(DataSource):
         # Load wikidata using parallel processing
         wikidata_props = {v: k for k, v in parse_opts.items()}
         map_func = partial(self._process_item, entities.index)
-        for prop, values in thread_map(map_func, wikidata_props.keys(), desc="Wikidata Properties"):
-            df = DataFrame.from_records(values, columns=["wikidata", wikidata_props[prop]])
+        for _, values in thread_map(map_func, wikidata_props.keys(), desc="Wikidata Properties"):
+            values = ((x[0], *(x[1].split(",", 2) if x[1] else (None, None))) for x in values)
+            df = DataFrame.from_records(values, columns=["wikidata", "latitude", "longitude"])
             entities = entities.join(df.set_index("wikidata"), how="outer")
 
         # Return all records in DataFrame form
