@@ -42,9 +42,10 @@ sources:
   - name: pipelines._common.wikidata.WikidataDataSource
     parse:
       life_expectancy: P2250
-    test:
-      # Skip because it's too slow
-      skip: true
+    automation:
+      job_group: 'wikidata'
+      # Run only twice a day, since it's so resource consuming and does not change often
+      schedule: "0 */12 * * *"
 
   - name: pipelines.worldbank.worldbank.WorldbankDataSource
     fetch:
@@ -68,3 +69,5 @@ sources:
       metadata_query: key.str.match("^..$")
     automation:
       job_group: 'worldbank'
+      # Run only twice a day, since it's so resource consuming and does not change often
+      schedule: "0 */12 * * *"

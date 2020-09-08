@@ -88,11 +88,6 @@ class CanaryIslandsDataSource(DataSource):
 
         records = {"confirmed": [], "deceased": [], "recovered": []}
         for record in features:
-
-            # Skip records which are aggregated by reported region instead of residence
-            if record["TIPO_MUN"] != "Residencia":
-                continue
-
             if record["TIPO"] == "Casos":
                 statistic = "confirmed"
             elif record["TIPO"] == "Fallecidos":
