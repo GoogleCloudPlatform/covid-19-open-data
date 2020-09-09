@@ -12,12 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-runtime: python
+runtime: custom
 env: flex
 entrypoint: gunicorn -b :$PORT appengine:app --timeout 5400
-
-runtime_config:
-    python_version: 3.7
 
 automatic_scaling:
     min_num_instances: 4

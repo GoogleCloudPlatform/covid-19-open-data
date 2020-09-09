@@ -21,8 +21,9 @@ RUN wget --quiet "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/goo
     /opt/google-cloud-sdk/install.sh --quiet && \
     rm gcloud.tar.gz
 
-# Add the gcloud command to the PATH and install some components
+# Add the gcloud command to the PATH and update components
 ENV PATH /opt/google-cloud-sdk/bin:$PATH
+RUN gcloud components update --quiet
 RUN gcloud components install beta --quiet
 
 # Create virtualenv environment
