@@ -356,8 +356,7 @@ def report_errors_to_github() -> str:
     return "OK"
 
 
-if __name__ == "__main__":
-
+def main() -> None:
     # Process command-line arguments
     argparser = ArgumentParser()
     argparser.add_argument("--command", type=str, default=None)
@@ -387,3 +386,7 @@ if __name__ == "__main__":
         "convert_json": _convert_json,
         "report_errors_to_github": report_errors_to_github,
     }.get(args.command, _unknown_command)(**json.loads(args.args or "{}"))
+
+
+if __name__ == "__main__":
+    main()
