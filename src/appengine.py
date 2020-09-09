@@ -357,14 +357,17 @@ if __name__ == "__main__":
     argparser = ArgumentParser()
     argparser.add_argument("--command", type=str, default=None)
     argparser.add_argument("--args", type=str, default=None)
+    argparser.add_argument("--debug", action="store_true")
     args = argparser.parse_args()
 
-    # Used only for debugging purposes
     def _start_server():
-        # To authenticate with Cloud, run the following commands locally:
-        # > $env:GOOGLE_CLOUD_PROJECT = "github-open-covid-19"
-        # > $env:GCP_TOKEN = $(gcloud auth application-default print-access-token)
-        app.run(host="127.0.0.1", port=8080, debug=True)
+        if args.debug:
+            # To authenticate with Cloud locally, run the following commands:
+            # > $env:GOOGLE_CLOUD_PROJECT = "github-open-covid-19"
+            # > $env:GCP_TOKEN = $(gcloud auth application-default print-access-token)
+            app.run(host="127.0.0.1", port=8080, debug=True)
+        else:
+            app.run(host="0.0.0.0", port=80, debug=False)
 
     def _unknown_command(*func_args):
         print(f"Unknown command {args.command}", file=sys.stderr)

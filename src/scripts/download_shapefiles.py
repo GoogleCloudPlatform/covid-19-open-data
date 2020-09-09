@@ -81,7 +81,7 @@ def convert_geojson_to_csv(geojson_directory: Path, csv_path: Path) -> None:
                     fd_csv.write(f"{csv_path.stem},{fd_tmp.readlines()[-1]}")
 
 
-if __name__ == "__main__":
+def main():
 
     # Process command-line arguments
     output_root = SRC / ".." / "output"
@@ -96,3 +96,7 @@ if __name__ == "__main__":
     geo = fetch_geometry().set_index("key")
     fetch_geojson(geojson_dir, list(geo.iterrows()))
     convert_geojson_to_csv(geojson_dir, csv_dir / "open-covid-regions.csv")
+
+
+if __name__ == "__main__":
+    main()

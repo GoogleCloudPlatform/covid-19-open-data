@@ -31,19 +31,8 @@ function read_metadata {
     gcloud compute instances describe $NAME --zone=$ZONE --flatten="metadata[$1]"  | tail -n 1 | sed 's/^\s*//g'
 }
 
-#######################################
-# Install the latest version of Python using pyenv
-#######################################
-function install_python {
-    sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \
-        libreadline-dev libsqlite3-dev llvm libncurses5-dev libncursesw5-dev xz-utils \
-        tk-dev libffi-dev liblzma-dev python-openssl
-    git clone https://github.com/pyenv/pyenv.git $HOME/.pyenv
-    $HOME/.pyenv/plugins/python-build/bin/python-build 3.8.3 $HOME/python
-}
-
-# Delete ourselves after a one hour timeout
-$(sleep 3600 && self_destruct)&
+# Delete ourselves after a two hour timeout
+$(sleep 7200 && self_destruct)&
 
 # Declare the branch to use to run code
 readonly BRANCH=main
@@ -53,28 +42,28 @@ readonly ACTION=$(read_metadata action)
 
 # Install dependencies using the package manager
 export DEBIAN_FRONTEND=noninteractive
-sudo apt-get update -yq
-sudo apt-get install -yq git wget curl
+sudo apt-get update -yq && sleep 5
+sudo apt-get install -yq git wget curl python3.8 python3.8-dev python3-pip
 
 # Clone the repo into a temporary directory
 readonly TMPDIR=$(mktemp -d -t opencovid-$(date +%Y-%m-%d-%H-%M-%S)-XXXX)
 git clone https://github.com/GoogleCloudPlatform/covid-19-open-data.git --single-branch -b $BRANCH "$TMPDIR/opencovid"
 
 # Install Python and its dependencies
-install_python
-$HOME/python/bin/python3.8 -m pip install -r "$TMPDIR/opencovid/src/requirements.txt"
+python3.8 -m pip install -r "$TMPDIR/opencovid/src/requirements.txt"
 
-if [ $ACTION == "deploy" ]
+# Allow for Python to bind to port 80
+sudo setcap CAP_NET_BIND_SERVICE=+eip $(which python3.8)
+
+if [ $ACTION == "null" ]
 then
-    # Re-deploy app and update the cron jobs
-    $HOME/python/bin/python3.8 "$TMPDIR/opencovid/src/scripts/generate_cron.py" > "$TMPDIR/opencovid/src/cron.yaml"
-    gcloud --quiet app deploy "$TMPDIR/opencovid/src/app.yaml"
-    gcloud --quiet app deploy "$TMPDIR/opencovid/src/cron.yaml"
+    # If no action is given, start server
+    python3.8 "$TMPDIR/opencovid/src/appengine.py" --command server
 
 else
-    # Run the publish command
-    $HOME/python/bin/python3.8 "$TMPDIR/opencovid/src/appengine.py" --command $ACTION
+    # Run the provided command
+    python3.8 "$TMPDIR/opencovid/src/appengine.py" --command $ACTION
 fi
 
-# Turn off this instance
+# Turn off this instance after action is finished
 self_destruct

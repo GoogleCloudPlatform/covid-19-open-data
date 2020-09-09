@@ -98,7 +98,7 @@ def get_token(session: requests.Session, endpoint: str, username: str, password:
     return csrf_token
 
 
-if __name__ == "__main__":
+def main():
     argparser = ArgumentParser()
     argparser.add_argument("--input", type=str, required=True)
     argparser.add_argument("--username", type=str, required=True)
@@ -127,3 +127,7 @@ if __name__ == "__main__":
                     raise exc
                 else:
                     wait_time *= 2
+
+
+if __name__ == "__main__":
+    main()
