@@ -194,7 +194,7 @@ def cache_pull() -> None:
 
 
 @app.route("/update_table")
-def update_table(table_name: str = None, job_group: int = None) -> None:
+def update_table(table_name: str = None, job_group: int = None) -> str:
     table_name = table_name or request.args.get("table")
     assert table_name in list(get_table_names())
     try:
@@ -239,7 +239,7 @@ def update_table(table_name: str = None, job_group: int = None) -> None:
 
 
 @app.route("/combine_table")
-def combine_table(table_name: str = None) -> None:
+def combine_table(table_name: str = None) -> str:
     try:
         table_name = request.args.get("table")
     except:
@@ -289,7 +289,7 @@ def combine_table(table_name: str = None) -> None:
 
 
 @app.route("/publish")
-def publish() -> None:
+def publish() -> str:
     with TemporaryDirectory() as workdir:
         workdir = Path(workdir)
         tables_folder = workdir / "tables"
@@ -319,7 +319,7 @@ def publish() -> None:
     return "OK"
 
 
-def convert_json(expr: str) -> None:
+def _convert_json(expr: str) -> str:
     with TemporaryDirectory() as workdir:
         workdir = Path(workdir)
         json_folder = workdir / "json"
@@ -341,17 +341,17 @@ def convert_json(expr: str) -> None:
 
 
 @app.route("/convert_json_1")
-def convert_json_1() -> None:
-    return convert_json(r"(latest\/)?[a-z_]+.csv")
+def convert_json_1() -> str:
+    return _convert_json(r"(latest\/)?[a-z_]+.csv")
 
 
 @app.route("/convert_json_2")
-def convert_json_2() -> None:
-    return convert_json(r"[A-Z]{2}(_\w+)?\/\w+.csv")
+def convert_json_2() -> str:
+    return _convert_json(r"[A-Z]{2}(_\w+)?\/\w+.csv")
 
 
 @app.route("/report_errors_to_github")
-def report_errors_to_github() -> None:
+def report_errors_to_github() -> str:
     register_new_errors(os.getenv(ENV_PROJECT))
     return "OK"
 
@@ -384,6 +384,6 @@ if __name__ == "__main__":
         "combine_table": combine_table,
         "cache_pull": cache_pull,
         "publish": publish,
-        "convert_json": convert_json,
+        "convert_json": _convert_json,
         "report_errors_to_github": report_errors_to_github,
     }.get(args.command, _unknown_command)(**json.loads(args.args or "{}"))
