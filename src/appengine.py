@@ -13,36 +13,37 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import datetime
+import json
+import os.path
 import re
 import sys
-import json
 import time
-import os.path
-import datetime
 import traceback
+from argparse import ArgumentParser
+from functools import partial
 from io import BytesIO
 from pathlib import Path
-from functools import partial
-from argparse import ArgumentParser
 from tempfile import TemporaryDirectory
 from typing import Callable, Dict, List
 
 from flask import Flask, request
 from google.cloud import storage
-from google.oauth2.credentials import Credentials
 from google.cloud.storage.blob import Blob
+from google.oauth2.credentials import Credentials
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 # pylint: disable=wrong-import-position
+from publish import copy_tables, convert_tables_to_json, create_table_subsets, make_main_table
+from scripts.cloud_error_processing import register_new_errors
+
 from lib.concurrent import thread_map
-from lib.constants import SRC, GCS_BUCKET_PROD, GCS_BUCKET_TEST
+from lib.constants import GCS_BUCKET_PROD, GCS_BUCKET_TEST, SRC
 from lib.io import export_csv
 from lib.net import download
 from lib.pipeline import DataPipeline
 from lib.pipeline_tools import get_table_names
-from publish import copy_tables, convert_tables_to_json, create_table_subsets, make_main_table
-from scripts.cloud_error_processing import register_new_errors
 
 app = Flask(__name__)
 BLOB_OP_MAX_RETRIES = 10
@@ -219,6 +220,10 @@ def update_table(table_name: str = None, job_group: int = None) -> None:
             assert (
                 data_pipeline.data_sources
             ), f"No data sources matched job group {job_group} for table {table_name}"
+
+        # Log the data sources being extracted
+        data_source_names = [src.config.get("name") for src in data_pipeline.data_sources]
+        print(f"Data sources: {data_source_names}")
 
         # Produce the intermediate files from the data source
         intermediate_results = data_pipeline.parse(output_folder, process_count=1)
