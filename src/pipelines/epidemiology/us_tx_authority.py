@@ -23,10 +23,19 @@ from lib.utils import table_multimerge, table_rename
 
 
 def _rename_columns(data: DataFrame, column_adapter: Dict[str, str]) -> DataFrame:
-    data.columns = data.iloc[0]
-    data.columns = [str(col).replace("\n", " ") for col in data.columns]
-    data = table_rename(data.iloc[1:].replace(".", numpy.nan), column_adapter)
-    return data[column_adapter.values()]
+    error: Exception = None
+    for header_index in (0, 1):
+        try:
+            df = data.copy()
+            df.columns = df.iloc[header_index]
+            df.columns = [str(col).replace("\n", " ") for col in df.columns]
+            df = df.iloc[header_index + 1 :]
+            df = df.replace(".", numpy.nan)
+            df = table_rename(df, column_adapter)
+            return df[column_adapter.values()].copy()
+        except Exception as exc:
+            error = exc
+    raise error
 
 
 class TexasDataSource(DataSource):
