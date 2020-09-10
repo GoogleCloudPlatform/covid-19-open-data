@@ -51,7 +51,12 @@ def schedule_job(
     """ Schedules the given job for the specified project and location """
     # Create a Job to schedule
     target = AppEngineHttpTarget(relative_uri=path, http_method="GET")
-    job = Job(app_engine_http_target=target, schedule=schedule, time_zone=timezone)
+    job = Job(
+        app_engine_http_target=target,
+        schedule=schedule,
+        time_zone=timezone,
+        attempt_deadline="120m",
+    )
 
     # Schedule the Job we just created
     parent = client.location_path(project_id, location_id)
