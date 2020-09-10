@@ -186,7 +186,7 @@ data aggregated at the subregion1 (i.e. state/province) level. If `subregion1_co
 it would be data aggregated at the country level.
 
 Another way to tell the level of aggregation is the `aggregation_level` of the `index` table, see
-the [schema documentation](#index) for more details about how to interpret it.
+the [schema documentation](./docs/table-index.md) for more details about how to interpret it.
 
 Please note that, sometimes, the country-level data and the region-level data come from different
 sources so adding up all region-level values may not equal exactly to the reported country-level
@@ -335,7 +335,7 @@ from the relevant authorities, like a country's ministry of health.
 
 ## Running the data extraction pipeline
 
-See the [source documentation](src) for more technical details.
+See the [source documentation](./src/README.md) for more technical details.
 
 
 
@@ -376,22 +376,11 @@ Please use the following when citing this project as a source of data:
 
 
 
-[1]: https://github.com/CSSEGISandData/COVID-19
-[2]: https://www.ecdc.europa.eu
-[3]: https://github.com/BlankerL/DXY-COVID-19-Data
-[4]: https://web.archive.org/web/20200314143253/https://www.salute.gov.it/nuovocoronavirus
-[5]: https://www.who.int/emergencies/diseases/novel-coronavirus-2019/situation-reports
-[6]: https://github.com/open-covid-19/data/issues/16
-[7]: https://github.com/open-covid-19/data/examples/data_loading.ipynb
-[8]: https://web.archive.org/web/20200320122944/https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov-China/situacionActual.htm
-[9]: https://covidtracking.com
-[10]: https://github.com/pcm-dpc/COVID-19
+[7]: https://github.com/GoogleCloudPlatform/covid-19-open-data/blob/main/examples/data_loading.ipynb
 [12]: https://open-covid-19.github.io/explorer
 [13]: https://kepler.gl/demo/map?mapUrl=https://dl.dropboxusercontent.com/s/cofdctuogawgaru/COVID-19_Dataset.json
 [14]: https://www.starlords3k.com/covid19.php
 [15]: https://kiksu.net/covid-19/
-[16]: https://www.canada.ca/en/public-health/services/diseases/2019-novel-coronavirus-infection.html
-[17]: https://www.google.com/covid19/mobility/
 [18]: https://www.bsg.ox.ac.uk/research/research-projects/oxford-covid-19-government-response-tracker
 [19]: https://auditter.info/covid-timeline
 [20]: https://www.coronavirusdailytracker.info/
@@ -399,7 +388,6 @@ Please use the following when citing this project as a source of data:
 [22]: https://console.cloud.google.com/marketplace/product/bigquery-public-datasets/covid19-open-data
 [23]: https://www.wikidata.org/wiki/Wikidata:Licensing
 [24]: https://en.wikipedia.org/wiki/Wikipedia:Copyrights
-[25]: https://worldbank.org
 [26]: https://github.com/DataScienceResearchPeru/covid-19_latinoamerica
 [27]: https://github.com/DataScienceResearchPeru/covid-19_latinoamerica/blob/master/LICENSE.md
 [28]: https://data.humdata.org/about/license
