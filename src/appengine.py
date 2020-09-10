@@ -27,7 +27,8 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import Callable, Dict, List
 
-from flask import Flask, request
+import requests
+from flask import Flask, Response, request
 from google.cloud import storage
 from google.cloud.storage.blob import Blob
 from google.oauth2.credentials import Credentials
@@ -40,6 +41,7 @@ from scripts.cloud_error_processing import register_new_errors
 
 from lib.concurrent import thread_map
 from lib.constants import GCS_BUCKET_PROD, GCS_BUCKET_TEST, SRC
+from lib.gcloud import delete_instance, get_instance_ip, start_instance
 from lib.io import export_csv
 from lib.net import download
 from lib.pipeline import DataPipeline
@@ -49,10 +51,10 @@ app = Flask(__name__)
 BLOB_OP_MAX_RETRIES = 10
 ENV_TOKEN = "GCP_TOKEN"
 ENV_PROJECT = "GOOGLE_CLOUD_PROJECT"
-ENV_BUCKET = "GCS_BUCKET_NAME"
+ENV_SERVICE_ACCOUNT = "GCS_SERVICE_ACCOUNT"
 
 
-def get_storage_client():
+def get_storage_client() -> storage.Client:
     """
     Creates an instance of google.cloud.storage.Client using a token if provided via, otherwise
     the default credentials are used.
@@ -69,15 +71,12 @@ def get_storage_client():
     return storage.Client(**client_opts)
 
 
-def get_storage_bucket(bucket_name: str):
+def get_storage_bucket(bucket_name: str) -> storage.Bucket:
     """
     Gets an instance of the storage bucket for the specified bucket name
     """
     client = get_storage_client()
-
-    # If bucket name is not provided, read it from env var
-    bucket_name = bucket_name or os.getenv(ENV_BUCKET)
-    assert bucket_name is not None, f"{ENV_BUCKET} not set"
+    assert bucket_name is not None
     return client.bucket(bucket_name)
 
 
@@ -139,7 +138,7 @@ def upload_folder(
 
 def cache_build_map() -> Dict[str, List[str]]:
     sitemap: Dict[str, List[str]] = {}
-    bucket = get_storage_bucket(GCS_BUCKET_TEST)
+    bucket = get_storage_bucket(GCS_BUCKET_PROD)
     for blob in bucket.list_blobs(prefix="cache"):
         filename = blob.name.split("/")[-1]
         if filename == "sitemap.json":
@@ -156,7 +155,7 @@ def cache_build_map() -> Dict[str, List[str]]:
 
 
 @app.route("/cache_pull")
-def cache_pull() -> None:
+def cache_pull() -> str:
     with TemporaryDirectory() as workdir:
         workdir = Path(workdir)
         now = datetime.datetime.utcnow()
@@ -356,6 +355,49 @@ def report_errors_to_github() -> str:
     return "OK"
 
 
+@app.route("/deferred/<path:url_path>")
+def deferred_route(url_path: str) -> Response:
+    status = 500
+    content = "Unknown error"
+
+    try:
+        # Create a new preemptible instance and wait for it to come online
+        instance_id = start_instance(service_account=os.getenv(ENV_SERVICE_ACCOUNT))
+        instance_ip = get_instance_ip(instance_id)
+        print(f"Created worker instance {instance_id} with IP {instance_ip}")
+
+        # Wait 4 minutes before attempting to forward the request
+        log_interval = 30
+        wait_seconds = 4 * 60
+        for _ in range(wait_seconds // log_interval):
+            print("Waiting for instance to start...")
+            time.sleep(log_interval)
+
+        # Forward the route to the worker instance
+        url_fwd = f"http://{instance_ip}/{url_path}"
+        print(f"Forwarding request to {url_fwd}")
+        params = dict(request.args)
+        headers = dict(request.headers)
+        response = requests.get(url=url_fwd, headers=headers, params=params, timeout=60 * 60 * 2)
+
+        # Retrieve the response from the worker instance
+        status = response.status_code
+        content = response.content
+        print(f"Received response with status code {status}")
+
+    except:
+        traceback.print_exc()
+        content = "Internal exception"
+
+    finally:
+        # Shut down the worker instance now that the job is finished
+        delete_instance(instance_id)
+        print(f"Deleted instance {instance_id}")
+
+    # Forward the response from the instance
+    return Response(content, status=status)
+
+
 def main() -> None:
     # Process command-line arguments
     argparser = ArgumentParser()
@@ -368,6 +410,7 @@ def main() -> None:
         if args.debug:
             # To authenticate with Cloud locally, run the following commands:
             # > $env:GOOGLE_CLOUD_PROJECT = "github-open-covid-19"
+            # > $env:GCS_SERVICE_ACCOUNT = "github-open-covid-19@appspot.gserviceaccount.com"
             # > $env:GCP_TOKEN = $(gcloud auth application-default print-access-token)
             app.run(host="127.0.0.1", port=8080, debug=True)
         else:

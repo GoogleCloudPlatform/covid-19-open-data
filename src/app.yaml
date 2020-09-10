@@ -14,7 +14,7 @@
 
 runtime: custom
 env: flex
-entrypoint: gunicorn -b :$PORT appengine:app --timeout 5400
+entrypoint: gunicorn -b :$PORT appengine:app --timeout 5400 --worker-class=gevent --workers=4
 
 automatic_scaling:
     min_num_instances: 4
