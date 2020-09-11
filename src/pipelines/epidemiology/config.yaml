@@ -49,6 +49,12 @@ sources:
     test:
       metadata_query: key.str.match("^..$")
 
+  - name: pipelines.epidemiology.xx_who.WHODataSource
+    fetch:
+      - url: "https://covid19.who.int/WHO-COVID-19-global-data.csv"
+    test:
+      metadata_query: key.str.match("^..$")
+
   # Data sources for LATAM countries level 1 + 2
   - name: pipelines.epidemiology.xx_covid19_latinoamerica.Covid19LatinoAmericaDataSource
     fetch:
