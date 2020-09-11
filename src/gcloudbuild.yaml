@@ -36,7 +36,7 @@ steps:
       env:
         - 'GCP_PROJECT=github-open-covid-19'
         - 'GCP_LOCATION=us-east1'
-        - 'GCP_TIME_ZONE=EST'
+        - 'GCP_TIME_ZONE=America/New_York'
 
 # Define global timeout since the deployment takes >10m
 timeout: 1800s
