@@ -360,6 +360,9 @@ def deferred_route(url_path: str) -> Response:
     status = 500
     content = "Unknown error"
 
+    # Initialize the instance ID variable outside of the try so it's available at finally
+    instance_id = None
+
     # Prevent chaining deferred calls
     if any([token == "deferred" for token in url_path.split("/")]):
         return Response(status=400)
@@ -395,8 +398,9 @@ def deferred_route(url_path: str) -> Response:
 
     finally:
         # Shut down the worker instance now that the job is finished
-        delete_instance(instance_id)
-        print(f"Deleted instance {instance_id}")
+        if instance_id is not None:
+            delete_instance(instance_id)
+            print(f"Deleted instance {instance_id}")
 
     # Forward the response from the instance
     return Response(content, status=status)
