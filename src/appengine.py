@@ -41,7 +41,7 @@ from scripts.cloud_error_processing import register_new_errors
 
 from lib.concurrent import thread_map
 from lib.constants import GCS_BUCKET_PROD, GCS_BUCKET_TEST, SRC
-from lib.gcloud import delete_instance, get_instance_ip, start_instance
+from lib.gcloud import delete_instance, get_internal_ip, start_instance
 from lib.io import export_csv
 from lib.net import download
 from lib.pipeline import DataPipeline
@@ -360,11 +360,15 @@ def deferred_route(url_path: str) -> Response:
     status = 500
     content = "Unknown error"
 
+    # Prevent chaining deferred calls
+    if any([token == "deferred" for token in url_path.split("/")]):
+        return Response(status=400)
+
     try:
         # Create a new preemptible instance and wait for it to come online
         instance_id = start_instance(service_account=os.getenv(ENV_SERVICE_ACCOUNT))
-        instance_ip = get_instance_ip(instance_id)
-        print(f"Created worker instance {instance_id} with IP {instance_ip}")
+        instance_ip = get_internal_ip(instance_id)
+        print(f"Created worker instance {instance_id} with internal IP {instance_ip}")
 
         # Wait 4 minutes before attempting to forward the request
         log_interval = 30

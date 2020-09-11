@@ -74,13 +74,27 @@ def delete_instance(instance_id: str, zone: str = _default_zone) -> None:
     subprocess.check_call([_gcloud_bin] + gcloud_args)
 
 
-def get_instance_ip(instance_id: str, zone: str = _default_zone) -> str:
+def _get_instance_data(instance_id: str, format_data: str, zone: str = _default_zone) -> str:
     gcloud_args = [
         f"compute",
         f"instances",
         f"describe",
         f"{instance_id}",
         f"--zone={zone}",
-        f"--format=get(networkInterfaces[0].accessConfigs[0].natIP)",
+        f"--format={format_data}",
     ]
     return subprocess.check_output([_gcloud_bin] + gcloud_args).decode("UTF-8").strip()
+
+
+def get_external_ip(instance_id: str, zone: str = _default_zone) -> str:
+    return _get_instance_data(
+        instance_id=instance_id,
+        format_data="get(networkInterfaces[0].accessConfigs[0].natIP)",
+        zone=zone,
+    )
+
+
+def get_internal_ip(instance_id: str, zone: str = _default_zone) -> str:
+    return _get_instance_data(
+        instance_id=instance_id, format_data="get(networkInterfaces[0].networkIP)", zone=zone
+    )
