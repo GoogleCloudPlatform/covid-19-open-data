@@ -92,14 +92,16 @@ class Covid19UkRegionsDataSource(DataSource):
         # Regions have case data on a "by specimen date" basis.
         # This means they don't add up to the counts for nation which are on a
         # "by publish date" basis.
-        cases = {
+        cases_and_deaths = {
             "date": "date",
             "areaCode": "areaCode",
             "newCasesBySpecimenDate": "newCasesBySpecimenDate",
             "cumCasesBySpecimenDate": "cumCasesBySpecimenDate",
+            "newDeaths28DaysByDeathDate": "newDeaths28DaysByDeathDate",
+            "cumDeaths28DaysByDeathDate": "cumDeaths28DaysByDeathDate",
         }
 
-        api = Cov19API(filters=["areaType=region"], structure=cases)
+        api = Cov19API(filters=["areaType=region"], structure=cases_and_deaths)
         regions_json = api.get_json()
         data = DataFrame.from_dict(regions_json["data"])
         data = table_rename(
@@ -108,6 +110,8 @@ class Covid19UkRegionsDataSource(DataSource):
                 "areaCode": "match_string",
                 "newCasesBySpecimenDate": "new_confirmed",
                 "cumCasesBySpecimenDate": "total_confirmed",
+                "newDeaths28DaysByDeathDate": "new_deceased",
+                "cumDeaths28DaysByDeathDate": "total_deceased",
                 "date": "date",
             },
             drop=True,
@@ -125,17 +129,17 @@ class Covid19UkRegionsDataSource(DataSource):
 class Covid19UkL2DataSource(DataSource):
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
 
-        cases_and_deaths = {
+        cases_and_deaths_and_tests = {
             "date": "date",
             "areaName": "areaName",
             "newCasesByPublishDate": "newCasesByPublishDate",
             "cumCasesByPublishDate": "cumCasesByPublishDate",
-            "newDeaths28DaysByPublishDate": "newDeaths28DaysByPublishDate",
-            "cumDeaths28DaysByPublishDate": "cumDeaths28DaysByPublishDate",
+            "newDeaths28DaysByDeathDate": "newDeaths28DaysByDeathDate",
+            "cumDeaths28DaysByDeathDate": "cumDeaths28DaysByDeathDate",
             "cumTestsByPublishDate": "cumTestsByPublishDate",
             "newTestsByPublishDate": "newTestsByPublishDate",
         }
-        api = Cov19API(filters=["areaType=nation"], structure=cases_and_deaths)
+        api = Cov19API(filters=["areaType=nation"], structure=cases_and_deaths_and_tests)
         nation_json = api.get_json()
         data = DataFrame.from_dict(nation_json["data"])
 
@@ -145,7 +149,7 @@ class Covid19UkL2DataSource(DataSource):
                 "areaName": "subregion1_name",
                 "newCasesByPublishDate": "new_confirmed",
                 "cumCasesByPublishDate": "total_confirmed",
-                "newDeaths28DaysByPublishDate": "new_deceased",
+                "newDeaths28DaysByDeathDate": "new_deceased",
                 "cumDeaths28DaysByDeathDate": "total_deceased",
                 "newTestsByPublishDate": "new_tested",
                 "cumTestsByPublishDate": "total_tested",
@@ -165,17 +169,17 @@ class Covid19UkL2DataSource(DataSource):
 
 class Covid19UkL1DataSource(DataSource):
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
-        cases_and_deaths = {
+        cases_and_deaths_and_tests = {
             "date": "date",
             "areaCode": "areaCode",
             "newCasesByPublishDate": "newCasesByPublishDate",
             "cumCasesByPublishDate": "cumCasesByPublishDate",
-            "newDeaths28DaysByPublishDate": "newDeaths28DaysByPublishDate",
-            "cumDeaths28DaysByPublishDate": "cumDeaths28DaysByPublishDate",
+            "newDeaths28DaysByDeathDate": "newDeaths28DaysByDeathDate",
+            "cumDeaths28DaysByDeathDate": "cumDeaths28DaysByDeathDate",
             "cumTestsByPublishDate": "cumTestsByPublishDate",
             "newTestsByPublishDate": "newTestsByPublishDate",
         }
-        api = Cov19API(filters=["areaType=overview"], structure=cases_and_deaths)
+        api = Cov19API(filters=["areaType=overview"], structure=cases_and_deaths_and_tests)
         data_json = api.get_json()
         data = DataFrame.from_dict(data_json["data"])
 
@@ -185,7 +189,7 @@ class Covid19UkL1DataSource(DataSource):
                 "areaCode": "country_code",
                 "newCasesByPublishDate": "new_confirmed",
                 "cumCasesByPublishDate": "total_confirmed",
-                "newDeaths28DaysByPublishDate": "new_deceased",
+                "newDeaths28DaysByDeathDate": "new_deceased",
                 "cumDeaths28DaysByDeathDate": "total_deceased",
                 "newTestsByPublishDate": "new_tested",
                 "cumTestsByPublishDate": "total_tested",
