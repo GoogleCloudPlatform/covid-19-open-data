@@ -41,8 +41,6 @@ def start_instance(
         f"--preemptible",
         f"--zone={zone}",
         f"--machine-type={instance_type}",
-        # f"--subnet=default --network-tier=PREMIUM --maintenance-policy=MIGRATE",
-        f"{('--service-account=' + service_account) if service_account else ''}",
         f"--scopes=https://www.googleapis.com/auth/cloud-platform",
         f"--tags=http-server",
         f"--image={_host_image_id}",
@@ -56,6 +54,9 @@ def start_instance(
         f"--labels=container-vm={_host_image_id}",
         f"--quiet",
     ]
+
+    if service_account:
+        gcloud_args += [f"--service-account={service_account}"]
 
     subprocess.check_call([_gcloud_bin] + gcloud_args)
     return instance_id
