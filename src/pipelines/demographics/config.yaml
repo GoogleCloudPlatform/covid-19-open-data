@@ -86,3 +86,8 @@ sources:
   - name: pipelines.demographics.census.CensusDataSource
     test:
       metadata_query: key.str.match("MX.*")
+
+  # This data has been manually downloaded from the Eurostat website
+  - name: pipelines._common.eurostat.EurostatDataSource
+    test:
+      metadata_query: key.str.match("BE.*")

@@ -71,3 +71,8 @@ sources:
       job_group: 'worldbank'
       # Run only twice a day, since it's so resource consuming and does not change often
       schedule: "0 */12 * * *"
+
+  # This data has been manually downloaded from the Eurostat website
+  - name: pipelines._common.eurostat.EurostatDataSource
+    test:
+      metadata_query: key.str.match("BE.*")
