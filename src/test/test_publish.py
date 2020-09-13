@@ -31,15 +31,16 @@ SCHEMA = get_schema()
 
 class TestPublish(ProfiledTestCase):
     def _spot_check_subset(
-        self, data: DataFrame, key: str, columns: List[str], first_date: str
+        self, data: DataFrame, key: str, columns: List[str], first_date: str, last_date: str
     ) -> None:
         subset = data.loc[key, ["date"] + columns]
+        subset = subset[(subset.date >= first_date) & (subset.date <= last_date)]
 
         # The first date provided has non-null values
         self.assertGreaterEqual(first_date, subset.dropna(subset=columns, how="all").date.min())
 
         # Less than half of the rows have null values in any column after the first date
-        self.assertGreaterEqual(len(subset.dropna()), len(subset[subset.date > first_date]) / 2)
+        self.assertGreaterEqual(len(subset.dropna()), len(subset) / 2)
 
     def test_make_main_table(self):
         with TemporaryDirectory() as workdir:
@@ -78,13 +79,15 @@ class TestPublish(ProfiledTestCase):
             epi_basic = ["new_confirmed", "total_confirmed", "new_deceased", "total_deceased"]
 
             # Spot check: Country of Andorra
-            self._spot_check_subset(main_table, "AD", epi_basic, "2020-03-02")
+            self._spot_check_subset(main_table, "AD", epi_basic, "2020-03-02", "2020-09-01")
 
             # Spot check: State of New South Wales
-            self._spot_check_subset(main_table, "AU_NSW", epi_basic, "2020-01-25")
+            self._spot_check_subset(main_table, "AU_NSW", epi_basic, "2020-01-25", "2020-09-01")
 
             # Spot check: Alachua County
-            self._spot_check_subset(main_table, "US_FL_12001", epi_basic, "2020-03-10")
+            self._spot_check_subset(
+                main_table, "US_FL_12001", epi_basic, "2020-03-10", "2020-09-01"
+            )
 
     def test_convert_to_json(self):
         with TemporaryDirectory() as workdir:
