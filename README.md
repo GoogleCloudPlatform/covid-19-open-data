@@ -24,12 +24,12 @@ keys.
 | Table | Keys<sup>1</sup> | Content | URL | Source<sup>2</sup> |
 | ----- | ---------------- | ------- | --- | ------------------ |
 | [Main](#main-table) | `[key][date]` | Flat table with records from (almost) all other tables joined by `date` and/or `key`; see below for more details | [main.csv](https://storage.googleapis.com/covid19-open-data/v2/main.csv) | All tables below |
-| [Index](./docs/table-index.md) | `[key]` | Various names and codes, useful for joining with other datasets | [index.csv](https://storage.googleapis.com/covid19-open-data/v2/index.csv), [index.json](https://storage.googleapis.com/covid19-open-data/v2/index.json) | Wikidata, DataCommons |
-| [Demographics](./docs/table-demographics.md) | `[key]` | Various (current<sup>3</sup>) population statistics | [demographics.csv](https://storage.googleapis.com/covid19-open-data/v2/demographics.csv), [demographics.json](https://storage.googleapis.com/covid19-open-data/v2/demographics.json) | Wikidata, DataCommons |
-| [Economy](./docs/table-economy.md) | `[key]` | Various (current<sup>3</sup>) economic indicators | [economy.csv](https://storage.googleapis.com/covid19-open-data/v2/economy.csv), [economy.json](https://storage.googleapis.com/covid19-open-data/v2/economy.json) | Wikidata, DataCommons |
+| [Index](./docs/table-index.md) | `[key]` | Various names and codes, useful for joining with other datasets | [index.csv](https://storage.googleapis.com/covid19-open-data/v2/index.csv), [index.json](https://storage.googleapis.com/covid19-open-data/v2/index.json) | Wikidata, DataCommons, Eurostat |
+| [Demographics](./docs/table-demographics.md) | `[key]` | Various (current<sup>3</sup>) population statistics | [demographics.csv](https://storage.googleapis.com/covid19-open-data/v2/demographics.csv), [demographics.json](https://storage.googleapis.com/covid19-open-data/v2/demographics.json) | Wikidata, DataCommons, WorldBank, WorldPop, Eurostat |
+| [Economy](./docs/table-economy.md) | `[key]` | Various (current<sup>3</sup>) economic indicators | [economy.csv](https://storage.googleapis.com/covid19-open-data/v2/economy.csv), [economy.json](https://storage.googleapis.com/covid19-open-data/v2/economy.json) | Wikidata, DataCommons, Eurostat |
 | [Epidemiology](./docs/table-epidemiology.md) | `[key][date]` | COVID-19 cases, deaths, recoveries and tests | [epidemiology.csv](https://storage.googleapis.com/covid19-open-data/v2/epidemiology.csv), [epidemiology.json](https://storage.googleapis.com/covid19-open-data/v2/epidemiology.json) | Various<sup>2</sup> |
 | [Geography](./docs/table-geography.md) | `[key]` | Geographical information about the region | [geography.csv](https://storage.googleapis.com/covid19-open-data/v2/geography.csv), [geography.json](https://storage.googleapis.com/covid19-open-data/v2/geography.json) | Wikidata |
-| [Health](./docs/table-health.md) | `[key]` | Health indicators for the region | [health.csv](https://storage.googleapis.com/covid19-open-data/v2/health.csv), [health.json](https://storage.googleapis.com/covid19-open-data/v2/geography.json) | Wikidata, WorldBank |
+| [Health](./docs/table-health.md) | `[key]` | Health indicators for the region | [health.csv](https://storage.googleapis.com/covid19-open-data/v2/health.csv), [health.json](https://storage.googleapis.com/covid19-open-data/v2/geography.json) | Wikidata, WorldBank, Eurostat |
 | [Hospitalizations](./docs/table-hospitalizations.md) | `[key][date]` | Information related to patients of COVID-19 and hospitals |  [hospitalizations.csv](https://storage.googleapis.com/covid19-open-data/v2/hospitalizations.csv), [hospitalizations.json](https://storage.googleapis.com/covid19-open-data/v2/hospitalization.json) | Various<sup>2</sup> |
 | [Mobility](./docs/table-mobility.md) | `[key][date]` | Various metrics related to the movement of people.<br/><br/>To download or use the data, you must agree to the Google [Terms of Service](https://policies.google.com/terms). | [mobility.csv](https://storage.googleapis.com/covid19-open-data/v2/mobility.json), [mobility.json](https://storage.googleapis.com/covid19-open-data/v2/mobility.json) | Google |
 | [Search Trends](./docs/table-search-trends.md) | `[key][date]` | Trends in symptom search volumes due to COVID-19.<br/><br/>To download or use the data, you must agree to the Google [Terms of Service](https://policies.google.com/terms). | [search-trends-daily.csv](https://storage.googleapis.com/covid19-open-data/v2/search-trends-daily.csv), [search-trends-daily.json](https://storage.googleapis.com/covid19-open-data/v2/search-trends-daily.json) | Google |
@@ -239,6 +239,7 @@ from the relevant authorities, like a country's ministry of health.
 | Data | Source | License and Terms of Use |
 | ---- | ------ | ------------------------ |
 | Metadata | [Wikipedia](https://wikidata.org) | [CC BY-SA][24] |
+| Metadata | [Eurostat](https://ec.europa.eu/eurostat) | [CC BY 4.0][33] |
 | Demographics | [Wikidata](https://wikidata.org) | [CC0][23] |
 | Demographics | [DataCommons](https://datacommons.org) | [Attribution required](https://policies.google.com/terms) |
 | Demographics | [WorldBank](https://worldbank.org) | [CC BY 4.0](https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets) |
@@ -396,3 +397,4 @@ Please use the following when citing this project as a source of data:
 [30]: https://reproduction.live/
 [31]: http://opendefinition.org/licenses/odc-by/
 [32]: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+[33]: https://ec.europa.eu/info/legal-notice_en#copyright-notice
