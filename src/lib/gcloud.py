@@ -19,7 +19,7 @@ from lib.constants import GCS_CONTAINER_ID
 
 # TODO(owahltinez): move configuration to external file
 _gcloud_bin = "/opt/google-cloud-sdk/bin/gcloud"
-_default_zone = "us-east1"
+_default_zone = "us-east1-b"
 _default_instance_type = "n2-standard-4"
 _host_image_id = "cos-stable-81-12871-1196-0"
 

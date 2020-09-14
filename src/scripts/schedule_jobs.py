@@ -29,7 +29,6 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 # pylint: disable=wrong-import-position
 from lib.pipeline_tools import get_pipelines
-from lib.gcloud import _default_zone
 
 
 def clear_jobs(
@@ -141,7 +140,7 @@ if __name__ == "__main__":
 
     # Get default values from environment
     default_project = os.environ.get("GCP_PROJECT")
-    default_location = os.environ.get("GCP_LOCATION", _default_zone)
+    default_location = os.environ.get("GCP_LOCATION", "us-east1")
     default_time_zone = os.environ.get("GCP_TIME_ZONE", "America/New_York")
 
     # Parse arguments from the command line
