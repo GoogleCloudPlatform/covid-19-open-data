@@ -400,8 +400,6 @@ sources:
   # Authoritative Data sources for GB_UK
   # We make use of the uk_covid19 API provided by PHE, so there is no fetch URL listed here.
   - name: pipelines.epidemiology.gb_authority.Covid19UkL1DataSource
-    # The official data has a bug when going from 01/07/2020 to 02/07/2020 in the cumulative case total.
-    query: (date >= '2020-07-03')
     test:
       # TODO(owahltinez): skip test since it's very flakey
       skip: true
@@ -410,8 +408,6 @@ sources:
       job_group: 'united_kingdom'
 
   - name: pipelines.epidemiology.gb_authority.Covid19UkL2DataSource
-    # The official data has a bug when going from 01/07/2020 to 02/07/2020 in the cumulative case total.
-    query: (date >= '2020-07-03')
     test:
       # TODO(owahltinez): skip test since it's very flakey
       skip: true
