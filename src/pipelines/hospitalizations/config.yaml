@@ -170,9 +170,6 @@ sources:
       - url: "https://data.public.lu/fr/datasets/r/c9fd593c-fe7a-43ec-9ae4-09a6c1604b6b"
         opts:
           ext: xls
-    parse:
-      sep: ";"
-      encoding: ISO-8859-1
     test:
       # Skip because source is flaky.
       skip: True
