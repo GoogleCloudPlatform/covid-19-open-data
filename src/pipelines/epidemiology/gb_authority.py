@@ -87,6 +87,13 @@ scotland_utla_to_nhs_board_map = {
 }
 
 
+def _fix_bad_total_deceased(data) -> None:
+    # Some areas have bad reporting e.g. UKC on 09/09/2020 has N/A and 0 as
+    # new_deceased and total_deceased, creating an erroneous entry in the data.
+    filter_query = (data.new_deceased.isna()) & (data.total_deceased == 0)
+    data.loc[filter_query, "total_deceased"] = "NaN"
+
+
 class Covid19UkRegionsDataSource(DataSource):
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         # Regions have case data on a "by specimen date" basis.
@@ -118,6 +125,7 @@ class Covid19UkRegionsDataSource(DataSource):
         )
 
         data.date = data.date.apply(lambda x: datetime_isoformat(x, "%Y-%m-%d"))
+        _fix_bad_total_deceased(data)
 
         # Make sure all records have country code and no subregion code
         data["country_code"] = "GB"
@@ -159,6 +167,7 @@ class Covid19UkL2DataSource(DataSource):
         )
 
         data.date = data.date.apply(lambda x: datetime_isoformat(x, "%Y-%m-%d"))
+        _fix_bad_total_deceased(data)
 
         # Make sure all records have country code and no subregion code
         data["country_code"] = "GB"
@@ -199,6 +208,7 @@ class Covid19UkL1DataSource(DataSource):
         )
 
         data.date = data.date.apply(lambda x: datetime_isoformat(x, "%Y-%m-%d"))
+        _fix_bad_total_deceased(data)
 
         # Make sure all records have country code and no subregion code
         data["key"] = "GB"
