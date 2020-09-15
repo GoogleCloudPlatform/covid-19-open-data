@@ -21,7 +21,13 @@ from pandas import DataFrame, isnull
 from lib.cast import age_group
 from lib.constants import SRC
 from lib.io import read_file
-from lib.utils import combine_tables, derive_localities, infer_new_and_total, stack_table
+from lib.utils import (
+    combine_tables,
+    derive_localities,
+    infer_new_and_total,
+    stack_table,
+    backfill_cumulative_fields,
+)
 from .profiled_test_case import ProfiledTestCase
 
 # Synthetic data used for testing
@@ -81,6 +87,21 @@ LOCALITY_TEST_DATA = DataFrame.from_records(
         {"key": "US_GA_13089", "date": "2020-01-02", "val": 1},
         {"key": "US_GA_13121", "date": "2020-01-02", "val": 1},
         {"key": "US_GA_13135", "date": "2020-01-02", "val": 1},
+    ]
+)
+
+BACKFILL_TEST_DATA = DataFrame.from_records(
+    [
+        {"key": "GB_UKC", "date": "2020-01-01", "total_deceased": float("NaN")},
+        {"key": "GB_UKC", "date": "2020-01-02", "total_deceased": float("NaN")},
+        {"key": "GB_UKC", "date": "2020-01-03", "total_deceased": 100},
+        {"key": "GB_UKC", "date": "2020-01-04", "total_deceased": float("NaN")},
+        {"key": "GB_UKC", "date": "2020-01-05", "total_deceased": 200},
+        {"key": "GB_UKD", "date": "2020-01-01", "total_deceased": float("NaN")},
+        {"key": "GB_UKD", "date": "2020-01-02", "total_deceased": 200},
+        {"key": "GB_UKD", "date": "2020-01-03", "total_deceased": float("NaN")},
+        {"key": "GB_UKD", "date": "2020-01-04", "total_deceased": float("NaN")},
+        {"key": "GB_UKD", "date": "2020-01-05", "total_deceased": 300},
     ]
 )
 
@@ -267,6 +288,32 @@ class TestTableUtils(ProfiledTestCase):
         columns = test_data.columns
         test_result = derive_localities(localities, test_data)[columns]
         self.assertEqual(test_result.to_csv(index=False), expected.to_csv(index=False))
+
+    def test_backfill_cumulative_fields_two_keys(self):
+        test_data = BACKFILL_TEST_DATA.copy()
+        expected = DataFrame.from_records(
+            [
+                {"key": "GB_UKC", "date": "2020-01-01", "total_deceased": 0.0},
+                {"key": "GB_UKC", "date": "2020-01-02", "total_deceased": 0.0},
+                {"key": "GB_UKC", "date": "2020-01-03", "total_deceased": 100.0},
+                {"key": "GB_UKC", "date": "2020-01-04", "total_deceased": 100.0},
+                {"key": "GB_UKC", "date": "2020-01-05", "total_deceased": 200.0},
+                {"key": "GB_UKD", "date": "2020-01-01", "total_deceased": 0.0},
+                {"key": "GB_UKD", "date": "2020-01-02", "total_deceased": 200.0},
+                {"key": "GB_UKD", "date": "2020-01-03", "total_deceased": 200.0},
+                {"key": "GB_UKD", "date": "2020-01-04", "total_deceased": 200.0},
+                {"key": "GB_UKD", "date": "2020-01-05", "total_deceased": 300.0},
+            ]
+        )
+        test_result = backfill_cumulative_fields(test_data)
+
+        self.assertTrue(test_result.equals(expected))
+
+    def test_backfill_cumulative_fields_no_total_column(self):
+        test_data = BACKFILL_TEST_DATA.copy().rename(columns={"total_deceased": "val"})
+        test_result = backfill_cumulative_fields(test_data)
+
+        self.assertTrue(test_result.equals(test_data))
 
     # TODO: Add test for complex infer example (e.g. missing values)
     # TODO: Add test for stratify_age_sex_ethnicity

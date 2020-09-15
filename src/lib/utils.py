@@ -15,7 +15,7 @@
 from functools import partial, reduce
 from typing import Any, Callable, List, Dict, Tuple, Optional
 from numpy import unique
-from pandas import DataFrame, Series, concat, merge
+from pandas import DataFrame, Series, concat, merge, isnull
 from pandas.api.types import is_numeric_dtype
 from .cast import isna, safe_int_cast
 from .io import fuzzy_text, pbar, tqdm
@@ -386,3 +386,33 @@ def derive_localities(localities: DataFrame, data: DataFrame) -> DataFrame:
     locs["key"] = locs["locality"]
     index_columns = ["key", "date"] if "date" in data.columns else ["key"]
     return locs.groupby(index_columns).agg(agg_func)
+
+
+def backfill_cumulative_fields(data: DataFrame, columns=[]) -> DataFrame:
+    """
+    Given a dataframe and some names of cumulative column fields,
+    backfill missing data per key.
+
+    If no columns are provided, then do all columns that begin with "total_"
+
+    Assumes both "key" and "date" are present in data.columns.
+    """
+
+    columns = columns or [col for col in data.columns if col.startswith("total_")]
+    if not columns:
+        # Early return, nothing to do here.
+        return data
+
+    groups = data.groupby(["key"])
+    new_data = data.copy()
+    for group in groups:
+        name, group_data = group
+        group_data = group_data.sort_values(by="date", ascending=False)
+        for column in columns:
+            # Need to fill the last item with 0 if it's null for bfill purposes.
+            if isnull(group_data.loc[group_data.last_valid_index(), column]):
+                group_data.loc[group_data.last_valid_index(), column] = 0
+
+            new_data.loc[data["key"] == name, column] = group_data[column].bfill()
+
+    return new_data
