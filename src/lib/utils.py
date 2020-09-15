@@ -404,7 +404,6 @@ def backfill_cumulative_fields(data: DataFrame, columns=[]) -> DataFrame:
         return data
 
     groups = data.groupby(["key"])
-    new_data = data.copy()
     for group in groups:
         name, group_data = group
         group_data = group_data.sort_values(by="date", ascending=False)
@@ -413,6 +412,6 @@ def backfill_cumulative_fields(data: DataFrame, columns=[]) -> DataFrame:
             if isnull(group_data.loc[group_data.last_valid_index(), column]):
                 group_data.loc[group_data.last_valid_index(), column] = 0
 
-            new_data.loc[data["key"] == name, column] = group_data[column].bfill()
+            data.loc[data["key"] == name, column] = group_data[column].bfill()
 
-    return new_data
+    return data

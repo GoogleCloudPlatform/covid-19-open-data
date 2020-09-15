@@ -92,16 +92,46 @@ LOCALITY_TEST_DATA = DataFrame.from_records(
 
 BACKFILL_TEST_DATA = DataFrame.from_records(
     [
-        {"key": "GB_UKC", "date": "2020-01-01", "total_deceased": float("NaN")},
-        {"key": "GB_UKC", "date": "2020-01-02", "total_deceased": float("NaN")},
-        {"key": "GB_UKC", "date": "2020-01-03", "total_deceased": 100},
-        {"key": "GB_UKC", "date": "2020-01-04", "total_deceased": float("NaN")},
-        {"key": "GB_UKC", "date": "2020-01-05", "total_deceased": 200},
-        {"key": "GB_UKD", "date": "2020-01-01", "total_deceased": float("NaN")},
-        {"key": "GB_UKD", "date": "2020-01-02", "total_deceased": 200},
-        {"key": "GB_UKD", "date": "2020-01-03", "total_deceased": float("NaN")},
-        {"key": "GB_UKD", "date": "2020-01-04", "total_deceased": float("NaN")},
-        {"key": "GB_UKD", "date": "2020-01-05", "total_deceased": 300},
+        {
+            "key": "GB_UKC",
+            "date": "2020-01-01",
+            "total_deceased": float("NaN"),
+            "extra_col": "check",
+        },
+        {
+            "key": "GB_UKC",
+            "date": "2020-01-02",
+            "total_deceased": float("NaN"),
+            "extra_col": "check",
+        },
+        {"key": "GB_UKC", "date": "2020-01-03", "total_deceased": 100, "extra_col": "check"},
+        {
+            "key": "GB_UKC",
+            "date": "2020-01-04",
+            "total_deceased": float("NaN"),
+            "extra_col": "check",
+        },
+        {"key": "GB_UKC", "date": "2020-01-05", "total_deceased": 200, "extra_col": "check"},
+        {
+            "key": "GB_UKD",
+            "date": "2020-01-01",
+            "total_deceased": float("NaN"),
+            "extra_col": "check",
+        },
+        {"key": "GB_UKD", "date": "2020-01-02", "total_deceased": 200, "extra_col": "check"},
+        {
+            "key": "GB_UKD",
+            "date": "2020-01-03",
+            "total_deceased": float("NaN"),
+            "extra_col": "check",
+        },
+        {
+            "key": "GB_UKD",
+            "date": "2020-01-04",
+            "total_deceased": float("NaN"),
+            "extra_col": "check",
+        },
+        {"key": "GB_UKD", "date": "2020-01-05", "total_deceased": 300, "extra_col": "check"},
     ]
 )
 
@@ -293,16 +323,66 @@ class TestTableUtils(ProfiledTestCase):
         test_data = BACKFILL_TEST_DATA.copy()
         expected = DataFrame.from_records(
             [
-                {"key": "GB_UKC", "date": "2020-01-01", "total_deceased": 0.0},
-                {"key": "GB_UKC", "date": "2020-01-02", "total_deceased": 0.0},
-                {"key": "GB_UKC", "date": "2020-01-03", "total_deceased": 100.0},
-                {"key": "GB_UKC", "date": "2020-01-04", "total_deceased": 100.0},
-                {"key": "GB_UKC", "date": "2020-01-05", "total_deceased": 200.0},
-                {"key": "GB_UKD", "date": "2020-01-01", "total_deceased": 0.0},
-                {"key": "GB_UKD", "date": "2020-01-02", "total_deceased": 200.0},
-                {"key": "GB_UKD", "date": "2020-01-03", "total_deceased": 200.0},
-                {"key": "GB_UKD", "date": "2020-01-04", "total_deceased": 200.0},
-                {"key": "GB_UKD", "date": "2020-01-05", "total_deceased": 300.0},
+                {
+                    "key": "GB_UKC",
+                    "date": "2020-01-01",
+                    "total_deceased": 0.0,
+                    "extra_col": "check",
+                },
+                {
+                    "key": "GB_UKC",
+                    "date": "2020-01-02",
+                    "total_deceased": 0.0,
+                    "extra_col": "check",
+                },
+                {
+                    "key": "GB_UKC",
+                    "date": "2020-01-03",
+                    "total_deceased": 100.0,
+                    "extra_col": "check",
+                },
+                {
+                    "key": "GB_UKC",
+                    "date": "2020-01-04",
+                    "total_deceased": 100.0,
+                    "extra_col": "check",
+                },
+                {
+                    "key": "GB_UKC",
+                    "date": "2020-01-05",
+                    "total_deceased": 200.0,
+                    "extra_col": "check",
+                },
+                {
+                    "key": "GB_UKD",
+                    "date": "2020-01-01",
+                    "total_deceased": 0.0,
+                    "extra_col": "check",
+                },
+                {
+                    "key": "GB_UKD",
+                    "date": "2020-01-02",
+                    "total_deceased": 200.0,
+                    "extra_col": "check",
+                },
+                {
+                    "key": "GB_UKD",
+                    "date": "2020-01-03",
+                    "total_deceased": 200.0,
+                    "extra_col": "check",
+                },
+                {
+                    "key": "GB_UKD",
+                    "date": "2020-01-04",
+                    "total_deceased": 200.0,
+                    "extra_col": "check",
+                },
+                {
+                    "key": "GB_UKD",
+                    "date": "2020-01-05",
+                    "total_deceased": 300.0,
+                    "extra_col": "check",
+                },
             ]
         )
         test_result = backfill_cumulative_fields(test_data)
