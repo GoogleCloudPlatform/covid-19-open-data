@@ -130,6 +130,7 @@ sources:
     fetch:
       - url: "https://www.gov.scot/binaries/content/documents/govscot/publications/statistics/2020/04/coronavirus-covid-19-trends-in-daily-data/documents/covid-19-data-by-nhs-board/covid-19-data-by-nhs-board/govscot%3Adocument/COVID-19%2Bdata%2Bby%2BNHS%2BBoard.xlsx"
     test:
+      skip: True
       metadata_query: key.str.match("GB_SCT.*")
 
   # Data sources for IE level 1
