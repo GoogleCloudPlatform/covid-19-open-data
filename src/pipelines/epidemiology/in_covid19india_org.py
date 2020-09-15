@@ -41,7 +41,7 @@ class Covid19IndiaOrgL2DataSource(DataSource):
         data = data.rename(
             columns={
                 "Confirmed": "new_confirmed",
-                "Deaths": "new_deceased",
+                "Deceased": "new_deceased",
                 "Recovered": "new_recovered",
                 "Date": "date",
             }
