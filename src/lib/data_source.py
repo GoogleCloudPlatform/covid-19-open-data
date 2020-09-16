@@ -281,7 +281,7 @@ class DataSource(ErrorLogger):
         # Process each record to add missing cumsum or daily diffs
         data = infer_new_and_total(data)
 
-        if "backfill" in self.config and self.config["backfill"]:
+        if parse_opts.get("backfill"):
             # Backfill cumulative fields with previous entries.
             data = backfill_cumulative_fields(data)
 

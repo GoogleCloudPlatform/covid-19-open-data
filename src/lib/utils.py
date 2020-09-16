@@ -15,7 +15,7 @@
 from functools import partial, reduce
 from typing import Any, Callable, List, Dict, Tuple, Optional
 from numpy import unique
-from pandas import DataFrame, Series, concat, merge, isnull
+from pandas import DataFrame, Series, concat, merge
 from pandas.api.types import is_numeric_dtype
 from .cast import isna, safe_int_cast
 from .io import fuzzy_text, pbar, tqdm
@@ -388,7 +388,7 @@ def derive_localities(localities: DataFrame, data: DataFrame) -> DataFrame:
     return locs.groupby(index_columns).agg(agg_func)
 
 
-def backfill_cumulative_fields(data: DataFrame, columns=[]) -> DataFrame:
+def backfill_cumulative_fields(data: DataFrame, columns: Optional[List] = None) -> DataFrame:
     """
     Given a dataframe and some names of cumulative column fields,
     backfill missing data per key.
@@ -409,7 +409,7 @@ def backfill_cumulative_fields(data: DataFrame, columns=[]) -> DataFrame:
         group_data = group_data.sort_values(by="date", ascending=False)
         for column in columns:
             # Need to fill the last item with 0 if it's null for bfill purposes.
-            if isnull(group_data.loc[group_data.last_valid_index(), column]):
+            if isna(group_data.loc[group_data.last_valid_index(), column]):
                 group_data.loc[group_data.last_valid_index(), column] = 0
 
             data.loc[data["key"] == name, column] = group_data[column].bfill()
