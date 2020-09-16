@@ -140,8 +140,8 @@ class Covid19UkL2DataSource(DataSource):
         cases_and_deaths_and_tests = {
             "date": "date",
             "areaName": "areaName",
-            "newCasesByPublishDate": "newCasesByPublishDate",
-            "cumCasesByPublishDate": "cumCasesByPublishDate",
+            "newCasesBySpecimenDate": "newCasesBySpecimenDate",
+            "cumCasesBySpecimenDate": "cumCasesBySpecimenDate",
             "newDeaths28DaysByDeathDate": "newDeaths28DaysByDeathDate",
             "cumDeaths28DaysByDeathDate": "cumDeaths28DaysByDeathDate",
             "cumTestsByPublishDate": "cumTestsByPublishDate",
@@ -155,8 +155,8 @@ class Covid19UkL2DataSource(DataSource):
             data,
             {
                 "areaName": "subregion1_name",
-                "newCasesByPublishDate": "new_confirmed",
-                "cumCasesByPublishDate": "total_confirmed",
+                "newCasesBySpecimenDate": "new_confirmed",
+                "cumCasesBySpecimenDate": "total_confirmed",
                 "newDeaths28DaysByDeathDate": "new_deceased",
                 "cumDeaths28DaysByDeathDate": "total_deceased",
                 "newTestsByPublishDate": "new_tested",
@@ -181,8 +181,8 @@ class Covid19UkL1DataSource(DataSource):
         cases_and_deaths_and_tests = {
             "date": "date",
             "areaCode": "areaCode",
-            "newCasesByPublishDate": "newCasesByPublishDate",
-            "cumCasesByPublishDate": "cumCasesByPublishDate",
+            "newCasesBySpecimenDate": "newCasesBySpecimenDate",
+            "cumCasesBySpecimenDate": "cumCasesBySpecimenDate",
             "newDeaths28DaysByDeathDate": "newDeaths28DaysByDeathDate",
             "cumDeaths28DaysByDeathDate": "cumDeaths28DaysByDeathDate",
             "cumTestsByPublishDate": "cumTestsByPublishDate",
@@ -196,8 +196,8 @@ class Covid19UkL1DataSource(DataSource):
             data,
             {
                 "areaCode": "country_code",
-                "newCasesByPublishDate": "new_confirmed",
-                "cumCasesByPublishDate": "total_confirmed",
+                "newCasesBySpecimenDate": "new_confirmed",
+                "cumCasesBySpecimenDate": "total_confirmed",
                 "newDeaths28DaysByDeathDate": "new_deceased",
                 "cumDeaths28DaysByDeathDate": "total_deceased",
                 "newTestsByPublishDate": "new_tested",
