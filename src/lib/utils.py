@@ -386,3 +386,30 @@ def derive_localities(localities: DataFrame, data: DataFrame) -> DataFrame:
     locs["key"] = locs["locality"]
     index_columns = ["key", "date"] if "date" in data.columns else ["key"]
     return locs.groupby(index_columns).agg(agg_func)
+
+
+def backfill_cumulative_fields_inplace(data: DataFrame, columns: Optional[List] = None):
+    """
+    Given a dataframe and some names of cumulative column fields,
+    backfill missing data per key.
+
+    If no columns are provided, then do all columns that begin with "total_"
+
+    Assumes both "key" and "date" are present in data.columns.
+    """
+
+    columns = columns or [col for col in data.columns if col.startswith("total_")]
+    if not columns:
+        # Early return, nothing to do here.
+        return data
+
+    groups = data.groupby(["key"])
+    for group in groups:
+        name, group_data = group
+        group_data = group_data.sort_values(by="date", ascending=False)
+        for column in columns:
+            # Need to fill the last item with 0 if it's null for bfill purposes.
+            if isna(group_data.loc[group_data.last_valid_index(), column]):
+                group_data.loc[group_data.last_valid_index(), column] = 0
+
+            data.loc[data["key"] == name, column] = group_data[column].bfill()

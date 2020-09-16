@@ -25,7 +25,12 @@ from .cast import isna
 from .io import read_file, fuzzy_text
 from .net import download_snapshot
 from .time import datetime_isoformat
-from .utils import derive_localities, infer_new_and_total, stratify_age_sex_ethnicity
+from .utils import (
+    derive_localities,
+    infer_new_and_total,
+    stratify_age_sex_ethnicity,
+    backfill_cumulative_fields_inplace,
+)
 
 
 class DataSource(ErrorLogger):
@@ -275,6 +280,10 @@ class DataSource(ErrorLogger):
 
         # Process each record to add missing cumsum or daily diffs
         data = infer_new_and_total(data)
+
+        if parse_opts.get("backfill"):
+            # Backfill cumulative fields with previous entries.
+            backfill_cumulative_fields_inplace(data)
 
         # Return the final dataframe
         return data

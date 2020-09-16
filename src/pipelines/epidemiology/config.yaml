@@ -404,6 +404,8 @@ sources:
       # TODO(owahltinez): skip test since it's very flakey
       skip: true
       metadata_query: "key == 'GB'"
+    parse:
+      backfill: true
     automation:
       job_group: 'united_kingdom'
 
@@ -412,6 +414,8 @@ sources:
       # TODO(owahltinez): skip test since it's very flakey
       skip: true
       metadata_query: key.str.match("GB_[^_]+$")
+    parse:
+      backfill: true
     automation:
       job_group: 'united_kingdom'
 
@@ -420,6 +424,8 @@ sources:
       # TODO(owahltinez): skip test since it's very flakey
       skip: true
       metadata_query: key.str.match("GB_.+_.+")
+    parse:
+      backfill: true
     automation:
       job_group: 'united_kingdom'
 
@@ -428,6 +434,8 @@ sources:
       # TODO(owahltinez): skip test since it's very flakey
       skip: true
       metadata_query: key.str.match('GB_UK[^_]+$')"
+    parse:
+      backfill: true
     automation:
       job_group: 'united_kingdom'
 
