@@ -29,7 +29,7 @@ from .utils import (
     derive_localities,
     infer_new_and_total,
     stratify_age_sex_ethnicity,
-    backfill_cumulative_fields,
+    backfill_cumulative_fields_inplace,
 )
 
 
@@ -283,7 +283,7 @@ class DataSource(ErrorLogger):
 
         if parse_opts.get("backfill"):
             # Backfill cumulative fields with previous entries.
-            data = backfill_cumulative_fields(data)
+            backfill_cumulative_fields_inplace(data)
 
         # Return the final dataframe
         return data

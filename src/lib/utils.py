@@ -388,7 +388,7 @@ def derive_localities(localities: DataFrame, data: DataFrame) -> DataFrame:
     return locs.groupby(index_columns).agg(agg_func)
 
 
-def backfill_cumulative_fields(data: DataFrame, columns: Optional[List] = None) -> DataFrame:
+def backfill_cumulative_fields_inplace(data: DataFrame, columns: Optional[List] = None):
     """
     Given a dataframe and some names of cumulative column fields,
     backfill missing data per key.
@@ -413,5 +413,3 @@ def backfill_cumulative_fields(data: DataFrame, columns: Optional[List] = None) 
                 group_data.loc[group_data.last_valid_index(), column] = 0
 
             data.loc[data["key"] == name, column] = group_data[column].bfill()
-
-    return data

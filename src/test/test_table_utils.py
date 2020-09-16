@@ -26,7 +26,7 @@ from lib.utils import (
     derive_localities,
     infer_new_and_total,
     stack_table,
-    backfill_cumulative_fields,
+    backfill_cumulative_fields_inplace,
 )
 from .profiled_test_case import ProfiledTestCase
 
@@ -319,7 +319,7 @@ class TestTableUtils(ProfiledTestCase):
         test_result = derive_localities(localities, test_data)[columns]
         self.assertEqual(test_result.to_csv(index=False), expected.to_csv(index=False))
 
-    def test_backfill_cumulative_fields_two_keys(self):
+    def test_backfill_cumulative_fields_inplace_two_keys(self):
         test_data = BACKFILL_TEST_DATA.copy()
         expected = DataFrame.from_records(
             [
@@ -385,15 +385,16 @@ class TestTableUtils(ProfiledTestCase):
                 },
             ]
         )
-        test_result = backfill_cumulative_fields(test_data)
+        backfill_cumulative_fields_inplace(test_data)
 
-        self.assertTrue(test_result.equals(expected))
+        self.assertTrue(test_data.equals(expected))
 
-    def test_backfill_cumulative_fields_no_total_column(self):
+    def test_backfill_cumulative_fields_inplace_no_total_column(self):
         test_data = BACKFILL_TEST_DATA.copy().rename(columns={"total_deceased": "val"})
-        test_result = backfill_cumulative_fields(test_data)
+        expected = test_data.copy()
+        backfill_cumulative_fields_inplace(test_data)
 
-        self.assertTrue(test_result.equals(test_data))
+        self.assertTrue(test_data.equals(expected))
 
     # TODO: Add test for complex infer example (e.g. missing values)
     # TODO: Add test for stratify_age_sex_ethnicity
