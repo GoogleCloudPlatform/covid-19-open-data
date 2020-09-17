@@ -12,9 +12,9 @@ resolves discrepancies between ISO / NUTS / FIPS codes, etc. The different aggre
   location"
 
 There are multiple types of data:
-* Outcome data `Y(i,t)`, such as cases, deaths, tests, for regions i and time t
-* Static covariate data `X(i)`, such as population size, GDP, latitude/ longitude
-* Dynamic covariate data `X(i,t)`, such as mobility, weather, and government interventions
+* Outcome data `Y(i,t)`, such as cases, tests, hospitalizations, deaths and recoveries, for region i and time t
+* Static covariate data `X(i)`, such as population size, health statistics, economic indicators, geographic boundaries
+* Dynamic covariate data `X(i,t)`, such as mobility, search trends, weather, and government interventions
 
 The data is drawn from multiple sources, as listed [below](#sources-of-data), and stored in separate
 csv / json files, which can be easily merged due to the use of consistent geographic (and temporal)
