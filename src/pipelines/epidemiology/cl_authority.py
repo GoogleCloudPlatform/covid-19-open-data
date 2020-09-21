@@ -97,7 +97,7 @@ class ChileMunicipalitiesDataSource(DataSource):
                     dataframes["confirmed"],
                     {
                         "Fecha": "date",
-                        "Casos confirmados": "new_confirmed",
+                        "Casos confirmados": "total_confirmed",
                         "Codigo region": "subregion1_code",
                         "Codigo comuna": "subregion2_code",
                     },
