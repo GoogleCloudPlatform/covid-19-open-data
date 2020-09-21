@@ -1,7 +1,6 @@
 # Source Code
 This folder contains all the code necessary to update the data tables. It is a single Python package
 with the following modules:
-* [cache](./cache): used to help aggregating data sources which do not provide historical data
 * [data](./data): auxiliary and help data files used during processing of input
 * [earthengine](./earthengine): submodule containing code used to perform computations in [Google Earth Engine](https://earthengine.google.com)
 * [lib](./lib): core functions and utilities used across the package
@@ -115,8 +114,8 @@ python publish.py
 ## Caching
 Some data sources are unreliable or only provide daily data (instead of historical). To improve the
 resiliency of the data pipeline, you may also use a cache layer which creates hourly snapshots of
-data sources, which can then be aggregated into historical data. See the [cache](./cache) folder for
-more details.
+data sources, which can then be aggregated into historical data. URLs defined in the
+[cache.yaml file](./cache.yaml) are downloaded automatically.
 
 ## Development Environment
 There are no strict guidelines regarding a development environment. Here are the recommended

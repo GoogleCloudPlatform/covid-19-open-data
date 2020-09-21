@@ -28,6 +28,7 @@ from tempfile import TemporaryDirectory
 from typing import Callable, Dict, List
 
 import requests
+import yaml
 from flask import Flask, Response, request
 from google.cloud import storage
 from google.cloud.storage.blob import Blob
@@ -165,19 +166,21 @@ def cache_pull() -> str:
         def _pull_source(cache_source: Dict[str, str]):
             url = cache_source.pop("url")
             output = cache_source.pop("output")
+            print(f"Downloading {url} into {output}")
             buffer = BytesIO()
             try:
                 download(url, buffer)
                 with (output_folder / output).open("wb") as fd:
                     fd.write(buffer.getvalue())
+                print(f"Downloaded {output} successfully")
             except:
                 print(f"Cache pull failed for {url}")
                 traceback.print_exc()
 
         # Pull each of the sources from the cache config
-        with (SRC / "cache" / "config.json").open("r") as fd:
-            cache_list = json.load(fd)
-        list(thread_map(_pull_source, cache_list))
+        with (SRC / "cache.yaml").open("r") as fd:
+            cache_list = yaml.safe_load(fd)
+        list(thread_map(_pull_source, cache_list, disable=True))
 
         # Upload all cached data to the bucket
         upload_folder(GCS_BUCKET_PROD, "cache", workdir)
