@@ -1,0 +1,71 @@
+- url: https://www.cdph.ca.gov/Programs/CID/DCDC/Pages/COVID-19/Race-Ethnicity.aspx
+  output: US_CA-mortality-stratified.html
+
+- url: https://www.dph.illinois.gov/sitefiles/COVIDHistoricalTestResults.json
+  output: US_IL-DPH.json
+
+- url: https://dph.illinois.gov/sitefiles/COVIDZip.json
+  output: US_IL-stratified.json
+
+- url: https://public.tableau.com/static/images/CO/COVID-19TableauVersion2/DeathSummary/1_rss.png
+  output: US_KS-mortality-stratified.png
+
+- url: https://public.tableau.com/static/images/CO/COVID-19TableauVersion2/AgeandDemographics/1_rss.png
+  output: US_KS-confirmed-stratified.png
+
+- url: https://public.tableau.com/static/images/CO/COVID-19TableauVersion2/HospitalizationandEmergencyDepartment/1_rss.png
+  output: US_KS-hospitalized-stratified.png
+
+- url: https://public.tableau.com/static/images/Ep/EpiProfile/DemoStory/1_rss.png
+  output: US_SC-confirmed-stratified.png
+
+- url: https://services1.arcgis.com/9H64STM3PyG3DqUs/arcgis/rest/services/Cases_by_state/FeatureServer/0/query?f=json&where=1%3D1&outFields=*&returnGeometry=false
+  output: SO_cases_by_state.json
+
+- url: https://thl.fi/en/web/infectious-diseases-and-vaccinations/what-s-new/coronavirus-covid-19-latest-updates/situation-update-on-coronavirus
+  output: FI_hospitalizations.html
+
+- url: https://sampo.thl.fi/pivot/prod/fi/epirapo/covid19case/fact_epirapo_covid19case.csv?column=hcdmunicipality2020-445268L
+  output: FI_municipalities.html
+
+- url: http://covid19tracker.gov.bd/api/district
+  output: BD_districts_confirmed.json
+
+- url: https://services7.arcgis.com/4RQmZZ0yaZkGR1zy/arcgis/rest/services/DIED_FROM_COVID19_STWD_DEMO_PUBLIC/FeatureServer/3/query?f=json&where=1%3D1&outFields=*&returnGeometry=false
+  output: US_AL_mortality_age_stratified.json
+
+- url: https://services7.arcgis.com/4RQmZZ0yaZkGR1zy/arcgis/rest/services/DIED_FROM_COVID19_STWD_DEMO_PUBLIC/FeatureServer/2/query?f=json&where=1%3D1&outFields=*&returnGeometry=false
+  output: US_AL_mortality_sex_stratified.json
+
+- url: https://services7.arcgis.com/4RQmZZ0yaZkGR1zy/arcgis/rest/services/Statewide_COVID19_CONFIRMED_DEMOG_PUBLIC/FeatureServer/0/query?f=json&where=1%3D1&outFields=*&returnGeometry=false
+  output: US_AL_confirmed_age_stratified.json
+
+- url: https://services7.arcgis.com/4RQmZZ0yaZkGR1zy/arcgis/rest/services/Statewide_COVID19_CONFIRMED_DEMOG_PUBLIC/FeatureServer/2/query?f=json&where=1%3D1&outFields=*&returnGeometry=false
+  output: US_AL_confirmed_sex_stratified.json
+
+- url: https://services7.arcgis.com/4RQmZZ0yaZkGR1zy/arcgis/rest/services/Daily_Confirmed_by_County_PUBLIC/FeatureServer/1/query?f=json&where=1%3D1&outFields=*&returnGeometry=false
+  output: US_AL_confirmed_counties.json
+
+- url: https://opendata.arcgis.com/datasets/433dffcfc59a492dabf2e3930cdfcb8c_0.csv
+  output: US_AK_confirmed_counties.csv
+
+- url: https://www.arcgis.com/sharing/rest/content/items/867f802ce1624b46b40d2bd281490078/data
+  output: US_AK_summary.xlsx
+
+- url: https://tableau.azdhs.gov/views/COVID19Demographics/EpiData/sheet.pdf
+  output: US_AZ_mortality_stratified.pdf
+
+- url: https://tableau.azdhs.gov/views/COVID-19Deaths/Deaths/sheet.pdf
+  output: US_AZ_confirmed_stratified.pdf
+
+- url: https://tableau.azdhs.gov/views/Hospitalization/HospitalizedCOVID-19Cases/sheet.pdf
+  output: US_AZ_hospitalized_stratified.pdf
+
+- url: https://stateofhealth.ct.gov/content/covidfiles/datawrapper/StateSummary.csv
+  output: US_CT_hospitalized.csv
+
+- url: https://stateofhealth.ct.gov/content/covidfiles/datawrapper/AgeGroupSummary.csv
+  output: US_CT_stratified.csv
+
+- url: https://ga-covid19.ondemand.sas.com/docs/ga_covid_data.zip
+  output: US_GA_stratified.zip
