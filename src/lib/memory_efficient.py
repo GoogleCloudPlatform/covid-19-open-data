@@ -19,7 +19,7 @@ import shutil
 import warnings
 import traceback
 from pathlib import Path
-from typing import Dict, Iterable, List
+from typing import Dict, Iterable, List, TextIO
 from .io import read_lines, read_table
 
 
@@ -45,26 +45,36 @@ def get_table_columns(table_path: Path) -> List[str]:
         return next(reader)
 
 
-def table_sort(table_path: Path, output_path: Path) -> None:
+def table_sort(table_path: Path, output_path: Path, sort_columns: List[str] = None) -> None:
     """
     Memory-efficient method used to perform a lexical sort of all the rows of this table, excluding
-    the table header.
+    the table header. This puts the entire table in memory, so it's not exactly memory efficient but
+    it's still better than using pandas.
 
     Arguments:
         table_path: Path of the table to be sorted.
         output_path: Output location for the sorted table.
+        sort_columns: Columns used to sort by, defaults to all.
     """
-    with open(table_path, "r") as fd_in:
-        header = next(fd_in)
-        with open(output_path, "w") as fd_out:
-            fd_out.write(f"{header}")
+    columns = {name: idx for idx, name in enumerate(get_table_columns(table_path))}
+    if not sort_columns:
+        sort_columns = [list(columns.keys())[0]]
+    assert all(
+        col in columns for col in sort_columns
+    ), f"Not all columns in input present from list {sort_columns}"
+    sort_indices = [columns[name] for name in sort_columns]
 
-            records = []
-            for record in fd_in:
-                records.append(record)
+    records = []
+    reader = csv.reader(skip_head_reader(table_path, skip_empty=True))
+    for record in reader:
+        records.append(record)
 
-            for record in sorted(records):
-                fd_out.write(f"{record}")
+    with open(output_path, "w") as fd_out:
+        writer = csv.writer(fd_out)
+        writer.writerow(columns.keys())
+
+        for record in sorted(records, key=lambda x: tuple([x[idx] for idx in sort_indices])):
+            writer.writerow(record)
 
 
 def table_join(left: Path, right: Path, on: List[str], output: Path, how: str = "outer") -> None:
@@ -193,6 +203,101 @@ def table_group_tail(table: Path, output: Path) -> None:
             writer.writerow(columns.keys())
             for record in records.values():
                 writer.writerow(record[name] for name in columns.keys())
+
+
+def table_rename(
+    table: Path, output: Path, column_adapter: Dict[str, str], drop: bool = False
+) -> None:
+    """
+    Renames the header of the input table leaving column order and all rows the same. If a column
+    name is mapped to `None`.
+
+    Arguments:
+        table: Location of the input table.
+        output: Location of the output table.
+        column_adapter: Map of <old column name, new column name>.
+        drop: Flag indicating whether columns not in the adapter should be dropped
+    """
+    reader = csv.reader(read_lines(table, skip_empty=True))
+    column_indices = {idx: name for idx, name in enumerate(next(reader))}
+    output_columns = {
+        idx: column_adapter.get(name, None if drop else name)
+        for idx, name in column_indices.items()
+    }
+    output_columns_idx = [idx for idx, name in output_columns.items() if name is not None]
+
+    with open(output, "w") as fd_out:
+        writer = csv.writer(fd_out)
+        writer.writerow(name for name in output_columns.values() if name is not None)
+        for record in reader:
+            writer.writerow(record[idx] for idx in output_columns_idx)
+
+
+def table_filter(table: Path, output: Path, filter_columns: Dict[str, str]) -> None:
+    """
+    Filter records from table for values which match those specified in `filter_columns`. This
+    method can only be used for exact string matches.
+
+    Arguments:
+        table: Location of the input table.
+        output: Location of the output table.
+        filter_columns: Map of key-val pairs where column named <key> must have a value <val>.
+    """
+    reader = csv.reader(read_lines(table, skip_empty=True))
+    columns = {name: idx for idx, name in enumerate(next(reader))}
+    filter_values = {columns.get(name): value for name, value in filter_columns.items()}
+
+    with open(output, "w") as fd_out:
+        writer = csv.writer(fd_out)
+        writer.writerow(columns.keys())
+        for record in reader:
+            if all(record[idx] == filter_values.get(idx, record[idx]) for idx in columns.values()):
+                writer.writerow(record[idx] for idx in columns.values())
+
+
+def table_breakout(table: Path, output_folder: Path, breakout_column: str) -> None:
+    """
+    Performs a linear sweep of the input table and breaks it out based on the value of the given
+    `breakout_column`. To perform this operation in O(N), the table is expected to be sorted first.
+
+    Arguments:
+        table: Location of the input table.
+        output_folder: Location of the output directory where the breakout tables will be placed.
+        breakout_column: Name of the column to use for the breakout depending on its value.
+    """
+    reader = csv.reader(read_lines(table, skip_empty=True))
+    columns = {name: idx for idx, name in enumerate(next(reader))}
+    assert breakout_column in columns, f"Column {breakout_column} not found in table header"
+    breakout_column_idx = columns[breakout_column]
+    output_header = list(columns.keys())
+
+    # Define variables outside of the loop, which will be modified as we traverse the file
+    breakout_folder: Path = None
+    csv_writer = None  # type is private
+    current_breakout_value: str = None
+    file_handle: TextIO = None
+
+    # We make use of the main table being sorted by <key, date> and do a linear sweep of the file
+    # assuming that once the key changes we won't see it again in future lines
+    for record in reader:
+        breakout_value = record[breakout_column_idx]
+
+        # When the key changes, close the previous file handle and open a new one
+        if current_breakout_value != breakout_value:
+            if file_handle:
+                file_handle.close()
+            current_breakout_value = breakout_value
+            breakout_folder = output_folder / breakout_value
+            breakout_folder.mkdir(exist_ok=True, parents=True)
+            file_handle = (breakout_folder / table.name).open("w")
+            csv_writer = csv.writer(file_handle)
+            csv_writer.writerow(output_header)
+
+        csv_writer.writerow(record)
+
+    # Close the last file handle and we are done
+    if file_handle:
+        file_handle.close()
 
 
 def convert_csv_to_json_records(

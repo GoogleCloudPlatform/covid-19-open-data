@@ -36,7 +36,7 @@ def snake_to_camel_case(txt: str) -> str:
     return re.sub(r"_(\w)", lambda m: m.group(1).upper(), txt.capitalize())
 
 
-if __name__ == "__main__":
+def main():
 
     # Create the folder which will be published
     public_folder = SRC / ".." / "output" / "public"
@@ -140,3 +140,7 @@ if __name__ == "__main__":
                 # Check that the output is less than 100 MB before copying it to the output folder
                 if tmp_path.stat().st_size < 100 * 1000 * 1000:
                     shutil.copyfile(tmp_path, v2_folder / f"{table_name}.{ext}")
+
+
+if __name__ == "__main__":
+    main()
