@@ -30,6 +30,13 @@ JSON_FAST_CONVERTER_SIZE_BYTES = 50 * 1000 * 1000
 JSON_MAX_SIZE_BYTES = 150 * 1000 * 1000
 
 
+def skip_head_reader(path: Path, n: int = 1, **read_opts) -> Iterable[str]:
+    fd = read_lines(path, **read_opts)
+    for _ in range(n):
+        next(fd)
+    yield from fd
+
+
 def get_table_columns(table_path: Path) -> List[str]:
     """
     Memory-efficient method used to extract the columns of a table without reading the entire
@@ -95,7 +102,7 @@ def table_join(left: Path, right: Path, on: List[str], output: Path, how: str = 
     def compute_join_indices(columns: List[str]) -> List[str]:
         assert all(
             name in columns.keys() for name in on
-        ), f"Column provided in `on` not present in right table. Expected {on} but found {columns}"
+        ), f"Column {on} not present in right table, found {list(columns.keys())}"
         join_indices = [columns[name] for name in on]
         return join_indices
 
@@ -139,13 +146,6 @@ def table_join(left: Path, right: Path, on: List[str], output: Path, how: str = 
                 writer.writerow(data_left + data_right)
 
 
-def skip_head_reader(path: Path, n: int = 1, **read_opts) -> Iterable[str]:
-    fd = read_lines(path, **read_opts)
-    for _ in range(n):
-        next(fd)
-    yield from fd
-
-
 def table_cross_product(left: Path, right: Path, output: Path) -> None:
     """
     Memory efficient method to perform the cross product of all columns in two tables. Columns
@@ -170,7 +170,7 @@ def table_cross_product(left: Path, right: Path, output: Path) -> None:
 
 
 def table_group_tail(table: Path, output: Path) -> None:
-    """ Outputs latest data for each key, assumes records are indexed by <key, date> """
+    """ Outputs latest data for each key, assumes records are sorted by <key, date> """
 
     reader = csv.reader(read_lines(table))
     columns = {name: idx for idx, name in enumerate(next(reader))}
@@ -210,7 +210,7 @@ def table_rename(
 ) -> None:
     """
     Renames the header of the input table leaving column order and all rows the same. If a column
-    name is mapped to `None`.
+    name is mapped to `None`, then the column will be removed from the output.
 
     Arguments:
         table: Location of the input table.
@@ -277,6 +277,9 @@ def table_breakout(table: Path, output_folder: Path, breakout_column: str) -> No
     current_breakout_value: str = None
     file_handle: TextIO = None
 
+    # Keep track of all seen breakout column values
+    seen_breakout_values = set()
+
     # We make use of the main table being sorted by <key, date> and do a linear sweep of the file
     # assuming that once the key changes we won't see it again in future lines
     for record in reader:
@@ -286,6 +289,11 @@ def table_breakout(table: Path, output_folder: Path, breakout_column: str) -> No
         if current_breakout_value != breakout_value:
             if file_handle:
                 file_handle.close()
+
+            if breakout_value in seen_breakout_values:
+                raise RuntimeError(f"Table {table} was not sorted by {breakout_column}")
+            seen_breakout_values.add(breakout_value)
+
             current_breakout_value = breakout_value
             breakout_folder = output_folder / breakout_value
             breakout_folder.mkdir(exist_ok=True, parents=True)
@@ -298,6 +306,46 @@ def table_breakout(table: Path, output_folder: Path, breakout_column: str) -> No
     # Close the last file handle and we are done
     if file_handle:
         file_handle.close()
+
+
+def table_read_column(table: Path, column: str) -> Iterable[str]:
+    """
+    Read a single column from the input table.
+
+    Arguments:
+        table: Location of the input table.
+        column: Name of the column to read.
+    Returns:
+        Iterable[str]: Iterable of values for the requested column
+    """
+    reader = csv.reader(read_lines(table, skip_empty=True))
+    column_indices = {name: idx for idx, name in enumerate(next(reader))}
+    output_column_index = column_indices[column]
+    for record in reader:
+        yield record[output_column_index]
+
+
+def table_drop_nan_columns(table: Path, output: Path) -> None:
+    """
+    Drop columns with only null values from the table.
+
+    Arguments:
+        table: Location of the input table.
+        output: Location of the output table.
+    """
+    reader = csv.reader(read_lines(table, skip_empty=True))
+    column_names = {idx: name for idx, name in enumerate(next(reader))}
+
+    # Perform a linear sweep to look for columns without a single non-null value
+    not_nan_columns = set()
+    for record in reader:
+        for idx, value in enumerate(record):
+            if value is not None and value != "":
+                not_nan_columns.add(idx)
+
+    # Remove all null columns and write output
+    nan_columns = [idx for idx in column_names.keys() if idx not in not_nan_columns]
+    table_rename(table, output, {column_names[idx]: None for idx in nan_columns})
 
 
 def convert_csv_to_json_records(
