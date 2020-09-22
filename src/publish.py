@@ -109,6 +109,7 @@ def make_main_table(
     output_path: Path,
     location_key: str = "key",
     exclude_tables: List[str] = None,
+    drop_empty_columns: bool = False,
 ) -> None:
     """
     Build a flat view of all tables combined, joined by <key> or <key, date>.
@@ -181,7 +182,10 @@ def make_main_table(
         # TODO: figure out a memory-efficient way to do this
 
         # Remove columns which provide no data because they are only null values
-        table_drop_nan_columns(temp_file_path_2, temp_file_path_1)
+        if drop_empty_columns:
+            table_drop_nan_columns(temp_file_path_2, temp_file_path_1)
+        else:
+            temp_file_path_1, temp_file_path_2 = temp_file_path_2, temp_file_path_1
 
         # Ensure that the table is appropriately sorted and write to output location
         table_sort(temp_file_path_1, output_path)
@@ -230,42 +234,52 @@ def convert_tables_to_json(csv_folder: Path, output_folder: Path) -> Iterable[Pa
             yield json_output
 
 
-def publish_location_subsets(output_folder: Path, tables_folder: Path) -> None:
+def publish_location_breakouts(tables_folder: Path, output_folder: Path) -> None:
     """
     Breaks out each of the tables in `tables_folder` based on location key, and writes them into
     subdirectories of `output_folder`. This method also joins *all* the tables into a main.csv
     table, which will be more comprehensive than the global main.csv.
 
     Arguments:
-        output_folder: Output path for the resulting location data.
         tables_folder: Directory containing input CSV files.
+        output_folder: Output path for the resulting location data.
     """
     # Break out each table into separate folders based on the location key
     for csv_path in tables_folder.glob("*.csv"):
         print(f"Breaking out table {csv_path.name}")
         table_breakout(csv_path, output_folder, "location_key")
 
-    # Get a list of all the keys in the index table
-    keys = table_read_column(tables_folder / "index.csv", "location_key")
 
+def publish_location_aggregates(
+    tables_folder: Path, output_folder: Path, location_keys: Iterable[str]
+) -> None:
+    """
+    This method joins *all* the tables for each location into a main.csv table.
+
+    Arguments:
+        tables_folder: Directory containing input CSV files.
+        output_folder: Output path for the resulting location data.
+        location_keys: List of location keys to do aggregation for.
+    """
     # Create a main.csv file for each of the locations in parallel
     map_func = lambda key: make_main_table(
-        output_folder / key,
+        tables_folder / key,
         output_folder / key / "main.csv",
         location_key="location_key",
         exclude_tables=["main"],
+        drop_empty_columns=True,
     )
-    list(thread_map(map_func, list(keys), desc="Creating location subsets"))
+    list(thread_map(map_func, list(location_keys), desc="Creating location subsets"))
 
 
-def publish_global_tables(output_folder: Path, tables_folder: Path) -> None:
+def publish_global_tables(tables_folder: Path, output_folder: Path) -> None:
     """
     Copy all the tables from `tables_folder` into `output_folder` converting the column names to the
     latest schema, and join all the tables into a single main.csv file.
 
     Arguments:
-        output_folder: Directory where the output tables will be written.
         tables_folder: Input directory containing tables as CSV files.
+        output_folder: Directory where the output tables will be written.
     """
     with TemporaryDirectory() as workdir:
         workdir = Path(workdir)
@@ -311,10 +325,14 @@ def main_v3(output_folder: Path, tables_folder: Path, show_progress: bool = True
         v3_folder.mkdir(exist_ok=True, parents=True)
 
         # Publish the tables containing all location keys
-        publish_global_tables(v3_folder, tables_folder)
+        publish_global_tables(tables_folder, v3_folder)
 
         # Break out each table into separate folders based on the location key
-        publish_location_subsets(v3_folder, v3_folder)
+        publish_location_breakouts(v3_folder, v3_folder)
+
+        # Aggregate the independent tables for each location
+        location_keys = table_read_column(v3_folder / "index.csv", "location_key")
+        publish_location_aggregates(v3_folder, v3_folder, location_keys)
 
         # Convert all CSV files to JSON using values format
         # convert_tables_to_json([*v3_folder.glob("**/*.csv")], v3_folder)
@@ -375,8 +393,8 @@ if __name__ == "__main__":
         profiler = cProfile.Profile()
         profiler.enable()
 
-    # main_v3(Path(args.output_folder), Path(args.tables_folder), show_progress=not args.no_progress)
-    main(Path(args.output_folder), Path(args.tables_folder), show_progress=not args.no_progress)
+    main_v3(Path(args.output_folder), Path(args.tables_folder), show_progress=not args.no_progress)
+    # main(Path(args.output_folder), Path(args.tables_folder), show_progress=not args.no_progress)
 
     if args.profile:
         stats = Stats(profiler)
