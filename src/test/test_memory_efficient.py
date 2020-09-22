@@ -24,9 +24,12 @@ from pandas import DataFrame
 from lib.constants import SRC
 from lib.io import read_lines, read_table, export_csv
 from lib.memory_efficient import (
+    table_breakout,
     table_cross_product,
     table_join,
     table_group_tail,
+    table_rename,
+    table_sort,
     _convert_csv_to_json_records_fast,
     _convert_csv_to_json_records_slow,
 )
@@ -39,7 +42,7 @@ from .profiled_test_case import ProfiledTestCase
 SCHEMA = get_schema()
 
 
-class TestTableJoins(ProfiledTestCase):
+class TestMemoryEfficient(ProfiledTestCase):
     def _test_join_pair(
         self,
         read_table_: Callable,
@@ -190,6 +193,124 @@ class TestTableJoins(ProfiledTestCase):
 
                 for line1, line2 in zip(test_result_lines, pandas_result_lines):
                     self.assertEqual(line1, line2)
+
+    def test_table_rename(self):
+        test_csv = """col1,col2,col3
+        a,1,foo
+        b,2,bar
+        c,3,foo
+        d,4,bar
+        """
+
+        expected = """cola,colb
+        a,1
+        b,2
+        c,3
+        d,4
+        """
+
+        with TemporaryDirectory() as workdir:
+            workdir = Path(workdir)
+            input_file = workdir / "in.csv"
+            with open(input_file, "w") as fd:
+                for line in test_csv.split("\n"):
+                    if not line.isspace():
+                        fd.write(f"{line.strip()}\n")
+            output_file = workdir / "out.csv"
+            table_rename(input_file, output_file, {"col1": "cola", "col2": "colb", "col3": None})
+
+            for line1, line2 in zip(expected.split("\n"), read_lines(output_file)):
+                self.assertEqual(line1.strip(), line2.strip())
+
+    def test_table_breakout(self):
+        test_csv = """col1,col2
+        foo,1
+        foo,2
+        bar,3
+        bar,4
+        baz,5
+        baz,6
+        """
+
+        expected_foo = """col1,col2
+        foo,1
+        foo,2
+        """
+
+        expected_bar = """col1,col2
+        bar,3
+        bar,4
+        """
+
+        expected_baz = """col1,col2
+        baz,5
+        baz,6
+        """
+
+        with TemporaryDirectory() as workdir:
+            workdir = Path(workdir)
+            input_file = workdir / "in.csv"
+            with open(input_file, "w") as fd:
+                for line in test_csv.split("\n"):
+                    if not line.isspace():
+                        fd.write(f"{line.strip()}\n")
+
+            output_folder = workdir / "outputs"
+            output_folder.mkdir(exist_ok=True, parents=True)
+            table_breakout(input_file, output_folder, "col1")
+
+            expected = expected_foo
+            csv_output = output_folder / "foo" / "in.csv"
+            for line1, line2 in zip(expected.split("\n"), read_lines(csv_output)):
+                self.assertEqual(line1.strip(), line2.strip())
+
+            expected = expected_bar
+            csv_output = output_folder / "bar" / "in.csv"
+            for line1, line2 in zip(expected.split("\n"), read_lines(csv_output)):
+                self.assertEqual(line1.strip(), line2.strip())
+
+            expected = expected_baz
+            csv_output = output_folder / "baz" / "in.csv"
+            for line1, line2 in zip(expected.split("\n"), read_lines(csv_output)):
+                self.assertEqual(line1.strip(), line2.strip())
+
+    def test_table_sort(self):
+        test_csv = """col1,col2,col3
+        a,1,foo
+        d,4,bar
+        c,3,foo
+        b,2,bar
+        """
+
+        with TemporaryDirectory() as workdir:
+            workdir = Path(workdir)
+            input_file = workdir / "in.csv"
+            with open(input_file, "w") as fd:
+                for line in test_csv.split("\n"):
+                    if not line.isspace():
+                        fd.write(f"{line.strip()}\n")
+
+            # Sort using the default (first) column
+            output_file_1 = workdir / "out.csv"
+            table_sort(input_file, output_file_1)
+
+            output_file_2 = workdir / "pandas.csv"
+            read_table(input_file).sort_values(["col1"]).to_csv(output_file_2, index=False)
+
+            for line1, line2 in zip(read_lines(output_file_1), read_lines(output_file_2)):
+                self.assertEqual(line1.strip(), line2.strip())
+
+            # Sort by each column in order
+            for sort_column in ("col1", "col2", "col3"):
+
+                output_file_1 = workdir / "out.csv"
+                table_sort(input_file, output_file_1, [sort_column])
+
+                output_file_2 = workdir / "pandas.csv"
+                read_table(input_file).sort_values([sort_column]).to_csv(output_file_2, index=False)
+
+                for line1, line2 in zip(read_lines(output_file_1), read_lines(output_file_2)):
+                    self.assertEqual(line1.strip(), line2.strip())
 
 
 if __name__ == "__main__":

@@ -13,7 +13,10 @@
 # limitations under the License.
 
 import datetime
+from typing import Iterable
 from .cast import safe_datetime_parse
+
+ISO_DATE_FORMAT = "%Y-%m-%d"
 
 
 def datetime_isoformat(value: str, date_format: str) -> str:
@@ -38,3 +41,20 @@ def timezone_adjust(timestamp: str, offset: int) -> str:
         return date_timestamp.date().isoformat()
     else:
         return (date_timestamp + datetime.timedelta(days=1)).date().isoformat()
+
+
+def date_range(start: str, end: str) -> Iterable[str]:
+    """
+    Range of dates from `start` to `end`, both inclusive.
+
+    Arguments:
+        start: Start date in ISO format YYYY-MM-DD.
+        end: Start date in ISO format YYYY-MM-DD.
+    Returns:
+        Iterable[str]: Iterable of dates from `start` to `end`.
+    """
+    start_date = datetime.datetime.strptime(start, ISO_DATE_FORMAT)
+    end_date = datetime.datetime.strptime(end, ISO_DATE_FORMAT)
+    assert start_date <= end_date, f"Start date must be less or equal than end date"
+    for idx in range((end_date - start_date).days + 1):
+        yield (start_date + datetime.timedelta(days=idx)).strftime(ISO_DATE_FORMAT)

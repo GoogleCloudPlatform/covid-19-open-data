@@ -37,7 +37,8 @@ def fuzzy_text(text: str, remove_regex: str = r"[^a-z\s]", remove_spaces: bool =
     text = unidecode(str(text)).lower()
     for token in ("y", "and", "of"):
         text = re.sub(f" {token} ", " ", text)
-    text = re.sub(remove_regex, "", text)
+    if remove_regex:
+        text = re.sub(remove_regex, "", text)
     text = re.sub(r"^county ", "", text)
     text = re.sub(r" county$", "", text)
     text = re.sub(r"^region ", "", text)
