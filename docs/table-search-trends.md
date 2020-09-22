@@ -10,8 +10,10 @@ This aggregated, anonymized dataset shows trends in search patterns for symptoms
 
 Public health experts indicated that trends in search patterns might be helpful in broadly understanding how COVID-19 impacts communities and even in detecting outbreaks earlier. You shouldn’t assume that the data is a recording of real-world clinical events, or use this data for medical diagnostic, prognostic, or treatment purposes.
 
+To visualize the data, try exploring these [interactive charts and map of symptom search trends](https://pair-code.github.io/covid19_symptom_dataset).
+
 ## About this data
-This data reflects the volume of Google searches for a broad set of symptoms, signs and health conditions. *To keep things simple in this documentation, we will refer to all of these collectively as symptoms*. The data covers hundreds of symptoms such as *fever*, *difficulty breathing*, and *stress*—based on the following:
+This data reflects the volume of Google searches for a broad set of health symptoms, signs, and conditions. *To keep things simple in this documentation, we will refer to all of these collectively as symptoms*. The data covers hundreds of symptoms such as *fever*, *difficulty breathing*, and *stress*—based on the following:
 - a symptom’s prevalence in Google’s searches
 - data quality and privacy considerations
 
@@ -47,7 +49,7 @@ To normalize and scale the daily and the weekly time series (processed separatel
 3. We then find the maximum value of the normalized popularity across the entire published time range for that region, over all symptoms using the chosen time resolution (day/week). We scale this maximum value to 100. All the other values are mapped to proportionally smaller values (linear scaling) in the range 0-100.
 4. Finally, we store the scaling factor and use it to scale values (for the same region and time resolution) in subsequent releases. In future updates, when a symptom popularity exceeds the previously-observed maximum value (found in step 3), then the new scaled value will be larger than 100.
 
-In each region, we scale all the normalized (daily / weekly) popularities using the same scaling factor. In a single region, you can compare the relative popularity of two (or more) symptoms (at the same time resolution) over any time interval. However, you should not compare the values of symptom popularity across regions or time resolutions — the region and time resolution specific scalings make these comparisons meaningless.
+For each region and time resolution, we scale all the normalized popularities using the same scaling factor. In a single region, you can compare the relative popularity of two (or more) symptoms (at the same time resolution) over any time interval. However, you should not compare the values of symptom popularity across regions or time resolutions — the region and time resolution specific scalings make these comparisons meaningless.
 
 ## URL
 This data table can be found at the following locations depending on the format and how it is aggregated:
@@ -81,4 +83,4 @@ http://goo.gle/covid19symptomdataset, Accessed: <date>.
 ## Feedback
 We would love your feedback on the dataset and documentation, or any unexpected results.<br/> Please email your feedback to covid-19-search-trends-feedback@google.com.
 
-[1]: https://storage.googleapis.com/gcp-public-data-symptom-search/Google%20COVID-19%20Search%20Trends%20Symptoms%20Dataset%20-%20Anonymization%20Process%20Description.pdf
+[1]: https://arxiv.org/abs/2009.01265
