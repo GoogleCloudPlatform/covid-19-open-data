@@ -25,7 +25,7 @@ from functools import partial
 from io import BytesIO
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import Callable, Dict, List
+from typing import Callable, Dict, List, Optional
 
 import requests
 import yaml
@@ -37,13 +37,22 @@ from google.oauth2.credentials import Credentials
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 # pylint: disable=wrong-import-position
-from publish import copy_tables, convert_tables_to_json, create_table_subsets, make_main_table
+from publish import (
+    copy_tables,
+    convert_tables_to_json,
+    create_table_subsets,
+    make_main_table,
+    publish_global_tables,
+    publish_location_breakouts,
+    publish_location_aggregates,
+)
 from scripts.cloud_error_processing import register_new_errors
 
 from lib.concurrent import thread_map
 from lib.constants import GCS_BUCKET_PROD, GCS_BUCKET_TEST, SRC
 from lib.gcloud import delete_instance, get_internal_ip, start_instance
 from lib.io import export_csv
+from lib.memory_efficient import table_read_column
 from lib.net import download
 from lib.pipeline import DataPipeline
 from lib.pipeline_tools import get_table_names
@@ -53,6 +62,13 @@ BLOB_OP_MAX_RETRIES = 10
 ENV_TOKEN = "GCP_TOKEN"
 ENV_PROJECT = "GOOGLE_CLOUD_PROJECT"
 ENV_SERVICE_ACCOUNT = "GCS_SERVICE_ACCOUNT"
+
+
+def _get_request_param(name: str, default: str = None) -> Optional[str]:
+    try:
+        return request.args.get("table")
+    except:
+        return default
 
 
 def get_storage_client() -> storage.Client:
@@ -196,13 +212,14 @@ def cache_pull() -> str:
 
 
 @app.route("/update_table")
-def update_table(table_name: str = None, job_group: int = None) -> str:
-    table_name = table_name or request.args.get("table")
-    assert table_name in list(get_table_names())
-    try:
-        job_group = request.args.get("job_group")
-    except:
-        pass
+def update_table(table_name: str = None, job_group: int = None) -> Response:
+    table_name = _get_request_param("table", table_name)
+    job_group = _get_request_param("job_group")
+
+    # Early exit: table name not found
+    if table_name not in list(get_table_names()):
+        return Response(f"Invalid table name {table_name}", status=400)
+
     with TemporaryDirectory() as output_folder:
         output_folder = Path(output_folder)
         (output_folder / "snapshot").mkdir(parents=True, exist_ok=True)
@@ -219,9 +236,13 @@ def update_table(table_name: str = None, job_group: int = None) -> str:
                 for data_source in data_pipeline.data_sources
                 if data_source.config.get("automation", {}).get("job_group") == job_group
             ]
-            assert (
-                data_pipeline.data_sources
-            ), f"No data sources matched job group {job_group} for table {table_name}"
+
+            # Early exit: job group contains no data sources
+            if not data_pipeline.data_sources:
+                return Response(
+                    f"No data sources matched job group {job_group} for table {table_name}",
+                    status=400,
+                )
 
         # Log the data sources being extracted
         data_source_names = [src.config.get("name") for src in data_pipeline.data_sources]
@@ -237,16 +258,17 @@ def update_table(table_name: str = None, job_group: int = None) -> str:
         upload_folder(GCS_BUCKET_TEST, "snapshot", output_folder / "snapshot")
         upload_folder(GCS_BUCKET_TEST, "intermediate", output_folder / "intermediate")
 
-    return "OK"
+    return Response("OK", status=200)
 
 
 @app.route("/combine_table")
-def combine_table(table_name: str = None) -> str:
-    try:
-        table_name = request.args.get("table")
-    except:
-        pass
-    assert table_name in list(get_table_names())
+def combine_table(table_name: str = None) -> Response:
+    table_name = _get_request_param("table", table_name)
+
+    # Early exit: table name not found
+    if table_name not in list(get_table_names()):
+        return Response(f"Invalid table name {table_name}", status=400)
+
     with TemporaryDirectory() as output_folder:
         output_folder = Path(output_folder)
         (output_folder / "tables").mkdir(parents=True, exist_ok=True)
@@ -287,7 +309,7 @@ def combine_table(table_name: str = None) -> str:
         # They will be copied to prod in the publish step, so main.csv is in sync
         upload_folder(GCS_BUCKET_TEST, "tables", output_folder / "tables")
 
-    return "OK"
+    return Response("OK", status=200)
 
 
 @app.route("/publish")
@@ -319,6 +341,79 @@ def publish() -> str:
         upload_folder(GCS_BUCKET_PROD, "v2", public_folder)
 
     return "OK"
+
+
+@app.route("/publish_global_tables")
+def _publish_global_tables() -> Response:
+    with TemporaryDirectory() as workdir:
+        workdir = Path(workdir)
+        tables_folder = workdir / "tables"
+        public_folder = workdir / "public"
+        tables_folder.mkdir(parents=True, exist_ok=True)
+        public_folder.mkdir(parents=True, exist_ok=True)
+
+        # Download all the combined tables into our local storage
+        download_folder(GCS_BUCKET_TEST, "tables", tables_folder)
+
+        # Publish the tables containing all location keys
+        publish_global_tables(tables_folder, public_folder)
+
+        # Upload the results to the prod bucket
+        upload_folder(GCS_BUCKET_PROD, "v3", public_folder)
+
+    return Response("OK", status=200)
+
+
+@app.route("/publish_location_breakouts")
+def _publish_location_breakouts() -> Response:
+    with TemporaryDirectory() as workdir:
+        workdir = Path(workdir)
+        tables_folder = workdir / "tables"
+        public_folder = workdir / "public"
+        tables_folder.mkdir(parents=True, exist_ok=True)
+        public_folder.mkdir(parents=True, exist_ok=True)
+
+        # Download all the combined tables into our local storage
+        download_folder(GCS_BUCKET_PROD, "v3", tables_folder)
+
+        # Break out each table into separate folders based on the location key
+        publish_location_breakouts(tables_folder, public_folder)
+
+        # Upload the results to the prod bucket
+        upload_folder(GCS_BUCKET_PROD, "v3", public_folder)
+
+    return Response("OK", status=200)
+
+
+@app.route("/publish_location_aggregates")
+def _publish_location_aggregates(
+    location_key_from: str = None, location_key_until: str = None
+) -> Response:
+    location_key_from = _get_request_param("location_key_from", location_key_from)
+    location_key_until = _get_request_param("location_key_until", location_key_until)
+
+    with TemporaryDirectory() as workdir:
+        workdir = Path(workdir)
+        tables_folder = workdir / "tables"
+        public_folder = workdir / "public"
+        tables_folder.mkdir(parents=True, exist_ok=True)
+        public_folder.mkdir(parents=True, exist_ok=True)
+
+        # Download all the location-dependent tables into our local storage
+        download_folder(GCS_BUCKET_PROD, "v3", tables_folder)
+
+        # Aggregate the tables for each location independently
+        location_keys = table_read_column(tables_folder / "index.csv", "location_key")
+        if location_key_from is not None:
+            location_keys = [key for key in location_keys if key >= location_key_from]
+        if location_key_until is not None:
+            location_keys = [key for key in location_keys if key <= location_key_until]
+        publish_location_aggregates(tables_folder, public_folder, location_keys)
+
+        # Upload the results to the prod bucket
+        upload_folder(GCS_BUCKET_PROD, "v3", public_folder)
+
+    return Response("OK", status=200)
 
 
 def _convert_json(expr: str) -> str:

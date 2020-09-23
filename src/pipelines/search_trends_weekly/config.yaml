@@ -466,5 +466,5 @@ sources:
     automation:
       # Run only twice a day, since it's so resource consuming
       schedule: "0 */12 * * *"
-      # Run in a separate preemptible VM
+      # Run in a separate, preemptible VM
       deferred: true

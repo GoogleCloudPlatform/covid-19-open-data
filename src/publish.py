@@ -338,7 +338,7 @@ def main_v3(output_folder: Path, tables_folder: Path, show_progress: bool = True
         # convert_tables_to_json([*v3_folder.glob("**/*.csv")], v3_folder)
 
 
-def main(output_folder: Path, tables_folder: Path, show_progress: bool = True) -> None:
+def main_v2(output_folder: Path, tables_folder: Path, show_progress: bool = True) -> None:
     """
     This script takes the processed outputs located in `tables_folder` and publishes them into the
     output folder by performing the following operations:
@@ -393,8 +393,8 @@ if __name__ == "__main__":
         profiler = cProfile.Profile()
         profiler.enable()
 
-    main_v3(Path(args.output_folder), Path(args.tables_folder), show_progress=not args.no_progress)
-    # main(Path(args.output_folder), Path(args.tables_folder), show_progress=not args.no_progress)
+    # main_v3(Path(args.output_folder), Path(args.tables_folder), show_progress=not args.no_progress)
+    main_v2(Path(args.output_folder), Path(args.tables_folder), show_progress=not args.no_progress)
 
     if args.profile:
         stats = Stats(profiler)
