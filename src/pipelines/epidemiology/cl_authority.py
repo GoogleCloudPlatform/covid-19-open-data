@@ -16,7 +16,7 @@ from typing import Dict
 from pandas import DataFrame, concat
 from lib.cast import numeric_code_as_string
 from lib.pipeline import DataSource
-from lib.utils import table_rename, table_multimerge
+from lib.utils import table_rename, table_merge
 
 _SUBREGION1_CODE_MAP = {
     "11": "AI",
@@ -48,7 +48,7 @@ class ChileRegionsDataSource(DataSource):
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
 
-        data = table_multimerge(
+        data = table_merge(
             [
                 table_rename(
                     dataframes["confirmed"],
@@ -91,7 +91,7 @@ class ChileMunicipalitiesDataSource(DataSource):
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
 
-        data = table_multimerge(
+        data = table_merge(
             [
                 table_rename(
                     dataframes["confirmed"],

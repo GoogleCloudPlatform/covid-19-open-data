@@ -16,7 +16,7 @@ from typing import Dict
 from pandas import DataFrame
 from lib.pipeline import DataSource
 from lib.time import datetime_isoformat
-from lib.utils import table_rename, table_multimerge
+from lib.utils import table_rename, table_merge
 
 # specimen_collection_date,tests,pos,pct,neg,indeterminate,Last Updated At
 _column_adapter = {
@@ -33,7 +33,7 @@ class SanFranciscoDataSource(DataSource):
     ) -> DataFrame:
 
         tables = [table_rename(table, _column_adapter, drop=True) for table in dataframes.values()]
-        data = table_multimerge(tables, on="date", how="outer")
+        data = table_merge(tables, on="date", how="outer")
 
         data["date"] = data["date"].apply(lambda x: datetime_isoformat(x, "%Y/%m/%d"))
         data["key"] = "US_CA_SFO"

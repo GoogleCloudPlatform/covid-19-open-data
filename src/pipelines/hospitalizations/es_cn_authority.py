@@ -18,7 +18,7 @@ from typing import Dict
 
 from pandas import DataFrame
 
-from lib.utils import table_multimerge
+from lib.utils import table_merge
 from pipelines.epidemiology.es_cn_authority import CanaryIslandsDataSource
 
 
@@ -50,6 +50,6 @@ class CanaryIslandsHospitalizationsDataSource(CanaryIslandsDataSource):
         for df in records.values():
             dataframes.append(DataFrame.from_records(df).groupby("date").sum().reset_index())
 
-        data = table_multimerge(dataframes, how="outer")
+        data = table_merge(dataframes, how="outer")
         data["key"] = "ES_CN"
         return data

@@ -16,7 +16,7 @@ import json
 from typing import Dict
 from pandas import DataFrame
 from lib.data_source import DataSource
-from lib.utils import table_rename, table_multimerge
+from lib.utils import table_rename, table_merge
 
 
 class Covid19RomaniaDataSource(DataSource):
@@ -28,6 +28,6 @@ class Covid19RomaniaDataSource(DataSource):
                 df = DataFrame.from_records(json.load(fd)["values"])
             data_list.append(table_rename(df, {"value": statistic}))
 
-        data = table_multimerge(data_list, how="outer")
+        data = table_merge(data_list, how="outer")
         data["key"] = "RO"
         return data

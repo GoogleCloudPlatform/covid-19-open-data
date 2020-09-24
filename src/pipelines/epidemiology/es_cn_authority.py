@@ -22,7 +22,7 @@ import requests
 from pandas import DataFrame, concat
 
 from lib.data_source import DataSource
-from lib.utils import table_multimerge
+from lib.utils import table_merge
 
 
 _island_map = {
@@ -109,7 +109,7 @@ class CanaryIslandsDataSource(DataSource):
             )
 
         dataframes = [DataFrame.from_records(df) for df in records.values()]
-        data = table_multimerge(dataframes, how="outer")
+        data = table_merge(dataframes, how="outer")
         data["key"] = "ES_CN_" + data["subregion2_code"].astype(str)
 
         # Add the country and region code to all records

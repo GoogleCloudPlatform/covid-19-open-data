@@ -16,7 +16,7 @@ from typing import Dict
 from pandas import DataFrame
 from lib.data_source import DataSource
 from lib.time import datetime_isoformat
-from lib.utils import table_rename, pivot_table, table_multimerge
+from lib.utils import table_rename, pivot_table, table_merge
 
 
 class Covid19ZaCumulativeDataSource(DataSource):
@@ -31,7 +31,7 @@ class Covid19ZaCumulativeDataSource(DataSource):
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
 
-        data = table_multimerge(
+        data = table_merge(
             [
                 Covid19ZaCumulativeDataSource._parse_variable(df, name)
                 for name, df in dataframes.items()

@@ -74,7 +74,7 @@ def table_rename(
     return data
 
 
-def table_multimerge(dataframes: List[DataFrame], **merge_opts) -> DataFrame:
+def table_merge(dataframes: List[DataFrame], **merge_opts) -> DataFrame:
     """
     Merge multiple dataframes into a single one. This method assumes that all dataframes have at
     least one column in common.

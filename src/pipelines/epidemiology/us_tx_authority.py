@@ -19,7 +19,7 @@ from lib.cast import safe_float_cast, safe_str_cast
 from lib.io import read_file
 from lib.data_source import DataSource
 from lib.time import datetime_isoformat
-from lib.utils import table_multimerge, table_rename
+from lib.utils import table_merge, table_rename
 
 
 def _rename_columns(data: DataFrame, column_adapter: Dict[str, str]) -> DataFrame:
@@ -85,7 +85,7 @@ class TexasDataSource(DataSource):
             df = df.dropna(subset=["date"])
             sheets.append(df)
 
-        data = table_multimerge(sheets, how="outer")
+        data = table_merge(sheets, how="outer")
         for col in data.columns:
             if col != "date":
                 data[col] = data[col].apply(safe_float_cast).astype(float)
