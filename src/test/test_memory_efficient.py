@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import csv
 import sys
 import json
 from pathlib import Path
@@ -24,6 +25,7 @@ from pandas import DataFrame
 from lib.constants import SRC
 from lib.io import read_lines, read_table, export_csv
 from lib.memory_efficient import (
+    get_table_columns,
     table_breakout,
     table_cross_product,
     table_join,
@@ -33,8 +35,10 @@ from lib.memory_efficient import (
     _convert_csv_to_json_records_fast,
     _convert_csv_to_json_records_slow,
 )
+from lib.memory_efficient import table_merge as table_merge_mem
 from lib.pipeline_tools import get_schema
 from lib.utils import agg_last_not_null, pbar
+from lib.utils import table_merge as table_merge_pandas
 from .profiled_test_case import ProfiledTestCase
 
 
@@ -43,6 +47,23 @@ SCHEMA = get_schema()
 
 
 class TestMemoryEfficient(ProfiledTestCase):
+    def _compare_tables_equal(self, table1: Path, table2: Path) -> None:
+        cols1 = get_table_columns(table1)
+        cols2 = get_table_columns(table2)
+        self.assertEqual(set(cols1), set(cols2))
+
+        # Converting to a CSV in memory sometimes produces out-of-order values
+        records1 = list(read_lines(table1))
+        records2 = list(read_lines(table2))
+        self.assertEqual(len(records1), len(records2))
+
+        reader1 = csv.reader(records1)
+        reader2 = csv.reader(records2)
+        for record1, record2 in zip(reader1, reader2):
+            record1 = {col: val for col, val in zip(cols1, record1)}
+            record2 = {col: val for col, val in zip(cols2, record2)}
+            self.assertEqual(record1, record2)
+
     def _test_join_pair(
         self,
         read_table_: Callable,
@@ -50,53 +71,112 @@ class TestMemoryEfficient(ProfiledTestCase):
         left: Path,
         right: Path,
         on: List[str],
-        how: str,
+        how_mem: str,
+        how_pandas: str,
     ):
         with TemporaryDirectory() as workdir:
             workdir = Path(workdir)
-            tmpfile = workdir / "tmpfile.csv"
+            output_file_1 = workdir / "output.1.csv"
+            output_file_2 = workdir / "output.2.csv"
 
-            table_join(left, right, on, tmpfile, how=how)
-            test_result = export_csv(read_table_(tmpfile), schema=schema)
-            pandas_how = how.replace("outer", "left")
-            pandas_result = export_csv(
-                read_table_(left).merge(read_table_(right), on=on, how=pandas_how), schema=schema
-            )
+            # Join using our memory efficient method
+            table_join(left, right, on, output_file_1, how=how_mem)
 
-            # Converting to a CSV in memory sometimes produces out-of-order values
-            test_result_lines = sorted(test_result.split("\n"))
-            pandas_result_lines = sorted(pandas_result.split("\n"))
+            # Join using the pandas method
+            pandas_result = read_table_(left).merge(read_table_(right), on=on, how=how_pandas)
+            export_csv(pandas_result, output_file_2, schema=schema)
 
-            for line1, line2 in zip(test_result_lines, pandas_result_lines):
-                self.assertEqual(line1, line2)
+            self._compare_tables_equal(output_file_1, output_file_2)
 
-    def _test_join_all(self, how: str):
+    def _test_join_all(self, how_mem: str, how_pandas: str):
 
         # Create a custom function used to read tables casting to the expected schema
         read_table_ = partial(read_table, schema=SCHEMA, low_memory=False)
 
-        for left in pbar([*(SRC / "test" / "data").glob("*.csv")], leave=False):
-            for right in pbar([*(SRC / "test" / "data").glob("*.csv")], leave=False):
-                if left.name == right.name:
-                    continue
+        # Test joining the index table with every other table
+        left = SRC / "test" / "data" / "index.csv"
+        for right in pbar([*(SRC / "test" / "data").glob("*.csv")], leave=False):
+            if left.name == right.name:
+                continue
 
-                left_columns = read_table_(left).columns
-                right_columns = read_table_(right).columns
+            left_columns = get_table_columns(left)
+            right_columns = get_table_columns(right)
 
-                if not "date" in right_columns:
-                    self._test_join_pair(read_table_, SCHEMA, left, right, ["key"], how)
+            if not "date" in right_columns:
+                self._test_join_pair(read_table_, SCHEMA, left, right, ["key"], how_mem, how_pandas)
 
-                if "date" in left_columns and not "date" in right_columns:
-                    self._test_join_pair(read_table_, SCHEMA, left, right, ["key"], how)
+            if "date" in left_columns and not "date" in right_columns:
+                self._test_join_pair(read_table_, SCHEMA, left, right, ["key"], how_mem, how_pandas)
 
-                if "date" in left_columns and "date" in right_columns:
-                    self._test_join_pair(read_table_, SCHEMA, left, right, ["key", "date"], how)
+            if "date" in left_columns and "date" in right_columns:
+                self._test_join_pair(
+                    read_table_, SCHEMA, left, right, ["key", "date"], how_mem, how_pandas
+                )
+
+    def _test_table_merge(self, how_mem: str, how_pandas: str):
+        test_data_1 = DataFrame.from_records(
+            [
+                {"col1": "a", "col2": "1"},
+                {"col1": "a", "col2": "2"},
+                {"col1": "b", "col2": "3"},
+                {"col1": "b", "col2": "4"},
+                {"col1": "c", "col2": "5"},
+                {"col1": "c", "col2": "6"},
+            ]
+        )
+
+        test_data_2 = DataFrame.from_records(
+            [
+                {"col1": "a", "col3": "foo"},
+                {"col1": "b", "col3": "bar"},
+                {"col1": "c", "col3": "baz"},
+            ]
+        )
+
+        test_data_3 = DataFrame.from_records(
+            [
+                {"col1": "a", "col4": "apple"},
+                {"col1": "b", "col4": "banana"},
+                {"col1": "c", "col4": "orange"},
+            ]
+        )
+
+        with TemporaryDirectory() as workdir:
+            workdir = Path(workdir)
+
+            test_file_1 = workdir / "test.1.csv"
+            test_file_2 = workdir / "test.2.csv"
+            test_file_3 = workdir / "test.3.csv"
+
+            export_csv(test_data_1, test_file_1)
+            export_csv(test_data_2, test_file_2)
+            export_csv(test_data_3, test_file_3)
+
+            output_file_1 = workdir / "output.1.csv"
+            output_file_2 = workdir / "output.2.csv"
+
+            expected = table_merge_pandas(
+                [test_data_1, test_data_2, test_data_3], on=["col1"], how=how_pandas
+            )
+            export_csv(expected, path=output_file_1)
+
+            table_merge_mem(
+                [test_file_1, test_file_2, test_file_3], output_file_2, on=["col1"], how=how_mem
+            )
+
+            self._compare_tables_equal(output_file_1, output_file_2)
 
     def test_inner_join(self):
-        self._test_join_all("inner")
+        self._test_join_all("inner", "inner")
 
     def test_outer_join(self):
-        self._test_join_all("outer")
+        self._test_join_all("outer", "left")
+
+    def test_inner_merge(self):
+        self._test_table_merge("inner", "inner")
+
+    def test_outer_merge(self):
+        self._test_table_merge("outer", "left")
 
     def test_cross_product(self):
         csv1 = """col1,col2
@@ -273,6 +353,29 @@ class TestMemoryEfficient(ProfiledTestCase):
             csv_output = output_folder / "baz" / "in.csv"
             for line1, line2 in zip(expected.split("\n"), read_lines(csv_output)):
                 self.assertEqual(line1.strip(), line2.strip())
+
+    def test_table_breakout_unsorted(self):
+        test_csv = """col1,col2
+        foo,1
+        foo,2
+        bar,3
+        bar,4
+        baz,5
+        foo,6
+        """
+
+        with TemporaryDirectory() as workdir:
+            workdir = Path(workdir)
+            input_file = workdir / "in.csv"
+            with open(input_file, "w") as fd:
+                for line in test_csv.split("\n"):
+                    if not line.isspace():
+                        fd.write(f"{line.strip()}\n")
+
+            output_folder = workdir / "outputs"
+            output_folder.mkdir(exist_ok=True, parents=True)
+            with self.assertRaises(Exception):
+                table_breakout(input_file, output_folder, "col1")
 
     def test_table_sort(self):
         test_csv = """col1,col2,col3

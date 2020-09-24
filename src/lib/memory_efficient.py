@@ -13,13 +13,15 @@
 # limitations under the License.
 
 import csv
-import sys
 import json
 import shutil
-import warnings
+import sys
 import traceback
+import warnings
 from pathlib import Path
+from tempfile import TemporaryDirectory
 from typing import Dict, Iterable, List, TextIO
+
 from .io import read_lines, read_table
 
 
@@ -28,6 +30,13 @@ JSON_FAST_CONVERTER_SIZE_BYTES = 50 * 1000 * 1000
 
 # Any CSV file above 150 MB should not be converted to JSON
 JSON_MAX_SIZE_BYTES = 150 * 1000 * 1000
+
+
+def skip_head_reader(path: Path, n: int = 1, **read_opts) -> Iterable[str]:
+    fd = read_lines(path, **read_opts)
+    for _ in range(n):
+        next(fd)
+    yield from fd
 
 
 def get_table_columns(table_path: Path) -> List[str]:
@@ -77,7 +86,7 @@ def table_sort(table_path: Path, output_path: Path, sort_columns: List[str] = No
             writer.writerow(record)
 
 
-def table_join(left: Path, right: Path, on: List[str], output: Path, how: str = "outer") -> None:
+def table_join(left: Path, right: Path, on: List[str], output: Path, how: str = "INNER") -> None:
     """
     Performs a memory efficient left join between two CSV files. The records of the right table
     are held in memory, so in case of inner joins where order does not matter it is more efficient
@@ -91,11 +100,16 @@ def table_join(left: Path, right: Path, on: List[str], output: Path, how: str = 
         how: Either "inner" or "outer" indicating whether records present only in the `left` table
             should be dropped or not.
     """
+    how = how.upper()
+    known_methods = ("INNER", "OUTER")
+    assert (
+        how in known_methods
+    ), f"Unrecognized table join method {how}, it should be one of {known_methods}"
 
     def compute_join_indices(columns: List[str]) -> List[str]:
         assert all(
             name in columns.keys() for name in on
-        ), f"Column provided in `on` not present in right table. Expected {on} but found {columns}"
+        ), f"Column {on} not present in right table, found {list(columns.keys())}"
         join_indices = [columns[name] for name in on]
         return join_indices
 
@@ -131,7 +145,7 @@ def table_join(left: Path, right: Path, on: List[str], output: Path, how: str = 
                 data_left = [record_left[idx] for idx in columns_left.values()]
 
                 # If this is an inner join and the key is not in the right table, drop it
-                if how == "inner" and not key in records_right:
+                if how == "INNER" and not key in records_right:
                     continue
 
                 # Get the data from the right table and write to output
@@ -139,11 +153,48 @@ def table_join(left: Path, right: Path, on: List[str], output: Path, how: str = 
                 writer.writerow(data_left + data_right)
 
 
-def skip_head_reader(path: Path, n: int = 1, **read_opts) -> Iterable[str]:
-    fd = read_lines(path, **read_opts)
-    for _ in range(n):
-        next(fd)
-    yield from fd
+def table_merge(tables: List[Path], output: Path, on: List[str], how: str = "INNER") -> None:
+    """
+    Build a flat view of all tables combined, joined by <key> or <key, date>.
+    Arguments:
+        tables_folder: Input directory where all CSV files exist.
+        output_path: Output directory for the resulting main.csv file.
+        location_key: Name of the key to use for the location, "key" (v2) or "location_key" (v3)
+        include_all: Flag indicating if tables from EXCLUDE_FROM_MAIN_TABLE should be excluded.
+    """
+    assert len(tables) > 0, f"At least one table required for merging, found {len(tables)}"
+
+    # Early exit: if there's only one table, we only copy it
+    if len(tables) == 1:
+        shutil.copy(tables[0], output)
+        return
+
+    # Early exit: if there are only two tables, it's a simple join
+    if len(tables) == 2:
+        return table_join(tables[0], tables[1], output=output, on=on, how=how)
+
+    # Use a temporary directory for intermediate files
+    with TemporaryDirectory() as workdir:
+        workdir = Path(workdir)
+
+        # Use temporary files to avoid computing everything in memory
+        temp_input = workdir / "tmp.1.csv"
+        temp_output = workdir / "tmp.2.csv"
+
+        # Perform an initial join into the temporary table
+        table_join(tables[0], tables[1], output=temp_output, on=on, how=how)
+        temp_input, temp_output = temp_output, temp_input
+
+        for table_path in tables[2:-1]:
+
+            # Iteratively perform left outer joins on all tables
+            table_join(temp_input, table_path, output=temp_output, on=on, how=how)
+
+            # Flip-flop the temp files to avoid a copy
+            temp_input, temp_output = temp_output, temp_input
+
+        # Point the last join into the final output
+        table_join(temp_input, tables[-1], output=output, on=on, how=how)
 
 
 def table_cross_product(left: Path, right: Path, output: Path) -> None:
@@ -170,7 +221,7 @@ def table_cross_product(left: Path, right: Path, output: Path) -> None:
 
 
 def table_group_tail(table: Path, output: Path) -> None:
-    """ Outputs latest data for each key, assumes records are indexed by <key, date> """
+    """ Outputs latest data for each key, assumes records are sorted by <key, date> """
 
     reader = csv.reader(read_lines(table))
     columns = {name: idx for idx, name in enumerate(next(reader))}
@@ -210,7 +261,7 @@ def table_rename(
 ) -> None:
     """
     Renames the header of the input table leaving column order and all rows the same. If a column
-    name is mapped to `None`.
+    name is mapped to `None`, then the column will be removed from the output.
 
     Arguments:
         table: Location of the input table.
@@ -277,6 +328,9 @@ def table_breakout(table: Path, output_folder: Path, breakout_column: str) -> No
     current_breakout_value: str = None
     file_handle: TextIO = None
 
+    # Keep track of all seen breakout column values
+    seen_breakout_values = set()
+
     # We make use of the main table being sorted by <key, date> and do a linear sweep of the file
     # assuming that once the key changes we won't see it again in future lines
     for record in reader:
@@ -286,6 +340,11 @@ def table_breakout(table: Path, output_folder: Path, breakout_column: str) -> No
         if current_breakout_value != breakout_value:
             if file_handle:
                 file_handle.close()
+
+            if breakout_value in seen_breakout_values:
+                raise RuntimeError(f"Table {table} was not sorted by {breakout_column}")
+            seen_breakout_values.add(breakout_value)
+
             current_breakout_value = breakout_value
             breakout_folder = output_folder / breakout_value
             breakout_folder.mkdir(exist_ok=True, parents=True)
@@ -298,6 +357,46 @@ def table_breakout(table: Path, output_folder: Path, breakout_column: str) -> No
     # Close the last file handle and we are done
     if file_handle:
         file_handle.close()
+
+
+def table_read_column(table: Path, column: str) -> Iterable[str]:
+    """
+    Read a single column from the input table.
+
+    Arguments:
+        table: Location of the input table.
+        column: Name of the column to read.
+    Returns:
+        Iterable[str]: Iterable of values for the requested column
+    """
+    reader = csv.reader(read_lines(table, skip_empty=True))
+    column_indices = {name: idx for idx, name in enumerate(next(reader))}
+    output_column_index = column_indices[column]
+    for record in reader:
+        yield record[output_column_index]
+
+
+def table_drop_nan_columns(table: Path, output: Path) -> None:
+    """
+    Drop columns with only null values from the table.
+
+    Arguments:
+        table: Location of the input table.
+        output: Location of the output table.
+    """
+    reader = csv.reader(read_lines(table, skip_empty=True))
+    column_names = {idx: name for idx, name in enumerate(next(reader))}
+
+    # Perform a linear sweep to look for columns without a single non-null value
+    not_nan_columns = set()
+    for record in reader:
+        for idx, value in enumerate(record):
+            if value is not None and value != "":
+                not_nan_columns.add(idx)
+
+    # Remove all null columns and write output
+    nan_columns = [idx for idx in column_names.keys() if idx not in not_nan_columns]
+    table_rename(table, output, {column_names[idx]: None for idx in nan_columns})
 
 
 def convert_csv_to_json_records(

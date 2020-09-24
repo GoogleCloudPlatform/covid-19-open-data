@@ -169,7 +169,9 @@ def make_main_table(tables_folder: Path, output_path: Path) -> None:
 
         # Add all the index columns to seed the main table
         main_table_path = workdir / "main.csv"
-        table_join(temp_file_path, tables_folder / "index.csv", ["key"], main_table_path)
+        table_join(
+            temp_file_path, tables_folder / "index.csv", ["key"], main_table_path, how="outer"
+        )
         print("Joined with table index")
 
         non_dated_columns = set(get_table_columns(main_table_path))
@@ -187,7 +189,7 @@ def make_main_table(tables_folder: Path, output_path: Path) -> None:
                     non_dated_columns = non_dated_columns | set(table_columns)
 
                 # Iteratively perform left outer joins on all tables
-                table_join(main_table_path, table_file_path, join_on, temp_file_path)
+                table_join(main_table_path, table_file_path, join_on, temp_file_path, how="outer")
                 shutil.move(temp_file_path, main_table_path)
                 print(f"Joined with table {table_name}")
 
