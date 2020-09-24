@@ -16,7 +16,7 @@ from typing import Dict
 from pandas import DataFrame, concat
 from lib.data_source import DataSource
 from lib.time import datetime_isoformat
-from lib.utils import table_multimerge, table_rename
+from lib.utils import table_merge, table_rename
 
 _column_adapter = {
     "province": "subregion1_name",
@@ -50,7 +50,7 @@ class Covid19CanadaDataSource(DataSource):
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
 
-        data = table_multimerge(
+        data = table_merge(
             [
                 table_rename(dataframes["confirmed"], _column_adapter, drop=True),
                 table_rename(dataframes["deceased"], _column_adapter, drop=True),

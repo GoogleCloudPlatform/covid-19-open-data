@@ -19,7 +19,7 @@ from pandas import DataFrame
 from lib.constants import SRC
 from lib.data_source import DataSource
 from lib.io import read_file
-from lib.utils import table_multimerge
+from lib.utils import table_merge
 
 
 class EurostatDataSource(DataSource):
@@ -27,7 +27,7 @@ class EurostatDataSource(DataSource):
         # Read all files in the eurostat folder and merge them together
         eurostat_directory = SRC / "data" / "eurostat"
         dataframes = [read_file(file_name) for file_name in eurostat_directory.glob("*.csv")]
-        data = table_multimerge(dataframes, how="outer").dropna(subset=["key"])
+        data = table_merge(dataframes, how="outer").dropna(subset=["key"])
 
         # Use only keys available in metadata
         return data.merge(aux["metadata"][["key"]], how="inner")

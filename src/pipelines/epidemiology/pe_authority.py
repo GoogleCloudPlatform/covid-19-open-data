@@ -19,7 +19,7 @@ from lib.data_source import DataSource
 from lib.case_line import convert_cases_to_time_series
 from lib.io import fuzzy_text
 from lib.time import datetime_isoformat
-from lib.utils import table_multimerge, table_rename
+from lib.utils import table_merge, table_rename
 
 _column_adapter = {
     "FECHA_RESULTADO": "date",
@@ -67,7 +67,7 @@ class PeruDataSource(DataSource):
         data_deceased = convert_cases_to_time_series(cases_deceased, index_columns)
 
         # Join into a single dataset
-        data = table_multimerge([data_confirmed, data_deceased], how="outer")
+        data = table_merge([data_confirmed, data_deceased], how="outer")
 
         # Remove bogus records
         data.dropna(subset=["date"], inplace=True)

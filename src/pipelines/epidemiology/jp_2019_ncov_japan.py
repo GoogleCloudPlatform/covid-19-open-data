@@ -16,7 +16,7 @@ from typing import Dict
 from pandas import DataFrame, concat
 from lib.data_source import DataSource
 from lib.time import datetime_isoformat
-from lib.utils import pivot_table, table_multimerge
+from lib.utils import pivot_table, table_merge
 
 
 def _parse_pivot(data: DataFrame, name: str):
@@ -43,9 +43,7 @@ class Jp2019NcovJapanByDate(DataSource):
     ) -> DataFrame:
 
         # Keep only columns we can process
-        data = table_multimerge(
-            [_parse_pivot(df, name) for name, df in dataframes.items()], how="outer"
-        )
+        data = table_merge([_parse_pivot(df, name) for name, df in dataframes.items()], how="outer")
         data = data[["date", "country_code", "match_string", "new_confirmed", "new_deceased"]]
         return data.fillna(0)
 
