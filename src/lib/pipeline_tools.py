@@ -13,8 +13,8 @@
 # limitations under the License.
 
 from typing import Iterator, Dict
-from lib.constants import SRC
-from lib.pipeline import DataPipeline
+from .constants import SRC
+from .pipeline import DataPipeline
 
 
 def get_pipeline_names() -> Iterator[str]:

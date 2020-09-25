@@ -25,7 +25,7 @@ from functools import partial
 from io import BytesIO
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import Callable, Dict, List
+from typing import Callable, Dict, List, Optional
 
 import requests
 import yaml
@@ -42,17 +42,26 @@ from scripts.cloud_error_processing import register_new_errors
 
 from lib.concurrent import thread_map
 from lib.constants import GCS_BUCKET_PROD, GCS_BUCKET_TEST, SRC
+from lib.error_logger import ErrorLogger
 from lib.gcloud import delete_instance, get_internal_ip, start_instance
 from lib.io import export_csv
 from lib.net import download
 from lib.pipeline import DataPipeline
 from lib.pipeline_tools import get_table_names
 
+log = ErrorLogger()
 app = Flask(__name__)
 BLOB_OP_MAX_RETRIES = 10
 ENV_TOKEN = "GCP_TOKEN"
 ENV_PROJECT = "GOOGLE_CLOUD_PROJECT"
 ENV_SERVICE_ACCOUNT = "GCS_SERVICE_ACCOUNT"
+
+
+def _get_request_param(name: str, default: str = None) -> Optional[str]:
+    try:
+        return request.args.get("table")
+    except:
+        return default
 
 
 def get_storage_client() -> storage.Client:
@@ -100,9 +109,12 @@ def download_folder(
                 try:
                     return blob.download_to_filename(str(file_path))
                 except Exception as exc:
-                    traceback.print_exc()
+                    log.errlog(f"Error downloading {rel_path}.", traceback=traceback.format_exc())
                     # Exponential back-off
                     time.sleep(2 ** i)
+
+            # If error persists, there must be something wrong with the network so we are better
+            # off crashing the appengine server.
             raise IOError(f"Error downloading {rel_path}")
 
     map_func = partial(_download_blob, local_folder)
@@ -127,9 +139,12 @@ def upload_folder(
                 try:
                     return blob.upload_from_filename(str(file_path))
                 except Exception as exc:
-                    traceback.print_exc()
+                    log.errlog(f"Error uploading {target_path}.", traceback=traceback.format_exc())
                     # Exponential back-off
                     time.sleep(2 ** i)
+
+            # If error persists, there must be something wrong with the network so we are better
+            # off crashing the appengine server.
             raise IOError(f"Error uploading {target_path}")
 
     map_func = partial(_upload_file, remote_path)
@@ -156,7 +171,7 @@ def cache_build_map() -> Dict[str, List[str]]:
 
 
 @app.route("/cache_pull")
-def cache_pull() -> str:
+def cache_pull() -> Response:
     with TemporaryDirectory() as workdir:
         workdir = Path(workdir)
         now = datetime.datetime.utcnow()
@@ -174,8 +189,7 @@ def cache_pull() -> str:
                     fd.write(buffer.getvalue())
                 print(f"Downloaded {output} successfully")
             except:
-                print(f"Cache pull failed for {url}")
-                traceback.print_exc()
+                log.errlog(f"Cache pull failed for {url}.", traceback=traceback.format_exc())
 
         # Pull each of the sources from the cache config
         with (SRC / "cache.yaml").open("r") as fd:
@@ -192,17 +206,18 @@ def cache_pull() -> str:
         blob = bucket.blob("cache/sitemap.json")
         blob.upload_from_string(json.dumps(sitemap))
 
-    return "OK"
+    return Response("OK", status=200)
 
 
 @app.route("/update_table")
-def update_table(table_name: str = None, job_group: int = None) -> str:
-    table_name = table_name or request.args.get("table")
-    assert table_name in list(get_table_names())
-    try:
-        job_group = request.args.get("job_group")
-    except:
-        pass
+def update_table(table_name: str = None, job_group: int = None) -> Response:
+    table_name = _get_request_param("table", table_name)
+    job_group = _get_request_param("job_group", job_group)
+
+    # Early exit: table name not found
+    if table_name not in list(get_table_names()):
+        return Response(f"Invalid table name {table_name}", status=400)
+
     with TemporaryDirectory() as output_folder:
         output_folder = Path(output_folder)
         (output_folder / "snapshot").mkdir(parents=True, exist_ok=True)
@@ -219,9 +234,13 @@ def update_table(table_name: str = None, job_group: int = None) -> str:
                 for data_source in data_pipeline.data_sources
                 if data_source.config.get("automation", {}).get("job_group") == job_group
             ]
-            assert (
-                data_pipeline.data_sources
-            ), f"No data sources matched job group {job_group} for table {table_name}"
+
+            # Early exit: job group contains no data sources
+            if not data_pipeline.data_sources:
+                return Response(
+                    f"No data sources matched job group {job_group} for table {table_name}",
+                    status=400,
+                )
 
         # Log the data sources being extracted
         data_source_names = [src.config.get("name") for src in data_pipeline.data_sources]
@@ -237,16 +256,17 @@ def update_table(table_name: str = None, job_group: int = None) -> str:
         upload_folder(GCS_BUCKET_TEST, "snapshot", output_folder / "snapshot")
         upload_folder(GCS_BUCKET_TEST, "intermediate", output_folder / "intermediate")
 
-    return "OK"
+    return Response("OK", status=200)
 
 
 @app.route("/combine_table")
-def combine_table(table_name: str = None) -> str:
-    try:
-        table_name = request.args.get("table")
-    except:
-        pass
-    assert table_name in list(get_table_names())
+def combine_table(table_name: str = None) -> Response:
+    table_name = _get_request_param("table", table_name)
+
+    # Early exit: table name not found
+    if table_name not in list(get_table_names()):
+        return Response(f"Invalid table name {table_name}", status=400)
+
     with TemporaryDirectory() as output_folder:
         output_folder = Path(output_folder)
         (output_folder / "tables").mkdir(parents=True, exist_ok=True)
@@ -287,11 +307,33 @@ def combine_table(table_name: str = None) -> str:
         # They will be copied to prod in the publish step, so main.csv is in sync
         upload_folder(GCS_BUCKET_TEST, "tables", output_folder / "tables")
 
-    return "OK"
+    return Response("OK", status=200)
 
 
-@app.route("/publish")
-def publish() -> str:
+@app.route("/publish_tables")
+def publish_tables() -> Response:
+    with TemporaryDirectory() as workdir:
+        workdir = Path(workdir)
+        tables_folder = workdir / "tables"
+        public_folder = workdir / "public"
+        tables_folder.mkdir(parents=True, exist_ok=True)
+        public_folder.mkdir(parents=True, exist_ok=True)
+
+        # Download all the combined tables into our local storage
+        download_folder(GCS_BUCKET_TEST, "tables", tables_folder)
+
+        # TODO: perform some validation on the outputs and report errors
+        # See: https://github.com/GoogleCloudPlatform/covid-19-open-data/issues/186
+
+        # Prepare all files for publishing and add them to the public folder
+        copy_tables(tables_folder, public_folder)
+        print("Output tables copied to public folder")
+
+    return Response("OK", status=200)
+
+
+@app.route("/publish_main_and_subsets")
+def publish_main_and_subsets() -> Response:
     with TemporaryDirectory() as workdir:
         workdir = Path(workdir)
         tables_folder = workdir / "tables"
@@ -318,10 +360,10 @@ def publish() -> str:
         # Upload the results to the prod bucket
         upload_folder(GCS_BUCKET_PROD, "v2", public_folder)
 
-    return "OK"
+    return Response("OK", status=200)
 
 
-def _convert_json(expr: str) -> str:
+def _convert_json(expr: str = r"*.csv") -> Response:
     with TemporaryDirectory() as workdir:
         workdir = Path(workdir)
         json_folder = workdir / "json"
@@ -339,23 +381,23 @@ def _convert_json(expr: str) -> str:
         # Upload the results to the prod bucket
         upload_folder(GCS_BUCKET_PROD, "v2", json_folder)
 
-    return "OK"
+    return Response("OK", status=200)
 
 
 @app.route("/convert_json_1")
-def convert_json_1() -> str:
+def convert_json_1() -> Response:
     return _convert_json(r"(latest\/)?[a-z_]+.csv")
 
 
 @app.route("/convert_json_2")
-def convert_json_2() -> str:
+def convert_json_2() -> Response:
     return _convert_json(r"[A-Z]{2}(_\w+)?\/\w+.csv")
 
 
 @app.route("/report_errors_to_github")
-def report_errors_to_github() -> str:
+def report_errors_to_github() -> Response:
     register_new_errors(os.getenv(ENV_PROJECT))
-    return "OK"
+    return Response("OK", status=200)
 
 
 @app.route("/deferred/<path:url_path>")
@@ -427,6 +469,10 @@ def main() -> None:
         else:
             app.run(host="0.0.0.0", port=80, debug=False)
 
+    def _publish():
+        publish_tables()
+        publish_main_and_subsets()
+
     def _unknown_command(*func_args):
         print(f"Unknown command {args.command}", file=sys.stderr)
 
@@ -436,7 +482,7 @@ def main() -> None:
         "update_table": update_table,
         "combine_table": combine_table,
         "cache_pull": cache_pull,
-        "publish": publish,
+        "publish": _publish,
         "convert_json": _convert_json,
         "report_errors_to_github": report_errors_to_github,
     }.get(args.command, _unknown_command)(**json.loads(args.args or "{}"))

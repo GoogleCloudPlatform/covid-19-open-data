@@ -13,66 +13,35 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import sys
-import shutil
-import datetime
 import cProfile
+import datetime
+import shutil
+import sys
 import traceback
-from pstats import Stats
-from pathlib import Path
-from functools import partial
 from argparse import ArgumentParser
+from functools import partial
+from pathlib import Path
+from pstats import Stats
 from tempfile import TemporaryDirectory
 from typing import Dict, Iterable, TextIO
 
 from pandas import DataFrame, date_range
 
 from lib.concurrent import thread_map
-from lib.constants import SRC, EXCLUDE_FROM_MAIN_TABLE
-from lib.io import display_progress, export_csv, read_file, read_lines, pbar
+from lib.constants import EXCLUDE_FROM_MAIN_TABLE, SRC
+from lib.io import display_progress, export_csv, pbar, read_file, read_lines
 from lib.memory_efficient import (
+    convert_csv_to_json_records,
     get_table_columns,
-    table_join,
-    table_sort,
+    table_breakout,
     table_cross_product,
     table_group_tail,
-    convert_csv_to_json_records,
+    table_join,
+    table_read_column,
+    table_rename,
+    table_sort,
 )
 from lib.pipeline_tools import get_schema
-
-
-def _read_main_table(path: Path) -> DataFrame:
-    return read_file(
-        path,
-        dtype={
-            "country_code": "category",
-            "country_name": "category",
-            "subregion1_code": "category",
-            "subregion1_name": "category",
-            "subregion2_code": "category",
-            "subregion2_name": "category",
-            "3166-1-alpha-2": "category",
-            "3166-1-alpha-3": "category",
-            "aggregation_level": "category",
-        },
-    )
-
-
-def _subset_last_days(output_folder: Path, days: int) -> None:
-    """ Outputs last N days of data """
-    n_days_folder = output_folder / str(days)
-    n_days_folder.mkdir(exist_ok=True)
-    for csv_file in (output_folder).glob("*.csv"):
-        table = read_file(csv_file)
-
-        # Degenerate case: this table has no date
-        if not "date" in table.columns or len(table.date.dropna()) == 0:
-            export_csv(table, n_days_folder / csv_file.name)
-        else:
-            last_date = datetime.date.fromisoformat(max(table.date))
-            # Since APAC is almost always +1 days ahead, increase the window by 1
-            first_date = last_date - datetime.timedelta(days=days + 1)
-            export_csv(table[table.date >= first_date.isoformat()], n_days_folder / csv_file.name)
 
 
 def _subset_grouped_key(
