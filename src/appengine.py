@@ -59,7 +59,7 @@ ENV_SERVICE_ACCOUNT = "GCS_SERVICE_ACCOUNT"
 
 def _get_request_param(name: str, default: str = None) -> Optional[str]:
     try:
-        return request.args.get("table")
+        return request.args.get(name)
     except:
         return default
 
