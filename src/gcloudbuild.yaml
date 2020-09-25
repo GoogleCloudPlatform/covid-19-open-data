@@ -22,7 +22,7 @@ steps:
         - '-c'
         - |
           gcloud config set app/cloud_build_timeout 1200
-          gcloud app deploy ./app.yaml
+          gcloud beta app deploy ./app.yaml
 
     # Schedule all tasks via Google Cloud Scheduler
     - name: python
