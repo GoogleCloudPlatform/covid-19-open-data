@@ -82,7 +82,7 @@ class FloridaDataSource(DataSource):
             try:
                 res = requests.get(_url_tpl.format(offset=offset)).json()["features"]
             except Exception as exc:
-                self.errlog(requests.get(_url_tpl.format(offset=offset)).text)
+                self.log_error(requests.get(_url_tpl.format(offset=offset)).text)
                 raise exc
             rows = [row["attributes"] for row in res]
             if len(rows) == 0:

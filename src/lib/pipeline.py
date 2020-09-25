@@ -163,7 +163,7 @@ class DataPipeline(ErrorLogger):
             return data_source.run(output_folder, cache, aux)
         except Exception:
             data_source_name = data_source.__class__.__name__
-            data_source.errlog(
+            data_source.log_error(
                 "Error running data source.",
                 source_name=data_source_name,
                 config=data_source.config,
@@ -191,7 +191,7 @@ class DataPipeline(ErrorLogger):
             cache = requests.get("{}/sitemap.json".format(CACHE_URL)).json()
         except:
             cache = {}
-            self.errlog("Cache unavailable")
+            self.log_error("Cache unavailable")
 
         # Make a copy of the auxiliary table to prevent modifying it for everyone, but this way
         # we allow for local modification (which might be wanted for optimization purposes)
@@ -232,7 +232,7 @@ class DataPipeline(ErrorLogger):
 
         # Combine all intermediate outputs into a single DataFrame
         if not intermediate_tables:
-            self.errlog("Empty result for data pipeline {}".format(self.name))
+            self.log_error("Empty result for data pipeline {}".format(self.name))
             pipeline_output = DataFrame(columns=self.schema.keys())
         else:
             pipeline_output = combine_tables(
@@ -294,7 +294,7 @@ class DataPipeline(ErrorLogger):
                 export_csv(result, intermediate_folder / file_name, schema=self.schema)
             else:
                 data_source_name = data_source.__class__.__name__
-                self.errlog(
+                self.log_error(
                     "No output while saving intermediate results",
                     source_name=data_source_name,
                     source_config=data_source.config,
@@ -310,7 +310,7 @@ class DataPipeline(ErrorLogger):
                 yield (data_source, read_table(intermediate_path, schema=self.schema))
             except Exception as exc:
                 data_source_name = data_source.__class__.__name__
-                self.errlog(
+                self.log_error(
                     "Failed to load intermediate output",
                     source_name=data_source_name,
                     source_config=data_source.config,

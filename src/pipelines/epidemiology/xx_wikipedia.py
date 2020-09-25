@@ -36,7 +36,7 @@ class WikipediaDataSource(DataSource):
 
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         if parse_opts.get("debug"):
-            print("File name:", sources[0])
+            self.log_debug(f"File name: {sources[0]}")
 
         # Get the file contents from source
         with open(sources[0], "r") as fd:
@@ -57,9 +57,7 @@ class WikipediaDataSource(DataSource):
             )
 
             if parse_opts.get("debug"):
-                print("\n[%d] Data:" % (table_index + 1))
-                print(data.columns)
-                print(data.head(50))
+                self.log_debug(f"[{table_index + 1}] Data Found", data=data.to_records())
 
             # Some of the tables are in Spanish
             data = data.rename(columns={"Fecha": "date"})
@@ -83,8 +81,7 @@ class WikipediaDataSource(DataSource):
             data = data[~data["subregion"].isna()]
 
             if parse_opts.get("debug"):
-                print("\n[%d] Pivoted:" % (table_index + 1))
-                print(data.head(50))
+                self.log_debug(f"[{table_index + 1}] Data Pivoted", data=data.to_records())
 
             # Make sure all dates include year
             date_format = parse_opts["date_format"]
@@ -198,7 +195,6 @@ class WikipediaDataSource(DataSource):
 
         # Output the results
         if parse_opts.get("debug"):
-            print("\nOutput:")
-            print(data.head(50))
+            self.log_debug("Data Output", data=data.to_records())
 
         return data

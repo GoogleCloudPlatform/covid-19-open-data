@@ -123,7 +123,7 @@ class DataSource(ErrorLogger):
         if "date" in record:
             date = datetime_isoformat(record["date"], "%Y-%m-%d")
             if date is None:
-                self.errlog(f"Invalid date", record=record)
+                self.log_error(f"Invalid date", record=record)
                 return None
             else:
                 # Re-set the record's date to make sure it's the appropriate type
@@ -134,7 +134,7 @@ class DataSource(ErrorLogger):
             if record["key"] in metadata["key"].values:
                 return record["key"]
             else:
-                self.errlog(f"Key provided but not found in metadata", record=record)
+                self.log_error(f"Key provided but not found in metadata", record=record)
                 return None
 
         # Start by filtering the auxiliary dataset as much as possible
@@ -186,14 +186,16 @@ class DataSource(ErrorLogger):
                     metadata = metadata[aux_mask]
                     return metadata[aux_match].iloc[0]["key"]
 
-            # Uncomment when debugging mismatches
-            # print(aux_regex)
-            # print(match_string)
-            # print(record)
-            # print(metadata)
-            # raise ValueError()
+            # Log debug info
+            self.log_debug(
+                "Match info",
+                aux_regex=aux_regex,
+                match_string=match_string,
+                record=record,
+                metadata=metadata,
+            )
 
-        self.errlog(f"No key match found", record=record)
+        self.log_error(f"No key match found", record=record)
         return None
 
     def run(

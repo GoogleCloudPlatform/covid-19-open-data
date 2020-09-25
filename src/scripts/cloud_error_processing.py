@@ -37,7 +37,7 @@ class GithubIssueHandler(ErrorLogger):
         session.auth = (self._username, self._password)
         response = session.post(ISSUES_API_URL, json=self._error_group_to_github_issue(error_group))
         if response.status_code != 201:
-            self.errlog("Could not create github issue.", status_code=response.status_code)
+            self.log_error("Could not create github issue.", status_code=response.status_code)
             raise ConnectionError(error_message)
         return response.json()["html_url"]
 

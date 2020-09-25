@@ -95,7 +95,7 @@ class CanaryIslandsDataSource(DataSource):
             elif record["TIPO"] == "Recuperados":
                 statistic = "recovered"
             else:
-                self.errlog(f"Unknown statistic type: {statistic}")
+                self.log_error(f"Unknown statistic type: {statistic}")
                 continue
             records[statistic].append(
                 {
