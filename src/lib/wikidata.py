@@ -29,7 +29,7 @@ _request_header = {"User-Agent": "covid-19-open-data/0.0 (linux-gnu)"}
 
 
 def _query_property(
-    prop: str, entity: str, query: str = _default_query, error_logger: ErrorLogger = None
+    prop: str, entity: str, query: str = _default_query, error_logger: ErrorLogger = ErrorLogger()
 ) -> Any:
     # Time to wait before retry in case of failure
     wait_time = 8
@@ -53,10 +53,7 @@ def _query_property(
         except Exception as exc:
             # If limit is reached, then log error
             if i + 1 < _max_retries:
-                if error_logger is not None:
-                    error_logger.errlog(response.text if response is not None else exc)
-                else:
-                    traceback.print_exc()
+                error_logger.log_error(response.text if response is not None else exc)
 
             # Otherwise use exponential backoff in case of error
             else:
@@ -70,7 +67,7 @@ def wikidata_property(
     prop: str,
     entities: List[str],
     query: str = _default_query,
-    error_logger: ErrorLogger = None,
+    error_logger: ErrorLogger = ErrorLogger(),
     **tqdm_kwargs
 ) -> Iterable[Tuple[str, Any]]:
     """

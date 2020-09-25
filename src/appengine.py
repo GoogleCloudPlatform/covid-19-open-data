@@ -49,8 +49,9 @@ from lib.net import download
 from lib.pipeline import DataPipeline
 from lib.pipeline_tools import get_table_names
 
-log = ErrorLogger()
 app = Flask(__name__)
+logger = ErrorLogger("appengine")
+
 BLOB_OP_MAX_RETRIES = 10
 ENV_TOKEN = "GCP_TOKEN"
 ENV_PROJECT = "GOOGLE_CLOUD_PROJECT"
@@ -102,20 +103,23 @@ def download_folder(
         # Remove the prefix from the remote path
         rel_path = blob.name.split(f"{remote_path}/", 1)[-1]
         if filter_func is None or filter_func(Path(rel_path)):
-            print(f"Downloading {rel_path} to {local_folder}/")
+            logger.log_debug(f"Downloading {rel_path} to {local_folder}/")
             file_path = local_folder / rel_path
             file_path.parent.mkdir(parents=True, exist_ok=True)
             for i in range(BLOB_OP_MAX_RETRIES):
                 try:
                     return blob.download_to_filename(str(file_path))
                 except Exception as exc:
-                    log.errlog(f"Error downloading {rel_path}.", traceback=traceback.format_exc())
+                    log_message = f"Error downloading {rel_path}."
+                    logger.log_warning(log_message, traceback=traceback.format_exc())
                     # Exponential back-off
                     time.sleep(2 ** i)
 
             # If error persists, there must be something wrong with the network so we are better
             # off crashing the appengine server.
-            raise IOError(f"Error downloading {rel_path}")
+            error_message = f"Error downloading {rel_path}"
+            logger.log_error(error_message)
+            raise IOError(error_message)
 
     map_func = partial(_download_blob, local_folder)
     map_iter = bucket.list_blobs(prefix=remote_path)
@@ -133,19 +137,22 @@ def upload_folder(
     def _upload_file(remote_path: str, file_path: Path):
         target_path = file_path.relative_to(local_folder)
         if filter_func is None or filter_func(target_path):
-            print(f"Uploading {target_path} to {remote_path}/")
+            logger.log_debug(f"Uploading {target_path} to {remote_path}/")
             blob = bucket.blob(os.path.join(remote_path, target_path))
             for i in range(BLOB_OP_MAX_RETRIES):
                 try:
                     return blob.upload_from_filename(str(file_path))
                 except Exception as exc:
-                    log.errlog(f"Error uploading {target_path}.", traceback=traceback.format_exc())
+                    log_message = f"Error uploading {target_path}."
+                    logger.log_warning(log_message, traceback=traceback.format_exc())
                     # Exponential back-off
                     time.sleep(2 ** i)
 
             # If error persists, there must be something wrong with the network so we are better
             # off crashing the appengine server.
-            raise IOError(f"Error uploading {target_path}")
+            error_message = f"Error uploading {target_path}"
+            logger.log_error(error_message)
+            raise IOError(error_message)
 
     map_func = partial(_upload_file, remote_path)
     map_iter = local_folder.glob("**/*.*")
@@ -181,15 +188,15 @@ def cache_pull() -> Response:
         def _pull_source(cache_source: Dict[str, str]):
             url = cache_source.pop("url")
             output = cache_source.pop("output")
-            print(f"Downloading {url} into {output}")
+            logger.log_info(f"Downloading {url} into {output}")
             buffer = BytesIO()
             try:
                 download(url, buffer)
                 with (output_folder / output).open("wb") as fd:
                     fd.write(buffer.getvalue())
-                print(f"Downloaded {output} successfully")
+                logger.log_info(f"Downloaded {output} successfully")
             except:
-                log.errlog(f"Cache pull failed for {url}.", traceback=traceback.format_exc())
+                logger.log_error(f"Cache pull failed for {url}.", traceback=traceback.format_exc())
 
         # Pull each of the sources from the cache config
         with (SRC / "cache.yaml").open("r") as fd:
@@ -200,7 +207,7 @@ def cache_pull() -> Response:
         upload_folder(GCS_BUCKET_PROD, "cache", workdir)
 
         # Build the sitemap for all cached files
-        print("Building sitemap")
+        logger.log_info("Building sitemap")
         sitemap = cache_build_map()
         bucket = get_storage_bucket(GCS_BUCKET_PROD)
         blob = bucket.blob("cache/sitemap.json")
@@ -244,7 +251,7 @@ def update_table(table_name: str = None, job_group: int = None) -> Response:
 
         # Log the data sources being extracted
         data_source_names = [src.config.get("name") for src in data_pipeline.data_sources]
-        print(f"Data sources: {data_source_names}")
+        logger.log_info(f"Data sources: {data_source_names}")
 
         # Produce the intermediate files from the data source
         intermediate_results = data_pipeline.parse(output_folder, process_count=1)
@@ -327,7 +334,7 @@ def publish_tables() -> Response:
 
         # Prepare all files for publishing and add them to the public folder
         copy_tables(input_folder, output_folder)
-        print("Output tables copied to public folder")
+        logger.log_info("Output tables copied to public folder")
 
         # Upload the results to the prod bucket
         upload_folder(GCS_BUCKET_PROD, "v2", output_folder)
@@ -353,7 +360,7 @@ def publish_main_table() -> Response:
         # Create the joint main table for all records
         main_table_path = output_folder / "main.csv"
         make_main_table(input_folder, main_table_path)
-        print("Main table created")
+        logger.log_info("Main table created")
 
         # Upload the results to the prod bucket
         upload_folder(GCS_BUCKET_PROD, "v2", output_folder)
@@ -376,7 +383,7 @@ def publish_subset_tables() -> Response:
         # Create subsets for easy API-like access to slices of data
         main_table_path = input_folder / "main.csv"
         list(create_table_subsets(main_table_path, output_folder))
-        print("Table subsets created")
+        logger.log_info("Table subsets created")
 
         # Upload the results to the prod bucket
         upload_folder(GCS_BUCKET_PROD, "v2", output_folder)
@@ -397,7 +404,7 @@ def _convert_json(expr: str = r"*.csv") -> Response:
 
         # Convert all files to JSON
         list(convert_tables_to_json(public_folder, json_folder))
-        print("CSV files converted to JSON")
+        logger.log_info("CSV files converted to JSON")
 
         # Upload the results to the prod bucket
         upload_folder(GCS_BUCKET_PROD, "v2", json_folder)
@@ -437,18 +444,18 @@ def deferred_route(url_path: str) -> Response:
         # Create a new preemptible instance and wait for it to come online
         instance_id = start_instance(service_account=os.getenv(ENV_SERVICE_ACCOUNT))
         instance_ip = get_internal_ip(instance_id)
-        print(f"Created worker instance {instance_id} with internal IP {instance_ip}")
+        logger.log_info(f"Created worker instance {instance_id} with internal IP {instance_ip}")
 
         # Wait 4 minutes before attempting to forward the request
         log_interval = 30
         wait_seconds = 4 * 60
         for _ in range(wait_seconds // log_interval):
-            print("Waiting for instance to start...")
+            logger.log_info("Waiting for instance to start...")
             time.sleep(log_interval)
 
         # Forward the route to the worker instance
         url_fwd = f"http://{instance_ip}/{url_path}"
-        print(f"Forwarding request to {url_fwd}")
+        logger.log_info(f"Forwarding request to {url_fwd}")
         params = dict(request.args)
         headers = dict(request.headers)
         response = requests.get(url=url_fwd, headers=headers, params=params, timeout=60 * 60 * 2)
@@ -456,7 +463,7 @@ def deferred_route(url_path: str) -> Response:
         # Retrieve the response from the worker instance
         status = response.status_code
         content = response.content
-        print(f"Received response with status code {status}")
+        logger.log_info(f"Received response with status code {status}")
 
     except:
         traceback.print_exc()
@@ -466,7 +473,7 @@ def deferred_route(url_path: str) -> Response:
         # Shut down the worker instance now that the job is finished
         if instance_id is not None:
             delete_instance(instance_id)
-            print(f"Deleted instance {instance_id}")
+            logger.log_info(f"Deleted instance {instance_id}")
 
     # Forward the response from the instance
     return Response(content, status=status)
@@ -496,7 +503,7 @@ def main() -> None:
         publish_subset_tables()
 
     def _unknown_command(*func_args):
-        print(f"Unknown command {args.command}", file=sys.stderr)
+        logger.log_error(f"Unknown command {args.command}")
 
     # If a command + args are supplied, call the corresponding function
     {

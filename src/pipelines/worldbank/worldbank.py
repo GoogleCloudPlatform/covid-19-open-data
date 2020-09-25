@@ -12,32 +12,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import traceback
 import zipfile
 from io import BytesIO
 from pathlib import Path
 from functools import partial
 from typing import Any, Dict, List
 
-from pandas import DataFrame, Series, read_csv, isnull
+from pandas import DataFrame, Series, isna, read_csv
 
 from lib.concurrent import thread_map
-from lib.net import download
 from lib.data_source import DataSource
+from lib.net import download
 
 
 class WorldbankDataSource(DataSource):
     """ Retrieves the requested properties from Wikidata for all items in metadata.csv """
 
-    @staticmethod
-    def _get_latest(record: Series, min_year: int) -> Any:
+    def _get_latest(self, record: Series, min_year: int) -> Any:
         # Only look at data starting on <min_year>, if none found return null
         try:
             for year in [str(i) for i in range(min_year, 2020)][::-1]:
-                if year in record and not isnull(record[year]):
+                if year in record and not isna(record[year]):
                     return record[year]
         except Exception as exc:
-            print(exc)
-            print(record)
+            self.log_error(str(exc), traceback=traceback.format_exc(), record=record)
         return None
 
     def fetch(
@@ -46,14 +45,15 @@ class WorldbankDataSource(DataSource):
         # Data file is too big to store in Git, so pass-through the URL to parse manually
         return {idx: source["url"] for idx, source in enumerate(fetch_opts)}
 
-    @staticmethod
-    def _process_record(worldbank: DataFrame, indicators: Dict[str, str], min_year: int, key: str):
+    def _process_record(
+        self, worldbank: DataFrame, indicators: Dict[str, str], min_year: int, key: str
+    ):
         record = {"key": key}
         subset = worldbank[key]
         indicators = {name: code for name, code in indicators.items() if code in subset.index}
         for name, code in indicators.items():
             row = subset.loc[code:code].iloc[0]
-            record[name] = WorldbankDataSource._get_latest(row, min_year)
+            record[name] = self._get_latest(row, min_year)
         return record
 
     def parse(self, sources: List[str], aux: Dict[str, DataFrame], **parse_opts):
@@ -89,7 +89,7 @@ class WorldbankDataSource(DataSource):
         indexed = {key: data[data.key == key].set_index("indicator_code") for key in keys}
 
         # There is probably a fancy pandas function to this more efficiently but this works for now
-        map_func = partial(WorldbankDataSource._process_record, indexed, indicators, min_year)
+        map_func = partial(self._process_record, indexed, indicators, min_year)
         records = thread_map(map_func, keys, desc="WorldBank Indicators")
 
         # Some countries are better described as subregions

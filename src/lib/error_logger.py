@@ -13,11 +13,13 @@
 # limitations under the License.
 
 import datetime
-import warnings
-from typing import List
 import json
 import logging
+import os
+
 from functools import lru_cache
+from typing import Callable
+
 from pandas import Series
 
 # Based on recipe for structured logging
@@ -25,6 +27,7 @@ from pandas import Series
 
 
 class LogEncoder(json.JSONEncoder):
+    # pylint: disable=method-hidden
     def default(self, o):
         if isinstance(o, set):
             return tuple(o)
@@ -52,14 +55,57 @@ class ErrorLogger:
     Simple class to be inherited by other classes to add error logging functions.
     """
 
-    logging.basicConfig(format="%(message)s")
+    name: str
+    """ Name of the logger, defaults to the class name. """
+
+    logger: logging.Logger
+    """ Instance of logger which will be used. Each ErrorLogger instance has its own Logger. """
+
+    def __init__(self, name: str = None):
+
+        # Default to the classname
+        self.name = name or self.__class__.__name__
+
+        # Create an instance of logger
+        self.logger = logging.getLogger(self.name)
+
+        # Read logging level from env variable, default to INFO
+        logging_level = {
+            "DEBUG": logging.DEBUG,
+            "INFO": logging.INFO,
+            "WARNING": logging.WARNING,
+            "ERROR": logging.ERROR,
+        }.get(os.getenv("LOG_LEVEL"), logging.INFO)
+        self.logger.setLevel(logging_level)
+
+        # Configure the handler to use our preferred logging format
+        handler = logging.StreamHandler()
+        handler.setFormatter(logging.Formatter("%(message)s"))
+        self.logger.addHandler(handler)
 
     def timestamp(self) -> str:
         return datetime.datetime.now().isoformat()[:24]
 
-    def errlog(self, msg: str, **kwargs) -> None:
-        logging.warning(
+    def _log_msg(self, log_func: Callable, msg: str, **kwargs) -> None:
+        log_func(
             StructuredMessage(
-                msg, timestamp=self.timestamp(), classname=self.__class__.__name__, **kwargs
+                msg,
+                logname=self.name,
+                timestamp=self.timestamp(),
+                # TODO: consider whether we should keep classname or if logname is sufficient
+                classname=self.__class__.__name__,
+                **kwargs,
             )
         )
+
+    def log_error(self, msg: str, **kwargs) -> None:
+        self._log_msg(self.logger.error, msg, **kwargs)
+
+    def log_warning(self, msg: str, **kwargs) -> None:
+        self._log_msg(self.logger.warning, msg, **kwargs)
+
+    def log_info(self, msg: str, **kwargs) -> None:
+        self._log_msg(self.logger.info, msg, **kwargs)
+
+    def log_debug(self, msg: str, **kwargs) -> None:
+        self._log_msg(self.logger.debug, msg, **kwargs)

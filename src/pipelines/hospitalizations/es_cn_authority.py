@@ -37,7 +37,7 @@ class CanaryIslandsHospitalizationsDataSource(CanaryIslandsDataSource):
             elif record["SERIE"] == "CCR":
                 statistic = "ventilator"
             else:
-                self.errlog(f"Unknown statistic type: {statistic}")
+                self.log_error(f"Unknown statistic type: {statistic}")
                 continue
             records[statistic].append(
                 {

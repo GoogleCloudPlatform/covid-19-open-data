@@ -29,6 +29,7 @@ from pandas import DataFrame
 
 from lib.concurrent import thread_map
 from lib.constants import EXCLUDE_FROM_MAIN_TABLE, SRC
+from lib.error_logger import ErrorLogger
 from lib.io import display_progress, export_csv, pbar, read_file, read_lines
 from lib.memory_efficient import (
     convert_csv_to_json_records,
@@ -102,7 +103,9 @@ def copy_tables(tables_folder: Path, public_folder: Path) -> None:
         shutil.copy(output_file, public_folder / output_file.name)
 
 
-def make_main_table(tables_folder: Path, output_path: Path) -> None:
+def make_main_table(
+    tables_folder: Path, output_path: Path, logger: ErrorLogger = ErrorLogger()
+) -> None:
     """
     Build a flat view of all tables combined, joined by <key> or <key, date>.
 
@@ -120,26 +123,26 @@ def make_main_table(tables_folder: Path, output_path: Path) -> None:
         keys_table_path = workdir / "keys.csv"
         keys_table = read_file(tables_folder / "index.csv", usecols=["key"])
         export_csv(keys_table, keys_table_path)
-        print("Created keys table")
+        logger.log_info("Created keys table")
 
         # Add a date to each region from index to allow iterative left joins
         max_date = (datetime.datetime.now() + datetime.timedelta(days=1)).date().isoformat()
         date_list = date_range("2020-01-01", max_date)
         date_table_path = workdir / "dates.csv"
         export_csv(DataFrame(date_list, columns=["date"]), date_table_path)
-        print("Created dates table")
+        logger.log_info("Created dates table")
 
         # Create a temporary working table file which can be used during the steps
         temp_file_path = workdir / "main.tmp.csv"
         table_cross_product(keys_table_path, date_table_path, temp_file_path)
-        print("Created cross product table")
+        logger.log_info("Created cross product table")
 
         # Add all the index columns to seed the main table
         main_table_path = workdir / "main.csv"
         table_join(
             temp_file_path, tables_folder / "index.csv", ["key"], main_table_path, how="outer"
         )
-        print("Joined with table index")
+        logger.log_info("Joined with table index")
 
         non_dated_columns = set(get_table_columns(main_table_path))
         for table_file_path in pbar([*tables_folder.glob("*.csv")], desc="Make main table"):
@@ -158,14 +161,14 @@ def make_main_table(tables_folder: Path, output_path: Path) -> None:
                 # Iteratively perform left outer joins on all tables
                 table_join(main_table_path, table_file_path, join_on, temp_file_path, how="outer")
                 shutil.move(temp_file_path, main_table_path)
-                print(f"Joined with table {table_name}")
+                logger.log_info(f"Joined with table {table_name}")
 
         # Drop rows with null date or without a single dated record
         # TODO: figure out a memory-efficient way to do this
 
         # Ensure that the table is appropriately sorted ans write to output location
         table_sort(main_table_path, output_path)
-        print("Sorted main table")
+        logger.log_info("Sorted main table")
 
 
 def create_table_subsets(main_table_path: Path, output_path: Path) -> Iterable[Path]:
@@ -186,7 +189,9 @@ def create_table_subsets(main_table_path: Path, output_path: Path) -> Iterable[P
     yield from _subset_grouped_key(main_table_path, output_path, desc="Grouped key subsets")
 
 
-def convert_tables_to_json(csv_folder: Path, output_folder: Path) -> Iterable[Path]:
+def convert_tables_to_json(
+    csv_folder: Path, output_folder: Path, logger: ErrorLogger = ErrorLogger()
+) -> Iterable[Path]:
     def try_json_covert(schema: Dict[str, str], csv_file: Path) -> Path:
         # JSON output defaults to same as the CSV file but with extension swapped
         json_output = output_folder / str(csv_file.relative_to(csv_folder)).replace(".csv", ".json")
@@ -195,12 +200,12 @@ def convert_tables_to_json(csv_folder: Path, output_folder: Path) -> Iterable[Pa
         # Converting to JSON is not critical and it may fail in some corner cases
         # As long as the "important" JSON files are created, this should be OK
         try:
-            print(f"Converting {csv_file} to JSON")
+            logger.log_debug(f"Converting {csv_file} to JSON")
             convert_csv_to_json_records(schema, csv_file, json_output)
             return json_output
         except Exception as exc:
-            print(f"Unable to convert CSV file {csv_file} to JSON: ${exc}", file=sys.stderr)
-            traceback.print_exc()
+            error_message = f"Unable to convert CSV file {csv_file} to JSON"
+            logger.log_error(error_message, traceback=traceback.format_exc())
             return None
 
     # Convert all CSV files to JSON using values format
