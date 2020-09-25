@@ -86,24 +86,31 @@ def schedule_all_jobs(project_id: str, location_id: str, time_zone: str) -> None
     # Cache pull job runs hourly
     _schedule_job(schedule="0 * * * *", path="/cache_pull")
 
-    # The job that publishes data into the prod bucket runs every 4 hours
+    # The job that publishes combined tables into the prod bucket runs every 2 hours
     _schedule_job(
-        path="/publish",
+        path="/publish_tables",
         # Offset by 30 minutes to let other hourly tasks finish
-        schedule="30 */4 * * *",
+        schedule="30 */2 * * *",
+    )
+
+    # The job that publishes aggregate and breakdown outputs runs every 4 hours
+    _schedule_job(
+        path="/publish_main_and_subsets",
+        # Offset by 40 minutes to let other hourly tasks finish
+        schedule="40 */4 * * *",
     )
 
     # Converting the outputs to JSON is less critical but also slow so it's run separately
     _schedule_job(
-        path="/convert_json_1",
-        # Offset by 30 minutes to run after publishing
+        path="/deferred/convert_json_1",
+        # Offset by 60 minutes to run after publishing
         schedule="0 1-23/4 * * *",
     )
 
     # The convert to JSON task is split in two because otherwise it takes too long
     _schedule_job(
-        path="/convert_json_2",
-        # Offset by 30 minutes to run after publishing
+        path="/deferred/convert_json_2",
+        # Offset by 60 minutes to run after publishing
         schedule="0 1-23/4 * * *",
     )
 
