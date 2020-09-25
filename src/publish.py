@@ -25,7 +25,7 @@ from pstats import Stats
 from tempfile import TemporaryDirectory
 from typing import Dict, Iterable, TextIO
 
-from pandas import DataFrame, date_range
+from pandas import DataFrame
 
 from lib.concurrent import thread_map
 from lib.constants import EXCLUDE_FROM_MAIN_TABLE, SRC
@@ -33,15 +33,13 @@ from lib.io import display_progress, export_csv, pbar, read_file, read_lines
 from lib.memory_efficient import (
     convert_csv_to_json_records,
     get_table_columns,
-    table_breakout,
     table_cross_product,
     table_group_tail,
     table_join,
-    table_read_column,
-    table_rename,
     table_sort,
 )
 from lib.pipeline_tools import get_schema
+from lib.time import date_range
 
 
 def _subset_grouped_key(
@@ -126,7 +124,7 @@ def make_main_table(tables_folder: Path, output_path: Path) -> None:
 
         # Add a date to each region from index to allow iterative left joins
         max_date = (datetime.datetime.now() + datetime.timedelta(days=1)).date().isoformat()
-        date_list = [date.date().isoformat() for date in date_range("2020-01-01", max_date)]
+        date_list = date_range("2020-01-01", max_date)
         date_table_path = workdir / "dates.csv"
         export_csv(DataFrame(date_list, columns=["date"]), date_table_path)
         print("Created dates table")
