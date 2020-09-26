@@ -93,11 +93,18 @@ def schedule_all_jobs(project_id: str, location_id: str, time_zone: str) -> None
         schedule="30 */2 * * *",
     )
 
-    # The job that publishes aggregate and breakdown outputs runs every 4 hours
+    # The job that publishes aggregate outputs runs every 2 hours
     _schedule_job(
-        path="/publish_main_and_subsets",
+        path="/publish_main_table",
         # Offset by 40 minutes to let other hourly tasks finish
         schedule="40 */4 * * *",
+    )
+
+    # The job that publishes breakdown outputs runs every 2 hours
+    _schedule_job(
+        path="/publish_subset_tables",
+        # Offset by 60 minutes to run after publishing
+        schedule="0 1-23/4 * * *",
     )
 
     # Converting the outputs to JSON is less critical but also slow so it's run separately

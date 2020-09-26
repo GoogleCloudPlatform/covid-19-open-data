@@ -118,8 +118,8 @@ def download_folder(
             raise IOError(f"Error downloading {rel_path}")
 
     map_func = partial(_download_blob, local_folder)
-    _ = thread_map(map_func, bucket.list_blobs(prefix=remote_path), total=None, disable=True)
-    list(_)  # consume the results
+    map_iter = bucket.list_blobs(prefix=remote_path)
+    list(thread_map(map_func, map_iter, total=None, disable=True, max_workers=8))
 
 
 def upload_folder(
@@ -148,8 +148,8 @@ def upload_folder(
             raise IOError(f"Error uploading {target_path}")
 
     map_func = partial(_upload_file, remote_path)
-    _ = thread_map(map_func, local_folder.glob("**/*.*"), total=None, disable=True)
-    list(_)  # consume the results
+    map_iter = local_folder.glob("**/*.*")
+    list(thread_map(map_func, map_iter, total=None, disable=True, max_workers=8))
 
 
 def cache_build_map() -> Dict[str, List[str]]:
@@ -314,51 +314,72 @@ def combine_table(table_name: str = None) -> Response:
 def publish_tables() -> Response:
     with TemporaryDirectory() as workdir:
         workdir = Path(workdir)
-        tables_folder = workdir / "tables"
-        public_folder = workdir / "public"
-        tables_folder.mkdir(parents=True, exist_ok=True)
-        public_folder.mkdir(parents=True, exist_ok=True)
+        input_folder = workdir / "input"
+        output_folder = workdir / "output"
+        input_folder.mkdir(parents=True, exist_ok=True)
+        output_folder.mkdir(parents=True, exist_ok=True)
 
         # Download all the combined tables into our local storage
-        download_folder(GCS_BUCKET_TEST, "tables", tables_folder)
+        download_folder(GCS_BUCKET_TEST, "tables", input_folder)
 
         # TODO: perform some validation on the outputs and report errors
         # See: https://github.com/GoogleCloudPlatform/covid-19-open-data/issues/186
 
         # Prepare all files for publishing and add them to the public folder
-        copy_tables(tables_folder, public_folder)
+        copy_tables(input_folder, output_folder)
         print("Output tables copied to public folder")
+
+        # Upload the results to the prod bucket
+        upload_folder(GCS_BUCKET_PROD, "v2", output_folder)
 
     return Response("OK", status=200)
 
 
-@app.route("/publish_main_and_subsets")
-def publish_main_and_subsets() -> Response:
+@app.route("/publish_main_table")
+def publish_main_table() -> Response:
     with TemporaryDirectory() as workdir:
         workdir = Path(workdir)
-        tables_folder = workdir / "tables"
-        public_folder = workdir / "public"
-        tables_folder.mkdir(parents=True, exist_ok=True)
-        public_folder.mkdir(parents=True, exist_ok=True)
+        input_folder = workdir / "input"
+        output_folder = workdir / "output"
+        input_folder.mkdir(parents=True, exist_ok=True)
+        output_folder.mkdir(parents=True, exist_ok=True)
 
-        # Download all the combined tables into our local storage
-        download_folder(GCS_BUCKET_TEST, "tables", tables_folder)
-
-        # Prepare all files for publishing and add them to the public folder
-        copy_tables(tables_folder, public_folder)
-        print("Output tables copied to public folder")
+        # Download the already published tables
+        allowlist_filenames = [f"{table}.csv" for table in get_table_names()]
+        download_folder(
+            GCS_BUCKET_PROD, "v2", input_folder, lambda x: str(x) in allowlist_filenames
+        )
 
         # Create the joint main table for all records
-        main_table_path = public_folder / "main.csv"
-        make_main_table(tables_folder, main_table_path)
+        main_table_path = output_folder / "main.csv"
+        make_main_table(input_folder, main_table_path)
         print("Main table created")
 
+        # Upload the results to the prod bucket
+        upload_folder(GCS_BUCKET_PROD, "v2", output_folder)
+
+    return Response("OK", status=200)
+
+
+@app.route("/publish_subset_tables")
+def publish_subset_tables() -> Response:
+    with TemporaryDirectory() as workdir:
+        workdir = Path(workdir)
+        input_folder = workdir / "input"
+        output_folder = workdir / "output"
+        input_folder.mkdir(parents=True, exist_ok=True)
+        output_folder.mkdir(parents=True, exist_ok=True)
+
+        # Download the main table only
+        download_folder(GCS_BUCKET_PROD, "v2", input_folder, lambda x: str(x) == "main.csv")
+
         # Create subsets for easy API-like access to slices of data
-        list(create_table_subsets(main_table_path, public_folder))
+        main_table_path = input_folder / "main.csv"
+        list(create_table_subsets(main_table_path, output_folder))
         print("Table subsets created")
 
         # Upload the results to the prod bucket
-        upload_folder(GCS_BUCKET_PROD, "v2", public_folder)
+        upload_folder(GCS_BUCKET_PROD, "v2", output_folder)
 
     return Response("OK", status=200)
 
@@ -471,7 +492,8 @@ def main() -> None:
 
     def _publish():
         publish_tables()
-        publish_main_and_subsets()
+        publish_main_table()
+        publish_subset_tables()
 
     def _unknown_command(*func_args):
         print(f"Unknown command {args.command}", file=sys.stderr)
