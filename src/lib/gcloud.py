@@ -45,7 +45,7 @@ def start_instance(
         f"--tags=http-server",
         f"--image={_host_image_id}",
         f"--image-project=cos-cloud",
-        f"--boot-disk-size=10GB",
+        f"--boot-disk-size=20GB",
         f"--boot-disk-type=pd-standard",
         f"--boot-disk-device-name={instance_id}",
         f"--container-image={GCS_CONTAINER_ID}",

@@ -95,7 +95,8 @@ def schedule_all_jobs(project_id: str, location_id: str, time_zone: str) -> None
 
     # The job that publishes aggregate outputs runs every 2 hours
     _schedule_job(
-        path="/publish_main_table",
+        # Run in a separate, preemptible instance
+        path="/deferred/publish_main_table",
         # Offset by 40 minutes to let other hourly tasks finish
         schedule="40 */4 * * *",
     )
