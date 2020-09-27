@@ -46,10 +46,10 @@ def _default_age_adapter(value: Any) -> str:
         return "age_unknown"
 
     try:
-        value = str(value)
-        if re.match(r"\d+(\.\d*)?", value):
-            return age_group(safe_int_cast(value))
-        if re.match(r"\d\d?\-\d*", value):
+        value_int = safe_int_cast(value)
+        if value_int is not None:
+            return age_group(value_int)
+        if re.match(r"\d+\-\d*", value):
             return value
     except ValueError:
         pass
