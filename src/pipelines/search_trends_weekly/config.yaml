@@ -256,7 +256,7 @@ schema:
   search_trends_leukorrhea: float
   search_trends_lightheadedness: float
   search_trends_low_back_pain: float
-  search_trends_low-grade_fever: float
+  search_trends_low_grade_fever: float
   search_trends_lymphedema: float
   search_trends_major_depressive_disorder: float
   search_trends_malabsorption: float
@@ -333,7 +333,7 @@ schema:
   search_trends_polyneuropathy: float
   search_trends_polyuria: float
   search_trends_poor_posture: float
-  search_trends_post-nasal_drip: float
+  search_trends_post_nasal_drip: float
   search_trends_postural_orthostatic_tachycardia_syndrome: float
   search_trends_prediabetes: float
   search_trends_proteinuria: float
@@ -361,7 +361,7 @@ schema:
   search_trends_sciatica: float
   search_trends_scoliosis: float
   search_trends_seborrheic_dermatitis: float
-  search_trends_self-harm: float
+  search_trends_self_harm: float
   search_trends_sensitivity_to_sound: float
   search_trends_sexual_dysfunction: float
   search_trends_shallow_breathing: float

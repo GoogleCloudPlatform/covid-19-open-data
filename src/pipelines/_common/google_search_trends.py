@@ -40,7 +40,7 @@ def _rename_columns(data: DataFrame) -> DataFrame:
         col
         if col in column_adapter.values()
         else "search_trends_"
-        + col.lower().replace("symptom:", "").replace(" ", "_").replace("'", "")
+        + col.lower().replace("symptom:", "").replace(" ", "_").replace("-", "_").replace("'", "")
         for col in data.columns
     ]
 
