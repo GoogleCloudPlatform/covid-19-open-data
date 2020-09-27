@@ -24,7 +24,7 @@ def _clean_numeric(value: Any) -> str:
         value = str(value)
     if "," in value:
         value = value.replace(",", "")
-    if "−" in value:
+    if value.startswith("−"):
         value = value.replace("−", "-")
     return value
 
