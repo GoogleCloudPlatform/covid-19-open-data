@@ -157,10 +157,11 @@ def table_merge(tables: List[Path], output: Path, on: List[str], how: str = "INN
     """
     Build a flat view of all tables combined, joined by <key> or <key, date>.
     Arguments:
-        tables_folder: Input directory where all CSV files exist.
-        output_path: Output directory for the resulting main.csv file.
-        location_key: Name of the key to use for the location, "key" (v2) or "location_key" (v3)
-        include_all: Flag indicating if tables from EXCLUDE_FROM_MAIN_TABLE should be excluded.
+        tables: List of paths for the CSV files being merged.
+        output: Output path for the resulting CSV file.
+        on: List of columns to join the input tables by.
+        how: Either "inner" or "outer" indicating whether records present only in the `left` table
+            should be dropped or not.
     """
     assert len(tables) > 0, f"At least one table required for merging, found {len(tables)}"
 
