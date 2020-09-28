@@ -78,10 +78,13 @@ class ErrorLogger:
         }.get(os.getenv("LOG_LEVEL"), logging.INFO)
         self.logger.setLevel(logging_level)
 
-        # Configure the handler to use our preferred logging format
-        handler = logging.StreamHandler()
-        handler.setFormatter(logging.Formatter("%(message)s"))
-        self.logger.addHandler(handler)
+        # Only add a handler if it does not already have one
+        if not self.logger.hasHandlers():
+
+            # Configure the handler to use our preferred logging format
+            handler = logging.StreamHandler()
+            handler.setFormatter(logging.Formatter("%(message)s"))
+            self.logger.addHandler(handler)
 
     def timestamp(self) -> str:
         return datetime.datetime.now().isoformat()[:24]
