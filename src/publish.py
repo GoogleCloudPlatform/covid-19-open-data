@@ -22,20 +22,20 @@ from functools import partial
 from pathlib import Path
 from pstats import Stats
 from tempfile import TemporaryDirectory
-from typing import Dict, Iterable, TextIO
-
-from pandas import DataFrame
+from typing import Dict, Iterable, List, TextIO
 
 from lib.concurrent import thread_map
 from lib.constants import EXCLUDE_FROM_MAIN_TABLE, SRC
 from lib.error_logger import ErrorLogger
-from lib.io import display_progress, export_csv, pbar, read_file, read_lines
+from lib.io import display_progress, pbar, read_lines
 from lib.memory_efficient import (
     convert_csv_to_json_records,
     get_table_columns,
     table_cross_product,
+    table_drop_nan_columns,
     table_group_tail,
     table_join,
+    table_read_column,
     table_sort,
 )
 from lib.pipeline_tools import get_schema
@@ -106,67 +106,90 @@ def copy_tables(tables_folder: Path, public_folder: Path) -> None:
         shutil.copy(output_file, public_folder / output_file.name)
 
 
-def make_main_table(tables_folder: Path, output_path: Path) -> None:
+def _make_location_key_and_date_table(tables_folder: Path, output_path: Path) -> None:
+    # Use a temporary directory for intermediate files
+    with TemporaryDirectory() as workdir:
+        workdir = Path(workdir)
+
+        # Make sure that there is an index table present
+        index_table = tables_folder / "index.csv"
+        assert index_table.exists(), "Index table not found"
+
+        # Create a single-column table with only the keys
+        keys_table_path = workdir / "location_keys.csv"
+        with open(keys_table_path, "w") as fd:
+            fd.write(f"key\n")
+            fd.writelines(f"{value}\n" for value in table_read_column(index_table, "key"))
+
+        # Add a date to each region from index to allow iterative left joins
+        max_date = (datetime.datetime.now() + datetime.timedelta(days=1)).date().isoformat()
+        date_table_path = workdir / "dates.csv"
+        with open(date_table_path, "w") as fd:
+            fd.write("date\n")
+            fd.writelines(f"{value}\n" for value in date_range("2020-01-01", max_date))
+
+        # Output all combinations of <key x date>
+        table_cross_product(keys_table_path, date_table_path, output_path)
+
+
+def merge_output_tables(
+    tables_folder: Path,
+    output_path: Path,
+    drop_empty_columns: bool = False,
+    exclude_table_names: List[str] = None,
+) -> None:
     """
-    Build a flat view of all tables combined, joined by <key> or <key, date>.
+    Build a flat view of all tables combined, joined by <key> or <key, date>. This function
+    requires index.csv to be present under `tables_folder`.
+
     Arguments:
-        tables_folder: Input folder where all CSV files exist.
+        tables_folder: Input directory where all CSV files exist.
+        output_path: Output directory for the resulting main.csv file.
+        drop_empty_columns: Flag determining whether columns with null values only should be
+            removed from the output.
+        exclude_table_names: Tables which should be removed from the combined output.
     """
+    # Default to a known set to exclude from output
+    if exclude_table_names is None:
+        exclude_table_names = EXCLUDE_FROM_MAIN_TABLE
 
     # Use a temporary directory for intermediate files
     with TemporaryDirectory() as workdir:
         workdir = Path(workdir)
 
-        # Merge all output files into a single table
-        keys_table_path = workdir / "keys.csv"
-        keys_table = read_file(tables_folder / "index.csv", usecols=["key"])
-        export_csv(keys_table, keys_table_path)
-        _logger.log_info("Created keys table")
+        # Use temporary files to avoid computing everything in memory
+        temp_input = workdir / "tmp.1.csv"
+        temp_output = workdir / "tmp.2.csv"
 
-        # Add a date to each region from index to allow iterative left joins
-        max_date = (datetime.datetime.now() + datetime.timedelta(days=1)).date().isoformat()
-        date_list = date_range("2020-01-01", max_date)
-        date_table_path = workdir / "dates.csv"
-        export_csv(DataFrame(date_list, columns=["date"]), date_table_path)
-        _logger.log_info("Created dates table")
+        # Start with all combinations of <location key x date>
+        _make_location_key_and_date_table(tables_folder, temp_output)
+        temp_input, temp_output = temp_output, temp_input
 
-        # Create a temporary working table file which can be used during the steps
-        temp_file_path = workdir / "main.tmp.csv"
-        table_cross_product(keys_table_path, date_table_path, temp_file_path)
-        _logger.log_info("Created cross product table")
+        # List of tables excludes main.csv and non-daily data sources
+        table_iter = sorted(tables_folder.glob("*.csv"))
+        table_paths = [table for table in table_iter if table.stem not in exclude_table_names]
 
-        # Add all the index columns to seed the main table
-        main_table_path = workdir / "main.csv"
-        table_join(
-            temp_file_path, tables_folder / "index.csv", ["key"], main_table_path, how="outer"
-        )
-        _logger.log_info("Joined with table index")
+        for table_file_path in table_paths:
+            # Join by <location key> or <location key x date> depending on what's available
+            table_columns = get_table_columns(table_file_path)
+            join_on = [col for col in ("key", "date") if col in table_columns]
 
-        non_dated_columns = set(get_table_columns(main_table_path))
-        for table_file_path in pbar([*tables_folder.glob("*.csv")], desc="Make main table"):
-            table_name = table_file_path.stem
-            if table_name not in EXCLUDE_FROM_MAIN_TABLE:
+            # Iteratively perform left outer joins on all tables
+            table_join(temp_input, table_file_path, join_on, temp_output, how="outer")
 
-                table_columns = get_table_columns(table_file_path)
-                if "date" in table_columns:
-                    join_on = ["key", "date"]
-                else:
-                    join_on = ["key"]
-
-                    # Keep track of columns which are not indexed by date
-                    non_dated_columns = non_dated_columns | set(table_columns)
-
-                # Iteratively perform left outer joins on all tables
-                table_join(main_table_path, table_file_path, join_on, temp_file_path, how="outer")
-                shutil.move(temp_file_path, main_table_path)
-                _logger.log_info(f"Joined with table {table_name}")
+            # Flip-flop the temp files to avoid a copy
+            temp_input, temp_output = temp_output, temp_input
 
         # Drop rows with null date or without a single dated record
         # TODO: figure out a memory-efficient way to do this
 
-        # Ensure that the table is appropriately sorted ans write to output location
-        table_sort(main_table_path, output_path)
-        _logger.log_info("Sorted main table")
+        # Remove columns which provide no data because they are only null values
+        if drop_empty_columns:
+            table_drop_nan_columns(temp_input, temp_output)
+            temp_input, temp_output = temp_output, temp_input
+
+        # Ensure that the table is appropriately sorted and write to output location
+        table_sort(temp_input, output_path)
 
 
 def create_table_subsets(main_table_path: Path, output_path: Path) -> Iterable[Path]:
@@ -243,7 +266,7 @@ def main(output_folder: Path, tables_folder: Path, show_progress: bool = True) -
 
         # Create the main table and write it to disk
         main_table_path = v2_folder / "main.csv"
-        make_main_table(tables_folder, main_table_path)
+        merge_output_tables(tables_folder, main_table_path)
 
         # Create subsets for easy API-like access to slices of data
         create_table_subsets(main_table_path, v2_folder)
