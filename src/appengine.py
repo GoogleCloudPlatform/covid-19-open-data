@@ -21,7 +21,7 @@ import sys
 import time
 import traceback
 from argparse import ArgumentParser
-from functools import partial
+from functools import partial, wraps
 from io import BytesIO
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -63,6 +63,38 @@ def _get_request_param(name: str, default: str = None) -> Optional[str]:
         return request.args.get(name)
     except:
         return default
+
+
+def profiled_route(rule, **options):
+    """ Decorator used to wrap @app.route and log metrics and response codes. """
+
+    def decorator(func):
+
+        # Define the wrapped function which profiles entry and exit points
+        @wraps(func)
+        def profiled_method_call(*args, **kwargs):
+            time_start = time.monotonic()
+            logger.log_info(f"enter", handler=rule)
+            response: Response = func(*args, **kwargs)
+            time_elapsed = time.monotonic() - time_start
+
+            if response.status_code >= 200 and response.status_code < 400:
+                log_func = logger.log_info
+            else:
+                log_func = logger.log_error
+            log_func(f"exit", handler=rule, seconds=time_elapsed, status_code=response.status)
+
+            return response
+
+        # Register this route within the app's rules and return the wrapped function
+        endpoint = options.pop("endpoint", None)
+        app.add_url_rule(rule, endpoint, profiled_method_call, **options)
+
+        # Return the wrapped function
+        return profiled_method_call
+
+    # Return the decorator
+    return decorator
 
 
 def get_storage_client() -> storage.Client:
@@ -177,7 +209,7 @@ def cache_build_map() -> Dict[str, List[str]]:
     return sitemap
 
 
-@app.route("/cache_pull")
+@profiled_route("/cache_pull")
 def cache_pull() -> Response:
     with TemporaryDirectory() as workdir:
         workdir = Path(workdir)
@@ -216,7 +248,7 @@ def cache_pull() -> Response:
     return Response("OK", status=200)
 
 
-@app.route("/update_table")
+@profiled_route("/update_table")
 def update_table(table_name: str = None, job_group: int = None) -> Response:
     table_name = _get_request_param("table", table_name)
     job_group = _get_request_param("job_group", job_group)
@@ -251,7 +283,7 @@ def update_table(table_name: str = None, job_group: int = None) -> Response:
 
         # Log the data sources being extracted
         data_source_names = [src.config.get("name") for src in data_pipeline.data_sources]
-        logger.log_info(f"Data sources: {data_source_names}")
+        logger.log_info(f"Updating data sources: {data_source_names}")
 
         # Produce the intermediate files from the data source
         intermediate_results = data_pipeline.parse(output_folder, process_count=1)
@@ -266,9 +298,10 @@ def update_table(table_name: str = None, job_group: int = None) -> Response:
     return Response("OK", status=200)
 
 
-@app.route("/combine_table")
+@profiled_route("/combine_table")
 def combine_table(table_name: str = None) -> Response:
     table_name = _get_request_param("table", table_name)
+    logger.log_info(f"Combining data sources for {table_name}")
 
     # Early exit: table name not found
     if table_name not in list(get_table_names()):
@@ -317,7 +350,7 @@ def combine_table(table_name: str = None) -> Response:
     return Response("OK", status=200)
 
 
-@app.route("/publish_tables")
+@profiled_route("/publish_tables")
 def publish_tables() -> Response:
     with TemporaryDirectory() as workdir:
         workdir = Path(workdir)
@@ -342,7 +375,7 @@ def publish_tables() -> Response:
     return Response("OK", status=200)
 
 
-@app.route("/publish_main_table")
+@profiled_route("/publish_main_table")
 def publish_main_table() -> Response:
     with TemporaryDirectory() as workdir:
         workdir = Path(workdir)
@@ -368,7 +401,7 @@ def publish_main_table() -> Response:
     return Response("OK", status=200)
 
 
-@app.route("/publish_subset_tables")
+@profiled_route("/publish_subset_tables")
 def publish_subset_tables() -> Response:
     with TemporaryDirectory() as workdir:
         workdir = Path(workdir)
@@ -412,23 +445,23 @@ def _convert_json(expr: str = r"*.csv") -> Response:
     return Response("OK", status=200)
 
 
-@app.route("/convert_json_1")
+@profiled_route("/convert_json_1")
 def convert_json_1() -> Response:
     return _convert_json(r"(latest\/)?[a-z_]+.csv")
 
 
-@app.route("/convert_json_2")
+@profiled_route("/convert_json_2")
 def convert_json_2() -> Response:
     return _convert_json(r"[A-Z]{2}(_\w+)?\/\w+.csv")
 
 
-@app.route("/report_errors_to_github")
+@profiled_route("/report_errors_to_github")
 def report_errors_to_github() -> Response:
     register_new_errors(os.getenv(ENV_PROJECT))
     return Response("OK", status=200)
 
 
-@app.route("/deferred/<path:url_path>")
+@profiled_route("/deferred/<path:url_path>")
 def deferred_route(url_path: str) -> Response:
     status = 500
     content = "Unknown error"
@@ -506,6 +539,7 @@ def main() -> None:
         logger.log_error(f"Unknown command {args.command}")
 
     # If a command + args are supplied, call the corresponding function
+    logger.log_info(f"Executing command {args.command} with args {args.args}")
     {
         "server": _start_server,
         "update_table": update_table,
