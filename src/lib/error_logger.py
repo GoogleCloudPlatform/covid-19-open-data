@@ -70,13 +70,8 @@ class ErrorLogger:
         self.logger = logging.getLogger(self.name)
 
         # Read logging level from env variable, default to INFO
-        logging_level = {
-            "DEBUG": logging.DEBUG,
-            "INFO": logging.INFO,
-            "WARNING": logging.WARNING,
-            "ERROR": logging.ERROR,
-        }.get(os.getenv("LOG_LEVEL"), logging.INFO)
-        self.logger.setLevel(logging_level)
+        level_name = os.getenv("LOG_LEVEL") or "INFO"
+        self.logger.setLevel(getattr(logging, level_name, logging.INFO))
 
         # Only add a handler if it does not already have one
         if not self.logger.hasHandlers():
@@ -85,6 +80,7 @@ class ErrorLogger:
             handler = logging.StreamHandler()
             handler.setFormatter(logging.Formatter("%(message)s"))
             self.logger.addHandler(handler)
+            self.log_debug(f"Initialized logger {self.name} with level {level_name}")
 
     def timestamp(self) -> str:
         return datetime.datetime.now().isoformat()[:24]
