@@ -72,18 +72,24 @@ def profiled_route(rule, **options):
 
         # Define the wrapped function which profiles entry and exit points
         @wraps(func)
-        def profiled_method_call(*args, **kwargs):
+        def profiled_method_call(*args, **kwargs) -> Response:
+            # Start timer and log method entry
             time_start = time.monotonic()
-            logger.log_info(f"enter", handler=rule)
+            log_opts = {"handler": rule, "args": args, "kwargs": kwargs}
+            logger.log_info("enter", **log_opts)
+
+            # Stop timer as soon as response is received
             response: Response = func(*args, **kwargs)
             time_elapsed = time.monotonic() - time_start
 
+            # Log method exit as INFO or ERROR depending on response status code
             if response.status_code >= 200 and response.status_code < 400:
                 log_func = logger.log_info
             else:
                 log_func = logger.log_error
-            log_func(f"exit", handler=rule, seconds=time_elapsed, status_code=response.status)
+            log_func("exit", seconds=time_elapsed, status_code=response.status, **log_opts)
 
+            # Relay response as return value for function
             return response
 
         # Register this route within the app's rules and return the wrapped function
