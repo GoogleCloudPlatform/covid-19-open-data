@@ -37,7 +37,7 @@ from google.oauth2.credentials import Credentials
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 # pylint: disable=wrong-import-position
-from publish import copy_tables, convert_tables_to_json, create_table_subsets, merge_output_tables
+from publish import copy_tables, convert_tables_to_json, create_table_subsets, make_main_table
 from scripts.cloud_error_processing import register_new_errors
 
 from lib.concurrent import thread_map
@@ -398,7 +398,7 @@ def publish_main_table() -> Response:
 
         # Create the joint main table for all records
         main_table_path = output_folder / "main.csv"
-        merge_output_tables(input_folder, main_table_path)
+        make_main_table(input_folder, main_table_path)
         logger.log_info("Main table created")
 
         # Upload the results to the prod bucket
