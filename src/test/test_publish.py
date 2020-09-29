@@ -15,12 +15,13 @@
 import sys
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import Dict, List
+from typing import Dict
 from unittest import main
 
 from pandas import DataFrame
 from lib.constants import EXCLUDE_FROM_MAIN_TABLE, SRC
 from lib.io import read_table, read_lines
+from lib.memory_efficient import get_table_columns
 from lib.pipeline_tools import get_pipelines, get_schema
 
 from .profiled_test_case import ProfiledTestCase
@@ -65,6 +66,13 @@ class TestPublish(ProfiledTestCase):
             main_table_records.append(line)
         main_table_records = main_table_records[1:]
         self.assertListEqual(main_table_records, list(sorted(main_table_records)))
+
+        # Make sure that all columns present in the index table are in the main table
+        main_table_columns = set(get_table_columns(main_table_path))
+        index_table_columns = set(get_table_columns(SRC / "test" / "data" / "index.csv"))
+        for column in index_table_columns:
+            if column not in ("key",):
+                self.assertTrue(column in main_table_columns, f"{column} not in main")
 
         # Make the main table easier to deal with since we optimize for memory usage
         main_table.set_index("key", inplace=True)
