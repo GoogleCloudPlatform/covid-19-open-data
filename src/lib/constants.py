@@ -32,7 +32,6 @@ GLOBAL_DISABLE_PROGRESS = "TQDM_DISABLE"
 # Some tables are not included into the main table
 EXCLUDE_FROM_MAIN_TABLE = (
     "main",
-    "index",
     "worldbank",
     "worldpop",
     "by-age",
