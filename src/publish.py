@@ -33,7 +33,7 @@ from lib.memory_efficient import (
     get_table_columns,
     table_cross_product,
     table_drop_nan_columns,
-    table_group_tail,
+    table_grouped_tail,
     table_join,
     table_read_column,
     table_sort,
@@ -199,7 +199,12 @@ def create_table_subsets(main_table_path: Path, output_path: Path) -> Iterable[P
 
     def subset_latest(csv_file: Path) -> Path:
         output_file = latest_path / csv_file.name
-        table_group_tail(csv_file, output_file)
+        # Degenerate case: table has no "date" column
+        columns = get_table_columns(csv_file)
+        if "date" not in columns:
+            shutil.copyfile(csv_file, output_file)
+        else:
+            table_grouped_tail(csv_file, output_file, ["key"])
         return output_file
 
     # Create a subset with the latest known day of data for each key

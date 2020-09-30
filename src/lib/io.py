@@ -18,7 +18,7 @@ from contextlib import contextmanager
 from functools import partial
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import Any, Callable, Dict, Iterator, List, Optional, Union
+from typing import Any, Callable, Dict, IO, Iterator, List, Optional, TextIO, Union
 from zipfile import ZipFile
 
 import numpy
@@ -116,7 +116,7 @@ def read_file(path: Union[Path, str], file_type: str = None, **read_opts) -> Dat
     raise ValueError("Unrecognized extension: %s" % ext)
 
 
-def read_lines(path: Path, mode: str = "r", skip_empty: bool = False) -> Iterator[str]:
+def read_lines(path: Path, skip_empty: bool = False) -> Iterator[str]:
     """
     Efficiently reads a line by line and closes it using a context manager.
 
@@ -125,11 +125,12 @@ def read_lines(path: Path, mode: str = "r", skip_empty: bool = False) -> Iterato
     Returns:
         Iterator[str]: Each line of the file
     """
-    with path.open(mode) as fd:
-        for line in fd:
-            if skip_empty and (not line or line.isspace()):
-                continue
-            yield line
+    with open(path, "r") as fd:
+        yield from (line for line in fd if not skip_empty or (line and not line.isspace()))
+
+
+def line_reader(file_handle: TextIO, skip_empty: bool = False) -> Iterator[str]:
+    return (line for line in file_handle if not skip_empty or (line and not line.isspace()))
 
 
 def read_table(path: Union[Path, str], schema: Dict[str, Any] = None, **read_opts) -> DataFrame:
@@ -306,3 +307,34 @@ def display_progress(enable: bool):
                 os.unsetenv(GLOBAL_DISABLE_PROGRESS)
             else:
                 os.environ[GLOBAL_DISABLE_PROGRESS] = progress_env_value
+
+
+@contextmanager
+def open_file_or_handle(path_or_handle: Union[Path, str, IO], mode: str = "r") -> IO:
+    """
+    Open a file at the specified path using `mode`, and close it after the context exits. If the
+    input argument is already file-like, return it as-is and don't close it at the end.
+
+    Arguments:
+        path_or_handle: Either a file path, or a file-like object which has a `read()` method.
+        mode: Mode used to open the file path, defaults to read-only.
+    Returns:
+        IO: The file handle.
+    """
+    pending_close = False
+    if not hasattr(path_or_handle, "read"):
+        pending_close = True
+        path_or_handle = open(path_or_handle, mode)
+    try:
+        yield path_or_handle
+    finally:
+        if pending_close:
+            path_or_handle.close()
+
+
+@contextmanager
+def temporary_directory() -> Path:
+    """ Create a temporary directory which self-deletes after the context exits. """
+    tempdir = TemporaryDirectory()
+    yield Path(tempdir.name)
+    tempdir.cleanup()

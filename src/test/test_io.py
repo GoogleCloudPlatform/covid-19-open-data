@@ -18,7 +18,7 @@ from unittest import main
 
 import numpy
 from pandas import DataFrame
-from lib.io import export_csv, read_file
+from lib.io import export_csv, open_file_or_handle, read_file, temporary_directory
 
 from .profiled_test_case import ProfiledTestCase
 
@@ -56,6 +56,33 @@ class TestIOFunctions(ProfiledTestCase):
         # Large numeric values
         large_value_matrix = numpy.copy(random_matrix) * 1e10
         self._test_reimport_csv_helper(large_value_matrix, "large values")
+
+    def _assert_file_contents_equal(self, file_path: Path, expected: str):
+        with open(file_path, "r") as fd:
+            self.assertEqual(fd.read(), expected)
+
+    def test_open_file_or_handle_file(self):
+        with temporary_directory() as workdir:
+            temp_file_path = workdir / "temp.txt"
+
+            with open_file_or_handle(temp_file_path, "w") as fd:
+                fd.write("hello world")
+
+            self._assert_file_contents_equal(temp_file_path, "hello world")
+
+    def test_open_file_or_handle_handle(self):
+        with temporary_directory() as workdir:
+            temp_file_path = workdir / "temp.txt"
+
+            fd1 = open(temp_file_path, "w")
+            fd1.write("hello")
+            with open_file_or_handle(fd1, "w") as fd2:
+                fd2.write(" ")
+            with open_file_or_handle(fd1, "w") as fd2:
+                fd2.write("world")
+            fd1.close()
+
+            self._assert_file_contents_equal(temp_file_path, "hello world")
 
 
 if __name__ == "__main__":
