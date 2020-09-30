@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import cProfile
+import tracemalloc
 import warnings
 from pstats import Stats
 from unittest import TestCase
@@ -23,6 +24,7 @@ class ProfiledTestCase(TestCase):
     def setUpClass(cls):
         cls.profiler = cProfile.Profile()
         cls.profiler.enable()
+        tracemalloc.start()
         warnings.filterwarnings("ignore", category=UserWarning)
 
     @classmethod

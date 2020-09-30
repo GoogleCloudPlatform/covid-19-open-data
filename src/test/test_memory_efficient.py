@@ -15,21 +15,22 @@
 import csv
 import sys
 import json
+from io import StringIO
 from pathlib import Path
 from unittest import main
 from functools import partial
 from tempfile import TemporaryDirectory
-from typing import Callable, Dict, List
+from typing import Callable, Dict, IO, List
 
 from pandas import DataFrame
 from lib.constants import SRC
-from lib.io import read_lines, read_table, export_csv
+from lib.io import export_csv, read_lines, read_table
 from lib.memory_efficient import (
     get_table_columns,
     table_breakout,
     table_cross_product,
     table_join,
-    table_group_tail,
+    table_grouped_tail,
     table_rename,
     table_sort,
     _convert_csv_to_json_records_fast,
@@ -46,24 +47,38 @@ from .profiled_test_case import ProfiledTestCase
 SCHEMA = get_schema()
 
 
+def _make_test_csv_file_like(raw: str) -> IO:
+    buffer = StringIO()
+
+    for line in raw.split("\n"):
+        line = line.strip()
+        if line and not line.isspace():
+            buffer.write(f"{line}\n")
+
+    buffer.flush()
+    buffer.seek(0)
+    return buffer
+
+
+def _compare_tables_equal(test_case: ProfiledTestCase, table1: Path, table2: Path) -> None:
+    cols1 = get_table_columns(table1)
+    cols2 = get_table_columns(table2)
+    test_case.assertEqual(set(cols1), set(cols2))
+
+    # Converting to a CSV in memory sometimes produces out-of-order values
+    records1 = list(read_lines(table1))
+    records2 = list(read_lines(table2))
+    test_case.assertEqual(len(records1), len(records2))
+
+    reader1 = csv.reader(records1)
+    reader2 = csv.reader(records2)
+    for record1, record2 in zip(reader1, reader2):
+        record1 = {col: val for col, val in zip(cols1, record1)}
+        record2 = {col: val for col, val in zip(cols2, record2)}
+        test_case.assertEqual(record1, record2)
+
+
 class TestMemoryEfficient(ProfiledTestCase):
-    def _compare_tables_equal(self, table1: Path, table2: Path) -> None:
-        cols1 = get_table_columns(table1)
-        cols2 = get_table_columns(table2)
-        self.assertEqual(set(cols1), set(cols2))
-
-        # Converting to a CSV in memory sometimes produces out-of-order values
-        records1 = list(read_lines(table1))
-        records2 = list(read_lines(table2))
-        self.assertEqual(len(records1), len(records2))
-
-        reader1 = csv.reader(records1)
-        reader2 = csv.reader(records2)
-        for record1, record2 in zip(reader1, reader2):
-            record1 = {col: val for col, val in zip(cols1, record1)}
-            record2 = {col: val for col, val in zip(cols2, record2)}
-            self.assertEqual(record1, record2)
-
     def _test_join_pair(
         self,
         read_table_: Callable,
@@ -86,7 +101,7 @@ class TestMemoryEfficient(ProfiledTestCase):
             pandas_result = read_table_(left).merge(read_table_(right), on=on, how=how_pandas)
             export_csv(pandas_result, output_file_2, schema=schema)
 
-            self._compare_tables_equal(output_file_1, output_file_2)
+            _compare_tables_equal(self, output_file_1, output_file_2)
 
     def _test_join_all(self, how_mem: str, how_pandas: str):
 
@@ -164,7 +179,7 @@ class TestMemoryEfficient(ProfiledTestCase):
                 [test_file_1, test_file_2, test_file_3], output_file_2, on=["col1"], how=how_mem
             )
 
-            self._compare_tables_equal(output_file_1, output_file_2)
+            _compare_tables_equal(self, output_file_1, output_file_2)
 
     def test_inner_join(self):
         self._test_join_all("inner", "inner")
@@ -251,7 +266,7 @@ class TestMemoryEfficient(ProfiledTestCase):
                     for line1, line2 in zip(read_lines(csv_file), read_lines(csv_test_file)):
                         self.assertEqual(line1, line2)
 
-    def test_table_group_tail(self):
+    def test_table_grouped_tail(self):
         with TemporaryDirectory() as workdir:
             workdir = Path(workdir)
 
@@ -261,7 +276,7 @@ class TestMemoryEfficient(ProfiledTestCase):
                 pandas_output_path = workdir / f"latest_pandas_{table_path.name}"
 
                 # Create the latest slice of the given table
-                table_group_tail(table_path, test_output_path)
+                table_grouped_tail(table_path, test_output_path, ["key"])
 
                 # Create a latest slice using pandas grouping
                 table = table.groupby("key").aggregate(agg_last_not_null).reset_index()
@@ -414,6 +429,40 @@ class TestMemoryEfficient(ProfiledTestCase):
 
                 for line1, line2 in zip(read_lines(output_file_1), read_lines(output_file_2)):
                     self.assertEqual(line1.strip(), line2.strip())
+
+    def test_table_grouped_tail(self):
+        test_csv = _make_test_csv_file_like(
+            """
+            col1,col2,col3
+            a,1,foo
+            a,2,bar
+            b,1,foo
+            b,2,baz
+            c,1,foo
+            c,2,
+            """
+        )
+
+        expected = _make_test_csv_file_like(
+            """
+            col1,col2,col3
+            a,2,bar
+            b,2,baz
+            c,2,foo
+            """
+        )
+
+        output_file = StringIO()
+        table_grouped_tail(test_csv, output_path=output_file, group_by=["col1"])
+        output_file.flush()
+        output_file.seek(0)
+
+        records1 = expected.readlines()
+        records2 = output_file.readlines()
+        print(records2)
+        self.assertEqual(len(records1), len(records2))
+        for line1, line2 in zip(records1, records2):
+            self.assertEqual(line1.strip(), line2.strip())
 
 
 if __name__ == "__main__":
