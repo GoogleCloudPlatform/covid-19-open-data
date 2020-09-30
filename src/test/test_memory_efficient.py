@@ -266,7 +266,40 @@ class TestMemoryEfficient(ProfiledTestCase):
                     for line1, line2 in zip(read_lines(csv_file), read_lines(csv_test_file)):
                         self.assertEqual(line1, line2)
 
-    def test_table_grouped_tail(self):
+    def test_table_grouped_tail_synthetic(self):
+        test_csv = _make_test_csv_file_like(
+            """
+            col1,col2,col3
+            a,1,foo
+            a,2,bar
+            b,1,foo
+            b,2,baz
+            c,1,foo
+            c,2,
+            """
+        )
+
+        expected = _make_test_csv_file_like(
+            """
+            col1,col2,col3
+            a,2,bar
+            b,2,baz
+            c,2,foo
+            """
+        )
+
+        output_file = StringIO()
+        table_grouped_tail(test_csv, output_path=output_file, group_by=["col1"])
+        output_file.flush()
+        output_file.seek(0)
+
+        records1 = expected.readlines()
+        records2 = output_file.readlines()
+        self.assertEqual(len(records1), len(records2))
+        for line1, line2 in zip(records1, records2):
+            self.assertEqual(line1.strip(), line2.strip())
+
+    def test_table_grouped_tail_real_data(self):
         with TemporaryDirectory() as workdir:
             workdir = Path(workdir)
 
@@ -429,40 +462,6 @@ class TestMemoryEfficient(ProfiledTestCase):
 
                 for line1, line2 in zip(read_lines(output_file_1), read_lines(output_file_2)):
                     self.assertEqual(line1.strip(), line2.strip())
-
-    def test_table_grouped_tail(self):
-        test_csv = _make_test_csv_file_like(
-            """
-            col1,col2,col3
-            a,1,foo
-            a,2,bar
-            b,1,foo
-            b,2,baz
-            c,1,foo
-            c,2,
-            """
-        )
-
-        expected = _make_test_csv_file_like(
-            """
-            col1,col2,col3
-            a,2,bar
-            b,2,baz
-            c,2,foo
-            """
-        )
-
-        output_file = StringIO()
-        table_grouped_tail(test_csv, output_path=output_file, group_by=["col1"])
-        output_file.flush()
-        output_file.seek(0)
-
-        records1 = expected.readlines()
-        records2 = output_file.readlines()
-        print(records2)
-        self.assertEqual(len(records1), len(records2))
-        for line1, line2 in zip(records1, records2):
-            self.assertEqual(line1.strip(), line2.strip())
 
 
 if __name__ == "__main__":
