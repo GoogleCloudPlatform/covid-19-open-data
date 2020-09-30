@@ -227,7 +227,6 @@ def table_grouped_tail(table: Path, output_path: Path, group_by: List[str]) -> N
     with open_file_or_handle(table, mode="r") as fd_in:
         reader = csv.reader(line_reader(fd_in, skip_empty=True))
         column_indices = {name: idx for idx, name in enumerate(next(reader))}
-        print("column_indices", column_indices)
 
         with open_file_or_handle(output_path, mode="w") as fd_out:
             writer = csv.writer(fd_out)
