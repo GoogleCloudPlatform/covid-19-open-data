@@ -18,12 +18,13 @@ from typing import Dict
 from unittest import main
 
 from pandas import DataFrame
-from lib.constants import EXCLUDE_FROM_MAIN_TABLE, SRC
+from lib.constants import SRC
 from lib.io import read_table, read_lines, temporary_directory
 from lib.memory_efficient import get_table_columns
 from lib.pipeline_tools import get_pipelines, get_schema
 
 from .profiled_test_case import ProfiledTestCase
+from .test_memory_efficient import _compare_tables_equal
 from publish import copy_tables, convert_tables_to_json, merge_output_tables
 
 # Make the main schema a global variable so we don't have to reload it in every test
@@ -70,16 +71,18 @@ class TestPublish(ProfiledTestCase):
         main_table_columns = set(get_table_columns(main_table_path))
         index_table_columns = set(get_table_columns(SRC / "test" / "data" / "index.csv"))
         for column in index_table_columns:
-            if column not in ("key",):
-                self.assertTrue(column in main_table_columns, f"{column} not in main")
+            column = column_adapter.get(column, column)
+            self.assertTrue(column in main_table_columns, f"{column} not in main")
 
         # Make the main table easier to deal with since we optimize for memory usage
-        main_table.set_index("key", inplace=True)
+        location_key = "location_key" if "location_key" in main_table.columns else "key"
+        main_table.set_index(location_key, inplace=True)
         main_table["date"] = main_table["date"].astype(str)
 
         # Define sets of columns to check
-        column_prefixes = ("new", "total")
-        columns = [col for col in main_table.columns if col.split("_")[0] in column_prefixes]
+        column_prefixes = ("new", "total", "cumulative")
+        column_filter = lambda col: col.split("_")[0] in column_prefixes and "age" not in col
+        columns = list(filter(column_filter, main_table.columns))
         self.assertGreaterEqual(len({col.split("_")[0] for col in columns}), 2)
         main_table = main_table[["date"] + columns]
 
@@ -100,9 +103,7 @@ class TestPublish(ProfiledTestCase):
 
             # Create the main table
             main_table_path = workdir / "main.csv"
-            merge_output_tables(
-                workdir, main_table_path, exclude_table_names=EXCLUDE_FROM_MAIN_TABLE
-            )
+            merge_output_tables(workdir, main_table_path)
 
             self._test_make_main_table_helper(main_table_path, {})
 
@@ -126,6 +127,8 @@ class TestPublish(ProfiledTestCase):
             for csv_file in workdir.glob("**/*.csv"):
                 self.assertTrue((workdir / "json" / f"{csv_file.stem}.json").exists())
                 self.assertTrue((workdir / "json" / "latest" / f"{csv_file.stem}.json").exists())
+
+            # No need to test the actual JSON conversion here, since that has its own tests
 
 
 if __name__ == "__main__":

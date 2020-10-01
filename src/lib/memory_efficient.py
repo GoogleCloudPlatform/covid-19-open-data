@@ -411,20 +411,20 @@ def table_drop_nan_columns(table: Path, output_path: Path) -> None:
                 if value is not None and value != "":
                     not_nan_columns.add(idx)
 
-        # Rewind the input's buffer if possible, in case we were given a readable stream
-        if hasattr(table, "seek"):
-            table.seek(0)
-        else:
-            # We have to open and read the file twice: first to look for NaN columns and second to
-            # remove them. This means that if a file handle is passed to this function and seek is
-            # not supported, it will not work.
-            assert isinstance(
-                table, (Path, str)
-            ), f"Input table must be a path-like object, found {type(table)}"
+    # Rewind the input's buffer if possible, in case we were given a readable stream
+    if hasattr(table, "seek"):
+        table.seek(0)
+    else:
+        # We have to open and read the file twice: first to look for NaN columns and second to
+        # remove them. This means that if a file handle is passed to this function and seek is
+        # not supported, it will not work.
+        assert isinstance(
+            table, (Path, str)
+        ), f"Input table must be a path-like object, found {type(table)}"
 
-        # Remove all null columns and write output
-        nan_columns = [idx for idx in column_names.keys() if idx not in not_nan_columns]
-        table_rename(table, output_path, {column_names[idx]: None for idx in nan_columns})
+    # Remove all null columns and write output
+    nan_columns = [idx for idx in column_names.keys() if idx not in not_nan_columns]
+    table_rename(table, output_path, {column_names[idx]: None for idx in nan_columns})
 
 
 def convert_csv_to_json_records(
