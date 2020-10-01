@@ -13,12 +13,13 @@
 # limitations under the License.
 
 import sys
+from io import SEEK_END
 from pathlib import Path
 from unittest import main
 
 import numpy
 from pandas import DataFrame
-from lib.io import export_csv, open_file_or_handle, read_file, temporary_directory
+from lib.io import export_csv, open_file_like, read_file, temporary_directory
 
 from .profiled_test_case import ProfiledTestCase
 
@@ -61,24 +62,26 @@ class TestIOFunctions(ProfiledTestCase):
         with open(file_path, "r") as fd:
             self.assertEqual(fd.read(), expected)
 
-    def test_open_file_or_handle_file(self):
+    def test_open_file_like_file(self):
         with temporary_directory() as workdir:
             temp_file_path = workdir / "temp.txt"
 
-            with open_file_or_handle(temp_file_path, "w") as fd:
+            with open_file_like(temp_file_path, "w") as fd:
                 fd.write("hello world")
 
             self._assert_file_contents_equal(temp_file_path, "hello world")
 
-    def test_open_file_or_handle_handle(self):
+    def test_open_file_like_handle(self):
         with temporary_directory() as workdir:
             temp_file_path = workdir / "temp.txt"
 
             fd1 = open(temp_file_path, "w")
             fd1.write("hello")
-            with open_file_or_handle(fd1, "w") as fd2:
+            with open_file_like(fd1, "w") as fd2:
+                fd2.seek(0, SEEK_END)
                 fd2.write(" ")
-            with open_file_or_handle(fd1, "w") as fd2:
+            with open_file_like(fd1, "w") as fd2:
+                fd2.seek(0, SEEK_END)
                 fd2.write("world")
             fd1.close()
 

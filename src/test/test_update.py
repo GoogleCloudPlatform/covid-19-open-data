@@ -13,33 +13,30 @@
 # limitations under the License.
 
 import sys
-from pathlib import Path
 from unittest import main
-from tempfile import TemporaryDirectory
 
+from lib.io import temporary_directory
 from update import main as update_data
 from .profiled_test_case import ProfiledTestCase
 
 
 class TestUpdate(ProfiledTestCase):
     def test_update_only_pipeline(self):
-        with TemporaryDirectory() as output_folder:
-            output_folder = Path(output_folder)
+        with temporary_directory() as workdir:
             quick_pipeline_name = "index"  # Pick a pipeline that is quick to run
-            update_data(output_folder, only=[quick_pipeline_name])
+            update_data(workdir, only=[quick_pipeline_name])
             self.assertSetEqual(
-                set(subfolder.name for subfolder in output_folder.iterdir()),
+                set(subfolder.name for subfolder in workdir.iterdir()),
                 {"intermediate", "tables", "snapshot"},
             )
 
     def test_update_bad_pipeline_name(self):
-        with TemporaryDirectory() as output_folder:
-            output_folder = Path(output_folder)
+        with temporary_directory() as workdir:
             bad_pipeline_name = "does_not_exist"
             with self.assertRaises(AssertionError):
-                update_data(output_folder, only=[bad_pipeline_name])
+                update_data(workdir, only=[bad_pipeline_name])
             with self.assertRaises(AssertionError):
-                update_data(output_folder, exclude=[bad_pipeline_name])
+                update_data(workdir, exclude=[bad_pipeline_name])
 
 
 if __name__ == "__main__":

@@ -24,7 +24,6 @@ from argparse import ArgumentParser
 from functools import partial, wraps
 from io import BytesIO
 from pathlib import Path
-from tempfile import TemporaryDirectory
 from typing import Callable, Dict, List, Optional
 
 import requests
@@ -44,7 +43,7 @@ from lib.concurrent import thread_map
 from lib.constants import GCS_BUCKET_PROD, GCS_BUCKET_TEST, SRC
 from lib.error_logger import ErrorLogger
 from lib.gcloud import delete_instance, get_internal_ip, start_instance
-from lib.io import export_csv
+from lib.io import export_csv, temporary_directory
 from lib.net import download
 from lib.pipeline import DataPipeline
 from lib.pipeline_tools import get_table_names
@@ -217,8 +216,7 @@ def cache_build_map() -> Dict[str, List[str]]:
 
 @profiled_route("/cache_pull")
 def cache_pull() -> Response:
-    with TemporaryDirectory() as workdir:
-        workdir = Path(workdir)
+    with temporary_directory() as workdir:
         now = datetime.datetime.utcnow()
         output_folder = workdir / now.strftime("%Y-%m-%d-%H")
         output_folder.mkdir(parents=True, exist_ok=True)
@@ -263,10 +261,9 @@ def update_table(table_name: str = None, job_group: int = None) -> Response:
     if table_name not in list(get_table_names()):
         return Response(f"Invalid table name {table_name}", status=400)
 
-    with TemporaryDirectory() as output_folder:
-        output_folder = Path(output_folder)
-        (output_folder / "snapshot").mkdir(parents=True, exist_ok=True)
-        (output_folder / "intermediate").mkdir(parents=True, exist_ok=True)
+    with temporary_directory() as workdir:
+        (workdir / "snapshot").mkdir(parents=True, exist_ok=True)
+        (workdir / "intermediate").mkdir(parents=True, exist_ok=True)
 
         # Load the pipeline configuration given its name
         pipeline_name = table_name.replace("-", "_")
@@ -292,14 +289,12 @@ def update_table(table_name: str = None, job_group: int = None) -> Response:
         logger.log_info(f"Updating data sources: {data_source_names}")
 
         # Produce the intermediate files from the data source
-        intermediate_results = data_pipeline.parse(output_folder, process_count=1)
-        data_pipeline._save_intermediate_results(
-            output_folder / "intermediate", intermediate_results
-        )
+        intermediate_results = data_pipeline.parse(workdir, process_count=1)
+        data_pipeline._save_intermediate_results(workdir / "intermediate", intermediate_results)
 
         # Upload results to the test bucket because these are not prod files
-        upload_folder(GCS_BUCKET_TEST, "snapshot", output_folder / "snapshot")
-        upload_folder(GCS_BUCKET_TEST, "intermediate", output_folder / "intermediate")
+        upload_folder(GCS_BUCKET_TEST, "snapshot", workdir / "snapshot")
+        upload_folder(GCS_BUCKET_TEST, "intermediate", workdir / "intermediate")
 
     return Response("OK", status=200)
 
@@ -313,9 +308,8 @@ def combine_table(table_name: str = None) -> Response:
     if table_name not in list(get_table_names()):
         return Response(f"Invalid table name {table_name}", status=400)
 
-    with TemporaryDirectory() as output_folder:
-        output_folder = Path(output_folder)
-        (output_folder / "tables").mkdir(parents=True, exist_ok=True)
+    with temporary_directory() as workdir:
+        (workdir / "tables").mkdir(parents=True, exist_ok=True)
 
         # Load the pipeline configuration given its name
         pipeline_name = table_name.replace("-", "_")
@@ -330,36 +324,31 @@ def combine_table(table_name: str = None) -> Response:
         download_folder(
             GCS_BUCKET_TEST,
             "intermediate",
-            output_folder / "intermediate",
+            workdir / "intermediate",
             lambda x: x.name in intermediate_file_names,
         )
 
         # Re-load all intermediate results
-        intermediate_results = data_pipeline._load_intermediate_results(
-            output_folder / "intermediate"
-        )
+        intermediate_results = data_pipeline._load_intermediate_results(workdir / "intermediate")
 
         # Combine all intermediate results into a single dataframe
         pipeline_output = data_pipeline.combine(intermediate_results)
 
         # Output combined data to disk
         export_csv(
-            pipeline_output,
-            output_folder / "tables" / f"{table_name}.csv",
-            schema=data_pipeline.schema,
+            pipeline_output, workdir / "tables" / f"{table_name}.csv", schema=data_pipeline.schema
         )
 
         # Upload results to the test bucket because these are not prod files
         # They will be copied to prod in the publish step, so main.csv is in sync
-        upload_folder(GCS_BUCKET_TEST, "tables", output_folder / "tables")
+        upload_folder(GCS_BUCKET_TEST, "tables", workdir / "tables")
 
     return Response("OK", status=200)
 
 
 @profiled_route("/publish_tables")
 def publish_tables() -> Response:
-    with TemporaryDirectory() as workdir:
-        workdir = Path(workdir)
+    with temporary_directory() as workdir:
         input_folder = workdir / "input"
         output_folder = workdir / "output"
         input_folder.mkdir(parents=True, exist_ok=True)
@@ -383,8 +372,7 @@ def publish_tables() -> Response:
 
 @profiled_route("/publish_main_table")
 def publish_main_table() -> Response:
-    with TemporaryDirectory() as workdir:
-        workdir = Path(workdir)
+    with temporary_directory() as workdir:
         input_folder = workdir / "input"
         output_folder = workdir / "output"
         input_folder.mkdir(parents=True, exist_ok=True)
@@ -409,8 +397,7 @@ def publish_main_table() -> Response:
 
 @profiled_route("/publish_subset_tables")
 def publish_subset_tables() -> Response:
-    with TemporaryDirectory() as workdir:
-        workdir = Path(workdir)
+    with temporary_directory() as workdir:
         input_folder = workdir / "input"
         output_folder = workdir / "output"
         input_folder.mkdir(parents=True, exist_ok=True)
@@ -430,9 +417,8 @@ def publish_subset_tables() -> Response:
     return Response("OK", status=200)
 
 
-def _convert_json(expr: str = r"*.csv") -> Response:
-    with TemporaryDirectory() as workdir:
-        workdir = Path(workdir)
+def _convert_json(expr: str = r".+\.csv") -> Response:
+    with temporary_directory() as workdir:
         json_folder = workdir / "json"
         public_folder = workdir / "public"
         json_folder.mkdir(parents=True, exist_ok=True)
@@ -453,12 +439,12 @@ def _convert_json(expr: str = r"*.csv") -> Response:
 
 @profiled_route("/convert_json_1")
 def convert_json_1() -> Response:
-    return _convert_json(r"(latest\/)?[a-z_]+.csv")
+    return _convert_json(r"(latest\/)?[a-z_]+\.csv")
 
 
 @profiled_route("/convert_json_2")
 def convert_json_2() -> Response:
-    return _convert_json(r"[A-Z]{2}(_\w+)?\/\w+.csv")
+    return _convert_json(r"[A-Z]{2}(_\w+)?\/\w+\.csv")
 
 
 @profiled_route("/report_errors_to_github")
