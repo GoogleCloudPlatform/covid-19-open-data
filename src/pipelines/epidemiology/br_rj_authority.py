@@ -69,7 +69,10 @@ class RioStratifiedDataSource(DataSource):
         data["subregion1_code"] = "RJ"
 
         # Convert date to ISO format
-        data["date"] = data["date"].apply(lambda x: datetime_isoformat(x, "%d/%m/%Y"))
+        # This data source keeps switching between YYYY and YY for the year, so try both
+        data["date"] = data["date"].apply(
+            lambda x: datetime_isoformat(x, "%d/%m/%Y") or datetime_isoformat(x, "%d/%m/%y")
+        )
 
         # The sum of all districts is the metropolitan area of Rio
         metro = data.groupby(["date", "age", "sex", "ethnicity"]).sum().reset_index()
