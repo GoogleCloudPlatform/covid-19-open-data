@@ -19,7 +19,7 @@ from contextlib import contextmanager
 from functools import partial
 from pathlib import Path
 from tempfile import TemporaryDirectory
-from typing import Any, Callable, Dict, IO, Iterator, List, Optional, TextIO, Union
+from typing import Any, Callable, Dict, IO, Iterable, List, Optional, TextIO, Union
 from zipfile import ZipFile
 
 import numpy
@@ -117,7 +117,7 @@ def read_file(path: Union[Path, str], file_type: str = None, **read_opts) -> Dat
     raise ValueError("Unrecognized extension: %s" % ext)
 
 
-def read_lines(path: Path, skip_empty: bool = False) -> Iterator[str]:
+def read_lines(path: Path, skip_empty: bool = False) -> Iterable[str]:
     """
     Efficiently reads a line by line and closes it using a context manager.
 
@@ -130,8 +130,8 @@ def read_lines(path: Path, skip_empty: bool = False) -> Iterator[str]:
         yield from (line for line in fd if not skip_empty or (line and not line.isspace()))
 
 
-def line_reader(file_handle: TextIO, skip_empty: bool = False) -> Iterator[str]:
-    return (line for line in file_handle if not skip_empty or (line and not line.isspace()))
+def line_reader(file_handle: TextIO, skip_empty: bool = False) -> Iterable[str]:
+    yield from (line for line in file_handle if not skip_empty or (line and not line.isspace()))
 
 
 def read_table(path: Union[Path, str], schema: Dict[str, Any] = None, **read_opts) -> DataFrame:
