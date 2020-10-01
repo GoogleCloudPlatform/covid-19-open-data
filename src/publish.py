@@ -21,13 +21,12 @@ from argparse import ArgumentParser
 from functools import partial
 from pathlib import Path
 from pstats import Stats
-from tempfile import TemporaryDirectory
 from typing import Dict, Iterable, List, TextIO
 
 from lib.concurrent import thread_map
 from lib.constants import EXCLUDE_FROM_MAIN_TABLE, SRC
 from lib.error_logger import ErrorLogger
-from lib.io import display_progress, pbar, read_lines
+from lib.io import display_progress, pbar, read_lines, temporary_directory
 from lib.memory_efficient import (
     convert_csv_to_json_records,
     get_table_columns,
@@ -108,8 +107,7 @@ def copy_tables(tables_folder: Path, public_folder: Path) -> None:
 
 def _make_location_key_and_date_table(tables_folder: Path, output_path: Path) -> None:
     # Use a temporary directory for intermediate files
-    with TemporaryDirectory() as workdir:
-        workdir = Path(workdir)
+    with temporary_directory() as workdir:
 
         # Make sure that there is an index table present
         index_table = tables_folder / "index.csv"
@@ -154,8 +152,7 @@ def merge_output_tables(
         exclude_table_names = EXCLUDE_FROM_MAIN_TABLE
 
     # Use a temporary directory for intermediate files
-    with TemporaryDirectory() as workdir:
-        workdir = Path(workdir)
+    with temporary_directory() as workdir:
 
         # Use temporary files to avoid computing everything in memory
         temp_input = workdir / "tmp.1.csv"

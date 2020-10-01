@@ -17,10 +17,10 @@ from unittest import main
 
 from pathlib import Path
 from typing import Any, Dict, List
-from tempfile import TemporaryDirectory
 
 from pandas import DataFrame
 from lib.data_source import DataSource
+from lib.io import temporary_directory
 from .profiled_test_case import ProfiledTestCase
 
 
@@ -52,10 +52,9 @@ class DummyDataSouce(DataSource):
 class TestSourceFetch(ProfiledTestCase):
     def test_fetch_download(self):
         src = DummyDataSouce()
-        with TemporaryDirectory() as output_folder:
-            output_folder = Path(output_folder)
-            src.run(output_folder, {}, DUMMY_DATA_SOURCE_AUX)
-            snapshot_files = (output_folder / "snapshot").glob("*.csv")
+        with temporary_directory() as workdir:
+            src.run(workdir, {}, DUMMY_DATA_SOURCE_AUX)
+            snapshot_files = (workdir / "snapshot").glob("*.csv")
             self.assertEqual(1, len(list(snapshot_files)))
 
     def test_fetch_skip_existing(self):
@@ -69,9 +68,8 @@ class TestSourceFetch(ProfiledTestCase):
             return original_fetch_func(output_folder, cache, fetch_opts)
 
         src.fetch = monkey_patch_fetch
-        with TemporaryDirectory() as output_folder:
-            output_folder = Path(output_folder)
-            src.run(output_folder, {}, DUMMY_DATA_SOURCE_AUX, skip_existing=True)
+        with temporary_directory() as workdir:
+            src.run(workdir, {}, DUMMY_DATA_SOURCE_AUX, skip_existing=True)
 
 
 if __name__ == "__main__":

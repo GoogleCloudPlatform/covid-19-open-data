@@ -14,6 +14,7 @@
 
 import os
 import re
+import uuid
 from contextlib import contextmanager
 from functools import partial
 from pathlib import Path
@@ -310,7 +311,7 @@ def display_progress(enable: bool):
 
 
 @contextmanager
-def open_file_or_handle(path_or_handle: Union[Path, str, IO], mode: str = "r") -> IO:
+def open_file_like(path_or_handle: Union[Path, str, IO], mode: str = "r") -> IO:
     """
     Open a file at the specified path using `mode`, and close it after the context exits. If the
     input argument is already file-like, return it as-is and don't close it at the end.
@@ -322,9 +323,16 @@ def open_file_or_handle(path_or_handle: Union[Path, str, IO], mode: str = "r") -
         IO: The file handle.
     """
     pending_close = False
+
+    # If the handle is not readable, open it
     if not hasattr(path_or_handle, "read"):
         pending_close = True
         path_or_handle = open(path_or_handle, mode)
+
+    # If the handle is seekable, rewind buffer
+    if hasattr(path_or_handle, "seek") and path_or_handle.seekable():
+        path_or_handle.seek(0)
+
     try:
         yield path_or_handle
     finally:
@@ -336,5 +344,20 @@ def open_file_or_handle(path_or_handle: Union[Path, str, IO], mode: str = "r") -
 def temporary_directory() -> Path:
     """ Create a temporary directory which self-deletes after the context exits. """
     tempdir = TemporaryDirectory()
-    yield Path(tempdir.name)
-    tempdir.cleanup()
+    try:
+        yield Path(tempdir.name)
+    finally:
+        tempdir.cleanup()
+
+
+@contextmanager
+def temporary_file(file_name: str = None) -> Path:
+    """ Create a temporary file which self-deletes after the context exits. """
+    tempdir = TemporaryDirectory()
+    try:
+        file_name = file_name or str(uuid.uuid4())
+        file_path = Path(tempdir.name) / file_name
+        file_path.touch()
+        yield file_path
+    finally:
+        tempdir.cleanup()

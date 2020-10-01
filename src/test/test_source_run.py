@@ -15,14 +15,13 @@
 import sys
 import traceback
 from unittest import main
-from pathlib import Path
 from functools import partial
-from tempfile import TemporaryDirectory
 
 import requests
 from lib.concurrent import process_map, thread_map
 from lib.constants import CACHE_URL
 from lib.data_source import DataSource
+from lib.io import temporary_directory
 from lib.pipeline import DataPipeline
 from lib.pipeline_tools import get_pipeline_names
 from .profiled_test_case import ProfiledTestCase
@@ -74,11 +73,10 @@ def _test_data_source(
     aux["metadata"] = aux["metadata"].sample(sample_size, random_state=random_seed)
 
     # Use a different temporary working directory for each data source
-    with TemporaryDirectory() as output_folder:
-        output_folder = Path(output_folder)
-        (output_folder / "snapshot").mkdir(parents=True, exist_ok=True)
+    with temporary_directory() as workdir:
+        (workdir / "snapshot").mkdir(parents=True, exist_ok=True)
         try:
-            output_data = data_source.run(output_folder, cache, aux)
+            output_data = data_source.run(workdir, cache, aux)
         except Exception as exc:
             traceback.print_exc()
             raise RuntimeError(failure_message)

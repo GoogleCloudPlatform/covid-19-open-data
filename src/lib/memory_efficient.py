@@ -19,7 +19,7 @@ import warnings
 from pathlib import Path
 from typing import Dict, Iterable, List, TextIO
 
-from .io import line_reader, open_file_or_handle, read_table, temporary_directory
+from .io import line_reader, open_file_like, read_table, temporary_directory
 
 
 # Any CSV file under 50 MB can use the fast JSON converter
@@ -46,7 +46,7 @@ def get_table_columns(table_path: Path) -> List[str]:
     Returns:
         List[str]: Column names from the table header
     """
-    with open_file_or_handle(table_path, mode="r") as fd:
+    with open_file_like(table_path, mode="r") as fd:
         reader = csv.reader(fd)
         return list(next(reader))
 
@@ -71,11 +71,11 @@ def table_sort(table_path: Path, output_path: Path, sort_columns: List[str] = No
     sort_indices = [columns[name] for name in sort_columns]
 
     records = []
-    with open_file_or_handle(table_path, "r") as fd:
+    with open_file_like(table_path, "r") as fd:
         for record in csv.reader(skip_head_reader(fd, skip_empty=True)):
             records.append(record)
 
-    with open_file_or_handle(output_path, mode="w") as fd_out:
+    with open_file_like(output_path, mode="w") as fd_out:
         writer = csv.writer(fd_out)
         writer.writerow(columns.keys())
 
@@ -113,7 +113,7 @@ def table_join(
         return join_indices
 
     records_right = {}
-    with open_file_or_handle(right, mode="r") as fd:
+    with open_file_like(right, mode="r") as fd:
         reader = csv.reader(fd)
         columns_right = {name: idx for idx, name in enumerate(next(reader))}
         join_indices = compute_join_indices(columns_right)
@@ -128,9 +128,9 @@ def table_join(
             data = [record[idx] for idx in columns_right_output.values()]
             records_right[key] = data
 
-    with open_file_or_handle(output_path, mode="w") as fd_out:
+    with open_file_like(output_path, mode="w") as fd_out:
         writer = csv.writer(fd_out)
-        with open_file_or_handle(left, mode="r") as fd_in:
+        with open_file_like(left, mode="r") as fd_in:
             reader = csv.reader(fd_in)
             columns_left = {name: idx for idx, name in enumerate(next(reader))}
             join_indices = compute_join_indices(columns_left)
@@ -208,14 +208,14 @@ def table_cross_product(left: Path, right: Path, output_path: Path) -> None:
     """
     columns_left = get_table_columns(left)
     columns_right = get_table_columns(right)
-    with open_file_or_handle(output_path, mode="w") as fd:
+    with open_file_like(output_path, mode="w") as fd:
         writer = csv.writer(fd)
         writer.writerow(columns_left + columns_right)
 
-        with open_file_or_handle(left, mode="r") as fd_left:
+        with open_file_like(left, mode="r") as fd_left:
             reader_left = csv.reader(skip_head_reader(fd_left))
             for record_left in reader_left:
-                with open_file_or_handle(right, mode="r") as fd_right:
+                with open_file_like(right, mode="r") as fd_right:
                     reader_right = csv.reader(skip_head_reader(fd_right))
                     for record_right in reader_right:
                         writer.writerow(record_left + record_right)
@@ -224,11 +224,11 @@ def table_cross_product(left: Path, right: Path, output_path: Path) -> None:
 def table_grouped_tail(table: Path, output_path: Path, group_by: List[str]) -> None:
     """ Outputs latest data for each group, assumes records are sorted by `group_by` """
 
-    with open_file_or_handle(table, mode="r") as fd_in:
+    with open_file_like(table, mode="r") as fd_in:
         reader = csv.reader(line_reader(fd_in, skip_empty=True))
         column_indices = {name: idx for idx, name in enumerate(next(reader))}
 
-        with open_file_or_handle(output_path, mode="w") as fd_out:
+        with open_file_like(output_path, mode="w") as fd_out:
             writer = csv.writer(fd_out)
             writer.writerow(column_indices.keys())
 
@@ -274,7 +274,7 @@ def table_rename(
         column_adapter: Map of <old column name, new column name>.
         drop: Flag indicating whether columns not in the adapter should be dropped
     """
-    with open_file_or_handle(table) as fd_in:
+    with open_file_like(table, mode="r") as fd_in:
         reader = csv.reader(line_reader(fd_in, skip_empty=True))
         column_indices = {idx: name for idx, name in enumerate(next(reader))}
         output_columns = {
@@ -283,7 +283,7 @@ def table_rename(
         }
         output_columns_idx = [idx for idx, name in output_columns.items() if name is not None]
 
-        with open_file_or_handle(output_path, mode="w") as fd_out:
+        with open_file_like(output_path, mode="w") as fd_out:
             writer = csv.writer(fd_out)
             writer.writerow(name for name in output_columns.values() if name is not None)
             for record in reader:
@@ -300,12 +300,12 @@ def table_filter(table: Path, output_path: Path, filter_columns: Dict[str, str])
         output: Location of the output table.
         filter_columns: Map of key-val pairs where column named <key> must have a value <val>.
     """
-    with open_file_or_handle(table) as fd_in:
+    with open_file_like(table, mode="r") as fd_in:
         reader = csv.reader(line_reader(fd_in, skip_empty=True))
         columns = {name: idx for idx, name in enumerate(next(reader))}
         filter_values = {columns.get(name): value for name, value in filter_columns.items()}
 
-        with open_file_or_handle(output_path, mode="w") as fd_out:
+        with open_file_like(output_path, mode="w") as fd_out:
             writer = csv.writer(fd_out)
             writer.writerow(columns.keys())
             for record in reader:
@@ -315,7 +315,9 @@ def table_filter(table: Path, output_path: Path, filter_columns: Dict[str, str])
                     writer.writerow(record[idx] for idx in columns.values())
 
 
-def table_breakout(table: Path, output_folder: Path, breakout_column: str) -> None:
+def table_breakout(
+    table: Path, output_folder: Path, breakout_column: str, output_name: str = None
+) -> None:
     """
     Performs a linear sweep of the input table and breaks it out based on the value of the given
     `breakout_column`. To perform this operation in O(N), the table is expected to be sorted first.
@@ -325,7 +327,10 @@ def table_breakout(table: Path, output_folder: Path, breakout_column: str) -> No
         output_folder: Location of the output directory where the breakout tables will be placed.
         breakout_column: Name of the column to use for the breakout depending on its value.
     """
-    with open_file_or_handle(table, mode="r") as fd:
+    # Output name defaults to the input file's name
+    output_name = output_name or table.name
+
+    with open_file_like(table, mode="r") as fd:
         reader = csv.reader(line_reader(fd, skip_empty=True))
         columns = {name: idx for idx, name in enumerate(next(reader))}
         assert breakout_column in columns, f"Column {breakout_column} not found in table header"
@@ -358,7 +363,7 @@ def table_breakout(table: Path, output_folder: Path, breakout_column: str) -> No
                 current_breakout_value = breakout_value
                 breakout_folder = output_folder / breakout_value
                 breakout_folder.mkdir(exist_ok=True, parents=True)
-                file_handle = (breakout_folder / table.name).open("w")
+                file_handle = (breakout_folder / output_name).open("w")
                 csv_writer = csv.writer(file_handle)
                 csv_writer.writerow(output_header)
 
@@ -379,7 +384,7 @@ def table_read_column(table: Path, column: str) -> Iterable[str]:
     Returns:
         Iterable[str]: Iterable of values for the requested column
     """
-    with open_file_or_handle(table, mode="r") as fd:
+    with open_file_like(table, mode="r") as fd:
         reader = csv.reader(line_reader(fd, skip_empty=True))
         column_indices = {name: idx for idx, name in enumerate(next(reader))}
         output_column_index = column_indices[column]
@@ -395,7 +400,7 @@ def table_drop_nan_columns(table: Path, output_path: Path) -> None:
         table: Location of the input table.
         output_path: Location of the output table.
     """
-    with open_file_or_handle(table, mode="r") as fd:
+    with open_file_like(table, mode="r") as fd:
         reader = csv.reader(line_reader(fd, skip_empty=True))
         column_names = {idx: name for idx, name in enumerate(next(reader))}
 
@@ -452,7 +457,7 @@ def _convert_csv_to_json_records_slow(schema: Dict[str, type], csv_file: Path, o
     """
     Slow but memory efficient method to convert the provided CSV file to a record-like JSON format
     """
-    with open_file_or_handle(output_file, mode="w") as fd_out:
+    with open_file_like(output_file, mode="w") as fd_out:
         # Write the header first
         columns = get_table_columns(csv_file)
         columns_str = ",".join([f'"{col}"' for col in columns])
@@ -479,5 +484,5 @@ def _convert_csv_to_json_records_fast(
     table = read_table(csv_file, schema=schema)
     json_dict = json.loads(table.to_json(orient="split"))
     del json_dict["index"]
-    with open_file_or_handle(output_file, mode="w") as fd:
+    with open_file_like(output_file, mode="w") as fd:
         json.dump(json_dict, fd)

@@ -14,13 +14,12 @@
 
 import sys
 from pathlib import Path
-from tempfile import TemporaryDirectory
 from typing import Dict
 from unittest import main
 
 from pandas import DataFrame
 from lib.constants import EXCLUDE_FROM_MAIN_TABLE, SRC
-from lib.io import read_table, read_lines
+from lib.io import read_table, read_lines, temporary_directory
 from lib.memory_efficient import get_table_columns
 from lib.pipeline_tools import get_pipelines, get_schema
 
@@ -94,8 +93,7 @@ class TestPublish(ProfiledTestCase):
         self._spot_check_subset(main_table, "US_FL_12001", "2020-03-10", "2020-09-01")
 
     def test_make_main_table(self):
-        with TemporaryDirectory() as workdir:
-            workdir = Path(workdir)
+        with temporary_directory() as workdir:
 
             # Copy all test tables into the temporary directory
             copy_tables(SRC / "test" / "data", workdir)
@@ -109,8 +107,7 @@ class TestPublish(ProfiledTestCase):
             self._test_make_main_table_helper(main_table_path, {})
 
     def test_convert_to_json(self):
-        with TemporaryDirectory() as workdir:
-            workdir = Path(workdir)
+        with temporary_directory() as workdir:
 
             # Copy all test tables into the temporary directory
             copy_tables(SRC / "test" / "data", workdir)

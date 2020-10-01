@@ -24,7 +24,6 @@ import os
 from pathlib import Path
 import subprocess
 import sys
-import tempfile
 from typing import Any, Dict, List
 
 from pandas import DataFrame
@@ -36,7 +35,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 # pylint: disable=wrong-import-position
 from lib.constants import SRC
-from lib.io import read_file
+from lib.io import read_file, temporary_directory
 
 GEO_URL = "https://storage.googleapis.com/covid19-open-data/v2/geography.csv"
 OSM_API = "http://polygons.openstreetmap.fr/get_geojson.py?id={id}&params=0"
@@ -64,8 +63,7 @@ def fetch_geojson(geojson_directory: Path, osm_records: List[Dict[str, Any]]) ->
 
 def convert_geojson_to_csv(geojson_directory: Path, csv_path: Path) -> None:
     csv_path.parent.mkdir(exist_ok=True, parents=True)
-    with tempfile.TemporaryDirectory() as workdir:
-        workdir = Path(workdir)
+    with temporary_directory() as workdir:
 
         geojson_files = list(sorted(geojson_directory.glob("*.geojson")))
         for geojson_path in tqdm(geojson_files, desc="Converting GeoJSON to CSV"):
