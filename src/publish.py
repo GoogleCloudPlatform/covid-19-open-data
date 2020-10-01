@@ -24,9 +24,9 @@ from pstats import Stats
 from typing import Dict, Iterable, List, TextIO
 
 from lib.concurrent import thread_map
-from lib.constants import EXCLUDE_FROM_MAIN_TABLE, SRC
+from lib.constants import SRC, V2_TABLE_LIST
 from lib.error_logger import ErrorLogger
-from lib.io import display_progress, pbar, read_lines, temporary_directory
+from lib.io import pbar, read_lines, temporary_directory
 from lib.memory_efficient import (
     convert_csv_to_json_records,
     get_table_columns,
@@ -105,12 +105,18 @@ def copy_tables(tables_folder: Path, public_folder: Path) -> None:
         shutil.copy(output_file, public_folder / output_file.name)
 
 
-def _make_location_key_and_date_table(tables_folder: Path, output_path: Path) -> None:
+def _get_tables_in_folder(tables_folder: Path, use_table_names: List[str]) -> List[Path]:
+    tables_in_folder = {table.stem: table for table in tables_folder.glob("*.csv")}
+    tables_found = [tables_in_folder[name] for name in use_table_names if name in tables_in_folder]
+    assert tables_found, f"None of the following tables found in {tables_folder}: {use_table_names}"
+    return tables_found
+
+
+def _make_location_key_and_date_table(index_table: Path, output_path: Path) -> None:
     # Use a temporary directory for intermediate files
     with temporary_directory() as workdir:
 
         # Make sure that there is an index table present
-        index_table = tables_folder / "index.csv"
         assert index_table.exists(), "Index table not found"
 
         # Create a single-column table with only the keys
@@ -134,7 +140,7 @@ def merge_output_tables(
     tables_folder: Path,
     output_path: Path,
     drop_empty_columns: bool = False,
-    exclude_table_names: List[str] = None,
+    use_table_names: List[str] = None,
 ) -> None:
     """
     Build a flat view of all tables combined, joined by <key> or <key, date>. This function
@@ -147,9 +153,8 @@ def merge_output_tables(
             removed from the output.
         exclude_table_names: Tables which should be removed from the combined output.
     """
-    # Default to a known set to exclude from output
-    if exclude_table_names is None:
-        exclude_table_names = EXCLUDE_FROM_MAIN_TABLE
+    # Default to a known list of tables to use when none is given
+    table_paths = _get_tables_in_folder(tables_folder, use_table_names or V2_TABLE_LIST)
 
     # Use a temporary directory for intermediate files
     with temporary_directory() as workdir:
@@ -159,12 +164,8 @@ def merge_output_tables(
         temp_output = workdir / "tmp.2.csv"
 
         # Start with all combinations of <location key x date>
-        _make_location_key_and_date_table(tables_folder, temp_output)
+        _make_location_key_and_date_table(tables_folder / "index.csv", temp_output)
         temp_input, temp_output = temp_output, temp_input
-
-        # List of tables excludes main.csv and non-daily data sources
-        table_iter = sorted(tables_folder.glob("*.csv"))
-        table_paths = [table for table in table_iter if table.stem not in exclude_table_names]
 
         for table_file_path in table_paths:
             # Join by <location key> or <location key x date> depending on what's available
@@ -237,7 +238,7 @@ def convert_tables_to_json(csv_folder: Path, output_folder: Path) -> Iterable[Pa
             yield json_output
 
 
-def main(output_folder: Path, tables_folder: Path, show_progress: bool = True) -> None:
+def main(output_folder: Path, tables_folder: Path) -> None:
     """
     This script takes the processed outputs located in `tables_folder` and publishes them into the
     output folder by performing the following operations:
@@ -248,33 +249,31 @@ def main(output_folder: Path, tables_folder: Path, show_progress: bool = True) -
         3. Create different slices of data, such as the latest known record for each region, files
            for the last N days of data, files for each individual region
     """
-    with display_progress(show_progress):
+    # Wipe the output folder first
+    for item in output_folder.glob("*"):
+        if item.name.startswith("."):
+            continue
+        if item.is_file():
+            item.unlink()
+        else:
+            shutil.rmtree(item)
 
-        # Wipe the output folder first
-        for item in output_folder.glob("*"):
-            if item.name.startswith("."):
-                continue
-            if item.is_file():
-                item.unlink()
-            else:
-                shutil.rmtree(item)
+    # Create the folder which will be published using a stable schema
+    v2_folder = output_folder / "v2"
+    v2_folder.mkdir(exist_ok=True, parents=True)
 
-        # Create the folder which will be published using a stable schema
-        v2_folder = output_folder / "v2"
-        v2_folder.mkdir(exist_ok=True, parents=True)
+    # Copy all output files to the V2 folder
+    copy_tables(tables_folder, v2_folder)
 
-        # Copy all output files to the V2 folder
-        copy_tables(tables_folder, v2_folder)
+    # Create the main table and write it to disk
+    main_table_path = v2_folder / "main.csv"
+    merge_output_tables(tables_folder, main_table_path)
 
-        # Create the main table and write it to disk
-        main_table_path = v2_folder / "main.csv"
-        merge_output_tables(tables_folder, main_table_path)
+    # Create subsets for easy API-like access to slices of data
+    create_table_subsets(main_table_path, v2_folder)
 
-        # Create subsets for easy API-like access to slices of data
-        create_table_subsets(main_table_path, v2_folder)
-
-        # Convert all CSV files to JSON using values format
-        convert_tables_to_json([*v2_folder.glob("**/*.csv")], v2_folder)
+    # Convert all CSV files to JSON using values format
+    convert_tables_to_json([*v2_folder.glob("**/*.csv")], v2_folder)
 
 
 if __name__ == "__main__":
@@ -292,7 +291,7 @@ if __name__ == "__main__":
         profiler = cProfile.Profile()
         profiler.enable()
 
-    main(Path(args.output_folder), Path(args.tables_folder), show_progress=not args.no_progress)
+    main(Path(args.output_folder), Path(args.tables_folder))
 
     if args.profile:
         stats = Stats(profiler)

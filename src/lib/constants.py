@@ -29,13 +29,16 @@ ISSUES_API_URL = "https://api.github.com/repos/GoogleCloudPlatform/covid-19-open
 # different processes.
 GLOBAL_DISABLE_PROGRESS = "TQDM_DISABLE"
 
-# Some tables are not included into the main table
-EXCLUDE_FROM_MAIN_TABLE = (
-    "main",
-    "worldbank",
-    "worldpop",
-    "by-age",
-    "by-sex",
-    "search-trends-daily",
-    "search-trends-weekly",
+# Some tables are not included into the main CSV table
+V2_TABLE_LIST = (
+    "index",
+    "epidemiology",
+    "hospitalizations",
+    "demographics",
+    "economy",
+    "geography",
+    "health",
+    "mobility",
+    "oxford-government-response",
+    "weather",
 )
