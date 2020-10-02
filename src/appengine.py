@@ -44,6 +44,7 @@ from lib.constants import GCS_BUCKET_PROD, GCS_BUCKET_TEST, SRC
 from lib.error_logger import ErrorLogger
 from lib.gcloud import delete_instance, get_internal_ip, start_instance
 from lib.io import export_csv, temporary_directory
+from lib.memory_efficient import table_read_column
 from lib.net import download
 from lib.pipeline import DataPipeline
 from lib.pipeline_tools import get_table_names
@@ -417,34 +418,49 @@ def publish_subset_tables() -> Response:
     return Response("OK", status=200)
 
 
-def _convert_json(expr: str = r".+\.csv") -> Response:
+@profiled_route("/publish_json")
+def publish_json(
+    prod_folder: str = "v2", location_key_from: str = None, location_key_until: str = None
+) -> Response:
+    prod_folder = _get_request_param("prod_folder", prod_folder)
+    location_key_from = _get_request_param("location_key_from", location_key_from)
+    location_key_until = _get_request_param("location_key_until", location_key_until)
+
     with temporary_directory() as workdir:
-        json_folder = workdir / "json"
-        public_folder = workdir / "public"
-        json_folder.mkdir(parents=True, exist_ok=True)
-        public_folder.mkdir(parents=True, exist_ok=True)
+        input_folder = workdir / "input"
+        output_folder = workdir / "output"
+        input_folder.mkdir(parents=True, exist_ok=True)
+        output_folder.mkdir(parents=True, exist_ok=True)
+
+        # Convert the tables to JSON for each location independently
+        location_keys = list(table_read_column(SRC / "data" / "metadata.csv", "key"))
+        if location_key_from is not None:
+            location_keys = [key for key in location_keys if key >= location_key_from]
+        if location_key_until is not None:
+            location_keys = [key for key in location_keys if key <= location_key_until]
+        logger.log_info(
+            f"Converting {len(location_keys)} location subsets to JSON "
+            f"from {location_keys[0]} until {location_keys[-1]}"
+        )
 
         # Download all the processed tables into our local storage
-        download_folder(GCS_BUCKET_PROD, "v2", public_folder, lambda x: re.match(expr, str(x)))
+        def match_path(table_path: Path) -> bool:
+            try:
+                location_key, table_name = str(table_path).split("/", 1)
+                return table_name == "main.csv" and location_key in location_keys
+            except:
+                return False
+
+        download_folder(GCS_BUCKET_PROD, prod_folder, input_folder, match_path)
 
         # Convert all files to JSON
-        list(convert_tables_to_json(public_folder, json_folder))
+        list(convert_tables_to_json(input_folder, output_folder))
         logger.log_info("CSV files converted to JSON")
 
         # Upload the results to the prod bucket
-        upload_folder(GCS_BUCKET_PROD, "v2", json_folder)
+        upload_folder(GCS_BUCKET_PROD, prod_folder, output_folder)
 
     return Response("OK", status=200)
-
-
-@profiled_route("/convert_json_1")
-def convert_json_1() -> Response:
-    return _convert_json(r"(latest\/)?[a-z_]+\.csv")
-
-
-@profiled_route("/convert_json_2")
-def convert_json_2() -> Response:
-    return _convert_json(r"[A-Z]{2}(_\w+)?\/\w+\.csv")
 
 
 @profiled_route("/report_errors_to_github")
@@ -538,7 +554,7 @@ def main() -> None:
         "combine_table": combine_table,
         "cache_pull": cache_pull,
         "publish": _publish,
-        "convert_json": _convert_json,
+        "convert_json": publish_json,
         "report_errors_to_github": report_errors_to_github,
     }.get(args.command, _unknown_command)(**json.loads(args.args or "{}"))
 
