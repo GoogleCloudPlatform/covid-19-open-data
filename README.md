@@ -237,98 +237,84 @@ from the relevant authorities, like a country's ministry of health.
 
 | Data | Source | License and Terms of Use |
 | ---- | ------ | ------------------------ |
-| Metadata | [Wikipedia](https://wikidata.org) | [CC BY-SA][24] |
-| Metadata | [Eurostat](https://ec.europa.eu/eurostat) | [CC BY 4.0][33] |
+| Metadata | [Wikipedia](https://wikidata.org) | [Terms of Use][24] |
+| Metadata | [Eurostat](https://ec.europa.eu/eurostat) | [CC-BY][33] |
 | Demographics | [Wikidata](https://wikidata.org) | [CC0][23] |
 | Demographics | [DataCommons](https://datacommons.org) | [Attribution required](https://policies.google.com/terms) |
-| Demographics | [WorldBank](https://worldbank.org) | [CC BY 4.0](https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets) |
-| Demographics | [WorldPop](https://www.worldpop.org) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| Demographics | [WorldBank](https://worldbank.org) | [CC-BY](https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets) |
+| Demographics | [WorldPop](https://www.worldpop.org) | [CC-BY](https://creativecommons.org/licenses/by/4.0/) |
 | Economy | [Wikidata](https://wikidata.org) | [CC0][23] |
 | Economy | [DataCommons](https://datacommons.org) | [Attribution required](https://policies.google.com/terms) |
-| Economy | [WorldBank](https://worldbank.org) | [CC BY 4.0](https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets) |
+| Economy | [WorldBank](https://worldbank.org) | [CC-BY](https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets) |
 | Geography | [Wikidata](https://wikidata.org) | [CC0][23] |
-| Geography | [WorldBank](https://worldbank.org) | [CC BY 4.0](https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets) |
+| Geography | [WorldBank](https://worldbank.org) | [CC-BY](https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets) |
 | Health | [Wikidata](https://wikidata.org) | [CC0][23] |
-| Health | [WorldBank](https://worldbank.org) | [CC BY 4.0](https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets) |
+| Health | [WorldBank](https://worldbank.org) | [CC-BY](https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets) |
 | Weather | [NOAA](https://www.ncei.noaa.gov) | [Attribution required, non-commercial use](https://www.wmo.int/pages/prog/www/ois/Operational_Information/Publications/Congress/Cg_XII/res40_en.html) |
 | Google Mobility data | <https://www.google.com/covid19/mobility/> | [Google Terms of Service](https://policies.google.com/terms) |
 | Google Search Trends | <https://console.cloud.google.com/marketplace/product/bigquery-public-datasets/covid19-search-trends> | [Google Terms of Service](https://policies.google.com/terms) |
-| Government response data | [Oxford COVID-19 government response tracker][18] | [CC BY 4.0](https://github.com/OxCGRT/covid-policy-tracker/blob/master/LICENSE.txt) |
+| Government response data | [Oxford COVID-19 government response tracker][18] | [CC-BY](https://github.com/OxCGRT/covid-policy-tracker/blob/master/LICENSE.txt) |
 | Country-level data | [ECDC](https://www.ecdc.europa.eu) | [Attribution required](https://www.ecdc.europa.eu/en/copyright) |
-| Country-level data | [Our World in Data](https://ourworldindata.org) | [CC BY 4.0](https://ourworldindata.org/how-to-use-our-world-in-data#how-is-our-work-copyrighted) |
+| Country-level data | [Our World in Data](https://ourworldindata.org) | [CC-BY](https://ourworldindata.org/how-to-use-our-world-in-data#how-is-our-work-copyrighted) |
 | Country-level data | [WHO](https://covid19.who.int) | [Attribution required](https://www.who.int/about/who-we-are/publishing-policies/data-policy/terms-and-conditions) |
-| Afghanistan | [HDX](https://data.humdata.org/dataset/afghanistan-covid-19-statistics-per-province) | [CC BY-SA][28] |
+| Afghanistan | [HDX](https://data.humdata.org/dataset/afghanistan-covid-19-statistics-per-province) | [CC-BY][28] |
 | Argentina | [Datos Argentina](https://datos.gob.ar/) | [Public domain](https://datos.gob.ar/acerca/seccion/marco-legal) |
-| Australia | <https://covid-19-au.com/> | [Attribution required, educational and academic research purposes](https://covid-19-au.com/faq) |
+| Australia | <https://covid-19-au.com/> | [Attribution required](https://covid-19-au.com/faq) |
 | Austria | [COVID19 EU Data](https://github.com/covid19-eu-zh/covid19-eu-data) | [MIT](https://github.com/covid19-eu-zh/covid19-eu-data/issues/57) |
-| Bangladesh | [HDX](https://data.humdata.org/dataset/district-wise-quarantine-for-covid-19) | [CC BY-SA][28] |
-| Belgium | [Belgian institute for health](https://epistat.wiv-isp.be) | [Attribution required, educational and academic research purposes](https://www.health.belgium.be/en/legal-information) |
-| Bolivia | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
+| Bangladesh | [HDX](https://data.humdata.org/dataset/district-wise-quarantine-for-covid-19) | [CC-BY][28] |
+| Belgium | [Belgian institute for health](https://epistat.wiv-isp.be) | [Attribution required](https://www.health.belgium.be/en/legal-information) |
 | Brazil | [Brazil Ministério da Saúde](https://coronavirus.saude.gov.br/) | [Creative Commons Atribuição](http://www.opendefinition.org/licenses/cc-by) |
 | Brazil (Rio de Janeiro) | <http://www.data.rio/> | [Dados abertos](https://www.data.rio/datasets/f314453b3a55434ea8c8e8caaa2d8db5) |
 | Brazil (Ceará) | <https://saude.ce.gov.br> | [Dados abertos](https://cearatransparente.ce.gov.br/portal-da-transparencia) |
 | Canada | [Department of Health Canada](https://www.canada.ca/en/public-health) | [Attribution required](https://www.canada.ca/en/transparency/terms.html) |
-| Canada | [COVID-19 Canada Open Data Working Group](https://art-bd.shinyapps.io/covid19canada/) | [CC BY-SA](https://github.com/ishaberry/Covid19Canada/blob/master/LICENSE.MD) |
+| Canada | [COVID-19 Canada Open Data Working Group](https://art-bd.shinyapps.io/covid19canada/) | [CC-BY](https://github.com/ishaberry/Covid19Canada/blob/master/LICENSE.MD) |
 | Chile | [Ministerio de Ciencia de Chile](http://www.minciencia.gob.cl/COVID19) | [Terms of use](http://www.minciencia.gob.cl/sites/default/files/1771596.pdf) |
-| Chile (2017 Census) | [Instituto Nacional de Estadística](https://www.ine.cl/estadisticas/sociales/censos-de-poblacion-y-vivienda/poblacion-y-vivienda) | [CC BY-SA](https://datos.gob.cl/) |
+| Chile (2017 Census) | [Instituto Nacional de Estadística](https://www.ine.cl/estadisticas/sociales/censos-de-poblacion-y-vivienda/poblacion-y-vivienda) | [CC-BY](https://datos.gob.cl/) |
 | China | [DXY COVID-19 dataset](https://github.com/BlankerL/DXY-COVID-19-Data) | [MIT](https://github.com/BlankerL/DXY-COVID-19-Data/blob/master/LICENSE) |
-| Colombia | [Datos Abiertos Colombia](https://www.datos.gov.co) | [Attribution required](https://herramientas.datos.gov.co/es/terms-and-conditions-es) || Costa Rica | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
-| Costa Rica | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
-| Cuba | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
+| Colombia | [Datos Abiertos Colombia](https://www.datos.gov.co) | [Attribution required](https://herramientas.datos.gov.co/es/terms-and-conditions-es) |
 | Czech Republic | [Ministry of Health of the Czech Republic](https://onemocneni-aktualne.mzcr.cz/covid-19) | [Open Data](https://www.jmir.org/2020/5/e19367) |
-| Democratic Republic of Congo | [HDX](https://data.humdata.org/dataset/democratic-republic-of-the-congo-coronavirus-covid-19-subnational-cases) | [CC BY-SA][28] |
-| Ecuador | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
-| El Salvador | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
-| Finland | [Finnish institute for health and welfare](https://thl.fi/en/web/thlfi-en) | [CC BY 4.0](https://thl.fi/en/web/thlfi-en/statistics/statistical-databases/open-data) |
+| Democratic Republic of Congo | [HDX](https://data.humdata.org/dataset/democratic-republic-of-the-congo-coronavirus-covid-19-subnational-cases) | [CC-BY][28] |
+| Finland | [Finnish institute for health and welfare](https://thl.fi/en/web/thlfi-en) | [CC-BY](https://thl.fi/en/web/thlfi-en/statistics/statistical-databases/open-data) |
 | France | [data.gouv.fr](https://data.gouv.fr) | [Open License 2.0](https://www.etalab.gouv.fr/licence-ouverte-open-licence) |
 | Germany | <https://github.com/jgehrcke/covid-19-germany-gae> | [MIT](https://github.com/jgehrcke/covid-19-germany-gae/blob/master/LICENSE) |
-| Guatemala | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
-| Haiti | [HDX](https://data.humdata.org/dataset/haiti-covid-19-subnational-cases) | [CC BY-SA][28] |
-| Honduras | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
-| India | [Wikipedia](https://en.wikipedia.org/wiki/Template:2019-20_coronavirus_pandemic_data/India_medical_cases) | [CC BY-SA][24] |
-| India | [Covid 19 India Organisation](https://github.com/covid19india/api) | [CC BY-SA][29] |
+| Haiti | [HDX](https://data.humdata.org/dataset/haiti-covid-19-subnational-cases) | [CC-BY][28] |
+| India | [Wikipedia](https://en.wikipedia.org/wiki/Template:2019-20_coronavirus_pandemic_data/India_medical_cases) | [Attribution Required][24] |
+| India | [Covid 19 India Organisation](https://github.com/covid19india/api) | [CC-BY SA][29] |
 | Indonesia | <https://catchmeup.id/covid-19> | [Permission required](https://catchmeup.id/ketentuan-pelayanan) |
-| Italy | [Italy's Department of Civil Protection](https://github.com/pcm-dpc/COVID-19) | [CC BY 4.0](https://github.com/pcm-dpc/COVID-19/blob/master/LICENSE) |
-| Iraq | [HDX](https://data.humdata.org/dataset/iraq-coronavirus-covid-19-subnational-cases) | [CC BY-SA][28] |
+| Italy | [Italy's Department of Civil Protection](https://github.com/pcm-dpc/COVID-19) | [CC-BY](https://github.com/pcm-dpc/COVID-19/blob/master/LICENSE) |
+| Iraq | [HDX](https://data.humdata.org/dataset/iraq-coronavirus-covid-19-subnational-cases) | [CC-BY][28] |
 | Japan | <https://github.com/swsoyee/2019-ncov-japan> | [MIT](https://github.com/swsoyee/2019-ncov-japan/blob/master/LICENSE) |
-| Libya | [HDX](https://data.humdata.org/dataset/libya-coronavirus-covid-19-subnational-cases) | [CC BY-SA][28] |
+| Libya | [HDX](https://data.humdata.org/dataset/libya-coronavirus-covid-19-subnational-cases) | [CC-BY][28] |
 | Luxembourg | [data.public.lu](https://data.public.lu/fr/datasets/donnees-covid19)| [CC0](https://data.public.lu/fr/datasets/?license=cc-zero) |
-| Malaysia | [Wikipedia](https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_Malaysia) | [CC BY-SA][24] |
+| Malaysia | [Wikipedia](https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_Malaysia) | [Attribution Required][24] |
 | Mexico | [Secretaría de Salud Mexico](https://coronavirus.gob.mx/) | [Attribution Required](https://datos.gob.mx/libreusomx) |
 | Mexico (2010 Census) | [INEGI](https://www.inegi.org.mx/programas/ccpv/2010/default.html) | [Attribution Required](https://datos.gob.mx/libreusomx) |
 | Netherlands | [RIVM](https://data.rivm.nl/covid-19) | [Public Domain](https://databronnencovid19.nl/Disclaimer) |
-| Nicaragua | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
 | Norway | [COVID19 EU Data](https://github.com/covid19-eu-zh/covid19-eu-data) | [MIT](https://github.com/covid19-eu-zh/covid19-eu-data/issues/57) |
-| Pakistan | [Wikipedia](https://en.wikipedia.org/wiki/Template:2019-20_coronavirus_pandemic_data/Pakistan_medical_cases) | [CC BY-SA][24] |
-| Panama | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
-| Paraguay | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
+| Pakistan | [Wikipedia](https://en.wikipedia.org/wiki/Template:2019-20_coronavirus_pandemic_data/Pakistan_medical_cases) | [Attribution Required][24] |
 | Peru | [Datos Abiertos Peru](https://www.datosabiertos.gob.pe/group/datos-abiertos-de-covid-19) | [ODC BY][31] |
 | Peru (2017 Census) | [INEI](https://censos2017.inei.gob.pe/redatam/) | [ODC BY][31] |
 | Philippines | [Philippines Department of Health](http://www.doh.gov.ph/covid19tracker) | [Attribution required](https://drive.google.com/file/d/1LzY2eLzZQdLR9yuoNufGEBN5Ily8ZTdV) |
 | Poland | [COVID19 EU Data](https://github.com/covid19-eu-zh/covid19-eu-data) | [MIT](https://github.com/covid19-eu-zh/covid19-eu-data/issues/57) |
 | Portugal | [COVID-19: Portugal](https://github.com/carlospramalheira/covid19) | [MIT](https://github.com/carlospramalheira/covid19/blob/master/LICENSE) |
 | Romania | <https://github.com/adrianp/covid19romania> | [CC0](https://github.com/adrianp/covid19romania/blob/master/LICENSE) |
-| Russia | <https://стопкоронавирус.рф> | [CC BY-SA][29] |
-| Slovenia | <https://www.gov.si> | [CC BY-SA][24] |
-| South Africa| [FinMango COVID-19 Data](https://finmango.org/covid) | [CC BY-SA](https://finmango.org/covid) |
-| South Africa| [Data Science for Social Impact research group, the University of Pretoria](https://github.com/dsfsi/covid19za) | [CC BY-SA](https://github.com/dsfsi/covid19za/blob/master/data/LICENSE.md) |
-| South Korea | [Wikipedia](https://en.wikipedia.org/wiki/Template:2019%E2%80%9320_coronavirus_pandemic_data/South_Korea_medical_cases) | [CC BY-SA][24] |
+| Russia | <https://стопкоронавирус.рф> | [CC-BY][29] |
+| Slovenia | <https://www.gov.si> | [Attribution Required][24] |
+| South Africa| [FinMango COVID-19 Data](https://finmango.org/covid) | [CC-BY](https://finmango.org/covid) |
+| South Korea | [Wikipedia](https://en.wikipedia.org/wiki/Template:2019%E2%80%9320_coronavirus_pandemic_data/South_Korea_medical_cases) | [Attribution Required][24] |
 | Spain | [Government Authority](https://covid19.isciii.es) | [Attribution required](https://www.mscbs.gob.es/avisoLegal/home.html) |
 | Spain (Canary Islands) | [Gobierno de Canarias](https://www3.gobiernodecanarias.org/sanidad/scs/tematica.jsp?idCarpeta=e01092c2-7d66-11ea-871d-cb574c2473a4) | [Attribution required](https://www.gobiernodecanarias.org/principal/avisolegal.html) |
 | Spain (Madrid) | [Datos Abiertos Madrid](https://www.comunidad.madrid/gobierno/datos-abiertos) | [Attribution required](https://www.comunidad.madrid/gobierno/datos-abiertos/reutiliza#condiciones-uso) |
-| Sudan | [HDX](https://data.humdata.org/dataset/sudan-coronavirus-covid-19-subnational-cases) | [CC BY-SA][28] |
+| Sudan | [HDX](https://data.humdata.org/dataset/sudan-coronavirus-covid-19-subnational-cases) | [CC-BY][28] |
 | Sweden | [Public Health Agency of Sweden](https://www.folkhalsomyndigheten.se/the-public-health-agency-of-sweden/) |  |
-| Switzerland | [OpenZH data](https://open.zh.ch) | [CC 4.0](https://github.com/openZH/covid_19/blob/master/LICENSE) |
-| Ukraine | [National Security and Defense Council of Ukraine](https://covid19.rnbo.gov.ua/) | [CC 4.0](https://www.kmu.gov.ua/#layout-footer) |
+| Switzerland | [OpenZH data](https://open.zh.ch) | [CC-BY](https://github.com/openZH/covid_19/blob/master/LICENSE) |
+| Ukraine | [National Security and Defense Council of Ukraine](https://covid19.rnbo.gov.ua/) | [CC-BY](https://www.kmu.gov.ua/#layout-footer) |
 | United Kingdom | <https://github.com/tomwhite/covid-19-uk-data> | [The Unlicense](https://github.com/tomwhite/covid-19-uk-data/blob/master/LICENSE.txt) |
 | United Kingdom | <https://coronavirus.data.gov.uk/> | Attribution required, [Open Government Licence v3.0][32] |
-| Uruguay | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
 | USA | [NYT COVID Dataset](https://github.com/nytimes) | [Attribution required, non-commercial use](https://github.com/nytimes/covid-19-data/blob/master/LICENSE) |
-| USA | [COVID Tracking Project](https://covidtracking.com) | [CC BY-NC 4.0](https://covidtracking.com/license) |
 | USA (New York) | [New York City Health Department](https://www1.nyc.gov/site/doh/covid/covid-19-data.page) | [Public Domain](https://www1.nyc.gov/home/terms-of-use.page) |
 | USA (Texas) | [Texas Department of State Health Services](https://dshs.texas.gov) | [Attribution required, non-commercial use](https://dshs.texas.gov/policy/copyright.shtm) |
-| Venezuela | [HDX](https://data.humdata.org/dataset/corona-virus-covid-19-cases-and-deaths-in-venezuela) | [CC BY-SA][28] |
-| Venezuela | [Latin America Covid-19 Data Repository][26] | [CC BY-SA][27] |
+| Venezuela | [HDX](https://data.humdata.org/dataset/corona-virus-covid-19-cases-and-deaths-in-venezuela) | [CC-BY][28] |
 
 </details>
 
@@ -388,7 +374,7 @@ Please use the following when citing this project as a source of data:
 [21]: https://omnimodel.com/
 [22]: https://console.cloud.google.com/marketplace/product/bigquery-public-datasets/covid19-open-data
 [23]: https://www.wikidata.org/wiki/Wikidata:Licensing
-[24]: https://en.wikipedia.org/wiki/Wikipedia:Copyrights
+[24]: https://foundation.wikimedia.org/wiki/Terms_of_Use
 [26]: https://github.com/DataScienceResearchPeru/covid-19_latinoamerica
 [27]: https://github.com/DataScienceResearchPeru/covid-19_latinoamerica/blob/master/LICENSE.md
 [28]: https://data.humdata.org/about/license
