@@ -19,8 +19,9 @@ This script schedules all the jobs to be dispatched to AppEngine.
 
 import os
 import sys
-from functools import partial
 from argparse import ArgumentParser
+from functools import partial
+from typing import List
 
 from google.cloud import scheduler_v1
 from google.cloud.scheduler_v1.types import AppEngineHttpTarget, Duration, Job
@@ -28,7 +29,18 @@ from google.cloud.scheduler_v1.types import AppEngineHttpTarget, Duration, Job
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 # pylint: disable=wrong-import-position
+from lib.constants import SRC
+from lib.memory_efficient import table_read_column
 from lib.pipeline_tools import get_pipelines
+
+
+def _split_into_subsets(items: List[str], bin_count: int):
+    """ Produce subsets of the given list divided into equal `bin_count` bins """
+    bin_size = len(items) // bin_count
+    for idx in range(bin_count - 1):
+        yield items[bin_size * idx : bin_size * (idx + 1)]
+    # The last bin might have up to `bin_size - 1` additional items
+    yield items[bin_size * (bin_count - 1) :]
 
 
 def clear_jobs(
@@ -83,6 +95,9 @@ def schedule_all_jobs(project_id: str, location_id: str, time_zone: str) -> None
     # Clear all pre-existing jobs
     clear_jobs(client=client, project_id=project_id, location_id=location_id)
 
+    # Read the list of all known locations, since we will be splitting some jobs based on that
+    location_keys = list(table_read_column(SRC / "data" / "metadata.csv", "key"))
+
     # Cache pull job runs hourly
     _schedule_job(schedule="0 * * * *", path="/cache_pull")
 
@@ -93,34 +108,29 @@ def schedule_all_jobs(project_id: str, location_id: str, time_zone: str) -> None
         schedule="30 */2 * * *",
     )
 
-    # The job that publishes aggregate outputs runs every 2 hours
+    # The job that publishes aggregate outputs runs every 4 hours
     _schedule_job(
         # Run in a separate, preemptible instance
         path="/deferred/publish_main_table",
-        # Offset by 40 minutes to let other hourly tasks finish
-        schedule="40 */4 * * *",
+        # Offset by 60 minutes to let other hourly tasks finish
+        schedule="0 1-23/4 * * *",
     )
 
-    # The job that publishes breakdown outputs runs every 2 hours
+    # The job that publishes breakdown outputs runs every 4 hours
     _schedule_job(
-        path="/publish_subset_tables",
-        # Offset by 60 minutes to run after publishing
-        schedule="0 1-23/4 * * *",
+        path="/deferred/publish_subset_tables",
+        # Offset by 90 minutes to run after publishing
+        schedule="30 1-23/4 * * *",
     )
 
     # Converting the outputs to JSON is less critical but also slow so it's run separately
-    _schedule_job(
-        path="/deferred/convert_json_1",
-        # Offset by 60 minutes to run after publishing
-        schedule="0 1-23/4 * * *",
-    )
-
-    # The convert to JSON task is split in two because otherwise it takes too long
-    _schedule_job(
-        path="/deferred/convert_json_2",
-        # Offset by 60 minutes to run after publishing
-        schedule="0 1-23/4 * * *",
-    )
+    for subset in _split_into_subsets(location_keys, bin_count=5):
+        job_params = f"prod_folder=v2&location_key_from={subset[0]}&location_key_until={subset[-1]}"
+        _schedule_job(
+            path=f"/deferred/publish_json?{job_params}",
+            # Offset by 120 minutes to run after subset tables are published
+            schedule="0 2-23/4 * * *",
+        )
 
     # Get new errors once a day at midday.
     _schedule_job(path="/report_errors_to_github", schedule="0 12 * * *")
@@ -131,7 +141,7 @@ def schedule_all_jobs(project_id: str, location_id: str, time_zone: str) -> None
     for data_pipeline in get_pipelines():
         # The job that combines data sources into a table runs hourly
         _schedule_job(
-            path=f"/combine_table?table={data_pipeline.table}",
+            path=f"/deferred/combine_table?table={data_pipeline.table}",
             # Offset by 15 minutes to let other hourly tasks finish
             schedule="15 * * * *",
         )
