@@ -600,10 +600,3 @@ sources:
       file_name: Sex.csv
     test:
       metadata_query: "key == 'US_MA'"
-
-  # Data sources for ZA level 1
-  - name: pipelines.epidemiology.za_dsfsi.Covid19ZaTimelineDeathsDataSource
-    fetch:
-      - url: "https://raw.github.com/dsfsi/covid19za/master/data/covid19za_timeline_death_statistics.csv"
-    test:
-      metadata_query: "key == 'ZA'"

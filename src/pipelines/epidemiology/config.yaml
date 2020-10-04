@@ -917,7 +917,7 @@ sources:
   - name: pipelines.epidemiology.us_ma_authority.MassachusettsCountiesDataSource
     fetch:
       - name: counties
-        url: "https://www.mass.gov/doc/covid-19-raw-data-august-3-2020/download"
+        url: "https://www.mass.gov/doc/covid-19-raw-data-october-2-2020/download"
         opts:
           ext: zip
     parse:
@@ -958,26 +958,6 @@ sources:
       metadata_query: key.str.match("VE_.*")
     automation:
       job_group: 'google_sheets'
-
-  # Data sources for ZA levels 1 + 2
-  - name: pipelines.epidemiology.za_dsfsi.Covid19ZaCumulativeDataSource
-    fetch:
-      - name: total_confirmed
-        url: "https://raw.github.com/dsfsi/covid19za/master/data/covid19za_provincial_cumulative_timeline_confirmed.csv"
-      - name: total_deceased
-        url: "https://raw.github.com/dsfsi/covid19za/master/data/covid19za_provincial_cumulative_timeline_deaths.csv"
-      - name: total_recovered
-        url: "https://raw.github.com/dsfsi/covid19za/master/data/covid19za_provincial_cumulative_timeline_recoveries.csv"
-      - name: total_tested
-        url: "https://raw.github.com/dsfsi/covid19za/master/data/covid19za_provincial_cumulative_timeline_testing.csv"
-    test:
-      metadata_query: key.str.match("ZA_[^_]+")
-
-  - name: pipelines.epidemiology.za_dsfsi.Covid19ZaTimelineTestingDataSource
-    fetch:
-      - url: "https://raw.github.com/dsfsi/covid19za/master/data/covid19za_timeline_testing.csv"
-    test:
-      metadata_query: "key == 'ZA'"
 
   # Data sources for ZA level 2
   - name: pipelines.epidemiology.za_finmango.FinMangoDataSource
