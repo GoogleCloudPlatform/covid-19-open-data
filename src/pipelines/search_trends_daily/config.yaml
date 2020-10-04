@@ -448,7 +448,7 @@ sources:
 
   # - name: pipelines._common.google_search_trends.GoogleSearchTrendsL1DataSource
   #   fetch:
-  #     - url: "https://raw.githubusercontent.com/google-research/open-covid-19-data/master/data/inputs/downloaded/search_trends_symptoms_dataset/2020-08-30/United%20States%20of%20America/2020_US_daily_symptoms_dataset.csv"
+  #     - url: "https://raw.githubusercontent.com/google-research/open-covid-19-data/master/data/exports/search_trends_symptoms_dataset/United%20States%20of%20America/2020_US_daily_symptoms_dataset.csv"
   #   parse:
   #     low_memory: false
   #   test:
@@ -457,7 +457,7 @@ sources:
 
   - name: pipelines._common.google_search_trends.GoogleSearchTrendsL2DataSource
     fetch:
-      - url: "https://raw.github.com/google-research/open-covid-19-data/master/data/inputs/downloaded/search_trends_symptoms_dataset/2020-08-30/United%20States%20of%20America/subregions/{subregion1_name_path}/2020_US_{subregion1_name_file}_daily_symptoms_dataset.csv"
+      - url: "https://raw.github.com/google-research/open-covid-19-data/master/data/exports/search_trends_symptoms_dataset/United%20States%20of%20America/subregions/{subregion1_name_path}/2020_US_{subregion1_name_file}_daily_symptoms_dataset.csv"
     parse:
       low_memory: false
     test:
