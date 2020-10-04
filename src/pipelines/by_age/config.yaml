@@ -509,6 +509,8 @@ sources:
       encoding: "ISO-8859-1"
     test:
       metadata_query: "key == 'BR_RJ_GIG'"
+      # Skip because it's very flakey
+      skip: true
 
   # Data sources for BR_RN level 3
   - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
