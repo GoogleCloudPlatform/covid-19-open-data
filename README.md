@@ -313,6 +313,7 @@ from the relevant authorities, like a country's ministry of health.
 | United Kingdom | <https://coronavirus.data.gov.uk/> | Attribution required, [Open Government Licence v3.0][32] |
 | USA (2019 Census) | [United States Census Bureau](https://www.census.gov/data/tables/time-series/demo/popest/2010s-counties-total.html) | [Public Domain](https://ask.census.gov/prweb/PRServletCustom?pyActivity=pyMobileSnapStart&ArticleID=KCP-4726) |
 | USA | [NYT COVID Dataset](https://github.com/nytimes) | [Attribution required, non-commercial use](https://github.com/nytimes/covid-19-data/blob/master/LICENSE) |
+| USA | [Imperial College of London](https://github.com/nytimes) | [CC BY](https://github.com/ImperialCollegeLondon/US-covid19-agespecific-mortality-data/blob/master/LICENSE) |
 | USA (New York) | [New York City Health Department](https://www1.nyc.gov/site/doh/covid/covid-19-data.page) | [Public Domain](https://www1.nyc.gov/home/terms-of-use.page) |
 | USA (Texas) | [Texas Department of State Health Services](https://dshs.texas.gov) | [Attribution required, non-commercial use](https://dshs.texas.gov/policy/copyright.shtm) |
 | Venezuela | [HDX](https://data.humdata.org/dataset/corona-virus-covid-19-cases-and-deaths-in-venezuela) | [CC-BY][28] |
@@ -332,6 +333,12 @@ See the [source documentation](./src/README.md) for more technical details.
 This project has been done in collaboration with [FinMango](https://finmango.org/covid), which
 provided great insights about the impact of the pandemic on the local economies and also helped with
 research and manual curation of data sources for many regions including South Africa and US states.
+
+Stratified mortality data for US states is provided by
+[Imperial College of London](https://github.com/ImperialCollegeLondon/US-covid19-agespecific-mortality-data).
+Please refer to
+[this list of maintainers and contributors](https://github.com/ImperialCollegeLondon/US-covid19-agespecific-mortality-data#maintainers-and-contributors)
+for the individual acknowledgements.
 
 The following persons have made significant contributions to this project:
 
