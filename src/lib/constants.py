@@ -107,4 +107,39 @@ OUTPUT_COLUMN_ADAPTER = {
     "maximum_temperature": "maximum_temperature_celsius",
     "rainfall": "rainfall_millimeters",
     "snowfall": "snowfall_millimeters",
+    # By Sex
+    "total_confirmed_male": "cumulative_confirmed_male",
+    "total_confirmed_female": "cumulative_confirmed_female",
+    "total_confirmed_sex_other": "cumulative_confirmed_sex_other",
+    # By Age
+    "age_bin_00": "age_bin_0",
+    "age_bin_01": "age_bin_1",
+    "age_bin_02": "age_bin_2",
+    "age_bin_03": "age_bin_3",
+    "age_bin_04": "age_bin_4",
+    "age_bin_05": "age_bin_5",
+    "age_bin_06": "age_bin_6",
+    "age_bin_07": "age_bin_7",
+    "age_bin_08": "age_bin_8",
+    "age_bin_09": "age_bin_9",
+    **{
+        f"{statistic}_age_{idx:02d}": f"{statistic.replace('total', 'cumulative')}_age_{idx:01d}"
+        for idx in range(10)
+        for statistic in (
+            "new_confirmed",
+            "new_deceased",
+            "new_recovered",
+            "new_tested",
+            "new_hospitalized",
+            "new_intensive_care",
+            "new_ventilator",
+            "total_confirmed",
+            "total_deceased",
+            "total_recovered",
+            "total_tested",
+            "total_hospitalized",
+            "total_intensive_care",
+            "total_ventilator",
+        )
+    },
 }
