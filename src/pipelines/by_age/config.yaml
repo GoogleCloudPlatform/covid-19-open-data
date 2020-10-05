@@ -682,6 +682,15 @@ sources:
     test:
       metadata_query: key.str.match("PH.*")
 
+  # Data sources for US level 2
+  - name: pipelines.epidemiology.us_imperial.ImperialDataSource
+    fetch:
+      - url: "https://raw.githubusercontent.com/ImperialCollegeLondon/US-covid19-agespecific-mortality-data/master/data/processed/latest/DeathsByAge_US.csv"
+    test:
+      metadata_query: key.str.match("^US_\w\w(_NYC)?$")
+    automation:
+      job_group: 'imperial'
+
   # Data sources for US_DC level 2
   - name: pipelines.epidemiology.us_dc_authority.DistrictColumbiaDataSource
     fetch:

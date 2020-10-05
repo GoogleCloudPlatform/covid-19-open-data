@@ -189,10 +189,10 @@ class DataSource(ErrorLogger):
             # Log debug info
             self.log_debug(
                 "Match info",
-                aux_regex=aux_regex,
+                aux_regex=str(aux_regex),
                 match_string=match_string,
                 record=record,
-                metadata=metadata,
+                metadata=metadata.to_csv(),
             )
 
         self.log_error(f"No key match found", record=record)
