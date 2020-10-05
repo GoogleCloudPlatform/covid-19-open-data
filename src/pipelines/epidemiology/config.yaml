@@ -59,11 +59,17 @@ sources:
   - name: pipelines.epidemiology.xx_covid19_latinoamerica.Covid19LatinoAmericaDataSource
     fetch:
       - name: confirmed
-        url: "https://raw.github.com/DataScienceResearchPeru/covid-19_latinoamerica/master/latam_covid_19_data/time_series/time_series_confirmed.csv"
+        url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ3C56HLuTCe4cB0W4MLh0OXisA2Bl6Aq-bk2AJJCjL0DQQ7k8mTuJLyJxOXkTHMALvcR-gD0kFYh8Z/pub?gid=0&single=true&output=csv"
+        opts:
+          ext: csv
       - name: deceased
-        url: "https://raw.github.com/DataScienceResearchPeru/covid-19_latinoamerica/master/latam_covid_19_data/time_series/time_series_deaths.csv"
+        url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ3C56HLuTCe4cB0W4MLh0OXisA2Bl6Aq-bk2AJJCjL0DQQ7k8mTuJLyJxOXkTHMALvcR-gD0kFYh8Z/pub?gid=1070764256&single=true&output=csv"
+        opts:
+          ext: csv
       - name: recovered
-        url: "https://raw.github.com/DataScienceResearchPeru/covid-19_latinoamerica/master/latam_covid_19_data/time_series/time_series_recovered.csv"
+        url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ3C56HLuTCe4cB0W4MLh0OXisA2Bl6Aq-bk2AJJCjL0DQQ7k8mTuJLyJxOXkTHMALvcR-gD0kFYh8Z/pub?gid=711753450&single=true&output=csv"
+        opts:
+          ext: csv
     test:
       metadata_query: key.str.match("CU_.+")
 
