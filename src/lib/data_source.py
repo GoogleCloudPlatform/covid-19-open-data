@@ -271,11 +271,6 @@ class DataSource(ErrorLogger):
         if "query" in self.config:
             data = data.query(self.config["query"]).copy()
 
-        # Derive localities from all regions
-        localities = derive_localities(aux["localities"], data)
-        if len(localities) > 0:
-            data = data.append(localities)
-
         # Provide a stratified view of certain key variables
         if any(stratify_column in data.columns for stratify_column in ("age", "sex")):
             data = stratify_age_sex_ethnicity(data)
@@ -286,6 +281,11 @@ class DataSource(ErrorLogger):
         if parse_opts.get("backfill"):
             # Backfill cumulative fields with previous entries.
             backfill_cumulative_fields_inplace(data)
+
+        # Derive localities from all regions
+        localities = derive_localities(aux["localities"], data)
+        if len(localities) > 0:
+            data = data.append(localities)
 
         # Return the final dataframe
         return data
