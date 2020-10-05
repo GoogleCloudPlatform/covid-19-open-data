@@ -144,3 +144,12 @@ def numeric_code_as_string(code: Any, digits: int = 0) -> str:
     else:
         fmt = f"%0{digits}d" if digits > 0 else "%d"
         return fmt % code
+
+
+def parse_google_sheets_date(date_like: Any) -> Optional[str]:
+    """ Import a date-like object from Google Sheets represented as number of days since 1900. """
+    date_like = safe_int_cast(date_like)
+    if date_like:
+        return (datetime.date(1900, 1, 1) + datetime.timedelta(days=date_like)).isoformat()
+    else:
+        return None

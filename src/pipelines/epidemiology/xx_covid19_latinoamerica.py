@@ -15,7 +15,7 @@
 import re
 from typing import Dict
 from pandas import DataFrame, isna
-from lib.cast import safe_int_cast
+from lib.cast import parse_google_sheets_date, safe_int_cast
 from lib.data_source import DataSource
 
 
@@ -35,9 +35,7 @@ class Covid19LatinoAmericaDataSource(DataSource):
         # Transform the data from non-tabulated format to record format
         records = []
         for key in data["confirmed"].index.unique():
-            date_columns = [
-                col for col in data["confirmed"].columns if re.match(r"\d\d\d\d-\d\d-\d\d", col)
-            ]
+            date_columns = list(data["confirmed"].columns)[4:]
             for col in date_columns:
                 records.append(
                     {
@@ -54,6 +52,12 @@ class Covid19LatinoAmericaDataSource(DataSource):
 
         # Remove all data without a proper date
         data = data.dropna(subset=["date"])
+
+        # Make sure date is in the appropriate format
+        date_expr = r"\d\d\d\d-\d\d-\d\d"
+        data["date"] = data["date"].apply(
+            lambda x: x if re.match(date_expr, x) else parse_google_sheets_date(x)
+        )
 
         # Since it's cumsum data, we can forward fill relatively safely
         data = data.sort_values(["key", "date"]).groupby("key").apply(lambda x: x.ffill())
