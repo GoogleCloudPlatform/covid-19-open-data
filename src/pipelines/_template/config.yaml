@@ -32,4 +32,4 @@ auxiliary:
 sources:
   - name: pipelines._template.srcname.SourceNameDataSource
     fetch:
-      - url: "http://samplecsvs.s3.amazonaws.com/SalesJan2009.csv"
+      - url: "https://raw.githubusercontent.com/GoogleCloudPlatform/covid-19-open-data/main/src/test/data/epidemiology.csv"

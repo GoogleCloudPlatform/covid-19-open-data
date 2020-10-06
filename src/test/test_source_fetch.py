@@ -32,7 +32,7 @@ DUMMY_DATA_SOURCE_AUX = {
 DUMMY_DATA_SOURCE_CONFIG = {
     "fetch": [
         {
-            "url": "http://samplecsvs.s3.amazonaws.com/SalesJan2009.csv",
+            "url": "https://raw.githubusercontent.com/GoogleCloudPlatform/covid-19-open-data/main/src/test/data/epidemiology.csv",
             "opts": {"skip_existing": False},
         }
     ]
