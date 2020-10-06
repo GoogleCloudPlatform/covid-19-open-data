@@ -131,11 +131,11 @@ class TestPublish(ProfiledTestCase):
         with temporary_directory() as workdir:
 
             # Copy all test tables into the temporary directory
-            publish_global_tables(SRC / "test" / "data", workdir)
+            publish_global_tables(SRC / "test" / "data", workdir, use_table_names=V3_TABLE_LIST)
 
             # Create the main table
             main_table_path = workdir / "main.csv"
-            merge_output_tables_sqlite(workdir, main_table_path)
+            merge_output_tables_sqlite(workdir, main_table_path, use_table_names=V3_TABLE_LIST)
 
             self._test_make_main_table_helper(main_table_path, OUTPUT_COLUMN_ADAPTER)
 
