@@ -308,7 +308,7 @@ sources:
   # Data sources for ES_CN levels 2 + 3
   - name: pipelines.epidemiology.es_cn_authority.CanaryIslandsDataSource
     fetch:
-      - url: "https://services9.arcgis.com/CgZpnNiCwFObjaOT/arcgis/rest/services/CV19Canarias/FeatureServer/5/query?f=json&where=TIPO_MUN%3D%27Caso%27&returnGeometry=false&outFields=*"
+      - url: "https://services9.arcgis.com/CgZpnNiCwFObjaOT/arcgis/rest/services/CVCanarias/FeatureServer/5/query?f=json&where=TIPO_MUN%3D%27Caso%27&returnGeometry=false&outFields=*"
         opts:
           ext: json
     test:
