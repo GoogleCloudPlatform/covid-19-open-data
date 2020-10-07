@@ -109,8 +109,7 @@ class Covid19UkRegionsDataSource(DataSource):
         }
 
         api = Cov19API(filters=["areaType=region"], structure=cases_and_deaths)
-        regions_json = api.get_json()
-        data = DataFrame.from_dict(regions_json["data"])
+        data = api.get_dataframe()
         data = table_rename(
             data,
             {
@@ -139,7 +138,7 @@ class Covid19UkL2DataSource(DataSource):
 
         cases_and_deaths_and_tests = {
             "date": "date",
-            "areaName": "areaName",
+            "areaCode": "areaCode",
             "newCasesBySpecimenDate": "newCasesBySpecimenDate",
             "cumCasesBySpecimenDate": "cumCasesBySpecimenDate",
             "newDeaths28DaysByDeathDate": "newDeaths28DaysByDeathDate",
@@ -148,13 +147,12 @@ class Covid19UkL2DataSource(DataSource):
             "newTestsByPublishDate": "newTestsByPublishDate",
         }
         api = Cov19API(filters=["areaType=nation"], structure=cases_and_deaths_and_tests)
-        nation_json = api.get_json()
-        data = DataFrame.from_dict(nation_json["data"])
+        data = api.get_dataframe()
 
         data = table_rename(
             data,
             {
-                "areaName": "subregion1_name",
+                "areaCode": "match_string",
                 "newCasesBySpecimenDate": "new_confirmed",
                 "cumCasesBySpecimenDate": "total_confirmed",
                 "newDeaths28DaysByDeathDate": "new_deceased",
@@ -189,8 +187,7 @@ class Covid19UkL1DataSource(DataSource):
             "newTestsByPublishDate": "newTestsByPublishDate",
         }
         api = Cov19API(filters=["areaType=overview"], structure=cases_and_deaths_and_tests)
-        data_json = api.get_json()
-        data = DataFrame.from_dict(data_json["data"])
+        data = api.get_dataframe()
 
         data = table_rename(
             data,
@@ -239,8 +236,7 @@ class Covid19UkL3DataSource(DataSource):
         }
 
         api = Cov19API(filters=["areaType=utla"], structure=cases)
-        utla_json = api.get_json()
-        data = DataFrame.from_dict(utla_json["data"])
+        data = api.get_dataframe()
 
         data.areaCode = data.areaCode.apply(_apply_area_code_map)
         data = data.groupby(["date", "areaCode"], as_index=False).sum()
