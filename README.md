@@ -285,6 +285,8 @@ from the relevant authorities, like a country's ministry of health.
 | Guatemala | [FinMango COVID-19 Data](https://finmango.org/covid) | [CC-BY](https://finmango.org/covid) |
 | Haiti | [HDX](https://data.humdata.org/dataset/haiti-covid-19-subnational-cases) | [CC-BY][28] |
 | Honduras | [FinMango COVID-19 Data](https://finmango.org/covid) | [CC-BY](https://finmango.org/covid) |
+| Israel | [Israel Government Data Portal](https://data.gov.il/dataset/covid-19) | [Attribution Required](https://data.gov.il/terms) |
+| Israel (2019 Census) | [Central Bureau of Statistics](https://www.cbs.gov.il/he/settlements/Pages/default.aspx?mode=Metropolin) | [Attribution Required](https://www.cbs.gov.il/en/Pages/Enduser-license.aspx) |
 | India | [Wikipedia](https://en.wikipedia.org/wiki/Template:2019-20_coronavirus_pandemic_data/India_medical_cases) | [Attribution Required][24] |
 | India | [Covid 19 India Organisation](https://github.com/covid19india/api) | [CC-BY SA][29] |
 | Indonesia | <https://catchmeup.id/covid-19> | [Permission required](https://catchmeup.id/ketentuan-pelayanan) |
