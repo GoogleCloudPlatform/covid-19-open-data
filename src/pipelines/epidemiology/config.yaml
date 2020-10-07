@@ -471,6 +471,13 @@ sources:
   #   automation:
   #     job_group: 'google_sheets'
 
+  # Data sources for IL levels 2 + 3
+  - name: pipelines.epidemiology.il_authority.IsraelDataSource
+    fetch:
+      - url: "https://data.gov.il/api/3/action/datastore_search?resource_id=d07c0771-01a8-43b2-96cc-c6154e7fa9bd"
+    test:
+      metadata_query: key.str.match("^..$")
+
   # Data sources for IN level 2
   - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
     fetch:
