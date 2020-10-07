@@ -25,7 +25,7 @@ steps:
           gcloud beta app deploy ./app.yaml --quiet
 
     # Schedule all tasks via Google Cloud Scheduler
-    - name: python
+    - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
       entrypoint: 'bash'
       dir: './src'
       args:
