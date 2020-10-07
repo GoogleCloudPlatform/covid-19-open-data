@@ -116,8 +116,6 @@ class DataPipeline(ErrorLogger):
 
         data_sources = []
         for idx, source_config in enumerate(config_yaml["sources"]):
-            if "gb_authority" not in source_config["name"]:
-                continue
             # Add the job group to all configs
             automation_config = source_config.get("automation", {})
             source_config["automation"] = automation_config
