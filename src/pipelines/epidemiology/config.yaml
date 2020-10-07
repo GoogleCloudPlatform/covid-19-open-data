@@ -478,7 +478,7 @@ sources:
     fetch:
       - url: "https://data.gov.il/api/3/action/datastore_search?resource_id=d07c0771-01a8-43b2-96cc-c6154e7fa9bd"
     test:
-      metadata_query: key.str.match("^..$")
+      metadata_query: key.str.match("IL.*")
 
   # Data sources for IN level 2
   - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
