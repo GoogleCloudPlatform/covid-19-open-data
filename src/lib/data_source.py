@@ -22,6 +22,7 @@ from pandas import DataFrame
 
 from .error_logger import ErrorLogger
 from .cast import isna
+from .constants import READ_OPTS
 from .io import read_file, fuzzy_text
 from .net import download_snapshot
 from .time import datetime_isoformat
@@ -86,21 +87,7 @@ class DataSource(ErrorLogger):
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         """ Parses a list of raw data records into a DataFrame. """
         # Some read options are passed as parse_opts
-        read_opts = {
-            k: v
-            for k, v in parse_opts.items()
-            if k
-            in (
-                "dtype",
-                "encoding",
-                "error_bad_lines",
-                "file_name",
-                "low_memory",
-                "sep",
-                "sheet_name",
-                "usecols",
-            )
-        }
+        read_opts = {k: v for k, v in parse_opts.items() if k in READ_OPTS}
         return self.parse_dataframes(self._read(sources, **read_opts), aux, **parse_opts)
 
     def parse_dataframes(
