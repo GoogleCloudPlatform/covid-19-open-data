@@ -35,7 +35,6 @@ def _download_from_api(
     url_tpl = url + "&offset={offset}&limit=10000"
 
     try:
-        print(url_tpl.format(offset=offset))
         res = requests.get(url_tpl.format(offset=offset)).json().get("result")
     except Exception as exc:
         if log_func:
