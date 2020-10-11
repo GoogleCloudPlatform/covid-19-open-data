@@ -15,10 +15,11 @@
 
 import uuid
 from pathlib import Path
-from typing import BinaryIO
+from typing import BinaryIO, Union, List
 
 import requests
-from .io import pbar
+from .concurrent import thread_map
+from .io import pbar, open_file_like
 
 
 def download_snapshot(
@@ -74,19 +75,30 @@ def download(
         progress: Display progress during the download using the lib.utils.pbar function
         spoof_browser: Pretend to be a web browser by adding user agent string to headers
     """
-    headers = {"User-Agent": "Safari"} if spoof_browser else {}
-    request_options = {"url": url, "headers": headers, "allow_redirects": True}
-    if not progress:
-        req = requests.get(**request_options)
-        req.raise_for_status()
-        file_handle.write(req.content)
-    else:
-        block_size = 1024
-        req = requests.get(**request_options, stream=True)
-        req.raise_for_status()
-        total_size = int(req.headers.get("content-length", 0))
-        progress_bar = pbar(total=total_size, unit="iB", unit_scale=True)
-        for data in req.iter_content(block_size):
-            progress_bar.update(len(data))
-            file_handle.write(data)
-        progress_bar.close()
+    with open_file_like(file_handle, "wb") as fd:
+        headers = {"User-Agent": "Safari"} if spoof_browser else {}
+        request_options = {"url": url, "headers": headers, "allow_redirects": True}
+        if not progress:
+            req = requests.get(**request_options)
+            req.raise_for_status()
+            fd.write(req.content)
+        else:
+            block_size = 1024
+            req = requests.get(**request_options, stream=True)
+            req.raise_for_status()
+            total_size = int(req.headers.get("content-length", 0))
+            progress_bar = pbar(total=total_size, unit="iB", unit_scale=True)
+            for data in req.iter_content(block_size):
+                progress_bar.update(len(data))
+                fd.write(data)
+            progress_bar.close()
+
+
+def parallel_download(
+    url_list: List[str], path_list: List[Union[str, Path]], **download_opts
+) -> None:
+    def _download_idx(idx: int) -> None:
+        download(url_list[idx], path_list[idx], **download_opts)
+
+    assert len(url_list) == len(path_list)
+    return thread_map(_download_idx, range(len(url_list)))

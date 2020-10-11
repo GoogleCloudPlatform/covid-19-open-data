@@ -20,7 +20,7 @@ GCS_BUCKET_TEST = "open-covid-data"
 GCS_BUCKET_PROD = "covid19-open-data"
 GCS_CONTAINER_ID = "gcr.io/github-open-covid-19/runtime:latest"
 URL_OUTPUTS_PROD = f"https://storage.googleapis.com/{GCS_BUCKET_PROD}/v2"
-CACHE_URL = "https://raw.githubusercontent.com/open-covid-19/data/cache"
+CACHE_URL = f"https://storage.googleapis.com/{GCS_BUCKET_PROD}/cache"
 ISSUES_API_URL = "https://api.github.com/repos/GoogleCloudPlatform/covid-19-open-data/issues"
 
 # Progress is a global flag, because progress is all done using the tqdm library and can be
@@ -28,6 +28,18 @@ ISSUES_API_URL = "https://api.github.com/repos/GoogleCloudPlatform/covid-19-open
 # it needs to be an environment variable since the global module variables are reset across
 # different processes.
 GLOBAL_DISABLE_PROGRESS = "TQDM_DISABLE"
+
+# Used to filter read_opts from a parse_opts argument
+READ_OPTS = (
+    "dtype",
+    "encoding",
+    "error_bad_lines",
+    "file_name",
+    "low_memory",
+    "sep",
+    "sheet_name",
+    "usecols",
+)
 
 # Some tables are not included into the main CSV table
 V2_TABLE_LIST = (
