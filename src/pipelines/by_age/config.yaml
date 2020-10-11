@@ -726,6 +726,19 @@ sources:
       # Skip Florida because download takes a long time
       skip: true
 
+  # Data sources for US_GA levels 2 + 3
+  - name: pipelines.by_age.us_ga_authority.GeorgiaStratifiedDataSource
+    # No URL is given because it uses the cache
+    fetch:
+      - cache_key: US_GA_stratified
+    parse:
+      file_name: demographics_by_age_group.csv
+      date_start: "2020-10-01"
+    test:
+      metadata_query: key.str.match("US_GA_.*")
+    automation:
+      job_group: 'united_states'
+
   # Data sources for US_IN level 3
   - name: pipelines.epidemiology.us_in_authority.IndianaDataSource
     fetch:
