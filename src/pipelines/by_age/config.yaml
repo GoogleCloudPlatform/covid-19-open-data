@@ -741,7 +741,8 @@ sources:
   - name: pipelines.epidemiology.us_ma_authority.MassachusettsByAgeDataSource
     fetch:
       - name: by-age
-        url: "https://www.mass.gov/doc/covid-19-raw-data-august-3-2020/download"
+        # August 11th was the last day US_MA reported cases broken down by age/sex
+        url: "https://www.mass.gov/doc/covid-19-raw-data-august-11-2020/download"
         opts:
           ext: zip
     parse:

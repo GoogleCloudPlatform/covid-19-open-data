@@ -917,7 +917,7 @@ sources:
   - name: pipelines.epidemiology.us_ma_authority.MassachusettsCountiesDataSource
     fetch:
       - name: counties
-        url: "https://www.mass.gov/doc/covid-19-raw-data-october-2-2020/download"
+        url: "https://www.mass.gov/doc/covid-19-raw-data-october-10-2020/download"
         opts:
           ext: zip
     parse:
