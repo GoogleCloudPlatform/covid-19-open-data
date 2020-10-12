@@ -14,6 +14,7 @@
 
 from typing import Dict
 from pandas import DataFrame
+from lib.cast import safe_int_cast
 from lib.data_source import DataSource
 from lib.time import datetime_isoformat
 
@@ -59,9 +60,7 @@ class SudanHumdataDataSource(DataSource):
         # grouped_diff call to get new confirmed cases works for a state's first
         # day with a case.
 
-        data["total_confirmed"] = (
-            data["total_confirmed"].fillna(0).astype({"total_confirmed": "int64"})
-        )
+        data["total_confirmed"] = data["total_confirmed"].fillna(0).apply(safe_int_cast)
 
         # Make sure all records have the country code
         data["country_code"] = "SD"
