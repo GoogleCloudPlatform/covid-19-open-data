@@ -1,0 +1,135 @@
+# Copyright 2020 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+schema:
+  date: str
+  key: str
+  lawatlas_mitigation_policy: int
+  lawatlas_state_emergency: int
+  lawatlas_emerg_statewide: int
+  lawatlas_travel_requirement: int
+  lawatlas_traveler_type_all_people_entering_the_state: int
+  lawatlas_traveler_type_travelers_from_specified_states: int
+  lawatlas_traveler_type_travelers_from_specified_countries: int
+  lawatlas_traveler_type_general_international_travelers: int
+  lawatlas_traveler_type_all_air_travelers: int
+  lawatlas_requirement_type_traveler_must_self_quarantine: int
+  lawatlas_requirement_type_traveler_must_inform_others_of_travel: int
+  lawatlas_requirement_type_checkpoints_must_be_established: int
+  lawatlas_requirement_type_travel_requirement_must_be_posted: int
+  lawatlas_travel_statewide: int
+  lawatlas_home_requirement: int
+  lawatlas_home_except_engaging_in_essential_business_activities: int
+  lawatlas_home_except_obtaining_necessary_supplies: int
+  lawatlas_home_except_accessing_emergency_services: int
+  lawatlas_home_except_caring_for_a_person_outside_the_home: int
+  lawatlas_home_except_caring_for_a_pet_outside_the_home: int
+  lawatlas_home_except_engaging_in_outdoor_activities: int
+  lawatlas_home_except_attending_religious_services: int
+  lawatlas_home_except_engaging_in_essential_health_care_services: int
+  lawatlas_home_statewide: int
+  lawatlas_curfew_reg: int
+  lawatlas_mask_requirement: int
+  lawatlas_mask_statewide: int
+  lawatlas_business_close: int
+  lawatlas_business_type_all_non_essential_businesses: int
+  lawatlas_business_type_non_essential_retail_businesses: int
+  lawatlas_business_type_entertainment_businesses: int
+  lawatlas_business_type_personal_service_businesses: int
+  lawatlas_business_type_restaurants: int
+  lawatlas_business_type_bars: int
+  lawatlas_business_type_fitness_centers: int
+  lawatlas_essential_def_appliance_stores: int
+  lawatlas_essential_def_convenience_stores: int
+  lawatlas_essential_def_gas_stations: int
+  lawatlas_essential_def_grocery_stores: int
+  lawatlas_essential_def_gun_stores: int
+  lawatlas_essential_def_hardware_stores: int
+  lawatlas_essential_def_liquor_stores: int
+  lawatlas_essential_def_pharmacies: int
+  lawatlas_essential_def_marijuana_dispensaries: int
+  lawatlas_essential_def_pet_stores: int
+  lawatlas_essential_def_type_of_essential_retail_business_is_not_specified: int
+  lawatlas_essential_def_no_restriction_on_retail_businesses: int
+  lawatlas_business_statewide: int
+  lawatlas_rest_restrict: int
+  lawatlas_service_type_takeout: int
+  lawatlas_service_type_delivery: int
+  lawatlas_service_type_limited_on_site_service: int
+  lawatlas_rest_statewide: int
+  lawatlas_schools_requirement: int
+  lawatlas_schools_type_private_elementary_schools: int
+  lawatlas_schools_type_private_secondary_schools: int
+  lawatlas_schools_type_public_elementary_schools: int
+  lawatlas_schools_type_public_secondary_schools: int
+  lawatlas_schools_type_colleges_and_universities: int
+  lawatlas_schools_type_technical_schools: int
+  lawatlas_schools_type_type_of_school_not_specified: int
+  lawatlas_schools_statewide: int
+  lawatlas_gathering_ban: int
+  lawatlas_gathering_type: int
+  lawatlas_gathering_statewide: int
+  lawatlas_med_restrict: int
+  lawatlas_med_except_delay_would_threaten_patients_health: int
+  lawatlas_med_except_delay_would_threaten_patients_life: int
+  lawatlas_med_except_procedure_needed_to_treat_emergency: int
+  lawatlas_med_except_procedure_does_not_deplete_hospital_capacity: int
+  lawatlas_med_except_procedure_does_not_deplete_personal_protective_equipment: int
+  lawatlas_med_except_family_planning_services: int
+  lawatlas_med_except_no_exception_specified: int
+  lawatlas_abortion_essential_new: int
+  lawatlas_med_statewide: int
+  lawatlas_correct_requirement: int
+  lawatlas_correct_facility_all_state_facilities: int
+  lawatlas_correct_facility_all_department_of_corrections_facilities: int
+  lawatlas_correct_facility_all_county_jails: int
+  lawatlas_correct_facility_juvenile_detention_centers: int
+  lawatlas_correct_type_intakes_suspended: int
+  lawatlas_correct_type_duty_to_receive_prisoners_suspended: int
+  lawatlas_correct_type_transfers_to_custody_suspended: int
+  lawatlas_correct_type_release_of_inmates: int
+  lawatlas_correct_type_rules_regarding_inmate_release_suspended: int
+  lawatlas_correct_type_release_notice_suspended: int
+  lawatlas_correct_type_cease_in_person_parole_hearings: int
+  lawatlas_correct_type_develop_process_for_virtual_parole_hearings: int
+  lawatlas_correct_type_visitation_suspended: int
+  lawatlas_correct_statewide: int
+  lawatlas_state_preempt: int
+  lawatlas_action_preempt_imposing_additional_social_distancing_limitations_on_essential_business: int
+  lawatlas_action_preempt_imposing_additional_restrictions_on_public_spaces: int
+  lawatlas_action_preempt_restricting_scope_of_services_of_an_essential_business: int
+  lawatlas_action_preempt_expanding_the_definition_of_non-essential_business: int
+  lawatlas_action_preempt_restricting_the_hours_of_operation_of_an_essential_business: int
+  lawatlas_action_preempt_imposing_restrictions_that_conflict_with_state_order: int
+  lawatlas_action_preempt_restricting_the_performance_of_an_essential_function: int
+  lawatlas_action_preempt_restricting_people_from_leaving_home: int
+  lawatlas_action_preempt_restricting_the_operations_of_schools: int
+  lawatlas_action_preempt_imposing_gathering_bans: int
+  lawatlas_local_allow: int
+
+auxiliary:
+  metadata: ./data/metadata.csv
+  localities: ./data/localities.csv
+
+sources:
+
+  - name: pipelines.lawatlas_emergency_declarations.lawatlas_emergency_declarations.LawAtlasDataSource
+    fetch:
+      - url: "https://monqcle.com/upload/5f3bf7c15594f4ce258b4567/download"
+        opts:
+          ext: xlsx
+    parse:
+      dtype: str
+    test:
+      metadata_query: key.str.match("^US_[^_]+$")
