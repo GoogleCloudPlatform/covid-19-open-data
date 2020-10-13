@@ -56,3 +56,29 @@ class ScotlandDataSource(DataSource):
         )
 
         return hospitalized.merge(intensive_care, how="outer")
+
+
+class UKL1DataSource(DataSource):
+    def parse_dataframes(
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
+    ) -> DataFrame:
+
+        # Data is only one source, so we only look at the first item of the list
+        data = dataframes[0]
+
+        # Drop unnecessary columns
+        data = data.drop(columns=["areaType", "areaName", "areaCode"])
+
+        # Rename columns and map to expected schema
+        data = data.rename(columns={
+            "newAdmissions": "new_hospitalized",
+            "cumAdmissions": "total_hospitalized"
+        })
+
+        # Add metadata
+        data["key"] = "GB"
+
+        # Re-order columns
+        data = data[["date", "key", "new_hospitalized", "total_hospitalized"]]
+
+        return data
