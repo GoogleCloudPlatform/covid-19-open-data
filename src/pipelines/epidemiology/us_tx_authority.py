@@ -56,14 +56,11 @@ class TexasDataSource(DataSource):
 
     @staticmethod
     def _parse_tests(data: DataFrame) -> DataFrame:
+        # Remove the first 5 and last 4 columns
+        data = data.drop(data.columns[:5], axis=1)
+        data = data.drop(data.columns[-4:], axis=1)
         return _rename_columns(
-            data,
-            {
-                "Date": "date",
-                "Molecular Tests": "total_tested",
-                "Antibody Tests": "total_tested_antibody",
-                "Total Tests reported": "total_tested_all",
-            },
+            data.iloc[1:], {"Specimen Collection Date": "date", "Test Results": "new_tested"}
         )
 
     @staticmethod
@@ -75,7 +72,7 @@ class TexasDataSource(DataSource):
         sheets = []
         sheet_processors = {
             "Trends": TexasDataSource._parse_trends,
-            "Tests by day": TexasDataSource._parse_tests,
+            "Tests by Day": TexasDataSource._parse_tests,
             "Hospitalization by Day": TexasDataSource._parse_hospitalized,
         }
         for sheet_name, sheet_processor in sheet_processors.items():
