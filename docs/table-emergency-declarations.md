@@ -2,11 +2,12 @@
 
 # Emergency Declarations
 This dataset contains emergency declarations and mitigation policies for each US state starting on
-January 20. The data was aggregated by the [LawAtlas Project](https://lawatlas.org/).
+January 20, 2020. The data are aggregated by the [Policy Surveillance Program][1] at the Temple
+University Center for Public Health Law Research, and are published and maintained at
+[LawAtlas.org][1].
 
 For more information about each field see the
-[LawAtlas Project dataset page](https://lawatlas.org/datasets/covid-19-emergency-declarations) and
-the corresponding [codebook][2].
+[LawAtlas Project dataset page][2] and the corresponding [codebook][3].
 
 ## URL
 This table can be found at the following URL:
@@ -80,7 +81,7 @@ This table can be found at the following URL:
 | **lawatlas_schools_type_type_of_school_not_specified** | `integer` `[0-1]` | What type of schools are required to close? | 0 |
 | **lawatlas_schools_statewide** | `integer` `[0-1]` | Does the requirement apply statewide? | 0 |
 | **lawatlas_gathering_ban** | `integer` `[0-1]` | Is there a ban on gatherings? | 0 |
-| **lawatlas_gathering_type** | `integer` `[0-17]` | What size gatherings are banned? See [codebook][2] for more information. | 0 |
+| **lawatlas_gathering_type** | `integer` `[0-17]` | What size gatherings are banned? See [codebook][3] for more information. | 0 |
 | **lawatlas_gathering_statewide** | `integer` `[0-1]` | Does the requirement apply statewide? | 0 |
 | **lawatlas_med_restrict** | `integer` `[0-1]` | Is there a restriction on medical procedures? | 0 |
 | **lawatlas_med_except_delay_would_threaten_patients_health** | `integer` `[0-1]` | What procedures are allowed under the restriction? | 0 |
@@ -120,4 +121,6 @@ This table can be found at the following URL:
 | **lawatlas_action_preempt_imposing_gathering_bans** | `integer` `[0-1]` | What local measures are preempted by state action? | 0 |
 | **lawatlas_local_allow** | `integer` `[0-1]` | Does the state explicitly allow local authorities to impose additional requirements? | 0 |
 
-[2]: https://monqcle.com/upload/5f3aeae85594f45c1b8b4950/download
+[1]: https://lawatlas.org/
+[2]: https://lawatlas.org/datasets/covid-19-emergency-declarations
+[3]: https://monqcle.com/upload/5f3aeae85594f45c1b8b4950/download
