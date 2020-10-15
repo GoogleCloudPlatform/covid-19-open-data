@@ -134,11 +134,6 @@ sources:
 
   # Data sources for GB level 1
   - name: pipelines.hospitalizations.gb_authority.UKL1DataSource
-    fetch:
-      - url: "https://api.coronavirus.data.gov.uk/v1/data?filters=areaType=overview&structure=%7B%22areaType%22:%22areaType%22,%22areaName%22:%22areaName%22,%22areaCode%22:%22areaCode%22,%22date%22:%22date%22,%22newAdmissions%22:%22newAdmissions%22,%22cumAdmissions%22:%22cumAdmissions%22%7D&format=csv"
-        opts:
-          # Force CSV file extension
-          ext: csv
     test:
       metadata_query: "key == 'GB'"
 

@@ -18,6 +18,7 @@ from lib.cast import safe_float_cast
 from lib.io import read_file
 from lib.data_source import DataSource
 from lib.utils import pivot_table
+from uk_covid19 import Cov19API
 
 
 class ScotlandDataSource(DataSource):
@@ -63,22 +64,36 @@ class UKL1DataSource(DataSource):
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
 
-        # Data is only one source, so we only look at the first item of the list
-        data = dataframes[0]
+        # Specify filter for overview / consolidated data
+        # for the UK
+        api_filter_overview = [
+            "areaType=overview"
+        ]
 
-        # Drop unnecessary columns
-        data = data.drop(columns=["areaType", "areaName", "areaCode"])
+        # Specify relevant metrics that will be used
+        # according to Google's schema
+        api_structure_hospitalization = {
+            "date": "date",
+            "newAdmissions": "newAdmissions",
+            "cumAdmissions": "cumAdmissions",
+            "hospitalCases": "hospitalCases",
+            "covidOccupiedMVBeds": "covidOccupiedMVBeds"
+        }
+
+        api = Cov19API(filters=api_filter_overview,
+                       structure=api_structure_hospitalization)
+
+        data = api.get_dataframe()
 
         # Rename columns and map to expected schema
         data = data.rename(columns={
             "newAdmissions": "new_hospitalized",
-            "cumAdmissions": "total_hospitalized"
+            "cumAdmissions": "total_hospitalized",
+            "hospitalCases": "current_hospitalized",
+            "covidOccupiedMVBeds": "current_ventilator"
         })
 
-        # Add metadata
+        # Add key
         data["key"] = "GB"
-
-        # Re-order columns
-        data = data[["date", "key", "new_hospitalized", "total_hospitalized"]]
 
         return data
