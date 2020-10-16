@@ -135,7 +135,7 @@ sources:
   # Data sources for GB level 1
   - name: pipelines.hospitalizations.gb_authority.UKL1DataSource
     test:
-      metadata_query: "key == 'GB'"
+      metadata_query: key.str.match("GB_[^_]+$")
 
   # Data sources for IE level 1
   - name: pipelines.hospitalizations.xx_opencovid.OpenCovidDataSource
