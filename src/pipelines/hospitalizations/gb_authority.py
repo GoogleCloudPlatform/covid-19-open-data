@@ -86,12 +86,17 @@ class UKL1DataSource(DataSource):
         data = api.get_dataframe()
 
         # Rename columns and map to expected schema
-        data = data.rename(columns={
-            "newAdmissions": "new_hospitalized",
-            "cumAdmissions": "total_hospitalized",
-            "hospitalCases": "current_hospitalized",
-            "covidOccupiedMVBeds": "current_ventilator"
-        })
+        data = table_rename(
+            data,
+            {
+                "date": "date",
+                "newAdmissions": "new_hospitalized",
+                "cumAdmissions": "total_hospitalized",
+                "hospitalCases": "current_hospitalized",
+                "covidOccupiedMVBeds": "current_ventilator"
+            },
+            drop=True,
+        )
 
         # Add key
         data["key"] = "GB"
