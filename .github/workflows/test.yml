@@ -27,17 +27,19 @@ on:
 
 jobs:
   main:
-    runs-on: gcr.io/google-appengine/python
+    runs-on: ubuntu-latest
+    container: gcr.io/google-appengine/python
 
     steps:
+      - uses: actions/checkout@v2
 
       - name: Install Python dependencies
         working-directory: src
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -r requirements.txt
 
       - name: Run unit tests
         working-directory: src
         run: |
-          python -m unittest -vf
+          python3 -m unittest -vf
