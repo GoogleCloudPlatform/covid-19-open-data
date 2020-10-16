@@ -34,7 +34,6 @@ auxiliary:
   knowledge_graph: ./data/knowledge_graph.csv
 
 sources:
-
   # Data sources for AR levels 2 + 3
   - name: pipelines.epidemiology.ar_authority.ArgentinaDataSource
     fetch:
@@ -132,6 +131,11 @@ sources:
     test:
       skip: True
       metadata_query: key.str.match("GB_SCT.*")
+
+  # Data sources for GB level 1
+  - name: pipelines.hospitalizations.gb_authority.UKL1DataSource
+    test:
+      metadata_query: "key == 'GB'"
 
   # Data sources for IE level 1
   - name: pipelines.hospitalizations.xx_opencovid.OpenCovidDataSource

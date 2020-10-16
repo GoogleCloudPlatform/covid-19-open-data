@@ -18,6 +18,7 @@ from lib.cast import safe_float_cast
 from lib.io import read_file
 from lib.data_source import DataSource
 from lib.utils import pivot_table
+from uk_covid19 import Cov19API
 
 
 class ScotlandDataSource(DataSource):
@@ -56,3 +57,48 @@ class ScotlandDataSource(DataSource):
         )
 
         return hospitalized.merge(intensive_care, how="outer")
+
+
+class UKL1DataSource(DataSource):
+    def parse_dataframes(
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
+    ) -> DataFrame:
+
+        # Specify filter for overview / consolidated data
+        # for the UK
+        api_filter_overview = [
+            "areaType=overview"
+        ]
+
+        # Specify relevant metrics that will be used
+        # according to Google's schema
+        api_structure_hospitalization = {
+            "date": "date",
+            "newAdmissions": "newAdmissions",
+            "cumAdmissions": "cumAdmissions",
+            "hospitalCases": "hospitalCases",
+            "covidOccupiedMVBeds": "covidOccupiedMVBeds"
+        }
+
+        api = Cov19API(filters=api_filter_overview,
+                       structure=api_structure_hospitalization)
+
+        data = api.get_dataframe()
+
+        # Rename columns and map to expected schema
+        data = table_rename(
+            data,
+            {
+                "date": "date",
+                "newAdmissions": "new_hospitalized",
+                "cumAdmissions": "total_hospitalized",
+                "hospitalCases": "current_hospitalized",
+                "covidOccupiedMVBeds": "current_ventilator"
+            },
+            drop=True,
+        )
+
+        # Add key
+        data["key"] = "GB"
+
+        return data
