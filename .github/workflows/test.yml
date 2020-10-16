@@ -29,13 +29,15 @@ jobs:
   main:
     runs-on: gcr.io/google-appengine/python
 
-    - name: Install Python dependencies
-      working-directory: src
-      run: |
+    steps:
+
+      - name: Install Python dependencies
+        working-directory: src
+        run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-    - name: Run unit tests
-      working-directory: src
-      run: |
-        python -m unittest -vf
+      - name: Run unit tests
+        working-directory: src
+        run: |
+          python -m unittest -vf
