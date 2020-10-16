@@ -141,6 +141,8 @@ sources:
       metadata_query: key.str.match("BR_.+")
       # Skip because it's too slow
       skip: true
+    parse:
+      sep: ";"
     automation:
       job_group: brazil_federal
 
