@@ -31,7 +31,8 @@ steps:
       args:
         - '-c'
         - |
-          pip install -r requirements.txt
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -r requirements.txt
           python3 ./scripts/schedule_jobs.py
       env:
         - 'GCP_PROJECT=github-open-covid-19'

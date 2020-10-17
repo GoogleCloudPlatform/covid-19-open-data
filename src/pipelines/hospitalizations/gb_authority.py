@@ -17,7 +17,7 @@ from pandas import DataFrame
 from lib.cast import safe_float_cast
 from lib.io import read_file
 from lib.data_source import DataSource
-from lib.utils import pivot_table
+from lib.utils import pivot_table, table_rename
 from uk_covid19 import Cov19API
 
 
@@ -66,9 +66,7 @@ class UKL1DataSource(DataSource):
 
         # Specify filter for overview / consolidated data
         # for the UK
-        api_filter_overview = [
-            "areaType=overview"
-        ]
+        api_filter_overview = ["areaType=overview"]
 
         # Specify relevant metrics that will be used
         # according to Google's schema
@@ -77,11 +75,10 @@ class UKL1DataSource(DataSource):
             "newAdmissions": "newAdmissions",
             "cumAdmissions": "cumAdmissions",
             "hospitalCases": "hospitalCases",
-            "covidOccupiedMVBeds": "covidOccupiedMVBeds"
+            "covidOccupiedMVBeds": "covidOccupiedMVBeds",
         }
 
-        api = Cov19API(filters=api_filter_overview,
-                       structure=api_structure_hospitalization)
+        api = Cov19API(filters=api_filter_overview, structure=api_structure_hospitalization)
 
         data = api.get_dataframe()
 
@@ -93,7 +90,7 @@ class UKL1DataSource(DataSource):
                 "newAdmissions": "new_hospitalized",
                 "cumAdmissions": "total_hospitalized",
                 "hospitalCases": "current_hospitalized",
-                "covidOccupiedMVBeds": "current_ventilator"
+                "covidOccupiedMVBeds": "current_ventilator",
             },
             drop=True,
         )
