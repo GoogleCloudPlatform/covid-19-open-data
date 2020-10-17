@@ -20,6 +20,7 @@ from pandas import DataFrame, concat, isna
 
 from lib.case_line import convert_cases_to_time_series
 from lib.cast import safe_int_cast, numeric_code_as_string
+from lib.net import download_snapshot
 from lib.pipeline import DataSource
 from lib.time import datetime_isoformat
 from lib.utils import table_rename
@@ -151,11 +152,37 @@ class BrazilStratifiedDataSource(DataSource):
     ) -> Dict[str, str]:
         # The source URL is a template which we must format for the requested state
         parse_opts = self.config["parse"]
-        fetch_opts = [
-            {**opts, "url": opts["url"].format(parse_opts["subregion1_code"].lower())}
-            for opts in fetch_opts
+        code = parse_opts["subregion1_code"].lower()
+
+        # Some datasets are split into "volumes" so we try to guess the URL
+        base_opts = fetch_opts[0]
+        url_tpl = base_opts.pop("url")
+        fetch_opts = [{"url": url_tpl.format(code), **base_opts}]
+        fetch_opts += [
+            {"url": url_tpl.format(f"{code}-{idx}"), **base_opts} for idx in range(1, 10)
         ]
-        return super().fetch(output_folder, cache, fetch_opts)
+
+        # Since we are guessing the URL, we forgive errors in the download
+        output = {}
+        for idx, source_config in enumerate(fetch_opts):
+            url = source_config["url"]
+            name = source_config.get("name", idx)
+            download_opts = source_config.get("opts", {})
+            download_opts["progress"] = True
+            try:
+                self.log_debug(f"Downloading {url}...")
+                output.update({name: download_snapshot(url, output_folder, **download_opts)})
+            except:
+                self.log_warning(f"Failed to download URL {url}")
+                break
+
+        # Make sure at least one download succeeded
+        if not output:
+            msg = "No data found for data source"
+            self.log_error(msg)
+            raise RuntimeError(msg)
+
+        return output
 
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         # Manipulate the parse options here because we have access to the columns adapter
@@ -221,7 +248,12 @@ class BrazilStratifiedDataSource(DataSource):
         data = convert_cases_to_time_series(cases, index_columns=["key"])
 
         # Convert date to ISO format
-        data["date"] = data["date"].apply(lambda x: datetime_isoformat(x, "%Y-%m-%dT%H:%M:%S.%fZ"))
+        data["date"] = data["date"].str.slice(0, 10)
+        data["date"] = data["date"].apply(lambda x: datetime_isoformat(x, "%Y-%m-%d"))
+
+        # Get rid of bogus records
+        data = data.dropna(subset=["date"])
+        data = data[data["date"] > "2020-01-01"]
 
         # Aggregate for the whole state
         state = data.drop(columns=["key"]).groupby(["date", "age", "sex"]).sum().reset_index()
