@@ -63,7 +63,11 @@ def download_snapshot(
 
 
 def download(
-    url: str, file_handle: BinaryIO, progress: bool = False, spoof_browser: bool = True
+    url: str,
+    file_handle: BinaryIO,
+    progress: bool = False,
+    spoof_browser: bool = True,
+    timeout: int = 60,
 ) -> None:
     """
     Based on https://stackoverflow.com/a/37573701. It downloads the contents from the provided URL
@@ -77,7 +81,12 @@ def download(
     """
     with open_file_like(file_handle, "wb") as fd:
         headers = {"User-Agent": "Safari"} if spoof_browser else {}
-        request_options = {"url": url, "headers": headers, "allow_redirects": True}
+        request_options = {
+            "url": url,
+            "headers": headers,
+            "allow_redirects": True,
+            "timeout": timeout,
+        }
         if not progress:
             req = requests.get(**request_options)
             req.raise_for_status()
