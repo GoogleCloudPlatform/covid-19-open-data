@@ -157,10 +157,7 @@ class BrazilStratifiedDataSource(DataSource):
         # Some datasets are split into "volumes" so we try to guess the URL
         base_opts = fetch_opts[0]
         url_tpl = base_opts.pop("url")
-        fetch_opts = [{"url": url_tpl.format(code), **base_opts}]
-        fetch_opts += [
-            {"url": url_tpl.format(f"{code}-{idx}"), **base_opts} for idx in range(1, 10)
-        ]
+        fetch_opts = [{"url": url_tpl.format(f"{code}-{idx}"), **base_opts} for idx in range(1, 10)]
 
         # Since we are guessing the URL, we forgive errors in the download
         output = {}
@@ -171,18 +168,17 @@ class BrazilStratifiedDataSource(DataSource):
             download_opts["progress"] = True
             try:
                 self.log_debug(f"Downloading {url}...")
-                output.update({name: download_snapshot(url, output_folder, **download_opts)})
+                output[name] = download_snapshot(url, output_folder, **download_opts)
             except:
                 self.log_warning(f"Failed to download URL {url}")
                 break
 
-        # Make sure at least one download succeeded
-        if not output:
-            msg = "No data found for data source"
-            self.log_error(msg)
-            raise RuntimeError(msg)
-
-        return output
+        # If the output is not split into volumes, fall back to single file URL
+        if output:
+            return output
+        else:
+            fetch_opts = [{"url": url_tpl.format(code), **base_opts}]
+            return super().fetch(output_folder, cache, fetch_opts)
 
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         # Manipulate the parse options here because we have access to the columns adapter
@@ -193,10 +189,13 @@ class BrazilStratifiedDataSource(DataSource):
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
 
-        cases = table_rename(dataframes[0], _column_adapter, drop=True)
+        # Subregion code comes from the parsing parameters
+        subregion1_code = parse_opts["subregion1_code"]
+
+        # Join all input data into a single table
+        cases = table_rename(concat(dataframes.values()), _column_adapter, drop=True)
 
         # Keep only cases for a single state
-        subregion1_code = parse_opts["subregion1_code"]
         cases = cases[cases["_state_code"].apply(safe_int_cast) == _IBGE_STATES[subregion1_code]]
 
         # Confirmed cases are only those with a confirmed positive test result
@@ -209,18 +208,15 @@ class BrazilStratifiedDataSource(DataSource):
         # Deceased cases have a specific label and the date is the "closing" date
         cases["date_new_deceased"] = None
         deceased_mask = cases["_prognosis"] == "Óbito"
-        cases.loc[confirmed_mask, "date_new_deceased"] = cases.loc[deceased_mask, "_date_update"]
+        cases.loc[deceased_mask, "date_new_deceased"] = cases.loc[deceased_mask, "_date_update"]
 
         # Recovered cases have a specific label and the date is the "closing" date
         cases["date_new_recovered"] = None
         recovered_mask = cases["_prognosis"] == "Cured"
-        cases.loc[confirmed_mask, "date_new_recovered"] = cases.loc[recovered_mask, "_date_update"]
+        cases.loc[recovered_mask, "date_new_recovered"] = cases.loc[recovered_mask, "_date_update"]
 
         # Drop columns which we have no use for
         cases = cases[[col for col in cases.columns if not col.startswith("_")]]
-
-        # Subregion code comes from the parsing parameters
-        cases["subregion1_code"] = subregion1_code
 
         # Make sure our region code is of type str
         cases["subregion2_code"] = cases["subregion2_code"].apply(safe_int_cast)
@@ -229,12 +225,14 @@ class BrazilStratifiedDataSource(DataSource):
             lambda x: None if isna(x) else str(int(x))[:-1]
         )
 
-        # Drop bogus records from the data
-        cases = cases[~cases["subregion1_code"].isna() & (cases["subregion1_code"] != "")]
-        cases = cases[~cases["subregion2_code"].isna() & (cases["subregion2_code"] != "")]
+        # Null and unknown records are state only
+        subregion2_null_mask = cases["subregion2_code"].isna()
+        cases.loc[subregion2_null_mask, "key"] = "BR_" + subregion1_code
 
         # We can derive the key from subregion1 + subregion2
-        cases["key"] = "BR_" + cases["subregion1_code"] + "_" + cases["subregion2_code"]
+        cases.loc[~subregion2_null_mask, "key"] = (
+            "BR_" + subregion1_code + "_" + cases.loc[~subregion2_null_mask, "subregion2_code"]
+        )
 
         # Convert ages to int, and translate sex (no "other" sex/gender reported)
         cases["age"] = cases["age"].apply(safe_int_cast)
@@ -257,6 +255,6 @@ class BrazilStratifiedDataSource(DataSource):
 
         # Aggregate for the whole state
         state = data.drop(columns=["key"]).groupby(["date", "age", "sex"]).sum().reset_index()
-        state["key"] = f"BR_{subregion1_code}"
+        state["key"] = "BR_" + subregion1_code
 
         return concat([data, state])
