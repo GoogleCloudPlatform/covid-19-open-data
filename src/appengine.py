@@ -498,7 +498,12 @@ def publish_v3_main_table() -> Response:
         output_folder.mkdir(parents=True, exist_ok=True)
 
         # Download all the global tables into our local storage
-        download_folder(GCS_BUCKET_PROD, "v3", input_folder, lambda x: "/" not in str(x))
+        download_folder(
+            GCS_BUCKET_PROD,
+            "v3",
+            input_folder,
+            lambda x: all(token not in str(x) for token in ("/", "main.")),
+        )
 
         file_name = "covid-19-open-data.csv"
         with ZipFile(
@@ -515,8 +520,8 @@ def publish_v3_main_table() -> Response:
     return Response("OK", status=200)
 
 
-@profiled_route("/publish_json")
-def publish_json(
+@profiled_route("/publish_json_locations")
+def publish_json_locations(
     prod_folder: str = "v2", location_key_from: str = None, location_key_until: str = None
 ) -> Response:
     prod_folder = _get_request_param("prod_folder", prod_folder)
@@ -549,6 +554,34 @@ def publish_json(
                 return False
 
         download_folder(GCS_BUCKET_PROD, prod_folder, input_folder, match_path)
+
+        # Convert all files to JSON
+        list(convert_tables_to_json(input_folder, output_folder))
+        logger.log_info("CSV files converted to JSON")
+
+        # Upload the results to the prod bucket
+        upload_folder(GCS_BUCKET_PROD, prod_folder, output_folder)
+
+    return Response("OK", status=200)
+
+
+@profiled_route("/publish_json_tables")
+def publish_json_tables(prod_folder: str = "v2") -> Response:
+    prod_folder = _get_request_param("prod_folder", prod_folder)
+
+    with temporary_directory() as workdir:
+        input_folder = workdir / "input"
+        output_folder = workdir / "output"
+        input_folder.mkdir(parents=True, exist_ok=True)
+        output_folder.mkdir(parents=True, exist_ok=True)
+
+        # Download all the processed tables into our local storage
+        download_folder(
+            GCS_BUCKET_PROD,
+            prod_folder,
+            input_folder,
+            lambda x: all(token not in str(x) for token in ("/", "main.")),
+        )
 
         # Convert all files to JSON
         list(convert_tables_to_json(input_folder, output_folder))
@@ -644,6 +677,10 @@ def main() -> None:
         publish_v3_global_tables()
         publish_v3_location_subsets()
 
+    def _publish_json():
+        publish_json_tables()
+        publish_json_locations()
+
     def _unknown_command(*func_args):
         logger.log_error(f"Unknown command {args.command}")
 
@@ -655,7 +692,7 @@ def main() -> None:
         "combine_table": combine_table,
         "cache_pull": cache_pull,
         "publish": _publish,
-        "convert_json": publish_json,
+        "convert_json": _publish_json,
         "publish_v3": _publish_v3,
         "publish_v3_main": publish_v3_main_table,
         "report_errors_to_github": report_errors_to_github,
