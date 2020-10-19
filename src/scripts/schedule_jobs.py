@@ -124,10 +124,15 @@ def schedule_all_jobs(project_id: str, location_id: str, time_zone: str) -> None
     )
 
     # Converting the outputs to JSON is less critical but also slow so it's run separately
+    _schedule_job(
+        path=f"/deferred/publish_json_tables?prod_folder=v2",
+        # Offset by 120 minutes to run after subset tables are published
+        schedule="0 2-23/4 * * *",
+    )
     for subset in _split_into_subsets(location_keys, bin_count=5):
         job_params = f"prod_folder=v2&location_key_from={subset[0]}&location_key_until={subset[-1]}"
         _schedule_job(
-            path=f"/deferred/publish_json?{job_params}",
+            path=f"/deferred/publish_json_locations?{job_params}",
             # Offset by 120 minutes to run after subset tables are published
             schedule="0 2-23/4 * * *",
         )
@@ -194,7 +199,7 @@ def schedule_all_jobs(project_id: str, location_id: str, time_zone: str) -> None
     for subset in _split_into_subsets(location_keys, bin_count=5):
         job_params = f"prod_folder=v3&location_key_from={subset[0]}&location_key_until={subset[-1]}"
         _schedule_job(
-            path=f"/deferred/publish_json?{job_params}",
+            path=f"/deferred/publish_json_locations?{job_params}",
             # Offset by 90 minutes to let other hourly tasks finish
             schedule="30 1-23/2 * * *",
         )
