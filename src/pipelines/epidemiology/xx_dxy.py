@@ -12,13 +12,47 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Dict
+import datetime
+from pathlib import Path
+from typing import Any, Dict, List
+
+import requests
 from pandas import DataFrame
+
 from lib.data_source import DataSource
-from lib.time import timezone_adjust
+from lib.time import date_range, timezone_adjust
 
 
 class DXYDataSource(DataSource):
+    def fetch(
+        self, output_folder: Path, cache: Dict[str, str], fetch_opts: List[Dict[str, Any]]
+    ) -> Dict[str, str]:
+        # Data is published as GitHub Releases, so we guess the URL based on the date
+        opts = fetch_opts[0]
+        url_tpl = opts["url"]
+
+        # Go from <today + 1> until the last known date for which data is reported
+        # NOTE: at the time of writing, last known date is October 20
+        working_url = None
+        last_known_date = "2020-10-20"
+        latest_date = (datetime.datetime.today() + datetime.timedelta(days=1)).date().isoformat()
+        for date in reversed(list(date_range(last_known_date, latest_date))):
+            try:
+                url_test = url_tpl.format(date=date.replace("-", "."))
+                self.log_debug(f"Trying {url_test}")
+                res = requests.get(url_test)
+                if res.ok:
+                    working_url = url_test
+                    break
+            except:
+                continue
+
+        # Make sure that we found a working URL
+        assert working_url is not None, f"No working URL found for DXY data source"
+
+        # Pass the actual URL down to fetch it
+        return super().fetch(output_folder, cache, [{**opts, "url": working_url}])
+
     def parse_dataframes(
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
@@ -49,7 +83,14 @@ class DXYDataSource(DataSource):
             .reset_index()
         )
 
+        # A couple of regions are reported using conflicting country codes, harmonize them here so
+        # we avoid repeated regions
+        data["key"] = None
+        data.loc[data["match_string"] == "Taiwan", "key"] = "TW"
+        data.loc[data["match_string"] == "Hong Kong", "key"] = "HK"
+
         keep_columns = [
+            "key",
             "date",
             "country_name",
             "match_string",
