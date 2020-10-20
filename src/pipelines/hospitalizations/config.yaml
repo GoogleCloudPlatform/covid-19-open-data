@@ -169,6 +169,14 @@ sources:
     test:
       metadata_query: key.str.match("JP.*")
 
+  - name: pipelines.epidemiology.jp_covid19.JapanCovid19DataSource
+    fetch:
+      - url: "https://raw.github.com/kaz-ogiwara/covid19/master/data/prefectures.csv"
+    parse:
+      dtype: str
+    test:
+      metadata_query: key.str.match("JP_[^_]+")
+
   # Data sources for LU level 1
   - name: pipelines.epidemiology.lu_authority.LuxembourgDataSource
     fetch:
