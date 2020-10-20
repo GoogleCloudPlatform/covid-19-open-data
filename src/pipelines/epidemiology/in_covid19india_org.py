@@ -13,12 +13,11 @@
 # limitations under the License.
 
 from typing import Dict
-import math
 from pandas import DataFrame, melt
+from lib.cast import safe_int_cast
 from lib.data_source import DataSource
 from lib.time import datetime_isoformat
 from lib.utils import table_rename
-import datetime
 
 
 class Covid19IndiaOrgL2DataSource(DataSource):
@@ -31,6 +30,8 @@ class Covid19IndiaOrgL2DataSource(DataSource):
         states = list(data.columns.difference(["Status", "Date"]))
         # Flatten the table
         data = melt(data, id_vars=["Date", "Status"], value_vars=states, var_name="subregion1_code")
+        # Convert numeric fields to integers
+        data["value"] = data["value"].apply(safe_int_cast)
         # Pivot on Status to get flattened confirmed, deceased, recovered numbers
         data = data.pivot_table("value", ["Date", "subregion1_code"], "Status")
         data.reset_index(drop=False, inplace=True)
@@ -135,8 +136,6 @@ class Covid19IndiaOrgL3DataSource(DataSource):
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
         data = dataframes[0]
-        # Get all the states
-        states = list(data.columns.difference(["Status", "Date"]))
 
         data = table_rename(
             data,
