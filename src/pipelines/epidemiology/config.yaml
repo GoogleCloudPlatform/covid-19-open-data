@@ -212,13 +212,11 @@ sources:
   # Data sources for CN level 2
   - name: pipelines.epidemiology.xx_dxy.DXYDataSource
     fetch:
-      - url: "https://raw.github.com/BlankerL/DXY-COVID-19-Data/master/csv/DXYArea.csv"
+      - url: "https://github.com/BlankerL/DXY-COVID-19-Data/releases/download/{date}/DXYArea.csv"
     parse:
       country_name: China
     test:
       metadata_query: key.str.match("CN_.+")
-      # TODO: Skip testing due to temporary glitch
-      skip: true
 
   # Data sources for CO levels 1 + 2 + 3
   - name: pipelines.epidemiology.co_authority.ColombiaDataSource
