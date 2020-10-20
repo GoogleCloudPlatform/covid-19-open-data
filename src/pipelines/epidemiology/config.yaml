@@ -484,6 +484,8 @@ sources:
       - url: "https://api.covid19india.org/csv/latest/state_wise_daily.csv"
         opts:
           ext: csv
+    parse:
+      dtype: str
     test:
       metadata_query: key.str.match("IN_.*")
 
