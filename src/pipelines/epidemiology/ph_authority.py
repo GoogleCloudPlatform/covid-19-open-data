@@ -29,8 +29,9 @@ class PhilippinesDataSource(DataSource):
         cases = table_rename(
             dataframes[0],
             {
-                "ProvRes": "match_string_province",
-                "RegionRes": "match_string_region",
+                "ProvRes": "province",
+                "RegionRes": "region",
+                "CityMuniPSGC": "city",
                 "DateDied": "date_new_deceased",
                 "DateSpecimen": "date_new_confirmed",
                 "DateRecover": "date_new_recovered",
@@ -42,6 +43,9 @@ class PhilippinesDataSource(DataSource):
             },
             drop=True,
         )
+
+        # When there is a case, but missing confirmed date, estimate it
+        cases["date_new_confirmed"] = cases["date_new_confirmed"].fillna(cases["_date_estimate"])
 
         # When there is recovered removal, but missing recovery date, estimate it
         nan_recovered_mask = cases.date_new_recovered.isna() & (cases["_prognosis"] == "Recovered")
@@ -71,25 +75,32 @@ class PhilippinesDataSource(DataSource):
         # Drop columns which we have no use for
         cases = cases[[col for col in cases.columns if not col.startswith("_")]]
 
+        # NCR cases are broken down by city, not by province
+        ncr_prov_mask = cases["region"] == "NCR"
+        cases.loc[ncr_prov_mask, "province"] = cases.loc[ncr_prov_mask, "city"].str.slice(2, -3)
+        cases.drop(columns=["city"], inplace=True)
+
         # Go from individual case records to key-grouped records in a flat table
-        data = convert_cases_to_time_series(
-            cases, index_columns=["match_string_province", "match_string_region"]
-        )
+        data = convert_cases_to_time_series(cases, index_columns=["province", "region"])
 
         # Convert date to ISO format
         data["date"] = data["date"].apply(safe_datetime_parse)
         data = data[~data["date"].isna()]
         data["date"] = data["date"].apply(lambda x: x.date().isoformat())
+
+        # Null values are known to be zero, since we have case-line data
         data = data.fillna(0)
 
         # Aggregate regions and provinces separately
-        l3 = data.rename(columns={"match_string_province": "match_string"})
-        l2 = data.rename(columns={"match_string_region": "match_string"})
+        l3 = data.rename(columns={"province": "match_string"})
+        l2 = data.rename(columns={"region": "match_string"})
         l2["match_string"] = l2["match_string"].apply(lambda x: x.split(": ")[-1])
 
         # Ensure matching by flagging whether a record must be L2 or L3
-        l2["subregion2_code"] = None
         l3["subregion2_code"] = ""
+        l2["subregion2_code"] = None
+        l3["locality_code"] = None
+        l2["locality_code"] = None
 
         data = concat([l2, l3]).dropna(subset=["match_string"])
         data["country_code"] = "PH"
