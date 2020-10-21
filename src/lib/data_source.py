@@ -208,7 +208,7 @@ class DataSource(ErrorLogger):
         data: DataFrame = None
 
         # Insert skip_existing flag to fetch options if requested
-        fetch_opts = self.config.get("fetch", [])
+        fetch_opts = list(self.config.get("fetch", []))
         if skip_existing:
             for opt in fetch_opts:
                 opt["opts"] = {**opt.get("opts", {}), "skip_existing": True}
@@ -217,7 +217,7 @@ class DataSource(ErrorLogger):
         data = self.fetch(output_folder, cache, fetch_opts)
 
         # Make yet another copy of the auxiliary table to avoid affecting future steps in `parse`
-        parse_opts = self.config.get("parse", {})
+        parse_opts = dict(self.config.get("parse", {}))
         data = self.parse(data, {name: df.copy() for name, df in aux.items()}, **parse_opts)
 
         # Merge expects for null values to be NaN (otherwise grouping does not work as expected)
@@ -229,7 +229,7 @@ class DataSource(ErrorLogger):
 
         # Merging is done record by record, but can be sped up if we build a map first aggregating
         # by the non-temporal fields and only matching the aggregated records with keys
-        merge_opts = self.config.get("merge", {})
+        merge_opts = dict(self.config.get("merge", {}))
         key_merge_columns = [
             col for col in data if col in aux["metadata"].columns and len(data[col].unique()) > 1
         ]
