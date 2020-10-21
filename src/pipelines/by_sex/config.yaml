@@ -82,7 +82,7 @@ sources:
       # Skip because it's too slow
       skip: true
     automation:
-      job_group: brazil_federal
+      job_group: brazil
 
   # Data sources for BR_AL level 3
   - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
@@ -97,7 +97,8 @@ sources:
       # Skip because it's too slow
       skip: true
     automation:
-      job_group: brazil_federal
+      job_group: brazil
+
 
   # Data sources for BR_AM level 3
   - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
@@ -111,6 +112,8 @@ sources:
       metadata_query: key.str.match("BR_AM_.+")
       # Skip because it's too slow
       skip: true
+    automation:
+      job_group: brazil
 
   # Data sources for BR_AP level 3
   - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
@@ -125,7 +128,7 @@ sources:
       # Skip because it's too slow
       skip: true
     automation:
-      job_group: brazil_federal
+      job_group: brazil
 
   # Data sources for BR_BA level 3
   - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
@@ -140,7 +143,22 @@ sources:
       # Skip because it's too slow
       skip: true
     automation:
-      job_group: brazil_federal
+      job_group: brazil
+
+  # Data sources for BR_CE level 3
+  - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
+    fetch:
+      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
+    parse:
+        sep: ";"
+        encoding: "ISO-8859-1"
+        subregion1_code: CE
+    test:
+      metadata_query: key.str.match("BR_CE_.+")
+      # Skip because it's too slow
+      skip: true
+    automation:
+      job_group: brazil
 
   # Data sources for BR_CE level 3
   - name: pipelines.epidemiology.br_ce_authority.CearaDataSource
@@ -152,7 +170,7 @@ sources:
       # Skip non-working pipeline
       # TODO(owahltinez): replace with br_authority source
       skip: true
-      metadata_query: key.str.match("BR_CE.+")
+      metadata_query: key.str.match("BR_CE_.+")
 
   # Data sources for BR_DF level 3
   - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
@@ -167,7 +185,7 @@ sources:
       # Skip because it's too slow
       skip: true
     automation:
-      job_group: brazil_federal
+      job_group: brazil
 
   # Data sources for BR_ES level 3
   - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
@@ -182,7 +200,7 @@ sources:
       # Skip because it's too slow
       skip: true
     automation:
-      job_group: brazil_federal
+      job_group: brazil
 
   # Data sources for BR_GO level 3
   - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
@@ -197,7 +215,7 @@ sources:
       # Skip because it's too slow
       skip: true
     automation:
-      job_group: brazil_federal
+      job_group: brazil
 
   # Data sources for BR_MA level 3
   - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
@@ -212,7 +230,7 @@ sources:
       # Skip because it's too slow
       skip: true
     automation:
-      job_group: brazil_federal
+      job_group: brazil
 
   # TODO(owahltinez): work around CSV parsing error
   # # Data sources for BR_MG level 3
@@ -228,7 +246,7 @@ sources:
   #     # Skip because it's too slow
   #     skip: true
   #   automation:
-  #     job_group: brazil_federal
+  #     job_group: brazil
 
   # Data sources for BR_MS level 3
   - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
@@ -243,7 +261,7 @@ sources:
       # Skip because it's too slow
       skip: true
     automation:
-      job_group: brazil_federal
+      job_group: brazil
 
   # Data sources for BR_MT level 3
   - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
@@ -258,7 +276,7 @@ sources:
       # Skip because it's too slow
       skip: true
     automation:
-      job_group: brazil_federal
+      job_group: brazil
 
   # Data sources for BR_PA level 3
   - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
@@ -273,7 +291,7 @@ sources:
       # Skip because it's too slow
       skip: true
     automation:
-      job_group: brazil_federal
+      job_group: brazil
 
   # Data sources for BR_PB level 3
   - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
@@ -288,7 +306,7 @@ sources:
       # Skip because it's too slow
       skip: true
     automation:
-      job_group: brazil_federal
+      job_group: brazil
 
   # TODO(owahltinez): fix key mismatch for BR_PE_260545
   # Data sources for BR_PE level 3
@@ -304,7 +322,7 @@ sources:
       # Skip because it's too slow
       skip: true
     automation:
-      job_group: brazil_federal
+      job_group: brazil
 
   # Data sources for BR_PI level 3
   - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
@@ -319,7 +337,7 @@ sources:
       # Skip because it's too slow
       skip: true
     automation:
-      job_group: brazil_federal
+      job_group: brazil
 
   # TODO(owahltinez): work around CSV parsing error
   # # Data sources for BR_PR level 3
@@ -335,7 +353,7 @@ sources:
   #     # Skip because it's too slow
   #     skip: true
   #   automation:
-  #     job_group: brazil_federal
+  #     job_group: brazil
 
   # Data sources for BR_RJ level 3
   - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
@@ -350,7 +368,7 @@ sources:
       # Skip because it's too slow
       skip: true
     automation:
-      job_group: brazil_federal
+      job_group: brazil
 
   # Data sources for BR_RJ level 3
   - name: pipelines.epidemiology.br_rj_authority.RioStratifiedDataSource
@@ -379,7 +397,7 @@ sources:
       # Skip because it's too slow
       skip: true
     automation:
-      job_group: brazil_federal
+      job_group: brazil
 
   # Data sources for BR_RS level 3
   - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
@@ -394,7 +412,7 @@ sources:
       # Skip because it's too slow
       skip: true
     automation:
-      job_group: brazil_federal
+      job_group: brazil
 
   # Data sources for BR_SC level 3
   - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
@@ -409,7 +427,7 @@ sources:
       # Skip because it's too slow
       skip: true
     automation:
-      job_group: brazil_federal
+      job_group: brazil
 
   # Data sources for BR_SE level 3
   - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
@@ -424,7 +442,7 @@ sources:
       # Skip because it's too slow
       skip: true
     automation:
-      job_group: brazil_federal
+      job_group: brazil
 
   # Data sources for BR_SP level 3
   - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
@@ -439,7 +457,7 @@ sources:
       # Skip because it's too slow
       skip: true
     automation:
-      job_group: brazil_federal
+      job_group: brazil
 
   # Data sources for BR_TO level 3
   - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
@@ -454,7 +472,7 @@ sources:
       # Skip because it's too slow
       skip: true
     automation:
-      job_group: brazil_federal
+      job_group: brazil
 
   # Data sources for CO levels 1 + 2 + 3
   - name: pipelines.epidemiology.co_authority.ColombiaDataSource

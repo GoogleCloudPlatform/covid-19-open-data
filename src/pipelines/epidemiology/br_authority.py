@@ -155,7 +155,7 @@ class BrazilStratifiedDataSource(DataSource):
         code = parse_opts["subregion1_code"].lower()
 
         # Some datasets are split into "volumes" so we try to guess the URL
-        base_opts = fetch_opts[0]
+        base_opts = dict(fetch_opts[0])
         url_tpl = base_opts.pop("url")
         fetch_opts = [{"url": url_tpl.format(f"{code}-{idx}"), **base_opts} for idx in range(1, 10)]
 
@@ -182,7 +182,11 @@ class BrazilStratifiedDataSource(DataSource):
 
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         # Manipulate the parse options here because we have access to the columns adapter
-        parse_opts = {**parse_opts, "error_bad_lines": False, "usecols": _column_adapter.keys()}
+        parse_opts = {
+            **dict(parse_opts),
+            "error_bad_lines": False,
+            "usecols": _column_adapter.keys(),
+        }
         return super().parse(sources, aux, **parse_opts)
 
     def parse_dataframes(
@@ -251,7 +255,7 @@ class BrazilStratifiedDataSource(DataSource):
 
         # Get rid of bogus records
         data = data.dropna(subset=["date"])
-        data = data[data["date"] > "2020-01-01"]
+        data = data[data["date"] >= "2020-01-01"]
 
         # Aggregate for the whole state
         state = data.drop(columns=["key"]).groupby(["date", "age", "sex"]).sum().reset_index()

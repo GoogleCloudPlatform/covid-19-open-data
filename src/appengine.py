@@ -301,6 +301,8 @@ def update_table(table_name: str = None, job_group: int = None) -> Response:
         # Produce the intermediate files from the data source
         intermediate_results = data_pipeline.parse(workdir, process_count=1)
         data_pipeline._save_intermediate_results(workdir / "intermediate", intermediate_results)
+        intermediate_files = list(map(str, (workdir / "intermediate").glob("*.csv")))
+        logger.log_info(f"Created intermediate tables: {intermediate_files}")
 
         # Upload results to the test bucket because these are not prod files
         upload_folder(GCS_BUCKET_TEST, "snapshot", workdir / "snapshot")
@@ -329,6 +331,7 @@ def combine_table(table_name: str = None) -> Response:
         intermediate_file_names = []
         for data_source in data_pipeline.data_sources:
             intermediate_file_names.append(f"{data_source.uuid(data_pipeline.table)}.csv")
+        logger.log_info(f"Downloading intermediate tables {intermediate_file_names}")
 
         # Download only the necessary intermediate files
         download_folder(
