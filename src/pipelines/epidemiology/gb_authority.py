@@ -12,14 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from pathlib import Path
-from typing import Any, Dict, List
-from pandas import DataFrame, concat
+from typing import Dict
+from pandas import DataFrame
 from lib.pipeline import DataSource
 from lib.utils import table_rename
 from lib.time import datetime_isoformat
-from lib.cast import safe_int_cast
-import requests
 from uk_covid19 import Cov19API
 
 
@@ -129,6 +126,7 @@ class Covid19UkRegionsDataSource(DataSource):
         # Make sure all records have country code and no subregion code
         data["country_code"] = "GB"
         data["subregion2_code"] = None
+        data["locality_code"] = None
 
         return data
 
@@ -170,6 +168,7 @@ class Covid19UkL2DataSource(DataSource):
         # Make sure all records have country code and no subregion code
         data["country_code"] = "GB"
         data["subregion2_code"] = None
+        data["locality_code"] = None
 
         return data
 
@@ -207,10 +206,12 @@ class Covid19UkL1DataSource(DataSource):
         data.date = data.date.apply(lambda x: datetime_isoformat(x, "%Y-%m-%d"))
         _fix_bad_total_deceased(data)
 
-        # Make sure all records have country code and no subregion code
+        # We know the key since it's country-level data
         data["key"] = "GB"
-        data["country_code"] = "GB"
-        data["subregion2_code"] = None
+
+        # For consistency across countries, do not report confirmed / deceased counts since we get
+        # that data from WHO / ECDC
+        data = data[["key", "date", "new_tested", "total_tested"]]
 
         return data
 
