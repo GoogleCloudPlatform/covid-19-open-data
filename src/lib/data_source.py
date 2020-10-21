@@ -145,11 +145,17 @@ class DataSource(ErrorLogger):
         # Provided match string could be a subregion code / name
         if match_string is not None:
             for column_prefix in ("subregion1", "subregion2", "locality"):
-                for column_suffix in ("code", "name"):
-                    column = "{}_{}".format(column_prefix, column_suffix)
-                    aux_match = metadata[column + "_fuzzy"] == match_string
-                    if sum(aux_match) == 1:
-                        return metadata[aux_match].iloc[0]["key"]
+                # Compare the code as-is
+                column = f"{column_prefix}_code"
+                aux_match = metadata[column] == record["match_string"]
+                if sum(aux_match) == 1:
+                    return metadata[aux_match].iloc[0]["key"]
+
+                # Compare the name using fuzzy matching
+                column = f"{column_prefix}_name"
+                aux_match = metadata[column + "_fuzzy"] == match_string
+                if sum(aux_match) == 1:
+                    return metadata[aux_match].iloc[0]["key"]
 
         # Provided match string could be identical to `match_string` (or with simple fuzzy match)
         if match_string is not None:

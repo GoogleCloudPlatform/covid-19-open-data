@@ -85,12 +85,11 @@ class DataPipeline(ErrorLogger):
 
         # Precompute some useful transformations in the auxiliary input files
         aux["metadata"]["match_string_fuzzy"] = aux["metadata"].match_string.apply(fuzzy_text)
-        for category in ("subregion1", "subregion2", "locality"):
-            for suffix in ("code", "name"):
-                column = "{}_{}".format(category, suffix)
-                aux["metadata"]["{}_fuzzy".format(column)] = aux["metadata"][column].apply(
-                    fuzzy_text
-                )
+        for column in ("subregion1", "subregion2", "locality"):
+            # Apply fuzzy comparison for name fields
+            aux["metadata"][f"{column}_name_fuzzy"] = aux["metadata"][f"{column}_name"].apply(
+                fuzzy_text
+            )
 
         return aux
 
