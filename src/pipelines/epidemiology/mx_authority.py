@@ -99,7 +99,7 @@ class MexicoDataSource(DataSource):
                 # "RENAL_CRONICA": "",
                 # "TABAQUISMO": "",
                 # "OTRO_CASO": "",
-                "RESULTADO": "_diagnosis",
+                "RESULTADO_LAB": "_diagnosis",
                 # "MIGRANTE": "",
                 # "PAIS_NACIONALIDAD": "",
                 # "PAIS_ORIGEN": "",
