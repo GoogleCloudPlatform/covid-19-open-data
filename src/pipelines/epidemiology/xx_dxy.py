@@ -88,6 +88,7 @@ class DXYDataSource(DataSource):
         data["key"] = None
         data.loc[data["match_string"] == "Taiwan", "key"] = "TW"
         data.loc[data["match_string"] == "Hong Kong", "key"] = "HK"
+        data.loc[data["match_string"] == "Macau", "key"] = "MO"
 
         keep_columns = [
             "key",
