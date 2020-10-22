@@ -66,7 +66,7 @@ individual records output by the data source have to follow the following guidel
 To make writing pipelines easier, a default implementation [`DataSource`](./lib/pipeline.py)
 already includes a lot of the functionality that is likely to be used by a standard data parsing
 routine, including downloading and conversion of raw resources into a pandas `DataFrame`. See the
-[template source](./pipelines/_template/srcname_pipeline.py) for a trivial example which subclasses
+[template source](./pipelines/_template/srcname.py) for a trivial example which subclasses
 the `DataSource` implementation.
 
 ### Data Pipeline
