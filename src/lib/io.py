@@ -12,8 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import gzip
 import os
 import re
+import shutil
 import uuid
 from contextlib import contextmanager
 from functools import partial
@@ -361,3 +363,16 @@ def temporary_file(file_name: str = None) -> Path:
         yield file_path
     finally:
         tempdir.cleanup()
+
+
+def gzip_file(file_in: Union[Path, str, IO], file_out: Union[Path, str]) -> None:
+    """
+    Compress a single file into a GZIP archive.
+
+    Arguments:
+        file_in: Input file to be compressed, it could be a file handle too.
+        file_out: Output path for the compressed file to be saved.
+    """
+    with open_file_like(file_in, "rb") as fd_in:
+        with gzip.open(file_out, "wb") as fd_out:
+            shutil.copyfileobj(fd_in, fd_out)
