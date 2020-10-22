@@ -52,7 +52,7 @@ from lib.concurrent import thread_map
 from lib.constants import GCS_BUCKET_PROD, GCS_BUCKET_TEST, SRC, V3_TABLE_LIST
 from lib.error_logger import ErrorLogger
 from lib.gcloud import delete_instance, get_internal_ip, start_instance
-from lib.io import export_csv, temporary_directory
+from lib.io import export_csv, gzip_file, temporary_directory
 from lib.memory_efficient import table_read_column
 from lib.net import download
 from lib.pipeline import DataPipeline
@@ -65,6 +65,7 @@ BLOB_OP_MAX_RETRIES = 10
 ENV_TOKEN = "GCP_TOKEN"
 ENV_PROJECT = "GOOGLE_CLOUD_PROJECT"
 ENV_SERVICE_ACCOUNT = "GCS_SERVICE_ACCOUNT"
+COMPRESS_EXTENSIONS = ("json",)
 
 
 def _get_request_param(name: str, default: str = None) -> Optional[str]:
@@ -188,7 +189,15 @@ def upload_folder(
             blob = bucket.blob(os.path.join(remote_path, target_path))
             for i in range(BLOB_OP_MAX_RETRIES):
                 try:
-                    return blob.upload_from_filename(str(file_path))
+                    # If it's an extension we should compress, upload compressed file
+                    if file_path.suffix[1:] in COMPRESS_EXTENSIONS:
+                        with temporary_directory() as workdir:
+                            gzipped_file = workdir / file_path.name
+                            gzip_file(file_path, gzipped_file)
+                            blob.content_encoding = "gzip"
+                            return blob.upload_from_filename(gzipped_file)
+                    else:
+                        return blob.upload_from_filename(str(file_path))
                 except Exception as exc:
                     log_message = f"Error uploading {target_path}."
                     logger.log_warning(log_message, traceback=traceback.format_exc())
