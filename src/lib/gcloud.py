@@ -15,7 +15,7 @@
 import subprocess
 from uuid import uuid4
 
-from lib.constants import GCS_CONTAINER_ID
+from lib.constants import GCS_CONTAINER_ID, SRC
 
 # TODO(owahltinez): move configuration to external file
 _gcloud_bin = "/opt/google-cloud-sdk/bin/gcloud"
@@ -52,6 +52,8 @@ def start_instance(
         f"--container-restart-policy=always",
         f"--container-env=PORT=80",
         f"--labels=container-vm={_host_image_id}",
+        f"--metadata-from-file",
+        f"startup-script={SRC / 'scripts' / 'startup-script.sh'}",
         f"--quiet",
     ]
 
