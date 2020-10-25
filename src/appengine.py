@@ -273,7 +273,7 @@ def cache_pull() -> Response:
 
 
 @profiled_route("/update_table")
-def update_table(table_name: str = None, job_group: str = None, process_count: int = 1) -> Response:
+def update_table(table_name: str = None, job_group: str = None, process_count: int = 8) -> Response:
     table_name = _get_request_param("table", table_name)
     job_group = _get_request_param("job_group", job_group)
     process_count = _get_request_param("process_count", process_count)

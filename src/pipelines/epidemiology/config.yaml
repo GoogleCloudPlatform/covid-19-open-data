@@ -40,6 +40,9 @@ sources:
       - url: "https://covid.ourworldindata.org/data/owid-covid-data.csv"
     test:
       metadata_query: key.str.match("^..$")
+    automation:
+      job_group: all
+      deferred: true
 
   - name: pipelines.epidemiology.xx_ecdc.ECDCDataSource
     fetch:
@@ -48,12 +51,18 @@ sources:
           ext: csv
     test:
       metadata_query: key.str.match("^..$")
+    automation:
+      job_group: all
+      deferred: true
 
   - name: pipelines.epidemiology.xx_who.WHODataSource
     fetch:
       - url: "https://covid19.who.int/WHO-COVID-19-global-data.csv"
     test:
       metadata_query: key.str.match("^..$")
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for AF level 2
   - name: pipelines.epidemiology.af_humdata.AfghanistanHumdataDataSource
@@ -64,7 +73,8 @@ sources:
     test:
       metadata_query: key.str.match("AF_.+")
     automation:
-      job_group: 'google_sheets'
+      job_group: all
+      deferred: true
 
   # Data sources for AR levels 2 + 3
   - name: pipelines.epidemiology.ar_authority.ArgentinaDataSource
@@ -75,6 +85,9 @@ sources:
       # Skip because it's too slow
       skip: true
       metadata_query: key.str.match("AR_.*")
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for AT level 2
   - name: pipelines.epidemiology.xx_covid19_eu_data.Covid19EuDataSource
@@ -85,6 +98,9 @@ sources:
     query: "date < '2020-04-14' or date > '2020-04-15'"
     test:
       metadata_query: key.str.match("AT_.+")
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for AU level 2
   - name: pipelines.epidemiology.au_covid_19_au.Covid19AuDataSource
@@ -92,6 +108,9 @@ sources:
       - url: "https://raw.github.com/covid-19-au/covid-19-au.github.io/prod/src/data/state.json"
     test:
       metadata_query: key.str.match("AU_.+")
+    automation:
+      job_group: all
+      deferred: true
 
   - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
     fetch:
@@ -105,7 +124,8 @@ sources:
     test:
       metadata_query: key.str.match("AU_.+")
     automation:
-      job_group: 'wikipedia'
+      job_group: all
+      deferred: true
 
   # Data sources for BD level 2
   - name: pipelines.epidemiology.bd_humdata.BangladeshHumdataDataSource
@@ -113,6 +133,9 @@ sources:
       - url: "https://data.humdata.org/dataset/4bc533e5-03d5-4e85-ae11-7345869bbfb4/resource/f8037c99-1a73-4ae1-8471-8d8ec4ff87d1/download/district-wise-confirmed-recovered-cases_08.06.2020.xlsx"
     test:
       metadata_query: key.str.match("BD_.+")
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for BE levels 1 + 2
   - name: pipelines.epidemiology.be_authority.BelgiumDataSource
@@ -123,7 +146,8 @@ sources:
     test:
       metadata_query: key.str.match("BE_.+")
     automation:
-      job_group: 'belgium'
+      job_group: all
+      deferred: true
 
   - name: pipelines.epidemiology.be_authority.BelgiumDataSource
     fetch:
@@ -133,7 +157,8 @@ sources:
     test:
       metadata_query: "key == 'BE'"
     automation:
-      job_group: 'belgium'
+      job_group: all
+      deferred: true
 
   # Data sources for BR levels 2 + 3
   - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
@@ -144,7 +169,8 @@ sources:
     parse:
       sep: ";"
     automation:
-      job_group: brazil_federal
+      job_group: all
+      deferred: true
 
   # Data sources for CA levels 2 + 3
   - name: pipelines.epidemiology.ca_covid19canada.Covid19CanadaDataSource
@@ -156,7 +182,8 @@ sources:
     test:
       metadata_query: key.str.match("CA_.+")
     automation:
-      job_group: canada
+      job_group: all
+      deferred: true
 
   - name: pipelines.epidemiology.ca_authority.CanadaDataSource
     fetch:
@@ -164,7 +191,8 @@ sources:
     test:
       metadata_query: key.str.match("CA_.+")
     automation:
-      job_group: canada
+      job_group: all
+      deferred: true
 
   # Data sources for CD level 2
   - name: pipelines.epidemiology.cd_humdata.CongoDRCHumdataDataSource
@@ -175,7 +203,8 @@ sources:
     test:
       metadata_query: key.str.match("CD_.+")
     automation:
-      job_group: 'google_sheets'
+      job_group: all
+      deferred: true
 
   # Data sources for CH level 2
   - name: pipelines.epidemiology.ch_authority.SwitzerlandSource
@@ -183,6 +212,9 @@ sources:
       - url: "https://raw.github.com/openZH/covid_19/master/COVID19_Fallzahlen_CH_total.csv"
     test:
       metadata_query: key.str.match("CH_.+")
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for CL levels 2 + 3
   - name: pipelines.epidemiology.cl_authority.ChileRegionsDataSource
@@ -196,7 +228,8 @@ sources:
     test:
       metadata_query: key.str.match("CL_[^_]+$")
     automation:
-      job_group: 'chile'
+      job_group: all
+      deferred: true
 
   - name: pipelines.epidemiology.cl_authority.ChileMunicipalitiesDataSource
     fetch:
@@ -207,7 +240,8 @@ sources:
     test:
       metadata_query: key.str.match("CL_.+_.+")
     automation:
-      job_group: 'chile'
+      job_group: all
+      deferred: true
 
   # Data sources for CN level 2
   - name: pipelines.epidemiology.xx_dxy.DXYDataSource
@@ -217,6 +251,9 @@ sources:
       country_name: China
     test:
       metadata_query: key.str.match("CN_.+")
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for CO levels 1 + 2 + 3
   - name: pipelines.epidemiology.co_authority.ColombiaDataSource
@@ -224,6 +261,9 @@ sources:
       - url: "https://www.datos.gov.co/api/views/gt2j-8ykr/rows.csv"
     test:
       metadata_query: key.str.match("CO*")
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for CZ levels 1 + 2 + 3
   - name: pipelines.epidemiology.xx_covid19_eu_data.Covid19EuDataSource
@@ -234,7 +274,8 @@ sources:
     test:
       metadata_query: key.str.match("CZ_.+")
     automation:
-      job_group: 'czech_republic'
+      job_group: all
+      deferred: true
 
   - name: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
     fetch:
@@ -244,7 +285,8 @@ sources:
     test:
       metadata_query: key.str.match("CZ_.+")
     automation:
-      job_group: 'czech_republic'
+      job_group: all
+      deferred: true
 
   - name: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
     fetch:
@@ -254,7 +296,8 @@ sources:
     test:
       metadata_query: key.str.match("CZ_.+")
     automation:
-      job_group: 'czech_republic'
+      job_group: all
+      deferred: true
 
   - name: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
     fetch:
@@ -264,7 +307,8 @@ sources:
     test:
       metadata_query: key.str.match("CZ_.+")
     automation:
-      job_group: 'czech_republic'
+      job_group: all
+      deferred: true
 
   - name: pipelines.epidemiology.cz_authority.CzechRepublicL3DataSource
     fetch:
@@ -272,7 +316,8 @@ sources:
     test:
       metadata_query: key.str.match("CZ_.+")
     automation:
-      job_group: 'czech_republic'
+      job_group: all
+      deferred: true
 
   - name: pipelines.epidemiology.cz_authority.CzechRepublicL1TestedDataSource
     fetch:
@@ -280,7 +325,8 @@ sources:
     test:
       metadata_query: "key == 'CZ'"
     automation:
-      job_group: 'czech_republic'
+      job_group: all
+      deferred: true
 
   # Data sources for DE level 2
   - name: pipelines.epidemiology.de_covid_19_germany_gae.Covid19GermanyDataSource
@@ -288,6 +334,9 @@ sources:
       - url: "https://raw.github.com/jgehrcke/covid-19-germany-gae/master/data.csv"
     test:
       metadata_query: key.str.match("DE.*")
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for ES_CN levels 2 + 3
   - name: pipelines.epidemiology.es_cn_authority.CanaryIslandsDataSource
@@ -298,7 +347,8 @@ sources:
     test:
       metadata_query: key.str.match("ES_CN.*")
     automation:
-      job_group: 'spain'
+      job_group: all
+      deferred: true
 
   # Data sources for ES_MD levels 2 + 3
   - name: pipelines.epidemiology.es_md_authority.MadridDataSource
@@ -311,7 +361,8 @@ sources:
     test:
       metadata_query: key.str.match("ES_MD_.+")
     automation:
-      job_group: 'spain'
+      job_group: all
+      deferred: true
 
   - name: pipelines.epidemiology.es_md_authority.MadridDataSource
     fetch:
@@ -323,7 +374,8 @@ sources:
     test:
       metadata_query: key.str.match("ES_MD_.+")
     automation:
-      job_group: 'spain'
+      job_group: all
+      deferred: true
 
   # Data sources for ES levels 1 + 2
   # This goes after the individual regions to ensure reporting is consistent across all regions
@@ -334,7 +386,8 @@ sources:
     test:
       metadata_query: key.str.match("ES_*")
     automation:
-      job_group: 'spain'
+      job_group: all
+      deferred: true
 
   - name: pipelines.epidemiology.es_authority.MSCBSDeceasedDataSource
     fetch:
@@ -343,7 +396,8 @@ sources:
     test:
       metadata_query: key.str.match("ES_*")
     automation:
-      job_group: 'spain'
+      job_group: all
+      deferred: true
 
   # Data sources for FI levels 1 + 2
   - name: pipelines.epidemiology.fi_authority.FinlandArcGisDataSource
@@ -354,6 +408,9 @@ sources:
     query: "date > '2020-02-01'"
     test:
       metadata_query: "key == 'FI'"
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for FR levels 1 + 2 + 3
   - name: pipelines.epidemiology.fr_authority.FranceDataSource
@@ -361,6 +418,9 @@ sources:
     # TODO(owahltinez): Parse stratified information as well
     test:
       metadata_query: key.str.match("FR_.+")
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for GB levels 1 + 2 + 3
   - name: pipelines.epidemiology.gb_covid_19_uk_data.Covid19UkDataL1DataSource
@@ -369,7 +429,8 @@ sources:
     test:
       metadata_query: "key == 'GB'"
     automation:
-      job_group: 'united_kingdom'
+      job_group: all
+      deferred: true
 
   - name: pipelines.epidemiology.gb_covid_19_uk_data.Covid19UkDataL2DataSource
     fetch:
@@ -377,7 +438,8 @@ sources:
     test:
       metadata_query: key.str.match("GB_[^_]+$")
     automation:
-      job_group: 'united_kingdom'
+      job_group: all
+      deferred: true
 
   - name: pipelines.epidemiology.gb_covid_19_uk_data.Covid19UkDataL3DataSource
     fetch:
@@ -385,7 +447,8 @@ sources:
     test:
       metadata_query: key.str.match("GB_.+_.+")
     automation:
-      job_group: 'united_kingdom'
+      job_group: all
+      deferred: true
 
   # Authoritative Data sources for GB_UK
   # We make use of the uk_covid19 API provided by PHE, so there is no fetch URL listed here.
@@ -397,7 +460,8 @@ sources:
     parse:
       backfill: true
     automation:
-      job_group: 'united_kingdom'
+      job_group: all
+      deferred: true
 
   - name: pipelines.epidemiology.gb_authority.Covid19UkL2DataSource
     test:
@@ -407,7 +471,8 @@ sources:
     parse:
       backfill: true
     automation:
-      job_group: 'united_kingdom'
+      job_group: all
+      deferred: true
 
   - name: pipelines.epidemiology.gb_authority.Covid19UkL3DataSource
     test:
@@ -417,7 +482,8 @@ sources:
     parse:
       backfill: true
     automation:
-      job_group: 'united_kingdom'
+      job_group: all
+      deferred: true
 
   - name: pipelines.epidemiology.gb_authority.Covid19UkRegionsDataSource
     test:
@@ -427,7 +493,8 @@ sources:
     parse:
       backfill: true
     automation:
-      job_group: 'united_kingdom'
+      job_group: all
+      deferred: true
 
   # Data sources for HT level 2
   - name: pipelines.epidemiology.ht_humdata.HaitiHumdataDataSource
@@ -441,7 +508,8 @@ sources:
     test:
       metadata_query: key.str.match("HT_.*")
     automation:
-      job_group: 'google_sheets'
+      job_group: all
+      deferred: true
 
   # Data sources for ID level 2
   # Removed until explicit permission is provided
@@ -453,7 +521,8 @@ sources:
   #   test:
   #     metadata_query: key.str.match("ID_.*")
   #   automation:
-  #     job_group: 'google_sheets'
+  #     job_group: all
+  #     deferred: true
 
   # Data sources for IL levels 2 + 3
   - name: pipelines.epidemiology.il_authority.IsraelDataSource
@@ -461,6 +530,9 @@ sources:
       - url: "https://data.gov.il/api/3/action/datastore_search?resource_id=d07c0771-01a8-43b2-96cc-c6154e7fa9bd"
     test:
       metadata_query: key.str.match("IL.*")
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for IN level 2
   - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
@@ -474,7 +546,8 @@ sources:
     test:
       metadata_query: key.str.match("IN_.*")
     automation:
-      job_group: 'wikipedia'
+      job_group: all
+      deferred: true
 
   # Alternate, highly supported data source for IN level 2.
   - name: pipelines.epidemiology.in_covid19india_org.Covid19IndiaOrgL2DataSource
@@ -486,6 +559,9 @@ sources:
       dtype: str
     test:
       metadata_query: key.str.match("IN_.*")
+    automation:
+      job_group: all
+      deferred: true
 
   # Data source for IN level 3
   - name: pipelines.epidemiology.in_covid19india_org.Covid19IndiaOrgL3DataSource
@@ -495,6 +571,9 @@ sources:
           ext: csv
     test:
       metadata_query: key.str.match("IN_[^_]+$")
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for IQ level 2
   - name: pipelines.epidemiology.iq_humdata.IraqHumdataDataSource
@@ -505,7 +584,8 @@ sources:
     test:
       metadata_query: key.str.match("IQ_.*")
     automation:
-      job_group: 'google_sheets'
+      job_group: all
+      deferred: true
 
   # Data sources for IT levels 1 + 2
   - name: pipelines.epidemiology.it_authority.PcmDpcL1DataSource
@@ -514,7 +594,8 @@ sources:
     test:
       metadata_query: key == "IT"
     automation:
-      job_group: 'italy'
+      job_group: all
+      deferred: true
 
   - name: pipelines.epidemiology.it_authority.PcmDpcL2DataSource
     fetch:
@@ -522,7 +603,8 @@ sources:
     test:
       metadata_query: key.str.match("^IT_..$")
     automation:
-      job_group: 'italy'
+      job_group: all
+      deferred: true
 
   - name: pipelines.epidemiology.it_authority.PcmDpcL3DataSource
     fetch:
@@ -530,7 +612,8 @@ sources:
     test:
       metadata_query: key.str.match("IT_.+_.+")
     automation:
-      job_group: 'italy'
+      job_group: all
+      deferred: true
 
   # Data sources for JP levels 1 + 2
   - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
@@ -545,7 +628,8 @@ sources:
     test:
       metadata_query: key.str.match("JP_.*")
     automation:
-      job_group: 'wikipedia'
+      job_group: all
+      deferred: true
 
   - name: pipelines.epidemiology.jp_2019_ncov_japan.Jp2019NcovJapanByDate
     fetch:
@@ -555,6 +639,9 @@ sources:
         url: "https://raw.github.com/swsoyee/2019-ncov-japan/master/50_Data/death.csv"
     test:
       metadata_query: key.str.match("JP_.*")
+    automation:
+      job_group: all
+      deferred: true
 
   - name: pipelines.epidemiology.jp_covid19.JapanCovid19DataSource
     fetch:
@@ -563,6 +650,9 @@ sources:
       dtype: str
     test:
       metadata_query: key.str.match("JP_[^_]+")
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for KR level 2
   - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
@@ -577,7 +667,8 @@ sources:
     test:
       metadata_query: key.str.match("KR_.*")
     automation:
-      job_group: 'wikipedia'
+      job_group: all
+      deferred: true
 
   # Data sources for LU level 1
   - name: pipelines.epidemiology.lu_authority.LuxembourgDataSource
@@ -589,6 +680,9 @@ sources:
       # Skip this data source as it is flaky.
       skip: true
       metadata_query: "key == 'LU'"
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for LY level 2
   - name: pipelines.epidemiology.ly_humdata.LibyaHumdataDataSource
@@ -599,7 +693,8 @@ sources:
     test:
       metadata_query: key.str.match("LY*")
     automation:
-      job_group: 'google_sheets'
+      job_group: all
+      deferred: true
 
   # Data sources for MX levels 1, 2 and 3
   - name: pipelines.epidemiology.mx_authority.MexicoDataSource
@@ -611,6 +706,9 @@ sources:
       # Skip this data source because it's too slow
       skip: true
       metadata_query: key.str.match("MX_.+")
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for MY level 2
   - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
@@ -631,7 +729,8 @@ sources:
       # deleted
       skip: true
     automation:
-      job_group: 'wikipedia'
+      job_group: all
+      deferred: true
 
   # Data sources for MZ level 2
   - name: pipelines.epidemiology.mz_humdata.MozambiqueHumdataDataSource
@@ -643,6 +742,9 @@ sources:
           skiprows: 1
     test:
       metadata_query: key.str.match("MZ_.*")
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for NL levels 1 + 2 + 3
   - name: pipelines.epidemiology.nl_authority.NetherlandsDataSource
@@ -652,6 +754,9 @@ sources:
       sep: ";"
     test:
       metadata_query: key.str.match("NL.*")
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for NO level 2
   - name: pipelines.epidemiology.xx_covid19_eu_data.Covid19EuDataSource
@@ -661,6 +766,9 @@ sources:
       country: "NO"
     test:
       metadata_query: key.str.match("NO_.*")
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for PE levels 2 + 3
   - name: pipelines.epidemiology.pe_authority.PeruDataSource
@@ -677,6 +785,9 @@ sources:
       encoding: "ISO-8859-1"
     test:
       metadata_query: key.str.match("PE_.+")
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for PH levels 2 + 3
   # To update this data source:
@@ -693,6 +804,9 @@ sources:
           ext: csv
     test:
       metadata_query: key.str.match("PH.*")
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for PK level 2
   - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
@@ -708,7 +822,8 @@ sources:
     test:
       metadata_query: key.str.match("PK_.*")
     automation:
-      job_group: 'wikipedia'
+      job_group: all
+      deferred: true
 
   # Data sources for PL level 2
   - name: pipelines.epidemiology.xx_covid19_eu_data.Covid19EuDataSource
@@ -718,6 +833,9 @@ sources:
       country: PL
     test:
       metadata_query: key.str.match("PL_.*")
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for PT levels 1 + 2
   - name: pipelines.epidemiology.pt_covid19.PtCovid19L1DataSource
@@ -725,12 +843,18 @@ sources:
       - url: "https://raw.githubusercontent.com/carlospramalheira/covid19/master/datasets/PT_COVID_TimeSeries.csv"
     test:
       metadata_query: key.str.match("PT")
+    automation:
+      job_group: all
+      deferred: true
 
   - name: pipelines.epidemiology.pt_covid19.PtCovid19L2DataSource
     fetch:
       - url: "https://raw.githubusercontent.com/carlospramalheira/covid19/master/datasets/PT_COVID_TimeSeries.csv"
     test:
       metadata_query: key.str.match("PT_.*")
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for RO level 1
   - name: pipelines.epidemiology.ro_covid19romania.Covid19RomaniaDataSource
@@ -739,6 +863,9 @@ sources:
         url: "https://raw.github.com/adrianp/covid19romania/master/total_recovered_ro.json"
     test:
       metadata_query: key.str.match("RO")
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for RU level 2
   - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
@@ -753,12 +880,16 @@ sources:
     test:
       metadata_query: key.str.match("RU.*")
     automation:
-      job_group: 'wikipedia'
+      job_group: all
+      deferred: true
 
   # This data source does not fetch any URL because it uses an API instead
   - name: pipelines.epidemiology.ru_authority.RussiaDataSource
     test:
       metadata_query: key.str.match("RU.*")
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for SD level 2
   - name: pipelines.epidemiology.sd_humdata.SudanHumdataDataSource
@@ -769,7 +900,8 @@ sources:
     test:
       metadata_query: key.str.match("SD_.*")
     automation:
-      job_group: 'google_sheets'
+      job_group: all
+      deferred: true
 
   # Data sources for SE levels 1 + 2
   - name: pipelines.epidemiology.xx_covid19_eu_data.Covid19EuDataSource
@@ -779,6 +911,9 @@ sources:
       country: SE
     test:
       metadata_query: key.str.match("SE.*")
+    automation:
+      job_group: all
+      deferred: true
 
   - name: pipelines.epidemiology.se_authority.SwedenDataSource
     fetch:
@@ -787,6 +922,9 @@ sources:
           ext: xlsx
     test:
       metadata_query: key.str.match("SE")
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for SI level 1
   - name: pipelines.epidemiology.si_authority.SloveniaDataSource
@@ -794,12 +932,18 @@ sources:
       - url: "https://www.gov.si/assets/vlada/Koronavirus-podatki/en/EN_Covid-19-all-data.xlsx"
     test:
       metadata_query: key.str.match("SI")
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for UA levels 1 + 2
   - name: pipelines.epidemiology.ua_authority.UkraineDataSource
     # No URL is defined because data is queried via API
     test:
       metadata_query: key.str.match("UA_.+")
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for US levels 2 + 3
   - name: pipelines.epidemiology.us_covidtracking.CovidTrackingDataSource
@@ -808,7 +952,8 @@ sources:
     test:
       metadata_query: key.str.match("US_[^_]+$")
     automation:
-      job_group: 'united_states'
+      job_group: all
+      deferred: true
 
   - name: pipelines.epidemiology.us_nyt_covid.NytCovidL2DataSource
     fetch:
@@ -816,7 +961,8 @@ sources:
     test:
       metadata_query: key.str.match("US_[^_]+$")
     automation:
-      job_group: 'united_states'
+      job_group: all
+      deferred: true
 
   - name: pipelines.epidemiology.us_nyt_covid.NytCovidL3DataSource
     fetch:
@@ -824,7 +970,8 @@ sources:
     test:
       metadata_query: key.str.match("US_.+_.+")
     automation:
-      job_group: 'united_states'
+      job_group: all
+      deferred: true
 
   # Data sources for US_AK level 2
   - name: pipelines.epidemiology.us_ak_authority.AlaskaDataSource
@@ -840,7 +987,8 @@ sources:
       skip: true
       metadata_query: "key == 'US_AK'"
     automation:
-      job_group: 'united_states'
+      job_group: all
+      deferred: true
 
   - name: pipelines.epidemiology.us_ak_authority.AlaskaDataSource
     fetch:
@@ -855,7 +1003,8 @@ sources:
       skip: true
       metadata_query: "key == 'US_AK'"
     automation:
-      job_group: 'united_states'
+      job_group: all
+      deferred: true
 
   # Data sources for US_CA_SFO
   - name: pipelines.epidemiology.us_ca_sfo_authority.SanFranciscoDataSource
@@ -867,7 +1016,8 @@ sources:
     test:
       metadata_query: "key == 'US_CA_SFO'"
     automation:
-      job_group: 'united_states'
+      job_group: all
+      deferred: true
 
   # Data sources for US_DC level 2
   - name: pipelines.epidemiology.us_dc_authority.DistrictColumbiaDataSource
@@ -882,7 +1032,8 @@ sources:
       skip: true
       metadata_query: "key == 'US_DC'"
     automation:
-      job_group: 'united_states'
+      job_group: all
+      deferred: true
 
   # Data sources for US_DE level 2
   - name: pipelines.epidemiology.us_de_authority.DelawareDataSource
@@ -896,7 +1047,8 @@ sources:
       # Skip because endpoint fails frequently
       skip: true
     automation:
-      job_group: 'united_states'
+      job_group: all
+      deferred: true
 
   # Data sources US_FL levels 2 + 3
   # No URL is provided because an API is used instead
@@ -910,7 +1062,8 @@ sources:
       # Skip Florida because download takes a long time
       skip: true
     automation:
-      job_group: 'united_states'
+      job_group: all
+      deferred: true
 
   # Data sources for US_IN level 3 (includes age/sex)
   - name: pipelines.epidemiology.us_in_authority.IndianaDataSource
@@ -921,7 +1074,8 @@ sources:
     test:
       metadata_query: key.str.match("US_IN_.*")
     automation:
-      job_group: 'united_states'
+      job_group: all
+      deferred: true
 
   # Data sources for US_MA level 3
   - name: pipelines.epidemiology.us_ma_authority.MassachusettsCountiesDataSource
@@ -935,7 +1089,8 @@ sources:
     test:
       metadata_query: "key == 'US_MA'"
     automation:
-      job_group: 'united_states'
+      job_group: all
+      deferred: true
 
   # Data sources for US_NYC level 3 (NYC only)
   - name: pipelines.epidemiology.us_nyc_authority.NYCHealthDataSource
@@ -944,7 +1099,8 @@ sources:
     test:
       metadata_query: key.str.match("US_NY_.*")
     automation:
-      job_group: 'united_states'
+      job_group: all
+      deferred: true
 
   # Data sources for US_TX level 2
   - name: pipelines.epidemiology.us_tx_authority.TexasDataSource
@@ -956,7 +1112,8 @@ sources:
       # TODO: fix this data source and make it more resilient
       skip: true
     automation:
-      job_group: 'united_states'
+      job_group: all
+      deferred: true
 
   # Data sources for VE level 2
   - name: pipelines.epidemiology.ve_humdata.VenezuelaHumDataSource
@@ -967,7 +1124,8 @@ sources:
     test:
       metadata_query: key.str.match("VE_.*")
     automation:
-      job_group: 'google_sheets'
+      job_group: all
+      deferred: true
 
   # Data sources for ZA level 2
   - name: pipelines.epidemiology.za_finmango.FinMangoDataSource
@@ -981,7 +1139,8 @@ sources:
     test:
       metadata_query: key.str.match("ZA_[^_]+")
     automation:
-      job_group: 'google_sheets'
+      job_group: all
+      deferred: true
 
   # Data sources for ZA level 3
   - name: pipelines.epidemiology.za_finmango.FinMangoDataSource
@@ -995,4 +1154,5 @@ sources:
     test:
       metadata_query: key.str.match("ZA_.+_.+")
     automation:
-      job_group: 'google_sheets'
+      job_group: all
+      deferred: true
