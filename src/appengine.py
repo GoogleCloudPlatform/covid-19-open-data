@@ -48,6 +48,7 @@ from publish import (
 )
 from scripts.cloud_error_processing import register_new_errors
 
+from lib.cast import safe_int_cast
 from lib.concurrent import thread_map
 from lib.constants import GCS_BUCKET_PROD, GCS_BUCKET_TEST, SRC, V3_TABLE_LIST
 from lib.error_logger import ErrorLogger
@@ -272,9 +273,11 @@ def cache_pull() -> Response:
 
 
 @profiled_route("/update_table")
-def update_table(table_name: str = None, job_group: int = None) -> Response:
+def update_table(table_name: str = None, job_group: str = None, process_count: int = 1) -> Response:
     table_name = _get_request_param("table", table_name)
     job_group = _get_request_param("job_group", job_group)
+    process_count = _get_request_param("process_count", process_count)
+    process_count = safe_int_cast(process_count)
 
     # Early exit: table name not found
     if table_name not in list(get_table_names()):
@@ -308,7 +311,7 @@ def update_table(table_name: str = None, job_group: int = None) -> Response:
         logger.log_info(f"Updating data sources: {data_source_names}")
 
         # Produce the intermediate files from the data source
-        intermediate_results = data_pipeline.parse(workdir, process_count=1)
+        intermediate_results = data_pipeline.parse(workdir, process_count=process_count)
         data_pipeline._save_intermediate_results(workdir / "intermediate", intermediate_results)
         intermediate_files = list(map(str, (workdir / "intermediate").glob("*.csv")))
         logger.log_info(f"Created intermediate tables: {intermediate_files}")
