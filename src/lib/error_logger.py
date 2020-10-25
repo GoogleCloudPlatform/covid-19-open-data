@@ -21,6 +21,7 @@ from functools import lru_cache
 from typing import Callable
 
 from pandas import Series
+from pandas._libs.missing import NAType
 
 # Based on recipe for structured logging
 # https://docs.python.org/3/howto/logging-cookbook.html#implementing-structured-logging
@@ -35,6 +36,8 @@ class LogEncoder(json.JSONEncoder):
             return o.encode("unicode_escape").decode("ascii")
         elif isinstance(o, Series):
             return o.to_dict()
+        elif isinstance(o, NAType):
+            return None
         elif isinstance(o, Exception):
             return f"{o.__class__.__name__}: {str(o)}"
         return super(LogEncoder, self).default(o)
