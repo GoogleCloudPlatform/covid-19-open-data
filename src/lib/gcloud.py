@@ -21,7 +21,7 @@ from lib.constants import GCS_CONTAINER_ID, SRC
 _gcloud_bin = "/opt/google-cloud-sdk/bin/gcloud"
 _default_zone = "us-east1-b"
 _default_instance_type = "n2-standard-8"
-_host_image_id = "cos-stable-81-12871-1196-0"
+_host_container_image_id = "cos-stable-85-13310-1041-24"
 
 
 def start_instance(
@@ -43,17 +43,15 @@ def start_instance(
         f"--machine-type={instance_type}",
         f"--scopes=https://www.googleapis.com/auth/cloud-platform",
         f"--tags=http-server",
-        f"--image={_host_image_id}",
+        f"--image={_host_container_image_id}",
         f"--image-project=cos-cloud",
-        f"--boot-disk-size=20GB",
+        f"--boot-disk-size=32GB",
         f"--boot-disk-type=pd-standard",
         f"--boot-disk-device-name={instance_id}",
         f"--container-image={GCS_CONTAINER_ID}",
         f"--container-restart-policy=always",
         f"--container-env=PORT=80",
-        f"--labels=container-vm={_host_image_id}",
-        f"--metadata-from-file",
-        f"startup-script={SRC / 'scripts' / 'startup-script.sh'}",
+        f"--metadata-from-file=startup-script={SRC / 'scripts' / 'startup-script.sh'}",
         f"--quiet",
     ]
 
