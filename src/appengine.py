@@ -71,7 +71,7 @@ COMPRESS_EXTENSIONS = ("json",)
 
 def _get_request_param(name: str, default: str = None) -> Optional[str]:
     try:
-        return request.args.get(name)
+        return request.args.get(name, default)
     except:
         return default
 
