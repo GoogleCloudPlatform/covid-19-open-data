@@ -422,34 +422,6 @@ sources:
       job_group: all
       deferred: true
 
-  # Data sources for GB levels 1 + 2 + 3
-  - name: pipelines.epidemiology.gb_covid_19_uk_data.Covid19UkDataL1DataSource
-    fetch:
-      - url: "https://raw.githubusercontent.com/tomwhite/covid-19-uk-data/master/data/covid-19-indicators-uk.csv"
-    test:
-      metadata_query: "key == 'GB'"
-    automation:
-      job_group: all
-      deferred: true
-
-  - name: pipelines.epidemiology.gb_covid_19_uk_data.Covid19UkDataL2DataSource
-    fetch:
-      - url: "https://raw.githubusercontent.com/tomwhite/covid-19-uk-data/master/data/covid-19-indicators-uk.csv"
-    test:
-      metadata_query: key.str.match("GB_[^_]+$")
-    automation:
-      job_group: all
-      deferred: true
-
-  - name: pipelines.epidemiology.gb_covid_19_uk_data.Covid19UkDataL3DataSource
-    fetch:
-      - url: "https://raw.githubusercontent.com/tomwhite/covid-19-uk-data/master/data/covid-19-cases-uk.csv"
-    test:
-      metadata_query: key.str.match("GB_.+_.+")
-    automation:
-      job_group: all
-      deferred: true
-
   # Authoritative Data sources for GB_UK
   # We make use of the uk_covid19 API provided by PHE, so there is no fetch URL listed here.
   - name: pipelines.epidemiology.gb_authority.Covid19UkL1DataSource

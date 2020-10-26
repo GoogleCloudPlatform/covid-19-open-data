@@ -180,8 +180,8 @@ class Covid19UkL1DataSource(DataSource):
             "areaCode": "areaCode",
             "newCasesBySpecimenDate": "newCasesBySpecimenDate",
             "cumCasesBySpecimenDate": "cumCasesBySpecimenDate",
-            "newDeaths28DaysByPublishDate": "newDeaths28DaysByPublishDate",
-            "cumDeaths28DaysByPublishDate": "cumDeaths28DaysByPublishDate",
+            "newDeaths28DaysByDeathDate": "newDeaths28DaysByDeathDate",
+            "cumDeaths28DaysByDeathDate": "cumDeaths28DaysByDeathDate",
             "cumTestsByPublishDate": "cumTestsByPublishDate",
             "newTestsByPublishDate": "newTestsByPublishDate",
         }
@@ -194,8 +194,8 @@ class Covid19UkL1DataSource(DataSource):
                 "areaCode": "country_code",
                 "newCasesBySpecimenDate": "new_confirmed",
                 "cumCasesBySpecimenDate": "total_confirmed",
-                "newDeaths28DaysByPublishDate": "new_deceased",
-                "cumDeaths28DaysByPublishDate": "total_deceased",
+                "newDeaths28DaysByDeathDate": "new_deceased",
+                "cumDeaths28DaysByDeathDate": "total_deceased",
                 "newTestsByPublishDate": "new_tested",
                 "cumTestsByPublishDate": "total_tested",
                 "date": "date",
@@ -208,10 +208,6 @@ class Covid19UkL1DataSource(DataSource):
 
         # We know the key since it's country-level data
         data["key"] = "GB"
-
-        # For consistency across countries, do not report confirmed / deceased counts since we get
-        # that data from WHO / ECDC
-        data = data[["key", "date", "new_tested", "total_tested"]]
 
         return data
 
