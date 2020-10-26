@@ -52,7 +52,7 @@ from lib.cast import safe_int_cast
 from lib.concurrent import thread_map
 from lib.constants import GCS_BUCKET_PROD, GCS_BUCKET_TEST, SRC, V3_TABLE_LIST
 from lib.error_logger import ErrorLogger
-from lib.gcloud import delete_instance, get_internal_ip, start_instance
+from lib.gcloud import delete_instance, get_internal_ip, start_instance_from_image
 from lib.io import export_csv, gzip_file, temporary_directory
 from lib.memory_efficient import table_read_column
 from lib.net import download
@@ -616,7 +616,7 @@ def report_errors_to_github() -> Response:
 
 
 @profiled_route("/deferred/<path:url_path>")
-def deferred_route(url_path: str) -> Response:
+def deferred2_route(url_path: str) -> Response:
     status = 500
     content = "Unknown error"
 
@@ -629,16 +629,12 @@ def deferred_route(url_path: str) -> Response:
 
     try:
         # Create a new preemptible instance and wait for it to come online
-        instance_id = start_instance(service_account=os.getenv(ENV_SERVICE_ACCOUNT))
+        instance_id = start_instance_from_image(service_account=os.getenv(ENV_SERVICE_ACCOUNT))
         instance_ip = get_internal_ip(instance_id)
         logger.log_info(f"Created worker instance {instance_id} with internal IP {instance_ip}")
 
-        # Wait 4 minutes before attempting to forward the request
-        log_interval = 30
-        wait_seconds = 4 * 60
-        for _ in range(wait_seconds // log_interval):
-            logger.log_info("Waiting for instance to start...")
-            time.sleep(log_interval)
+        # Wait 30 seconds before attempting to forward the request
+        time.sleep(30)
 
         # Forward the route to the worker instance
         url_fwd = f"http://{instance_ip}/{url_path}"
