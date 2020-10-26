@@ -665,6 +665,7 @@ sources:
           ext: csv
     parse:
       encoding: "ISO-8859-1"
+      sep: ";"
     test:
       metadata_query: key.str.match("PE_.+")
 
