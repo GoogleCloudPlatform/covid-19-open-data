@@ -22,9 +22,10 @@ _gcloud_bin = "/opt/google-cloud-sdk/bin/gcloud"
 _default_zone = "us-east1-b"
 _default_instance_type = "n2-standard-8"
 _host_container_image_id = "cos-stable-85-13310-1041-24"
+_host_custom_image_id = "open-covid-image"
 
 
-def start_instance(
+def start_instance_from_container(
     instance_type: str = _default_instance_type,
     service_account: str = None,
     zone: str = _default_zone,
@@ -51,7 +52,41 @@ def start_instance(
         f"--container-image={GCS_CONTAINER_ID}",
         f"--container-restart-policy=always",
         f"--container-env=PORT=80",
-        f"--metadata-from-file=startup-script={SRC / 'scripts' / 'startup-script.sh'}",
+        f"--metadata-from-file=startup-script={SRC / 'scripts' / 'startup-script-run.sh'}",
+        f"--quiet",
+    ]
+
+    if service_account:
+        gcloud_args += [f"--service-account={service_account}"]
+
+    subprocess.check_call([_gcloud_bin] + gcloud_args)
+    return instance_id
+
+
+def start_instance_from_image(
+    instance_type: str = _default_instance_type,
+    service_account: str = None,
+    zone: str = _default_zone,
+) -> str:
+    # Instance ID must start with a letter
+    instance_id = "x" + str(uuid4())
+
+    gcloud_args = [
+        f"beta",
+        f"compute",
+        f"instances",
+        f"create",
+        f"{instance_id}",
+        f"--preemptible",
+        f"--zone={zone}",
+        f"--machine-type={instance_type}",
+        f"--scopes=https://www.googleapis.com/auth/cloud-platform",
+        f"--tags=http-server",
+        f"--image={_host_custom_image_id}",
+        f"--boot-disk-size=32GB",
+        f"--boot-disk-type=pd-standard",
+        f"--boot-disk-device-name={instance_id}",
+        f"--metadata-from-file=startup-script={SRC / 'scripts' / 'startup-script-run.sh'}",
         f"--quiet",
     ]
 

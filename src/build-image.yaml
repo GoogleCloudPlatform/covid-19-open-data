@@ -14,19 +14,6 @@
 
 steps:
 
-    # Build and push Docker image
-    - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-      entrypoint: 'bash'
-      dir: './src'
-      args:
-        - '-c'
-        - |
-          docker build \
-            -t gcr.io/github-open-covid-19/runtime:latest \
-            -f Dockerfile \
-            .
-          docker push gcr.io/github-open-covid-19/runtime:latest
-
     # Create the template instance
     - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
       entrypoint: 'bash'
@@ -39,19 +26,17 @@ steps:
           # Create instance with the latest Docker image
           gcloud beta compute  \
               --project=github-open-covid-19 \
-              instances create-with-container template-instance  \
+              instances create template-instance  \
               --zone=us-east1-b  \
               --machine-type=n2-standard-8  \
               --service-account=github-open-covid-19@appspot.gserviceaccount.com  \
               --scopes=https://www.googleapis.com/auth/cloud-platform  \
-              --image=cos-stable-85-13310-1041-24  \
-              --image-project=cos-cloud  \
+              --image-project=ubuntu-os-cloud \
+              --image=ubuntu-2004-focal-v20201014  \
               --boot-disk-size=32GB  \
               --boot-disk-type=pd-standard  \
               --boot-disk-device-name=template-instance \
-              --container-image=gcr.io/github-open-covid-19/runtime:latest  \
-              --container-restart-policy=always  \
-              --container-env=PORT=80
+              --metadata-from-file=startup-script=./scripts/startup-script-setup.sh
 
     # Create image from template instance
     - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
