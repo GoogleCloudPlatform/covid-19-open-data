@@ -273,11 +273,12 @@ def cache_pull() -> Response:
 
 
 @profiled_route("/update_table")
-def update_table(table_name: str = None, job_group: str = None, process_count: int = 8) -> Response:
+def update_table(table_name: str = None, job_group: str = None, parallel_jobs: int = 8) -> Response:
     table_name = _get_request_param("table", table_name)
     job_group = _get_request_param("job_group", job_group)
-    process_count = _get_request_param("process_count", process_count)
-    process_count = safe_int_cast(process_count)
+    process_count = _get_request_param("parallel_jobs", parallel_jobs)
+    # Default to 1 if invalid process count is given
+    process_count = safe_int_cast(process_count) or 1
 
     # Early exit: table name not found
     if table_name not in list(get_table_names()):
