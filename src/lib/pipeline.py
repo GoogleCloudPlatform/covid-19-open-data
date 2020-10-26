@@ -171,7 +171,7 @@ class DataPipeline(ErrorLogger):
         return None
 
     def parse(
-        self, output_folder: Path, process_count: int = cpu_count()
+        self, output_folder: Path, process_count: int = None
     ) -> Iterable[Tuple[DataSource, DataFrame]]:
         """
         Performs the fetch and parse steps for each of the data sources in this pipeline.
@@ -200,6 +200,10 @@ class DataPipeline(ErrorLogger):
         # the multiprocessing module's limitations when dealing with lambda functions, coupled with
         # the "sandboxing" we implement to ensure resiliency.
         map_func = partial(DataPipeline._run_wrapper, output_folder, cache, aux_copy)
+
+        # Default to using as many processes as CPUs
+        if process_count is None:
+            process_count = cpu_count()
 
         # If the process count is less than one, run in series (useful to evaluate performance)
         data_sources_count = len(self.data_sources)
