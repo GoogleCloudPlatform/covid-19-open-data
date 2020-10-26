@@ -209,21 +209,6 @@ class Covid19UkL1DataSource(DataSource):
         # We know the key since it's country-level data
         data["key"] = "GB"
 
-        # For consistency across countries, do not report confirmed / deceased counts since we get
-        # that data from WHO / ECDC
-        data = data[
-            [
-                "key",
-                "date",
-                "new_confirmed",
-                "total_confirmed",
-                "new_deceased",
-                "total_deceased",
-                "new_tested",
-                "total_tested",
-            ]
-        ]
-
         return data
 
 
