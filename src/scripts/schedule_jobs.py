@@ -99,11 +99,12 @@ def schedule_all_jobs(project_id: str, location_id: str, time_zone: str) -> None
     location_keys = list(table_read_column(SRC / "data" / "metadata.csv", "key"))
 
     # Cache pull job runs hourly
-    _schedule_job(schedule="0 * * * *", path="/cache_pull")
+    _schedule_job(schedule="0 * * * *", path="/deferred/cache_pull")
 
     # The job that publishes combined tables into the prod bucket runs every 2 hours
     _schedule_job(
-        path="/publish_tables",
+        # Run in a separate, preemptible instance
+        path="/deferred/publish_tables",
         # Offset by 30 minutes to let other hourly tasks finish
         schedule="30 */2 * * *",
     )
@@ -138,7 +139,7 @@ def schedule_all_jobs(project_id: str, location_id: str, time_zone: str) -> None
         )
 
     # Get new errors once a day at midday.
-    _schedule_job(path="/report_errors_to_github", schedule="0 12 * * *")
+    _schedule_job(path="/deferred/report_errors_to_github", schedule="0 12 * * *")
 
     # Keep track of the different job groups to only output them once
     job_urls_seen = set()

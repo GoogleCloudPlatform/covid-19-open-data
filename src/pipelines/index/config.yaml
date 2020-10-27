@@ -38,3 +38,5 @@ auxiliary:
 
 sources:
   - name: pipelines.index.index.IndexDataSource
+    automation:
+      deferred: true
