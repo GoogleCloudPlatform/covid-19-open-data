@@ -53,5 +53,8 @@ sources:
     test:
       # Skip because it's too slow
       skip: true
-    # Run only every 4 hours, since it's so resource consuming and it updates daily
-    schedule: "0 */4 * * *"
+    automation:
+      job_group: 'gsod'
+      deferred: true
+      # Run only every 4 hours, since it's so resource consuming and it updates daily
+      schedule: "0 */4 * * *"

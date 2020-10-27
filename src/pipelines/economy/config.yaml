@@ -33,7 +33,8 @@ sources:
       gdp: P2131
       gdp_per_capita: P2132
     automation:
-      job_group: 'wikidata'
+      job_group: 'all'
+      deferred: true
       # Run only twice a day, since it's so resource consuming and does not change often
       schedule: "0 */12 * * *"
 
@@ -48,7 +49,8 @@ sources:
     test:
       metadata_query: key.str.match("^..$")
     automation:
-      job_group: 'worldbank'
+      job_group: 'all'
+      deferred: true
       # Run only twice a day, since it's so resource consuming and does not change often
       schedule: "0 */12 * * *"
 
@@ -56,3 +58,8 @@ sources:
   - name: pipelines._common.eurostat.EurostatDataSource
     test:
       metadata_query: key.str.match("BE.*")
+    automation:
+      job_group: 'all'
+      deferred: true
+      # Run only twice a day, since it's so resource consuming and does not change often
+      schedule: "0 */12 * * *"
