@@ -44,26 +44,6 @@ sources:
       job_group: all
       deferred: true
 
-  - name: pipelines.epidemiology.xx_ecdc.ECDCDataSource
-    fetch:
-      - url: "https://opendata.ecdc.europa.eu/covid19/casedistribution/csv/"
-        opts:
-          ext: csv
-    test:
-      metadata_query: key.str.match("^..$")
-    automation:
-      job_group: all
-      deferred: true
-
-  - name: pipelines.epidemiology.xx_who.WHODataSource
-    fetch:
-      - url: "https://covid19.who.int/WHO-COVID-19-global-data.csv"
-    test:
-      metadata_query: key.str.match("^..$")
-    automation:
-      job_group: all
-      deferred: true
-
   # Data sources for AF level 2
   - name: pipelines.epidemiology.af_humdata.AfghanistanHumdataDataSource
     fetch:
@@ -835,10 +815,20 @@ sources:
       - name: total_recovered
         url: "https://raw.github.com/adrianp/covid19romania/master/total_recovered_ro.json"
     test:
-      metadata_query: key.str.match("RO")
+      metadata_query: "key == 'RO'"
     automation:
       job_group: all
       deferred: true
+
+  # Data sources for RO levels 1 + 2
+  - name: pipelines.epidemiology.ro_authority.RomaniaDataSource
+    fetch:
+      - url: "https://d35p9e4fm9h3wo.cloudfront.net/latestData.json"
+    test:
+      metadata_query: key.str.match("RO_[^_]+")
+      automation:
+        job_group: all
+        deferred: true
 
   # Data sources for RU level 2
   - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
@@ -1126,6 +1116,29 @@ sources:
       sheet_name: ["Eastern_Cape", "Free_State", "Gauteng", "KwaZulu-Natal", "North_West", "Western_Cape", "Limpopo", "Mpumalanga", "Northern_Cape"]
     test:
       metadata_query: key.str.match("ZA_.+_.+")
+    automation:
+      job_group: all
+      deferred: true
+
+  # These are very stable data sources for country-level data, so they can override the individual
+  # data sources even if it's directly from the authority because they apply sensible corrections
+  # to historical data.
+  - name: pipelines.epidemiology.xx_ecdc.ECDCDataSource
+    fetch:
+      - url: "https://opendata.ecdc.europa.eu/covid19/casedistribution/csv/"
+        opts:
+          ext: csv
+    test:
+      metadata_query: key.str.match("^..$")
+    automation:
+      job_group: all
+      deferred: true
+
+  - name: pipelines.epidemiology.xx_who.WHODataSource
+    fetch:
+      - url: "https://covid19.who.int/WHO-COVID-19-global-data.csv"
+    test:
+      metadata_query: key.str.match("^..$")
     automation:
       job_group: all
       deferred: true

@@ -1519,47 +1519,47 @@ PT30,PT_30,Região Autónoma da Madeira
 PT300,,Região Autónoma da Madeira
 RO,RO,Romania
 RO1,,Macroregiunea unu
-RO11,RO_11,Nord-Vest
-RO111,,Bihor
-RO112,,Bistrita-Nasaud
-RO113,,Cluj
-RO114,,Maramures
-RO115,,Satu Mare
-RO116,,Salaj
-RO12,RO_12,Centru
-RO121,,Alba
-RO122,,Brasov
-RO123,,Covasna
-RO124,,Harghita
-RO125,,Mures
-RO126,,Sibiu
+RO11,,Nord-Vest
+RO111,RO_BH,Bihor
+RO112,RO_BN,Bistrita-Nasaud
+RO113,RO_CJ,Cluj
+RO114,RO_MM,Maramures
+RO115,RO_SM,Satu Mare
+RO116,RO_SJ,Salaj
+RO12,,Centru
+RO121,RO_AB,Alba
+RO122,RO_BV,Brasov
+RO123,RO_CV,Covasna
+RO124,RO_HR,Harghita
+RO125,RO_MS,Mures
+RO126,RO_SB,Sibiu
 RO2,,Macroregiunea doi
-RO21,RO_21,Nord-Est
-RO211,,Bacau
-RO212,,Botosani
-RO213,,Iasi
-RO214,,Neamt
-RO215,,Suceava
-RO216,,Vaslui
-RO22,RO_22,Sud-Est
-RO221,,Braila
-RO222,,Buzau
-RO223,,Constanta
-RO224,,Galati
-RO225,,Tulcea
-RO226,,Vrancea
+RO21,,Nord-Est
+RO211,RO_BC,Bacau
+RO212,RO_BT,Botosani
+RO213,RO_IS,Iasi
+RO214,RO_NT,Neamt
+RO215,RO_SV,Suceava
+RO216,RO_VS,Vaslui
+RO22,,Sud-Est
+RO221,RO_BR,Braila
+RO222,RO_BZ,Buzau
+RO223,RO_CT,Constanta
+RO224,RO_GL,Galati
+RO225,RO_TL,Tulcea
+RO226,RO_VN,Vrancea
 RO3,,Macroregiunea trei
-RO31,RO_31,Sud - Muntenia
-RO311,,Arges
-RO312,,Calarasi
-RO313,,Dâmbovita
-RO314,,Giurgiu
-RO315,,Ialomita
-RO316,,Prahova
-RO317,,Teleorman
-RO32,RO_32,Bucuresti - Ilfov
-RO321,,Bucuresti
-RO322,,Ilfov
+RO31,,Sud - Muntenia
+RO311,RO_AG,Arges
+RO312,RO_CL,Calarasi
+RO313,RO_DB,Dâmbovita
+RO314,RO_GR,Giurgiu
+RO315,RO_IL,Ialomita
+RO316,RO_PH,Prahova
+RO317,RO_TR,Teleorman
+RO32,,Bucuresti - Ilfov
+RO321,RO_B,Bucuresti
+RO322,RO_IF,Ilfov
 RO4,,Macroregiunea patru
 RO41,RO_41,Sud-Vest Oltenia
 RO411,,Dolj
