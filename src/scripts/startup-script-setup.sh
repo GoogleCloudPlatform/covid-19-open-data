@@ -46,8 +46,10 @@ After=network.target
 WorkingDirectory=/opt/open-covid/src
 ExecStart=/usr/local/bin/gunicorn -b :80 appengine:app --timeout 5400
 ExecReload=/bin/kill -s HUP $MAINPID
-StandardOutput=syslog
-StandardError=syslog
+# Identifier is set to zero-width space to keep output a valid JSON
+SyslogIdentifier=​
+StandardOutput=journal+console
+StandardError=journal+console
 
 [Install]
 WantedBy=multi-user.target
