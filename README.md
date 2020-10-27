@@ -304,6 +304,7 @@ from the relevant authorities, like a country's ministry of health.
 | Poland | [COVID19 EU Data](https://github.com/covid19-eu-zh/covid19-eu-data) | [MIT](https://github.com/covid19-eu-zh/covid19-eu-data/issues/57) |
 | Portugal | [COVID-19: Portugal](https://github.com/carlospramalheira/covid19) | [MIT](https://github.com/carlospramalheira/covid19/blob/master/LICENSE) |
 | Romania | <https://github.com/adrianp/covid19romania> | [CC0](https://github.com/adrianp/covid19romania/blob/master/LICENSE) |
+| Romania | <https://datelazi.ro/> | [Terms of Service](https://stirioficiale.ro/termeni-si-conditii-de-utilizare) |
 | Russia | <https://стопкоронавирус.рф> | [CC BY][29] |
 | Slovenia | <https://www.gov.si> | [Attribution Required][24] |
 | South Africa| [FinMango COVID-19 Data](https://finmango.org/covid) | [CC BY](https://finmango.org/covid) |

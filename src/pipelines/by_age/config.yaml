@@ -739,6 +739,18 @@ sources:
       job_group: all
       deferred: true
 
+  # Data sources for RO level 1
+  - name: pipelines.epidemiology.ro_authority.RomaniaDataSource
+    fetch:
+      - url: "https://d35p9e4fm9h3wo.cloudfront.net/latestData.json"
+    parse:
+      skip_l2: true
+    test:
+      metadata_query: "key == 'RO'"
+      automation:
+        job_group: all
+        deferred: true
+
   # Data sources for US level 2
   - name: pipelines.epidemiology.us_imperial.ImperialDataSource
     fetch:
