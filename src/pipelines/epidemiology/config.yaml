@@ -108,17 +108,6 @@ sources:
       deferred: true
 
   # Data sources for BD levels 2 + 3
-  - name: pipelines.epidemiology.bd_humdata.BangladeshHumdataDataSource
-    fetch:
-      - url: "https://data.humdata.org/dataset/4bc533e5-03d5-4e85-ae11-7345869bbfb4/resource/f8037c99-1a73-4ae1-8471-8d8ec4ff87d1/download/district-wise-confirmed-recovered-cases_08.06.2020.xlsx"
-    aggregate:
-      subregion2: ["total_confirmed", "total_deceased", "total_recovered"]
-    test:
-      metadata_query: key.str.match("BD_.+")
-    automation:
-      job_group: all
-      deferred: true
-
   - name: pipelines.epidemiology.bd_authority.BangladeshDataSource
     # No URL is given because it uses the cache
     fetch:
