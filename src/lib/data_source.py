@@ -142,6 +142,15 @@ class DataSource(ErrorLogger):
         # Compute a fuzzy version of the record's match string for comparison
         match_string = fuzzy_text(record["match_string"]) if "match_string" in record else None
 
+        # Provided match string could be identical to `match_string` (or with simple fuzzy match)
+        if match_string is not None:
+            aux_match_1 = metadata["match_string_fuzzy"] == match_string
+            if sum(aux_match_1) == 1:
+                return metadata[aux_match_1].iloc[0]["key"]
+            aux_match_2 = metadata["match_string"] == record["match_string"]
+            if sum(aux_match_2) == 1:
+                return metadata[aux_match_2].iloc[0]["key"]
+
         # Provided match string could be a subregion code / name
         if match_string is not None:
             for column_prefix in ("subregion1", "subregion2", "locality"):
@@ -156,15 +165,6 @@ class DataSource(ErrorLogger):
                 aux_match = metadata[column + "_fuzzy"] == match_string
                 if sum(aux_match) == 1:
                     return metadata[aux_match].iloc[0]["key"]
-
-        # Provided match string could be identical to `match_string` (or with simple fuzzy match)
-        if match_string is not None:
-            aux_match_1 = metadata["match_string_fuzzy"] == match_string
-            if sum(aux_match_1) == 1:
-                return metadata[aux_match_1].iloc[0]["key"]
-            aux_match_2 = metadata["match_string"] == record["match_string"]
-            if sum(aux_match_2) == 1:
-                return metadata[aux_match_2].iloc[0]["key"]
 
         # Last resort is to match the `match_string` column with a regex from aux
         if match_string is not None:
@@ -259,6 +259,17 @@ class DataSource(ErrorLogger):
         # Drop records which have no key merged
         # TODO: log records with missing key somewhere on disk
         data = data.dropna(subset=["key"])
+
+        # Aggregate records if requested by the config
+        if "aggregate" in self.config:
+            if "subregion2" in self.config["aggregate"]:
+                agg_cols = self.config["aggregate"]["subregion2"]
+                l2 = data[data["key"].apply(lambda x: len(x.split("_")) == 3)].copy()
+                # TODO: remove localities to ensure we only aggregate subregion2 locations
+                l2["subregion1_key"] = l2["key"].apply(lambda x: x.rsplit("_", 1)[0])
+                l1 = l2.groupby(["date", "subregion1_key"])[agg_cols].sum().reset_index()
+                data.loc[l1.index] = l1.rename(columns={"subregion1_key": "key"})
+            # TODO: add ability to aggregate subregion1 into country level
 
         # Filter out data according to the user-provided filter function
         if "query" in self.config:
