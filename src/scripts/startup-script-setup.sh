@@ -19,12 +19,21 @@ readonly BRANCH=main
 
 # Install dependencies using the package manager
 export DEBIAN_FRONTEND=noninteractive
+curl -sSO https://dl.google.com/cloudagents/add-logging-agent-repo.sh
+sudo bash add-logging-agent-repo.sh
 sudo apt-get update -yq && sleep 5
 sudo apt-get install -yq git wget curl python3.8 python3.8-dev python3-pip
+
+# Install google-fluentd
+sudo apt-get install -y 'google-fluentd=1.*'
+sudo apt-get install -y google-fluentd-catch-all-config-structured
+sudo service google-fluentd restart
+rm add-logging-agent-repo.sh
 
 # Update gcloud and add links to known location
 mkdir -p /opt/google-cloud-sdk/bin
 ln -s `which gcloud` /opt/google-cloud-sdk/bin/gcloud
+
 
 # Clone the repo into app directory
 readonly APPDIR=/opt/open-covid
@@ -45,7 +54,7 @@ After=network.target
 [Service]
 WorkingDirectory=/opt/open-covid/src
 ExecStart=/usr/local/bin/gunicorn -b :80 appengine:app --timeout 5400
-ExecReload=/bin/kill -s HUP $MAINPID
+ExecReload=/bin/kill -s SIGHUP $MAINPID
 # Identifier is set to zero-width space to keep output a valid JSON
 SyslogIdentifier=​
 StandardOutput=journal+console
