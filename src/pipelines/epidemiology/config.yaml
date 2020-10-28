@@ -115,7 +115,8 @@ sources:
     aggregate:
       subregion2: ["total_confirmed"]
     test:
-      metadata_query: key.str.match("BD_.+")
+      # Testing only admin level 1, which is aggregated from admin level 2
+      metadata_query: key.str.match("BD_[^_]+$")
     automation:
       job_group: all
       deferred: true
