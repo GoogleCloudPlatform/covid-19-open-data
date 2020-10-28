@@ -53,9 +53,6 @@ def _test_data_source(
 
     data_source_name = data_source.__class__.__name__
     data_source_opts = data_source.config
-    failure_message = (
-        f"Data source run failed: {pipeline_name} {data_source_name} {data_source_opts}"
-    )
     if data_source_opts.get("test", {}).get("skip"):
         return
 
@@ -71,6 +68,12 @@ def _test_data_source(
     # _any_ output, not if the output is exhaustive
     sample_size = min(len(aux["metadata"]), METADATA_SAMPLE_SIZE)
     aux["metadata"] = aux["metadata"].sample(sample_size, random_state=random_seed)
+
+    # Build the failure message to log the config of this data source
+    failure_message = (
+        f"{data_source_name} from {pipeline_name} pipeline failed with options {data_source_opts} "
+        f"and using metadata keys {aux['metadata']['key'].values.tolist()}"
+    )
 
     # Use a different temporary working directory for each data source
     with temporary_directory() as workdir:
