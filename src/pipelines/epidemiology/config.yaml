@@ -610,6 +610,23 @@ sources:
       job_group: all
       deferred: true
 
+  # Data sources for KE level 2
+  - name: pipelines.epidemiology.ke_finmango.FinMangoDataSource
+    fetch:
+      - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfvCvoBUXeB6aTVMDKM8Lg0JJnbBqiIJZsRB-G4EzBCiaMli7XfKIgj0r03yUyUzCUc8cmtB47Mpny/pub?output=xlsx"
+        opts:
+          ext: xlsx
+    parse:
+      dtype: str
+      country: KE
+      sheet_name: null
+      columns: ["new_confirmed"]
+    test:
+      metadata_query: key.str.match("KE_[^_]+$")
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for KR level 2
   - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
     fetch:
