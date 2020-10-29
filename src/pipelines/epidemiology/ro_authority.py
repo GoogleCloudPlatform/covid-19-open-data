@@ -53,7 +53,7 @@ class RomaniaDataSource(DataSource):
                     "age_bin_08": "80-",
                 }
             )
-            if not parse_opts.get("skip_l2"):
+            if not parse_opts.get("skip_county"):
                 for code, num in row.get("countyInfectionsNumbers", {}).items():
                     if code != "-":
                         records.append(

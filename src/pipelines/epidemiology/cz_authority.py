@@ -27,6 +27,7 @@ _column_adapter = {
     "pohlavi": "sex",
     "kraj_nuts_kod": "subregion1_code",
     "okres_lau_kod": "subregion2_code",
+    "prirustkovy_pocet_nakazenych": "new_confirmed",
     "kumulativni_pocet_nakazenych": "total_confirmed",
     "kumulativni_pocet_vylecenych": "total_recovered",
     "kumulativni_pocet_umrti": "total_deceased",
@@ -62,7 +63,7 @@ def _parse_region_codes(data: DataFrame) -> DataFrame:
     return data
 
 
-class CzechRepublicL1TestedDataSource(DataSource):
+class CzechRepublicCountryDataSource(DataSource):
     def parse_dataframes(
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:

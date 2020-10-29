@@ -27,10 +27,11 @@ class ColombiaDataSource(DataSource):
     ) -> DataFrame:
 
         # Rename appropriate columns
-        data = table_rename(
+        cases = table_rename(
             dataframes[0],
             {
                 "codigo divipola": "subregion2_code",
+                "fecha de notificacion": "_date_notified",
                 "fecha de muerte": "date_new_deceased",
                 "fecha diagnostico": "date_new_confirmed",
                 "fecha recuperado": "date_new_recovered",
@@ -40,37 +41,35 @@ class ColombiaDataSource(DataSource):
             },
         )
 
+        # Fall back to notification date when no confirmed date is available
+        cases["date_new_confirmed"] = cases["date_new_confirmed"].fillna(cases["_date_notified"])
+
         # Clean up the subregion code
-        data.subregion2_code = data.subregion2_code.apply(lambda x: "{0:05d}".format(int(x)))
+        cases.subregion2_code = cases.subregion2_code.apply(lambda x: "{0:05d}".format(int(x)))
 
         # Compute the key from the DIVIPOLA code
-        data["key"] = (
-            "CO_" + data.subregion2_code.apply(lambda x: x[:2]) + "_" + data.subregion2_code
+        cases["key"] = (
+            "CO_" + cases.subregion2_code.apply(lambda x: x[:2]) + "_" + cases.subregion2_code
         )
 
         # A few cases are at the l2 level
-        data["key"] = data["key"].apply(lambda x: "CO_" + x[-2:] if x.startswith("CO_00_") else x)
+        cases["key"] = cases["key"].apply(lambda x: "CO_" + x[-2:] if x.startswith("CO_00_") else x)
 
         # Go from individual case records to key-grouped records in a flat table
         index_columns = ["key", "date", "sex", "age"]
         value_columns = ["new_confirmed", "new_deceased", "new_recovered"]
-        merged = convert_cases_to_time_series(data)
+        data = convert_cases_to_time_series(cases)
 
         # Some dates are badly formatted as 31/12/1899 in the raw data we can drop these.
-        merged = merged[(merged["date"] != datetime(1899, 12, 31))].dropna(subset=["date"])
+        data = data[(data["date"] != datetime(1899, 12, 31))].dropna(subset=["date"])
 
         # Parse dates to ISO format.
-        merged["date"] = merged["date"].apply(safe_datetime_parse)
-        merged["date"] = merged["date"].apply(lambda x: x.date().isoformat())
+        data["date"] = data["date"].apply(safe_datetime_parse)
+        data["date"] = data["date"].apply(lambda x: x.date().isoformat())
 
-        # Group by level 2 region, and add the parts
-        l2 = merged.copy()
-        l2["key"] = l2.key.apply(lambda x: "_".join(x.split("_")[:2]))
-        l2 = l2.groupby(index_columns).sum().reset_index()
+        # Group by level 1 region, and add the parts
+        l1 = data.copy()
+        l1["key"] = l1.key.apply(lambda x: "_".join(x.split("_")[:2]))
+        l1 = l1.groupby(index_columns).sum().reset_index()
 
-        # Group by country level, and add the parts
-        l1 = l2.copy().drop(columns=["key"])
-        l1 = l1.groupby(index_columns[1:]).sum().reset_index()
-        l1["key"] = "CO"
-
-        return concat([merged, l1, l2])[index_columns + value_columns]
+        return concat([data, l1])[index_columns + value_columns]

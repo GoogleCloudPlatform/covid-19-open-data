@@ -38,10 +38,10 @@ class SwitzerlandSource(DataSource):
             .drop(columns=["time", "source"])
         )
 
-        # TODO: Match FL subdivision (not a canton?)
-        data = data[data.subregion1_code != "FL"]
+        # We can derive the key from country code + subregion1 code
+        data["key"] = "CH_" + data["subregion1_code"]
 
-        # Country-level data is reported as "ZH"
-        data["country_code"] = "CH"
+        # Principality of Liechtenstein is not in CH
+        data.loc[data["subregion1_code"] == "FL", "key"] = "LI"
 
         return data

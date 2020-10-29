@@ -28,7 +28,6 @@ class NetherlandsDataSource(DataSource):
             columns={
                 "Date_of_report": "date",
                 "Municipality_code": "subregion2_code",
-                "Municipality_name": "subregion2_name",
                 "Province": "subregion1_name",
                 "Total_reported": "total_confirmed",
                 "Hospital_admission": "total_hospitalized",
@@ -36,10 +35,23 @@ class NetherlandsDataSource(DataSource):
             }
         )
 
+        # Get date in ISO format
+        data.date = data.date.apply(lambda x: datetime.fromisoformat(x).date().isoformat())
+
+        # Group by country level, and add the parts
+        country = data.copy().drop(columns=["subregion1_name", "subregion2_code"])
+        country = country.groupby("date").sum().reset_index()
+        country["key"] = "NL"
+
+        # Group by province, and add the parts
+        provinces = data.copy().dropna(subset=["subregion2_code"])
+        provinces = provinces.groupby(["subregion1_name", "date"]).sum().reset_index()
+        provinces = provinces.rename(columns={"subregion1_name": "match_string"})
+        provinces["subregion2_code"] = None
+
         # Drop data without a clear demarcation
         data = data[~data.subregion1_name.isna()]
         data = data[~data.subregion2_code.isna()]
-        data = data[~data.subregion2_name.isna()]
 
         # Get date in ISO format
         data.date = data.date.apply(lambda x: datetime.fromisoformat(x).date().isoformat())
@@ -50,21 +62,11 @@ class NetherlandsDataSource(DataSource):
         # Add the country to help with matching
         metadata = aux["metadata"]
         metadata = metadata[metadata["country_code"] == "NL"]
-        data = data.drop(columns=["subregion1_name", "subregion2_name"])
+        data = data.drop(columns=["subregion1_name"])
         data = data.merge(metadata, on=["subregion2_code"])
 
         # We only need to keep key-date pair for identification
         data = data[["date", "key", "total_confirmed", "total_deceased", "total_hospitalized"]]
 
-        # Group by level 2 region, and add the parts
-        l2 = data.copy()
-        l2["key"] = l2.key.apply(lambda x: x[:5])
-        l2 = l2.groupby(["key", "date"]).sum().reset_index()
-
-        # Group by country level, and add the parts
-        l1 = l2.copy().drop(columns=["key"])
-        l1 = l1.groupby("date").sum().reset_index()
-        l1["key"] = "NL"
-
         # Output the results
-        return concat([l1, l2, data])
+        return concat([country, provinces, data])
