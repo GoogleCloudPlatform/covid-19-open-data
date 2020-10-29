@@ -467,18 +467,26 @@ sources:
       job_group: all
       deferred: true
 
-  # Data sources for ID level 2
-  # Removed until explicit permission is provided
-  # - name: pipelines.epidemiology.id_catchmeup.CatchmeupDataSource
-  #   fetch:
-  #     - url: "https://docs.google.com/spreadsheets/d/1sgiz8x71QyIVJZQguYtG9n6xBEKdM4fXuDs_d8zKOmY/gviz/tq?tqx=out:csv&sheet=Data%20Provinsi"
-  #       opts:
-  #         ext: csv
-  #   test:
-  #     metadata_query: key.str.match("ID_.*")
-  #   automation:
-  #     job_group: all
-  #     deferred: true
+  # Data sources for ID levels 1 + 2
+  - name: pipelines.epidemiology.id_authority.IndonesiaProvinceDataSource
+    fetch:
+      - url: "https://data.covid19.go.id/public/api/prov_detail_{}.json"
+    aggregate:
+      subregion1: ["new_confirmed", "new_deceased", "new_recovered", "total_confirmed", "total_deceased", "total_recovered"]
+    test:
+      metadata_query: key.str.match("ID_[^_]+$")
+    automation:
+      job_group: all
+      deferred: true
+
+  - name: pipelines.epidemiology.id_authority.IndonesiaCountryDataSource
+    fetch:
+      - url: "https://data.covid19.go.id/public/api/update.json"
+    test:
+      metadata_query: key == "ID"
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for IL levels 2 + 3
   - name: pipelines.epidemiology.il_authority.IsraelDataSource

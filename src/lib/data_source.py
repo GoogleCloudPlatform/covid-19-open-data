@@ -269,7 +269,13 @@ class DataSource(ErrorLogger):
                 l2["subregion1_key"] = l2["key"].apply(lambda x: x.rsplit("_", 1)[0])
                 l1 = l2.groupby(["date", "subregion1_key"])[agg_cols].sum().reset_index()
                 data.loc[l1.index] = l1.rename(columns={"subregion1_key": "key"})
-            # TODO: add ability to aggregate subregion1 into country level
+            if "subregion1" in self.config["aggregate"]:
+                agg_cols = self.config["aggregate"]["subregion1"]
+                l1 = data[data["key"].apply(lambda x: len(x.split("_")) == 2)].copy()
+                # TODO: remove localities to ensure we only aggregate subregion2 locations
+                l1["country_code"] = l1["key"].apply(lambda x: x.rsplit("_", 1)[0])
+                l0 = l1.groupby(["date", "country_code"])[agg_cols].sum().reset_index()
+                data.loc[l0.index] = l0.rename(columns={"country_code": "key"})
 
         # Filter out data according to the user-provided filter function
         if "query" in self.config:
