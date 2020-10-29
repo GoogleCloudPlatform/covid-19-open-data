@@ -744,7 +744,7 @@ sources:
     fetch:
       - url: "https://d35p9e4fm9h3wo.cloudfront.net/latestData.json"
     parse:
-      skip_l2: true
+      skip_county: true
     test:
       metadata_query: "key == 'RO'"
       automation:

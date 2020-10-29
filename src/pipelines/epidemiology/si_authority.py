@@ -58,6 +58,9 @@ class SloveniaDataSource(DataSource):
         # Make sure that the date column is a string
         data["date"] = data["date"].apply(lambda x: datetime_isoformat(str(x)[:10], "%Y-%m-%d"))
 
+        # Drop bogus values
+        data.dropna(subset=["date"], inplace=True)
+
         # Remove non-numeric markers from data fields
         value_columns = [
             col

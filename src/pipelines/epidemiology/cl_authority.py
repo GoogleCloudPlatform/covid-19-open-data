@@ -76,14 +76,42 @@ class ChileRegionsDataSource(DataSource):
         # Extract cities from the regions
         city = _extract_cities(data)
 
-        # Make sure all records have country code and no subregion code
+        # Make sure all records have country code and no subregion code or key
         data["country_code"] = "CL"
+        data["key"] = None
         data["subregion2_code"] = None
+
+        # Country is reported as "Total"
+        data.loc[data["match_string"] == "Total", "key"] = "CL"
 
         # Drop bogus records from the data
         data.dropna(subset=["date", "match_string"], inplace=True)
 
         return concat([data, city])
+
+
+class ChileCountryDataSource(DataSource):
+    def parse_dataframes(
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
+    ) -> DataFrame:
+
+        data = table_rename(
+            dataframes[0],
+            {
+                "Fecha": "date",
+                "Casos nuevos totales": "new_confirmed",
+                "Casos totales": "total_confirmed",
+                "Fallecidos": "total_deceased",
+                "Casos recuperados": "total_recovered",
+            },
+            drop=True,
+        )
+
+        # Convert date to ISO format and add key
+        data["key"] = "CL"
+        data["date"] = data["date"].astype(str)
+
+        return data
 
 
 class ChileMunicipalitiesDataSource(DataSource):

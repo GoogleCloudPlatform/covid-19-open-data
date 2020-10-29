@@ -44,6 +44,26 @@ sources:
       job_group: all
       deferred: true
 
+  - name: pipelines.epidemiology.xx_ecdc.ECDCDataSource
+    fetch:
+      - url: "https://opendata.ecdc.europa.eu/covid19/casedistribution/csv/"
+        opts:
+          ext: csv
+    test:
+      metadata_query: key.str.match("^..$")
+    automation:
+      job_group: all
+      deferred: true
+
+  - name: pipelines.epidemiology.xx_who.WHODataSource
+    fetch:
+      - url: "https://covid19.who.int/WHO-COVID-19-global-data.csv"
+    test:
+      metadata_query: key.str.match("^..$")
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for AF level 2
   - name: pipelines.epidemiology.af_humdata.AfghanistanHumdataDataSource
     fetch:
@@ -200,7 +220,16 @@ sources:
       job_group: all
       deferred: true
 
-  # Data sources for CL levels 2 + 3
+  # Data sources for CL levels 1 + 2 + 3
+  - name: pipelines.epidemiology.cl_authority.ChileCountryDataSource
+    fetch:
+      - url: "https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto5/TotalesNacionales_T.csv"
+    test:
+      metadata_query: key == "CL"
+    automation:
+      job_group: all
+      deferred: true
+
   - name: pipelines.epidemiology.cl_authority.ChileRegionsDataSource
     fetch:
       - name: confirmed
@@ -243,6 +272,8 @@ sources:
   - name: pipelines.epidemiology.co_authority.ColombiaDataSource
     fetch:
       - url: "https://www.datos.gov.co/api/views/gt2j-8ykr/rows.csv"
+    aggregate:
+      subregion1: ["new_confirmed", "new_deceased", "new_recovered"]
     test:
       metadata_query: key.str.match("CO*")
     automation:
@@ -250,22 +281,13 @@ sources:
       deferred: true
 
   # Data sources for CZ levels 1 + 2 + 3
-  - name: pipelines.epidemiology.xx_covid19_eu_data.Covid19EuDataSource
-    fetch:
-      - url: "https://raw.github.com/covid19-eu-zh/covid19-eu-data/master/dataset/covid-19-cz.csv"
-    parse:
-      country: CZ
-    test:
-      metadata_query: key.str.match("CZ_.+")
-    automation:
-      job_group: all
-      deferred: true
-
   - name: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
     fetch:
       - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/osoby.csv"
     parse:
-      column_name: 'new_confirmed'
+      column_name: new_confirmed
+    aggregate:
+      subregion1: ["new_confirmed"]
     test:
       metadata_query: key.str.match("CZ_.+")
     automation:
@@ -276,7 +298,9 @@ sources:
     fetch:
       - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/umrti.csv"
     parse:
-      column_name: 'new_deceased'
+      column_name: new_deceased
+    aggregate:
+      subregion1: ["new_deceased"]
     test:
       metadata_query: key.str.match("CZ_.+")
     automation:
@@ -287,7 +311,9 @@ sources:
     fetch:
       - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/vyleceni.csv"
     parse:
-      column_name: 'new_recovered'
+      column_name: new_recovered
+    aggregate:
+      subregion1: ["new_recovered"]
     test:
       metadata_query: key.str.match("CZ_.+")
     automation:
@@ -297,15 +323,27 @@ sources:
   - name: pipelines.epidemiology.cz_authority.CzechRepublicL3DataSource
     fetch:
       - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/kraj-okres-nakazeni-vyleceni-umrti.csv"
+    aggregate:
+      subregion2: ["total_confirmed", "total_deceased", "total_recovered"]
+      subregion1: ["total_confirmed", "total_deceased", "total_recovered"]
     test:
       metadata_query: key.str.match("CZ_.+")
     automation:
       job_group: all
       deferred: true
 
-  - name: pipelines.epidemiology.cz_authority.CzechRepublicL1TestedDataSource
+  - name: pipelines.epidemiology.cz_authority.CzechRepublicCountryDataSource
     fetch:
       - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/testy.csv"
+    test:
+      metadata_query: "key == 'CZ'"
+    automation:
+      job_group: all
+      deferred: true
+
+  - name: pipelines.epidemiology.cz_authority.CzechRepublicCountryDataSource
+    fetch:
+      - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/nakaza.csv"
     test:
       metadata_query: "key == 'CZ'"
     automation:
@@ -367,6 +405,9 @@ sources:
     fetch:
       - name: confirmed
         url: "https://cnecovid.isciii.es/covid19/resources/datos_ccaas.csv"
+    # These cannot be aggregated since data for the last few days tends to be incomplete
+    # aggregate:
+    #   subregion1: ["new_confirmed"]
     test:
       metadata_query: key.str.match("ES_*")
     automation:
@@ -398,8 +439,21 @@ sources:
 
   # Data sources for FR levels 1 + 2 + 3
   - name: pipelines.epidemiology.fr_authority.FranceDataSource
-    # No URL is defined because data is queried via API
-    # TODO(owahltinez): Parse stratified information as well
+    fetch:
+      - url: https://dashboard.covid19.data.gouv.fr/data/code-{}.json
+    parse:
+      country: true
+    test:
+      metadata_query: key.str.match("FR_.+")
+    automation:
+      job_group: all
+      deferred: true
+
+  - name: pipelines.epidemiology.fr_authority.FranceDataSource
+    fetch:
+      - url: https://dashboard.covid19.data.gouv.fr/data/code-{}.json
+    parse:
+      country: false
     test:
       metadata_query: key.str.match("FR_.+")
     automation:
@@ -912,6 +966,8 @@ sources:
       - url: "https://www.arcgis.com/sharing/rest/content/items/b5e7488e117749c19881cce45db13f7e/data"
         opts:
           ext: xlsx
+    aggregate:
+      subregion1: ["new_confirmed"]
     test:
       metadata_query: key.str.match("SE")
     automation:
@@ -923,7 +979,7 @@ sources:
     fetch:
       - url: "https://www.gov.si/assets/vlada/Koronavirus-podatki/en/EN_Covid-19-all-data.xlsx"
     test:
-      metadata_query: key.str.match("SI")
+      metadata_query: key == "SI"
     automation:
       job_group: all
       deferred: true
@@ -931,6 +987,8 @@ sources:
   # Data sources for UA levels 1 + 2
   - name: pipelines.epidemiology.ua_authority.UkraineDataSource
     # No URL is defined because data is queried via API
+    aggregate:
+      subregion1: ["total_confirmed", "total_deceased", "total_recovered"]
     test:
       metadata_query: key.str.match("UA_.+")
     automation:
@@ -1145,29 +1203,6 @@ sources:
       sheet_name: ["Eastern_Cape", "Free_State", "Gauteng", "KwaZulu-Natal", "North_West", "Western_Cape", "Limpopo", "Mpumalanga", "Northern_Cape"]
     test:
       metadata_query: key.str.match("ZA_.+_.+")
-    automation:
-      job_group: all
-      deferred: true
-
-  # These are very stable data sources for country-level data, so they can override the individual
-  # data sources even if it's directly from the authority because they apply sensible corrections
-  # to historical data.
-  - name: pipelines.epidemiology.xx_ecdc.ECDCDataSource
-    fetch:
-      - url: "https://opendata.ecdc.europa.eu/covid19/casedistribution/csv/"
-        opts:
-          ext: csv
-    test:
-      metadata_query: key.str.match("^..$")
-    automation:
-      job_group: all
-      deferred: true
-
-  - name: pipelines.epidemiology.xx_who.WHODataSource
-    fetch:
-      - url: "https://covid19.who.int/WHO-COVID-19-global-data.csv"
-    test:
-      metadata_query: key.str.match("^..$")
     automation:
       job_group: all
       deferred: true
