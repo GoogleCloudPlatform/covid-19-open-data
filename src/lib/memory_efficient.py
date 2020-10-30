@@ -22,11 +22,11 @@ from typing import Dict, Iterable, List, TextIO
 from .io import line_reader, open_file_like, read_table, temporary_directory
 
 
-# Any CSV file under 50 MB can use the fast JSON converter
+# Any CSV file under 50 MB can use the fast in-memory JSON converter
 JSON_FAST_CONVERTER_SIZE_BYTES = 50 * 1000 * 1000
 
-# Any CSV file above 150 MB should not be converted to JSON
-JSON_MAX_SIZE_BYTES = 150 * 1000 * 1000
+# Any CSV file above 500 MB should not be converted to JSON
+JSON_MAX_SIZE_BYTES = 500 * 1000 * 1000
 
 
 def skip_head_reader(file_handle: TextIO, skip_count: int = 1, **read_opts) -> Iterable[str]:
