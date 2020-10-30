@@ -15,9 +15,40 @@
 from typing import Dict
 from pandas import DataFrame
 from lib.data_source import DataSource
+from lib.utils import table_rename
 
 
-class SwitzerlandSource(DataSource):
+class SwitzerlandCountryDataSource(DataSource):
+    def parse_dataframes(
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
+    ) -> DataFrame:
+        columns = dataframes[0].iloc[5]
+        data = dataframes[0].iloc[6:]
+        data.columns = columns
+        data = table_rename(
+            data,
+            {
+                "Datum": "date",
+                "Fallzahlen pro Tag": "new_confirmed",
+                "Fallzahlen pro Tag, kumuliert": "total_confirmed",
+                "Hospitalisationen pro Tag": "new_hospitalized",
+                "Hospitalisationen pro Tag, Kumuliert": "total_hospitalized",
+                "Todesfälle pro Tag": "new_deceased",
+                "Todesfälle pro Tag, kumuliert": "total_deceased",
+            },
+            drop=True,
+        )
+
+        # Parse date into ISO format
+        data["date"] = data["date"].apply(lambda x: str(x)[:10])
+
+        # The key is just the country code
+        data["key"] = "CH"
+
+        return data
+
+
+class SwitzerlandCantonsDataSource(DataSource):
     def parse_dataframes(
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
