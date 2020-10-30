@@ -261,11 +261,12 @@ class DataSource(ErrorLogger):
         data = data.dropna(subset=["key"])
 
         # Drop columns which are no longer necessary to identify location
-        for col_prefix in ("country", "subregion1", "subregion2", "locality"):
-            for col_suffix in ("code", "name"):
-                col = f"{col_prefix}_{col_suffix}"
-                if col in data.columns:
-                    data.drop(columns=[col], inplace=True)
+        if not parse_opts.get("keep_metadata"):
+            for col_prefix in ("country", "subregion1", "subregion2", "locality"):
+                for col_suffix in ("code", "name"):
+                    col = f"{col_prefix}_{col_suffix}"
+                    if col in data.columns:
+                        data.drop(columns=[col], inplace=True)
 
         # Filter out data according to the user-provided filter function
         if "query" in self.config:
