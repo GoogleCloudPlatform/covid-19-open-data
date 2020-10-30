@@ -32,7 +32,9 @@ def _adjust_date(data: DataFrame, aux: DataFrame) -> DataFrame:
     # Perform date adjustment for all records so date is consistent across datasets
     data.aggregate_report_offset = data.aggregate_report_offset.apply(safe_int_cast)
     data["date"] = data.apply(
-        lambda x: date_offset(x["date"], get_or_default(x, "aggregate_report_offset", 0)), axis=1
+        # Offset by an additional day, since countries report to WHO the following day
+        lambda x: date_offset(x["date"], get_or_default(x, "aggregate_report_offset", 0) - 1),
+        axis=1,
     )
 
     return data[data_columns]
