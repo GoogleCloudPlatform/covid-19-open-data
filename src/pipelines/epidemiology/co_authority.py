@@ -14,10 +14,9 @@
 
 from typing import Dict
 from pandas import DataFrame, concat
-from datetime import datetime
 from lib.case_line import convert_cases_to_time_series
-from lib.cast import safe_datetime_parse
 from lib.data_source import DataSource
+from lib.time import datetime_isoformat
 from lib.utils import table_rename
 
 
@@ -30,11 +29,11 @@ class ColombiaDataSource(DataSource):
         cases = table_rename(
             dataframes[0],
             {
-                "codigo divipola": "subregion2_code",
-                "fecha de notificacion": "_date_notified",
-                "fecha de muerte": "date_new_deceased",
-                "fecha diagnostico": "date_new_confirmed",
-                "fecha recuperado": "date_new_recovered",
+                "Código DIVIPOLA municipio": "subregion2_code",
+                "Fecha de notificación": "_date_notified",
+                "Fecha de muerte": "date_new_deceased",
+                "Fecha de diagnóstico": "date_new_confirmed",
+                "Fecha de recuperación": "date_new_recovered",
                 "edad": "age",
                 "sexo": "sex",
                 "Pertenencia etnica": "ethnicity",
@@ -60,12 +59,9 @@ class ColombiaDataSource(DataSource):
         value_columns = ["new_confirmed", "new_deceased", "new_recovered"]
         data = convert_cases_to_time_series(cases)
 
-        # Some dates are badly formatted as 31/12/1899 in the raw data we can drop these.
-        data = data[(data["date"] != datetime(1899, 12, 31))].dropna(subset=["date"])
-
         # Parse dates to ISO format.
-        data["date"] = data["date"].apply(safe_datetime_parse)
-        data["date"] = data["date"].apply(lambda x: x.date().isoformat())
+        data["date"] = data["date"].apply(lambda x: datetime_isoformat(x.split(" ")[0], "%d/%m/%Y"))
+        data.dropna(subset=["date"], inplace=True)
 
         # Group by level 1 region, and add the parts
         l1 = data.copy()
