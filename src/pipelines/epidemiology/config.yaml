@@ -444,7 +444,7 @@ sources:
     parse:
       country: true
     test:
-      metadata_query: key.str.match("FR_.+")
+      metadata_query: key == "FR"
     automation:
       job_group: all
       deferred: true
