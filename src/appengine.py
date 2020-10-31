@@ -489,7 +489,12 @@ def publish_v3_location_subsets(
         )
 
         # Download all the global tables into our local storage
-        download_folder(GCS_BUCKET_PROD, "v3", input_folder, lambda x: "/" not in str(x))
+        download_folder(
+            GCS_BUCKET_PROD,
+            "v3",
+            input_folder,
+            lambda x: all(token not in str(x) for token in ("/", "main.")),
+        )
 
         # Break out each table into separate folders based on the location key
         publish_location_breakouts(input_folder, intermediate_folder, use_table_names=V3_TABLE_LIST)
@@ -693,6 +698,10 @@ def main() -> None:
         publish_json_tables()
         publish_json_locations()
 
+    def _publish_json_v3():
+        publish_json_tables(prod_folder="v3")
+        publish_json_locations(prod_folder="v3")
+
     def _unknown_command(*func_args):
         logger.log_error(f"Unknown command {args.command}")
 
@@ -706,6 +715,7 @@ def main() -> None:
         "publish": _publish,
         "convert_json": _publish_json,
         "publish_v3": _publish_v3,
+        "publish_v3_json": publish_v3_main_table,
         "publish_v3_main": publish_v3_main_table,
         "report_errors_to_github": report_errors_to_github,
     }.get(args.command, _unknown_command)(**json.loads(args.args or "{}"))
