@@ -40,6 +40,8 @@ sources:
       - url: "https://opendata.ecdc.europa.eu/covid19/casedistribution/csv/"
         opts:
           ext: csv
+    # Some countries do not report during weekends to the ECDC, ignore those
+    query: key != "ES"
     test:
       metadata_query: key.str.match("^..$")
     automation:
@@ -58,6 +60,8 @@ sources:
   - name: pipelines.epidemiology.xx_owid.OurWorldInDataSource
     fetch:
       - url: "https://covid.ourworldindata.org/data/owid-covid-data.csv"
+    # Some countries do not report during weekends to the ECDC, ignore those
+    query: key != "ES"
     test:
       metadata_query: key.str.match("^..$")
     automation:
