@@ -694,15 +694,15 @@ def main() -> None:
         publish_v3_global_tables()
         publish_v3_location_subsets()
 
-    def _publish_json():
+    def _publish_json(**kwargs):
         publish_json_tables()
-        publish_json_locations()
+        publish_json_locations(**kwargs)
 
-    def _publish_json_v3():
+    def _publish_json_v3(**kwargs):
         publish_json_tables(prod_folder="v3")
-        publish_json_locations(prod_folder="v3")
+        publish_json_locations(prod_folder="v3", **kwargs)
 
-    def _unknown_command(*func_args):
+    def _unknown_command(**kwargs):
         logger.log_error(f"Unknown command {args.command}")
 
     # If a command + args are supplied, call the corresponding function
