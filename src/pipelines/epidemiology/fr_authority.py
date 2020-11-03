@@ -38,29 +38,28 @@ _column_adapter = {
 }
 
 
-def _get_region(url_tpl: str, iso_map: Dict[str, str], subregion1_code: str):
+def _get_region(
+    url_tpl: str, column_adapter: Dict[str, str], iso_map: Dict[str, str], subregion1_code: str
+):
     code = iso_map[subregion1_code]
     data = read_file(url_tpl.format(code))
     data["key"] = f"FR_{subregion1_code}"
-    return table_rename(data, _column_adapter, drop=True)
+    return table_rename(data, column_adapter, drop=True)
 
 
-def _get_department(url_tpl: str, record: Dict[str, str]):
+def _get_department(url_tpl: str, column_adapter: Dict[str, str], record: Dict[str, str]):
     subregion1_code = record["subregion1_code"]
     subregion2_code = record["subregion2_code"]
     code = f"DEP-{subregion2_code}"
     data = read_file(url_tpl.format(code))
     data["key"] = f"FR_{subregion1_code}_{subregion2_code}"
-    return table_rename(data, _column_adapter, drop=True)
+    return table_rename(data, column_adapter, drop=True)
 
 
-def _get_country(url_tpl: str):
+def _get_country(url_tpl: str, column_adapter: Dict[str, str]):
     data = read_file(url_tpl.format("FRA"))
     data["key"] = "FR"
-    # For country level, there is no need to estimate confirmed from tests
-    _column_adapter_2 = dict(_column_adapter)
-    _column_adapter_2.pop("testsPositifs")
-    return table_rename(data, _column_adapter_2, drop=True)
+    return table_rename(data, column_adapter, drop=True)
 
 
 class FranceDataSource(DataSource):
@@ -83,13 +82,20 @@ class FranceDataSource(DataSource):
         deps_iter = (record for _, record in fr_codes.iterrows())
 
         if parse_opts.get("country"):
-            data = _get_country(url_tpl)
+            # For country level, there is no need to estimate confirmed from tests
+            _column_adapter_2 = dict(_column_adapter)
+            _column_adapter_2.pop("testsPositifs")
+            data = _get_country(url_tpl, _column_adapter_2)
 
         else:
-            get_region_func = partial(_get_region, url_tpl, fr_iso_map)
+            # For region level, we can only estimate confirmed from tests
+            _column_adapter_2 = dict(_column_adapter)
+            _column_adapter_2.pop("casConfirmes")
+
+            get_region_func = partial(_get_region, url_tpl, _column_adapter_2, fr_iso_map)
             regions = concat(list(thread_map(get_region_func, regions_iter)))
 
-            get_department_func = partial(_get_department, url_tpl)
+            get_department_func = partial(_get_department, url_tpl, _column_adapter_2)
             departments = concat(
                 list(thread_map(get_department_func, deps_iter, total=len(fr_codes)))
             )
