@@ -59,7 +59,8 @@ class ArgentinaDataSource(DataSource):
                 "residencia_provincia_id": "subregion1_code",
                 "residencia_departamento_id": "subregion2_code",
                 "fecha_fallecimiento": "date_new_deceased",
-                "fecha_diagnostico": "_date_diagnosed",
+                "fecha_apertura": "_date_estimate",
+                "fecha_diagnostico": "date_new_tested",
                 "fecha_internacion": "date_new_hospitalized",
                 "fecha_cui_intensivo": "date_new_intensive_care",
                 "clasificacion_resumen": "_classification",
@@ -69,40 +70,48 @@ class ArgentinaDataSource(DataSource):
             drop=True,
         )
 
-        # As long as a case is not labeled as "suspected", assume it has been tested
-        cases["date_new_tested"] = None
-        suspect_mask = cases["_classification"].str.lower().str.match(".*sospechoso.*")
-        cases.loc[~suspect_mask, "date_new_tested"] = cases.loc[suspect_mask, "_date_diagnosed"]
-
         # Get rid of all the suspected cases, since we have nothing to tally for them
-        cases = cases[~suspect_mask]
+        cases = cases[~cases["_classification"].str.lower().str.match(".*sospechoso.*")]
 
         # Confirmed cases use the label "confirmado"
-        cases["date_new_tested"] = None
+        cases["date_new_confirmed"] = None
         confirmed_mask = cases["_classification"].str.lower().str.match(".*confirmado.*")
         cases.loc[confirmed_mask, "date_new_confirmed"] = cases.loc[
-            confirmed_mask, "_date_diagnosed"
+            confirmed_mask, "date_new_tested"
         ]
 
-        # Clean up the subregion codes
-        cases["subregion1_code"] = cases["subregion1_code"].apply(
-            lambda x: None if x == 0 else numeric_code_as_string(x, 2)
-        )
-        cases["subregion2_code"] = cases["subregion2_code"].apply(
-            lambda x: None if x == 0 else numeric_code_as_string(x, 3)
-        )
-
-        # Convert subregion1_code to the corresponding ISO code
-        cases["subregion1_code"] = cases["subregion1_code"].apply(_ISO_CODE_MAP.get)
+        # Estimate the confirmed date when none is available
+        cases.loc[confirmed_mask, "date_new_confirmed"] = cases.loc[
+            confirmed_mask, "date_new_confirmed"
+        ].fillna(cases.loc[confirmed_mask, "_date_estimate"])
 
         # Remove unnecessary columns before converting to time series
         cases = cases.drop(columns=[col for col in cases.columns if col.startswith("_")])
+
+        # Clean up the subregion codes
+        cases["subregion1_code"] = cases["subregion1_code"].apply(
+            lambda x: numeric_code_as_string(x, 2) or "00"
+        )
+        cases["subregion2_code"] = cases["subregion2_code"].apply(
+            lambda x: numeric_code_as_string(x, 3) or "000"
+        )
 
         # Go from individual case records to key-grouped records in time series format
         data = convert_cases_to_time_series(cases, ["subregion1_code", "subregion2_code"])
 
         # Parse dates to ISO format.
         data["date"] = data["date"].astype(str)
+
+        # Aggregate to the country level and report that separately
+        country = (
+            data.drop(columns=["subregion1_code", "subregion2_code"])
+            .groupby(["date", "age", "sex"])
+            .sum()
+            .reset_index()
+        )
+
+        # Convert subregion1_code to the corresponding ISO code
+        data["subregion1_code"] = data["subregion1_code"].apply(_ISO_CODE_MAP.get)
 
         # Aggregate by province and report that separately
         provinces = (
@@ -112,24 +121,14 @@ class ArgentinaDataSource(DataSource):
             .reset_index()
         )
 
-        # Aggregate to the country level and report that separately
-        country = (
-            data.drop(columns=["subregion1_code"])
-            .groupby(["date", "age", "sex"])
-            .sum()
-            .reset_index()
-        )
+        # Drop regions without a code
+        data = data[data["subregion2_code"] != "000"]
+        data.dropna(subset=["subregion1_code", "subregion2_code"], inplace=True)
+        provinces.dropna(subset=["subregion1_code"], inplace=True)
 
         # Compute the key from the subregion codes
         country["key"] = "AR"
         provinces["key"] = "AR_" + provinces["subregion1_code"]
         data["key"] = "AR_" + data["subregion1_code"] + "_" + data["subregion2_code"]
-
-        # Remove bogus values
-        for df in (country, provinces, data):
-            df.drop(df[df["key"].str.endswith("_")].index, inplace=True)
-            for nn_col in ("date", "subregion1_code", "subregion2_code"):
-                if nn_col in df.columns:
-                    df.drop(df[df[nn_col].isna() | (df[nn_col] == "")].index, inplace=True)
 
         return concat([data, provinces, country])
