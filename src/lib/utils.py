@@ -18,7 +18,7 @@ from numpy import unique
 from pandas import DataFrame, Series, concat, merge
 from pandas.api.types import is_numeric_dtype
 from .cast import isna, safe_int_cast
-from .io import fuzzy_text, pbar, tqdm
+from .io import fuzzy_text
 
 
 def get_or_default(dict_like: Dict, key: Any, default: Any):
@@ -82,29 +82,16 @@ def table_merge(dataframes: List[DataFrame], **merge_opts) -> DataFrame:
     return reduce(lambda df1, df2: merge(df1, df2, **merge_opts), dataframes)
 
 
-def agg_last_not_null(series: Series, progress_bar: Optional[tqdm] = None) -> Series:
+def agg_last_not_null(series: Series) -> Series:
     """ Aggregator function used to keep the last non-null value in a list of rows """
-    if progress_bar:
-        progress_bar.update()
     return reduce(lambda x, y: y if not isna(y) else x, series)
 
 
-def combine_tables(
-    tables: List[DataFrame], keys: List[str], progress_label: str = None
-) -> DataFrame:
+def combine_tables(tables: List[DataFrame], index: List[str]) -> DataFrame:
     """ Combine a list of tables, keeping the last non-null value for every column """
-    data = concat(tables) if len(tables) > 1 else tables[0]
-    grouped = data.groupby([col for col in keys if col in data.columns])
-    if not progress_label:
-        return grouped.aggregate(agg_last_not_null).reset_index()
-    else:
-        total_estimate = len(grouped) * len(data.columns)
-        progress_bar = pbar(total=total_estimate, desc=f"Combine {progress_label} outputs")
-        agg_func = partial(agg_last_not_null, progress_bar=progress_bar)
-        combined = grouped.aggregate(agg_func).reset_index()
-        progress_bar.n = total_estimate
-        progress_bar.refresh()
-        return combined
+    data = tables[0] if hasattr(tables, "__len__") and len(tables) == 1 else concat(tables)
+    grouped = data.groupby([col for col in index if col in data.columns])
+    return grouped.aggregate(agg_last_not_null).reset_index()
 
 
 def drop_na_records(table: DataFrame, keys: List[str], inplace: bool = False) -> DataFrame:
