@@ -21,7 +21,7 @@ from typing import Any, Dict, Iterable, List, Optional, Tuple, Union
 
 import yaml
 import requests
-from pandas import DataFrame
+from pandas import DataFrame, concat
 
 from .anomaly import detect_anomaly_all, detect_stale_columns
 from .cast import column_converters
@@ -131,7 +131,7 @@ class DataPipeline(ErrorLogger):
 
         return DataPipeline(name, schema, auxiliary, data_sources)
 
-    def output_table(self, data: DataFrame) -> DataFrame:
+    def output_table(self, data: DataFrame, inplace: bool = False) -> DataFrame:
         """
         This function performs the following operations:
         1. Filters out columns not in the output schema
@@ -148,7 +148,16 @@ class DataPipeline(ErrorLogger):
             data[column] = data[column].apply(converter)
 
         # Filter only output columns and output the sorted data
-        return drop_na_records(data[output_columns], ["date", "key"]).sort_values(output_columns)
+        if inplace:
+            data = data[output_columns]
+            drop_na_records(data[output_columns], ["date", "key"], inplace=True)
+            data.sort_values(output_columns, inplace=True)
+        else:
+            data = data[output_columns]
+            data = drop_na_records(data, ["date", "key"])
+            data = data.sort_values(output_columns)
+
+        return data
 
     @staticmethod
     def _run_wrapper(
@@ -218,32 +227,98 @@ class DataPipeline(ErrorLogger):
         # This operation is parallelized but output order is preserved
         return zip(self.data_sources, map_result)
 
-    def combine(self, intermediate_results: Iterable[Tuple[DataSource, DataFrame]]) -> DataFrame:
+    def _load_intermediate_results(
+        self, intermediate_folder: Path
+    ) -> Iterable[Tuple[DataSource, DataFrame]]:
+
+        for data_source in self.data_sources:
+            intermediate_path = intermediate_folder / f"{data_source.uuid(self.table)}.csv"
+            try:
+                yield (data_source, read_table(intermediate_path, schema=self.schema))
+            except Exception as exc:
+                data_source_name = data_source.__class__.__name__
+                self.log_error(
+                    "Failed to load intermediate output",
+                    source_name=data_source_name,
+                    source_config=data_source.config,
+                    exception=exc,
+                )
+
+    def _split_combine_inputs(
+        self, intermediate_results: Iterable[Tuple[DataSource, DataFrame]], combine_chunk_size: int
+    ) -> List[DataFrame]:
+        combine_inputs = concat(intermediate_results)
+        combine_inputs_columns = combine_inputs.columns
+        idx_col = "date" if "date" in combine_inputs.columns else "key"
+        combine_inputs.dropna(subset=[idx_col], inplace=True)
+        combine_inputs.set_index(idx_col, inplace=True)
+        index = combine_inputs.index.unique()
+
+        new_chunk = lambda: DataFrame(columns=combine_inputs_columns).set_index(idx_col)
+        current_chunk = new_chunk()
+        current_chunk_len = 0
+
+        for idx in sorted(index):
+            idx_chunk = combine_inputs.loc[idx]
+            idx_chunk_len = len(idx_chunk)
+
+            if idx_chunk_len > 0 and current_chunk_len + idx_chunk_len > combine_chunk_size:
+                current_chunk_len = 0
+                yield current_chunk.reset_index()
+                current_chunk = new_chunk()
+
+            else:
+                current_chunk_len += idx_chunk_len
+                current_chunk = current_chunk.append(idx_chunk)
+
+        yield current_chunk.reset_index()
+
+    def combine(
+        self,
+        intermediate_results: Iterable[Tuple[DataSource, DataFrame]],
+        process_count: int = None,
+        combine_chunk_size: int = 2 ** 16,
+    ) -> DataFrame:
         """
         Combine all the provided intermediate results into a single DataFrame, giving preference to
         values coming from the latter results.
 
         Arguments:
             intermediate_results: collection of results from individual data sources.
+            process_count: Maximum number of processes to run in parallel.
+            combine_chunk_size: Maximum number of rows to send to combine grouping function.
         """
 
-        # Get rid of all columns which are not part of the output to speed up data combination
-        intermediate_tables = [
-            result[filter_output_columns(result.columns, self.schema)]
-            for data_source, result in intermediate_results
-        ]
+        # Default to using as many processes as CPUs
+        if process_count is None:
+            process_count = cpu_count()
 
         # Combine all intermediate outputs into a single DataFrame
-        if not intermediate_tables:
+        if not intermediate_results:
             self.log_error("Empty result for data pipeline {}".format(self.name))
-            pipeline_output = DataFrame(columns=self.schema.keys())
+            pipeline_output = [DataFrame(columns=self.schema.keys())]
         else:
-            pipeline_output = combine_tables(
-                intermediate_tables, ["date", "key"], progress_label=self.name
+
+            # Get rid of all columns which are not part of the output to speed up data combination
+            intermediate_tables = (
+                result[filter_output_columns(result.columns, self.schema)]
+                for data_source, result in intermediate_results
             )
 
+            # Limit the process count to 4 to avoid OOM for big datasets
+            proc_count = min(4, process_count)
+
+            # Parallelize combine step into N processes
+            combine_inputs = self._split_combine_inputs(intermediate_tables, combine_chunk_size)
+            map_iter = ([chunk] for chunk in combine_inputs)
+            map_func = partial(combine_tables, index=["date", "key"])
+            map_opts = dict(max_workers=proc_count, desc=f"Combine {self.name} outputs", total=0)
+            pipeline_output = process_map(map_func, map_iter, **map_opts)
+
         # Return data using the pipeline's output parameters
-        return self.output_table(pipeline_output)
+        map_func = partial(self.output_table, inplace=True)
+        map_opts = dict(max_workers=process_count, desc=f"Cleaning {self.name} outputs")
+        return concat(process_map(map_func, pipeline_output, **map_opts))
 
     def verify(
         self, pipeline_output: DataFrame, level: str = "simple", process_count: int = cpu_count()
@@ -301,23 +376,6 @@ class DataPipeline(ErrorLogger):
                     "No output while saving intermediate results",
                     source_name=data_source_name,
                     source_config=data_source.config,
-                )
-
-    def _load_intermediate_results(
-        self, intermediate_folder: Path
-    ) -> Iterable[Tuple[DataSource, DataFrame]]:
-
-        for data_source in self.data_sources:
-            intermediate_path = intermediate_folder / f"{data_source.uuid(self.table)}.csv"
-            try:
-                yield (data_source, read_table(intermediate_path, schema=self.schema))
-            except Exception as exc:
-                data_source_name = data_source.__class__.__name__
-                self.log_error(
-                    "Failed to load intermediate output",
-                    source_name=data_source_name,
-                    source_config=data_source.config,
-                    exception=exc,
                 )
 
     def run(
