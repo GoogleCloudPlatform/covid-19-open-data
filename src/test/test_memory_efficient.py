@@ -27,6 +27,7 @@ from lib.io import (
     export_csv,
     line_reader,
     open_file_like,
+    pbar,
     read_table,
     temporary_directory,
     temporary_file,
@@ -44,7 +45,7 @@ from lib.memory_efficient import (
 )
 from lib.memory_efficient import table_merge as table_merge_mem
 from lib.pipeline_tools import get_schema
-from lib.utils import agg_last_not_null, pbar
+from lib.utils import agg_last_not_null
 from lib.utils import table_merge as table_merge_pandas
 from .profiled_test_case import ProfiledTestCase
 
