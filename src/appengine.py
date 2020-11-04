@@ -356,17 +356,20 @@ def combine_table(table_name: str = None) -> Response:
 
         # Re-load all intermediate results
         intermediate_results = data_pipeline._load_intermediate_results(workdir / "intermediate")
+        logger.log_info(f"Loaded intermediate tables {intermediate_file_names}")
 
         # Combine all intermediate results into a single dataframe
         pipeline_output = data_pipeline.combine(intermediate_results)
+        logger.log_info(f"Combined intermediate tables into {table_name}")
 
         # Output combined data to disk
-        export_csv(
-            pipeline_output, workdir / "tables" / f"{table_name}.csv", schema=data_pipeline.schema
-        )
+        output_path = workdir / "tables" / f"{table_name}.csv"
+        export_csv(pipeline_output, output_path, schema=data_pipeline.schema)
+        logger.log_info(f"Exported combined {table_name} to CSV")
 
         # Upload results to the test bucket because these are not prod files
         # They will be copied to prod in the publish step, so main.csv is in sync
+        logger.log_info(f"Uploading combined {table_name}...")
         upload_folder(GCS_BUCKET_TEST, "tables", workdir / "tables")
 
     return Response("OK", status=200)
