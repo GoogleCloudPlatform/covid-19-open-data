@@ -16,15 +16,15 @@ import re
 import math
 import tarfile
 import datetime
-from random import shuffle
 from functools import partial
+from multiprocessing import Manager
 from typing import Dict
 
 import numpy
 from pandas import DataFrame, Series, concat
 
 from lib.cast import safe_float_cast
-from lib.concurrent import thread_map
+from lib.concurrent import process_map
 from lib.data_source import DataSource
 from lib.io import pbar, read_file
 
@@ -81,54 +81,53 @@ def relative_humidity(temp: float, dew_point: float) -> float:
     return 100 * numpy.exp(a * dew_point / (b + dew_point)) / numpy.exp(a * temp / (b + temp))
 
 
-class NoaaGsodDataSource(DataSource):
-    @staticmethod
-    def process_location(
-        station_cache: Dict[str, DataFrame], stations: DataFrame, location: Series
+def _process_location(station_cache: Dict[str, DataFrame], stations: DataFrame, location: Series):
+    # Get the nearest stations from our list of stations given lat and lon
+    distance = haversine_distance(stations, location.lat, location.lon)
+
+    # Filter out all but the 10 nearest stations
+    mask = distance < _DISTANCE_THRESHOLD
+    nearest = stations.loc[mask].copy()
+    nearest["key"] = location.key
+    nearest["distance"] = distance.loc[mask]
+    nearest.sort_values("distance", inplace=True)
+    nearest = nearest.iloc[:10]
+
+    # Early exit: no stations found within distance threshold
+    if len(nearest) == 0 or all(
+        station_id not in station_cache for station_id in nearest.id.values
     ):
-        # Get the nearest stations from our list of stations given lat and lon
-        distance = haversine_distance(stations, location.lat, location.lon)
+        return DataFrame(columns=_OUTPUT_COLUMNS)
 
-        # Filter out all but the 10 nearest stations
-        mask = distance < _DISTANCE_THRESHOLD
-        nearest = stations.loc[mask].copy()
-        nearest["key"] = location.key
-        nearest["distance"] = distance.loc[mask]
-        nearest.sort_values("distance", inplace=True)
-        nearest = nearest.iloc[:10]
+    # Get station records from the cache
+    nearest = nearest.rename(columns={"id": "noaa_station", "distance": "noaa_distance"})
+    data = [station_cache.get(station_id) for station_id in nearest.noaa_station.values]
+    data = concat([table.merge(nearest, on="noaa_station") for table in data if table is not None])
 
-        # Early exit: no stations found within distance threshold
-        if len(nearest) == 0 or all(
-            station_id not in station_cache for station_id in nearest.id.values
-        ):
-            return DataFrame(columns=_OUTPUT_COLUMNS)
+    # Combine them by computing a simple average
+    value_columns = [
+        "average_temperature",
+        "minimum_temperature",
+        "maximum_temperature",
+        "rainfall",
+        "snowfall",
+        "dew_point",
+        "relative_humidity",
+    ]
+    agg_functions = {col: "mean" for col in value_columns}
+    agg_functions["noaa_station"] = "first"
+    agg_functions["noaa_distance"] = "first"
+    data = data.groupby(["date", "key"]).agg(agg_functions).reset_index()
 
-        # Get station records from the cache
-        nearest = nearest.rename(columns={"id": "noaa_station", "distance": "noaa_distance"})
-        data = [station_cache.get(station_id) for station_id in nearest.noaa_station.values]
-        data = concat(
-            [table.merge(nearest, on="noaa_station") for table in data if table is not None]
-        )
+    # Return all the available data from the records
+    return data[[col for col in _OUTPUT_COLUMNS + value_columns if col in data.columns]]
 
-        # Combine them by computing a simple average
-        value_columns = [
-            "average_temperature",
-            "minimum_temperature",
-            "maximum_temperature",
-            "rainfall",
-            "snowfall",
-            "dew_point",
-            "relative_humidity",
-        ]
-        agg_functions = {col: "mean" for col in value_columns}
-        agg_functions["noaa_station"] = "first"
-        agg_functions["noaa_distance"] = "first"
-        data = data.groupby(["date", "key"]).agg(agg_functions).reset_index()
 
-        # Return all the available data from the records
-        return data[[col for col in _OUTPUT_COLUMNS + value_columns if col in data.columns]]
-
+class NoaaGsodDataSource(DataSource):
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
+
+        # Use a manager to handle memory accessed across processes
+        manager = Manager()
 
         # Get all the weather stations with data up until last month from inventory
         today = datetime.date.today()
@@ -142,8 +141,8 @@ class NoaaGsodDataSource(DataSource):
         # Open the station data as a compressed file
         with tarfile.open(sources["gsod"], mode="r:gz") as stations_tar:
 
-            # Build the station cache by uncompressing all files in memory
-            station_cache = {}
+            # Build the station cache by decompressing all files in memory
+            station_cache = manager.dict()
             for member in pbar(stations_tar.getmembers(), desc="Decompressing"):
 
                 if not member.name.endswith(".csv"):
@@ -186,15 +185,12 @@ class NoaaGsodDataSource(DataSource):
         metadata["lon"] = metadata["longitude"].apply(math.radians)
 
         # Make sure the stations and the cache are sent to each function call
-        map_func = partial(NoaaGsodDataSource.process_location, station_cache, stations)
+        map_func = partial(_process_location, station_cache, stations)
 
         # We don't care about the index while iterating over each metadata item
-        map_iter = [record for _, record in metadata.iterrows()]
-
-        # Shuffle the iterables to try to make better use of the caching
-        shuffle(map_iter)
+        map_iter = (record for _, record in metadata.iterrows())
 
         # Bottleneck is network so we can use lots of threads in parallel
-        records = thread_map(map_func, map_iter, total=len(metadata), max_workers=4)
+        records = process_map(map_func, map_iter, total=len(metadata))
 
         return concat(records)
