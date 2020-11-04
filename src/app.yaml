@@ -14,7 +14,13 @@
 
 runtime: custom
 env: flex
-entrypoint: gunicorn -b :$PORT appengine:app --timeout 5400 --worker-class=gthread --workers=4 --threads=8
+# gunicorn options:
+# --timeout 10800
+#   Use a 2.5 hour timeout, which is greater than the internal 2 hour deferred request timeout
+# --worker-class=gthread
+#   Use gthread worker class so each worker runs in a separate thread, we can't use gevent because
+#   it breaks our ability to do multiprocessing within the app
+entrypoint: gunicorn -b :$PORT appengine:app --timeout 10800 --worker-class=gthread --workers=32
 
 manual_scaling:
     instances: 2
