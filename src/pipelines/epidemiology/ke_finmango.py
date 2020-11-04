@@ -14,9 +14,8 @@
 
 from typing import Dict
 from pandas import DataFrame, concat
-from lib.cast import safe_int_cast
+from lib.cast import safe_int_cast, numeric_code_as_string
 from lib.data_source import DataSource
-from lib.utils import table_rename
 
 _columns = [
     "date",
@@ -53,7 +52,11 @@ class FinMangoDataSource(DataSource):
         for df in list(dataframes[0].values())[1:]:
             # Header has two rows, but we ignore them and use our own columns anyway
             df.columns = _columns
-            df = df.iloc[2:]
+            df = df.iloc[2:].copy()
+
+            # Make sure subregion code is numeric
+            apply_func = lambda x: numeric_code_as_string(x, 2)
+            df["subregion1_code"] = df["subregion1_code"].apply(apply_func)
 
             # Keep only new_confirmed
             df = df[["date", "subregion1_code"] + parse_opts["columns"]]
