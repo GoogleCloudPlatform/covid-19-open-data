@@ -624,7 +624,7 @@ def report_errors_to_github() -> Response:
 
 
 @profiled_route("/deferred/<path:url_path>")
-def deferred2_route(url_path: str) -> Response:
+def deferred_route(url_path: str) -> Response:
     status = 500
     content = "Unknown error"
 
@@ -646,7 +646,7 @@ def deferred2_route(url_path: str) -> Response:
 
         # Forward the route to the worker instance
         url_fwd = f"http://{instance_ip}/{url_path}"
-        logger.log_info(f"Forwarding request to {url_fwd}")
+        logger.log_info(f"Forwarding request to {instance_id}: {url_fwd}")
         params = dict(request.args)
         headers = dict(request.headers)
         response = requests.get(url=url_fwd, headers=headers, params=params, timeout=60 * 60 * 2)
@@ -654,10 +654,14 @@ def deferred2_route(url_path: str) -> Response:
         # Retrieve the response from the worker instance
         status = response.status_code
         content = response.content
-        logger.log_info(f"Received response with status code {status}")
+        logger.log_info(f"Received response from {instance_id} with status code {status}")
 
-    except:
-        traceback.print_exc()
+    except requests.exceptions.Timeout:
+        logger.log_error(f"Request to {url_path} timed out")
+        content = "Timeout"
+
+    except Exception as exc:
+        logger.log_error("Exception while waiting for response", traceback=traceback.format_exc())
         content = "Internal exception"
 
     finally:
