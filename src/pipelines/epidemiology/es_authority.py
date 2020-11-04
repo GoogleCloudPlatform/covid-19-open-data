@@ -15,6 +15,7 @@
 from typing import Dict
 from pandas import DataFrame
 from lib.data_source import DataSource
+from lib.time import datetime_isoformat
 from lib.utils import table_rename, pivot_table
 
 
@@ -57,6 +58,7 @@ class MSCBSDeceasedDataSource(DataSource):
 
         # Convert dates to ISO format
         deceased["date"] = deceased["date"].apply(lambda x: str(x)[:10])
+        deceased["date"] = deceased["date"].apply(lambda x: datetime_isoformat(x, "%Y-%m-%d"))
 
         # Add the country code to all records and declare matching as subregion1
         deceased["country_code"] = "ES"
@@ -68,4 +70,4 @@ class MSCBSDeceasedDataSource(DataSource):
         deceased.loc[deceased["match_string"] == "espana", "key"] = "ES"
 
         # Output the results
-        return deceased
+        return deceased.dropna(subset=["date"])
