@@ -791,6 +791,8 @@ sources:
         parse:
           skiprows: 1
     test:
+      # The resource was deleted, so keep it here and skip tests until fixed
+      skip: true
       metadata_query: key.str.match("MZ_.*")
     automation:
       job_group: all
