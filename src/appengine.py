@@ -86,7 +86,7 @@ def profiled_route(rule, **options):
         def profiled_method_call(*args, **kwargs) -> Response:
             # Start timer and log method entry
             time_start = time.monotonic()
-            log_opts = {"handler": rule, "args": args, "kwargs": kwargs}
+            log_opts = {"handler": rule, "args": args, "kwargs": kwargs, "params": request.args}
             logger.log_info("enter", **log_opts)
 
             # Stop timer as soon as response is received
@@ -98,7 +98,7 @@ def profiled_route(rule, **options):
                 log_func = logger.log_info
             else:
                 log_func = logger.log_error
-            log_func("exit", seconds=time_elapsed, status_code=response.status, **log_opts)
+            log_func("exit", seconds=time_elapsed, status_code=response.status_code, **log_opts)
 
             # Relay response as return value for function
             return response
@@ -645,23 +645,25 @@ def deferred_route(url_path: str) -> Response:
         time.sleep(30)
 
         # Forward the route to the worker instance
-        url_fwd = f"http://{instance_ip}/{url_path}"
-        logger.log_info(f"Forwarding request to {instance_id}: {url_fwd}")
         params = dict(request.args)
         headers = dict(request.headers)
+        url_fwd = f"http://{instance_ip}/{url_path}"
+        log_opts = dict(path=url_path, params=params)
+        logger.log_info(f"Forwarding request to {instance_id}: {instance_ip}", **log_opts)
         response = requests.get(url=url_fwd, headers=headers, params=params, timeout=60 * 60 * 2)
 
         # Retrieve the response from the worker instance
         status = response.status_code
         content = response.content
-        logger.log_info(f"Received response from {instance_id} with status code {status}")
+        logger.log_info(f"Received response from {instance_id}", status=status, **log_opts)
 
     except requests.exceptions.Timeout:
-        logger.log_error(f"Request to {url_path} timed out")
+        logger.log_error(f"Request to {instance_id} timed out", path=url_path)
         content = "Timeout"
 
     except Exception as exc:
-        logger.log_error("Exception while waiting for response", traceback=traceback.format_exc())
+        log_opts = dict(traceback=traceback.format_exc(), path=url_path)
+        logger.log_error(f"Exception while waiting for response from {instance_id}", **log_opts)
         content = "Internal exception"
 
     finally:
@@ -672,6 +674,12 @@ def deferred_route(url_path: str) -> Response:
 
     # Forward the response from the instance
     return Response(content, status=status)
+
+
+@profiled_route("/status_check")
+def status_check() -> Response:
+    # Simple response used to check the status of server
+    return Response("OK", status=200)
 
 
 def main() -> None:
