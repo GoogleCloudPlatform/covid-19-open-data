@@ -176,7 +176,7 @@ class TestPublish(ProfiledTestCase):
             # Convert all the tables to JSON under a new path
             jsonpath = workdir / "json"
             jsonpath.mkdir()
-            list(convert_tables_to_json(workdir, jsonpath))
+            convert_tables_to_json(workdir, jsonpath)
 
             # The JSON files should maintain the same relative path
             for csv_file in workdir.glob("**/*.csv"):
