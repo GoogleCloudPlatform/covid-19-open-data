@@ -496,11 +496,13 @@ def publish_v3_location_subsets(
             GCS_BUCKET_PROD,
             "v3",
             input_folder,
-            lambda x: all(token not in str(x) for token in ("/", "main.")),
+            lambda x: x.suffix == ".csv" and all(token not in str(x) for token in ("/", "main.")),
         )
+        logger.log_info("Downloaded all CSV files")
 
         # Break out each table into separate folders based on the location key
         publish_location_breakouts(input_folder, intermediate_folder, use_table_names=V3_TABLE_LIST)
+        logger.log_info("Created all table breakouts")
 
         # Aggregate the tables for each location independently
         publish_location_aggregates(
@@ -526,7 +528,7 @@ def publish_v3_main_table() -> Response:
             GCS_BUCKET_PROD,
             "v3",
             input_folder,
-            lambda x: all(token not in str(x) for token in ("/", "main.")),
+            lambda x: x.suffix == ".csv" and all(token not in str(x) for token in ("/", "main.")),
         )
 
         file_name = "covid-19-open-data.csv"
@@ -578,9 +580,10 @@ def publish_json_locations(
                 return False
 
         download_folder(GCS_BUCKET_PROD, prod_folder, input_folder, match_path)
+        logger.log_info("Downloaded all CSV files")
 
         # Convert all files to JSON
-        list(convert_tables_to_json(input_folder, output_folder))
+        convert_tables_to_json(input_folder, output_folder)
         logger.log_info("CSV files converted to JSON")
 
         # Upload the results to the prod bucket
@@ -604,11 +607,12 @@ def publish_json_tables(prod_folder: str = "v2") -> Response:
             GCS_BUCKET_PROD,
             prod_folder,
             input_folder,
-            lambda x: all(token not in str(x) for token in ("/", "main.")),
+            lambda x: x.suffix == ".csv" and all(token not in str(x) for token in ("/", "main.")),
         )
+        logger.log_info("Downloaded all CSV files")
 
         # Convert all files to JSON
-        list(convert_tables_to_json(input_folder, output_folder))
+        convert_tables_to_json(input_folder, output_folder)
         logger.log_info("CSV files converted to JSON")
 
         # Upload the results to the prod bucket
