@@ -25,7 +25,6 @@ from pstats import Stats
 from typing import Dict, Iterable, List, TextIO
 from zipfile import ZIP_DEFLATED, ZipFile
 
-from lib.concurrent import thread_map
 from lib.constants import OUTPUT_COLUMN_ADAPTER, SRC, V2_TABLE_LIST, V3_TABLE_LIST
 from lib.error_logger import ErrorLogger
 from lib.io import pbar, read_lines, temporary_directory
@@ -302,73 +301,93 @@ def merge_output_tables_sqlite(
         sql_table_drop(conn, temp_table_output)
 
 
+def _subset_latest(output_folder: Path, csv_file: Path) -> Path:
+    output_file = output_folder / csv_file.name
+    # Degenerate case: table has no "date" column
+    columns = get_table_columns(csv_file)
+    if "date" not in columns:
+        shutil.copyfile(csv_file, output_file)
+    else:
+        table_grouped_tail(csv_file, output_file, ["key"])
+    return output_file
+
+
 def create_table_subsets(main_table_path: Path, output_path: Path) -> Iterable[Path]:
-
-    latest_path = output_path / "latest"
-    latest_path.mkdir(parents=True, exist_ok=True)
-
-    def subset_latest(csv_file: Path) -> Path:
-        output_file = latest_path / csv_file.name
-        # Degenerate case: table has no "date" column
-        columns = get_table_columns(csv_file)
-        if "date" not in columns:
-            shutil.copyfile(csv_file, output_file)
-        else:
-            table_grouped_tail(csv_file, output_file, ["key"])
-        return output_file
-
-    # Create a subset with the latest known day of data for each key
-    map_func = subset_latest
-    yield from thread_map(map_func, [*output_path.glob("*.csv")], desc="Latest subset")
 
     # Create subsets with each known key
     yield from _subset_grouped_key(main_table_path, output_path, desc="Grouped key subsets")
 
+    # Create a subfolder to store the latest row for each key
+    latest_path = output_path / "latest"
+    latest_path.mkdir(parents=True, exist_ok=True)
 
-def convert_tables_to_json(csv_folder: Path, output_folder: Path) -> Iterable[Path]:
-    def try_json_covert(schema: Dict[str, str], csv_file: Path) -> Path:
-        # JSON output defaults to same as the CSV file but with extension swapped
-        json_output = output_folder / str(csv_file.relative_to(csv_folder)).replace(".csv", ".json")
-        json_output.parent.mkdir(parents=True, exist_ok=True)
+    # Create a subset with the latest known day of data for each key
+    map_opts = dict(desc="Latest subset")
+    map_func = partial(_subset_latest, latest_path)
+    map_iter = list(output_path.glob("*.csv")) + [main_table_path]
+    yield from pbar(map(map_func, map_iter), **map_opts)
 
-        # Converting to JSON is not critical and it may fail in some corner cases
-        # As long as the "important" JSON files are created, this should be OK
-        try:
-            _logger.log_debug(f"Converting {csv_file} to JSON")
-            convert_csv_to_json_records(schema, csv_file, json_output)
-            return json_output
-        except Exception as exc:
-            error_message = f"Unable to convert CSV file {csv_file} to JSON"
-            _logger.log_error(error_message, traceback=traceback.format_exc())
-            return None
+
+def _try_json_covert(
+    schema: Dict[str, str], csv_folder: Path, output_folder: Path, csv_file: Path
+) -> Path:
+    # JSON output path defaults to same as the CSV file but with extension swapped
+    json_output = output_folder / str(csv_file.relative_to(csv_folder)).replace(".csv", ".json")
+    json_output.parent.mkdir(parents=True, exist_ok=True)
+
+    # Converting to JSON is not critical and it may fail in some corner cases
+    # As long as the "important" JSON files are created, this should be OK
+    try:
+        _logger.log_debug(f"Converting {csv_file} to {json_output}")
+        convert_csv_to_json_records(schema, csv_file, json_output)
+        return json_output
+    except Exception as exc:
+        error_message = f"Unable to convert CSV file {csv_file} to JSON"
+        _logger.log_error(error_message, traceback=traceback.format_exc())
+        return None
+
+
+def convert_tables_to_json(csv_folder: Path, output_folder: Path, **tqdm_kwargs) -> Iterable[Path]:
 
     # Convert all CSV files to JSON using values format
     map_iter = list(csv_folder.glob("**/*.csv"))
-    map_func = partial(try_json_covert, get_schema())
-    for json_output in thread_map(map_func, map_iter, max_workers=2, desc="JSON conversion"):
-        if json_output is not None:
-            yield json_output
+    map_opts = dict(total=len(map_iter), desc="Converting to JSON", **tqdm_kwargs)
+    map_func = partial(_try_json_covert, get_schema(), csv_folder, output_folder)
+    return list(pbar(map(map_func, map_iter), **map_opts))
 
 
 def publish_location_breakouts(
     tables_folder: Path, output_folder: Path, use_table_names: List[str] = None
-) -> None:
+) -> List[Path]:
     """
     Breaks out each of the tables in `tables_folder` based on location key, and writes them into
-    subdirectories of `output_folder`. This method also joins *all* the tables into a main.csv
-    table, which will be more comprehensive than the global main.csv.
+    subdirectories of `output_folder`.
 
     Arguments:
         tables_folder: Directory containing input CSV files.
         output_folder: Output path for the resulting location data.
     """
     # Default to a known list of tables to use when none is given
-    table_paths = _get_tables_in_folder(tables_folder, use_table_names or V2_TABLE_LIST)
+    map_iter = _get_tables_in_folder(tables_folder, use_table_names or V2_TABLE_LIST)
 
     # Break out each table into separate folders based on the location key
-    for csv_path in table_paths:
-        _logger.log_info(f"Breaking out table {csv_path.name}")
-        table_breakout(csv_path, output_folder, "location_key")
+    _logger.log_info(f"Breaking out tables {[x.stem for x in map_iter]}")
+    map_func = partial(table_breakout, output_folder=output_folder, breakout_column="location_key")
+    return list(pbar(map(map_func, map_iter), desc="Breaking out tables"))
+
+
+def _aggregate_location_breakouts(
+    tables_folder: Path, output_folder: Path, key: str, use_table_names: List[str] = None
+) -> Path:
+    key_output_file = output_folder / key / "main.csv"
+    key_output_file.parent.mkdir(parents=True, exist_ok=True)
+    merge_output_tables(
+        tables_folder / key,
+        key_output_file,
+        drop_empty_columns=True,
+        use_table_names=use_table_names or V2_TABLE_LIST,
+    )
+    return key_output_file
 
 
 def publish_location_aggregates(
@@ -376,7 +395,8 @@ def publish_location_aggregates(
     output_folder: Path,
     location_keys: Iterable[str],
     use_table_names: List[str] = None,
-) -> None:
+    **tqdm_kwargs,
+) -> List[Path]:
     """
     This method joins *all* the tables for each location into a main.csv table.
 
@@ -385,18 +405,15 @@ def publish_location_aggregates(
         output_folder: Output path for the resulting location data.
         location_keys: List of location keys to do aggregation for.
     """
-    # Create a main.csv file for each of the locations in parallel
-    def map_func(key: str):
-        key_output_file = output_folder / key / "main.csv"
-        key_output_file.parent.mkdir(parents=True, exist_ok=True)
-        merge_output_tables(
-            tables_folder / key,
-            key_output_file,
-            drop_empty_columns=True,
-            use_table_names=use_table_names,
-        )
 
-    list(thread_map(map_func, list(location_keys), desc="Creating location subsets"))
+    # Create a main.csv file for each of the locations in parallel
+    map_iter = list(location_keys)
+    _logger.log_info(f"Aggregating outputs for {len(map_iter)} location keys")
+    map_opts = dict(total=len(map_iter), desc="Creating location subsets", **tqdm_kwargs)
+    map_func = partial(
+        _aggregate_location_breakouts, tables_folder, output_folder, use_table_names=use_table_names
+    )
+    return list(pbar(map(map_func, map_iter), **map_opts))
 
 
 def publish_global_tables(
@@ -424,8 +441,6 @@ def publish_global_tables(
             # Sort output files by location key, since the following breakout step requires it
             _logger.log_info(f"Sorting {csv_path.name}")
             table_sort(workdir / csv_path.name, output_folder / csv_path.name, ["location_key"])
-
-    # Main table is not created for the global output, because it's too big to be useful
 
 
 def main(output_folder: Path, tables_folder: Path, use_table_names: List[str] = None) -> None:

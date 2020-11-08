@@ -326,6 +326,7 @@ def table_breakout(
         table: Location of the input table.
         output_folder: Location of the output directory where the breakout tables will be placed.
         breakout_column: Name of the column to use for the breakout depending on its value.
+        output_name: Name of the output files to use for the breakout, defaults to same as table.
     """
     # Output name defaults to the input file's name
     output_name = output_name or table.name
