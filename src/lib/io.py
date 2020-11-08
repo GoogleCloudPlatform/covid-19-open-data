@@ -16,11 +16,11 @@ import gzip
 import os
 import re
 import shutil
+import tempfile
 import uuid
 from contextlib import contextmanager
 from functools import partial
 from pathlib import Path
-from tempfile import TemporaryDirectory
 from typing import Any, Callable, Dict, IO, Iterable, List, Optional, TextIO, Union
 from zipfile import ZipFile
 
@@ -102,8 +102,7 @@ def read_file(path: Union[Path, str], file_type: str = None, **read_opts) -> Dat
     if ext == "xls" or ext == "xlsx":
         return pandas.read_excel(path, **{**default_read_opts, **read_opts})
     if ext == "zip":
-        with TemporaryDirectory() as tmpdir:
-            tmpdir = Path(tmpdir)
+        with temporary_directory() as tmpdir:
             with ZipFile(path, "r") as archive:
                 if "file_name" in read_opts:
                     file_name = read_opts.pop("file_name")
@@ -345,24 +344,21 @@ def open_file_like(path_or_handle: Union[Path, str, IO], mode: str = "r") -> IO:
 @contextmanager
 def temporary_directory() -> Path:
     """ Create a temporary directory which self-deletes after the context exits. """
-    tempdir = TemporaryDirectory()
+    tempdir = tempfile.mkdtemp()
     try:
-        yield Path(tempdir.name)
+        yield Path(tempdir)
     finally:
-        tempdir.cleanup()
+        shutil.rmtree(tempdir)
 
 
 @contextmanager
 def temporary_file(file_name: str = None) -> Path:
     """ Create a temporary file which self-deletes after the context exits. """
-    tempdir = TemporaryDirectory()
-    try:
+    with temporary_directory() as tempdir:
         file_name = file_name or str(uuid.uuid4())
-        file_path = Path(tempdir.name) / file_name
+        file_path = tempdir / file_name
         file_path.touch()
         yield file_path
-    finally:
-        tempdir.cleanup()
 
 
 def gzip_file(file_in: Union[Path, str, IO], file_out: Union[Path, str]) -> None:
