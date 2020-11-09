@@ -141,7 +141,8 @@ sources:
   - name: pipelines.hospitalizations.es_authority.ISCIIIHospitalizedDataSource
     fetch:
       - url: "https://covid19.isciii.es/resources/serie_historica_acumulados.csv"
-    query: "date < '2020-05-22'"
+    aggregate:
+      subregion1: ["total_hospitalized", "total_intensive_care"]
     test:
       location_key_match: 'ES.*'
     automation:
