@@ -680,7 +680,7 @@ def deferred_route(url_path: str) -> Response:
     return Response(content, status=status)
 
 
-@profiled_route("/status_check")
+@app.route("/status_check")
 def status_check() -> Response:
     # Simple response used to check the status of server
     return Response("OK", status=200)
