@@ -14,7 +14,7 @@
 
 from typing import Dict
 
-from pandas import DataFrame, concat
+from pandas import DataFrame
 
 from lib.data_source import DataSource
 from lib.utils import table_rename
@@ -55,14 +55,10 @@ class MadridDataSource(DataSource):
         data["date"] = data["date"].apply(lambda x: datetime_isoformat(x[:10], "%Y/%m/%d"))
         data["total_confirmed"] = data["total_confirmed"].apply(safe_int_cast)
 
-        # Aggregate the entire autonomous community
-        l1 = data.drop(columns=["key", "subregion2_name"]).groupby("date").sum().reset_index()
-        l1["key"] = "ES_MD"
-
         # Sometimes the subregion code is not properly formatted, so we may need to do string match
         data["country_code"] = "ES"
         data["subregion1_code"] = "MD"
         data["subregion2_name"] = data["subregion2_name"].str.replace("Madrid-", "")
         data.loc[data["key"] == "ES_MD_28000", "key"] = None
 
-        return concat([data, l1])
+        return data

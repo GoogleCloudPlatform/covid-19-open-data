@@ -375,19 +375,45 @@ sources:
       job_group: all
       deferred: true
 
+  # Data sources for ES levels 1 + 2
+  - name: pipelines.epidemiology.es_authority.ISCIIIConfirmedDataSource
+    fetch:
+      - name: confirmed
+        url: "https://cnecovid.isciii.es/covid19/resources/datos_ccaas.csv"
+    # These cannot be aggregated since data for the last few days tends to be incomplete
+    # aggregate:
+    #   subregion1: ["new_confirmed"]
+    test:
+      location_key_match: '^ES_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
+  - name: pipelines.epidemiology.es_authority.MSCBSDeceasedDataSource
+    fetch:
+      - name: deceased
+        url: "https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov-China/documentos/Fallecidos_COVID19.xlsx"
+    test:
+      location_key_match: '^ES_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for ES_CN levels 2 + 3
   - name: pipelines.epidemiology.es_cn_authority.CanaryIslandsDataSource
     fetch:
       - url: "https://services9.arcgis.com/CgZpnNiCwFObjaOT/arcgis/rest/services/CVCanarias/FeatureServer/5/query?f=json&where=TIPO_MUN%3D%27Caso%27&returnGeometry=false&outFields=*"
         opts:
           ext: json
+    aggregate:
+      subregion2: ['new_confirmed', 'new_deceased', 'new_recovered']
     test:
       location_key_match: 'ES_CN.*'
     automation:
       job_group: all
       deferred: true
 
-  # Data sources for ES_MD levels 2 + 3
+  # Data sources for ES_MD level 3
   - name: pipelines.epidemiology.es_md_authority.MadridDataSource
     fetch:
       - url: "http://datos.comunidad.madrid/catalogo/dataset/7da43feb-8d4d-47e0-abd5-3d022d29d09e/resource/b2a3a3f9-1f82-42c2-89c7-cbd3ef801412/download/covid19_tia_muni_y_distritos.csv"
@@ -395,6 +421,7 @@ sources:
       sep: ";"
       dtype: str
       encoding: ISO-8859-1
+    query:
     test:
       location_key_match: 'ES_MD_.+'
     automation:
@@ -410,31 +437,6 @@ sources:
       encoding: ISO-8859-1
     test:
       location_key_match: 'ES_MD_.+'
-    automation:
-      job_group: all
-      deferred: true
-
-  # Data sources for ES levels 1 + 2
-  # This goes after the individual regions to ensure reporting is consistent across all regions
-  - name: pipelines.epidemiology.es_authority.ISCIIIConfirmedDataSource
-    fetch:
-      - name: confirmed
-        url: "https://cnecovid.isciii.es/covid19/resources/datos_ccaas.csv"
-    # These cannot be aggregated since data for the last few days tends to be incomplete
-    # aggregate:
-    #   subregion1: ["new_confirmed"]
-    test:
-      location_key_match: 'ES_*'
-    automation:
-      job_group: all
-      deferred: true
-
-  - name: pipelines.epidemiology.es_authority.MSCBSDeceasedDataSource
-    fetch:
-      - name: deceased
-        url: "https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov-China/documentos/Fallecidos_COVID19.xlsx"
-    test:
-      location_key_match: 'ES_*'
     automation:
       job_group: all
       deferred: true
