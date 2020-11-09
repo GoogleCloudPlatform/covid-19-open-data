@@ -51,7 +51,7 @@ sources:
   # WorldPop populations are estimates, so give them less priority
   - name: pipelines.demographics.worldpop.WorldPopPopulationDataSource
     test:
-      metadata_query: key.str.match("^..$")
+      location_key_match: '^..$'
     automation:
       job_group: 'all'
       deferred: true
@@ -82,7 +82,7 @@ sources:
         clustered_population: "EN.URB.MCTY"
         population_density: "EN.POP.DNST"
     test:
-      metadata_query: key.str.match("^..$")
+      location_key_match: '^..$'
     automation:
       job_group: 'all'
       deferred: true
@@ -92,7 +92,12 @@ sources:
   # This data is manually curated into a table using official census estimates
   - name: pipelines.demographics.census.CensusDataSource
     test:
-      metadata_query: key.str.match("MX.*")
+      location_key_match:
+        - '^CL.*'
+        - '^IL.*'
+        - '^MX.*'
+        - '^PE.*'
+        - '^US.*'
     automation:
       job_group: 'all'
       deferred: true
@@ -102,7 +107,42 @@ sources:
   # This data has been manually downloaded from the Eurostat website
   - name: pipelines._common.eurostat.EurostatDataSource
     test:
-      metadata_query: key.str.match("BE.*")
+      location_key_match:
+        - '^(AL)|(AL_[^_]+)$'
+        - '^(AT)|(AT_[^_]+)$'
+        - '^(BE)|(BE_[^_]+)$'
+        - '^(BG)|(BG_[^_]+)$'
+        - '^(CH)|(CH_[^_]+)$'
+        - '^(CZ)|(CZ_[^_]+)$'
+        - '^(DE)|(DE_[^_]+)$'
+        - '^(DK)|(DK_[^_]+)$'
+        - '^(EE)|(EE_[^_]+)$'
+        - '^(ES)|(ES_[^_]+)$'
+        - '^(FI)|(FI_[^_]+)$'
+        - '^(FR)|(FR_[^_]+)$'
+        - '^GB.*$'
+        - '^(GR)|(GR_[^_]+)$'
+        - '^(HR)|(HR_[^_]+)$'
+        - '^(HU)|(HU_[^_]+)$'
+        - '^(IE)|(IE_[^_]+)$'
+        - '^(IT)|(IT_[^_]+)$'
+        - '^LI$'
+        - '^(LT)|(LT_[^_]+)$'
+        - '^LU$'
+        - '^(LV)|(LV_[^_]+)$'
+        - '^(ME)|(ME_[^_]+)$'
+        - '^(MK)|(MK_[^_]+)$'
+        - '^MT$'
+        - '^(NL)|(NL_[^_]+)$'
+        - '^(NO)|(NO_[^_]+)$'
+        - '^(PL)|(PL_[^_]+)$'
+        - '^(PT)|(PT_[^_]+)$'
+        - '^(RO)|(RO_[^_]+)$'
+        - '^(RS)|(RS_[^_]+)$'
+        - '^(SE)|(SE_[^_]+)$'
+        - '^(SI)|(SI_[^_]+)$'
+        - '^(SK)|(SK_[^_]+)$'
+        - '^(TR)|(TR_[^_]+)$'
     automation:
       job_group: 'all'
       deferred: true

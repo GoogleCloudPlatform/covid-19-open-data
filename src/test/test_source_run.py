@@ -60,9 +60,11 @@ def _test_data_source(
     aux = {name: table.copy() for name, table in pipeline.auxiliary_tables.items()}
 
     # If we have a hint for the expected keys, use only those from metadata
-    metadata_query = data_source_opts.get("test", {}).get("metadata_query")
+    metadata_query = data_source_opts.get("test", {}).get("location_key_match")
     if metadata_query:
-        aux["metadata"] = aux["metadata"].query(metadata_query)
+        if isinstance(metadata_query, list):
+            metadata_query = "|".join([f"({query})" for query in metadata_query])
+        aux["metadata"] = aux["metadata"].query(f"key.str.match('{metadata_query}')")
 
     # Get a small sample of metadata, since we are testing for whether a source produces
     # _any_ output, not if the output is exhaustive
@@ -111,7 +113,7 @@ class TestSourceRun(ProfiledTestCase):
         """
         This test loads the real configuration for all sources in a pipeline, and runs them against
         a subset of the metadata for matching of keys. The subset of the metadata is chosen by
-        running the provided `test.metadata_query` for the metadata auxiliary table or, if the
+        running the provided `test.location_key_match` for the metadata auxiliary table or, if the
         query is not present, a random sample is selected instead.
         """
         list(process_map(_test_data_pipeline, list(get_pipeline_names()), max_workers=2))

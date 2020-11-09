@@ -41,7 +41,7 @@ sources:
     test:
       # Skip because it's too slow
       skip: true
-      metadata_query: key.str.match("AR_.*")
+      location_key_match: 'AR_.*'
     automation:
       job_group: all
       deferred: true
@@ -53,7 +53,7 @@ sources:
     parse:
       key: AU
     test:
-      metadata_query: "key == 'AU'"
+      location_key_match: '^AU$'
     automation:
       job_group: all
       deferred: true
@@ -65,7 +65,7 @@ sources:
     parse:
       sheet_name: "HOSP"
     test:
-      metadata_query: key.str.match("BE_.+")
+      location_key_match: 'BE_.+'
     automation:
       job_group: all
       deferred: true
@@ -77,7 +77,7 @@ sources:
     parse:
       sheet_name: "COVID19 Zahlen"
     test:
-      metadata_query: key == "CH"
+      location_key_match: '^CH$'
     automation:
       job_group: all
       deferred: true
@@ -86,7 +86,7 @@ sources:
     fetch:
       - url: "https://raw.github.com/openZH/covid_19/master/COVID19_Fallzahlen_CH_total.csv"
     test:
-      metadata_query: key.str.match("CH_.+")
+      location_key_match: 'CH_.+'
     automation:
       job_group: all
       deferred: true
@@ -97,7 +97,7 @@ sources:
       - name: intensive_care
         url: "https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto8/UCI_std.csv"
     test:
-      metadata_query: key.str.match("CL_[^_]+$")
+      location_key_match: 'CL_[^_]+$'
     automation:
       job_group: all
       deferred: true
@@ -109,7 +109,7 @@ sources:
     parse:
       key: CZ
     test:
-      metadata_query: "key == 'CZ'"
+      location_key_match: '^CZ$'
     automation:
       job_group: all
       deferred: true
@@ -120,7 +120,7 @@ sources:
         opts:
           ext: html
     test:
-      metadata_query: "key == 'CZ'"
+      location_key_match: '^CZ$'
     automation:
       job_group: all
       deferred: true
@@ -132,7 +132,7 @@ sources:
     parse:
       key: DK
     test:
-      metadata_query: "key == 'DK'"
+      location_key_match: '^DK$'
     automation:
       job_group: all
       deferred: true
@@ -143,7 +143,7 @@ sources:
       - url: "https://covid19.isciii.es/resources/serie_historica_acumulados.csv"
     query: "date < '2020-05-22'"
     test:
-      metadata_query: key.str.match("ES.*")
+      location_key_match: 'ES.*'
     automation:
       job_group: all
       deferred: true
@@ -153,7 +153,7 @@ sources:
     fetch:
       - url: "https://services9.arcgis.com/CgZpnNiCwFObjaOT/arcgis/rest/services/CentrosSanitarios/FeatureServer/1/query?f=json&where=1%3D1&returnGeometry=false&outFields=*&resultRecordCount=32000"
     test:
-      metadata_query: "key == 'ES_CN'"
+      location_key_match: '^ES_CN$'
     automation:
       job_group: all
       deferred: true
@@ -166,7 +166,7 @@ sources:
     parse:
       country: false
     test:
-      metadata_query: key.str.match("FR_.+")
+      location_key_match: 'FR_.+'
     automation:
       job_group: all
       deferred: true
@@ -177,7 +177,7 @@ sources:
       - url: "https://www.gov.scot/binaries/content/documents/govscot/publications/statistics/2020/04/coronavirus-covid-19-trends-in-daily-data/documents/covid-19-data-by-nhs-board/covid-19-data-by-nhs-board/govscot%3Adocument/COVID-19%2Bdata%2Bby%2BNHS%2BBoard.xlsx"
     test:
       skip: True
-      metadata_query: key.str.match("GB_SCT.*")
+      location_key_match: 'GB_SCT.*'
     automation:
       job_group: all
       deferred: true
@@ -185,7 +185,7 @@ sources:
   # Data sources for GB level 1
   - name: pipelines.hospitalizations.gb_authority.UKL1DataSource
     test:
-      metadata_query: "key == 'GB'"
+      location_key_match: '^GB$'
     automation:
       job_group: all
       deferred: true
@@ -197,7 +197,7 @@ sources:
     parse:
       key: IE
     test:
-      metadata_query: "key == 'IE'"
+      location_key_match: '^IE$'
     automation:
       job_group: all
       deferred: true
@@ -207,7 +207,7 @@ sources:
     fetch:
       - url: "https://raw.github.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-andamento-nazionale.json"
     test:
-      metadata_query: "key == 'IT'"
+      location_key_match: '^IT$'
     automation:
       job_group: all
       deferred: true
@@ -216,7 +216,7 @@ sources:
     fetch:
       - url: "https://raw.github.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-regioni.json"
     test:
-      metadata_query: key.str.match("IT_.+")
+      location_key_match: 'IT_.+'
     automation:
       job_group: all
       deferred: true
@@ -229,7 +229,7 @@ sources:
       - name: new_deceased
         url: "https://raw.github.com/swsoyee/2019-ncov-japan/master/50_Data/death.csv"
     test:
-      metadata_query: key.str.match("JP.*")
+      location_key_match: 'JP.*'
     automation:
       job_group: all
       deferred: true
@@ -240,7 +240,7 @@ sources:
     parse:
       dtype: str
     test:
-      metadata_query: key.str.match("JP_[^_]+")
+      location_key_match: 'JP_[^_]+'
     automation:
       job_group: all
       deferred: true
@@ -254,7 +254,7 @@ sources:
     test:
       # Skip because source is flaky.
       skip: True
-      metadata_query: "key == 'LU'"
+      location_key_match: '^LU$'
     automation:
       job_group: all
       deferred: true
@@ -267,7 +267,7 @@ sources:
       - name: new_intensive_care
         url: "https://raw.github.com/mexicovid19/Mexico-datos/master/datos_abiertos/series_de_tiempo/nuevos/covid19_mex_uci.csv"
     test:
-      metadata_query: key.str.match("MX_...$")
+      location_key_match: 'MX_...$'
     automation:
       job_group: all
       deferred: true
@@ -279,7 +279,7 @@ sources:
     parse:
       sep: ";"
     test:
-      metadata_query: key.str.match("NL.*")
+      location_key_match: 'NL.*'
     automation:
       job_group: all
       deferred: true
@@ -292,7 +292,7 @@ sources:
       key: "NO"
       date_format: "%d.%m.%Y"
     test:
-      metadata_query: "key == 'NO'"
+      location_key_match: '^NO$'
     automation:
       job_group: all
       deferred: true
@@ -304,7 +304,7 @@ sources:
       key: "NO"
       date_format: "%d.%m.%Y"
     test:
-      metadata_query: "key == 'NO'"
+      location_key_match: '^NO$'
     automation:
       job_group: all
       deferred: true
@@ -323,7 +323,7 @@ sources:
         opts:
           ext: csv
     test:
-      metadata_query: key.str.match("PH.*")
+      location_key_match: 'PH.*'
     automation:
       job_group: all
       deferred: true
@@ -333,7 +333,7 @@ sources:
     fetch:
       - url: "https://raw.githubusercontent.com/carlospramalheira/covid19/master/datasets/PT_COVID_TimeSeries.csv"
     test:
-      metadata_query: "key == 'PT'"
+      location_key_match: '^PT$'
     automation:
       job_group: all
       deferred: true
@@ -344,7 +344,7 @@ sources:
       - name: current_intensive_care
         url: "https://raw.github.com/adrianp/covid19romania/master/icu_ro.json"
     test:
-      metadata_query: "key == 'RO'"
+      location_key_match: '^RO$'
     automation:
       job_group: all
       deferred: true
@@ -356,7 +356,7 @@ sources:
         opts:
           ext: xlsx
     test:
-      metadata_query: "key == 'SE'"
+      location_key_match: '^SE$'
     automation:
       job_group: all
       deferred: true
@@ -366,7 +366,7 @@ sources:
     fetch:
       - url: "https://www.gov.si/assets/vlada/Koronavirus-podatki/en/EN_Covid-19-all-data.xlsx"
     test:
-      metadata_query: "key == 'SI'"
+      location_key_match: '^SI$'
     automation:
       job_group: all
       deferred: true
@@ -376,7 +376,7 @@ sources:
     fetch:
       - url: "https://covidtracking.com/api/v1/states/daily.csv"
     test:
-      metadata_query: key.str.match("US_[^_]+$")
+      location_key_match: 'US_[^_]+$'
     automation:
       job_group: all
       deferred: true
@@ -393,7 +393,7 @@ sources:
     test:
       # TODO(owahltinez): skip because format changed
       skip: true
-      metadata_query: "key == 'US_AK'"
+      location_key_match: '^US_AK$'
     automation:
       job_group: all
       deferred: true
@@ -409,7 +409,7 @@ sources:
     test:
       # TODO(owahltinez): skip because format changed
       skip: true
-      metadata_query: "key == 'US_AK'"
+      location_key_match: '^US_AK$'
     automation:
       job_group: all
       deferred: true
@@ -419,7 +419,7 @@ sources:
     fetch:
       - url: "https://data.sfgov.org/api/views/nxjg-bhem/rows.csv"
     test:
-      metadata_query: "key == 'US_CA_SFO'"
+      location_key_match: '^US_CA_SFO$'
     automation:
       job_group: all
       deferred: true
@@ -433,7 +433,7 @@ sources:
     parse:
       sheet_name: "Lives Lost by Sex"
     test:
-      metadata_query: "key == 'US_DC'"
+      location_key_match: '^US_DC$'
     automation:
       job_group: all
       deferred: true
@@ -442,7 +442,7 @@ sources:
   - name: pipelines.epidemiology.us_fl_authority.FloridaDataSource
     # No URL is provided because an API is used instead
     test:
-      metadata_query: key.str.match("US_FL.*")
+      location_key_match: 'US_FL.*'
       # Skip Florida because download takes a long time
       skip: true
     automation:
@@ -454,7 +454,7 @@ sources:
     fetch:
       - url: "https://dshs.texas.gov/coronavirus/TexasCOVID19CaseCountData.xlsx"
     test:
-      metadata_query: "key == 'US_TX'"
+      location_key_match: '^US_TX$'
       # Skip Texas because the data source is very flaky and keeps changing schema
       # TODO: fix this data source and make it more resilient
       skip: true

@@ -213,7 +213,7 @@ sources:
     test:
       # Skip because it's too slow
       skip: true
-      metadata_query: key.str.match("AR_.*")
+      location_key_match: 'AR_.*'
     automation:
       job_group: all
       deferred: true
@@ -227,7 +227,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: AC
     test:
-      metadata_query: key.str.match("BR_AC_.+")
+      location_key_match: 'BR_AC_.+'
       # Skip because it's too slow
       skip: true
     automation:
@@ -243,7 +243,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: AL
     test:
-      metadata_query: key.str.match("BR_AL_.+")
+      location_key_match: 'BR_AL_.+'
       # Skip because it's too slow
       skip: true
     automation:
@@ -259,7 +259,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: AM
     test:
-      metadata_query: key.str.match("BR_AM_.+")
+      location_key_match: 'BR_AM_.+'
       # Skip because it's too slow
       skip: true
     automation:
@@ -275,7 +275,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: AP
     test:
-      metadata_query: key.str.match("BR_AP_.+")
+      location_key_match: 'BR_AP_.+'
       # Skip because it's too slow
       skip: true
     automation:
@@ -291,7 +291,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: BA
     test:
-      metadata_query: key.str.match("BR_BA_.+")
+      location_key_match: 'BR_BA_.+'
       # Skip because it's too slow
       skip: true
     automation:
@@ -308,7 +308,7 @@ sources:
       # Skip non-working pipeline
       # TODO(owahltinez): replace with br_authority source
       skip: true
-      metadata_query: key.str.match("BR_CE.+")
+      location_key_match: 'BR_CE.+'
     automation:
       job_group: all
       deferred: true
@@ -322,7 +322,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: DF
     test:
-      metadata_query: key.str.match("BR_DF_.+")
+      location_key_match: 'BR_DF_.+'
       # Skip because it's too slow
       skip: true
     automation:
@@ -338,7 +338,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: ES
     test:
-      metadata_query: key.str.match("BR_ES_.+")
+      location_key_match: 'BR_ES_.+'
       # Skip because it's too slow
       skip: true
     automation:
@@ -354,7 +354,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: GO
     test:
-      metadata_query: key.str.match("BR_GO_.+")
+      location_key_match: 'BR_GO_.+'
       # Skip because it's too slow
       skip: true
     automation:
@@ -370,7 +370,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: MA
     test:
-      metadata_query: key.str.match("BR_MA_.+")
+      location_key_match: 'BR_MA_.+'
       # Skip because it's too slow
       skip: true
     automation:
@@ -387,7 +387,7 @@ sources:
   #       encoding: "ISO-8859-1"
   #       subregion1_code: MG
   #   test:
-  #     metadata_query: key.str.match("BR_MG_.+")
+  #     location_key_match: 'BR_MG_.+'
   #     # Skip because it's too slow
   #     skip: true
   #   automation:
@@ -403,7 +403,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: MS
     test:
-      metadata_query: key.str.match("BR_MS_.+")
+      location_key_match: 'BR_MS_.+'
       # Skip because it's too slow
       skip: true
     automation:
@@ -419,7 +419,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: MT
     test:
-      metadata_query: key.str.match("BR_MT_.+")
+      location_key_match: 'BR_MT_.+'
       # Skip because it's too slow
       skip: true
     automation:
@@ -435,7 +435,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: PA
     test:
-      metadata_query: key.str.match("BR_PA_.+")
+      location_key_match: 'BR_PA_.+'
       # Skip because it's too slow
       skip: true
     automation:
@@ -451,7 +451,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: PB
     test:
-      metadata_query: key.str.match("BR_PB_.+")
+      location_key_match: 'BR_PB_.+'
       # Skip because it's too slow
       skip: true
     automation:
@@ -468,7 +468,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: PE
     test:
-      metadata_query: key.str.match("BR_PE_.+")
+      location_key_match: 'BR_PE_.+'
       # Skip because it's too slow
       skip: true
     automation:
@@ -484,7 +484,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: PI
     test:
-      metadata_query: key.str.match("BR_PI_.+")
+      location_key_match: 'BR_PI_.+'
       # Skip because it's too slow
       skip: true
     automation:
@@ -501,7 +501,7 @@ sources:
   #       encoding: "ISO-8859-1"
   #       subregion1_code: PR
   #   test:
-  #     metadata_query: key.str.match("BR_PR_.+")
+  #     location_key_match: 'BR_PR_.+'
   #     # Skip because it's too slow
   #     skip: true
   #   automation:
@@ -517,7 +517,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: RJ
     test:
-      metadata_query: key.str.match("BR_RJ_.+")
+      location_key_match: 'BR_RJ_.+'
       # Skip because it's too slow
       skip: true
     automation:
@@ -534,7 +534,7 @@ sources:
       sep: ";"
       encoding: "ISO-8859-1"
     test:
-      metadata_query: "key == 'BR_RJ_GIG'"
+      location_key_match: '^BR_RJ_GIG$'
       # Skip because it's very flakey
       skip: true
     automation:
@@ -550,7 +550,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: RN
     test:
-      metadata_query: key.str.match("BR_RN_.+")
+      location_key_match: 'BR_RN_.+'
       # Skip because it's too slow
       skip: true
     automation:
@@ -566,7 +566,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: RS
     test:
-      metadata_query: key.str.match("BR_RS_.+")
+      location_key_match: 'BR_RS_.+'
       # Skip because it's too slow
       skip: true
     automation:
@@ -582,7 +582,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: SC
     test:
-      metadata_query: key.str.match("BR_SC_.+")
+      location_key_match: 'BR_SC_.+'
       # Skip because it's too slow
       skip: true
     automation:
@@ -598,7 +598,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: SE
     test:
-      metadata_query: key.str.match("BR_SE_.+")
+      location_key_match: 'BR_SE_.+'
       # Skip because it's too slow
       skip: true
     automation:
@@ -614,7 +614,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: SP
     test:
-      metadata_query: key.str.match("BR_SP_.+")
+      location_key_match: 'BR_SP_.+'
       # Skip because it's too slow
       skip: true
     automation:
@@ -630,7 +630,7 @@ sources:
         encoding: "ISO-8859-1"
         subregion1_code: TO
     test:
-      metadata_query: key.str.match("BR_TO_.+")
+      location_key_match: 'BR_TO_.+'
       # Skip because it's too slow
       skip: true
     automation:
@@ -644,7 +644,7 @@ sources:
     parse:
       column_name: 'new_confirmed'
     test:
-      metadata_query: key.str.match("CZ.*")
+      location_key_match: 'CZ.*'
     automation:
       job_group: all
       deferred: true
@@ -655,7 +655,7 @@ sources:
     parse:
       column_name: 'new_deceased'
     test:
-      metadata_query: key.str.match("CZ.*")
+      location_key_match: 'CZ.*'
     automation:
       job_group: all
       deferred: true
@@ -666,7 +666,7 @@ sources:
     parse:
       column_name: 'new_recovered'
     test:
-      metadata_query: key.str.match("CZ.*")
+      location_key_match: 'CZ.*'
     automation:
       job_group: all
       deferred: true
@@ -679,7 +679,7 @@ sources:
           ext: json
     query: "date > '2020-02-01'"
     test:
-      metadata_query: "key == 'FI'"
+      location_key_match: '^FI$'
     automation:
       job_group: all
       deferred: true
@@ -695,7 +695,7 @@ sources:
     test:
       # Skip this data source because it's too slow
       skip: true
-      metadata_query: key.str.match("MX_.+")
+      location_key_match: 'MX_.+'
     automation:
       job_group: all
       deferred: true
@@ -715,7 +715,7 @@ sources:
       encoding: "ISO-8859-1"
       sep: ";"
     test:
-      metadata_query: key.str.match("PE_.+")
+      location_key_match: 'PE_.+'
     automation:
       job_group: all
       deferred: true
@@ -734,7 +734,7 @@ sources:
         opts:
           ext: csv
     test:
-      metadata_query: key.str.match("PH.*")
+      location_key_match: 'PH.*'
     automation:
       job_group: all
       deferred: true
@@ -746,7 +746,7 @@ sources:
     parse:
       skip_county: true
     test:
-      metadata_query: "key == 'RO'"
+      location_key_match: '^RO$'
       automation:
         job_group: all
         deferred: true
@@ -756,7 +756,7 @@ sources:
     fetch:
       - url: "https://raw.githubusercontent.com/ImperialCollegeLondon/US-covid19-agespecific-mortality-data/master/data/processed/latest/DeathsByAge_US.csv"
     test:
-      metadata_query: key.str.match("^US_\w\w(_NYC)?$")
+      location_key_match: '^US_\w\w(_NYC)?$'
     automation:
       job_group: all
       deferred: true
@@ -772,7 +772,7 @@ sources:
     test:
       # Skip because it's too flakey
       skip: true
-      metadata_query: "key == 'US_DC'"
+      location_key_match: '^US_DC$'
     automation:
       job_group: all
       deferred: true
@@ -787,7 +787,7 @@ sources:
           # Only download data from source once (in epidemiology pipeline)
           skip_existing: true
     test:
-      metadata_query: "key == 'US_DE'"
+      location_key_match: '^US_DE$'
       # Skip because endpoint fails frequently
       skip: true
     automation:
@@ -798,7 +798,7 @@ sources:
   - name: pipelines.epidemiology.us_fl_authority.FloridaDataSource
     # No URL is provided because an API is used instead
     test:
-      metadata_query: key.str.match("US_FL.*")
+      location_key_match: 'US_FL.*'
       # Skip Florida because download takes a long time
       skip: true
     automation:
@@ -814,7 +814,7 @@ sources:
       file_name: demographics_by_age_group.csv
       date_start: "2020-10-01"
     test:
-      metadata_query: key.str.match("US_GA_.*")
+      location_key_match: 'US_GA_.*'
     automation:
       job_group: all
       deferred: true
@@ -828,7 +828,7 @@ sources:
           # Only download data from source once (in epidemiology pipeline)
           skip_existing: true
     test:
-      metadata_query: key.str.match("US_IN.*")
+      location_key_match: 'US_IN.*'
     automation:
       job_group: all
       deferred: true
@@ -844,7 +844,7 @@ sources:
     parse:
       file_name: Age.csv
     test:
-      metadata_query: "key == 'US_MA'"
+      location_key_match: '^US_MA$'
     automation:
       job_group: all
       deferred: true
