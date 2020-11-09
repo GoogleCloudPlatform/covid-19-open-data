@@ -54,7 +54,7 @@ class RomaniaDataSource(DataSource):
                 }
             )
             if not parse_opts.get("skip_county"):
-                for code, num in row.get("countyInfectionsNumbers", {}).items():
+                for code, num in (row.get("countyInfectionsNumbers") or {}).items():
                     if code != "-":
                         records.append(
                             {
