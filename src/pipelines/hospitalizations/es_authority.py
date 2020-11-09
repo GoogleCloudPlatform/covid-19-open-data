@@ -60,8 +60,8 @@ class ISCIIIHospitalizedDataSource(DataSource):
             ]
         ]
 
-        # Add the country code to all records
-        data["country_code"] = "ES"
+        # Derive the key from the subregion code
+        data["key"] = "ES_" + data["subregion1_code"]
 
         # Output the results
         return data
