@@ -48,10 +48,4 @@ class NYCHealthDataSource(DataSource):
         }
 
         # Extract data for the individual boroughs
-        boros = concat([_parse_boro(dataframes[0], boro, fips) for boro, fips in nyc_boros.items()])
-
-        # NYC is the collection of all boroughs
-        city = boros.groupby("date").sum().reset_index()
-        city["key"] = "US_NY_NYC"
-
-        return concat([city, boros])
+        return concat([_parse_boro(dataframes[0], boro, fips) for boro, fips in nyc_boros.items()])
