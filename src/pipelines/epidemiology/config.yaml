@@ -421,7 +421,6 @@ sources:
       sep: ";"
       dtype: str
       encoding: ISO-8859-1
-    query:
     test:
       location_key_match: 'ES_MD_.+'
     automation:
