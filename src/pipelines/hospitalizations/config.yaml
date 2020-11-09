@@ -34,6 +34,7 @@ auxiliary:
   knowledge_graph: ./data/knowledge_graph.csv
 
 sources:
+
   # Data sources for AR levels 2 + 3
   - name: pipelines.epidemiology.ar_authority.ArgentinaDataSource
     fetch:
@@ -446,6 +447,16 @@ sources:
       location_key_match: 'US_FL.*'
       # Skip Florida because download takes a long time
       skip: true
+    automation:
+      job_group: all
+      deferred: true
+
+  # Data sources for US_NYC level 3 (NYC only)
+  - name: pipelines.epidemiology.us_nyc_authority.NYCHealthDataSource
+    fetch:
+      - url: "https://raw.githubusercontent.com/nychealth/coronavirus-data/master/trends/data-by-day.csv"
+    test:
+      location_key_match: 'US_NY_.*'
     automation:
       job_group: all
       deferred: true
