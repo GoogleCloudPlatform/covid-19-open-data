@@ -67,7 +67,7 @@ sources:
         health_expenditure: "SH.XPD.CHEX.PC.CD"
         out_of_pocket_health_expenditure: "SH.XPD.OOPC.PC.CD"
     test:
-      metadata_query: key.str.match("^..$")
+      location_key_match: '^..$'
     automation:
       job_group: 'all'
       deferred: true
@@ -77,7 +77,7 @@ sources:
   # This data has been manually downloaded from the Eurostat website
   - name: pipelines._common.eurostat.EurostatDataSource
     test:
-      metadata_query: key.str.match("BE.*")
+      location_key_match: 'BE.*'
     automation:
       job_group: 'all'
       deferred: true

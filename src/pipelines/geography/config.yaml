@@ -63,7 +63,7 @@ sources:
         rural_area: "AG.LND.TOTL.RU.K2"
         urban_area: "AG.LND.TOTL.UR.K2"
     test:
-      metadata_query: key.str.match("^..$")
+      location_key_match: '^..$'
     automation:
       job_group: 'all'
       deferred: true

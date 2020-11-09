@@ -1431,7 +1431,7 @@ sources:
     fetch:
       - url: "https://storage.googleapis.com/covid19-open-data/cache/2020-01-01-00/WDI_csv.zip"
     test:
-      metadata_query: key.str.match("^..$")
+      location_key_match: '^..$'
       # Skip because it's too slow
       skip: true
     automation:

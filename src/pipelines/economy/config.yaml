@@ -47,7 +47,7 @@ sources:
         gdp_per_capita: "NY.GDP.PCAP.CD"
         human_capital_index: "HD.HCI.OVRL"
     test:
-      metadata_query: key.str.match("^..$")
+      location_key_match: '^..$'
     automation:
       job_group: 'all'
       deferred: true
@@ -57,7 +57,7 @@ sources:
   # This data has been manually downloaded from the Eurostat website
   - name: pipelines._common.eurostat.EurostatDataSource
     test:
-      metadata_query: key.str.match("BE.*")
+      location_key_match: 'BE.*'
     automation:
       job_group: 'all'
       deferred: true

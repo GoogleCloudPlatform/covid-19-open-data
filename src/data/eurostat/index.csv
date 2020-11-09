@@ -1280,7 +1280,7 @@ ME,ME,Montenegro
 ME0,,Crna Gora
 ME00,,Crna Gora
 ME000,,Crna Gora
-MK,,North Macedonia
+MK,MK,North Macedonia
 MK0,,Severna Makedonija
 MK00,,Severna Makedonija
 MK001,,Vardarski
@@ -1382,7 +1382,6 @@ NO07,NO_54,Nord-Norge
 NO071,,Nordland
 NO072,,Troms
 NO073,,Finnmark
-North Macedonia,MK,
 PL,PL,Poland
 PL2,,Makroregion Poludniowy
 PL21,PL_12,Malopolskie
