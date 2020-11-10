@@ -145,7 +145,7 @@ sources:
     aggregate:
       subregion1: ["total_hospitalized", "total_intensive_care"]
     test:
-      location_key_match: 'ES.*'
+      location_key_match: '^ES(_[^_]+)?$'
     automation:
       job_group: all
       deferred: true

@@ -431,7 +431,7 @@ sources:
     parse:
       dtype: str
     test:
-      location_key_match: 'ES_CT.*'
+      location_key_match: '^ES_CT$'
     automation:
       job_group: all
       deferred: true
