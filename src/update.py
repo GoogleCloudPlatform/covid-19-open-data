@@ -34,6 +34,7 @@ def main(
     location_key: str = None,
     strict_match: bool = False,
     process_count: int = cpu_count(),
+    skip_download: bool = False,
 ) -> None:
     """
     Executes the data pipelines and places all outputs into `output_folder`. This is typically
@@ -47,9 +48,10 @@ def main(
             - "full": perform exhaustive anomaly detection (can be very slow)
         only: If provided, only pipelines with a name appearing in this list will be run.
         exclude: If provided, pipelines with a name appearing in this list will not be run.
-        process_count: Maximum number of processes to use during the data pipeline execution.
         location_key: If present, only run data sources which output data for this location.
         strict_match: In combination with `location_key`, filter data to only output `location_key`.
+        process_count: Maximum number of processes to use during the data pipeline execution.
+        skip_download: Skip downloading data sources if a cached version is available.
     """
 
     assert not (
@@ -101,7 +103,10 @@ def main(
 
         # Run the data pipeline to retrieve live data
         pipeline_output = data_pipeline.run(
-            output_folder, process_count=process_count, verify_level=verify
+            output_folder,
+            process_count=process_count,
+            verify_level=verify,
+            skip_existing=skip_download,
         )
 
         # Filter out data output if requested
@@ -124,6 +129,7 @@ if __name__ == "__main__":
     argparser.add_argument("--exclude", type=str, default=None)
     argparser.add_argument("--location-key", type=str, default=None)
     argparser.add_argument("--strict-match", action="store_true")
+    argparser.add_argument("--skip-download", action="store_true")
     argparser.add_argument("--verify", type=str, default=None)
     argparser.add_argument("--profile", action="store_true")
     argparser.add_argument("--process-count", type=int, default=cpu_count())
@@ -145,6 +151,7 @@ if __name__ == "__main__":
         location_key=args.location_key,
         strict_match=args.strict_match,
         process_count=args.process_count,
+        skip_download=args.skip_download,
     )
 
     if args.profile:
