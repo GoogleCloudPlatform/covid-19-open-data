@@ -116,7 +116,11 @@ class FloridaDataSource(DataSource):
         )
 
     def fetch(
-        self, output_folder: Path, cache: Dict[str, str], fetch_opts: List[Dict[str, Any]]
+        self,
+        output_folder: Path,
+        cache: Dict[str, str],
+        fetch_opts: List[Dict[str, Any]],
+        skip_existing: bool = False,
     ) -> Dict[str, str]:
 
         # Create a deterministic file name
@@ -127,7 +131,6 @@ class FloridaDataSource(DataSource):
         )
 
         # Avoid download if the file exists and flag is set
-        skip_existing = (fetch_opts or [{}])[0].get("opts", {}).get("skip_existing")
         if not skip_existing or not file_path.exists():
             self._get_county_cases().to_csv(file_path, index=False)
 

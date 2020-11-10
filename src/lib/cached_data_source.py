@@ -38,7 +38,11 @@ def _generate_snapshot_paths(
 
 class CachedDataSource(DataSource):
     def fetch(
-        self, output_folder: Path, cache: Dict[str, str], fetch_opts: List[Dict[str, Any]]
+        self,
+        output_folder: Path,
+        cache: Dict[str, str],
+        fetch_opts: List[Dict[str, Any]],
+        skip_existing: bool = False,
     ) -> Dict[str, str]:
         sources = {}
 

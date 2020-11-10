@@ -84,8 +84,12 @@ _sheet_processors = {
 
 class DistrictColumbiaDataSource(DataSource):
     def fetch(
-        self, output_folder: Path, cache: Dict[str, str], fetch_opts: List[Dict[str, Any]]
-    ) -> List[str]:
+        self,
+        output_folder: Path,
+        cache: Dict[str, str],
+        fetch_opts: List[Dict[str, Any]],
+        skip_existing: bool = False,
+    ) -> Dict[str, str]:
         # The link to the spreadsheet changes daily, so we parse the HTML to find the link every
         # time and download the latest version
         buffer = BytesIO()

@@ -63,7 +63,11 @@ _IBGE_STATES = {
 
 class BrazilMunicipalitiesDataSource(DataSource):
     def fetch(
-        self, output_folder: Path, cache: Dict[str, str], fetch_opts: List[Dict[str, Any]]
+        self,
+        output_folder: Path,
+        cache: Dict[str, str],
+        fetch_opts: List[Dict[str, Any]],
+        skip_existing: bool = False,
     ) -> Dict[str, str]:
         # Get the URL from a fake browser request
         url = requests.get(
@@ -82,7 +86,7 @@ class BrazilMunicipalitiesDataSource(DataSource):
         ).json()["results"][0]["arquivo"]["url"]
 
         # Pass the actual URL down to fetch it
-        return super().fetch(output_folder, cache, [{"url": url}])
+        return super().fetch(output_folder, cache, [{"url": url}], skip_existing=skip_existing)
 
     def parse_dataframes(
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
@@ -148,7 +152,11 @@ _column_adapter = {
 
 class BrazilStratifiedDataSource(DataSource):
     def fetch(
-        self, output_folder: Path, cache: Dict[str, str], fetch_opts: List[Dict[str, Any]]
+        self,
+        output_folder: Path,
+        cache: Dict[str, str],
+        fetch_opts: List[Dict[str, Any]],
+        skip_existing: bool = False,
     ) -> Dict[str, str]:
         # The source URL is a template which we must format for the requested state
         parse_opts = self.config["parse"]
@@ -165,10 +173,11 @@ class BrazilStratifiedDataSource(DataSource):
             url = source_config["url"]
             name = source_config.get("name", idx)
             download_opts = source_config.get("opts", {})
-            download_opts["progress"] = True
             try:
                 self.log_debug(f"Downloading {url}...")
-                output[name] = download_snapshot(url, output_folder, **download_opts)
+                output[name] = download_snapshot(
+                    url, output_folder, **download_opts, skip_existing=skip_existing
+                )
             except:
                 self.log_warning(f"Failed to download URL {url}")
                 break
@@ -178,7 +187,7 @@ class BrazilStratifiedDataSource(DataSource):
             return output
         else:
             fetch_opts = [{"url": url_tpl.format(code), **base_opts}]
-            return super().fetch(output_folder, cache, fetch_opts)
+            return super().fetch(output_folder, cache, fetch_opts, skip_existing=skip_existing)
 
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         # Manipulate the parse options here because we have access to the columns adapter

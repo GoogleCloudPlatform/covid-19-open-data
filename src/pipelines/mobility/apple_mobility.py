@@ -26,13 +26,17 @@ _url_base = "https://covid19-static.cdn-apple.com"
 
 class AppleMobilityDataSource(DataSource):
     def fetch(
-        self, output_folder: Path, cache: Dict[str, str], fetch_opts: List[Dict[str, Any]]
-    ) -> List[str]:
+        self,
+        output_folder: Path,
+        cache: Dict[str, str],
+        fetch_opts: List[Dict[str, Any]],
+        skip_existing: bool = False,
+    ) -> Dict[str, str]:
         api_res = requests.get(fetch_opts[0]["url"]).json()
         fetch_opts = [
             {"url": f"{_url_base}{api_res['basePath']}{api_res['regions']['en-us']['csvPath']}"}
         ]
-        return super().fetch(output_folder, cache, fetch_opts)
+        return super().fetch(output_folder, cache, fetch_opts, skip_existing=skip_existing)
 
     @staticmethod
     def process_record(record: Dict):

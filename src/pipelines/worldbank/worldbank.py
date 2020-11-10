@@ -21,9 +21,8 @@ from typing import Any, Dict, List
 
 from pandas import DataFrame, Series, isna, read_csv
 
-from lib.concurrent import thread_map
 from lib.data_source import DataSource
-from lib.net import download
+from lib.io import pbar
 
 
 class WorldbankDataSource(DataSource):
@@ -39,12 +38,6 @@ class WorldbankDataSource(DataSource):
             self.log_error(str(exc), traceback=traceback.format_exc(), record=record)
         return None
 
-    def fetch(
-        self, output_folder: Path, cache: Dict[str, str], fetch_opts: List[Dict[str, Any]]
-    ) -> Dict[str, str]:
-        # Data file is too big to store in Git, so pass-through the URL to parse manually
-        return {idx: source["url"] for idx, source in enumerate(fetch_opts)}
-
     def _process_record(
         self, worldbank: DataFrame, indicators: Dict[str, str], min_year: int, key: str
     ):
@@ -58,11 +51,8 @@ class WorldbankDataSource(DataSource):
 
     def parse(self, sources: List[str], aux: Dict[str, DataFrame], **parse_opts):
 
-        buffer = BytesIO()
-        download(sources[0], buffer, progress=True)
-
         data = None
-        with zipfile.ZipFile(buffer) as zipped:
+        with zipfile.ZipFile(sources[0]) as zipped:
             data = zipped.read("WDIData.csv")
             data = read_csv(BytesIO(data))
         assert data is not None
@@ -90,7 +80,7 @@ class WorldbankDataSource(DataSource):
 
         # There is probably a fancy pandas function to this more efficiently but this works for now
         map_func = partial(self._process_record, indexed, indicators, min_year)
-        records = thread_map(map_func, keys, desc="WorldBank Indicators")
+        records = list(pbar(map(map_func, keys), desc="WorldBank Indicators", total=len(keys)))
 
         # Some countries are better described as subregions
         data = DataFrame.from_records(records)

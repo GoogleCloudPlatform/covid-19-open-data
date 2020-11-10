@@ -104,7 +104,11 @@ def _get_province_records(url_tpl: str, key: str) -> List[Dict[str, Any]]:
 # pylint: disable=missing-class-docstring,abstract-method
 class IndonesiaProvinceDataSource(DataSource):
     def fetch(
-        self, output_folder: Path, cache: Dict[str, str], fetch_opts: List[Dict[str, Any]]
+        self,
+        output_folder: Path,
+        cache: Dict[str, str],
+        fetch_opts: List[Dict[str, Any]],
+        skip_existing: bool = False,
     ) -> Dict[str, str]:
         # URL is just a template, so pass-through the URL to parse manually
         return {idx: source["url"] for idx, source in enumerate(fetch_opts)}

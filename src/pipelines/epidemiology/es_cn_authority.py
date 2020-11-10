@@ -61,7 +61,11 @@ def _download_arcgis(
 
 class CanaryIslandsDataSource(DataSource):
     def fetch(
-        self, output_folder: Path, cache: Dict[str, str], fetch_opts: List[Dict[str, Any]]
+        self,
+        output_folder: Path,
+        cache: Dict[str, str],
+        fetch_opts: List[Dict[str, Any]],
+        skip_existing: bool = False,
     ) -> Dict[str, str]:
 
         # Base URL comes from fetch_opts
@@ -75,7 +79,6 @@ class CanaryIslandsDataSource(DataSource):
         )
 
         # Avoid download if the file exists and flag is set
-        skip_existing = (fetch_opts or [{}])[0].get("opts", {}).get("skip_existing")
         if not skip_existing or not file_path.exists():
             with open(file_path, "w") as fd:
                 json.dump({"features": _download_arcgis(url_base)}, fd)
