@@ -25,7 +25,11 @@ from lib.time import date_range, timezone_adjust
 
 class DXYDataSource(DataSource):
     def fetch(
-        self, output_folder: Path, cache: Dict[str, str], fetch_opts: List[Dict[str, Any]]
+        self,
+        output_folder: Path,
+        cache: Dict[str, str],
+        fetch_opts: List[Dict[str, Any]],
+        skip_existing: bool = False,
     ) -> Dict[str, str]:
         # Data is published as GitHub Releases, so we guess the URL based on the date
         opts = fetch_opts[0]
@@ -51,7 +55,9 @@ class DXYDataSource(DataSource):
         assert working_url is not None, f"No working URL found for DXY data source"
 
         # Pass the actual URL down to fetch it
-        return super().fetch(output_folder, cache, [{**opts, "url": working_url}])
+        return super().fetch(
+            output_folder, cache, [{**opts, "url": working_url}], skip_existing=skip_existing
+        )
 
     def parse_dataframes(
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
