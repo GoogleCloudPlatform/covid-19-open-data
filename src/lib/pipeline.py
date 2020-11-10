@@ -156,10 +156,11 @@ class DataPipeline(ErrorLogger):
         cache: Dict[str, str],
         aux: Dict[str, DataFrame],
         data_source: DataSource,
+        **source_opts,
     ) -> Optional[DataFrame]:
         """ Workaround necessary for multiprocess pool, which does not accept lambda functions """
         try:
-            return data_source.run(output_folder, cache, aux)
+            return data_source.run(output_folder, cache, aux, **source_opts)
         except Exception:
             data_source_name = data_source.__class__.__name__
             data_source.log_error(
@@ -171,7 +172,7 @@ class DataPipeline(ErrorLogger):
         return None
 
     def parse(
-        self, output_folder: Path, process_count: int = None
+        self, output_folder: Path, process_count: int = None, **source_opts
     ) -> Iterable[Tuple[DataSource, DataFrame]]:
         """
         Performs the fetch and parse steps for each of the data sources in this pipeline.
@@ -199,7 +200,7 @@ class DataPipeline(ErrorLogger):
         # Create a function to be used during mapping. The nestedness is an unfortunate outcome of
         # the multiprocessing module's limitations when dealing with lambda functions, coupled with
         # the "sandboxing" we implement to ensure resiliency.
-        map_func = partial(DataPipeline._run_wrapper, output_folder, cache, aux_copy)
+        map_func = partial(DataPipeline._run_wrapper, output_folder, cache, aux_copy, **source_opts)
 
         # Default to using as many processes as CPUs
         if process_count is None:
@@ -371,7 +372,11 @@ class DataPipeline(ErrorLogger):
                 )
 
     def run(
-        self, output_folder: Path, process_count: int = cpu_count(), verify_level: str = "simple"
+        self,
+        output_folder: Path,
+        process_count: int = cpu_count(),
+        verify_level: str = "simple",
+        **source_opts,
     ) -> DataFrame:
         """
         Main method which executes all the associated [DataSource] objects and combines their
@@ -383,12 +388,13 @@ class DataPipeline(ErrorLogger):
             process_count: Maximum number of processes to run in parallel.
             verify_level: Level of anomaly detection to perform on outputs. Possible values are:
                 None, "simple" and "full".
+            source_opts: Options to relay to the DataSource.run() method.
         Returns:
             DataFrame: Processed and combined outputs from all the individual data sources into a
                 single table.
         """
         # TODO: break out fetch & parse steps
-        intermediate_results = self.parse(output_folder, process_count=process_count)
+        intermediate_results = self.parse(output_folder, process_count=process_count, **source_opts)
 
         # Save all intermediate results (to allow for reprocessing)
         intermediate_folder = output_folder / "intermediate"

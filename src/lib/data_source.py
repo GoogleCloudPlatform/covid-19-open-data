@@ -58,7 +58,11 @@ class DataSource(ErrorLogger):
         self.config = config or {}
 
     def fetch(
-        self, output_folder: Path, cache: Dict[str, str], fetch_opts: List[Dict[str, Any]]
+        self,
+        output_folder: Path,
+        cache: Dict[str, str],
+        fetch_opts: List[Dict[str, Any]],
+        skip_existing: bool = False,
     ) -> Dict[str, str]:
         """
         Downloads the required resources and returns a dictionary of <name, local path>.
@@ -75,7 +79,9 @@ class DataSource(ErrorLogger):
         """
         return {
             source_config.get("name", idx): download_snapshot(
-                source_config["url"], output_folder, **source_config.get("opts", {})
+                source_config["url"],
+                output_folder,
+                **dict(skip_existing=skip_existing, progress=True, **source_config.get("opts", {})),
             )
             for idx, source_config in enumerate(fetch_opts)
         }
@@ -213,14 +219,11 @@ class DataSource(ErrorLogger):
         """
         data: DataFrame = None
 
-        # Insert skip_existing flag to fetch options if requested
+        # Fetch options may not exist if the source decides to do everything within `parse`
         fetch_opts = list(self.config.get("fetch", []))
-        if skip_existing:
-            for opt in fetch_opts:
-                opt["opts"] = {**opt.get("opts", {}), "skip_existing": True}
 
         # Fetch the data, feeding the cached resources to the fetch step
-        data = self.fetch(output_folder, cache, fetch_opts)
+        data = self.fetch(output_folder, cache, fetch_opts, skip_existing=skip_existing)
 
         # Make yet another copy of the auxiliary table to avoid affecting future steps in `parse`
         parse_opts = dict(self.config.get("parse", {}))
