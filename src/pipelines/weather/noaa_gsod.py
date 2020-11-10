@@ -81,6 +81,36 @@ def relative_humidity(temp: float, dew_point: float) -> float:
     return 100 * numpy.exp(a * dew_point / (b + dew_point)) / numpy.exp(a * temp / (b + temp))
 
 
+def _extract_station(
+    stations_tar: tarfile.TarFile, tar_member: tarfile.TarInfo
+) -> Dict[str, DataFrame]:
+
+    if not tar_member.name.endswith(".csv"):
+        return None
+
+    # Read the records from the provided station
+    data = read_file(
+        stations_tar.extractfile(tar_member), file_type="csv", usecols=_COLUMN_MAPPING.keys()
+    ).rename(columns=_COLUMN_MAPPING)
+
+    # Fix data types
+    noaa_station = tar_member.name.replace(".csv", "")
+    data["noaa_station"] = noaa_station
+    data["rainfall"] = data["rainfall"].apply(conv_dist)
+    data["snowfall"] = data["snowfall"].apply(conv_dist)
+    data["dew_point"] = data["dew_point"].apply(conv_temp)
+    for temp_type in ("average", "minimum", "maximum"):
+        col = f"{temp_type}_temperature"
+        data[col] = data[col].apply(conv_temp)
+
+    # Compute the relative humidity from the dew point and average temperature
+    data["relative_humidity"] = data.apply(
+        lambda x: relative_humidity(x["average_temperature"], x["dew_point"]), axis=1
+    )
+
+    return {noaa_station: data}
+
+
 def _process_location(station_cache: Dict[str, DataFrame], stations: DataFrame, location: Series):
     # Get the nearest stations from our list of stations given lat and lon
     distance = haversine_distance(stations, location.lat, location.lon)
@@ -88,7 +118,7 @@ def _process_location(station_cache: Dict[str, DataFrame], stations: DataFrame, 
     # Filter out all but the 10 nearest stations
     mask = distance < _DISTANCE_THRESHOLD
     nearest = stations.loc[mask].copy()
-    nearest["key"] = location.key
+    nearest["key"] = location["key"]
     nearest["distance"] = distance.loc[mask]
     nearest.sort_values("distance", inplace=True)
     nearest = nearest.iloc[:10]
@@ -101,8 +131,8 @@ def _process_location(station_cache: Dict[str, DataFrame], stations: DataFrame, 
 
     # Get station records from the cache
     nearest = nearest.rename(columns={"id": "noaa_station", "distance": "noaa_distance"})
-    data = [station_cache.get(station_id) for station_id in nearest.noaa_station.values]
-    data = concat([table.merge(nearest, on="noaa_station") for table in data if table is not None])
+    data = concat([station_cache.get(station_id) for station_id in nearest["noaa_station"].values])
+    data = data.merge(nearest, on="noaa_station")
 
     # Combine them by computing a simple average
     value_columns = [
@@ -126,9 +156,6 @@ def _process_location(station_cache: Dict[str, DataFrame], stations: DataFrame, 
 class NoaaGsodDataSource(DataSource):
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
 
-        # Use a manager to handle memory accessed across processes
-        manager = Manager()
-
         # Get all the weather stations with data up until last month from inventory
         today = datetime.date.today()
         min_date = (today - datetime.timedelta(days=30)).strftime("%Y%m%d")
@@ -139,37 +166,15 @@ class NoaaGsodDataSource(DataSource):
         stations["id"] = stations["USAF"] + stations["WBAN"].apply(lambda x: f"{x:05d}")
 
         # Open the station data as a compressed file
+        station_cache = dict()
         with tarfile.open(sources["gsod"], mode="r:gz") as stations_tar:
 
             # Build the station cache by decompressing all files in memory
-            station_cache = manager.dict()
-            for member in pbar(stations_tar.getmembers(), desc="Decompressing"):
-
-                if not member.name.endswith(".csv"):
-                    continue
-
-                # Read the records from the provided station
-                data = read_file(
-                    stations_tar.extractfile(member),
-                    file_type="csv",
-                    usecols=_COLUMN_MAPPING.keys(),
-                ).rename(columns=_COLUMN_MAPPING)
-
-                # Fix data types
-                data["noaa_station"] = data["noaa_station"].astype(str)
-                data["rainfall"] = data["rainfall"].apply(conv_dist)
-                data["snowfall"] = data["snowfall"].apply(conv_dist)
-                data["dew_point"] = data["dew_point"].apply(conv_temp)
-                for temp_type in ("average", "minimum", "maximum"):
-                    col = f"{temp_type}_temperature"
-                    data[col] = data[col].apply(conv_temp)
-
-                # Compute the relative humidity from the dew point and average temperature
-                data["relative_humidity"] = data.apply(
-                    lambda x: relative_humidity(x["average_temperature"], x["dew_point"]), axis=1
-                )
-
-                station_cache[member.name.replace(".csv", "")] = data
+            map_iter = stations_tar.getmembers()
+            map_func = partial(_extract_station, stations_tar)
+            map_opts = dict(desc="Decompressing", total=len(map_iter))
+            for station_item in pbar(map(map_func, map_iter), **map_opts):
+                station_cache.update(station_item)
 
         # Get all the POI from metadata and go through each key
         keep_columns = ["key", "latitude", "longitude"]
@@ -183,6 +188,10 @@ class NoaaGsodDataSource(DataSource):
         stations["lon"] = stations["lon"].apply(math.radians)
         metadata["lat"] = metadata["latitude"].apply(math.radians)
         metadata["lon"] = metadata["longitude"].apply(math.radians)
+
+        # Use a manager to handle memory accessed across processes
+        manager = Manager()
+        station_cache = manager.dict(station_cache)
 
         # Make sure the stations and the cache are sent to each function call
         map_func = partial(_process_location, station_cache, stations)
