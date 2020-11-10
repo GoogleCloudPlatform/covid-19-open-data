@@ -58,15 +58,6 @@ class TestSourceFetch(ProfiledTestCase):
 
     def test_fetch_skip_existing(self):
         src = DummyDataSouce()
-        original_fetch_func = src.fetch
-
-        def monkey_patch_fetch(
-            output_folder: Path, cache: Dict[str, str], fetch_opts: List[Dict[str, Any]]
-        ):
-            self.assertEqual(True, fetch_opts[0].get("opts", {}).get("skip_existing"))
-            return original_fetch_func(output_folder, cache, fetch_opts)
-
-        src.fetch = monkey_patch_fetch
         with temporary_directory() as workdir:
             src.run(workdir, {}, DUMMY_DATA_SOURCE_AUX, skip_existing=True)
 
