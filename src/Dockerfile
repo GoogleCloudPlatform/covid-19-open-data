@@ -36,4 +36,11 @@ ADD . /app
 RUN pip install -r /app/requirements.txt
 
 # Start application server
-CMD gunicorn -b :$PORT appengine:app --timeout 5400
+# gunicorn options:
+# --timeout=10800
+#   Use a 2.5 hour timeout, which is greater than the internal 2 hour deferred request timeout
+# --workers=32
+#   Use sync worker class with 32 workers running in parallel
+# --max-requests=1
+#   Kill worker after a single request, and spawn a new worker to replace it
+CMD gunicorn -b :$PORT appengine:app --timeout=10800 --workers=32 --max-requests=1
