@@ -50,7 +50,7 @@ from scripts.cloud_error_processing import register_new_errors
 
 from lib.cast import safe_int_cast
 from lib.concurrent import thread_map
-from lib.constants import GCS_BUCKET_PROD, GCS_BUCKET_TEST, SRC, V3_TABLE_LIST
+from lib.constants import GCE_IMAGE_ID, GCS_BUCKET_PROD, GCS_BUCKET_TEST, SRC, V3_TABLE_LIST
 from lib.error_logger import ErrorLogger
 from lib.gcloud import delete_instance, get_internal_ip, start_instance_from_image
 from lib.io import export_csv, gzip_file, temporary_directory
@@ -648,7 +648,8 @@ def deferred_route(url_path: str) -> Response:
 
     try:
         # Create a new preemptible instance and wait for it to come online
-        instance_id = start_instance_from_image(service_account=os.getenv(ENV_SERVICE_ACCOUNT))
+        instance_opts = dict(service_account=os.getenv(ENV_SERVICE_ACCOUNT))
+        instance_id = start_instance_from_image(GCE_IMAGE_ID, **instance_opts)
         instance_ip = get_internal_ip(instance_id)
         logger.log_info(f"Created worker instance {instance_id} with internal IP {instance_ip}")
 

@@ -15,58 +15,15 @@
 import subprocess
 from uuid import uuid4
 
-from lib.constants import GCS_CONTAINER_ID, SRC
-
-# TODO(owahltinez): move configuration to external file
-_gcloud_bin = "/opt/google-cloud-sdk/bin/gcloud"
-_default_zone = "us-east1-b"
-_default_instance_type = "n2-standard-8"
-_host_container_image_id = "cos-stable-85-13310-1041-24"
-_host_custom_image_id = "open-covid-image"
-
-
-def start_instance_from_container(
-    instance_type: str = _default_instance_type,
-    service_account: str = None,
-    zone: str = _default_zone,
-) -> str:
-    # Instance ID must start with a letter
-    instance_id = "x" + str(uuid4())
-
-    gcloud_args = [
-        f"beta",
-        f"compute",
-        f"instances",
-        f"create-with-container",
-        f"{instance_id}",
-        f"--preemptible",
-        f"--zone={zone}",
-        f"--machine-type={instance_type}",
-        f"--scopes=https://www.googleapis.com/auth/cloud-platform",
-        f"--tags=http-server",
-        f"--image={_host_container_image_id}",
-        f"--image-project=cos-cloud",
-        f"--boot-disk-size=32GB",
-        f"--boot-disk-type=pd-standard",
-        f"--boot-disk-device-name={instance_id}",
-        f"--container-image={GCS_CONTAINER_ID}",
-        f"--container-restart-policy=always",
-        f"--container-env=PORT=80",
-        f"--metadata-from-file=startup-script={SRC / 'scripts' / 'startup-script-run.sh'}",
-        f"--quiet",
-    ]
-
-    if service_account:
-        gcloud_args += [f"--service-account={service_account}"]
-
-    subprocess.check_call([_gcloud_bin] + gcloud_args)
-    return instance_id
+from lib.constants import GCE_INSTANCE_TYPE, GCLOUD_BIN, GCP_ZONE, SRC
 
 
 def start_instance_from_image(
-    instance_type: str = _default_instance_type,
+    image_id: str,
+    instance_type: str = GCE_INSTANCE_TYPE,
     service_account: str = None,
-    zone: str = _default_zone,
+    zone: str = GCP_ZONE,
+    preemptible: bool = True,
 ) -> str:
     # Instance ID must start with a letter
     instance_id = "x" + str(uuid4())
@@ -77,12 +34,11 @@ def start_instance_from_image(
         f"instances",
         f"create",
         f"{instance_id}",
-        f"--preemptible",
         f"--zone={zone}",
         f"--machine-type={instance_type}",
         f"--scopes=https://www.googleapis.com/auth/cloud-platform",
         f"--tags=http-server",
-        f"--image={_host_custom_image_id}",
+        f"--image={image_id}",
         f"--boot-disk-size=32GB",
         f"--boot-disk-type=pd-standard",
         f"--boot-disk-device-name={instance_id}",
@@ -93,11 +49,14 @@ def start_instance_from_image(
     if service_account:
         gcloud_args += [f"--service-account={service_account}"]
 
-    subprocess.check_call([_gcloud_bin] + gcloud_args)
+    if preemptible:
+        gcloud_args += ["--preemptible"]
+
+    subprocess.check_call([GCLOUD_BIN] + gcloud_args)
     return instance_id
 
 
-def delete_instance(instance_id: str, zone: str = _default_zone) -> None:
+def delete_instance(instance_id: str, zone: str = GCP_ZONE) -> None:
     gcloud_args = [
         f"beta",
         f"compute",
@@ -107,10 +66,10 @@ def delete_instance(instance_id: str, zone: str = _default_zone) -> None:
         f"--zone={zone}",
         f"--quiet",
     ]
-    subprocess.check_call([_gcloud_bin] + gcloud_args)
+    subprocess.check_call([GCLOUD_BIN] + gcloud_args)
 
 
-def _get_instance_data(instance_id: str, format_data: str, zone: str = _default_zone) -> str:
+def _get_instance_data(instance_id: str, format_data: str, zone: str = GCP_ZONE) -> str:
     gcloud_args = [
         f"compute",
         f"instances",
@@ -119,10 +78,10 @@ def _get_instance_data(instance_id: str, format_data: str, zone: str = _default_
         f"--zone={zone}",
         f"--format={format_data}",
     ]
-    return subprocess.check_output([_gcloud_bin] + gcloud_args).decode("UTF-8").strip()
+    return subprocess.check_output([GCLOUD_BIN] + gcloud_args).decode("UTF-8").strip()
 
 
-def get_external_ip(instance_id: str, zone: str = _default_zone) -> str:
+def get_external_ip(instance_id: str, zone: str = GCP_ZONE) -> str:
     return _get_instance_data(
         instance_id=instance_id,
         format_data="get(networkInterfaces[0].accessConfigs[0].natIP)",
@@ -130,7 +89,7 @@ def get_external_ip(instance_id: str, zone: str = _default_zone) -> str:
     )
 
 
-def get_internal_ip(instance_id: str, zone: str = _default_zone) -> str:
+def get_internal_ip(instance_id: str, zone: str = GCP_ZONE) -> str:
     return _get_instance_data(
         instance_id=instance_id, format_data="get(networkInterfaces[0].networkIP)", zone=zone
     )

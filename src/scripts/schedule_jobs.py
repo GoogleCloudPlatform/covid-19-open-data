@@ -29,7 +29,7 @@ from google.cloud.scheduler_v1.types import AppEngineHttpTarget, Duration, Job
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 # pylint: disable=wrong-import-position
-from lib.constants import SRC
+from lib.constants import GCP_LOCATION, SRC
 from lib.memory_efficient import table_read_column
 from lib.pipeline_tools import get_pipelines
 
@@ -210,7 +210,7 @@ if __name__ == "__main__":
 
     # Get default values from environment
     default_project = os.environ.get("GCP_PROJECT")
-    default_location = os.environ.get("GCP_LOCATION", "us-east1")
+    default_location = os.environ.get("GCP_LOCATION", GCP_LOCATION)
     default_time_zone = os.environ.get("GCP_TIME_ZONE", "America/New_York")
 
     # Parse arguments from the command line

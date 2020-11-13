@@ -16,12 +16,21 @@ import os
 from pathlib import Path
 
 SRC = Path(os.path.dirname(__file__)) / ".."
+
+# Project-specific constants
+# TODO: Move to external INI file and read via configparser
 GCS_BUCKET_TEST = "open-covid-data"
 GCS_BUCKET_PROD = "covid19-open-data"
 GCS_CONTAINER_ID = "gcr.io/github-open-covid-19/runtime:latest"
 URL_OUTPUTS_PROD = f"https://storage.googleapis.com/{GCS_BUCKET_PROD}/v2"
 CACHE_URL = f"https://storage.googleapis.com/{GCS_BUCKET_PROD}/cache"
 ISSUES_API_URL = "https://api.github.com/repos/GoogleCloudPlatform/covid-19-open-data/issues"
+GCE_IMAGE_ID = "open-covid-image"
+GCP_LOCATION = "us-east1"
+GCP_ZONE = f"{GCP_LOCATION}-b"
+GCLOUD_BIN = "/opt/google-cloud-sdk/bin/gcloud"
+GCE_INSTANCE_TYPE = "n2-standard-8"
+
 
 # Progress is a global flag, because progress is all done using the tqdm library and can be
 # used within any number of functions but passing a flag around everywhere is cumbersome. Further,
