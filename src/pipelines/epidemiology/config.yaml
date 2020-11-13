@@ -950,9 +950,9 @@ sources:
       - url: "https://d35p9e4fm9h3wo.cloudfront.net/latestData.json"
     test:
       location_key_match: 'RO_[^_]+'
-      automation:
-        job_group: all
-        deferred: true
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for RU level 2
   - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource

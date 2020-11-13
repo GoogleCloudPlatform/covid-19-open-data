@@ -759,9 +759,9 @@ sources:
       skip_county: true
     test:
       location_key_match: '^RO$'
-      automation:
-        job_group: all
-        deferred: true
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for US level 2
   - name: pipelines.epidemiology.us_imperial.ImperialDataSource
