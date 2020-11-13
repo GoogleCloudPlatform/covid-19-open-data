@@ -12,64 +12,32 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import time
 import traceback
-from functools import partial
-from time import sleep
-from typing import Any, Iterable, List, Tuple
+from typing import Any, List
 
 import requests
 
-from lib.concurrent import thread_map
 from lib.error_logger import ErrorLogger
+from lib.io import pbar
 
-_max_retries = 8
-_wikidata_url = "https://query.wikidata.org/bigdata/namespace/wdq/sparql"
-_default_query = "SELECT ?pid ?prop WHERE {{ ?pid wdt:{prop} ?prop. FILTER (?pid = wd:{entity}) }}"
-_request_header = {"User-Agent": "covid-19-open-data/0.0 (linux-gnu)"}
-
-
-def _query_property(
-    prop: str, entity: str, query: str = _default_query, error_logger: ErrorLogger = ErrorLogger()
-) -> Any:
-    # Time to wait before retry in case of failure
-    wait_time = 8
-
-    # Build the query from template
-    query = query.format(prop=prop, entity=entity)
-
-    # Keep trying request until succeeds, or _max_retries is reached
-    for i in range(_max_retries):
-        response = None
-
-        try:
-            params = {"query": query, "format": "json"}
-            response = requests.get(_wikidata_url, headers=_request_header, params=params)
-            data = response.json()
-
-            # Return the first binding available (there should be only one)
-            for item in data["results"]["bindings"]:
-                return item["prop"]["value"]
-
-        except Exception as exc:
-            # If limit is reached, then log error
-            if i + 1 < _max_retries:
-                error_logger.log_error(response.text if response is not None else exc)
-
-            # Otherwise use exponential backoff in case of error
-            else:
-                sleep(wait_time)
-                wait_time *= 2
-
-    return None
+_LIMIT = 1_000_000
+_MAX_RETRIES = 4
+_INIT_WAIT_TIME = 8
+_WD_TIMEOUT = 60 * 5
+_WD_URL = "http://query.wikidata.org/bigdata/namespace/wdq/sparql"
+_WD_QUERY = "SELECT ?pid ?prop WHERE {{ ?pid wdt:{prop} ?prop. }}"
+_REQUEST_HEADER = {"User-Agent": "covid-19-open-data/0.0 (linux-gnu)"}
 
 
 def wikidata_property(
     prop: str,
     entities: List[str],
-    query: str = _default_query,
-    error_logger: ErrorLogger = ErrorLogger(),
-    **tqdm_kwargs
-) -> Iterable[Tuple[str, Any]]:
+    query_template: str = _WD_QUERY,
+    logger: ErrorLogger = ErrorLogger(),
+    offset: int = 0,
+    **tqdm_kwargs,
+) -> Any:
     """
     Query a single property from Wikidata, and return all entities which are part of the provided
     list which contain that property.
@@ -78,12 +46,62 @@ def wikidata_property(
         prop: Wikidata property, for example P1082 for population.
         entities: List of Wikidata identifiers to query the desired property.
         query: [Optional] SPARQL query used to retrieve `prop`.
-        error_logger: [Optional] ErrorLogger instance to use for logging.
+        logger: [Optional] ErrorLogger instance to use for logging.
+        offset: [Optional] Number of items to skip in the result set.
     Returns:
         Iterable[Tuple[str, Any]]: Iterable of <Wikidata ID, property value>
     """
-    # Limit parallelization to avoid hitting rate limits
-    tqdm_kwargs["max_workers"] = 6
-    map_func = partial(_query_property, prop, query=query, error_logger=error_logger)
-    for entity, prop in zip(entities, thread_map(map_func, entities, **tqdm_kwargs)):
-        yield entity, prop
+    # Time to wait before retry in case of failure
+    wait_time = _INIT_WAIT_TIME
+
+    # Build the query from template
+    tpl = query_template + " LIMIT {limit} OFFSET {offset}"
+    query = tpl.format(prop=prop, limit=_LIMIT, offset=offset)
+
+    # Keep trying request until succeeds, or _max_retries is reached
+    for i in range(_MAX_RETRIES):
+        response = None
+
+        try:
+            start_time = time.monotonic()
+            params = {"query": query, "format": "json"}
+            req_opts = dict(headers=_REQUEST_HEADER, params=params, timeout=_WD_TIMEOUT)
+            response = requests.get(_WD_URL, **req_opts)
+            elapsed_time = time.monotonic() - start_time
+            log_opts = dict(status=response.status_code, url=_WD_URL, time=elapsed_time, **params)
+            logger.log_info(f"Wikidata SPARQL server response", **log_opts)
+            data = response.json()
+
+            # Return the first binding available (there should be only one)
+            for item in pbar(data["results"]["bindings"], **tqdm_kwargs):
+                pid = item["pid"]["value"].split("/")[-1]
+                if pid in entities:
+                    yield pid, item["prop"]["value"]
+
+            # Unless we got `_LIMIT` results, keep adding offset until we run our of results
+            if len(data["results"]["bindings"]) == _LIMIT:
+                yield from wikidata_property(
+                    prop,
+                    entities,
+                    query_template=query_template,
+                    logger=logger,
+                    offset=offset + _LIMIT,
+                    **tqdm_kwargs,
+                )
+
+            # If no exceptions were thrown, we have reached the end
+            logger.log_info(f"Wikidata SPARQL results end reached")
+            return
+
+        except Exception as exc:
+
+            # If we have reached the error limit, log and re-raise the error
+            if i + 1 >= _MAX_RETRIES:
+                msg = response.text if response is not None else "Unknown error"
+                logger.log_error(msg, exc=exc, traceback=traceback.format_exc())
+                raise exc
+
+            # Use exponential backoff in case of error
+            logger.log_info(f"({i + 1}) Request error. Retry in {wait_time} seconds...", exc=exc)
+            time.sleep(wait_time)
+            wait_time *= 2
