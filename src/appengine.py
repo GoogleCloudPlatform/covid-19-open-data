@@ -636,8 +636,7 @@ def report_errors_to_github() -> Response:
 
 @profiled_route("/deferred/<path:url_path>")
 def deferred_route(url_path: str) -> Response:
-    status = 500
-    content = "Unknown error"
+    status, content = 500, "Unknown error"
 
     # Initialize the instance ID variable outside of the try so it's available at finally
     instance_id = None
@@ -665,24 +664,45 @@ def deferred_route(url_path: str) -> Response:
         response = requests.get(url=url_fwd, headers=headers, params=params, timeout=60 * 60 * 2)
 
         # Retrieve the response from the worker instance
-        status = response.status_code
-        content = response.content
+        status, content = response.status_code, response.content
         logger.log_info(f"Received response from {instance_id}", status=status, **log_opts)
 
     except requests.exceptions.Timeout:
         logger.log_error(f"Request to {instance_id} timed out", path=url_path)
-        content = "Timeout"
+        status, content = 500, "Timeout"
 
     except Exception as exc:
         log_opts = dict(traceback=traceback.format_exc(), path=url_path)
         logger.log_error(f"Exception while waiting for response from {instance_id}", **log_opts)
-        content = "Internal exception"
+        status, content = 500, "Internal exception"
 
     finally:
         # Shut down the worker instance now that the job is finished
         if instance_id is not None:
             delete_instance(instance_id)
             logger.log_info(f"Deleted instance {instance_id}")
+
+    # Forward the response from the instance
+    return Response(content, status=status)
+
+
+@profiled_route("/create_instance")
+def create_instance(image_id: str = GCE_IMAGE_ID) -> Response:
+    status, content = 500, "Unknown error"
+    image_id = _get_request_param("image_id", image_id)
+
+    try:
+        # Create a new preemptible instance and wait for it to come online
+        instance_opts = dict(service_account=os.getenv(ENV_SERVICE_ACCOUNT))
+        instance_id = start_instance_from_image(GCE_IMAGE_ID, **instance_opts)
+        instance_ip = get_internal_ip(instance_id)
+        status, content = 200, "OK"
+        logger.log_info(f"Created worker instance {instance_id} with internal IP {instance_ip}")
+
+    except Exception as exc:
+        log_opts = dict(traceback=traceback.format_exc())
+        logger.log_error(f"Exception creating instance from image ID {image_id}", **log_opts)
+        status, content = 500, "Internal exception"
 
     # Forward the response from the instance
     return Response(content, status=status)
