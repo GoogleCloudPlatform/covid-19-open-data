@@ -292,26 +292,6 @@ def pbar(*args, **kwargs) -> tqdm:
 
 
 @contextmanager
-def display_progress(enable: bool):
-    """
-    Provide a context manager so users don't have to touch global variables to disable progress.
-    """
-    try:
-        # Set the disable progress flag
-        if not enable:
-            progress_env_value = os.getenv(GLOBAL_DISABLE_PROGRESS)
-            os.environ[GLOBAL_DISABLE_PROGRESS] = "1"
-        yield None
-    finally:
-        # Reset the disable progress flag
-        if not enable:
-            if progress_env_value is None:
-                os.unsetenv(GLOBAL_DISABLE_PROGRESS)
-            else:
-                os.environ[GLOBAL_DISABLE_PROGRESS] = progress_env_value
-
-
-@contextmanager
 def open_file_like(path_or_handle: Union[Path, str, IO], mode: str = "r") -> IO:
     """
     Open a file at the specified path using `mode`, and close it after the context exits. If the
