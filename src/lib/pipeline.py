@@ -206,18 +206,21 @@ class DataPipeline(ErrorLogger):
         if process_count is None:
             process_count = cpu_count()
 
-        # If the process count is less than one, run in series (useful to evaluate performance)
+        # Used to display progress during processing
         data_sources_count = len(self.data_sources)
         progress_label = f"Run {self.name} pipeline"
+        map_opts = dict(total=data_sources_count, desc=progress_label)
+
+        # If the process count is less than one, run in series (useful to evaluate performance)
         if process_count <= 1 or data_sources_count <= 1:
-            map_iter = map(map_func, self.data_sources)
-            map_result = pbar(map_iter, total=data_sources_count, desc=progress_label)
+            map_result = pbar(map(map_func, self.data_sources), **map_opts)
         else:
-            map_result = process_map(map_func, self.data_sources, desc=progress_label)
+            map_opts.update(dict(max_workers=process_count))
+            map_result = process_map(map_func, self.data_sources, **map_opts)
 
         # Get all the pipeline outputs
         # This operation is parallelized but output order is preserved
-        return zip(self.data_sources, map_result)
+        yield from zip(self.data_sources, map_result)
 
     def _load_intermediate_results(
         self, intermediate_folder: Path
@@ -361,6 +364,7 @@ class DataPipeline(ErrorLogger):
     ) -> None:
         for data_source, result in intermediate_results:
             if result is not None:
+                self.log_info(f"Exporting results from {data_source.__class__.__name__}")
                 file_name = f"{data_source.uuid(self.table)}.csv"
                 export_csv(result, intermediate_folder / file_name, schema=self.schema)
             else:
