@@ -17,19 +17,17 @@ from typing import Dict, List
 
 from pandas import DataFrame
 
+from lib.concurrent import thread_map
 from lib.data_source import DataSource
 from lib.wikidata import wikidata_property
-from lib.concurrent import thread_map
 
 
 class WikidataDataSource(DataSource):
     """ Retrieves the requested properties from Wikidata for all items in metadata.csv """
 
     def _process_item(self, entities: List[str], prop: str) -> DataFrame:
-        return (
-            prop,
-            wikidata_property(prop, entities, error_logger=self, desc="Wikidata Entities"),
-        )
+        wd_opts = dict(logger=self, desc="Wikidata Entities")
+        return (prop, wikidata_property(prop, entities, **wd_opts))
 
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         data = aux["knowledge_graph"].merge(aux["metadata"])[["key", "wikidata"]]
@@ -38,7 +36,8 @@ class WikidataDataSource(DataSource):
         # Load wikidata using parallel processing
         wikidata_props = {v: k for k, v in parse_opts.items()}
         map_func = partial(self._process_item, entities.index)
-        for prop, values in thread_map(map_func, wikidata_props.keys(), desc="Wikidata Properties"):
+        map_opts = dict(desc="Wikidata Properties", total=len(wikidata_props))
+        for prop, values in thread_map(map_func, wikidata_props.keys(), **map_opts):
             df = DataFrame.from_records(values, columns=["wikidata", wikidata_props[prop]])
             entities = entities.join(df.set_index("wikidata"), how="outer")
 

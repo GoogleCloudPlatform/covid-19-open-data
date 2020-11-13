@@ -12,41 +12,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import re
 from functools import partial
-from typing import Dict, List
+from typing import Dict, Iterable, List, Tuple
 
 from pandas import DataFrame
 
-from lib.data_source import DataSource
-from lib.wikidata import wikidata_property
 from lib.concurrent import thread_map
-
-_query_string_coordinates = """
-SELECT ?pid ?prop WHERE {{
-    ?pid p:{prop} ?statement .
-    ?statement psv:{prop} ?node .
-    ?node wikibase:geoLatitude ?latitude .
-    ?node wikibase:geoLongitude ?longitude .
-    BIND (CONCAT(STR(?latitude), ",", STR(?longitude)) AS ?prop) .
-    FILTER (?pid = wd:{entity})
-}}
-"""
+from lib.wikidata import wikidata_property
+from pipelines._common.wikidata import WikidataDataSource
 
 
-class WikidataCoordinatesDataSource(DataSource):
-    def _process_item(self, entities: List[str], prop: str) -> DataFrame:
-        return (
-            prop,
-            wikidata_property(
-                prop,
-                entities,
-                query=_query_string_coordinates,
-                error_logger=self,
-                desc="Wikidata Entities",
-                max_workers=4,
-            ),
-        )
+def _extract_coordinates(results: Iterable[Tuple[str, str]]) -> Iterable[Tuple[str, str]]:
+    for pid, prop in results:
+        coord_search = re.search(r"Point\((.+)\)", prop, re.IGNORECASE)
+        if coord_search:
+            # Latitude and longitude are in reverse order for Point objects
+            lon, lat = str(coord_search.group(1)).split(" ")
+            yield (pid, lat, lon)
 
+
+class WikidataCoordinatesDataSource(WikidataDataSource):
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         data = aux["knowledge_graph"].merge(aux["metadata"])[["key", "wikidata"]]
         entities = data.dropna().set_index("wikidata")
@@ -54,8 +40,9 @@ class WikidataCoordinatesDataSource(DataSource):
         # Load wikidata using parallel processing
         wikidata_props = {v: k for k, v in parse_opts.items()}
         map_func = partial(self._process_item, entities.index)
-        for _, values in thread_map(map_func, wikidata_props.keys(), desc="Wikidata Properties"):
-            values = ((x[0], *(x[1].split(",", 2) if x[1] else (None, None))) for x in values)
+        map_opts = dict(desc="Wikidata Properties", total=len(wikidata_props))
+        for _, values in thread_map(map_func, wikidata_props.keys(), **map_opts):
+            values = _extract_coordinates(values)
             df = DataFrame.from_records(values, columns=["wikidata", "latitude", "longitude"])
             entities = entities.join(df.set_index("wikidata"), how="outer")
 
