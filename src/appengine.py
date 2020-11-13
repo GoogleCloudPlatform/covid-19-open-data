@@ -84,9 +84,16 @@ def profiled_route(rule, **options):
         # Define the wrapped function which profiles entry and exit points
         @wraps(func)
         def profiled_method_call(*args, **kwargs) -> Response:
+            # Request arguments may not be available depending on context
+            request_params = {}
+            try:
+                request_params = request.args
+            except RuntimeError:
+                pass
+
             # Start timer and log method entry
             time_start = time.monotonic()
-            log_opts = {"handler": rule, "args": args, "kwargs": kwargs, "params": request.args}
+            log_opts = {"handler": rule, "args": args, "kwargs": kwargs, "params": request_params}
             logger.log_info("enter", **log_opts)
 
             # Stop timer as soon as response is received
