@@ -327,6 +327,7 @@ class DataSource(ErrorLogger):
             data = data.append(localities)
 
         # Return the final dataframe
+        self.log_info(f"Data source finished with {len(data)} records downloaded.")
         return data
 
     def uuid(self, table_name: str) -> str:

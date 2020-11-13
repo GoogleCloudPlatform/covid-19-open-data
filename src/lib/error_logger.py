@@ -96,6 +96,7 @@ class ErrorLogger:
                 timestamp=self.timestamp(),
                 # TODO: consider whether we should keep classname or if logname is sufficient
                 classname=self.__class__.__name__,
+                loglevel=log_func.__name__,
                 **kwargs,
             )
         )
