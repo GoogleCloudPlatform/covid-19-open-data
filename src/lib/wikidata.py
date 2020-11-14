@@ -21,7 +21,7 @@ import requests
 from lib.error_logger import ErrorLogger
 from lib.io import pbar
 
-_LIMIT = 1_000_000
+_LIMIT = 500_000
 _MAX_RETRIES = 4
 _INIT_WAIT_TIME = 8
 _WD_TIMEOUT = 60 * 5
