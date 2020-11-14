@@ -26,7 +26,8 @@ class ScotlandDataSource(DataSource):
     def _parse(file_path: str, sheet_name: str, value_name: str):
         data = read_file(file_path, sheet_name=sheet_name)
 
-        data.columns = [col.replace("NHS ", "").replace(" total", "") for col in data.iloc[1]]
+        data.columns = [col.replace("NHS ", "").replace(
+            " total", "") for col in data.iloc[1]]
         # Drop Golden Jubilee National Hospital - it has no hospitalizations and does not fit
         # any current matches in metadata.csv.
         data = data.drop(columns=["Golden Jubilee National Hospital"])
@@ -34,7 +35,8 @@ class ScotlandDataSource(DataSource):
 
         data = pivot_table(data.set_index("date"), pivot_name="match_string")
         data = data.rename(columns={"value": value_name})
-        data[value_name] = data[value_name].replace("*", None).apply(safe_float_cast).astype(float)
+        data[value_name] = data[value_name].replace(
+            "*", None).apply(safe_float_cast).astype(float)
 
         # Get date in ISO format
         data.date = data.date.apply(lambda x: x.date().isoformat())
@@ -78,7 +80,8 @@ class UKL1DataSource(DataSource):
             "covidOccupiedMVBeds": "covidOccupiedMVBeds",
         }
 
-        api = Cov19API(filters=api_filter_overview, structure=api_structure_hospitalization)
+        api = Cov19API(filters=api_filter_overview,
+                       structure=api_structure_hospitalization)
 
         data = api.get_dataframe()
 
@@ -97,5 +100,52 @@ class UKL1DataSource(DataSource):
 
         # Add key
         data["key"] = "GB"
+
+        return data
+
+
+class UKL2DataSource(DataSource):
+    def parse_dataframes(
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
+    ) -> DataFrame:
+
+        # Specify filter for UK data at the nation granularity
+        api_filter_overview = ["areaType=nation"]
+
+        # Specify relevant metrics that will be used
+        # according to Google's schema
+        api_structure_hospitalization = {
+            "areaName": "areaName",
+            "date": "date",
+            "newAdmissions": "newAdmissions",
+            "cumAdmissions": "cumAdmissions",
+            "hospitalCases": "hospitalCases",
+            "covidOccupiedMVBeds": "covidOccupiedMVBeds",
+        }
+
+        api = Cov19API(filters=api_filter_overview,
+                       structure=api_structure_hospitalization)
+
+        data = api.get_dataframe()
+
+        # Add keys for all 4 nations
+        data.loc[data["areaName"] == "England", "key"] = "GB_ENG"
+        data.loc[data["areaName"] == "Northern Ireland", "key"] = "GB_NIR"
+        data.loc[data["areaName"] == "Scotland", "key"] = "GB_SCT"
+        data.loc[data["areaName"] == "Wales", "key"] = "GB_WLS"
+
+        # Rename columns and map to expected schema
+        data = table_rename(
+            data,
+            {
+                "date": "date",
+                "key": "key",
+                "newAdmissions": "new_hospitalized",
+                "cumAdmissions": "total_hospitalized",
+                "hospitalCases": "current_hospitalized",
+                "covidOccupiedMVBeds": "current_ventilator",
+            },
+            drop=True,
+        )
 
         return data
