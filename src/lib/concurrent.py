@@ -13,42 +13,44 @@
 # limitations under the License.
 
 from functools import partial
+from multiprocessing import cpu_count, get_context
 from multiprocessing.pool import Pool, ThreadPool
-from os import getenv
-from typing import Any, Callable, Dict, Iterable, Union
+from typing import Any, Callable, Dict, Iterable, Type, Union
 
 from pandas import DataFrame, Series
-from tqdm.contrib import concurrent
 
-from .constants import GLOBAL_DISABLE_PROGRESS
-
-
-class _ProcessExecutor(Pool):
-    def __init__(self, max_workers: int = None, **kwargs):
-        super().__init__(processes=max_workers, **kwargs)
-
-    def map(self, func, iterable, chunksize=None):
-        return self.imap(func, iterable)
+from .io import pbar
 
 
-class _ThreadExecutor(ThreadPool):
-    def __init__(self, max_workers: int = None, **kwargs):
-        super().__init__(processes=max_workers, **kwargs)
+def _get_pool(pool_type: Type, max_workers: int) -> Pool:
+    if pool_type == ThreadPool:
+        return ThreadPool(max_workers)
+    elif pool_type == Pool:
+        return get_context("spawn").Pool(max_workers)
+    else:
+        raise TypeError(f"Unknown pool type: {pool_type}")
 
-    def map(self, func, iterable, chunksize=None):
-        return self.imap(func, iterable)
+
+def _parallel_map(
+    pool_type: Type, map_func: Callable, map_iter: Iterable[Any], **tqdm_kwargs
+) -> Iterable[Any]:
+    chunk_size = tqdm_kwargs.pop("chunk_size", 1)
+    max_workers = tqdm_kwargs.pop("max_workers", min(32, cpu_count() + 4))
+    total = tqdm_kwargs.pop("total", len(map_iter) if hasattr(map_iter, "__len__") else None)
+    progress_bar = pbar(total=total, **tqdm_kwargs)
+    with _get_pool(pool_type, max_workers) as pool:
+        for result in pool.imap(map_func, map_iter, chunksize=chunk_size):
+            progress_bar.update(1)
+            yield result
+    progress_bar.close()
 
 
 def process_map(map_func: Callable, map_iter: Iterable[Any], **tqdm_kwargs):
-    tqdm_kwargs = {**{"disable": getenv(GLOBAL_DISABLE_PROGRESS)}, **tqdm_kwargs}
-    # pylint: disable=protected-access
-    return concurrent._executor_map(_ProcessExecutor, map_func, map_iter, **tqdm_kwargs)
+    return _parallel_map(Pool, map_func, map_iter, **tqdm_kwargs)
 
 
 def thread_map(map_func: Callable, map_iter: Iterable[Any], **tqdm_kwargs):
-    tqdm_kwargs = {**{"disable": getenv(GLOBAL_DISABLE_PROGRESS)}, **tqdm_kwargs}
-    # pylint: disable=protected-access
-    return concurrent._executor_map(_ThreadExecutor, map_func, map_iter, **tqdm_kwargs)
+    return _parallel_map(ThreadPool, map_func, map_iter, **tqdm_kwargs)
 
 
 def parallel_apply(
