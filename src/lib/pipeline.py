@@ -222,6 +222,24 @@ class DataPipeline(ErrorLogger):
         # This operation is parallelized but output order is preserved
         yield from zip(self.data_sources, map_result)
 
+    def _save_intermediate_results(
+        self,
+        intermediate_folder: Path,
+        intermediate_results: Iterable[Tuple[DataSource, DataFrame]],
+    ) -> None:
+        for data_source, result in intermediate_results:
+            if result is not None:
+                self.log_info(f"Exporting results from {data_source.__class__.__name__}")
+                file_name = f"{data_source.uuid(self.table)}.csv"
+                export_csv(result, intermediate_folder / file_name, schema=self.schema)
+            else:
+                data_source_name = data_source.__class__.__name__
+                self.log_error(
+                    "No output while saving intermediate results",
+                    source_name=data_source_name,
+                    source_config=data_source.config,
+                )
+
     def _load_intermediate_results(
         self, intermediate_folder: Path
     ) -> Iterable[Tuple[DataSource, DataFrame]]:
@@ -300,21 +318,17 @@ class DataPipeline(ErrorLogger):
                 for _, result in intermediate_results
             )
 
-            # Limit the process count to 4 to avoid OOM for big datasets
-            proc_count = min(4, process_count)
-
             # Parallelize combine step into N processes
             combine_inputs = self._split_combine_inputs(intermediate_tables, combine_chunk_size)
             map_iter = [[chunk] for chunk in combine_inputs]
             map_func = partial(combine_tables, index=["date", "key"])
-            map_opts = dict(max_workers=proc_count, desc=f"Combine {self.name} outputs")
+            map_opts = dict(max_workers=process_count, desc=f"Combining {self.name} outputs")
             pipeline_output = process_map(map_func, map_iter, **map_opts)
             del combine_inputs
 
         # Return data using the pipeline's output parameters
-        map_func = partial(self.output_table)
         map_opts = dict(max_workers=process_count, desc=f"Cleaning {self.name} outputs")
-        return concat(process_map(map_func, pipeline_output, **map_opts))
+        return concat(process_map(self.output_table, pipeline_output, **map_opts))
 
     def verify(
         self, pipeline_output: DataFrame, level: str = "simple", process_count: int = cpu_count()
@@ -357,24 +371,6 @@ class DataPipeline(ErrorLogger):
 
         return pipeline_output
 
-    def _save_intermediate_results(
-        self,
-        intermediate_folder: Path,
-        intermediate_results: Iterable[Tuple[DataSource, DataFrame]],
-    ) -> None:
-        for data_source, result in intermediate_results:
-            if result is not None:
-                self.log_info(f"Exporting results from {data_source.__class__.__name__}")
-                file_name = f"{data_source.uuid(self.table)}.csv"
-                export_csv(result, intermediate_folder / file_name, schema=self.schema)
-            else:
-                data_source_name = data_source.__class__.__name__
-                self.log_error(
-                    "No output while saving intermediate results",
-                    source_name=data_source_name,
-                    source_config=data_source.config,
-                )
-
     def run(
         self,
         output_folder: Path,
@@ -408,7 +404,8 @@ class DataPipeline(ErrorLogger):
         intermediate_results = self._load_intermediate_results(intermediate_folder)
 
         # Combine all intermediate results into a single dataframe
-        pipeline_output = self.combine(intermediate_results)
+        # NOTE: Limit the number of processes to avoid OOM in big datasets
+        pipeline_output = self.combine(intermediate_results, process_count=min(process_count, 4))
 
         # Perform anomaly detection on the combined outputs
         pipeline_output = self.verify(

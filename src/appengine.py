@@ -365,8 +365,11 @@ def combine_table(table_name: str = None) -> Response:
         intermediate_results = data_pipeline._load_intermediate_results(workdir / "intermediate")
         logger.log_info(f"Loaded intermediate tables {intermediate_file_names}")
 
+        # Limit the number of processes to avoid OOM in big datasets
+        process_count = 4
+
         # Combine all intermediate results into a single dataframe
-        pipeline_output = data_pipeline.combine(intermediate_results)
+        pipeline_output = data_pipeline.combine(intermediate_results, process_count=process_count)
         logger.log_info(f"Combined intermediate tables into {table_name}")
 
         # Output combined data to disk
