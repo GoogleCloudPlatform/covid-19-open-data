@@ -54,9 +54,7 @@ For each region and time resolution, we scale all the normalized popularities us
 ## URL
 This data table can be found at the following locations depending on the format and how it is aggregated:
 * [search-trends-daily.csv](https://storage.googleapis.com/covid19-open-data/v2/search-trends-daily.csv)
-* [search-trends-daily.json](https://storage.googleapis.com/covid19-open-data/v2/search-trends-daily.json)
 * [search-trends-weekly.csv](https://storage.googleapis.com/covid19-open-data/v2/search-trends-weekly.csv)
-* [search-trends-weekly.json](https://storage.googleapis.com/covid19-open-data/v2/search-trends-weekly.json)
 
 ## Schema
 | Name | Type | Description | Example |

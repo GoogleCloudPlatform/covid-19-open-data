@@ -1,10 +1,11 @@
-# COVID-19 Open Data
+# COVID-19 Open-Data
 
-This repository contains datasets of daily time-series data related to COVID-19 for 50+ countries
-around the world. The data is at the spatial resolution of states/provinces for most regions and at
-county/municipality resolution for Argentina, Brazil, Chile, Colombia, Czech Republic, Mexico,
-Netherlands, Peru, United Kingdom, and USA. All regions are assigned a unique location key, which
-resolves discrepancies between ISO / NUTS / FIPS codes, etc. The different aggregation levels are:
+This repository contains datasets of daily time-series data related to COVID-19 for over 20,000
+distinct locations around the world. The data is at the spatial resolution of states/provinces for
+most regions and at county/municipality resolution for many countries such as  Argentina, Brazil,
+Chile, Colombia, Czech Republic, Mexico, Netherlands, Peru, United Kingdom, and USA. All regions are
+assigned a unique location key, which resolves discrepancies between ISO / NUTS / FIPS codes, etc.
+The different aggregation levels are:
 * 0: Country
 * 1: Province, state, or local equivalent
 * 2: Municipality, county, or local equivalent
@@ -12,13 +13,16 @@ resolves discrepancies between ISO / NUTS / FIPS codes, etc. The different aggre
   location"
 
 There are multiple types of data:
-* Outcome data `Y(i,t)`, such as cases, tests, hospitalizations, deaths and recoveries, for region i and time t
-* Static covariate data `X(i)`, such as population size, health statistics, economic indicators, geographic boundaries
-* Dynamic covariate data `X(i,t)`, such as mobility, search trends, weather, and government interventions
+* Outcome data `Y(i,t)`, such as cases, tests, hospitalizations, deaths and recoveries, for region
+  `i` and time `t`
+* Static covariate data `X(i)`, such as population size, health statistics, economic indicators,
+  geographic boundaries
+* Dynamic covariate data `X(i,t)`, such as mobility, search trends, weather, and government
+  interventions
 
 The data is drawn from multiple sources, as listed [below](#sources-of-data), and stored in separate
-csv / json files, which can be easily merged due to the use of consistent geographic (and temporal)
-keys.
+tables as CSV files grouped by context, which can be easily merged due to the use of consistent
+geographic (and temporal) keys as it is done for the [main table](#main-table).
 
 | Table | Keys<sup>1</sup> | Content | URL | Source<sup>2</sup> |
 | ----- | ---------------- | ------- | --- | ------------------ |
@@ -31,8 +35,8 @@ keys.
 | [Geography](./docs/table-geography.md) | `[key]` | Geographical information about the region | [geography.csv](https://storage.googleapis.com/covid19-open-data/v2/geography.csv), [geography.json](https://storage.googleapis.com/covid19-open-data/v2/geography.json) | Wikidata |
 | [Health](./docs/table-health.md) | `[key]` | Health indicators for the region | [health.csv](https://storage.googleapis.com/covid19-open-data/v2/health.csv), [health.json](https://storage.googleapis.com/covid19-open-data/v2/geography.json) | Wikidata, WorldBank, Eurostat |
 | [Hospitalizations](./docs/table-hospitalizations.md) | `[key][date]` | Information related to patients of COVID-19 and hospitals |  [hospitalizations.csv](https://storage.googleapis.com/covid19-open-data/v2/hospitalizations.csv), [hospitalizations.json](https://storage.googleapis.com/covid19-open-data/v2/hospitalization.json) | Various<sup>2</sup> |
-| [Mobility](./docs/table-mobility.md) | `[key][date]` | Various metrics related to the movement of people.<br/><br/>To download or use the data, you must agree to the Google [Terms of Service](https://policies.google.com/terms). | [mobility.csv](https://storage.googleapis.com/covid19-open-data/v2/mobility.json), [mobility.json](https://storage.googleapis.com/covid19-open-data/v2/mobility.json) | Google |
-| [Search Trends](./docs/table-search-trends.md) | `[key][date]` | Trends in symptom search volumes due to COVID-19.<br/><br/>To download or use the data, you must agree to the Google [Terms of Service](https://policies.google.com/terms). | [search-trends-daily.csv](https://storage.googleapis.com/covid19-open-data/v2/search-trends-daily.csv), [search-trends-daily.json](https://storage.googleapis.com/covid19-open-data/v2/search-trends-daily.json) | Google |
+| [Mobility](./docs/table-mobility.md) | `[key][date]` | Various metrics related to the movement of people.<br/><br/>To download or use the data, you must agree to the Google [Terms of Service](https://policies.google.com/terms). | [mobility.csv](https://storage.googleapis.com/covid19-open-data/v2/mobility.csv), [mobility.json](https://storage.googleapis.com/covid19-open-data/v2/mobility.json) | Google |
+| [Search Trends](./docs/table-search-trends.md) | `[key][date]` | Trends in symptom search volumes due to COVID-19.<br/><br/>To download or use the data, you must agree to the Google [Terms of Service](https://policies.google.com/terms). | [search-trends-daily.csv](https://storage.googleapis.com/covid19-open-data/v2/search-trends-daily.csv) | Google |
 | [Government Response](./docs/table-government-response.md) | `[key][date]` | Government interventions and their relative stringency | [oxford-government-response.csv](https://storage.googleapis.com/covid19-open-data/v2/oxford-government-response.csv), [oxford-government-response.json](https://storage.googleapis.com/covid19-open-data/v2/oxford-government-response.json) | University of Oxford |
 | [Weather](./docs/table-weather.md) | `[key][date]` | Dated meteorological information for each region | [weather.csv](https://storage.googleapis.com/covid19-open-data/v2/weather.csv) | NOAA |
 | [WorldBank](./docs/table-worldbank.md) | `[key]` | Latest record for each indicator from WorldBank for all reporting countries | [worldbank.csv](https://storage.googleapis.com/covid19-open-data/v2/worldbank.csv), [worldbank.json](https://storage.googleapis.com/covid19-open-data/v2/worldbank.json) | WorldBank |
@@ -109,7 +113,7 @@ few snippets to get started.
 ### BigQuery
 This dataset is part of the [BigQuery Public Datasets Program][22], so you may use BigQuery to run
 SQL queries directly from the
-[online query editor](https://console.cloud.google.com/bigquery?p=bigquery-public-data&d=covid19_open_data&page=dataset).
+[online query editor](https://console.cloud.google.com/bigquery?p=bigquery-public-data&d=covid19_open_data&page=dataset) free of charge.
 
 ### Google Colab
 You can use Google Colab if you want to run your analysis without having to install anything in your
@@ -128,14 +132,14 @@ menu.
 ### R
 If you prefer R, then this is all you need to do to load the epidemiology data:
 ```R
-data <- read.csv("https://storage.googleapis.com/covid19-open-data/v2/main.csv")
+data <- read.csv("https://storage.googleapis.com/covid19-open-data/v2/epidemiology.csv")
 ```
 
 ### Python
 In Python, you need to have the package `pandas` installed to get started:
 ```python
 import pandas
-data = pandas.read_csv("https://storage.googleapis.com/covid19-open-data/v2/main.csv")
+data = pandas.read_csv("https://storage.googleapis.com/covid19-open-data/v2/epidemiology.csv")
 ```
 
 ### jQuery
@@ -168,14 +172,9 @@ For information about each table, see the corresponding documentation linked
 [above](#covid-19-open-data).
 
 ### Main table
-Flat table with records from all other tables joined by `key` and `date`. See below for information
-about all the different tables and columns. Tables not included in the main table are:
-* [WorldBank](./docs/table-worldbank.md): A subset of individual indicators are added as columns to other
-  tables instead; for example, the [health](./docs/table-health.md) table.
-* [By Age](./docs/table-by-age.md): Age breakdowns of epidemiology and hospitalization data are normalized and
-  added to the by-age-normalized table instead (TABLE TO BE ADDED).
-* [By Sex](./docs/table-by-sex.md): Sex breakdowns of epidemiology and hospitalization data are normalized and
-  added to the by-sex-normalized table instead (TABLE TO BE ADDED).
+Flat table with records from all other tables joined by `key` and `date`. See above for links to the
+documentation for each individual table. Due to technical limitations, not all tables can be
+included as part of this main table.
 
 ### Notes about the data
 For countries where both country-level and subregion-level data is available, the entry which has a
@@ -192,6 +191,13 @@ Please note that, sometimes, the country-level data and the region-level data co
 sources so adding up all region-level values may not equal exactly to the reported country-level
 value. See the [data loading tutorial][7] for more information.
 
+### Data updates
+The data for each table is updated at least daily. Individual tables, for example
+[Epidemiology](./docs/table-epidemiology.md), have fresher data than the [main table](#main-table)
+and are updated multiple times a day. Each individual data source has its own update schedule and
+some are not updated in a regular interval; the data tables hosted here only reflect the latest data
+published by the sources.
+
 
 
 ## Contribute
@@ -202,8 +208,8 @@ Technical contributions to the data extraction pipeline are welcomed, take a loo
 If you spot an error in the data, feel free to open an issue on this repository and we will review
 it.
 
-If you do something cool with the data, for example related to visualization or analysis, please let
-us know!
+If you do something with this data, for example a research paper or work related to visualization or
+analysis, please let us know!
 
 
 
@@ -377,11 +383,11 @@ Please use the following when citing this project as a source of data:
 
 ```
 @article{Wahltinez2020,
-  author = "Oscar Wahltinez and Matt Lee and Anthony Erlinger and Mayank Daswani and Pranali Yawalkar and Kevin Murphy and Michael Brenner",
+  author = "O. Wahltinez and others",
   year = 2020,
   title = "COVID-19 Open-Data: curating a fine-grained, global-scale data repository for SARS-CoV-2",
   note = "Work in progress",
-  url = {https://github.com/GoogleCloudPlatform/covid-19-open-data},
+  url = {https://goo.gle/covid-19-open-data},
 }
 ```
 
