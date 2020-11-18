@@ -19,7 +19,7 @@ import warnings
 from pathlib import Path
 from typing import Dict, Iterable, List, TextIO
 
-from .io import line_reader, open_file_like, read_table, temporary_directory
+from .io import line_reader, open_file_like, read_table, temporary_directory, temporary_file
 
 
 # Any CSV file under 50 MB can use the fast in-memory JSON converter
@@ -426,6 +426,45 @@ def table_drop_nan_columns(table: Path, output_path: Path) -> None:
     # Remove all null columns and write output
     nan_columns = [idx for idx in column_names.keys() if idx not in not_nan_columns]
     table_rename(table, output_path, {column_names[idx]: None for idx in nan_columns})
+
+
+def table_concat(tables: List[Path], output_path: Path) -> None:
+    """
+    Concatenate multiple tables into a single one.
+
+    Arguments:
+        tables: List of paths for the CSV files being concatenated.
+        output_path: Output path for the resulting CSV file.
+    """
+    # Read each table iteratively and append records while keeping track of the output header
+    with temporary_file() as temp_file:
+        output_header = {}
+        with open_file_like(temp_file, mode="w") as fd_out:
+            csv_writer = csv.writer(fd_out)
+
+            for table in tables:
+                with open_file_like(table, mode="r") as fd_in:
+                    reader = csv.reader(line_reader(fd_in, skip_empty=True))
+                    columns = {idx: name for idx, name in enumerate(next(reader))}
+                    for idx, name in columns.items():
+                        if name not in output_header:
+                            idx = len(output_header)
+                            output_header[name] = idx
+
+                    for record in reader:
+                        record = {name: record[idx] for idx, name in columns.items()}
+                        output_record = {name: record.get(name) for name in output_header.keys()}
+                        csv_writer.writerow(output_record.values())
+
+        # Write the final header to the output file and make sure each row has all records
+        with open_file_like(temp_file, mode="r") as fd_in:
+            reader = csv.reader(fd_in)
+            with open_file_like(output_path, mode="w") as fd_out:
+                csv_writer = csv.writer(fd_out)
+                csv_writer.writerow(output_header.keys())
+                for record in reader:
+                    record += [None] * (len(output_header) - len(record))
+                    csv_writer.writerow(record)
 
 
 def _convert_csv_to_json_records_slow(schema: Dict[str, type], csv_file: Path, output_file) -> None:
