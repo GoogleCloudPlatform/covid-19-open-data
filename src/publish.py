@@ -15,15 +15,14 @@
 
 import cProfile
 import datetime
+import gzip
 import shutil
 import traceback
-from io import TextIOWrapper
 from argparse import ArgumentParser
 from functools import partial
 from pathlib import Path
 from pstats import Stats
 from typing import Dict, Iterable, List, TextIO
-from zipfile import ZIP_DEFLATED, ZipFile
 
 from lib.constants import OUTPUT_COLUMN_ADAPTER, SRC, V2_TABLE_LIST, V3_TABLE_LIST
 from lib.error_logger import ErrorLogger
@@ -32,6 +31,7 @@ from lib.memory_efficient import (
     convert_csv_to_json_records,
     get_table_columns,
     table_breakout,
+    table_concat,
     table_cross_product,
     table_drop_nan_columns,
     table_grouped_tail,
@@ -41,15 +41,6 @@ from lib.memory_efficient import (
     table_sort,
 )
 from lib.pipeline_tools import get_schema
-from lib.sql import (
-    _safe_table_name,
-    create_sqlite_database,
-    table_drop as sql_table_drop,
-    table_export_csv as sql_export_csv,
-    table_import_from_file,
-    table_join as sql_table_join,
-    table_merge as sql_table_merge,
-)
 from lib.time import date_range
 
 
@@ -206,99 +197,21 @@ def merge_output_tables(
         table_sort(temp_input, output_path)
 
 
-def import_tables_into_sqlite(table_paths: List[Path], output_path: Path) -> None:
-    """
-    Build a flat view of all tables combined, joined by <key> or <key, date>.
-
-    Arguments:
-        table_paths: List of CSV files to join into a single table.
-        output_path: Output path for the resulting SQLite file.
-    """
-    # Import all tables into a database on disk at the provided path
-    with create_sqlite_database(output_path) as conn:
-
-        # Get a list of all tables indexed by <location_key> or by <location_key, date>
-        schema = get_schema()
-        for table_file_path in table_paths:
-            table_name = table_file_path.stem
-            _logger.log_info(f"Importing {table_name} into SQLite")
-            table_columns = get_table_columns(table_file_path)
-            table_schema = {col: schema.get(col, str) for col in table_columns}
-            table_import_from_file(
-                conn, table_file_path, table_name=table_name, schema=table_schema
-            )
-
-
-def merge_output_tables_sqlite(
-    tables_folder: Path,
-    output_path: Path,
-    sqlite_file: Path = None,
-    drop_empty_columns: bool = False,
-    use_table_names: List[str] = None,
-) -> None:
+def merge_location_breakout_tables(tables_folder: Path, output_path: Path) -> None:
     """
     Build a flat view of all tables combined, joined by <key> or <key, date>. This function
-    requires index.csv to be present under `tables_folder`.
+    requires for all the location breakout tables to be present under `tables_folder`.
 
     Arguments:
-        table_paths: List of CSV files to join into a single table.
-        output_path: Output path for the resulting CSV file.
-        sqlite_path: Path for the SQLite database to use for importing data, defaults to a temporary
-            database on disk.
-        drop_empty_columns: Flag determining whether columns with null values only should be
-            removed from the output.
+        tables_folder: Input directory where all CSV files exist.
+        output_path: Output directory for the resulting main.csv file.
     """
-    # Default to a known list of tables to use when none is given
-    table_paths = _get_tables_in_folder(tables_folder, use_table_names or V2_TABLE_LIST)
+    # Use only the aggregated main tables
+    table_paths = list(sorted(filter(lambda x: x.stem == "main", tables_folder.glob("**/*.csv"))))
 
-    # Use a temporary directory for intermediate files
-    with temporary_directory() as workdir:
-
-        # Use two temporary tables as I/O for intermediate operations
-        temp_table_input, temp_table_output = "tmp_table_name_1", "tmp_table_name_2"
-
-        # Start with all combinations of <location key x date>
-        keys_and_dates_table_path = workdir / f"{temp_table_input}.csv"
-        _logger.log_info("Creating keys and dates table")
-        index_table = [table for table in table_paths if table.stem == "index"][0]
-        _make_location_key_and_date_table(index_table, keys_and_dates_table_path)
-
-        # Create an SQLite database
-        _logger.log_info("Importing all tables into SQLite")
-        database_file = sqlite_file or workdir / "database.sqlite"
-        import_tables_into_sqlite([keys_and_dates_table_path] + table_paths, database_file)
-
-        with create_sqlite_database(database_file) as conn:
-
-            _logger.log_info(f"Merging all tables into a flat output")
-            for table in table_paths:
-                _logger.log_info(f"Merging {table.stem}")
-
-                # Read the table's header to determine how to merge it
-                table_name = _safe_table_name(table.stem)
-                table_columns = get_table_columns(table)
-                join_on = [col for col in ("key", "location_key", "date") if col in table_columns]
-
-                # Join with the current intermediate table
-                sql_table_join(
-                    conn,
-                    left=temp_table_input,
-                    right=table_name,
-                    on=join_on,
-                    how="left outer",
-                    into_table=temp_table_output,
-                )
-
-                # Flip-flop the I/O tables to avoid a copy
-                temp_table_input, temp_table_output = temp_table_output, temp_table_input
-
-        sort_values = ("location_key", "date")
-        _logger.log_info(f"Exporting output as CSV")
-        sql_export_csv(conn, temp_table_input, output_path=output_path, sort_by=sort_values)
-
-        # Remove the intermediate tables from the SQLite database
-        sql_table_drop(conn, temp_table_input)
-        sql_table_drop(conn, temp_table_output)
+    # Concatenate all the individual breakout tables together
+    _logger.log_info(f"Concatenating {len(table_paths)} location breakout tables")
+    table_concat(pbar(table_paths, desc="Concatenating tables"), output_path)
 
 
 def _subset_latest(output_folder: Path, csv_file: Path) -> Path:
@@ -373,7 +286,7 @@ def publish_location_breakouts(
     # Break out each table into separate folders based on the location key
     _logger.log_info(f"Breaking out tables {[x.stem for x in map_iter]}")
     map_func = partial(table_breakout, output_folder=output_folder, breakout_column="location_key")
-    return list(pbar(map(map_func, map_iter), desc="Breaking out tables"))
+    return list(pbar(map(map_func, map_iter), desc="Breaking out tables", total=len(map_iter)))
 
 
 def _aggregate_location_breakouts(
@@ -480,19 +393,14 @@ def main(output_folder: Path, tables_folder: Path, use_table_names: List[str] = 
         v3_folder, v3_folder, location_keys, use_table_names=use_table_names
     )
 
-    # Create a single table aggregating outputs from all other tables
+    # Create the aggregated main table and put it in a compressed file
     main_file_name = "covid-19-open-data.csv"
-    main_file_zip_path = v3_folder / f"{main_file_name}.zip"
-    with ZipFile(main_file_zip_path, mode="w", compression=ZIP_DEFLATED) as zip_archive:
-        with zip_archive.open(main_file_name, "w") as output_file:
-            merge_output_tables_sqlite(
-                v3_folder, TextIOWrapper(output_file), use_table_names=use_table_names
-            )
+    main_file_zip_path = v3_folder / f"{main_file_name}.gz"
+    with gzip.open(main_file_zip_path, "wt") as compressed_file:
+        merge_location_breakout_tables(v3_folder, compressed_file)
 
     # Convert all CSV files to JSON using values format
-    global_tables = list(v3_folder.glob("*.csv"))
-    location_tables = [table for table in v3_folder.glob("**/*.csv") if table not in global_tables]
-    convert_tables_to_json(location_tables, v3_folder)
+    convert_tables_to_json(v3_folder, v3_folder)
 
 
 if __name__ == "__main__":
