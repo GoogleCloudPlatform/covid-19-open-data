@@ -14,6 +14,7 @@
 # limitations under the License.
 
 import datetime
+import gzip
 import json
 import os.path
 import sys
@@ -21,10 +22,9 @@ import time
 import traceback
 from argparse import ArgumentParser
 from functools import partial, wraps
-from io import BytesIO, TextIOWrapper
+from io import BytesIO
 from pathlib import Path
 from typing import Callable, Dict, List, Optional
-from zipfile import ZipFile, ZIP_DEFLATED
 
 import requests
 import yaml
@@ -40,8 +40,8 @@ from publish import (
     copy_tables,
     convert_tables_to_json,
     create_table_subsets,
+    merge_location_breakout_tables,
     merge_output_tables,
-    merge_output_tables_sqlite,
     publish_global_tables,
     publish_location_breakouts,
     publish_location_aggregates,
@@ -517,7 +517,7 @@ def publish_v3_location_subsets(
             input_folder,
             lambda x: x.suffix == ".csv" and all(token not in str(x) for token in ("/", "main.")),
         )
-        logger.log_info("Downloaded all CSV files")
+        logger.log_info(f"Downloaded {sum(1 for _ in input_folder.glob('**/*.csv'))} CSV files")
 
         # Break out each table into separate folders based on the location key
         publish_location_breakouts(input_folder, intermediate_folder, use_table_names=V3_TABLE_LIST)
@@ -542,22 +542,17 @@ def publish_v3_main_table() -> Response:
         input_folder.mkdir(parents=True, exist_ok=True)
         output_folder.mkdir(parents=True, exist_ok=True)
 
-        # Download all the global tables into our local storage
+        # Download all the location breakout tables into our local storage
         download_folder(
-            GCS_BUCKET_PROD,
-            "v3",
-            input_folder,
-            lambda x: x.suffix == ".csv" and all(token not in str(x) for token in ("/", "main.")),
+            GCS_BUCKET_PROD, "v3", input_folder, lambda x: x.name == "main.csv" and "/" in str(x)
         )
+        logger.log_info(f"Downloaded {sum(1 for _ in input_folder.glob('**/*.csv'))} CSV files")
 
-        file_name = "covid-19-open-data.csv"
-        with ZipFile(
-            output_folder / f"{file_name}.zip", mode="w", compression=ZIP_DEFLATED
-        ) as zip_archive:
-            with zip_archive.open(file_name, "w") as output_file:
-                merge_output_tables_sqlite(
-                    input_folder, TextIOWrapper(output_file), use_table_names=V3_TABLE_LIST
-                )
+        # Create the aggregated main table and put it in a compressed file
+        main_file_name = "covid-19-open-data.csv"
+        main_file_zip_path = output_folder / f"{main_file_name}.gz"
+        with gzip.open(main_file_zip_path, "wt") as compressed_file:
+            merge_location_breakout_tables(input_folder, compressed_file)
 
         # Upload the results to the prod bucket
         upload_folder(GCS_BUCKET_PROD, "v3", output_folder)

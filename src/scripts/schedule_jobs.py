@@ -180,28 +180,28 @@ def schedule_all_jobs(project_id: str, location_id: str, time_zone: str) -> None
         schedule="30 */2 * * *",
     )
 
-    # Publish the main aggregated table every 2 hours
-    _schedule_job(
-        path="/deferred/publish_v3_main_table",
-        # Offset by 60 minutes to let other hourly tasks finish
-        schedule="0 1-23/2 * * *",
-    )
-
     # Break down the outputs by location key every 2 hours, and execute the job in chunks
     for subset in _split_into_subsets(location_keys, bin_count=5):
         job_params = f"location_key_from={subset[0]}&location_key_until={subset[-1]}"
         _schedule_job(
             path=f"/deferred/publish_v3_location_subsets?{job_params}",
-            # Offset by 60 minutes to let other hourly tasks finish
+            # Offset by 60 minutes to execute after publish_v3_global_tables finishes
             schedule="0 1-23/2 * * *",
         )
+
+    # Publish the main aggregated table every 2 hours
+    _schedule_job(
+        path="/deferred/publish_v3_main_table",
+        # Offset by 90 minutes to execute after publish_v3_location_subsets finishes
+        schedule="30 1-23/2 * * *",
+    )
 
     # Publish outputs in JSON format every 2 hours, and execute the job in chunks
     for subset in _split_into_subsets(location_keys, bin_count=5):
         job_params = f"prod_folder=v3&location_key_from={subset[0]}&location_key_until={subset[-1]}"
         _schedule_job(
             path=f"/deferred/publish_json_locations?{job_params}",
-            # Offset by 90 minutes to let other hourly tasks finish
+            # Offset by 90 minutes to execute after publish_v3_location_subsets finishes
             schedule="30 1-23/2 * * *",
         )
 
