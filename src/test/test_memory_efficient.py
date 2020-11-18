@@ -35,6 +35,7 @@ from lib.io import (
 from lib.memory_efficient import (
     get_table_columns,
     table_breakout,
+    table_concat,
     table_cross_product,
     table_join,
     table_grouped_tail,
@@ -438,6 +439,58 @@ class TestMemoryEfficient(ProfiledTestCase):
                 )
 
                 _compare_tables_equal(self, output_file_1, output_file_2)
+
+    def test_table_concat(self):
+        test_csv_1 = _make_test_csv_file(
+            """
+            col1,col2
+            a,1
+            a,2
+            """
+        )
+
+        test_csv_2 = _make_test_csv_file(
+            """
+            col1,col2,col3
+            b,1,foo
+            b,2,bar
+            """
+        )
+
+        test_csv_3 = _make_test_csv_file(
+            """
+            col3,col1,col2
+            foo,c,1
+            bar,c,2
+            """
+        )
+
+        test_csv_4 = _make_test_csv_file(
+            """
+            col1
+            d
+            d
+            """
+        )
+
+        expected = _make_test_csv_file(
+            """
+            col1,col2,col3
+            a,1,
+            a,2,
+            b,1,foo
+            b,2,bar
+            c,1,foo
+            c,2,bar
+            d,,
+            d,,
+            """
+        )
+
+        with temporary_file() as output_file:
+            tables = [test_csv_1, test_csv_2, test_csv_3, test_csv_4]
+            table_concat(tables, output_path=output_file)
+            _compare_tables_equal(self, output_file, expected)
 
 
 if __name__ == "__main__":
