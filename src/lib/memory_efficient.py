@@ -428,32 +428,6 @@ def table_drop_nan_columns(table: Path, output_path: Path) -> None:
     table_rename(table, output_path, {column_names[idx]: None for idx in nan_columns})
 
 
-def convert_csv_to_json_records(
-    schema: Dict[str, type],
-    csv_file: Path,
-    output_file: Path,
-    skip_size_threshold: int = None,
-    fast_size_threshold: int = None,
-) -> None:
-
-    if skip_size_threshold is None:
-        skip_size_threshold = JSON_MAX_SIZE_BYTES
-    if fast_size_threshold is None:
-        fast_size_threshold = JSON_FAST_CONVERTER_SIZE_BYTES
-
-    file_size = csv_file.stat().st_size
-    json_coverter_method = _convert_csv_to_json_records_fast
-
-    if skip_size_threshold > 0 and file_size > skip_size_threshold:
-        raise ValueError(f"Size of {csv_file} too large for conversion: {file_size // 1E6} MB")
-
-    if fast_size_threshold > 0 and file_size > fast_size_threshold:
-        warnings.warn(f"Size of {csv_file} too large for fast method: {file_size // 1E6} MB")
-        json_coverter_method = _convert_csv_to_json_records_slow
-
-    json_coverter_method(schema, csv_file, output_file)
-
-
 def _convert_csv_to_json_records_slow(schema: Dict[str, type], csv_file: Path, output_file) -> None:
     """
     Slow but memory efficient method to convert the provided CSV file to a record-like JSON format
@@ -487,3 +461,29 @@ def _convert_csv_to_json_records_fast(
     del json_dict["index"]
     with open_file_like(output_file, mode="w") as fd:
         json.dump(json_dict, fd)
+
+
+def convert_csv_to_json_records(
+    schema: Dict[str, type],
+    csv_file: Path,
+    output_file: Path,
+    skip_size_threshold: int = None,
+    fast_size_threshold: int = None,
+) -> None:
+
+    if skip_size_threshold is None:
+        skip_size_threshold = JSON_MAX_SIZE_BYTES
+    if fast_size_threshold is None:
+        fast_size_threshold = JSON_FAST_CONVERTER_SIZE_BYTES
+
+    file_size = csv_file.stat().st_size
+    json_coverter_method = _convert_csv_to_json_records_fast
+
+    if skip_size_threshold > 0 and file_size > skip_size_threshold:
+        raise ValueError(f"Size of {csv_file} too large for conversion: {file_size // 1E6} MB")
+
+    if fast_size_threshold > 0 and file_size > fast_size_threshold:
+        warnings.warn(f"Size of {csv_file} too large for fast method: {file_size // 1E6} MB")
+        json_coverter_method = _convert_csv_to_json_records_slow
+
+    json_coverter_method(schema, csv_file, output_file)
