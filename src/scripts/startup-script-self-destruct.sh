@@ -24,12 +24,5 @@ function self_destruct {
     gcloud --quiet compute instances delete $NAME --zone=$ZONE
 }
 
-#######################################
-# Reads metadata associated with this running instance
-#######################################
-function read_metadata {
-    gcloud compute instances describe $NAME --zone=$ZONE --flatten="metadata[$1]"  | tail -n 1 | sed 's/^\s*//g'
-}
-
 # Delete ourselves after a two hour timeout
 $(sleep 7200 && self_destruct)&

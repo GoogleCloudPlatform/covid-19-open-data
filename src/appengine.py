@@ -50,7 +50,14 @@ from scripts.cloud_error_processing import register_new_errors
 
 from lib.cast import safe_int_cast
 from lib.concurrent import thread_map
-from lib.constants import GCE_IMAGE_ID, GCS_BUCKET_PROD, GCS_BUCKET_TEST, SRC, V3_TABLE_LIST
+from lib.constants import (
+    GCE_IMAGE_ID,
+    GCP_SELF_DESTRUCT_SCRIPT,
+    GCS_BUCKET_PROD,
+    GCS_BUCKET_TEST,
+    SRC,
+    V3_TABLE_LIST,
+)
 from lib.error_logger import ErrorLogger
 from lib.gcloud import delete_instance, get_internal_ip, start_instance_from_image
 from lib.io import export_csv, gzip_file, temporary_directory
@@ -67,6 +74,8 @@ ENV_TOKEN = "GCP_TOKEN"
 ENV_PROJECT = "GOOGLE_CLOUD_PROJECT"
 ENV_SERVICE_ACCOUNT = "GCS_SERVICE_ACCOUNT"
 COMPRESS_EXTENSIONS = ("json",)
+# Used when parsing string parameters into boolean type
+BOOL_STRING_MAP = {"true": True, "false": False, "1": True, "0": False, "": False, "null": False}
 
 
 def _get_request_param(name: str, default: str = None) -> Optional[str]:
@@ -690,16 +699,27 @@ def deferred_route(url_path: str) -> Response:
 
 
 @profiled_route("/create_instance")
-def create_instance(image_id: str = GCE_IMAGE_ID) -> Response:
+def create_instance(
+    image_id: str = GCE_IMAGE_ID, preemptible: str = "true", self_destruct: str = "true"
+) -> Response:
     status, content = 500, "Unknown error"
     image_id = _get_request_param("image_id", image_id)
+    preemptible_param = _get_request_param("preemptible", preemptible).lower()
+    preemptible = BOOL_STRING_MAP.get(preemptible_param, False)
+    self_destruct_param = _get_request_param("self_destruct", self_destruct).lower()
+    self_destruct = BOOL_STRING_MAP.get(self_destruct_param, False)
 
     try:
         # Create a new preemptible instance and wait for it to come online
-        instance_opts = dict(service_account=os.getenv(ENV_SERVICE_ACCOUNT))
+        instance_opts = dict(
+            service_account=os.getenv(ENV_SERVICE_ACCOUNT),
+            preemptible=preemptible,
+            startup_script=str(GCP_SELF_DESTRUCT_SCRIPT) if self_destruct else None,
+        )
         instance_id = start_instance_from_image(GCE_IMAGE_ID, **instance_opts)
         instance_ip = get_internal_ip(instance_id)
-        status, content = 200, "OK"
+        # Returns created instance details instead of the usual "OK"
+        status, content = 200, json.dumps(dict(id=instance_id, **instance_opts))
         logger.log_info(f"Created worker instance {instance_id} with internal IP {instance_ip}")
 
     except Exception as exc:

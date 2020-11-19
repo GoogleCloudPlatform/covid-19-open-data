@@ -15,7 +15,7 @@
 import subprocess
 from uuid import uuid4
 
-from lib.constants import GCE_INSTANCE_TYPE, GCLOUD_BIN, GCP_ZONE, SRC
+from lib.constants import GCE_INSTANCE_TYPE, GCP_SELF_DESTRUCT_SCRIPT, GCLOUD_BIN, GCP_ZONE
 
 
 def start_instance_from_image(
@@ -24,6 +24,7 @@ def start_instance_from_image(
     service_account: str = None,
     zone: str = GCP_ZONE,
     preemptible: bool = True,
+    startup_script: str = str(GCP_SELF_DESTRUCT_SCRIPT),
 ) -> str:
     # Instance ID must start with a letter
     instance_id = "x" + str(uuid4())
@@ -42,7 +43,6 @@ def start_instance_from_image(
         f"--boot-disk-size=32GB",
         f"--boot-disk-type=pd-standard",
         f"--boot-disk-device-name={instance_id}",
-        f"--metadata-from-file=startup-script={SRC / 'scripts' / 'startup-script-run.sh'}",
         f"--quiet",
     ]
 
@@ -51,6 +51,9 @@ def start_instance_from_image(
 
     if preemptible:
         gcloud_args += ["--preemptible"]
+
+    if startup_script:
+        gcloud_args += [f"--metadata-from-file=startup-script={startup_script}"]
 
     subprocess.check_call([GCLOUD_BIN] + gcloud_args)
     return instance_id
