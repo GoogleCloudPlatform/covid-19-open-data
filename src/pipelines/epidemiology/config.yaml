@@ -989,6 +989,8 @@ sources:
         opts:
           ext: csv
     test:
+      # TODO: do not skip testing once data source starts working again
+      skip: true
       location_key_match: 'SD_.*'
     automation:
       job_group: all
