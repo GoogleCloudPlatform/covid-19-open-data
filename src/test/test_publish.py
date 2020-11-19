@@ -26,14 +26,7 @@ from lib.sql import _safe_table_name, create_sqlite_database, table_export_csv
 
 from .profiled_test_case import ProfiledTestCase
 from .test_memory_efficient import _compare_tables_equal
-from publish import (
-    copy_tables,
-    convert_tables_to_json,
-    publish_global_tables,
-    import_tables_into_sqlite,
-    merge_output_tables,
-    merge_output_tables_sqlite,
-)
+from publish import copy_tables, convert_tables_to_json, publish_global_tables, merge_output_tables
 
 # Make the main schema a global variable so we don't have to reload it in every test
 SCHEMA = get_schema()
@@ -126,41 +119,6 @@ class TestPublish(ProfiledTestCase):
             merge_output_tables(workdir, main_table_path, use_table_names=V3_TABLE_LIST)
 
             self._test_make_main_table_helper(main_table_path, OUTPUT_COLUMN_ADAPTER)
-
-    def test_make_main_table_sqlite(self):
-        with temporary_directory() as workdir:
-
-            # Copy all test tables into the temporary directory
-            publish_global_tables(SRC / "test" / "data", workdir, use_table_names=V3_TABLE_LIST)
-
-            # Create the main table
-            main_table_path = workdir / "main.csv"
-            merge_output_tables_sqlite(workdir, main_table_path, use_table_names=V3_TABLE_LIST)
-
-            self._test_make_main_table_helper(main_table_path, OUTPUT_COLUMN_ADAPTER)
-
-    def test_import_tables_into_sqlite(self):
-        with temporary_directory() as workdir:
-            intermediate = workdir / "intermediate"
-            intermediate.mkdir(parents=True, exist_ok=True)
-
-            # Copy all test tables into the temporary directory
-            publish_global_tables(
-                SRC / "test" / "data", intermediate, use_table_names=V3_TABLE_LIST
-            )
-
-            # Create the SQLite file and open it
-            sqlite_output = workdir / "database.sqlite"
-            table_paths = list(intermediate.glob("*.csv"))
-            import_tables_into_sqlite(table_paths, sqlite_output)
-            with create_sqlite_database(sqlite_output) as conn:
-
-                # Verify that each table contains all the data
-                for table in table_paths:
-                    temp_path = workdir / f"{table.stem}.csv"
-                    table_export_csv(conn, _safe_table_name(table.stem), temp_path)
-
-                    _compare_tables_equal(self, table, temp_path)
 
     def test_convert_to_json(self):
         with temporary_directory() as workdir:
