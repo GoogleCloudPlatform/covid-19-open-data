@@ -206,15 +206,20 @@ def upload_folder(
             blob = bucket.blob(os.path.join(remote_path, target_path))
             for i in range(BLOB_OP_MAX_RETRIES):
                 try:
+                    name, suffix = file_path.name, file_path.suffix
+
                     # If it's an extension we should compress, upload compressed file
-                    if file_path.suffix[1:] in COMPRESS_EXTENSIONS:
+                    if suffix[1:] in COMPRESS_EXTENSIONS:
                         with temporary_directory() as workdir:
-                            gzipped_file = workdir / file_path.name
+                            gzipped_file = workdir / name
                             gzip_file(file_path, gzipped_file)
                             blob.content_encoding = "gzip"
                             return blob.upload_from_filename(gzipped_file)
+
+                    # Otherwise upload the file as-is
                     else:
-                        return blob.upload_from_filename(str(file_path))
+                        return blob.upload_from_filename(file_path)
+
                 except Exception as exc:
                     log_message = f"Error uploading {target_path}."
                     logger.log_warning(log_message, traceback=traceback.format_exc())
@@ -511,22 +516,31 @@ def publish_v3_location_subsets(
         )
 
         # Download all the global tables into our local storage
+        forbid_tokens = ("/", "main.", "aggregated.")
         download_folder(
             GCS_BUCKET_PROD,
             "v3",
             input_folder,
-            lambda x: x.suffix == ".csv" and all(token not in str(x) for token in ("/", "main.")),
+            lambda x: x.suffix == ".csv" and all(token not in str(x) for token in forbid_tokens),
         )
         logger.log_info(f"Downloaded {sum(1 for _ in input_folder.glob('**/*.csv'))} CSV files")
 
         # Break out each table into separate folders based on the location key
         publish_location_breakouts(input_folder, intermediate_folder, use_table_names=V3_TABLE_LIST)
-        logger.log_info("Created all table breakouts")
+        logger.log_info("Created all table location breakouts")
+
+        # Create a folder which will host all the location aggregates
+        location_aggregates_folder = output_folder / "location"
+        location_aggregates_folder.mkdir(parents=True, exist_ok=True)
 
         # Aggregate the tables for each location independently
         publish_location_aggregates(
-            intermediate_folder, output_folder, location_keys, use_table_names=V3_TABLE_LIST
+            intermediate_folder,
+            location_aggregates_folder,
+            location_keys,
+            use_table_names=V3_TABLE_LIST,
         )
+        logger.log_info("Aggregated all table breakouts by location")
 
         # Upload the results to the prod bucket
         upload_folder(GCS_BUCKET_PROD, "v3", output_folder)
@@ -543,15 +557,12 @@ def publish_v3_main_table() -> Response:
         output_folder.mkdir(parents=True, exist_ok=True)
 
         # Download all the location breakout tables into our local storage
-        download_folder(
-            GCS_BUCKET_PROD, "v3", input_folder, lambda x: x.name == "main.csv" and "/" in str(x)
-        )
+        download_folder(GCS_BUCKET_PROD, "v3", input_folder, lambda x: "location/" in str(x))
         logger.log_info(f"Downloaded {sum(1 for _ in input_folder.glob('**/*.csv'))} CSV files")
 
-        # Create the aggregated main table and put it in a compressed file
-        main_file_name = "covid-19-open-data.csv"
-        main_file_zip_path = output_folder / f"{main_file_name}.gz"
-        with gzip.open(main_file_zip_path, "wt") as compressed_file:
+        # Create the aggregated table and put it in a compressed file
+        agg_file_path = output_folder / "aggregated.csv.gz"
+        with gzip.open(agg_file_path, "wt") as compressed_file:
             merge_location_breakout_tables(input_folder, compressed_file)
 
         # Upload the results to the prod bucket
@@ -588,17 +599,22 @@ def publish_json_locations(
         # Download all the processed tables into our local storage
         def match_path(table_path: Path) -> bool:
             try:
-                location_key, table_name = str(table_path).split("/", 1)
-                return table_name == "main.csv" and location_key in location_keys
+                if prod_folder == "v2":
+                    location_key, table_name = str(table_path).split("/", 1)
+                    return table_name == "main.csv" and location_key in location_keys
+                elif prod_folder == "v3":
+                    location_path, location_key = table_path.parent.name, table_path.stem
+                    return location_path == "location" and location_key in location_keys
             except:
                 return False
 
         download_folder(GCS_BUCKET_PROD, prod_folder, input_folder, match_path)
-        logger.log_info("Downloaded all CSV files")
+        logger.log_info(f"Downloaded {sum(1 for _ in input_folder.glob('**/*.csv'))} CSV files")
 
         # Convert all files to JSON
         convert_tables_to_json(input_folder, output_folder)
-        logger.log_info("CSV files converted to JSON")
+        converted_count = sum(1 for _ in output_folder.glob("**/*.json"))
+        logger.log_info(f"Converted {converted_count} files to JSON")
 
         # Upload the results to the prod bucket
         upload_folder(GCS_BUCKET_PROD, prod_folder, output_folder)
@@ -616,14 +632,15 @@ def publish_json_tables(prod_folder: str = "v2") -> Response:
         input_folder.mkdir(parents=True, exist_ok=True)
         output_folder.mkdir(parents=True, exist_ok=True)
 
-        # Download all the processed tables into our local storage
+        # Download all the global tables into our local storage
+        forbid_tokens = ("/", "main.", "aggregated.")
         download_folder(
             GCS_BUCKET_PROD,
             prod_folder,
             input_folder,
-            lambda x: x.suffix == ".csv" and all(token not in str(x) for token in ("/", "main.")),
+            lambda x: x.suffix == ".csv" and all(token not in str(x) for token in forbid_tokens),
         )
-        logger.log_info("Downloaded all CSV files")
+        logger.log_info(f"Downloaded {sum(1 for _ in input_folder.glob('**/*.csv'))} CSV files")
 
         # Convert all files to JSON
         convert_tables_to_json(input_folder, output_folder)

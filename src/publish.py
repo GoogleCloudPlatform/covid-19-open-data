@@ -207,7 +207,7 @@ def merge_location_breakout_tables(tables_folder: Path, output_path: Path) -> No
         output_path: Output directory for the resulting main.csv file.
     """
     # Use only the aggregated main tables
-    table_paths = list(sorted(filter(lambda x: x.stem == "main", tables_folder.glob("**/*.csv"))))
+    table_paths = list(sorted(tables_folder.glob("**/*.csv")))
 
     # Concatenate all the individual breakout tables together
     _logger.log_info(f"Concatenating {len(table_paths)} location breakout tables")
@@ -292,8 +292,7 @@ def publish_location_breakouts(
 def _aggregate_location_breakouts(
     tables_folder: Path, output_folder: Path, key: str, use_table_names: List[str] = None
 ) -> Path:
-    key_output_file = output_folder / key / "main.csv"
-    key_output_file.parent.mkdir(parents=True, exist_ok=True)
+    key_output_file = output_folder / f"{key}.csv"
     merge_output_tables(
         tables_folder / key,
         key_output_file,
@@ -304,7 +303,7 @@ def _aggregate_location_breakouts(
 
 
 def publish_location_aggregates(
-    tables_folder: Path,
+    breakout_folder: Path,
     output_folder: Path,
     location_keys: Iterable[str],
     use_table_names: List[str] = None,
@@ -324,7 +323,10 @@ def publish_location_aggregates(
     _logger.log_info(f"Aggregating outputs for {len(map_iter)} location keys")
     map_opts = dict(total=len(map_iter), desc="Creating location subsets", **tqdm_kwargs)
     map_func = partial(
-        _aggregate_location_breakouts, tables_folder, output_folder, use_table_names=use_table_names
+        _aggregate_location_breakouts,
+        breakout_folder,
+        output_folder,
+        use_table_names=use_table_names,
     )
     return list(pbar(map(map_func, map_iter), **map_opts))
 
@@ -378,29 +380,38 @@ def main(output_folder: Path, tables_folder: Path, use_table_names: List[str] = 
             shutil.rmtree(item)
 
     # Create the folder which will be published using a stable schema
-    v3_folder = output_folder / "v3"
-    v3_folder.mkdir(exist_ok=True, parents=True)
+    output_folder = output_folder / "v3"
+    output_folder.mkdir(exist_ok=True, parents=True)
 
     # Publish the tables containing all location keys
-    publish_global_tables(tables_folder, v3_folder, use_table_names=use_table_names)
+    publish_global_tables(tables_folder, output_folder, use_table_names=use_table_names)
 
-    # Break out each table into separate folders based on the location key
-    publish_location_breakouts(v3_folder, v3_folder, use_table_names=use_table_names)
+    # Create a temporary folder which will host all the location breakouts
+    with temporary_directory() as breakout_folder:
 
-    # Aggregate the independent tables for each location
-    location_keys = table_read_column(v3_folder / "index.csv", "location_key")
-    publish_location_aggregates(
-        v3_folder, v3_folder, location_keys, use_table_names=use_table_names
-    )
+        # Break out each table into separate folders based on the location key
+        publish_location_breakouts(output_folder, breakout_folder, use_table_names=use_table_names)
 
-    # Create the aggregated main table and put it in a compressed file
-    main_file_name = "covid-19-open-data.csv"
-    main_file_zip_path = v3_folder / f"{main_file_name}.gz"
-    with gzip.open(main_file_zip_path, "wt") as compressed_file:
-        merge_location_breakout_tables(v3_folder, compressed_file)
+        # Create a folder which will host all the location aggregates
+        location_aggregates_folder = output_folder / "location"
+        location_aggregates_folder.mkdir(exist_ok=True, parents=True)
+
+        # Aggregate the tables for each location independently
+        location_keys = table_read_column(output_folder / "index.csv", "location_key")
+        publish_location_aggregates(
+            breakout_folder,
+            location_aggregates_folder,
+            location_keys,
+            use_table_names=use_table_names,
+        )
+
+    # Create the aggregated table and put it in a compressed file
+    agg_file_path = output_folder / "aggregated.csv.gz"
+    with gzip.open(agg_file_path, "wt") as compressed_file:
+        merge_location_breakout_tables(location_aggregates_folder, compressed_file)
 
     # Convert all CSV files to JSON using values format
-    convert_tables_to_json(v3_folder, v3_folder)
+    convert_tables_to_json(output_folder, output_folder)
 
 
 if __name__ == "__main__":
