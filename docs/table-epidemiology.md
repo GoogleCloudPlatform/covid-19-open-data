@@ -24,8 +24,8 @@ This table can be found at the following URLs depending on the choice of format:
 <sup>1</sup>Values can be negative, typically indicating a correction or an adjustment in the way
 they were measured. For example, a case might have been incorrectly flagged as recovered one date so
 it will be subtracted from the following date.\
-<sup>2</sup>When the reporting authority makes a distinction between PCR and antibody testing, only
-PCR tests are reported here.\
+<sup>2</sup>Some health authorities only report PCR testing. This variable usually refers to total
+number of tests and not tested persons, but some health authorities only report tested persons.\
 <sup>3</sup>Total count will not always amount to the sum of daily counts, because many authorities
 make changes to criteria for counting cases, but not always make adjustments to the data. There is
 also potential missing data. All of that makes the total counts *drift* away from the sum of all
