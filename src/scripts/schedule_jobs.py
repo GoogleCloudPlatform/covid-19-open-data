@@ -101,6 +101,43 @@ def schedule_all_jobs(project_id: str, location_id: str, time_zone: str) -> None
     # Cache pull job runs hourly
     _schedule_job(schedule="0 * * * *", path="/deferred/cache_pull")
 
+    # Get new errors once a day at midday.
+    _schedule_job(path="/deferred/report_errors_to_github", schedule="0 12 * * *")
+
+    # Keep track of the different job groups to only output them once
+    job_urls_seen = set()
+
+    for data_pipeline in get_pipelines():
+        # The job that combines data sources into a table runs hourly
+        _schedule_job(
+            path=f"/deferred/combine_table?table={data_pipeline.table}",
+            # Offset by 15 minutes to let other hourly tasks finish
+            schedule="15 * * * *",
+        )
+
+        for idx, data_source in enumerate(data_pipeline.data_sources):
+            automation_opts = data_source.config.get("automation", {})
+
+            # The job to pull each individual data source runs hourly unless specified otherwise
+            job_sched = automation_opts.get("schedule", "0 * * * *")
+
+            # If the job is deferred, then prepend the token to the path
+            job_prefix = "/deferred" if automation_opts.get("deferred") else ""
+
+            # Each data source has a job group. All data sources within the same job group are run
+            # as part of the same job in series. The default job group is the index of the data
+            # source.
+            job_group = automation_opts.get("job_group", idx)
+            job_url = f"{job_prefix}/update_table?table={data_pipeline.table}&job_group={job_group}"
+
+            if job_url not in job_urls_seen:
+                job_urls_seen.add(job_url)
+                _schedule_job(path=job_url, schedule=job_sched)
+
+    ########
+    # V2 publish jobs
+    ########
+
     # The job that publishes combined tables into the prod bucket runs every 2 hours
     _schedule_job(
         # Run in a separate, preemptible instance
@@ -138,46 +175,22 @@ def schedule_all_jobs(project_id: str, location_id: str, time_zone: str) -> None
             schedule="0 2-23/4 * * *",
         )
 
-    # Get new errors once a day at midday.
-    _schedule_job(path="/deferred/report_errors_to_github", schedule="0 12 * * *")
+    ########
+    # V3 publish jobs
+    ########
 
-    # Keep track of the different job groups to only output them once
-    job_urls_seen = set()
-
-    for data_pipeline in get_pipelines():
-        # The job that combines data sources into a table runs hourly
-        _schedule_job(
-            path=f"/deferred/combine_table?table={data_pipeline.table}",
-            # Offset by 15 minutes to let other hourly tasks finish
-            schedule="15 * * * *",
-        )
-
-        for idx, data_source in enumerate(data_pipeline.data_sources):
-            automation_opts = data_source.config.get("automation", {})
-
-            # The job to pull each individual data source runs hourly unless specified otherwise
-            job_sched = automation_opts.get("schedule", "0 * * * *")
-
-            # If the job is deferred, then prepend the token to the path
-            job_prefix = "/deferred" if automation_opts.get("deferred") else ""
-
-            # Each data source has a job group. All data sources within the same job group are run
-            # as part of the same job in series. The default job group is the index of the data
-            # source.
-            job_group = automation_opts.get("job_group", idx)
-            job_url = f"{job_prefix}/update_table?table={data_pipeline.table}&job_group={job_group}"
-
-            if job_url not in job_urls_seen:
-                job_urls_seen.add(job_url)
-                _schedule_job(path=job_url, schedule=job_sched)
-
-    # V3 publish jobs start here
-
-    # Publish the tables with all location keys every 2 hours
+    # Publish the global tables (with all location keys) every 2 hours
     _schedule_job(
         path="/deferred/publish_v3_global_tables",
         # Offset by 30 minutes to let other hourly tasks finish
         schedule="30 */2 * * *",
+    )
+
+    # Convert the global tables to JSON
+    _schedule_job(
+        path=f"/deferred/publish_json_tables?prod_folder=v3",
+        # Offset by 60 minutes to execute after publish_v3_global_tables finishes
+        schedule="0 1-23/2 * * *",
     )
 
     # Break down the outputs by location key every 2 hours, and execute the job in chunks
