@@ -19,6 +19,7 @@ This table can be found at the following URLs depending on the choice of format:
 | **new_tested<sup>2</sup>** | `integer` | Count of new COVID-19 tests performed on this date | 13 |
 | **total_confirmed<sup>3</sup>** | `integer` | Cumulative sum of cases confirmed after positive test to date | 6447 |
 | **total_deceased<sup>3</sup>** | `integer` | Cumulative sum of deaths from a positive COVID-19 case to date | 133 |
+| **total_recovered<sup>3</sup>** | `integer` | Cumulative sum of recoveries from a positive COVID-19 case to date | 133 |
 | **total_tested<sup>2,3</sup>** | `integer` | Cumulative sum of COVID-19 tests performed to date | 133 |
 
 <sup>1</sup>Values can be negative, typically indicating a correction or an adjustment in the way
