@@ -18,11 +18,11 @@ AL034,,Korcë
 AL035,,Vlorë
 AT,AT,Austria
 AT1,,Ostösterreich
-AT11,AT_11,Burgenland
+AT11,AT_1,Burgenland
 AT111,,Mittelburgenland
 AT112,,Nordburgenland
 AT113,,Südburgenland
-AT12,AT_12,Niederösterreich
+AT12,AT_3,Niederösterreich
 AT121,,Mostviertel-Eisenwurzen
 AT122,,Niederösterreich-Süd
 AT123,,Sankt Pölten
@@ -30,14 +30,14 @@ AT124,,Waldviertel
 AT125,,Weinviertel
 AT126,,Wiener Umland/Nordteil
 AT127,,Wiener Umland/Südteil
-AT13,AT_13,Wien
+AT13,AT_9,Wien
 AT130,,Wien
 AT2,,Südösterreich
-AT21,AT_21,Kärnten
+AT21,AT_2,Kärnten
 AT211,,Klagenfurt-Villach
 AT212,,Oberkärnten
 AT213,,Unterkärnten
-AT22,AT_22,Steiermark
+AT22,AT_6,Steiermark
 AT221,,Graz
 AT222,,Liezen
 AT223,,Östliche Obersteiermark
@@ -45,23 +45,23 @@ AT224,,Oststeiermark
 AT225,,West- und Südsteiermark
 AT226,,Westliche Obersteiermark
 AT3,,Westösterreich
-AT31,AT_31,Oberösterreich
+AT31,AT_4,Oberösterreich
 AT311,,Innviertel
 AT312,,Linz-Wels
 AT313,,Mühlviertel
 AT314,,Steyr-Kirchdorf
 AT315,,Traunviertel
-AT32,AT_32,Salzburg
+AT32,AT_5,Salzburg
 AT321,,Lungau
 AT322,,Pinzgau-Pongau
 AT323,,Salzburg und Umgebung
-AT33,AT_33,Tirol
+AT33,AT_7,Tirol
 AT331,,Außerfern
 AT332,,Innsbruck
 AT333,,Osttirol
 AT334,,Tiroler Oberland
 AT335,,Tiroler Unterland
-AT34,AT_34,Vorarlberg
+AT34,AT_8,Vorarlberg
 AT341,,Bludenz-Bregenzer Wald
 AT342,,Rheintal-Bodenseegebiet
 BE,BE,Belgium
