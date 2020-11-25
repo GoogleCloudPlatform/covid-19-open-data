@@ -12,9 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from concurrent.futures import ProcessPoolExecutor as Pool
+from concurrent.futures import ThreadPoolExecutor as ThreadPool
 from functools import partial
-from multiprocessing import cpu_count, get_context
-from multiprocessing.pool import Pool, ThreadPool
+from multiprocessing import cpu_count
 from typing import Any, Callable, Dict, Iterable, Type, Union
 
 from pandas import DataFrame, Series
@@ -24,9 +25,13 @@ from .io import pbar
 
 def _get_pool(pool_type: Type, max_workers: int) -> Pool:
     if pool_type == ThreadPool:
-        return ThreadPool(max_workers)
+        pool = ThreadPool(max_workers)
+        setattr(pool, "imap", pool.map)
+        return pool
     elif pool_type == Pool:
-        return get_context("spawn").Pool(max_workers)
+        pool = Pool(max_workers)
+        setattr(pool, "imap", pool.map)
+        return pool
     else:
         raise TypeError(f"Unknown pool type: {pool_type}")
 
