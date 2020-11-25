@@ -1070,6 +1070,18 @@ sources:
       job_group: all
       deferred: true
 
+  # The CDC data comes before each state since individual state's data might be more accurate
+  - name: pipelines.epidemiology.us_authority.CDCDataSource
+    fetch:
+      - url: "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=integrated_county_timeseries_state_{state}_external"
+        opts:
+          ext: json
+    test:
+      location_key_match: '^US_[^_]+_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for US_AK level 2
   - name: pipelines.epidemiology.us_ak_authority.AlaskaDataSource
     fetch:
