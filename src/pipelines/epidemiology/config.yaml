@@ -93,7 +93,7 @@ sources:
       job_group: all
       deferred: true
 
-  - name: pipelines.epidemiology.at_2_authority.AustriaLevel2DataSource
+  - name: pipelines.epidemiology.at_authority.AustriaLevel2DataSource
     fetch:
       - name: "confirmed_deceased_recovered"
         url: "https://covid19-dashboard.ages.at/data/CovidFaelle_Timeline.csv"
