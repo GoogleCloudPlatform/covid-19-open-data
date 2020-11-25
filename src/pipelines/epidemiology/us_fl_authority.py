@@ -18,7 +18,7 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 import requests
-from pandas import DataFrame
+from pandas import DataFrame, concat
 from pandas.api.types import is_numeric_dtype
 
 from lib.cast import age_group, safe_int_cast
@@ -148,12 +148,12 @@ class FloridaDataSource(DataSource):
         data["country_code"] = "US"
         data["subregion1_code"] = "FL"
 
+        # Aggregate to state level here, since some data locations are "Unknown"
+        drop_cols = ["match_string"]
+        group_cols = ["country_code", "subregion1_code", "date", "age", "sex"]
+        state = data.drop(columns=drop_cols).groupby(group_cols).sum().reset_index()
+
         # Remove bogus data
         data = data[data.match_string != "Unknown"]
 
-        # Death and hospitalization data do not have accurate dates, so we provide an option to
-        # remove them since for some pipelines we can source the data elsewhere
-        if parse_opts.get("remove_inaccurate_statistics"):
-            data.drop(columns=["new_deceased", "new_hospitalized"], inplace=True)
-
-        return data
+        return concat([state, data])

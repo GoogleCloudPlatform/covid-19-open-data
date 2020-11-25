@@ -275,6 +275,10 @@ class DataSource(ErrorLogger):
         if "query" in self.config:
             data = data.query(self.config["query"]).copy()
 
+        # Get rid of columns according to user-provided config
+        if "drop_columns" in self.config:
+            data.drop(columns=self.config["drop_columns"], inplace=True)
+
         # Provide a stratified view of certain key variables
         if any(stratify_column in data.columns for stratify_column in ("age", "sex")):
             data = stratify_age_sex_ethnicity(data)
