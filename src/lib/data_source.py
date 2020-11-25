@@ -51,11 +51,9 @@ class DataSource(ErrorLogger):
     [data/metadata.csv] file.
     """
 
-    config: Dict[str, Any]
-
     def __init__(self, config: Dict[str, Any] = None):
         super().__init__()
-        self.config = config or {}
+        self.config: Dict[str, Any] = config or {}
 
     def fetch(
         self,

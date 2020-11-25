@@ -44,21 +44,6 @@ class DataPipeline(ErrorLogger):
     dataset is used by many of them, then it is more efficient to load it here.
     """
 
-    name: str
-    """ The name of this module """
-
-    table: str
-    """ The name of the table corresponding to this pipeline """
-
-    schema: Dict[str, Any]
-    """ Names and corresponding dtypes of output columns """
-
-    data_sources: List[DataSource]
-    """ List of data sources (initialized with the appropriate config) executed in order """
-
-    _auxiliary: Dict[str, Union[Path, str]]
-    """ Auxiliary datasets passed to the pipelines during processing """
-
     def __init__(
         self,
         name: str,
@@ -66,12 +51,21 @@ class DataPipeline(ErrorLogger):
         auxiliary: Dict[str, Union[Path, str]],
         data_sources: List[DataSource],
     ):
+        """
+        Arguments:
+            name: The name of this module
+            table: The name of the table corresponding to this pipeline
+            schema: Names and corresponding dtypes of output columns.
+            auxiliary: Auxiliary datasets passed to the pipelines during processing
+            data_sources: List of data sources (initialized with the appropriate config) executed
+                in order.
+        """
         super().__init__()
-        self.name = name
-        self.schema = schema
-        self.data_sources = data_sources
-        self.table = name.replace("_", "-")
-        self._auxiliary = auxiliary
+        self.name: str = name
+        self.schema: Dict[str, Any] = schema
+        self.data_sources: List[DataSource] = data_sources
+        self.table: str = name.replace("_", "-")
+        self._auxiliary: Dict[str, Union[Path, str]] = auxiliary
 
     @lazy_property
     def auxiliary_tables(self):
