@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from functools import partial
 import re
 import uuid
 from pathlib import Path
@@ -22,6 +23,7 @@ from pandas import DataFrame
 
 from .error_logger import ErrorLogger
 from .cast import isna
+from .concurrent import thread_map
 from .constants import READ_OPTS
 from .io import read_file, fuzzy_text
 from .net import download_snapshot
@@ -75,13 +77,16 @@ class DataSource(ErrorLogger):
                 the "name" as the key if it is defined in `config`, otherwise the keys are ordinal
                 numbers based on the order of the URLs.
         """
+        # Download all the resources in parallel using threading
+        # Using functions as iterables makes it easier to split the work due to dependent arguments
+        map_func = lambda func: func()
+        map_iter = [
+            partial(download_snapshot, src["url"], output_folder, **src.get("opts", {}))
+            for src in fetch_opts
+        ]
         return {
-            source_config.get("name", idx): download_snapshot(
-                source_config["url"],
-                output_folder,
-                **dict(skip_existing=skip_existing, progress=True, **source_config.get("opts", {})),
-            )
-            for idx, source_config in enumerate(fetch_opts)
+            fetch_opts[idx].get("name", idx): result
+            for idx, result in enumerate(thread_map(map_func, map_iter, desc="Downloading"))
         }
 
     def _read(self, file_paths: Dict[str, str], **read_opts) -> List[DataFrame]:
