@@ -56,7 +56,7 @@ READ_OPTS = (
 )
 
 # Some tables are not included into the main CSV table
-V2_TABLE_LIST = (
+TABLE_LIST_V2 = (
     "index",
     "epidemiology",
     "hospitalizations",
@@ -68,7 +68,7 @@ V2_TABLE_LIST = (
     "oxford-government-response",
     "weather",
 )
-V3_TABLE_LIST = (
+TABLE_LIST_V3 = (
     "index",
     "epidemiology",
     "hospitalizations",
@@ -85,9 +85,15 @@ V3_TABLE_LIST = (
     "weather",
 )
 
+# Converts the outputs to the V2 schema. This is necessary, for example, to remove columns which
+# should only be present in the V3 schema.
+OUTPUT_COLUMN_ADAPTER_V2 = {
+    # TODO: Add fields that should only be present in V3
+}
+
 # Converts the outputs to the latest schema. Changing the config.yaml directly is not feasible for
 # many tables because internal methods depend on their names (such as starting with "total_").
-OUTPUT_COLUMN_ADAPTER = {
+OUTPUT_COLUMN_ADAPTER_V3 = {
     # All tables
     "key": "location_key",
     # Index table

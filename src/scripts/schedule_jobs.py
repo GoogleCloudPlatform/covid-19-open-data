@@ -141,7 +141,7 @@ def schedule_all_jobs(project_id: str, location_id: str, time_zone: str) -> None
     # The job that publishes combined tables into the prod bucket runs every 2 hours
     _schedule_job(
         # Run in a separate, preemptible instance
-        path="/deferred/publish_tables",
+        path="/deferred/publish_global_tables?prod_folder=v2",
         # Offset by 30 minutes to let other hourly tasks finish
         schedule="30 */2 * * *",
     )
@@ -181,14 +181,14 @@ def schedule_all_jobs(project_id: str, location_id: str, time_zone: str) -> None
 
     # Publish the global tables (with all location keys) every 2 hours
     _schedule_job(
-        path="/deferred/publish_v3_global_tables",
+        path="/deferred/publish_global_tables?prod_folder=v3",
         # Offset by 30 minutes to let other hourly tasks finish
         schedule="30 */2 * * *",
     )
 
     # Publish the latest subset for all tables every 2 hours
     _schedule_job(
-        path="/deferred/publish_v3_latest_tables",
+        path="/deferred/publish_latest_tables?prod_folder=v3",
         # Offset by 60 minutes to execute after publish_v3_global_tables finishes
         schedule="0 1-23/2 * * *",
     )

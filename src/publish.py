@@ -24,7 +24,7 @@ from pathlib import Path
 from pstats import Stats
 from typing import Dict, Iterable, List, TextIO
 
-from lib.constants import OUTPUT_COLUMN_ADAPTER, SRC, V2_TABLE_LIST, V3_TABLE_LIST
+from lib.constants import OUTPUT_COLUMN_ADAPTER_V3, SRC, TABLE_LIST_V2, TABLE_LIST_V3
 from lib.error_logger import ErrorLogger
 from lib.io import pbar, read_lines, temporary_directory
 from lib.memory_efficient import (
@@ -97,18 +97,6 @@ def _subset_grouped_key(
     progress_bar.close()
 
 
-def copy_tables(tables_folder: Path, public_folder: Path) -> None:
-    """
-    Copy tables as-is from the tables folder into the public folder.
-
-    Arguments:
-        tables_folder: Input folder where all CSV files exist.
-        public_folder: Output folder where the CSV files will be copied to.
-    """
-    for output_file in pbar([*tables_folder.glob("*.csv")], desc="Copy tables"):
-        shutil.copy(output_file, public_folder / output_file.name)
-
-
 def _get_tables_in_folder(tables_folder: Path, use_table_names: List[str]) -> List[Path]:
     tables_in_folder = {table.stem: table for table in tables_folder.glob("*.csv")}
     tables_found = [tables_in_folder[name] for name in use_table_names if name in tables_in_folder]
@@ -162,7 +150,7 @@ def merge_output_tables(
         exclude_table_names: Tables which should be removed from the combined output.
     """
     # Default to a known list of tables to use when none is given
-    table_paths = _get_tables_in_folder(tables_folder, use_table_names or V2_TABLE_LIST)
+    table_paths = _get_tables_in_folder(tables_folder, use_table_names or list(TABLE_LIST_V3))
 
     # Use a temporary directory for intermediate files
     with temporary_directory() as workdir:
@@ -282,7 +270,7 @@ def publish_location_breakouts(
         output_folder: Output path for the resulting location data.
     """
     # Default to a known list of tables to use when none is given
-    map_iter = _get_tables_in_folder(tables_folder, use_table_names or V2_TABLE_LIST)
+    map_iter = _get_tables_in_folder(tables_folder, use_table_names or list(TABLE_LIST_V3))
 
     # Break out each table into separate folders based on the location key
     _logger.log_info(f"Breaking out tables {[x.stem for x in map_iter]}")
@@ -298,7 +286,7 @@ def _aggregate_location_breakouts(
         tables_folder / key,
         key_output_file,
         drop_empty_columns=True,
-        use_table_names=use_table_names or V2_TABLE_LIST,
+        use_table_names=use_table_names or list(TABLE_LIST_V3),
     )
     return key_output_file
 
@@ -332,28 +320,40 @@ def publish_location_aggregates(
     return list(pbar(map(map_func, map_iter), **map_opts))
 
 
-def publish_global_tables(tables_folder: Path, output_folder: Path) -> None:
+def publish_global_tables(
+    tables_folder: Path,
+    output_folder: Path,
+    use_table_names: List[str] = None,
+    column_adapter: Dict[str, str] = None,
+) -> None:
     """
     Copy all the tables from `tables_folder` into `output_folder` converting the column names to the
-    latest schema.
+    requested schema, and join all the tables into a single main.csv file.
 
     Arguments:
         tables_folder: Input directory containing tables as CSV files.
         output_folder: Directory where the output tables will be written.
     """
-    table_paths = list(tables_folder.glob("*.csv"))
+    # Default to a known list of tables to use when none is given
+    table_paths = _get_tables_in_folder(tables_folder, use_table_names or list(TABLE_LIST_V3))
+
+    # Default to the latest schema unless specifically provided
+    column_adapter = column_adapter or dict(OUTPUT_COLUMN_ADAPTER_V3)
+
+    # Whether it's "key" or "location_key" depends on the schema
+    location_key = "location_key" if "location_key" in column_adapter.values() else "key"
 
     with temporary_directory() as workdir:
 
         for csv_path in table_paths:
             # Copy all output files to a temporary folder, renaming columns if necessary
             _logger.log_info(f"Renaming columns for {csv_path.name}")
-            table_rename(csv_path, workdir / csv_path.name, OUTPUT_COLUMN_ADAPTER)
+            table_rename(csv_path, workdir / csv_path.name, column_adapter)
 
         for csv_path in table_paths:
             # Sort output files by location key, since the following breakout step requires it
             _logger.log_info(f"Sorting {csv_path.name}")
-            table_sort(workdir / csv_path.name, output_folder / csv_path.name, ["location_key"])
+            table_sort(workdir / csv_path.name, output_folder / csv_path.name, [location_key])
 
 
 def _latest_date_by_group(tables_folder: Path, group_by: str = "location_key") -> Dict[str, str]:
@@ -492,7 +492,7 @@ if __name__ == "__main__":
         profiler = cProfile.Profile()
         profiler.enable()
 
-    main(Path(args.output_folder), Path(args.tables_folder), use_table_names=V3_TABLE_LIST)
+    main(Path(args.output_folder), Path(args.tables_folder), use_table_names=TABLE_LIST_V3)
 
     if args.profile:
         stats = Stats(profiler)

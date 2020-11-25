@@ -13,7 +13,7 @@
 # limitations under the License.
 
 from typing import Iterator, Dict
-from .constants import SRC, OUTPUT_COLUMN_ADAPTER
+from .constants import SRC, OUTPUT_COLUMN_ADAPTER_V3
 from .pipeline import DataPipeline
 
 
@@ -36,16 +36,19 @@ def get_pipelines() -> Iterator[DataPipeline]:
         yield DataPipeline.load(pipeline_name)
 
 
-def get_schema() -> Dict[str, type]:
+def get_schema(column_adapter: Dict[str, str] = None) -> Dict[str, type]:
     """ Outputs all known column schemas """
     schema: Dict[str, type] = {}
+
+    # Default to using the latest schema
+    column_adapter = column_adapter or dict(OUTPUT_COLUMN_ADAPTER_V3)
 
     # Add all columns from pipeline configs
     for pipeline in get_pipelines():
         schema.update(pipeline.schema)
 
     # Add new columns from adapter
-    for col_old, col_new in OUTPUT_COLUMN_ADAPTER.items():
+    for col_old, col_new in column_adapter.items():
         if col_old in schema and col_new is not None:
             schema[col_new] = schema[col_old]
 
