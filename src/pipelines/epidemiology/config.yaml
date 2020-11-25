@@ -1152,10 +1152,8 @@ sources:
   # Data sources US_FL levels 2 + 3
   # No URL is provided because an API is used instead
   - name: pipelines.epidemiology.us_fl_authority.FloridaDataSource
-    parse:
-      # Death count is inaccurate, but we have an alternative source so we can just drop it here
-      # TODO: add option to drop columns for all data sources
-      remove_inaccurate_statistics: true
+    # Death and hospitalization data do not have accurate dates
+    drop_columns: ['new_deceased']
     test:
       location_key_match: 'US_FL.*'
       # Skip Florida because download takes a long time
