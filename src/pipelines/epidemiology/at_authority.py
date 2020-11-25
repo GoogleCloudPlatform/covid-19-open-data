@@ -53,8 +53,7 @@ class AustriaLevel2DataSource(DataSource):
         # Create the key from the state ID
         data["key"] = data["BundeslandID"].apply(lambda x: f"AT_{x}")
 
-        # Drop whole-country data
-        data = data[data["key"] != "AT_10"]
+        data.loc[data["key"] == "AT_10", "key"] = "AT"
 
         # Output the results
         return data

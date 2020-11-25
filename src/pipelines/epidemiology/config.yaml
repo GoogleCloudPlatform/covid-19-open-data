@@ -93,6 +93,7 @@ sources:
       job_group: all
       deferred: true
 
+  # Data sources for AT levels 1 + 2
   - name: pipelines.epidemiology.at_authority.AustriaLevel2DataSource
     fetch:
       - name: "confirmed_deceased_recovered"
