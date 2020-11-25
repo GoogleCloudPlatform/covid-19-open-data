@@ -1076,6 +1076,8 @@ sources:
       - url: "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=integrated_county_timeseries_state_{state}_external"
         opts:
           ext: json
+    aggregate:
+      subregion2: ['new_confirmed', 'new_deceased', 'new_tested']
     test:
       location_key_match: '^US_[^_]+_[^_]+$'
     automation:
