@@ -117,6 +117,11 @@ class CDCDataSource(DataSource):
     def parse_dataframes(
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
+        # Keep only dataframes which have data available in metadata
+        keys = aux["metadata"]["key"]
+        has_state = lambda state: keys.apply(lambda x: x.startswith(f"US_{state}")).any()
+        dataframes = {state: df for state, df in dataframes.items() if has_state(state)}
+
         # Parallelize the work and process each state in a different process to speed up the work
         map_opts = dict(total=len(dataframes), desc="Processing states")
         return concat(process_map(_process_state, dataframes.values(), **map_opts))
