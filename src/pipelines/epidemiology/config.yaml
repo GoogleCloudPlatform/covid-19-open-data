@@ -501,7 +501,7 @@ sources:
       job_group: all
       deferred: true
 
-  # Authoritative Data sources for GB_UK
+  # Authoritative Data sources for GB
   # We make use of the uk_covid19 API provided by PHE, so there is no fetch URL listed here.
   - name: pipelines.epidemiology.gb_authority.Covid19UkL1DataSource
     test:
@@ -540,7 +540,7 @@ sources:
     test:
       # TODO(owahltinez): skip test since it's very flakey
       skip: true
-      location_key_match: 'GB_UK[^_]+$'
+      location_key_match: 'GB_UK.$'
     parse:
       backfill: true
     automation:
