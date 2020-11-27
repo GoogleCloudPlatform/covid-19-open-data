@@ -115,16 +115,6 @@ class DataSource(ErrorLogger):
         # Merge only needs the metadata auxiliary data table
         metadata = aux["metadata"]
 
-        # If date is provided, make sure it follows ISO format
-        if "date" in record:
-            date = datetime_isoformat(record["date"], "%Y-%m-%d")
-            if date is None:
-                self.log_error(f"Invalid date", record=record)
-                return None
-            else:
-                # Re-set the record's date to make sure it's the appropriate type
-                record["date"] = date
-
         # Exact key match might be possible and it's the fastest option
         if "key" in record and not isna(record["key"]):
             if record["key"] in metadata["key"].values:
@@ -264,7 +254,7 @@ class DataSource(ErrorLogger):
 
         # Drop records which have no key merged
         # TODO: log records with missing key somewhere on disk
-        data = data.dropna(subset=["key"])
+        data.dropna(subset=["key"], inplace=True)
 
         # Drop columns which are no longer necessary to identify location
         if not parse_opts.get("keep_metadata"):
@@ -273,6 +263,11 @@ class DataSource(ErrorLogger):
                     col = f"{col_prefix}_{col_suffix}"
                     if col in data.columns:
                         data.drop(columns=[col], inplace=True)
+
+        # If date is provided, make sure it follows ISO format
+        if "date" in data.columns:
+            data["date"] = data["date"].apply(lambda x: datetime_isoformat(x, "%Y-%m-%d"))
+            data.dropna(subset=["date"], inplace=True)
 
         # Filter out data according to the user-provided filter function
         if "query" in self.config:
