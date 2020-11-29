@@ -25,7 +25,8 @@ _api_url_tpl = "https://xn--80aesfpebagmfblc0a.xn--p1ai/covid_data.json?do=regio
 
 def _get_province_records(key: str) -> List[Dict[str, Any]]:
     records = []
-    for record in requests.get(_api_url_tpl.format(key.replace("_", "-"))).json():
+    url = _api_url_tpl.format(key.replace("_", "-"))
+    for record in requests.get(url, timeout=60).json():
         records.append(
             {
                 "key": key,

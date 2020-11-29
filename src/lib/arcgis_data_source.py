@@ -31,12 +31,14 @@ def _download_arcgis(
     transfer per request.
     """
     url_tpl = url + "&resultOffset={offset}"
+    url_fmt = url_tpl.format(offset=offset)
+    get_opts = dict(timeout=60)
 
     try:
-        res = requests.get(url_tpl.format(offset=offset)).json()["features"]
+        res = requests.get(url_fmt, **get_opts).json()["features"]
     except Exception as exc:
         if log_func:
-            log_func(requests.get(url_tpl.format(offset=offset)).text)
+            log_func(requests.get(url_fmt, **get_opts).text)
         raise exc
 
     rows = [row["attributes"] for row in res]

@@ -26,7 +26,8 @@ _api_url_tpl = "https://api-covid19.rnbo.gov.ua/data?to={date}"
 
 def _get_daily_records(date: str):
     records = []
-    daily_data = requests.get(_api_url_tpl.format(date=date)).json().get("ukraine", [])
+    url = _api_url_tpl.format(date=date)
+    daily_data = requests.get(url, timeout=60).json().get("ukraine", [])
     for record in daily_data:
         records.append(
             {

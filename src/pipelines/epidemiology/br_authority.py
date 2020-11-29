@@ -83,6 +83,7 @@ class BrazilMunicipalitiesDataSource(DataSource):
                 "Cache-Control": "no-cache",
                 "TE": "Trailers",
             },
+            timeout=60,
         ).json()["results"][0]["arquivo"]["url"]
 
         # Pass the actual URL down to fetch it

@@ -44,7 +44,7 @@ class DXYDataSource(DataSource):
             try:
                 url_test = url_tpl.format(date=date.replace("-", "."))
                 self.log_debug(f"Trying {url_test}")
-                res = requests.get(url_test)
+                res = requests.get(url_test, timeout=60)
                 if res.ok:
                     working_url = url_test
                     break

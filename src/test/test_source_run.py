@@ -49,7 +49,7 @@ def _test_data_source(
     data_source.log_warning = _log_nothing
 
     # Load the real cache files
-    cache = requests.get("{}/sitemap.json".format(CACHE_URL)).json()
+    cache = requests.get("{}/sitemap.json".format(CACHE_URL), timeout=60).json()
 
     data_source_name = data_source.__class__.__name__
     data_source_opts = data_source.config
