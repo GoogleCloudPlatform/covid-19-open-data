@@ -182,7 +182,7 @@ class DataPipeline(ErrorLogger):
 
         # Read the cache directory from our cloud storage
         try:
-            cache = requests.get("{}/sitemap.json".format(CACHE_URL)).json()
+            cache = requests.get("{}/sitemap.json".format(CACHE_URL), timeout=60).json()
         except:
             cache = {}
             self.log_error("Cache unavailable")

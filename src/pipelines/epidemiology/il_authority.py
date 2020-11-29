@@ -33,12 +33,14 @@ def _download_from_api(
     transfer per request.
     """
     url_tpl = url + "&offset={offset}&limit=10000"
+    url_fmt = url_tpl.format(offset=offset)
+    get_opts = dict(timeout=60)
 
     try:
-        res = requests.get(url_tpl.format(offset=offset)).json().get("result")
+        res = requests.get(url_fmt, **get_opts).json().get("result")
     except Exception as exc:
         if log_func:
-            log_func(requests.get(url_tpl.format(offset=offset)).text)
+            log_func(requests.get(url_fmt, **get_opts).text)
         raise exc
 
     rows = res.get("records", [])

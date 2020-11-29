@@ -79,10 +79,11 @@ def _convert_cases_to_time_series(cases: DataFrame, index_columns: List[str] = N
 class FloridaDataSource(DataSource):
     def _get_county_cases(self) -> DataFrame:
         def _r_get_county_cases(offset: int = 0) -> List[Dict[str, str]]:
+            url = _url_tpl.format(offset=offset)
             try:
-                res = requests.get(_url_tpl.format(offset=offset)).json()["features"]
+                res = requests.get(url, timeout=60).json()["features"]
             except Exception as exc:
-                self.log_error(requests.get(_url_tpl.format(offset=offset)).text)
+                self.log_error(requests.get(url, timeout=60).text)
                 raise exc
             rows = [row["attributes"] for row in res]
             if len(rows) == 0:

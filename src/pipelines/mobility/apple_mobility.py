@@ -32,7 +32,7 @@ class AppleMobilityDataSource(DataSource):
         fetch_opts: List[Dict[str, Any]],
         skip_existing: bool = False,
     ) -> Dict[str, str]:
-        api_res = requests.get(fetch_opts[0]["url"]).json()
+        api_res = requests.get(fetch_opts[0]["url"], timeout=60).json()
         fetch_opts = [
             {"url": f"{_url_base}{api_res['basePath']}{api_res['regions']['en-us']['csvPath']}"}
         ]

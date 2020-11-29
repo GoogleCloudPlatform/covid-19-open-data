@@ -21,7 +21,7 @@ from typing import Any, Callable, Dict, List
 import requests
 from pandas import DataFrame, concat
 
-from lib.data_source import DataSource
+from lib.arcgis_data_source import ArcGISDataSource
 from lib.utils import table_merge
 
 
@@ -36,55 +36,7 @@ _island_map = {
 }
 
 
-def _download_arcgis(
-    url: str, offset: int = 0, log_func: Callable[[str], None] = None
-) -> List[Dict[str, Any]]:
-    """
-    Recursively download all records from an ArcGIS data source respecting the maximum record
-    transfer per request.
-    """
-    url_tpl = url + "&resultOffset={offset}"
-
-    try:
-        res = requests.get(url_tpl.format(offset=offset)).json()["features"]
-    except Exception as exc:
-        if log_func:
-            log_func(requests.get(url_tpl.format(offset=offset)).text)
-        raise exc
-
-    rows = [row["attributes"] for row in res]
-    if len(rows) == 0:
-        return rows
-    else:
-        return rows + _download_arcgis(url, offset=offset + len(rows))
-
-
-class CanaryIslandsDataSource(DataSource):
-    def fetch(
-        self,
-        output_folder: Path,
-        cache: Dict[str, str],
-        fetch_opts: List[Dict[str, Any]],
-        skip_existing: bool = False,
-    ) -> Dict[str, str]:
-
-        # Base URL comes from fetch_opts
-        url_base = fetch_opts[0]["url"]
-
-        # Create a deterministic file name
-        file_path = (
-            output_folder
-            / "snapshot"
-            / ("%s.%s" % (uuid.uuid5(uuid.NAMESPACE_DNS, url_base), "json"))
-        )
-
-        # Avoid download if the file exists and flag is set
-        if not skip_existing or not file_path.exists():
-            with open(file_path, "w") as fd:
-                json.dump({"features": _download_arcgis(url_base)}, fd)
-
-        return {0: str(file_path.absolute())}
-
+class CanaryIslandsDataSource(ArcGISDataSource):
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         with open(sources[0], "r") as fd:
             features = json.load(fd)["features"]

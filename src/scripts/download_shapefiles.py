@@ -55,7 +55,7 @@ def fetch_geojson(geojson_directory: Path, osm_records: List[Dict[str, Any]]) ->
         if geojson_path.exists():
             continue
         relation_id = record["open_street_maps"]
-        geojson_data = requests.get(OSM_API.format(id=relation_id)).content
+        geojson_data = requests.get(OSM_API.format(id=relation_id), timeout=60).content
         if geojson_data and geojson_data.decode("utf8").strip() != "None":
             with open(geojson_path, "wb") as fd:
                 fd.write(geojson_data)
