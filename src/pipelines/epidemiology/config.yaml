@@ -93,13 +93,16 @@ sources:
       job_group: all
       deferred: true
 
-  # Data sources for AT level 2
-  - name: pipelines.epidemiology.xx_covid19_eu_data.Covid19EuDataSource
+  # Data sources for AT levels 1 + 2
+  - name: pipelines.epidemiology.at_authority.AustriaLevel2DataSource
     fetch:
-      - url: "https://raw.github.com/covid19-eu-zh/covid19-eu-data/master/dataset/covid-19-at.csv"
+      - name: "confirmed_deceased_recovered"
+        url: "https://covid19-dashboard.ages.at/data/CovidFaelle_Timeline.csv"
+      - name: "tested"
+        url: "https://covid19-dashboard.ages.at/data/CovidFallzahlen.csv"
     parse:
       country: AT
-    query: "date < '2020-04-14' or date > '2020-04-15'"
+      sep: ";"
     test:
       location_key_match: 'AT_.+'
     automation:
