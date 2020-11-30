@@ -12,9 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from functools import partial
 import re
+import time
 import uuid
+from functools import partial
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Set
 
@@ -211,6 +212,8 @@ class DataSource(ErrorLogger):
                 DataPipeline that this DataSource is part of.
         """
         data: DataFrame = None
+        time_start = time.monotonic()
+        self.log_info("Starting data source run")
 
         # Fetch options may not exist if the source decides to do everything within `parse`
         fetch_opts = list(self.config.get("fetch", []))
@@ -329,7 +332,8 @@ class DataSource(ErrorLogger):
             data = data.append(localities)
 
         # Return the final dataframe
-        self.log_info(f"Data source finished with {len(data)} records downloaded.")
+        time_elapsed = time.monotonic() - time_start
+        self.log_info(f"Data source finished", seconds=time_elapsed, record_count=len(data))
         return data
 
     def uuid(self, table_name: str) -> str:
