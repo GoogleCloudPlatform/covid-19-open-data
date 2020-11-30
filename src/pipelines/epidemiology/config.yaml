@@ -1248,7 +1248,7 @@ sources:
       country: ZA
       sheet_name: ["Eastern_Cape", "Free_State", "Gauteng", "KwaZulu-Natal", "North_West", "Western_Cape", "Limpopo", "Mpumalanga", "Northern_Cape"]
     test:
-      location_key_match: 'ZA_[^_]+'
+      location_key_match: '^ZA_[^_]+$'
     automation:
       job_group: all
       deferred: true
@@ -1263,7 +1263,7 @@ sources:
       country: ZA
       sheet_name: ["Eastern_Cape", "Free_State", "Gauteng", "KwaZulu-Natal", "North_West", "Western_Cape", "Limpopo", "Mpumalanga", "Northern_Cape"]
     test:
-      location_key_match: 'ZA_.+_.+'
+      location_key_match: '^ZA_[^_]+_[^_]+$'
     automation:
       job_group: all
       deferred: true
