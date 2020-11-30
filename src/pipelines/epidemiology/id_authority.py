@@ -98,7 +98,7 @@ def _parse_records(key: str, records: List[Dict[str, Any]]) -> List[Dict[str, An
 
 def _get_province_records(url_tpl: str, key: str) -> List[Dict[str, Any]]:
     url = url_tpl.format(_key_name_map[key].replace(" ", "_"))
-    return _parse_records(key, requests.get(url).json()["list_perkembangan"])
+    return _parse_records(key, requests.get(url, timeout=60).json()["list_perkembangan"])
 
 
 # pylint: disable=missing-class-docstring,abstract-method
