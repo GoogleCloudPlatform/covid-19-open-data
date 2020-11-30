@@ -17,7 +17,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List
 from pandas import DataFrame, concat
 from lib.cast import numeric_code_as_string
-from lib.concurrent import process_map
+from lib.concurrent import thread_map
 from lib.constants import SRC
 from lib.io import open_file_like, pbar, read_table
 from lib.pipeline import DataSource
@@ -124,4 +124,4 @@ class CDCDataSource(DataSource):
 
         # Parallelize the work and process each state in a different process to speed up the work
         map_opts = dict(total=len(dataframes), desc="Processing states")
-        return concat(process_map(_process_state, dataframes.values(), **map_opts))
+        return concat(thread_map(_process_state, dataframes.values(), **map_opts))
