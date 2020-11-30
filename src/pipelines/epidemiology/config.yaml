@@ -866,6 +866,8 @@ sources:
       sep: ";"
     test:
       location_key_match: 'PE_.+'
+      # Skip because this is a flakey data source
+      skip: true
     automation:
       job_group: all
       deferred: true
