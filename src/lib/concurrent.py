@@ -15,7 +15,7 @@
 from concurrent.futures import ProcessPoolExecutor as Pool
 from concurrent.futures import ThreadPoolExecutor as ThreadPool
 from functools import partial
-from multiprocessing import cpu_count
+from multiprocessing import cpu_count, get_context
 from typing import Any, Callable, Dict, Iterable, Type, Union
 
 from pandas import DataFrame, Series
@@ -29,7 +29,7 @@ def _get_pool(pool_type: Type, max_workers: int) -> Pool:
         setattr(pool, "imap", pool.map)
         return pool
     elif pool_type == Pool:
-        pool = Pool(max_workers)
+        pool = Pool(max_workers, mp_context=get_context("spawn"))
         setattr(pool, "imap", pool.map)
         return pool
     else:
