@@ -686,7 +686,7 @@ def deferred_route(url_path: str) -> Response:
                 if response.ok and response.text == "OK":
                     break
             except requests.exceptions.ConnectionError:
-                logger.log_info(f"Waiting {warmup_time} to let the instance warm up")
+                logger.log_info(f"Waiting {warmup_time} seconds to let the instance warm up")
                 time.sleep(warmup_time)
 
         # Forward the route to the worker instance
