@@ -51,7 +51,7 @@ from scripts.cloud_error_processing import register_new_errors
 from lib.cast import safe_int_cast
 from lib.concurrent import thread_map
 from lib.constants import (
-    GCE_IMAGE_ID,
+    GCS_CONTAINER_ID,
     GCP_SELF_DESTRUCT_SCRIPT,
     GCS_BUCKET_PROD,
     GCS_BUCKET_TEST,
@@ -672,12 +672,14 @@ def deferred_route(url_path: str) -> Response:
     try:
         # Create a new preemptible instance and wait for it to come online
         instance_opts = dict(service_account=os.getenv(ENV_SERVICE_ACCOUNT))
-        instance_id = start_instance_from_image(GCE_IMAGE_ID, **instance_opts)
+        instance_id = start_instance_from_image(GCS_CONTAINER_ID, **instance_opts)
         instance_ip = get_internal_ip(instance_id)
         logger.log_info(f"Created worker instance {instance_id} with internal IP {instance_ip}")
 
-        # Wait 30 seconds before attempting to forward the request
-        time.sleep(30)
+        # Wait before attempting to forward the request
+        warmup_time = 300
+        logger.log_info(f"Waiting {warmup_time} to let the instance warm up")
+        time.sleep(warmup_time)
 
         # Forward the route to the worker instance
         params = dict(request.args)
@@ -712,7 +714,7 @@ def deferred_route(url_path: str) -> Response:
 
 @profiled_route("/create_instance")
 def create_instance(
-    image_id: str = GCE_IMAGE_ID, preemptible: str = "true", self_destruct: str = "true"
+    image_id: str = GCS_CONTAINER_ID, preemptible: str = "true", self_destruct: str = "true"
 ) -> Response:
     status, content = 500, "Unknown error"
     image_id = _get_request_param("image_id", image_id)
@@ -728,7 +730,7 @@ def create_instance(
             preemptible=preemptible,
             startup_script=str(GCP_SELF_DESTRUCT_SCRIPT) if self_destruct else None,
         )
-        instance_id = start_instance_from_image(GCE_IMAGE_ID, **instance_opts)
+        instance_id = start_instance_from_image(GCS_CONTAINER_ID, **instance_opts)
         instance_ip = get_internal_ip(instance_id)
         # Returns created instance details instead of the usual "OK"
         status, content = 200, json.dumps(dict(id=instance_id, **instance_opts))
