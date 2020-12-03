@@ -15,14 +15,7 @@
 import subprocess
 from uuid import uuid4
 
-from lib.constants import (
-    GCE_IMAGE_ID,
-    GCE_IMAGE_PROJECT,
-    GCE_INSTANCE_TYPE,
-    GCP_SELF_DESTRUCT_SCRIPT,
-    GCLOUD_BIN,
-    GCP_ZONE,
-)
+from lib.constants import GCE_IMAGE_ID, GCE_IMAGE_PROJECT, GCE_INSTANCE_TYPE, GCLOUD_BIN, GCP_ZONE
 
 
 def start_instance_from_image(
@@ -31,7 +24,7 @@ def start_instance_from_image(
     service_account: str = None,
     zone: str = GCP_ZONE,
     preemptible: bool = True,
-    startup_script: str = str(GCP_SELF_DESTRUCT_SCRIPT),
+    startup_script: str = None,
 ) -> str:
     # Instance ID must start with a letter
     instance_id = "x" + str(uuid4())
