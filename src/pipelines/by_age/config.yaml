@@ -637,6 +637,16 @@ sources:
       job_group: all
       deferred: true
 
+  # Data sources for CO levels 1 + 2 + 3
+  - name: pipelines.epidemiology.co_authority.ColombiaDataSource
+    fetch:
+      - url: "https://www.datos.gov.co/api/views/gt2j-8ykr/rows.csv"
+    test:
+      location_key_match: 'CO.*'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for CZ levels 1 + 2 + 3
   - name: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
     fetch:
