@@ -1021,7 +1021,7 @@ sources:
     aggregate:
       subregion1: ["new_confirmed"]
     test:
-      location_key_match: 'SE'
+      location_key_match: 'SE.*'
     automation:
       job_group: all
       deferred: true
@@ -1084,7 +1084,7 @@ sources:
     aggregate:
       subregion2: ['new_confirmed', 'new_deceased', 'new_tested']
     test:
-      location_key_match: '^US_[^_]+_[^_]+$'
+      location_key_match: '^US_.+$'
       # Skip test because it runs out of memory on GitHub Actions
       skip: true
     automation:
@@ -1214,6 +1214,20 @@ sources:
       - url: "https://raw.githubusercontent.com/nychealth/coronavirus-data/master/trends/data-by-day.csv"
     test:
       location_key_match: 'US_NY_.*'
+    automation:
+      job_group: all
+      deferred: true
+
+  # Data sources for US_RI
+  # We can't use the authoritative data source which is linked below, because the dates do not line
+  # up with what all the other sources report. So we just use COVID Tracking with a filter.
+  # https://ri-department-of-health-covid-19-data-rihealth.hub.arcgis.com/
+  - name: pipelines.epidemiology.us_covidtracking.CovidTrackingDataSource
+    fetch:
+      - url: "https://covidtracking.com/api/v1/states/daily.csv"
+    query: key == 'US_RI'
+    test:
+      location_key_match: '^US_RI$'
     automation:
       job_group: all
       deferred: true
