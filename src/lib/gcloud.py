@@ -15,7 +15,14 @@
 import subprocess
 from uuid import uuid4
 
-from lib.constants import GCE_INSTANCE_TYPE, GCP_SELF_DESTRUCT_SCRIPT, GCLOUD_BIN, GCP_ZONE
+from lib.constants import (
+    GCE_IMAGE_ID,
+    GCE_IMAGE_PROJECT,
+    GCE_INSTANCE_TYPE,
+    GCP_SELF_DESTRUCT_SCRIPT,
+    GCLOUD_BIN,
+    GCP_ZONE,
+)
 
 
 def start_instance_from_image(
@@ -33,13 +40,17 @@ def start_instance_from_image(
         f"beta",
         f"compute",
         f"instances",
-        f"create",
+        f"create-with-container",
         f"{instance_id}",
         f"--zone={zone}",
         f"--machine-type={instance_type}",
         f"--scopes=https://www.googleapis.com/auth/cloud-platform",
         f"--tags=http-server",
-        f"--image={image_id}",
+        f"--image={GCE_IMAGE_ID}",
+        f"--image-project={GCE_IMAGE_PROJECT}",
+        f"--container-image={image_id}",
+        f"--container-restart-policy=always",
+        f"--container-env=PORT=80",
         f"--boot-disk-size=32GB",
         f"--boot-disk-type=pd-standard",
         f"--boot-disk-device-name={instance_id}",
