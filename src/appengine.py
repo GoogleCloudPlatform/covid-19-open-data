@@ -677,9 +677,17 @@ def deferred_route(url_path: str) -> Response:
         logger.log_info(f"Created worker instance {instance_id} with internal IP {instance_ip}")
 
         # Wait before attempting to forward the request
-        warmup_time = 300
-        logger.log_info(f"Waiting {warmup_time} to let the instance warm up")
-        time.sleep(warmup_time)
+        max_retries = 8
+        warmup_time = 30
+        status_check_url = f"http://{instance_ip}/status_check"
+        for _ in range(max_retries):
+            try:
+                response = requests.get(url=status_check_url, timeout=60)
+                if response.ok and response.text == "OK":
+                    break
+            except requests.exceptions.ConnectionError:
+                logger.log_info(f"Waiting {warmup_time} to let the instance warm up")
+                time.sleep(warmup_time)
 
         # Forward the route to the worker instance
         params = dict(request.args)
