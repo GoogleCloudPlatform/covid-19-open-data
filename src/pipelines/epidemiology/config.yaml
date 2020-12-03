@@ -109,6 +109,19 @@ sources:
       job_group: all
       deferred: true
 
+  # Data sources for AT level 3
+  - name: pipelines.epidemiology.at_authority.AustriaLevel3DataSource
+    fetch:
+      - url: "https://covid19-dashboard.ages.at/data/CovidFaelle_Timeline_GKZ.csv"
+    parse:
+      country: AT
+      sep: ";"
+    test:
+      location_key_match: 'AT_.+'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for AU level 2
   - name: pipelines.epidemiology.au_covid_19_au.Covid19AuDataSource
     fetch:
