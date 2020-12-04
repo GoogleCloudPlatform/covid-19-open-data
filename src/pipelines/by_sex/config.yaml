@@ -80,6 +80,8 @@ sources:
         sep: ";"
         encoding: "ISO-8859-1"
         subregion1_code: AC
+        # This data source does not report zero values, so we fill them in
+        fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: 'BR_AC_.+'
       # Skip because it's too slow
@@ -96,6 +98,8 @@ sources:
         sep: ";"
         encoding: "ISO-8859-1"
         subregion1_code: AL
+        # This data source does not report zero values, so we fill them in
+        fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: 'BR_AL_.+'
       # Skip because it's too slow
@@ -112,6 +116,8 @@ sources:
         sep: ";"
         encoding: "ISO-8859-1"
         subregion1_code: AM
+        # This data source does not report zero values, so we fill them in
+        fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: 'BR_AM_.+'
       # Skip because it's too slow
@@ -128,6 +134,8 @@ sources:
         sep: ";"
         encoding: "ISO-8859-1"
         subregion1_code: AP
+        # This data source does not report zero values, so we fill them in
+        fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: 'BR_AP_.+'
       # Skip because it's too slow
@@ -144,6 +152,8 @@ sources:
         sep: ";"
         encoding: "ISO-8859-1"
         subregion1_code: BA
+        # This data source does not report zero values, so we fill them in
+        fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: 'BR_BA_.+'
       # Skip because it's too slow
@@ -160,25 +170,12 @@ sources:
         sep: ";"
         encoding: "ISO-8859-1"
         subregion1_code: CE
+        # This data source does not report zero values, so we fill them in
+        fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: 'BR_CE_.+'
       # Skip because it's too slow
       skip: true
-    automation:
-      job_group: all
-      deferred: true
-
-  # Data sources for BR_CE level 3
-  - name: pipelines.epidemiology.br_ce_authority.CearaDataSource
-    fetch:
-      - url: "http://download-integrasus.saude.ce.gov.br/download"
-        opts:
-          ext: zip
-    test:
-      # Skip non-working pipeline
-      # TODO(owahltinez): replace with br_authority source
-      skip: true
-      location_key_match: 'BR_CE_.+'
     automation:
       job_group: all
       deferred: true
@@ -191,6 +188,8 @@ sources:
         sep: ";"
         encoding: "ISO-8859-1"
         subregion1_code: DF
+        # This data source does not report zero values, so we fill them in
+        fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: 'BR_DF_.+'
       # Skip because it's too slow
@@ -207,6 +206,8 @@ sources:
         sep: ";"
         encoding: "ISO-8859-1"
         subregion1_code: ES
+        # This data source does not report zero values, so we fill them in
+        fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: 'BR_ES_.+'
       # Skip because it's too slow
@@ -223,6 +224,8 @@ sources:
         sep: ";"
         encoding: "ISO-8859-1"
         subregion1_code: GO
+        # This data source does not report zero values, so we fill them in
+        fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: 'BR_GO_.+'
       # Skip because it's too slow
@@ -239,6 +242,8 @@ sources:
         sep: ";"
         encoding: "ISO-8859-1"
         subregion1_code: MA
+        # This data source does not report zero values, so we fill them in
+        fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: 'BR_MA_.+'
       # Skip because it's too slow
@@ -247,22 +252,23 @@ sources:
       job_group: all
       deferred: true
 
-  # TODO(owahltinez): work around CSV parsing error
-  # # Data sources for BR_MG level 3
-  # - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
-  #   fetch:
-  #     - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
-  #   parse:
-  #       sep: ";"
-  #       encoding: "ISO-8859-1"
-  #       subregion1_code: MG
-  #   test:
-  #     location_key_match: 'BR_MG_.+'
-  #     # Skip because it's too slow
-  #     skip: true
-  #   automation:
-  #     job_group: all
-  #     deferred: true
+  # Data sources for BR_MG level 3
+  - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
+    fetch:
+      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
+    parse:
+        sep: ";"
+        encoding: "ISO-8859-1"
+        subregion1_code: MG
+        # This data source does not report zero values, so we fill them in
+        fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
+    test:
+      location_key_match: 'BR_MG_.+'
+      # Skip because it's too slow
+      skip: true
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for BR_MS level 3
   - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
@@ -272,6 +278,8 @@ sources:
         sep: ";"
         encoding: "ISO-8859-1"
         subregion1_code: MS
+        # This data source does not report zero values, so we fill them in
+        fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: 'BR_MS_.+'
       # Skip because it's too slow
@@ -288,6 +296,8 @@ sources:
         sep: ";"
         encoding: "ISO-8859-1"
         subregion1_code: MT
+        # This data source does not report zero values, so we fill them in
+        fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: 'BR_MT_.+'
       # Skip because it's too slow
@@ -304,6 +314,8 @@ sources:
         sep: ";"
         encoding: "ISO-8859-1"
         subregion1_code: PA
+        # This data source does not report zero values, so we fill them in
+        fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: 'BR_PA_.+'
       # Skip because it's too slow
@@ -320,6 +332,8 @@ sources:
         sep: ";"
         encoding: "ISO-8859-1"
         subregion1_code: PB
+        # This data source does not report zero values, so we fill them in
+        fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: 'BR_PB_.+'
       # Skip because it's too slow
@@ -337,6 +351,8 @@ sources:
         sep: ";"
         encoding: "ISO-8859-1"
         subregion1_code: PE
+        # This data source does not report zero values, so we fill them in
+        fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: 'BR_PE_.+'
       # Skip because it's too slow
@@ -353,6 +369,8 @@ sources:
         sep: ";"
         encoding: "ISO-8859-1"
         subregion1_code: PI
+        # This data source does not report zero values, so we fill them in
+        fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: 'BR_PI_.+'
       # Skip because it's too slow
@@ -361,22 +379,23 @@ sources:
       job_group: all
       deferred: true
 
-  # TODO(owahltinez): work around CSV parsing error
-  # # Data sources for BR_PR level 3
-  # - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
-  #   fetch:
-  #     - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
-  #   parse:
-  #       sep: ";"
-  #       encoding: "ISO-8859-1"
-  #       subregion1_code: PR
-  #   test:
-  #     location_key_match: 'BR_PR_.+'
-  #     # Skip because it's too slow
-  #     skip: true
-  #   automation:
-  #     job_group: all
-  #     deferred: true
+  # Data sources for BR_PR level 3
+  - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
+    fetch:
+      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
+    parse:
+        sep: ";"
+        encoding: "ISO-8859-1"
+        subregion1_code: PR
+        # This data source does not report zero values, so we fill them in
+        fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
+    test:
+      location_key_match: 'BR_PR_.+'
+      # Skip because it's too slow
+      skip: true
+    automation:
+      job_group: all
+      deferred: true
 
   # Data sources for BR_RJ level 3
   - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
@@ -386,6 +405,8 @@ sources:
         sep: ";"
         encoding: "ISO-8859-1"
         subregion1_code: RJ
+        # This data source does not report zero values, so we fill them in
+        fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: 'BR_RJ_.+'
       # Skip because it's too slow
@@ -419,6 +440,8 @@ sources:
         sep: ";"
         encoding: "ISO-8859-1"
         subregion1_code: RN
+        # This data source does not report zero values, so we fill them in
+        fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: 'BR_RN_.+'
       # Skip because it's too slow
@@ -435,6 +458,8 @@ sources:
         sep: ";"
         encoding: "ISO-8859-1"
         subregion1_code: RS
+        # This data source does not report zero values, so we fill them in
+        fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: 'BR_RS_.+'
       # Skip because it's too slow
@@ -451,6 +476,8 @@ sources:
         sep: ";"
         encoding: "ISO-8859-1"
         subregion1_code: SC
+        # This data source does not report zero values, so we fill them in
+        fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: 'BR_SC_.+'
       # Skip because it's too slow
@@ -467,6 +494,8 @@ sources:
         sep: ";"
         encoding: "ISO-8859-1"
         subregion1_code: SE
+        # This data source does not report zero values, so we fill them in
+        fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: 'BR_SE_.+'
       # Skip because it's too slow
@@ -483,6 +512,8 @@ sources:
         sep: ";"
         encoding: "ISO-8859-1"
         subregion1_code: SP
+        # This data source does not report zero values, so we fill them in
+        fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: 'BR_SP_.+'
       # Skip because it's too slow
@@ -499,6 +530,8 @@ sources:
         sep: ";"
         encoding: "ISO-8859-1"
         subregion1_code: TO
+        # This data source does not report zero values, so we fill them in
+        fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: 'BR_TO_.+'
       # Skip because it's too slow
@@ -584,6 +617,8 @@ sources:
       - url: "http://datosabiertos.salud.gob.mx/gobmx/salud/datos_abiertos/datos_abiertos_covid19.zip"
     parse:
       encoding: "ISO-8859-1"
+      # This data source does not report zero values, so we fill them in
+      fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       # Skip this data source because it's too slow
       skip: true
