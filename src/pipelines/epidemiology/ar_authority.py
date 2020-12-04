@@ -85,6 +85,9 @@ class ArgentinaDataSource(DataSource):
             confirmed_mask, "date_new_confirmed"
         ].fillna(cases.loc[confirmed_mask, "_date_estimate"])
 
+        # Only count deaths from confirmed cases
+        cases.loc[~confirmed_mask, "date_new_deceased"] = None
+
         # Remove unnecessary columns before converting to time series
         cases = cases.drop(columns=[col for col in cases.columns if col.startswith("_")])
 
