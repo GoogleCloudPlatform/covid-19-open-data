@@ -31,6 +31,7 @@ from .net import download_snapshot
 from .time import datetime_isoformat
 from .utils import (
     derive_localities,
+    filter_columns,
     infer_new_and_total,
     stratify_age_sex_ethnicity,
     backfill_cumulative_fields_inplace,
@@ -288,7 +289,7 @@ class DataSource(ErrorLogger):
         if "aggregate" in self.config:
 
             if "subregion2" in self.config["aggregate"]:
-                agg_cols = self.config["aggregate"]["subregion2"]
+                agg_cols = filter_columns(self.config["aggregate"]["subregion2"], data.columns)
                 l2 = data[data["key"].apply(lambda x: len(x.split("_")) == 3)].copy()
 
                 # Remove data from localities
@@ -304,7 +305,7 @@ class DataSource(ErrorLogger):
                 data = data.append(l1.rename(columns={"subregion1_key": "key"})).reset_index()
 
             if "subregion1" in self.config["aggregate"]:
-                agg_cols = self.config["aggregate"]["subregion1"]
+                agg_cols = filter_columns(self.config["aggregate"]["subregion1"], data.columns)
                 l1 = data[data["key"].apply(lambda x: len(x.split("_")) == 2)].copy()
 
                 # Remove data from localities
@@ -318,6 +319,12 @@ class DataSource(ErrorLogger):
                 l0 = l0[~l0["country_code"].isin(data["key"])]
 
                 data = data.append(l0.rename(columns={"country_code": "key"})).reset_index()
+
+        # Fill with zeroes the requested columns
+        # This is useful when we know a data source provides every known data point
+        if parse_opts.get("fill_with_zeroes"):
+            fill_cols = filter_columns(parse_opts["fill_with_zeroes"], data.columns)
+            data[fill_cols] = data[fill_cols].fillna(0)
 
         # Process each record to add missing cumsum or daily diffs
         data = infer_new_and_total(data)

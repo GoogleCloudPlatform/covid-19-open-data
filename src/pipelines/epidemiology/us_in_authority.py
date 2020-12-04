@@ -35,6 +35,8 @@ class IndianaDataSource(DataSource):
             },
         )
 
+        data["country_code"] = "US"
+        data["subregion1_code"] = "IN"
         data.sex = data.sex.apply(lambda x: x.replace("M", "male").replace("F", "female"))
         data.date = data.date.apply(lambda x: datetime_isoformat(x, "%Y-%m-%d %H:%M:%S"))
         data.age = data.age.apply(lambda x: None if x == "Unknown" else x.replace("+", "-"))
