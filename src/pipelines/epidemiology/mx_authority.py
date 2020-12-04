@@ -56,11 +56,6 @@ _SUBREGION1_CODE_MAP = {
 }
 
 
-def _extract_cities(data: DataFrame) -> DataFrame:
-    # TODO: extract cities
-    return DataFrame(columns=data.columns)
-
-
 class MexicoDataSource(DataSource):
     def parse_dataframes(
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
@@ -99,7 +94,7 @@ class MexicoDataSource(DataSource):
                 # "RENAL_CRONICA": "",
                 # "TABAQUISMO": "",
                 # "OTRO_CASO": "",
-                "RESULTADO_LAB": "_diagnosis",
+                "CLASIFICACION_FINAL": "_diagnosis",
                 # "MIGRANTE": "",
                 # "PAIS_NACIONALIDAD": "",
                 # "PAIS_ORIGEN": "",
@@ -114,7 +109,7 @@ class MexicoDataSource(DataSource):
                 cases.loc[cases[col] == "9999-99-99", col] = None
 
         # Discard all cases with negative test result
-        cases = cases[cases["_diagnosis"] == 1]
+        cases = cases[cases["_diagnosis"] < 4]
 
         # Type 1 is normal, type 2 is hospitalized
         cases["date_new_hospitalized"] = None
@@ -130,6 +125,9 @@ class MexicoDataSource(DataSource):
         cases["subregion2_code"] = cases["subregion2_code"].apply(
             lambda x: numeric_code_as_string(x, 3)
         )
+
+        # Translate sex labels; only male, female and unknown are given
+        cases["sex"] = cases["sex"].apply(lambda x: {1: "male", 2: "female"}.get(x, "unknown"))
 
         # Convert case line data to our time series format
         data = convert_cases_to_time_series(cases, ["subregion1_code", "subregion2_code"])
@@ -151,30 +149,29 @@ class MexicoDataSource(DataSource):
         # Use proper ISO codes for the subregion1 level
         data["subregion1_code"] = data["subregion1_code"].apply(_SUBREGION1_CODE_MAP.get)
 
-        # Translate sex labels; only male, female and unknown are given
-        data["sex"] = data["sex"].apply(
-            lambda x: {"hombre": "male", "mujer": "female"}.get(x.lower())
-        )
-
         # Aggregate state-level data by adding all municipalities
-        state = data.drop(columns=["subregion2_code"]).groupby(["date", "subregion1_code"]).sum()
-        state.reset_index(inplace=True)
+        state = (
+            data.drop(columns=["subregion2_code"])
+            .groupby(["date", "subregion1_code", "age", "sex"])
+            .sum()
+            .reset_index()
+        )
         state["key"] = "MX_" + state["subregion1_code"]
 
-        # Extract cities from the municipalities
-        city = _extract_cities(data)
-
-        # Country level is called "TOTAL" as a subregion1_code
-        country_mask = data["subregion1_code"] == "TOTAL"
-        country = data[country_mask]
+        # Aggregate country-level data by adding all states
+        country = (
+            data.drop(columns=["subregion1_code", "subregion2_code"])
+            .groupby(["date", "age", "sex"])
+            .sum()
+            .reset_index()
+        )
         country["key"] = "MX"
 
         # We can build the key for the data directly from the subregion codes
         data["key"] = "MX_" + data["subregion1_code"] + "_" + data["subregion2_code"]
 
         # Drop bogus records from the data
-        data = data[~country_mask]
         state.dropna(subset=["subregion1_code"], inplace=True)
         data.dropna(subset=["subregion1_code", "subregion2_code"], inplace=True)
 
-        return concat([country, state, data, city])
+        return concat([country, state, data])
