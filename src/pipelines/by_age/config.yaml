@@ -847,6 +847,13 @@ sources:
       - url: "https://hub.mph.in.gov/dataset/6b57a4f2-b754-4f79-a46b-cff93e37d851/resource/46b310b9-2f29-4a51-90dc-3886d9cf4ac1/download/covid_report.xlsx"
         opts:
           ext: xlsx
+    # Only aggregate age/sex pipelines to state level because the data does not add up to the total
+    # number of cases. This is because small case counts are excluded for privacy reasons.
+    aggregate:
+      subregion2: ['new_confirmed_age_*']
+    parse:
+      # This data source does not report zero values, so we fill them in
+      fill_with_zeroes: ['new_confirmed_age_*']
     test:
       location_key_match: 'US_IN.*'
     automation:

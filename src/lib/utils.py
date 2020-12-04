@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import re
 from functools import partial, reduce
 from typing import Any, Callable, List, Dict, Tuple, Optional
 from numpy import unique
@@ -400,3 +401,12 @@ def backfill_cumulative_fields_inplace(data: DataFrame, columns: Optional[List] 
                 group_data.loc[group_data.last_valid_index(), column] = 0
 
             data.loc[data["key"] == name, column] = group_data[column].bfill()
+
+
+def filter_columns(expr_list: List[str], columns: List[str]) -> List[str]:
+    """
+    Filters a list of columns based on whether a column matches at least one of the provided
+    regular expressions.
+    """
+    column_matches = lambda expr_list, col: any(re.match(expr, col) for expr in expr_list)
+    return [col for col in columns if column_matches(expr_list, col)]
