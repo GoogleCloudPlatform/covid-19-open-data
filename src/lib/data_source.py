@@ -83,7 +83,13 @@ class DataSource(ErrorLogger):
         # Using functions as iterables makes it easier to split the work due to dependent arguments
         map_func = lambda func: func()
         map_iter = [
-            partial(download_snapshot, src["url"], output_folder, **src.get("opts", {}))
+            partial(
+                download_snapshot,
+                src["url"],
+                output_folder,
+                skip_existing=skip_existing,
+                **src.get("opts", {}),
+            )
             for src in fetch_opts
         ]
         return {
