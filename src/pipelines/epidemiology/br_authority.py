@@ -177,11 +177,14 @@ class BrazilStratifiedDataSource(DataSource):
             try:
                 self.log_debug(f"Downloading {url}...")
                 output[name] = download_snapshot(
-                    url, output_folder, **download_opts, skip_existing=skip_existing
+                    url, output_folder, skip_existing=skip_existing, **download_opts
                 )
             except:
                 self.log_warning(f"Failed to download URL {url}")
                 break
+
+        # Filter out empty files, which can happen if download fails in an unexpected way
+        output = {name: path for name, path in output.items() if Path(path).stat().st_size > 0}
 
         # If the output is not split into volumes, fall back to single file URL
         if output:
@@ -224,10 +227,16 @@ class BrazilStratifiedDataSource(DataSource):
         deceased_mask = cases["_prognosis"] == "Óbito"
         cases.loc[deceased_mask, "date_new_deceased"] = cases.loc[deceased_mask, "_date_update"]
 
+        # Only count deceased cases from confirmed subjects
+        cases.loc[~confirmed_mask, "date_new_deceased"] = None
+
         # Recovered cases have a specific label and the date is the "closing" date
         cases["date_new_recovered"] = None
         recovered_mask = cases["_prognosis"] == "Cured"
         cases.loc[recovered_mask, "date_new_recovered"] = cases.loc[recovered_mask, "_date_update"]
+
+        # Only count recovered cases from confirmed subjects
+        cases.loc[~confirmed_mask, "date_new_recovered"] = None
 
         # Drop columns which we have no use for
         cases = cases[[col for col in cases.columns if not col.startswith("_")]]
