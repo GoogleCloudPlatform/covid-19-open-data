@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 import uuid
 from pathlib import Path
 from typing import BinaryIO, Union, List
@@ -55,8 +54,15 @@ def download_snapshot(
     # Only download the file if skip_existing flag is not present
     # The skip_existing flag is ignored if the file does not already exist
     if not skip_existing or not file_path.exists():
-        with open(file_path, "wb") as file_handle:
+        file_handle = open(file_path, "wb")
+        try:
             download(url, file_handle, **download_opts)
+        except Exception as exc:
+            # In case of failure, delete the file
+            file_path.unlink()
+            raise exc
+        finally:
+            file_handle.close()
 
     # Output the downloaded file path
     return str(file_path.absolute())
