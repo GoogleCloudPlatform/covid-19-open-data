@@ -68,4 +68,8 @@ class ColombiaDataSource(DataSource):
         l1["key"] = l1.key.apply(lambda x: "_".join(x.split("_")[:2]))
         l1 = l1.groupby(index_columns).sum().reset_index()
 
-        return concat([data, l1])[index_columns + value_columns]
+        # Group by country level
+        country = l1.drop(columns=["key"]).groupby(index_columns[1:]).sum().reset_index()
+        country["key"] = "CO"
+
+        return concat([data, l1, country])[index_columns + value_columns]
