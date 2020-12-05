@@ -295,7 +295,7 @@ sources:
     aggregate:
       subregion1: ["new_confirmed", "new_deceased", "new_recovered"]
     test:
-      location_key_match: 'CO*'
+      location_key_match: 'CO.*'
     automation:
       job_group: all
       deferred: true
@@ -309,7 +309,7 @@ sources:
     aggregate:
       subregion1: ["new_confirmed"]
     test:
-      location_key_match: 'CZ_.+'
+      location_key_match: 'CZ.*'
     automation:
       job_group: all
       deferred: true
@@ -322,7 +322,7 @@ sources:
     aggregate:
       subregion1: ["new_deceased"]
     test:
-      location_key_match: 'CZ_.+'
+      location_key_match: 'CZ.*'
     automation:
       job_group: all
       deferred: true
@@ -335,7 +335,7 @@ sources:
     aggregate:
       subregion1: ["new_recovered"]
     test:
-      location_key_match: 'CZ_.+'
+      location_key_match: 'CZ.*'
     automation:
       job_group: all
       deferred: true
@@ -347,7 +347,7 @@ sources:
       subregion2: ["total_confirmed", "total_deceased", "total_recovered"]
       subregion1: ["total_confirmed", "total_deceased", "total_recovered"]
     test:
-      location_key_match: 'CZ_.+'
+      location_key_match: 'CZ.*'
     automation:
       job_group: all
       deferred: true
