@@ -218,6 +218,18 @@ sources:
       job_group: all
       deferred: true
 
+  # Data sources for BR level 1
+  # We download our own outputs, filter by country, and aggregate them. This is necessary because
+  # the different data sources for Brazil are split across many separate jobs.
+  - name: pipelines.epidemiology.br_authority.BrazilAggregatorDataSource
+    fetch:
+      - url: "https://storage.googleapis.com/covid19-open-data/v2/by-age.csv"
+    test:
+      location_key_match: '^BR$'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for BR_AC level 3
   - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
     fetch:
