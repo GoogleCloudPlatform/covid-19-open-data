@@ -90,6 +90,15 @@ class PeruDataSource(DataSource):
         data.loc[lima_province_mask, "subregion1_name"] = "Metropolitan Municipality of Lima"
         data.loc[lima_region_mask & ~lima_province_mask, "subregion1_name"] = "Lima Region"
 
+        # Aggregate by country level
+        country = (
+            data.drop(columns=["subregion1_name", "subregion2_name", "province_name"])
+            .groupby(["date", "country_code", "age", "sex"])
+            .sum()
+            .reset_index()
+        )
+        country["key"] = "PE"
+
         # Aggregate by admin level 1
         subregion1 = (
             data.drop(columns=["subregion2_name", "province_name"])
@@ -132,4 +141,4 @@ class PeruDataSource(DataSource):
                 data.loc[mask, "match_string"] = f"{district}, {province}"
 
         # Output the results
-        return concat([subregion1, data])
+        return concat([country, subregion1, data])

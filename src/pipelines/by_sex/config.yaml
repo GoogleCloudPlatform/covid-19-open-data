@@ -627,7 +627,7 @@ sources:
       job_group: all
       deferred: true
 
-  # Data sources for PE levels 2 + 3
+  # Data sources for PE levels 1 + 2 + 3
   - name: pipelines.epidemiology.pe_authority.PeruDataSource
     fetch:
       - name: confirmed
@@ -642,7 +642,7 @@ sources:
       encoding: "ISO-8859-1"
       sep: ";"
     test:
-      location_key_match: 'PE_.+'
+      location_key_match: 'PE.*'
       # Skip because this is a flakey data source
       skip: true
     automation:
