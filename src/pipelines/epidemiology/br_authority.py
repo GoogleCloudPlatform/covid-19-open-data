@@ -23,7 +23,7 @@ from lib.cast import safe_int_cast, numeric_code_as_string
 from lib.net import download_snapshot
 from lib.pipeline import DataSource
 from lib.time import datetime_isoformat
-from lib.utils import table_rename
+from lib.utils import table_groupby_sum, table_rename
 
 _IBGE_STATES = {
     # Norte
@@ -281,3 +281,15 @@ class BrazilStratifiedDataSource(DataSource):
         state["key"] = "BR_" + subregion1_code
 
         return concat([data, state])
+
+
+class BrazilAggregatorDataSource(DataSource):
+    def parse_dataframes(
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
+    ) -> DataFrame:
+        data = dataframes[0].rename(columns={"location_key": "key"})
+        data = data[data["key"].str.startswith("BR_")]
+        data = data[data["key"].apply(lambda x: len(x.split("_")) == 2)]
+        data["date"] = data["date"].apply(lambda x: datetime_isoformat(x, "%Y-%m-%d"))
+        data["key"] = "BR"
+        return table_groupby_sum(data, ["date", "key"])
