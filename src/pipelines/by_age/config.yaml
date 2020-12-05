@@ -907,7 +907,7 @@ sources:
     # Only aggregate age/sex pipelines to state level because the data does not add up to the total
     # number of cases. This is because small case counts are excluded for privacy reasons.
     aggregate:
-      subregion2: ['new_confirmed_age_*']
+      subregion2: ['age_bin_*', 'new_confirmed_age_*']
     parse:
       # This data source does not report zero values, so we fill them in
       fill_with_zeroes: ['new_confirmed_age_*']
