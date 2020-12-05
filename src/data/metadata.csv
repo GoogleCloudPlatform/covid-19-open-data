@@ -17654,7 +17654,7 @@ PE_UCA_0305,PE,Peru,UCA,Ucayali,0305,Alexander Von Humboldt,,,,
 PE_UCA_0401,PE,Peru,UCA,Ucayali,0401,Purus,,,,
 PF,PF,French Polynesia,,,,,,,,-1
 PG,PG,Papua New Guinea,,,,,,,,-1
-PH,PH,Philippines,,,,,,,,-1
+PH,PH,Philippines,,,,,,,,0
 PH_00,PH,Philippines,00,National Capital Region,,,,,NCR,
 PH_00_133900,PH,Philippines,00,National Capital Region,133900,Capital District,,,,
 PH_00_133901,PH,Philippines,00,National Capital Region,133901,Tondo,,,,

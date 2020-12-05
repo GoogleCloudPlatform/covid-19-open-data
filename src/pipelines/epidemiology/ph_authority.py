@@ -91,6 +91,15 @@ class PhilippinesDataSource(DataSource):
         # Null values are known to be zero, since we have case-line data
         data = data.fillna(0)
 
+        # Aggregate country level directly from base data
+        country = (
+            data.drop(columns=["province", "region"])
+            .groupby(["date", "age", "sex"])
+            .sum()
+            .reset_index()
+        )
+        country["key"] = "PH"
+
         # Aggregate regions and provinces separately
         l3 = data.rename(columns={"province": "match_string"})
         l2 = data.rename(columns={"region": "match_string"})
@@ -112,4 +121,4 @@ class PhilippinesDataSource(DataSource):
         data = data[data["match_string"] != "CITY OF ISABELA (NOT A PROVINCE)"]
         data = data[data["match_string"] != "COTABATO CITY (NOT A PROVINCE)"]
 
-        return data
+        return concat([country, data])
