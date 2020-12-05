@@ -100,9 +100,25 @@ class CzechRepublicAgeSexDataSource(DataSource):
             cases, index_columns=["subregion1_code", "subregion2_code"]
         )
 
+        # Convert all dates to ISO format
+        data["date"] = (
+            data["date"]
+            .astype(str)
+            .apply(lambda x: datetime_isoformat(x, "%d.%m.%Y" if "." in x else "%Y-%m-%d"))
+        )
+
         # Make sure the region codes are strings before parsing them
         data["subregion1_code"] = data["subregion1_code"].astype(str)
         data["subregion2_code"] = data["subregion2_code"].astype(str)
+
+        # Aggregate country level data
+        country = (
+            data.drop(columns=["subregion1_code", "subregion2_code"])
+            .groupby(["date", "age", "sex"])
+            .sum()
+            .reset_index()
+        )
+        country["key"] = "CZ"
 
         # Aggregate L2 + L3 data
         data = _aggregate_regions(data, ["date", "subregion1_code", "age", "sex"])
@@ -111,11 +127,4 @@ class CzechRepublicAgeSexDataSource(DataSource):
         data = data[data["key"] != "CZ_99"]
         data = data[data["key"] != "CZ_99_99Y"]
 
-        # Convert all dates to ISO format
-        data["date"] = (
-            data["date"]
-            .astype(str)
-            .apply(lambda x: datetime_isoformat(x, "%d.%m.%Y" if "." in x else "%Y-%m-%d"))
-        )
-
-        return data
+        return concat([country, data])

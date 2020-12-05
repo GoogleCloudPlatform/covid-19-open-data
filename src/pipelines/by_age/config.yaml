@@ -702,6 +702,8 @@ sources:
       - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/osoby.csv"
     parse:
       column_name: 'new_confirmed'
+      # This data source contains case line data, so any missing information means zero
+      fill_with_zeroes: ['new_[^_]+_age_.+']
     test:
       location_key_match: 'CZ.*'
     automation:
@@ -713,6 +715,8 @@ sources:
       - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/umrti.csv"
     parse:
       column_name: 'new_deceased'
+      # This data source contains case line data, so any missing information means zero
+      fill_with_zeroes: ['new_[^_]+_age_.+']
     test:
       location_key_match: 'CZ.*'
     automation:
@@ -724,6 +728,8 @@ sources:
       - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/vyleceni.csv"
     parse:
       column_name: 'new_recovered'
+      # This data source contains case line data, so any missing information means zero
+      fill_with_zeroes: ['new_[^_]+_age_.+']
     test:
       location_key_match: 'CZ.*'
     automation:
