@@ -30,11 +30,12 @@ from .io import read_file, fuzzy_text
 from .net import download_snapshot
 from .time import datetime_isoformat
 from .utils import (
+    backfill_cumulative_fields_inplace,
     derive_localities,
     filter_columns,
     infer_new_and_total,
     stratify_age_sex_ethnicity,
-    backfill_cumulative_fields_inplace,
+    table_groupby_sum,
 )
 
 
@@ -303,7 +304,8 @@ class DataSource(ErrorLogger):
 
                 # Derive the grouped key by removing the last token
                 l2["subregion1_key"] = l2["key"].apply(lambda x: x.rsplit("_", 1)[0])
-                l1 = l2.groupby(["date", "subregion1_key"])[agg_cols].sum().reset_index()
+                group_cols = ["date", "subregion1_key"]
+                l1 = table_groupby_sum(l2, group_cols)[group_cols + agg_cols]
 
                 # Remove rows already in data
                 l1 = l1[~l1["subregion1_key"].isin(data["key"])]
@@ -319,7 +321,8 @@ class DataSource(ErrorLogger):
 
                 # Derive the grouped key by removing the last token
                 l1["country_code"] = l1["key"].apply(lambda x: x.rsplit("_", 1)[0])
-                l0 = l1.groupby(["date", "country_code"])[agg_cols].sum().reset_index()
+                group_cols = ["date", "country_code"]
+                l0 = table_groupby_sum(l1, group_cols)[group_cols + agg_cols]
 
                 # Remove rows already in data
                 l0 = l0[~l0["country_code"].isin(data["key"])]

@@ -572,7 +572,7 @@ sources:
     aggregate:
       subregion1: ["new_confirmed", "new_deceased", "new_recovered", "total_confirmed", "total_deceased", "total_recovered"]
     test:
-      location_key_match: 'ID_[^_]+$'
+      location_key_match: 'ID.*'
     automation:
       job_group: all
       deferred: true

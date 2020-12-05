@@ -410,3 +410,18 @@ def filter_columns(expr_list: List[str], columns: List[str]) -> List[str]:
     """
     column_matches = lambda expr_list, col: any(re.match(expr, col) for expr in expr_list)
     return [col for col in columns if column_matches(expr_list, col)]
+
+
+def table_groupby_sum(data: DataFrame, by: List[str]) -> DataFrame:
+    """
+    Performs a `data.groupby(by).sum()` followed by re-adding any dropped non-numerical columns as
+    long as they are identical in each group.
+    """
+    group = data.groupby(by)
+    output = group.sum()
+
+    dropped_columns = set(data.columns) - set(output.columns) - set(by)
+    for col in dropped_columns:
+        if all(len(df.unique()) == 1 for _, df in group[col]):
+            output[col] = group[col].first()
+    return output.reset_index()
