@@ -22,7 +22,12 @@ from .io import pbar, open_file_like
 
 
 def download_snapshot(
-    url: str, output_folder: Path, ext: str = None, skip_existing: bool = False, **download_opts
+    url: str,
+    output_folder: Path,
+    ext: str = None,
+    skip_existing: bool = False,
+    ignore_failure: bool = False,
+    **download_opts
 ) -> str:
     """
     This function downloads a file into the snapshots folder and outputs the
@@ -36,6 +41,7 @@ def download_snapshot(
         ext: Force extension when creating output file, handy when it cannot be guessed from URL.
         skip_existing: If true, skip download and simply return the deterministic path where this
             file would have been downloaded. If the file does not exist, this flag is ignored.
+        ignore_failure: If true, return `None` instead of raising an exception in case of failure.
         download_opts: Keyword arguments passed to the `download` function.
 
     Returns:
@@ -54,15 +60,16 @@ def download_snapshot(
     # Only download the file if skip_existing flag is not present
     # The skip_existing flag is ignored if the file does not already exist
     if not skip_existing or not file_path.exists():
-        file_handle = open(file_path, "wb")
-        try:
-            download(url, file_handle, **download_opts)
-        except Exception as exc:
-            # In case of failure, delete the file
-            file_path.unlink()
-            raise exc
-        finally:
-            file_handle.close()
+        with open(file_path, "wb") as file_handle:
+            try:
+                download(url, file_handle, **download_opts)
+            except Exception as exc:
+                # In case of failure, delete the file
+                file_path.unlink()
+                if ignore_failure:
+                    return None
+                else:
+                    raise exc
 
     # Output the downloaded file path
     return str(file_path.absolute())

@@ -332,8 +332,12 @@ def update_table(table_name: str = None, job_group: str = None, parallel_jobs: i
         data_source_names = [src.config.get("name") for src in data_pipeline.data_sources]
         logger.log_info(f"Updating data sources: {data_source_names}")
 
+        # When running the data pipeline, use as many parallel processes as allowed and avoid
+        # downloading files multiple times.
+        run_options = dict(process_count=process_count, skip_existing=True)
+
         # Produce the intermediate files from the data source
-        intermediate_results = data_pipeline.parse(workdir, process_count=process_count)
+        intermediate_results = data_pipeline.parse(workdir, **run_options)
         data_pipeline._save_intermediate_results(workdir / "intermediate", intermediate_results)
         intermediate_files = list(map(str, (workdir / "intermediate").glob("*.csv")))
         logger.log_info(f"Created intermediate tables: {intermediate_files}")
