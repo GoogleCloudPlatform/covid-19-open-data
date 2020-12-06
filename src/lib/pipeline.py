@@ -301,6 +301,7 @@ class DataPipeline(ErrorLogger):
             process_count = cpu_count()
 
         # Combine all intermediate outputs into a single DataFrame
+        output_chunk_count = 1
         if not intermediate_results:
             self.log_error("Empty result for data pipeline {}".format(self.name))
             pipeline_output = [DataFrame(columns=self.schema.keys())]
@@ -318,10 +319,15 @@ class DataPipeline(ErrorLogger):
             map_func = partial(combine_tables, index=["date", "key"])
             map_opts = dict(max_workers=process_count, desc=f"Combining {self.name} outputs")
             pipeline_output = process_map(map_func, map_iter, **map_opts)
+            output_chunk_count = len(map_iter)
             del combine_inputs
 
         # Return data using the pipeline's output parameters
-        map_opts = dict(max_workers=process_count, desc=f"Cleaning {self.name} outputs")
+        map_opts = dict(
+            total=output_chunk_count,
+            max_workers=process_count,
+            desc=f"Cleaning {self.name} outputs",
+        )
         return concat(process_map(self.output_table, pipeline_output, **map_opts))
 
     def verify(

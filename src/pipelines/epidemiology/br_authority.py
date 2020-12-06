@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import datetime
+from functools import partial
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -20,44 +22,46 @@ from pandas import DataFrame, concat, isna
 
 from lib.case_line import convert_cases_to_time_series
 from lib.cast import safe_int_cast, numeric_code_as_string
+from lib.error_logger import ErrorLogger
+from lib.concurrent import process_map, thread_map
 from lib.net import download_snapshot
 from lib.pipeline import DataSource
 from lib.time import datetime_isoformat
-from lib.utils import table_groupby_sum, table_rename
+from lib.utils import table_rename
 
 _IBGE_STATES = {
     # Norte
-    "RO": 11,
-    "AC": 12,
-    "AM": 13,
-    "RR": 14,
-    "PA": 15,
-    "AP": 16,
-    "TO": 17,
+    11: "RO",
+    12: "AC",
+    13: "AM",
+    14: "RR",
+    15: "PA",
+    16: "AP",
+    17: "TO",
     # Nordeste
-    "MA": 21,
-    "PI": 22,
-    "CE": 23,
-    "RN": 24,
-    "PB": 25,
-    "PE": 26,
-    "AL": 27,
-    "SE": 28,
-    "BA": 29,
+    21: "MA",
+    22: "PI",
+    23: "CE",
+    24: "RN",
+    25: "PB",
+    26: "PE",
+    27: "AL",
+    28: "SE",
+    29: "BA",
     # Sudeste
-    "MG": 31,
-    "ES": 32,
-    "RJ": 33,
-    "SP": 35,
+    31: "MG",
+    32: "ES",
+    33: "RJ",
+    35: "SP",
     # Sul
-    "PR": 41,
-    "SC": 42,
-    "RS": 43,
+    41: "PR",
+    42: "SC",
+    43: "RS",
     # Centro-Oeste
-    "MS": 50,
-    "MT": 51,
-    "GO": 52,
-    "DF": 53,
+    50: "MS",
+    51: "MT",
+    52: "GO",
+    53: "DF",
 }
 
 
@@ -151,6 +155,102 @@ _column_adapter = {
 }
 
 
+def _download_open_data(
+    logger: ErrorLogger,
+    url_tpl: str,
+    output_folder: Path,
+    ibge_code: str,
+    max_volumes: int = 12,
+    **download_opts,
+) -> Dict[str, str]:
+    logger.log_debug(f"Downloading Brazil data for {ibge_code}...")
+
+    # Since we are guessing the URL, we forgive errors in the download
+    output = {}
+    download_opts = dict(download_opts, ignore_failure=True)
+    map_func = partial(download_snapshot, output_folder=output_folder, **download_opts)
+    map_iter = [url_tpl.format(f"{ibge_code}-{idx + 1}") for idx in range(max_volumes)]
+    for idx, file_path in enumerate(thread_map(map_func, map_iter)):
+        if file_path is not None:
+            output[f"{ibge_code}-{idx + 1}"] = file_path
+
+    # Filter out empty files, which can happen if download fails in an unexpected way
+    output = {name: path for name, path in output.items() if Path(path).stat().st_size > 0}
+
+    # If the output is not split into volumes, fall back to single file URL
+    if output:
+        return output
+    else:
+        url = url_tpl.format(ibge_code)
+        return {ibge_code: download_snapshot(url, output_folder, **download_opts)}
+
+
+def _process_partition(cases: DataFrame) -> DataFrame:
+    cases = cases.copy()
+
+    # Confirmed cases are only those with a confirmed positive test result
+    cases["date_new_confirmed"] = None
+    confirmed_mask = cases["_test_result"] == "Positivo"
+    cases.loc[confirmed_mask, "date_new_confirmed"] = cases.loc[confirmed_mask, "date_new_tested"]
+
+    # Deceased cases have a specific label and the date is the "closing" date
+    cases["date_new_deceased"] = None
+    deceased_mask = cases["_prognosis"] == "Óbito"
+    cases.loc[deceased_mask, "date_new_deceased"] = cases.loc[deceased_mask, "_date_update"]
+
+    # Only count deceased cases from confirmed subjects
+    cases.loc[~confirmed_mask, "date_new_deceased"] = None
+
+    # Recovered cases have a specific label and the date is the "closing" date
+    cases["date_new_recovered"] = None
+    recovered_mask = cases["_prognosis"] == "Cured"
+    cases.loc[recovered_mask, "date_new_recovered"] = cases.loc[recovered_mask, "_date_update"]
+
+    # Only count recovered cases from confirmed subjects
+    cases.loc[~confirmed_mask, "date_new_recovered"] = None
+
+    # Drop columns which we have no use for
+    cases = cases[[col for col in cases.columns if not col.startswith("_")]]
+
+    # Make sure our region codes are of type str
+    cases["subregion2_code"] = cases["subregion2_code"].apply(safe_int_cast)
+    # The last digit of the region code is actually not necessary
+    cases["subregion2_code"] = cases["subregion2_code"].apply(
+        lambda x: None if isna(x) else str(int(x))[:-1]
+    )
+
+    # Convert ages to int, and translate sex (no "other" sex/gender reported)
+    cases["age"] = cases["age"].apply(safe_int_cast)
+    cases["sex"] = cases["sex"].str.lower().apply({"masculino": "male", "feminino": "female"}.get)
+
+    # Convert to time series format
+    data = convert_cases_to_time_series(cases, index_columns=["subregion1_code", "subregion2_code"])
+
+    # Convert date to ISO format
+    data["date"] = data["date"].str.slice(0, 10)
+    data["date"] = data["date"].apply(lambda x: datetime_isoformat(x, "%Y-%m-%d"))
+
+    # Get rid of bogus records
+    data = data.dropna(subset=["date"])
+    data = data[data["date"] >= "2020-01-01"]
+    data = data[data["date"] < str(datetime.date.today() + datetime.timedelta(days=2))]
+
+    # Aggregate data by state
+    state = (
+        data.drop(columns=["subregion2_code"])
+        .groupby(["date", "subregion1_code", "age", "sex"])
+        .sum()
+        .reset_index()
+    )
+    state["key"] = "BR_" + state["subregion1_code"]
+
+    # We can derive the key from subregion1 + subregion2
+    data = data[data["subregion2_code"].notna() & (data["subregion2_code"] != "")]
+    data["key"] = "BR_" + data["subregion1_code"] + "_" + data["subregion2_code"]
+
+    return concat([state, data])
+
+
 class BrazilStratifiedDataSource(DataSource):
     def fetch(
         self,
@@ -159,42 +259,21 @@ class BrazilStratifiedDataSource(DataSource):
         fetch_opts: List[Dict[str, Any]],
         skip_existing: bool = False,
     ) -> Dict[str, str]:
-        # The source URL is a template which we must format for the requested state
-        parse_opts = self.config["parse"]
-        code = parse_opts["subregion1_code"].lower()
 
-        # Some datasets are split into "volumes" so we try to guess the URL
-        base_opts = dict(fetch_opts[0])
-        url_tpl = base_opts.pop("url")
-        fetch_opts = [{"url": url_tpl.format(f"{code}-{idx}"), **base_opts} for idx in range(1, 10)]
-
-        # Since we are guessing the URL, we forgive errors in the download
         output = {}
-        for idx, source_config in enumerate(fetch_opts):
-            url = source_config["url"]
-            name = source_config.get("name", idx)
-            download_opts = source_config.get("opts", {})
-            try:
-                self.log_debug(f"Downloading {url}...")
-                output[name] = download_snapshot(
-                    url, output_folder, skip_existing=skip_existing, **download_opts
-                )
-            except:
-                self.log_warning(f"Failed to download URL {url}")
-                break
+        download_options = dict(fetch_opts[0], skip_existing=skip_existing)
+        url_tpl = download_options.pop("url")
+        map_opts = dict(desc="Downloading Brazil Open Data")
+        map_iter = [code.lower() for code in _IBGE_STATES.values()]
+        map_func = partial(_download_open_data, self, url_tpl, output_folder, **download_options)
+        for partial_output in thread_map(map_func, map_iter, **map_opts):
+            output.update(partial_output)
 
-        # Filter out empty files, which can happen if download fails in an unexpected way
-        output = {name: path for name, path in output.items() if Path(path).stat().st_size > 0}
-
-        # If the output is not split into volumes, fall back to single file URL
-        if output:
-            return output
-        else:
-            fetch_opts = [{"url": url_tpl.format(code), **base_opts}]
-            return super().fetch(output_folder, cache, fetch_opts, skip_existing=skip_existing)
+        return output
 
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
-        # Manipulate the parse options here because we have access to the columns adapter
+        # Manipulate the parse options here because we have access to the columns adapter and we
+        # can then limit the columns being read to save space.
         parse_opts = {
             **dict(parse_opts),
             "error_bad_lines": False,
@@ -206,90 +285,16 @@ class BrazilStratifiedDataSource(DataSource):
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
 
-        # Subregion code comes from the parsing parameters
-        subregion1_code = parse_opts["subregion1_code"]
+        # Partition dataframes based on the state the data is for
+        partitions = {code: [] for code in _IBGE_STATES.values()}
+        for df in dataframes.values():
+            df = table_rename(df, _column_adapter, drop=True)
+            apply_func = lambda x: _IBGE_STATES.get(safe_int_cast(x))
+            df["subregion1_code"] = df["_state_code"].apply(apply_func)
+            for code, group in df.groupby("subregion1_code"):
+                partitions[code].append(group)
 
-        # Join all input data into a single table
-        cases = table_rename(concat(dataframes.values()), _column_adapter, drop=True)
-
-        # Keep only cases for a single state
-        cases = cases[cases["_state_code"].apply(safe_int_cast) == _IBGE_STATES[subregion1_code]]
-
-        # Confirmed cases are only those with a confirmed positive test result
-        cases["date_new_confirmed"] = None
-        confirmed_mask = cases["_test_result"] == "Positivo"
-        cases.loc[confirmed_mask, "date_new_confirmed"] = cases.loc[
-            confirmed_mask, "date_new_tested"
-        ]
-
-        # Deceased cases have a specific label and the date is the "closing" date
-        cases["date_new_deceased"] = None
-        deceased_mask = cases["_prognosis"] == "Óbito"
-        cases.loc[deceased_mask, "date_new_deceased"] = cases.loc[deceased_mask, "_date_update"]
-
-        # Only count deceased cases from confirmed subjects
-        cases.loc[~confirmed_mask, "date_new_deceased"] = None
-
-        # Recovered cases have a specific label and the date is the "closing" date
-        cases["date_new_recovered"] = None
-        recovered_mask = cases["_prognosis"] == "Cured"
-        cases.loc[recovered_mask, "date_new_recovered"] = cases.loc[recovered_mask, "_date_update"]
-
-        # Only count recovered cases from confirmed subjects
-        cases.loc[~confirmed_mask, "date_new_recovered"] = None
-
-        # Drop columns which we have no use for
-        cases = cases[[col for col in cases.columns if not col.startswith("_")]]
-
-        # Make sure our region code is of type str
-        cases["subregion2_code"] = cases["subregion2_code"].apply(safe_int_cast)
-        # The last digit of the region code is actually not necessary
-        cases["subregion2_code"] = cases["subregion2_code"].apply(
-            lambda x: None if isna(x) else str(int(x))[:-1]
-        )
-
-        # Null and unknown records are state only
-        subregion2_null_mask = cases["subregion2_code"].isna()
-        cases.loc[subregion2_null_mask, "key"] = "BR_" + subregion1_code
-
-        # We can derive the key from subregion1 + subregion2
-        cases.loc[~subregion2_null_mask, "key"] = (
-            "BR_" + subregion1_code + "_" + cases.loc[~subregion2_null_mask, "subregion2_code"]
-        )
-
-        # Convert ages to int, and translate sex (no "other" sex/gender reported)
-        cases["age"] = cases["age"].apply(safe_int_cast)
-        cases["sex"] = (
-            cases["sex"]
-            .str.lower()
-            .apply({"masculino": "male", "feminino": "female", "indefinido": None}.get)
-        )
-
-        # Convert to time series format
-        data = convert_cases_to_time_series(cases, index_columns=["key"])
-
-        # Convert date to ISO format
-        data["date"] = data["date"].str.slice(0, 10)
-        data["date"] = data["date"].apply(lambda x: datetime_isoformat(x, "%Y-%m-%d"))
-
-        # Get rid of bogus records
-        data = data.dropna(subset=["date"])
-        data = data[data["date"] >= "2020-01-01"]
-
-        # Aggregate for the whole state
-        state = data.drop(columns=["key"]).groupby(["date", "age", "sex"]).sum().reset_index()
-        state["key"] = "BR_" + subregion1_code
-
-        return concat([data, state])
-
-
-class BrazilAggregatorDataSource(DataSource):
-    def parse_dataframes(
-        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
-    ) -> DataFrame:
-        data = dataframes[0].rename(columns={"location_key": "key"})
-        data = data[data["key"].str.startswith("BR_")]
-        data = data[data["key"].apply(lambda x: len(x.split("_")) == 2)]
-        data["date"] = data["date"].apply(lambda x: datetime_isoformat(x, "%Y-%m-%d"))
-        data["key"] = "BR"
-        return table_groupby_sum(data, ["date", "key"])
+        # Process each partition in separate threads
+        map_opts = dict(desc="Processing Partitions", total=len(partitions))
+        map_iter = (concat(chunks) for chunks in partitions.values())
+        return concat(process_map(_process_partition, map_iter, **map_opts))
