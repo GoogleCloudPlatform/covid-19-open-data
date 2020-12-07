@@ -117,16 +117,6 @@ schema:
   total_hospitalized_age_07: int
   total_hospitalized_age_08: int
   total_hospitalized_age_09: int
-  current_hospitalized_age_00: int
-  current_hospitalized_age_01: int
-  current_hospitalized_age_02: int
-  current_hospitalized_age_03: int
-  current_hospitalized_age_04: int
-  current_hospitalized_age_05: int
-  current_hospitalized_age_06: int
-  current_hospitalized_age_07: int
-  current_hospitalized_age_08: int
-  current_hospitalized_age_09: int
   new_intensive_care_age_00: int
   new_intensive_care_age_01: int
   new_intensive_care_age_02: int
@@ -147,16 +137,6 @@ schema:
   total_intensive_care_age_07: int
   total_intensive_care_age_08: int
   total_intensive_care_age_09: int
-  current_intensive_care_age_00: int
-  current_intensive_care_age_01: int
-  current_intensive_care_age_02: int
-  current_intensive_care_age_03: int
-  current_intensive_care_age_04: int
-  current_intensive_care_age_05: int
-  current_intensive_care_age_06: int
-  current_intensive_care_age_07: int
-  current_intensive_care_age_08: int
-  current_intensive_care_age_09: int
   new_ventilator_age_00: int
   new_ventilator_age_01: int
   new_ventilator_age_02: int
@@ -177,16 +157,6 @@ schema:
   total_ventilator_age_07: int
   total_ventilator_age_08: int
   total_ventilator_age_09: int
-  current_ventilator_age_00: int
-  current_ventilator_age_01: int
-  current_ventilator_age_02: int
-  current_ventilator_age_03: int
-  current_ventilator_age_04: int
-  current_ventilator_age_05: int
-  current_ventilator_age_06: int
-  current_ventilator_age_07: int
-  current_ventilator_age_08: int
-  current_ventilator_age_09: int
   age_bin_00: str
   age_bin_01: str
   age_bin_02: str

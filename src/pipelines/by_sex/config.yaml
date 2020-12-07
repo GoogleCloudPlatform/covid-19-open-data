@@ -37,20 +37,14 @@ schema:
   new_hospitalized_female: int
   total_hospitalized_male: int
   total_hospitalized_female: int
-  current_hospitalized_male: int
-  current_hospitalized_female: int
   new_intensive_care_male: int
   new_intensive_care_female: int
   total_intensive_care_male: int
   total_intensive_care_female: int
-  current_intensive_care_male: int
-  current_intensive_care_female: int
   new_ventilator_male: int
   new_ventilator_female: int
   total_ventilator_male: int
   total_ventilator_female: int
-  current_ventilator_male: int
-  current_ventilator_female: int
 
 auxiliary:
   metadata: ./data/metadata.csv
