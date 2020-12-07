@@ -221,9 +221,9 @@ class TestTableUtils(ProfiledTestCase):
         self.assertEqual("90-", age_group(100, bin_count=10, age_cutoff=90))
         self.assertEqual("90-", age_group(110, bin_count=10, age_cutoff=90))
         self.assertEqual("90-", age_group(1e9, bin_count=10, age_cutoff=90))
-        self.assertEqual(None, age_group(-1, bin_count=10, age_cutoff=90))
-        self.assertEqual(None, age_group(None, bin_count=10, age_cutoff=90))
-        self.assertEqual(None, age_group(numpy.nan, bin_count=10, age_cutoff=90))
+        self.assertRaises(ValueError, lambda: age_group(-1, bin_count=10, age_cutoff=90))
+        self.assertRaises(ValueError, lambda: age_group(None, bin_count=10, age_cutoff=90))
+        self.assertRaises(ValueError, lambda: age_group(numpy.nan, bin_count=10, age_cutoff=90))
 
     def test_infer_nothing(self):
 
