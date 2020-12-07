@@ -28,7 +28,7 @@ COMMON_COLUMNS = {
 }
 
 
-class AustriaLevel2DataSource(DataSource):
+class AustriaLevel1DataSource(DataSource):
     def parse_dataframes(
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
@@ -61,7 +61,7 @@ class AustriaLevel2DataSource(DataSource):
         return data
 
 
-class AustriaLevel3DataSource(DataSource):
+class AustriaLevel2DataSource(DataSource):
     def parse_dataframes(
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
@@ -73,7 +73,7 @@ class AustriaLevel3DataSource(DataSource):
             lambda x: datetime_isoformat(x, "%d.%m.%Y %H:%M:%S"))
 
         # Create the key from the district ID
-        data["key"] = data["GKZ"].apply(lambda x: f"AT_{x}")
+        data["key"] = data["GKZ"].apply(lambda x: f"AT_{x // 100}_{x}")
 
         # Output the results
         return data
