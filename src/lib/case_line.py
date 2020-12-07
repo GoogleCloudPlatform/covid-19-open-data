@@ -45,12 +45,15 @@ def _default_age_adapter(value: Any) -> str:
     if isna(value):
         return "age_unknown"
 
+    # If the value is already in the form of an age group, return as-is
+    if isinstance(value, str) and re.match(r"^\d+\-\d*$", value):
+        return value
+
+    # Otherwise assume it's a number and return the corresponding age group
     try:
         value_int = safe_int_cast(value)
         if value_int is not None:
             return age_group(value_int)
-        if re.match(r"\d+\-\d*", value):
-            return value
     except ValueError:
         pass
 
