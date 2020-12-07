@@ -235,6 +235,15 @@ def _process_partition(cases: DataFrame) -> DataFrame:
     data = data[data["date"] >= "2020-01-01"]
     data = data[data["date"] < str(datetime.date.today() + datetime.timedelta(days=2))]
 
+    # Aggregate data by country
+    country = (
+        data.drop(columns=["subregion1_code", "subregion2_code"])
+        .groupby(["date", "age", "sex"])
+        .sum()
+        .reset_index()
+    )
+    country["key"] = "BR"
+
     # Aggregate data by state
     state = (
         data.drop(columns=["subregion2_code"])
@@ -248,7 +257,7 @@ def _process_partition(cases: DataFrame) -> DataFrame:
     data = data[data["subregion2_code"].notna() & (data["subregion2_code"] != "")]
     data["key"] = "BR_" + data["subregion1_code"] + "_" + data["subregion2_code"]
 
-    return concat([state, data])
+    return concat([country, state, data])
 
 
 class BrazilOpenDataPortalDataSource(DataSource):

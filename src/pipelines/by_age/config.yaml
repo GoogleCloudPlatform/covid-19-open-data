@@ -197,8 +197,6 @@ sources:
       encoding: "ISO-8859-1"
       # This data source does not report zero values, so we fill them in
       fill_with_zeroes: ['new_[^_]+_age_.+']
-    aggregate:
-      subregion1: ['new_[^_]+_age_.+']
     test:
       location_key_match: 'BR.*'
       # Skip because it's too slow
