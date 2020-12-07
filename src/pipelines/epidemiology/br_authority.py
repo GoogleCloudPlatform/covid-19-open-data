@@ -193,13 +193,15 @@ def _process_partition(cases: DataFrame) -> DataFrame:
     confirmed_mask = cases["_test_result"] == "Positivo"
     cases.loc[confirmed_mask, "date_new_confirmed"] = cases.loc[confirmed_mask, "date_new_tested"]
 
-    # Deceased cases have a specific label and the date is the "closing" date
-    cases["date_new_deceased"] = None
-    deceased_mask = cases["_prognosis"] == "Óbito"
-    cases.loc[deceased_mask, "date_new_deceased"] = cases.loc[deceased_mask, "_date_update"]
+    # Do not process deceased counts, since they are considered highly inaccurate
 
-    # Only count deceased cases from confirmed subjects
-    cases.loc[~confirmed_mask, "date_new_deceased"] = None
+    # # Deceased cases have a specific label and the date is the "closing" date
+    # cases["date_new_deceased"] = None
+    # deceased_mask = cases["_prognosis"] == "Óbito"
+    # cases.loc[deceased_mask, "date_new_deceased"] = cases.loc[deceased_mask, "_date_update"]
+
+    # # Only count deceased cases from confirmed subjects
+    # cases.loc[~confirmed_mask, "date_new_deceased"] = None
 
     # Recovered cases have a specific label and the date is the "closing" date
     cases["date_new_recovered"] = None
