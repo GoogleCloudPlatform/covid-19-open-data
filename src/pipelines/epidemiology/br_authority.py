@@ -65,7 +65,7 @@ _IBGE_STATES = {
 }
 
 
-class BrazilMunicipalitiesDataSource(DataSource):
+class BrazilHealthMinistryDataSource(DataSource):
     def fetch(
         self,
         output_folder: Path,
@@ -141,7 +141,7 @@ class BrazilMunicipalitiesDataSource(DataSource):
         return data
 
 
-_column_adapter = {
+_open_data_portal_column_adapter = {
     "sexo": "sex",
     "idade": "age",
     "municipioIBGE": "subregion2_code",
@@ -251,7 +251,7 @@ def _process_partition(cases: DataFrame) -> DataFrame:
     return concat([state, data])
 
 
-class BrazilStratifiedDataSource(DataSource):
+class BrazilOpenDataPortalDataSource(DataSource):
     def fetch(
         self,
         output_folder: Path,
@@ -277,7 +277,7 @@ class BrazilStratifiedDataSource(DataSource):
         parse_opts = {
             **dict(parse_opts),
             "error_bad_lines": False,
-            "usecols": _column_adapter.keys(),
+            "usecols": _open_data_portal_column_adapter.keys(),
         }
         return super().parse(sources, aux, **parse_opts)
 
@@ -288,7 +288,7 @@ class BrazilStratifiedDataSource(DataSource):
         # Partition dataframes based on the state the data is for
         partitions = {code: [] for code in _IBGE_STATES.values()}
         for df in dataframes.values():
-            df = table_rename(df, _column_adapter, drop=True)
+            df = table_rename(df, _open_data_portal_column_adapter, drop=True)
             apply_func = lambda x: _IBGE_STATES.get(safe_int_cast(x))
             df["subregion1_code"] = df["_state_code"].apply(apply_func)
             for code, group in df.groupby("subregion1_code"):
@@ -298,3 +298,80 @@ class BrazilStratifiedDataSource(DataSource):
         map_opts = dict(desc="Processing Partitions", total=len(partitions))
         map_iter = (concat(chunks) for chunks in partitions.values())
         return concat(process_map(_process_partition, map_iter, **map_opts))
+
+
+_srag_column_adapter = {
+    "DT_NOTIFIC": "date_new_hospitalized",
+    "DT_ENTUTI": "date_new_intensive_care",
+    "DT_EVOLUCA": "_date_prognosis",
+    "CLASSI_FIN": "_classification",
+    "EVOLUCAO": "_prognosis",
+    "CS_SEXO": "sex",
+    "NU_IDADE_N": "age",
+    "CO_MUN_RES": "subregion2_code",
+}
+
+
+class BrazilSRAGDataSource(DataSource):
+    def parse_dataframes(
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
+    ) -> DataFrame:
+        cases = table_rename(dataframes[0], _srag_column_adapter, drop=True)
+        covid_mask = cases["_classification"] == 5
+        valid_mask = cases["_prognosis"].notna() & cases["_prognosis"] != 9
+        cases = cases[covid_mask & valid_mask]
+
+        # Record the date of death
+        cases["date_new_deceased"] = None
+        deceased_mask = cases["_prognosis"] == 2
+        cases.loc[deceased_mask, "date_new_deceased"] = cases.loc[deceased_mask, "_date_prognosis"]
+
+        # Convert ages to int, and translate sex (no "other" sex/gender reported)
+        cases["age"] = cases["age"].apply(safe_int_cast)
+        cases["sex"] = cases["sex"].apply({"M": "male", "F": "female"}.get)
+
+        # Convert all dates to ISO format
+        for col in filter(lambda x: x.startswith("date"), cases.columns):
+            cases[col] = cases[col].apply(lambda x: datetime_isoformat(x, "%d/%m/%Y"))
+
+        # Parse subregion codes
+        cases["subregion2_code"] = cases["subregion2_code"].apply(
+            lambda x: numeric_code_as_string(x, 5)
+        )
+
+        # Convert to time series format
+        data = convert_cases_to_time_series(cases, index_columns=["subregion2_code"])
+        data["country_code"] = "BR"
+
+        # Get rid of bogus records
+        data = data.dropna(subset=["date"])
+        data = data[data["date"] >= "2020-01-01"]
+        data = data[data["date"] < str(datetime.date.today() + datetime.timedelta(days=2))]
+
+        # Aggregate by country level
+        country = (
+            data.drop(columns=["subregion2_code"])
+            .groupby(["date", "age", "sex"])
+            .sum()
+            .reset_index()
+        )
+        country["key"] = "BR"
+
+        # Aggregate by state level
+        data["subregion1_code"] = data["subregion2_code"].apply(
+            lambda x: _IBGE_STATES.get(safe_int_cast(x[:2]))
+        )
+        state = (
+            data.drop(columns=["subregion2_code"])
+            .dropna(subset=["subregion1_code"])
+            .groupby(["date", "subregion1_code", "age", "sex"])
+            .sum()
+            .reset_index()
+        )
+        state["key"] = "BR_" + state["subregion1_code"]
+
+        # Derive the key from subregion codes
+        data = data[data["subregion2_code"].notna()]
+        data["key"] = "BR_" + data["subregion1_code"] + "_" + data["subregion2_code"]
+
+        return concat([country, state, data])
