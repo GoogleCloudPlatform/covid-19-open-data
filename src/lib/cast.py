@@ -114,7 +114,7 @@ def age_group(age: int, bin_count: int = 10, age_cutoff: int = 90) -> str:
     Categorical age group given a specific age, codified into a function to enforce consistency.
     """
     if pandas.isna(age) or age < 0:
-        return None
+        raise ValueError(f"Invalid age value: {age}")
 
     bin_size = age_cutoff // bin_count + 1
     if age >= age_cutoff:
