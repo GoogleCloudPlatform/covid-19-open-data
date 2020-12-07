@@ -66,9 +66,6 @@ class PhilippinesDataSource(DataSource):
             hospitalized_mask, "date_new_confirmed"
         ]
 
-        # Create stratified age bands
-        cases["age"] = cases["age"].apply(age_group)
-
         # Rename the sex values
         cases["sex"] = cases["sex"].apply({"MALE": "male", "FEMALE": "female"}.get)
 
