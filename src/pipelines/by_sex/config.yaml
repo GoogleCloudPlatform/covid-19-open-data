@@ -73,16 +73,32 @@ sources:
       deferred: true
 
   # Data sources for BR levels 1 + 2 + 3
-  - name: pipelines.epidemiology.br_authority.BrazilStratifiedDataSource
+  - name: pipelines.epidemiology.br_authority.BrazilOpenDataPortalDataSource
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
     parse:
-        sep: ";"
-        encoding: "ISO-8859-1"
-        # This data source does not report zero values, so we fill them in
-        fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
+      sep: ";"
+      encoding: "ISO-8859-1"
+      # This data source does not report zero values, so we fill them in
+      fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     aggregate:
-        subregion1: ['new_[^_]+_male', 'new_[^_]+_female']
+      subregion1: ['new_[^_]+_male', 'new_[^_]+_female']
+    test:
+      location_key_match: 'BR.*'
+      # Skip because it's too slow
+      skip: true
+    automation:
+      job_group: all
+      deferred: true
+
+  - name: pipelines.epidemiology.br_authority.BrazilSRAGDataSource
+    fetch:
+      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/SRAG/2020/INFLUD-30-11-2020.csv"
+    parse:
+      sep: ";"
+      encoding: "ISO-8859-1"
+      # This data source does not report zero values, so we fill them in
+      fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: 'BR.*'
       # Skip because it's too slow

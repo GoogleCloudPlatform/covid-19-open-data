@@ -171,8 +171,8 @@ sources:
       job_group: all
       deferred: true
 
-  # Data sources for BR levels 2 + 3
-  - name: pipelines.epidemiology.br_authority.BrazilMunicipalitiesDataSource
+  # Data sources for BR levels 1 + 2 + 3
+  - name: pipelines.epidemiology.br_authority.BrazilHealthMinistryDataSource
     test:
       location_key_match: 'BR_.+'
       # Skip because it's too slow
