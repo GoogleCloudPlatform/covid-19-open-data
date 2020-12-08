@@ -18,8 +18,17 @@ from lib.data_source import DataSource
 from lib.time import datetime_isoformat
 from lib.utils import table_merge
 
+COMMON_COLUMNS = {
+    "AnzahlFaelle": "new_confirmed",
+    "AnzahlFaelleSum": "total_confirmed",
+    "AnzahlTotTaeglich": "new_deceased",
+    "AnzahlTotSum": "total_deceased",
+    "AnzahlGeheiltTaeglich": "new_recovered",
+    "AnzahlGeheiltSum": "total_recovered",
+}
 
-class AustriaLevel2DataSource(DataSource):
+
+class AustriaLevel1DataSource(DataSource):
     def parse_dataframes(
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
@@ -27,14 +36,7 @@ class AustriaLevel2DataSource(DataSource):
         data = table_merge(
             [
                 dataframes["confirmed_deceased_recovered"].rename(
-                    columns={
-                        "AnzahlFaelle": "new_confirmed",
-                        "AnzahlFaelleSum": "total_confirmed",
-                        "AnzahlTotTaeglich": "new_deceased",
-                        "AnzahlTotSum": "total_deceased",
-                        "AnzahlGeheiltTaeglich": "new_recovered",
-                        "AnzahlGeheiltSum": "total_recovered",
-                    }
+                    columns=COMMON_COLUMNS,
                 ),
                 dataframes["tested"].rename(
                     columns={
@@ -54,6 +56,24 @@ class AustriaLevel2DataSource(DataSource):
         data["key"] = data["BundeslandID"].apply(lambda x: f"AT_{x}")
 
         data.loc[data["key"] == "AT_10", "key"] = "AT"
+
+        # Output the results
+        return data
+
+
+class AustriaLevel2DataSource(DataSource):
+    def parse_dataframes(
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
+    ) -> DataFrame:
+
+        data = dataframes[0].rename(columns=COMMON_COLUMNS)
+
+        # Convert date to ISO format
+        data["date"] = data["Time"].apply(
+            lambda x: datetime_isoformat(x, "%d.%m.%Y %H:%M:%S"))
+
+        # Create the key from the district ID
+        data["key"] = data["GKZ"].apply(lambda x: f"AT_{x // 100}_{x}")
 
         # Output the results
         return data

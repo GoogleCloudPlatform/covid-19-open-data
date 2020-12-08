@@ -19,7 +19,7 @@ AL035,,Vlorë
 AT,AT,Austria
 AT1,,Ostösterreich
 AT11,AT_1,Burgenland
-AT111,,Mittelburgenland
+AT111,AT_1_108,Mittelburgenland
 AT112,,Nordburgenland
 AT113,,Südburgenland
 AT12,AT_3,Niederösterreich
@@ -31,7 +31,7 @@ AT125,,Weinviertel
 AT126,,Wiener Umland/Nordteil
 AT127,,Wiener Umland/Südteil
 AT13,AT_9,Wien
-AT130,,Wien
+AT130,AT_9_900,Wien
 AT2,,Südösterreich
 AT21,AT_2,Kärnten
 AT211,,Klagenfurt-Villach
@@ -39,7 +39,7 @@ AT212,,Oberkärnten
 AT213,,Unterkärnten
 AT22,AT_6,Steiermark
 AT221,,Graz
-AT222,,Liezen
+AT222,AT_6_612,Liezen
 AT223,,Östliche Obersteiermark
 AT224,,Oststeiermark
 AT225,,West- und Südsteiermark
@@ -52,13 +52,13 @@ AT313,,Mühlviertel
 AT314,,Steyr-Kirchdorf
 AT315,,Traunviertel
 AT32,AT_5,Salzburg
-AT321,,Lungau
+AT321,AT_5_505,Lungau
 AT322,,Pinzgau-Pongau
 AT323,,Salzburg und Umgebung
 AT33,AT_7,Tirol
-AT331,,Außerfern
+AT331,AT_7_708,Außerfern
 AT332,,Innsbruck
-AT333,,Osttirol
+AT333,AT_7_707,Osttirol
 AT334,,Tiroler Oberland
 AT335,,Tiroler Unterland
 AT34,AT_8,Vorarlberg

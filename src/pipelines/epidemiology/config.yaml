@@ -93,8 +93,8 @@ sources:
       job_group: all
       deferred: true
 
-  # Data sources for AT levels 1 + 2
-  - name: pipelines.epidemiology.at_authority.AustriaLevel2DataSource
+  # Data sources for AT levels 0 + 1
+  - name: pipelines.epidemiology.at_authority.AustriaLevel1DataSource
     fetch:
       - name: "confirmed_deceased_recovered"
         url: "https://covid19-dashboard.ages.at/data/CovidFaelle_Timeline.csv"
@@ -104,7 +104,20 @@ sources:
       country: AT
       sep: ";"
     test:
-      location_key_match: 'AT_.+'
+      location_key_match: '^AT_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
+  # Data sources for AT level 2
+  - name: pipelines.epidemiology.at_authority.AustriaLevel2DataSource
+    fetch:
+      - url: "https://covid19-dashboard.ages.at/data/CovidFaelle_Timeline_GKZ.csv"
+    parse:
+      country: AT
+      sep: ";"
+    test:
+      location_key_match: '^AT_[^_]+_[^_]+$'
     automation:
       job_group: all
       deferred: true
