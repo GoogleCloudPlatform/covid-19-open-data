@@ -83,7 +83,7 @@ To start working with the dataset (or just explore), you can do the following:
 
 - Explore or download the data using our [interactive charts](https://pair-code.github.io/covid19_symptom_dataset).
 - Run queries in Google Cloud’s [COVID-19 Public Dataset Program](http://console.cloud.google.com/marketplace/product/bigquery-public-datasets/covid19-search-trends).
-- Clone or download the dataset from our [GitHub repository](http://goo.gle/covid19symptomdataset).
+- Analyze the data alongside other covariates in the [COVID-19 Open-Data repository](https://goo.gle/covid-19-open-data).
 
 We'll continue to update this dataset while public health experts find it useful in their work to stop the spread of COVID-19. We will also take into account feedback from public health researchers, civil society groups, and the communities at large.
 
