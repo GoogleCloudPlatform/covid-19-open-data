@@ -85,7 +85,7 @@ the schema will be filtered out in the final output.
 
 ### Data Flow Overview
 The following diagram summarizes the data flow architecture:
-![](./data/architecture.png)
+![](../docs/architecture.png)
 
 ### Google Cloud Infrastructure
 This project can be run locally and therefore it is agnostic to any specific infrastructure, but it
@@ -94,7 +94,7 @@ configuration files are checked in with the code, such as AppEngine's [app.yaml]
 This serves as a reference implementation for users of this code who might want to reproduce our
 infrastructure setup. Here is a brief overview of the different Google Cloud products used as part
 of this project:
-![](./data/infrastructure.png)
+![](../docs/infrastructure.png)
 
 ### Google Earth Engine
 Some data is computed using [Google Earth Engine](https://earthengine.google.com). The code used is
