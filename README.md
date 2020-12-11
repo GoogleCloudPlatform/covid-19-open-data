@@ -291,7 +291,8 @@ from the relevant authorities, like a country's ministry of health.
 | Haiti | [HDX](https://data.humdata.org/dataset/haiti-covid-19-subnational-cases) | [CC BY][28] |
 | India | [Wikipedia](https://en.wikipedia.org/wiki/Template:2019-20_coronavirus_pandemic_data/India_medical_cases) | [Attribution Required][24] |
 | India | [Covid 19 India Organisation](https://www.covid19india.org/) | [CC BY][29] |
-| Indonesia | <https://catchmeup.id/covid-19> | [Permission required](https://catchmeup.id/ketentuan-pelayanan) |
+| Indonesia | <https://covid19.go.id/peta-sebaran> | Public Domain |
+| Indonesia (2020 Census) | Central Bureau of Statistics | [Attribution required](https://www.bps.go.id/website/fileMenu/S&K.pdf) |
 | Italy | [Italy's Department of Civil Protection](https://github.com/pcm-dpc/COVID-19) | [CC BY](https://github.com/pcm-dpc/COVID-19/blob/master/LICENSE) |
 | Iraq | [HDX](https://data.humdata.org/dataset/iraq-coronavirus-covid-19-subnational-cases) | [CC BY][28] |
 | Japan | <https://github.com/swsoyee/2019-ncov-japan> | [MIT](https://github.com/swsoyee/2019-ncov-japan/blob/master/LICENSE) |
