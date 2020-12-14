@@ -77,7 +77,7 @@ V3_TABLE_LIST = (
     "health",
     "mobility",
     "oxford-government-response",
-    "search-trends-daily",
+    "google-search-trends",
     "weather",
 )
 
