@@ -52,9 +52,8 @@ To normalize and scale the daily and the weekly time series (processed separatel
 For each region and time resolution, we scale all the normalized popularities using the same scaling factor. In a single region, you can compare the relative popularity of two (or more) symptoms (at the same time resolution) over any time interval. However, you should not compare the values of symptom popularity across regions or time resolutions — the region and time resolution specific scalings make these comparisons meaningless.
 
 ## URL
-This data table can be found at the following locations depending on the format and how it is aggregated:
-* [search-trends-daily.csv](https://storage.googleapis.com/covid19-open-data/v2/search-trends-daily.csv)
-* [search-trends-weekly.csv](https://storage.googleapis.com/covid19-open-data/v2/search-trends-weekly.csv)
+This data table can be found at the following locations:
+* [google-search-trends.csv](https://storage.googleapis.com/covid19-open-data/v2/google-search-trends.csv)
 
 ## Schema
 | Name | Type | Description | Example |
