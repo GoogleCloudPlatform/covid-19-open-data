@@ -1063,15 +1063,6 @@ sources:
       deferred: true
 
   # Data sources for US levels 2 + 3
-  - name: pipelines.epidemiology.us_covidtracking.CovidTrackingDataSource
-    fetch:
-      - url: "https://covidtracking.com/api/v1/states/daily.csv"
-    test:
-      location_key_match: 'US_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
-
   - name: pipelines.epidemiology.us_nyt_covid.NytCovidL2DataSource
     fetch:
       - url: "https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv"
@@ -1102,6 +1093,16 @@ sources:
       location_key_match: '^US_.+$'
       # Skip test because it runs out of memory on GitHub Actions
       skip: true
+    automation:
+      job_group: all
+      deferred: true
+
+  # We prioritize covid tracking data over CDC since their testing data is more reliable
+  - name: pipelines.epidemiology.us_covidtracking.CovidTrackingDataSource
+    fetch:
+      - url: "https://covidtracking.com/api/v1/states/daily.csv"
+    test:
+      location_key_match: 'US_[^_]+$'
     automation:
       job_group: all
       deferred: true
