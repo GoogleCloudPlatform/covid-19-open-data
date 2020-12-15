@@ -331,19 +331,16 @@ def publish_location_aggregates(
     return list(pbar(map(map_func, map_iter), **map_opts))
 
 
-def publish_global_tables(
-    tables_folder: Path, output_folder: Path, use_table_names: List[str] = None
-) -> None:
+def publish_global_tables(tables_folder: Path, output_folder: Path) -> None:
     """
     Copy all the tables from `tables_folder` into `output_folder` converting the column names to the
-    latest schema, and join all the tables into a single main.csv file.
+    latest schema.
 
     Arguments:
         tables_folder: Input directory containing tables as CSV files.
         output_folder: Directory where the output tables will be written.
     """
-    # Default to a known list of tables to use when none is given
-    table_paths = _get_tables_in_folder(tables_folder, use_table_names or V2_TABLE_LIST)
+    table_paths = list(tables_folder.glob("*.csv"))
 
     with temporary_directory() as workdir:
 
@@ -384,7 +381,7 @@ def main(output_folder: Path, tables_folder: Path, use_table_names: List[str] = 
     output_folder.mkdir(exist_ok=True, parents=True)
 
     # Publish the tables containing all location keys
-    publish_global_tables(tables_folder, output_folder, use_table_names=use_table_names)
+    publish_global_tables(tables_folder, output_folder)
 
     # Create a temporary folder which will host all the location breakouts
     with temporary_directory() as breakout_folder:
