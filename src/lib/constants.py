@@ -130,10 +130,6 @@ OUTPUT_COLUMN_ADAPTER = {
     "maximum_temperature": "maximum_temperature_celsius",
     "rainfall": "rainfall_millimeters",
     "snowfall": "snowfall_millimeters",
-    # By Sex
-    "total_confirmed_male": "cumulative_confirmed_male",
-    "total_confirmed_female": "cumulative_confirmed_female",
-    "total_confirmed_sex_other": "cumulative_confirmed_sex_other",
     # By Age
     "age_bin_00": "age_bin_0",
     "age_bin_01": "age_bin_1",
@@ -149,13 +145,20 @@ OUTPUT_COLUMN_ADAPTER = {
         f"{statistic}_age_{idx:02d}": f"{statistic.replace('total', 'cumulative')}_age_{idx:01d}"
         for idx in range(10)
         for statistic in (
-            "new_confirmed",
-            "new_deceased",
-            "new_recovered",
-            "new_tested",
-            "new_hospitalized",
-            "new_intensive_care",
-            "new_ventilator",
+            "total_confirmed",
+            "total_deceased",
+            "total_recovered",
+            "total_tested",
+            "total_hospitalized",
+            "total_intensive_care",
+            "total_ventilator",
+        )
+    },
+    # By Sex
+    **{
+        f"{statistic}_{sex}": f"{statistic.replace('total', 'cumulative')}_{sex}"
+        for sex in ("male", "female", "sex_other")
+        for statistic in (
             "total_confirmed",
             "total_deceased",
             "total_recovered",
