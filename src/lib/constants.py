@@ -112,10 +112,10 @@ OUTPUT_COLUMN_ADAPTER = {
     "gdp": "gdp_usd",
     "gdp_per_capita": "gdp_per_capita_usd",
     # Geography table
-    "elevation": "elevation_meters",
-    "area": "area_squared_kilometers",
-    "rural_area": "rural_area_squared_kilometers",
-    "urban_area": "urban_area_squared_kilometers",
+    "elevation": "elevation_m",
+    "area": "area_sq_km",
+    "rural_area": "area_rural_sq_km",
+    "urban_area": "area_urban_sq_km",
     # Health
     "hospital_beds": "hospital_beds_per_1000",
     "nurses": "nurses_per_1000",
@@ -128,8 +128,8 @@ OUTPUT_COLUMN_ADAPTER = {
     "average_temperature": "average_temperature_celsius",
     "minimum_temperature": "minimum_temperature_celsius",
     "maximum_temperature": "maximum_temperature_celsius",
-    "rainfall": "rainfall_millimeters",
-    "snowfall": "snowfall_millimeters",
+    "rainfall": "rainfall_mm",
+    "snowfall": "snowfall_mm",
     # By Age
     "age_bin_00": "age_bin_0",
     "age_bin_01": "age_bin_1",
