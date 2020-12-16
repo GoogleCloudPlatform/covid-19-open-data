@@ -486,7 +486,7 @@ def publish_v3_global_tables() -> Response:
         download_folder(GCS_BUCKET_TEST, "tables", tables_folder)
 
         # Publish the tables containing all location keys
-        publish_global_tables(tables_folder, public_folder, use_table_names=V3_TABLE_LIST)
+        publish_global_tables(tables_folder, public_folder)
         logger.log_info("Global tables created")
 
         # Upload the results to the prod bucket
