@@ -112,7 +112,7 @@ class TestPublish(ProfiledTestCase):
         with temporary_directory() as workdir:
 
             # Copy all test tables into the temporary directory
-            publish_global_tables(SRC / "test" / "data", workdir, use_table_names=V3_TABLE_LIST)
+            publish_global_tables(SRC / "test" / "data", workdir)
 
             # Create the main table
             main_table_path = workdir / "main.csv"

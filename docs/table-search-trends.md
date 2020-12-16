@@ -59,9 +59,8 @@ For each region and time resolution, we scale all the normalized popularities us
 
 ## URL
 
-This data table can be found at the following locations depending on the format and how it is aggregated:
-* [search-trends-daily.csv](https://storage.googleapis.com/covid19-open-data/v2/search-trends-daily.csv)
-* [search-trends-weekly.csv](https://storage.googleapis.com/covid19-open-data/v2/search-trends-weekly.csv)
+This data table can be found at the following locations:
+* [google-search-trends.csv](https://storage.googleapis.com/covid19-open-data/v2/google-search-trends.csv)
 
 Regional CSV files are available for download in our [data exploration and download webpage](https://pair-code.github.io/covid19_symptom_dataset).
 
