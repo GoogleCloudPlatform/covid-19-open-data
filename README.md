@@ -339,6 +339,7 @@ from the relevant authorities, like a country's ministry of health.
 | USA (New York) | [New York City Health Department](https://www1.nyc.gov/site/doh/covid/covid-19-data.page) | [Public Domain](https://www1.nyc.gov/home/terms-of-use.page) |
 | USA (San Francisco) | [SF Open Data](https://data.sfgov.org/stories/s/dak2-gvuj) | [Public Domain Dedication and License](https://datasf.org/opendata/terms-of-use/#toc8) |
 | USA (Texas) | [Texas Department of State Health Services](https://dshs.texas.gov) | [Attribution required](https://dshs.texas.gov/policy/copyright.shtm) |
+| USA (Washington) | [Washington State Department of Health](https://www.doh.wa.gov/Emergencies/COVID19/DataDashboard) | [Public Domain](https://www.doh.wa.gov/PrivacyandCopyright) |
 | Venezuela | [HDX](https://data.humdata.org/dataset/corona-virus-covid-19-cases-and-deaths-in-venezuela) | [CC BY][28] |
 
 </details>

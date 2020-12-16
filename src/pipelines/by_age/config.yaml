@@ -484,3 +484,16 @@ sources:
     automation:
       job_group: all
       deferred: true
+
+  # Data sources for US_WA level 2
+  # Only present in by-age table because the data is not updated daily
+  - name: pipelines.epidemiology.us_wa_authority.WashingtonDataSource
+    fetch:
+      - url: "https://www.doh.wa.gov/Portals/1/Documents/1600/coronavirus/data-tables/PUBLIC_CDC_Event_Date_SARS.xlsx"
+    parse:
+      sheet_name: ['Cases', 'Deaths']
+    test:
+      location_key_match: '^US_WA_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
