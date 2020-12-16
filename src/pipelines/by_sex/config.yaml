@@ -85,7 +85,7 @@ sources:
 
   - name: pipelines.epidemiology.br_authority.BrazilSRAGDataSource
     fetch:
-      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/SRAG/2020/INFLUD-30-11-2020.csv"
+      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/SRAG/2020/INFLUD-07-12-2020.csv"
     parse:
       sep: ";"
       encoding: "ISO-8859-1"
