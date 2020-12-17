@@ -398,6 +398,18 @@ sources:
       job_group: all
       deferred: true
 
+  # Data sources for TH level 0
+  - name: pipelines.epidemiology.th_authority.ThailandCountryDataSource
+    fetch:
+      - url: "https://covid19.th-stat.com/api/open/timeline"
+        opts:
+          ext: json
+    test:
+      location_key_match: '^TH$'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for US level 2
   - name: pipelines.epidemiology.us_covidtracking.CovidTrackingDataSource
     fetch:

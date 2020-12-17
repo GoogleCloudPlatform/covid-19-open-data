@@ -279,6 +279,22 @@ sources:
       job_group: all
       deferred: true
 
+  # Data sources for TH levels 0 + 1
+  - name: pipelines.epidemiology.th_authority.ThailandCasesDataSource
+    fetch:
+      - url: "https://data.go.th/dataset/8a956917-436d-4afd-a2d4-59e4dd8e906e/resource/24ac8406-0cf9-4f8e-a55e-b53cf6766d1a/download/pm-covid19-adj.xlsx"
+    parse:
+      dtype: str
+      # This data source does not report zero values, so we fill them in
+      fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
+    test:
+      location_key_match:
+        - '^TH$'
+        - '^TH_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for US_DC level 2
   - name: pipelines.epidemiology.us_dc_authority.DistrictColumbiaDataSource
     fetch:
