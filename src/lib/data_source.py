@@ -89,6 +89,7 @@ class DataSource(ErrorLogger):
                 src["url"],
                 output_folder,
                 skip_existing=skip_existing,
+                logger=self,
                 **src.get("opts", {}),
             )
             for src in fetch_opts

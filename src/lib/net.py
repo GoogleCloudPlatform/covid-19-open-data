@@ -12,12 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import datetime
 import uuid
 from pathlib import Path
 from typing import BinaryIO, Union, List
 
 import requests
 from .concurrent import thread_map
+from .error_logger import ErrorLogger
 from .io import pbar, open_file_like
 
 
@@ -27,7 +29,9 @@ def download_snapshot(
     ext: str = None,
     skip_existing: bool = False,
     ignore_failure: bool = False,
-    **download_opts
+    date_format: str = None,
+    logger: ErrorLogger = ErrorLogger(),
+    **download_opts,
 ) -> str:
     """
     This function downloads a file into the snapshots folder and outputs the
@@ -42,13 +46,16 @@ def download_snapshot(
         skip_existing: If true, skip download and simply return the deterministic path where this
             file would have been downloaded. If the file does not exist, this flag is ignored.
         ignore_failure: If true, return `None` instead of raising an exception in case of failure.
+        date_format: Use the provided date format and treat the URL as a template to try different
+            dates in decreasing order until one works.
+        logger: ErrorLogger instance to use for logging of events.
+        ignore_failure: If true, return `None` instead of raising an exception in case of failure.
         download_opts: Keyword arguments passed to the `download` function.
 
     Returns:
         str: Absolute path where this file was downloaded. This is a deterministic output; the same
             URL will always produce the same output path.
     """
-
     # Create the snapshots folder if it does not exist
     (output_folder / "snapshot").mkdir(parents=True, exist_ok=True)
 
@@ -57,22 +64,83 @@ def download_snapshot(
         ext = url.split(".")[-1]
     file_path = output_folder / "snapshot" / ("%s.%s" % (uuid.uuid5(uuid.NAMESPACE_DNS, url), ext))
 
-    # Only download the file if skip_existing flag is not present
-    # The skip_existing flag is ignored if the file does not already exist
-    if not skip_existing or not file_path.exists():
-        with open(file_path, "wb") as file_handle:
-            try:
-                download(url, file_handle, **download_opts)
-            except Exception as exc:
-                # In case of failure, delete the file
-                file_path.unlink()
-                if ignore_failure:
-                    return None
-                else:
-                    raise exc
+    # If we are told to skip download and the file already exist, early exit
+    if skip_existing and file_path.exists():
+        return str(file_path.absolute())
+
+    # When a date format is given, it means the URL is a template
+    elif date_format is not None:
+        return _download_snapshot_try_date(
+            url,
+            file_path,
+            ignore_failure=ignore_failure,
+            date_format=date_format,
+            logger=logger,
+            **download_opts,
+        )
+
+    # If we don't have a date format, it means we don't need to manipulate the URL
+    else:
+        return _download_snapshot_simple(
+            url, file_path, ignore_failure=ignore_failure, logger=logger, **download_opts
+        )
+
+
+def _download_snapshot_simple(
+    url: str,
+    file_path: Path,
+    ignore_failure: bool = False,
+    logger: ErrorLogger = ErrorLogger(),
+    **download_opts,
+) -> str:
+    """See: download_snapshot for argument descriptions."""
+    with open(file_path, "wb") as file_handle:
+        try:
+            logger.log_info(f"Downloading {url}")
+            download(url, file_handle, **download_opts)
+        except Exception as exc:
+            # In case of failure, delete the file
+            file_path.unlink()
+            if ignore_failure:
+                return None
+            else:
+                raise exc
 
     # Output the downloaded file path
     return str(file_path.absolute())
+
+
+def _download_snapshot_try_date(
+    url: str,
+    file_path: Path,
+    ignore_failure: bool = False,
+    date_format: str = None,
+    logger: ErrorLogger = ErrorLogger(),
+    **download_opts,
+) -> str:
+    """
+    Same as `_download_snapshot_simple` but trying to replace {date} in the URL with dates between
+    today and 2020-01-01 until one works.
+    """
+    cur_date = datetime.date.today()
+    min_date = datetime.date.fromisoformat("2020-01-01")
+    while cur_date >= min_date:
+        try:
+            date_str = cur_date.strftime(date_format)
+            return _download_snapshot_simple(
+                url.format(date=date_str),
+                file_path,
+                ignore_failure=ignore_failure,
+                logger=logger,
+                **download_opts,
+            )
+        except requests.exceptions.HTTPError:
+            cur_date -= datetime.timedelta(days=1)
+
+    if ignore_failure:
+        return None
+    else:
+        raise RuntimeError(f"No working URL found: {url}")
 
 
 def download(

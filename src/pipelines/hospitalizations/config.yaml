@@ -74,7 +74,9 @@ sources:
   # Data sources for BR levels 1 + 2 + 3
   - name: pipelines.epidemiology.br_authority.BrazilSRAGDataSource
     fetch:
-      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/SRAG/2020/INFLUD-07-12-2020.csv"
+      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/SRAG/2020/INFLUD-{date}.csv"
+        opts:
+          date_format: '%d-%m-%Y'
     parse:
       sep: ";"
       encoding: "ISO-8859-1"
