@@ -304,6 +304,7 @@ from the relevant authorities, like a country's ministry of health.
 | Mexico | [Secretaría de Salud Mexico](https://coronavirus.gob.mx/) | [Attribution Required](https://datos.gob.mx/libreusomx) |
 | Mexico (2010 Census) | [INEGI](https://www.inegi.org.mx/programas/ccpv/2010/default.html) | [Attribution Required](https://datos.gob.mx/libreusomx) |
 | Netherlands | [RIVM](https://data.rivm.nl/covid-19) | [Public Domain](https://databronnencovid19.nl/Disclaimer) |
+| New Zealand | [Ministry of Health](https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-data-and-statistics) | [CC-BY](https://www.health.govt.nz/about-site/copyright) |
 | Norway | [COVID19 EU Data](https://github.com/covid19-eu-zh/covid19-eu-data) | [MIT](https://github.com/covid19-eu-zh/covid19-eu-data/issues/57) |
 | Pakistan | [Wikipedia](https://en.wikipedia.org/wiki/Template:2019-20_coronavirus_pandemic_data/Pakistan_medical_cases) | [Attribution Required][24] |
 | Peru | [Datos Abiertos Peru](https://www.datosabiertos.gob.pe/group/datos-abiertos-de-covid-19) | [ODC BY][31] |
