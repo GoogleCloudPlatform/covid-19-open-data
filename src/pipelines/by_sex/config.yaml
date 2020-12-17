@@ -179,6 +179,22 @@ sources:
       job_group: all
       deferred: true
 
+  # Data sources for EE levels 0 + 1
+  - name: pipelines.epidemiology.ee_authority.EstoniaDataSource
+    fetch:
+      - url: "https://opendata.digilugu.ee/opendata_covid19_test_results.csv"
+    parse:
+      dtype: str
+      # This data source does not report zero values, so we fill them in
+      fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
+    test:
+      location_key_match:
+        - '^EE+$'
+        - '^EE_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for ES_CT levels 2 + 3
   - name: pipelines.epidemiology.es_ct_authority.CataloniaMunicipalitiesDataSource
     fetch:
