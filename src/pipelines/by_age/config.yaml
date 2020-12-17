@@ -288,6 +288,19 @@ sources:
       job_group: all
       deferred: true
 
+  # Data sources for DE levels 0 + 1 + 2
+  - name: pipelines.epidemiology.de_authority.GermanyDataSource
+    fetch:
+      - url: "https://opendata.arcgis.com/datasets/dd4580c810204019a7b8eb3e0b329dd6_0.csv"
+    test:
+      location_key_match:
+        - '^DE$'
+        - '^DE_[^_]+$'
+        - '^DE_[^_]+_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for ES_CT levels 2
   - name: pipelines.epidemiology.es_ct_authority.CataloniaHealthDeptDataSource
     fetch:

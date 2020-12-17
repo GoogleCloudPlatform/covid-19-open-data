@@ -226,459 +226,459 @@ CZ080,,Moravskoslezský kraj
 DE,DE,Germany
 DE1,DE_BW,Baden-Württemberg
 DE11,,Stuttgart
-DE111,,Stuttgart Stadtkreis
-DE112,,Böblingen
-DE113,,Esslingen
-DE114,,Göppingen
-DE115,,Ludwigsburg
-DE116,,Rems-Murr-Kreis
-DE117,,Heilbronn Stadtkreis
-DE118,,Heilbronn Landkreis
-DE119,,Hohenlohekreis
-DE11A,,Schwäbisch Hall
-DE11B,,Main-Tauber-Kreis
-DE11C,,Heidenheim
-DE11D,,Ostalbkreis
+DE111,DE_BW_08111,Stuttgart Stadtkreis
+DE112,DE_BW_08115,Böblingen
+DE113,DE_BW_08116,Esslingen
+DE114,DE_BW_08117,Göppingen
+DE115,DE_BW_08118,Ludwigsburg
+DE116,DE_BW_08119,Rems-Murr-Kreis
+DE117,DE_BW_08121,Heilbronn Stadtkreis
+DE118,DE_BW_08125,Heilbronn Landkreis
+DE119,DE_BW_08126,Hohenlohekreis
+DE11A,DE_BW_08127,Schwäbisch Hall
+DE11B,DE_BW_08128,Main-Tauber-Kreis
+DE11C,DE_BW_08135,Heidenheim
+DE11D,DE_BW_08136,Ostalbkreis
 DE12,,Karlsruhe
-DE121,,Baden-Baden Stadtkreis
-DE122,,Karlsruhe Stadtkreis
-DE123,,Karlsruhe Landkreis
-DE124,,Rastatt
-DE125,,Heidelberg Stadtkreis
-DE126,,Mannheim Stadtkreis
-DE127,,Neckar-Odenwald-Kreis
-DE128,,Rhein-Neckar-Kreis
-DE129,,Pforzheim Stadtkreis
-DE12A,,Calw
-DE12B,,Enzkreis
-DE12C,,Freudenstadt
+DE121,DE_BW_08211,Baden-Baden Stadtkreis
+DE122,DE_BW_08212,Karlsruhe Stadtkreis
+DE123,DE_BW_08215,Karlsruhe Landkreis
+DE124,DE_BW_08216,Rastatt
+DE125,DE_BW_08221,Heidelberg Stadtkreis
+DE126,DE_BW_08222,Mannheim Stadtkreis
+DE127,DE_BW_08225,Neckar-Odenwald-Kreis
+DE128,DE_BW_08226,Rhein-Neckar-Kreis
+DE129,DE_BW_08231,Pforzheim Stadtkreis
+DE12A,DE_BW_08235,Calw
+DE12B,DE_BW_08236,Enzkreis
+DE12C,DE_BW_08237,Freudenstadt
 DE13,,Freiburg
-DE131,,Freiburg im Breisgau Stadtkreis
-DE132,,Breisgau-Hochschwarzwald
-DE133,,Emmendingen
-DE134,,Ortenaukreis
-DE135,,Rottweil
-DE136,,Schwarzwald-Baar-Kreis
-DE137,,Tuttlingen
-DE138,,Konstanz
-DE139,,Lörrach
-DE13A,,Waldshut
+DE131,DE_BW_08311,Freiburg im Breisgau Stadtkreis
+DE132,DE_BW_08315,Breisgau-Hochschwarzwald
+DE133,DE_BW_08316,Emmendingen
+DE134,DE_BW_08317,Ortenaukreis
+DE135,DE_BW_08325,Rottweil
+DE136,DE_BW_08326,Schwarzwald-Baar-Kreis
+DE137,DE_BW_08327,Tuttlingen
+DE138,DE_BW_08335,Konstanz
+DE139,DE_BW_08336,Lörrach
+DE13A,DE_BW_08337,Waldshut
 DE14,,Tübingen
-DE141,,Reutlingen
-DE142,,Tübingen Landkreis
-DE143,,Zollernalbkreis
-DE144,,Ulm Stadtkreis
-DE145,,Alb-Donau-Kreis
-DE146,,Biberach
-DE147,,Bodenseekreis
-DE148,,Ravensburg
-DE149,,Sigmaringen
+DE141,DE_BW_08415,Reutlingen
+DE142,DE_BW_08416,Tübingen Landkreis
+DE143,DE_BW_08417,Zollernalbkreis
+DE144,DE_BW_08421,Ulm Stadtkreis
+DE145,DE_BW_08425,Alb-Donau-Kreis
+DE146,DE_BW_08426,Biberach
+DE147,DE_BW_08435,Bodenseekreis
+DE148,DE_BW_08436,Ravensburg
+DE149,DE_BW_08437,Sigmaringen
 DE2,DE_BY,Bayern
 DE21,,Oberbayern
-DE211,,Ingolstadt Kreisfreie Stadt
-DE212,,München Kreisfreie Stadt
-DE213,,Rosenheim Kreisfreie Stadt
-DE214,,Altötting
-DE215,,Berchtesgadener Land
-DE216,,Bad Tölz-Wolfratshausen
-DE217,,Dachau
-DE218,,Ebersberg
-DE219,,Eichstätt
-DE21A,,Erding
-DE21B,,Freising
-DE21C,,Fürstenfeldbruck
-DE21D,,Garmisch-Partenkirchen
-DE21E,,Landsberg am Lech
-DE21F,,Miesbach
-DE21G,,Mühldorf am Inn
-DE21H,,München Landkreis
-DE21I,,Neuburg-Schrobenhausen
-DE21J,,Pfaffenhofen an der Ilm
-DE21K,,Rosenheim Landkreis
-DE21L,,Starnberg
-DE21M,,Traunstein
-DE21N,,Weilheim-Schongau
+DE211,DE_BY_09161,Ingolstadt Kreisfreie Stadt
+DE212,DE_BY_09162,München Kreisfreie Stadt
+DE213,DE_BY_09163,Rosenheim Kreisfreie Stadt
+DE214,DE_BY_09171,Altötting
+DE215,DE_BY_09172,Berchtesgadener Land
+DE216,DE_BY_09173,Bad Tölz-Wolfratshausen
+DE217,DE_BY_09174,Dachau
+DE218,DE_BY_09175,Ebersberg
+DE219,DE_BY_09176,Eichstätt
+DE21A,DE_BY_09177,Erding
+DE21B,DE_BY_09178,Freising
+DE21C,DE_BY_09179,Fürstenfeldbruck
+DE21D,DE_BY_09180,Garmisch-Partenkirchen
+DE21E,DE_BY_09181,Landsberg am Lech
+DE21F,DE_BY_09182,Miesbach
+DE21G,DE_BY_09183,Mühldorf am Inn
+DE21H,DE_BY_09184,München Landkreis
+DE21I,DE_BY_09185,Neuburg-Schrobenhausen
+DE21J,DE_BY_09186,Pfaffenhofen an der Ilm
+DE21K,DE_BY_09187,Rosenheim Landkreis
+DE21L,DE_BY_09188,Starnberg
+DE21M,DE_BY_09189,Traunstein
+DE21N,DE_BY_09190,Weilheim-Schongau
 DE22,,Niederbayern
-DE221,,Landshut Kreisfreie Stadt
-DE222,,Passau Kreisfreie Stadt
-DE223,,Straubing Kreisfreie Stadt
-DE224,,Deggendorf
-DE225,,Freyung-Grafenau
-DE226,,Kelheim
-DE227,,Landshut Landkreis
-DE228,,Passau Landkreis
-DE229,,Regen
-DE22A,,Rottal-Inn
-DE22B,,Straubing-Bogen
-DE22C,,Dingolfing-Landau
+DE221,DE_BY_09261,Landshut Kreisfreie Stadt
+DE222,DE_BY_09262,Passau Kreisfreie Stadt
+DE223,DE_BY_09263,Straubing Kreisfreie Stadt
+DE224,DE_BY_09271,Deggendorf
+DE225,DE_BY_09272,Freyung-Grafenau
+DE226,DE_BY_09273,Kelheim
+DE227,DE_BY_09274,Landshut Landkreis
+DE228,DE_BY_09275,Passau Landkreis
+DE229,DE_BY_09276,Regen
+DE22A,DE_BY_09277,Rottal-Inn
+DE22B,DE_BY_09278,Straubing-Bogen
+DE22C,DE_BY_09279,Dingolfing-Landau
 DE23,,Oberpfalz
-DE231,,Amberg Kreisfreie Stadt
-DE232,,Regensburg Kreisfreie Stadt
-DE233,,Weiden in der Oberpfalz Kreisfreie Stadt
-DE234,,Amberg-Sulzbach
-DE235,,Cham
-DE236,,Neumarkt in der Oberpfalz
-DE237,,Neustadt an der Waldnaab
-DE238,,Regensburg Landkreis
-DE239,,Schwandorf
-DE23A,,Tirschenreuth
+DE231,DE_BY_09361,Amberg Kreisfreie Stadt
+DE232,DE_BY_09362,Regensburg Kreisfreie Stadt
+DE233,DE_BY_09363,Weiden in der Oberpfalz Kreisfreie Stadt
+DE234,DE_BY_09371,Amberg-Sulzbach
+DE235,DE_BY_09372,Cham
+DE236,DE_BY_09373,Neumarkt in der Oberpfalz
+DE237,DE_BY_09374,Neustadt an der Waldnaab
+DE238,DE_BY_09375,Regensburg Landkreis
+DE239,DE_BY_09376,Schwandorf
+DE23A,DE_BY_09377,Tirschenreuth
 DE24,,Oberfranken
-DE241,,Bamberg Kreisfreie Stadt
-DE242,,Bayreuth Kreisfreie Stadt
-DE243,,Coburg Kreisfreie Stadt
-DE244,,Hof Kreisfreie Stadt
-DE245,,Bamberg Landkreis
-DE246,,Bayreuth Landkreis
+DE241,DE_BY_09461,Bamberg Kreisfreie Stadt
+DE242,DE_BY_09462,Bayreuth Kreisfreie Stadt
+DE243,DE_BY_09463,Coburg Kreisfreie Stadt
+DE244,DE_BY_09464,Hof Kreisfreie Stadt
+DE245,DE_BY_09471,Bamberg Landkreis
+DE246,DE_BY_09472,Bayreuth Landkreis
 DE247,,Coburg Landkreis
-DE248,,Forchheim
-DE249,,Hof Landkreis
-DE24A,,Kronach
-DE24B,,Kulmbach
-DE24C,,Lichtenfels
-DE24D,,Wunsiedel im Fichtelgebirge
+DE248,DE_BY_09474,Forchheim
+DE249,DE_BY_09475,Hof Landkreis
+DE24A,DE_BY_09476,Kronach
+DE24B,DE_BY_09477,Kulmbach
+DE24C,DE_BY_09478,Lichtenfels
+DE24D,DE_BY_09479,Wunsiedel im Fichtelgebirge
 DE25,,Mittelfranken
-DE251,,Ansbach Kreisfreie Stadt
-DE252,,Erlangen Kreisfreie Stadt
-DE253,,Fürth Kreisfreie Stadt
-DE254,,Nürnberg Kreisfreie Stadt
-DE255,,Schwabach Kreisfreie Stadt
-DE256,,Ansbach Landkreis
-DE257,,Erlangen-Höchstadt
-DE258,,Fürth Landkreis
-DE259,,Nürnberger Land
-DE25A,,Neustadt an der Aisch-Bad Windsheim
-DE25B,,Roth
-DE25C,,Weißenburg-Gunzenhausen
+DE251,DE_BY_09561,Ansbach Kreisfreie Stadt
+DE252,DE_BY_09562,Erlangen Kreisfreie Stadt
+DE253,DE_BY_09563,Fürth Kreisfreie Stadt
+DE254,DE_BY_09564,Nürnberg Kreisfreie Stadt
+DE255,DE_BY_09565,Schwabach Kreisfreie Stadt
+DE256,DE_BY_09571,Ansbach Landkreis
+DE257,DE_BY_09572,Erlangen-Höchstadt
+DE258,DE_BY_09573,Fürth Landkreis
+DE259,DE_BY_09574,Nürnberger Land
+DE25A,DE_BY_09575,Neustadt an der Aisch-Bad Windsheim
+DE25B,DE_BY_09576,Roth
+DE25C,DE_BY_09577,Weißenburg-Gunzenhausen
 DE26,,Unterfranken
-DE261,,Aschaffenburg Kreisfreie Stadt
-DE262,,Schweinfurt Kreisfreie Stadt
-DE263,,Würzburg Kreisfreie Stadt
-DE264,,Aschaffenburg Landkreis
-DE265,,Bad Kissingen
-DE266,,Rhön-Grabfeld
-DE267,,Haßberge
-DE268,,Kitzingen
-DE269,,Miltenberg
-DE26A,,Main-Spessart
-DE26B,,Schweinfurt Landkreis
-DE26C,,Würzburg Landkreis
+DE261,DE_BY_09661,Aschaffenburg Kreisfreie Stadt
+DE262,DE_BY_09662,Schweinfurt Kreisfreie Stadt
+DE263,DE_BY_09663,Würzburg Kreisfreie Stadt
+DE264,DE_BY_09671,Aschaffenburg Landkreis
+DE265,DE_BY_09672,Bad Kissingen
+DE266,DE_BY_09673,Rhön-Grabfeld
+DE267,DE_BY_09674,Haßberge
+DE268,DE_BY_09675,Kitzingen
+DE269,DE_BY_09676,Miltenberg
+DE26A,DE_BY_09677,Main-Spessart
+DE26B,DE_BY_09678,Schweinfurt Landkreis
+DE26C,DE_BY_09679,Würzburg Landkreis
 DE27,,Schwaben
-DE271,,Augsburg Kreisfreie Stadt
-DE272,,Kaufbeuren Kreisfreie Stadt
-DE273,,Kempten (Allgäu) Kreisfreie Stadt
-DE274,,Memmingen Kreisfreie Stadt
-DE275,,Aichach-Friedberg
-DE276,,Augsburg Landkreis
-DE277,,Dillingen an der Donau
-DE278,,Günzburg
-DE279,,Neu-Ulm
-DE27A,,Lindau (Bodensee)
-DE27B,,Ostallgäu
-DE27C,,Unterallgäu
-DE27D,,Donau-Ries
-DE27E,,Oberallgäu
+DE271,DE_BY_09761,Augsburg Kreisfreie Stadt
+DE272,DE_BY_09762,Kaufbeuren Kreisfreie Stadt
+DE273,DE_BY_09763,Kempten (Allgäu) Kreisfreie Stadt
+DE274,DE_BY_09764,Memmingen Kreisfreie Stadt
+DE275,DE_BY_09771,Aichach-Friedberg
+DE276,DE_BY_09772,Augsburg Landkreis
+DE277,DE_BY_09773,Dillingen an der Donau
+DE278,DE_BY_09774,Günzburg
+DE279,DE_BY_09775,Neu-Ulm
+DE27A,DE_BY_09776,Lindau (Bodensee)
+DE27B,DE_BY_09777,Ostallgäu
+DE27C,DE_BY_09778,Unterallgäu
+DE27D,DE_BY_09779,Donau-Ries
+DE27E,DE_BY_09780,Oberallgäu
 DE3,DE_BE,Berlin
 DE30,,Berlin
 DE300,,Berlin
 DE4,DE_BB,Brandenburg
 DE40,,Brandenburg
-DE401,,Brandenburg an der Havel Kreisfreie Stadt
-DE402,,Cottbus Kreisfreie Stadt
-DE403,,Frankfurt (Oder) Kreisfreie Stadt
-DE404,,Potsdam Kreisfreie Stadt
-DE405,,Barnim
-DE406,,Dahme-Spreewald
-DE407,,Elbe-Elster
-DE408,,Havelland
-DE409,,Märkisch-Oderland
-DE40A,,Oberhavel
-DE40B,,Oberspreewald-Lausitz
-DE40C,,Oder-Spree
-DE40D,,Ostprignitz-Ruppin
-DE40E,,Potsdam-Mittelmark
-DE40F,,Prignitz
-DE40G,,Spree-Neiße
-DE40H,,Teltow-Fläming
-DE40I,,Uckermark
+DE401,DE_BB_12051,Brandenburg an der Havel Kreisfreie Stadt
+DE402,DE_BB_12052,Cottbus Kreisfreie Stadt
+DE403,DE_BB_12053,Frankfurt (Oder) Kreisfreie Stadt
+DE404,DE_BB_12054,Potsdam Kreisfreie Stadt
+DE405,DE_BB_12060,Barnim
+DE406,DE_BB_12061,Dahme-Spreewald
+DE407,DE_BB_12062,Elbe-Elster
+DE408,DE_BB_12063,Havelland
+DE409,DE_BB_12064,Märkisch-Oderland
+DE40A,DE_BB_12065,Oberhavel
+DE40B,DE_BB_12066,Oberspreewald-Lausitz
+DE40C,DE_BB_12067,Oder-Spree
+DE40D,DE_BB_12068,Ostprignitz-Ruppin
+DE40E,DE_BB_12069,Potsdam-Mittelmark
+DE40F,DE_BB_12070,Prignitz
+DE40G,DE_BB_12071,Spree-Neiße
+DE40H,DE_BB_12072,Teltow-Fläming
+DE40I,DE_BB_12073,Uckermark
 DE5,DE_HB,Bremen
 DE50,,Bremen
-DE501,,Bremen Kreisfreie Stadt
-DE502,,Bremerhaven Kreisfreie Stadt
+DE501,DE_HB_04011,Bremen Kreisfreie Stadt
+DE502,DE_HB_04012,Bremerhaven Kreisfreie Stadt
 DE6,DE_HH,Hamburg
 DE60,,Hamburg
-DE600,,Hamburg
+DE600,DE_HH_02000,Hamburg
 DE7,DE_HE,Hessen
 DE71,,Darmstadt
-DE711,,Darmstadt Kreisfreie Stadt
-DE712,,Frankfurt am Main Kreisfreie Stadt
-DE713,,Offenbach am Main Kreisfreie Stadt
-DE714,,Wiesbaden Kreisfreie Stadt
-DE715,,Bergstraße
-DE716,,Darmstadt-Dieburg
-DE717,,Groß-Gerau
-DE718,,Hochtaunuskreis
-DE719,,Main-Kinzig-Kreis
-DE71A,,Main-Taunus-Kreis
-DE71B,,Odenwaldkreis
-DE71C,,Offenbach Landkreis
-DE71D,,Rheingau-Taunus-Kreis
-DE71E,,Wetteraukreis
+DE711,DE_HE_06411,Darmstadt Kreisfreie Stadt
+DE712,DE_HE_06412,Frankfurt am Main Kreisfreie Stadt
+DE713,DE_HE_06413,Offenbach am Main Kreisfreie Stadt
+DE714,DE_HE_06414,Wiesbaden Kreisfreie Stadt
+DE715,DE_HE_06431,Bergstraße
+DE716,DE_HE_06432,Darmstadt-Dieburg
+DE717,DE_HE_06433,Groß-Gerau
+DE718,DE_HE_06434,Hochtaunuskreis
+DE719,DE_HE_06435,Main-Kinzig-Kreis
+DE71A,DE_HE_06436,Main-Taunus-Kreis
+DE71B,DE_HE_06437,Odenwaldkreis
+DE71C,DE_HE_06438,Offenbach Landkreis
+DE71D,DE_HE_06439,Rheingau-Taunus-Kreis
+DE71E,DE_HE_06440,Wetteraukreis
 DE72,,Gießen
-DE721,,Gießen Landkreis
-DE722,,Lahn-Dill-Kreis
-DE723,,Limburg-Weilburg
-DE724,,Marburg-Biedenkopf
-DE725,,Vogelsbergkreis
+DE721,DE_HE_06531,Gießen Landkreis
+DE722,DE_HE_06532,Lahn-Dill-Kreis
+DE723,DE_HE_06533,Limburg-Weilburg
+DE724,DE_HE_06534,Marburg-Biedenkopf
+DE725,DE_HE_06535,Vogelsbergkreis
 DE73,,Kassel
-DE731,,Kassel Kreisfreie Stadt
-DE732,,Fulda
-DE733,,Hersfeld-Rotenburg
-DE734,,Kassel Landkreis
-DE735,,Schwalm-Eder-Kreis
-DE736,,Waldeck-Frankenberg
-DE737,,Werra-Meißner-Kreis
+DE731,DE_HE_06611,Kassel Kreisfreie Stadt
+DE732,DE_HE_06631,Fulda
+DE733,DE_HE_06632,Hersfeld-Rotenburg
+DE734,DE_HE_06633,Kassel Landkreis
+DE735,DE_HE_06634,Schwalm-Eder-Kreis
+DE736,DE_HE_06635,Waldeck-Frankenberg
+DE737,DE_HE_06636,Werra-Meißner-Kreis
 DE8,DE_MV,Mecklenburg-Vorpommern
 DE80,,Mecklenburg-Vorpommern
-DE803,,Rostock Kreisfreie Stadt
-DE804,,Schwerin Kreisfreie Stadt
-DE80J,,Mecklenburgische Seenplatte
-DE80K,,Landkreis Rostock
-DE80L,,Vorpommern-Rügen
-DE80M,,Nordwestmecklenburg
-DE80N,,Vorpommern-Greifswald
-DE80O,,Ludwigslust-Parchim
+DE803,DE_MV_13003,Rostock Kreisfreie Stadt
+DE804,DE_MV_13004,Schwerin Kreisfreie Stadt
+DE80J,DE_MV_13071,Mecklenburgische Seenplatte
+DE80K,DE_MV_13072,Landkreis Rostock
+DE80L,DE_MV_13073,Vorpommern-Rügen
+DE80M,DE_MV_13074,Nordwestmecklenburg
+DE80N,DE_MV_13075,Vorpommern-Greifswald
+DE80O,DE_MV_13076,Ludwigslust-Parchim
 DE9,DE_NI,Niedersachsen
 DE91,,Braunschweig
-DE911,,Braunschweig Kreisfreie Stadt
-DE912,,Salzgitter Kreisfreie Stadt
-DE913,,Wolfsburg Kreisfreie Stadt
-DE914,,Gifhorn
-DE916,,Goslar
-DE917,,Helmstedt
-DE918,,Northeim
-DE91A,,Peine
-DE91B,,Wolfenbüttel
-DE91C,,Göttingen
+DE911,DE_NI_03101,Braunschweig Kreisfreie Stadt
+DE912,DE_NI_03102,Salzgitter Kreisfreie Stadt
+DE913,DE_NI_03103,Wolfsburg Kreisfreie Stadt
+DE914,DE_NI_03151,Gifhorn
+DE916,DE_NI_03153,Goslar
+DE917,DE_NI_03154,Helmstedt
+DE918,DE_NI_03155,Northeim
+DE91A,DE_NI_03157,Peine
+DE91B,DE_NI_03158,Wolfenbüttel
+DE91C,DE_NI_03159,Göttingen
 DE92,,Hannover
-DE922,,Diepholz
-DE923,,Hameln-Pyrmont
-DE925,,Hildesheim
-DE926,,Holzminden
-DE927,,Nienburg (Weser)
-DE928,,Schaumburg
-DE929,,Region Hannover
+DE922,DE_NI_03251,Diepholz
+DE923,DE_NI_03252,Hameln-Pyrmont
+DE925,DE_NI_03254,Hildesheim
+DE926,DE_NI_03255,Holzminden
+DE927,DE_NI_03256,Nienburg (Weser)
+DE928,DE_NI_03257,Schaumburg
+DE929,DE_NI_03241,Region Hannover
 DE93,,Lüneburg
-DE931,,Celle
-DE932,,Cuxhaven
-DE933,,Harburg
-DE934,,Lüchow-Dannenberg
-DE935,,Lüneburg Landkreis
-DE936,,Osterholz
-DE937,,Rotenburg (Wümme)
-DE938,,Heidekreis
-DE939,,Stade
-DE93A,,Uelzen
-DE93B,,Verden
+DE931,DE_NI_03351,Celle
+DE932,DE_NI_03352,Cuxhaven
+DE933,DE_NI_03353,Harburg
+DE934,DE_NI_03354,Lüchow-Dannenberg
+DE935,DE_NI_03355,Lüneburg Landkreis
+DE936,DE_NI_03356,Osterholz
+DE937,DE_NI_03357,Rotenburg (Wümme)
+DE938,DE_NI_03358,Heidekreis
+DE939,DE_NI_03359,Stade
+DE93A,DE_NI_03360,Uelzen
+DE93B,DE_NI_03361,Verden
 DE94,,Weser-Ems
-DE941,,Delmenhorst Kreisfreie Stadt
-DE942,,Emden Kreisfreie Stadt
-DE943,,Oldenburg Kreisfreie Stadt
-DE944,,Osnabrück Kreisfreie Stadt
-DE945,,Wilhelmshaven Kreisfreie Stadt
-DE946,,Ammerland
-DE947,,Aurich
-DE948,,Cloppenburg
-DE949,,Emsland
-DE94A,,Friesland (DE)
-DE94B,,Grafschaft Bentheim
-DE94C,,Leer
-DE94D,,Oldenburg Landkreis
-DE94E,,Osnabrück Landkreis
-DE94F,,Vechta
-DE94G,,Wesermarsch
-DE94H,,Wittmund
+DE941,DE_NI_03401,Delmenhorst Kreisfreie Stadt
+DE942,DE_NI_03402,Emden Kreisfreie Stadt
+DE943,DE_NI_03403,Oldenburg Kreisfreie Stadt
+DE944,DE_NI_03404,Osnabrück Kreisfreie Stadt
+DE945,DE_NI_03405,Wilhelmshaven Kreisfreie Stadt
+DE946,DE_NI_03451,Ammerland
+DE947,DE_NI_03452,Aurich
+DE948,DE_NI_03453,Cloppenburg
+DE949,DE_NI_03454,Emsland
+DE94A,DE_NI_03455,Friesland (DE)
+DE94B,DE_NI_03456,Grafschaft Bentheim
+DE94C,DE_NI_03457,Leer
+DE94D,DE_NI_03458,Oldenburg Landkreis
+DE94E,DE_NI_03459,Osnabrück Landkreis
+DE94F,DE_NI_03460,Vechta
+DE94G,DE_NI_03461,Wesermarsch
+DE94H,DE_NI_03462,Wittmund
 DEA,DE_NW,Nordrhein-Westfalen
 DEA1,,Düsseldorf
-DEA11,,Düsseldorf Kreisfreie Stadt
-DEA12,,Duisburg Kreisfreie Stadt
-DEA13,,Essen Kreisfreie Stadt
-DEA14,,Krefeld Kreisfreie Stadt
-DEA15,,Mönchengladbach Kreisfreie Stadt
-DEA16,,Mülheim an der Ruhr Kreisfreie Stadt
-DEA17,,Oberhausen Kreisfreie Stadt
-DEA18,,Remscheid Kreisfreie Stadt
-DEA19,,Solingen Kreisfreie Stadt
-DEA1A,,Wuppertal Kreisfreie Stadt
-DEA1B,,Kleve
-DEA1C,,Mettmann
-DEA1D,,Rhein-Kreis Neuss
-DEA1E,,Viersen
-DEA1F,,Wesel
+DEA11,DE_NW_05111,Düsseldorf Kreisfreie Stadt
+DEA12,DE_NW_05112,Duisburg Kreisfreie Stadt
+DEA13,DE_NW_05113,Essen Kreisfreie Stadt
+DEA14,DE_NW_05114,Krefeld Kreisfreie Stadt
+DEA15,DE_NW_05116,Mönchengladbach Kreisfreie Stadt
+DEA16,DE_NW_05117,Mülheim an der Ruhr Kreisfreie Stadt
+DEA17,DE_NW_05119,Oberhausen Kreisfreie Stadt
+DEA18,DE_NW_05120,Remscheid Kreisfreie Stadt
+DEA19,DE_NW_05122,Solingen Kreisfreie Stadt
+DEA1A,DE_NW_05124,Wuppertal Kreisfreie Stadt
+DEA1B,DE_NW_05154,Kleve
+DEA1C,DE_NW_05158,Mettmann
+DEA1D,DE_NW_05162,Rhein-Kreis Neuss
+DEA1E,DE_NW_05166,Viersen
+DEA1F,DE_NW_05170,Wesel
 DEA2,,Köln
-DEA22,,Bonn Kreisfreie Stadt
-DEA23,,Köln Kreisfreie Stadt
-DEA24,,Leverkusen Kreisfreie Stadt
-DEA26,,Düren
-DEA27,,Rhein-Erft-Kreis
-DEA28,,Euskirchen
-DEA29,,Heinsberg
-DEA2A,,Oberbergischer Kreis
-DEA2B,,Rheinisch-Bergischer Kreis
-DEA2C,,Rhein-Sieg-Kreis
-DEA2D,,Städteregion Aachen
+DEA22,DE_NW_05314,Bonn Kreisfreie Stadt
+DEA23,DE_NW_05315,Köln Kreisfreie Stadt
+DEA24,DE_NW_05316,Leverkusen Kreisfreie Stadt
+DEA26,DE_NW_05358,Düren
+DEA27,DE_NW_05362,Rhein-Erft-Kreis
+DEA28,DE_NW_05366,Euskirchen
+DEA29,DE_NW_05370,Heinsberg
+DEA2A,DE_NW_05374,Oberbergischer Kreis
+DEA2B,DE_NW_05378,Rheinisch-Bergischer Kreis
+DEA2C,DE_NW_05382,Rhein-Sieg-Kreis
+DEA2D,DE_NW_05334,Städteregion Aachen
 DEA3,,Münster
-DEA31,,Bottrop Kreisfreie Stadt
-DEA32,,Gelsenkirchen Kreisfreie Stadt
-DEA33,,Münster Kreisfreie Stadt
-DEA34,,Borken
-DEA35,,Coesfeld
-DEA36,,Recklinghausen
-DEA37,,Steinfurt
-DEA38,,Warendorf
+DEA31,DE_NW_05512,Bottrop Kreisfreie Stadt
+DEA32,DE_NW_05513,Gelsenkirchen Kreisfreie Stadt
+DEA33,DE_NW_05515,Münster Kreisfreie Stadt
+DEA34,DE_NW_05554,Borken
+DEA35,DE_NW_05558,Coesfeld
+DEA36,DE_NW_05562,Recklinghausen
+DEA37,DE_NW_05566,Steinfurt
+DEA38,DE_NW_05570,Warendorf
 DEA4,,Detmold
-DEA41,,Bielefeld Kreisfreie Stadt
-DEA42,,Gütersloh
-DEA43,,Herford
-DEA44,,Höxter
-DEA45,,Lippe
-DEA46,,Minden-Lübbecke
-DEA47,,Paderborn
+DEA41,DE_NW_05711,Bielefeld Kreisfreie Stadt
+DEA42,DE_NW_05754,Gütersloh
+DEA43,DE_NW_05758,Herford
+DEA44,DE_NW_05762,Höxter
+DEA45,DE_NW_05766,Lippe
+DEA46,DE_NW_05770,Minden-Lübbecke
+DEA47,DE_NW_05774,Paderborn
 DEA5,,Arnsberg
-DEA51,,Bochum Kreisfreie Stadt
-DEA52,,Dortmund Kreisfreie Stadt
-DEA53,,Hagen Kreisfreie Stadt
-DEA54,,Hamm Kreisfreie Stadt
-DEA55,,Herne Kreisfreie Stadt
-DEA56,,Ennepe-Ruhr-Kreis
-DEA57,,Hochsauerlandkreis
-DEA58,,Märkischer Kreis
-DEA59,,Olpe
-DEA5A,,Siegen-Wittgenstein
-DEA5B,,Soest
-DEA5C,,Unna
+DEA51,DE_NW_05911,Bochum Kreisfreie Stadt
+DEA52,DE_NW_05913,Dortmund Kreisfreie Stadt
+DEA53,DE_NW_05914,Hagen Kreisfreie Stadt
+DEA54,DE_NW_05915,Hamm Kreisfreie Stadt
+DEA55,DE_NW_05916,Herne Kreisfreie Stadt
+DEA56,DE_NW_05954,Ennepe-Ruhr-Kreis
+DEA57,DE_NW_05958,Hochsauerlandkreis
+DEA58,DE_NW_05962,Märkischer Kreis
+DEA59,DE_NW_05966,Olpe
+DEA5A,DE_NW_05970,Siegen-Wittgenstein
+DEA5B,DE_NW_05974,Soest
+DEA5C,DE_NW_05978,Unna
 DEB,DE_RP,Rheinland-Pfalz
 DEB1,,Koblenz
-DEB11,,Koblenz Kreisfreie Stadt
-DEB12,,Ahrweiler
-DEB13,,Altenkirchen (Westerwald)
-DEB14,,Bad Kreuznach
-DEB15,,Birkenfeld
-DEB17,,Mayen-Koblenz
-DEB18,,Neuwied
-DEB1A,,Rhein-Lahn-Kreis
-DEB1B,,Westerwaldkreis
-DEB1C,,Cochem-Zell
-DEB1D,,Rhein-Hunsrück-Kreis
+DEB11,DE_RP_07111,Koblenz Kreisfreie Stadt
+DEB12,DE_RP_07131,Ahrweiler
+DEB13,DE_RP_07132,Altenkirchen (Westerwald)
+DEB14,DE_RP_07133,Bad Kreuznach
+DEB15,DE_RP_07134,Birkenfeld
+DEB17,DE_RP_07137,Mayen-Koblenz
+DEB18,DE_RP_07138,Neuwied
+DEB1A,DE_RP_07141,Rhein-Lahn-Kreis
+DEB1B,DE_RP_07143,Westerwaldkreis
+DEB1C,DE_RP_07135,Cochem-Zell
+DEB1D,DE_RP_07140,Rhein-Hunsrück-Kreis
 DEB2,,Trier
-DEB21,,Trier Kreisfreie Stadt
-DEB22,,Bernkastel-Wittlich
-DEB23,,Eifelkreis Bitburg-Prüm
-DEB24,,Vulkaneifel
-DEB25,,Trier-Saarburg
+DEB21,DE_RP_07211,Trier Kreisfreie Stadt
+DEB22,DE_RP_07231,Bernkastel-Wittlich
+DEB23,DE_RP_07232,Eifelkreis Bitburg-Prüm
+DEB24,DE_RP_07233,Vulkaneifel
+DEB25,DE_RP_07235,Trier-Saarburg
 DEB3,,Rheinhessen-Pfalz
-DEB31,,Frankenthal (Pfalz) Kreisfreie Stadt
-DEB32,,Kaiserslautern Kreisfreie Stadt
-DEB33,,Landau in der Pfalz Kreisfreie Stadt
-DEB34,,Ludwigshafen am Rhein Kreisfreie Stadt
-DEB35,,Mainz Kreisfreie Stadt
-DEB36,,Neustadt an der Weinstraße Kreisfreie Stadt
-DEB37,,Pirmasens Kreisfreie Stadt
-DEB38,,Speyer Kreisfreie Stadt
-DEB39,,Worms Kreisfreie Stadt
-DEB3A,,Zweibrücken Kreisfreie Stadt
-DEB3B,,Alzey-Worms
-DEB3C,,Bad Dürkheim
-DEB3D,,Donnersbergkreis
-DEB3E,,Germersheim
-DEB3F,,Kaiserslautern Landkreis
-DEB3G,,Kusel
-DEB3H,,Südliche Weinstraße
-DEB3I,,Rhein-Pfalz-Kreis
-DEB3J,,Mainz-Bingen
-DEB3K,,Südwestpfalz
+DEB31,DE_RP_07311,Frankenthal (Pfalz) Kreisfreie Stadt
+DEB32,DE_RP_07312,Kaiserslautern Kreisfreie Stadt
+DEB33,DE_RP_07313,Landau in der Pfalz Kreisfreie Stadt
+DEB34,DE_RP_07314,Ludwigshafen am Rhein Kreisfreie Stadt
+DEB35,DE_RP_07315,Mainz Kreisfreie Stadt
+DEB36,DE_RP_07316,Neustadt an der Weinstraße Kreisfreie Stadt
+DEB37,DE_RP_07317,Pirmasens Kreisfreie Stadt
+DEB38,DE_RP_07318,Speyer Kreisfreie Stadt
+DEB39,DE_RP_07319,Worms Kreisfreie Stadt
+DEB3A,DE_RP_07320,Zweibrücken Kreisfreie Stadt
+DEB3B,DE_RP_07331,Alzey-Worms
+DEB3C,DE_RP_07332,Bad Dürkheim
+DEB3D,DE_RP_07333,Donnersbergkreis
+DEB3E,DE_RP_07334,Germersheim
+DEB3F,DE_RP_07335,Kaiserslautern Landkreis
+DEB3G,DE_RP_07336,Kusel
+DEB3H,DE_RP_07337,Südliche Weinstraße
+DEB3I,DE_RP_07338,Rhein-Pfalz-Kreis
+DEB3J,DE_RP_07339,Mainz-Bingen
+DEB3K,DE_RP_07340,Südwestpfalz
 DEC,DE_SL,Saarland
 DEC0,,Saarland
-DEC01,,Regionalverband Saarbrücken
-DEC02,,Merzig-Wadern
-DEC03,,Neunkirchen
-DEC04,,Saarlouis
-DEC05,,Saarpfalz-Kreis
-DEC06,,St. Wendel
+DEC01,DE_SL_10041,Regionalverband Saarbrücken
+DEC02,DE_SL_10042,Merzig-Wadern
+DEC03,DE_SL_10043,Neunkirchen
+DEC04,DE_SL_10044,Saarlouis
+DEC05,DE_SL_10045,Saarpfalz-Kreis
+DEC06,DE_SL_10046,St. Wendel
 DED,DE_SN,Sachsen
 DED2,,Dresden
-DED21,,Dresden Kreisfreie Stadt
-DED2C,,Bautzen
-DED2D,,Görlitz
-DED2E,,Meißen
-DED2F,,Sächsische Schweiz-Osterzgebirge
+DED21,DE_SN_14612,Dresden Kreisfreie Stadt
+DED2C,DE_SN_14625,Bautzen
+DED2D,DE_SN_14626,Görlitz
+DED2E,DE_SN_14627,Meißen
+DED2F,DE_SN_14628,Sächsische Schweiz-Osterzgebirge
 DED4,,Chemnitz
-DED41,,Chemnitz Kreisfreie Stadt
-DED42,,Erzgebirgskreis
-DED43,,Mittelsachsen
-DED44,,Vogtlandkreis
-DED45,,Zwickau
+DED41,DE_SN_14511,Chemnitz Kreisfreie Stadt
+DED42,DE_SN_14521,Erzgebirgskreis
+DED43,DE_SN_14522,Mittelsachsen
+DED44,DE_SN_14523,Vogtlandkreis
+DED45,DE_SN_14524,Zwickau
 DED5,,Leipzig
-DED51,,Leipzig Kreisfreie Stadt
-DED52,,Leipzig
-DED53,,Nordsachsen
+DED51,DE_SN_14713,Leipzig Kreisfreie Stadt
+DED52,DE_SN_14729,Leipzig
+DED53,DE_SN_14730,Nordsachsen
 DEE,DE_ST,Sachsen-Anhalt
 DEE0,,Sachsen-Anhalt
-DEE01,,Dessau-Roßlau Kreisfreie Stadt
-DEE02,,Halle (Saale) Kreisfreie Stadt
-DEE03,,Magdeburg Kreisfreie Stadt
-DEE04,,Altmarkkreis Salzwedel
-DEE05,,Anhalt-Bitterfeld
-DEE06,,Jerichower Land
-DEE07,,Börde
-DEE08,,Burgenlandkreis (DE)
-DEE09,,Harz
-DEE0A,,Mansfeld-Südharz
-DEE0B,,Saalekreis
-DEE0C,,Salzlandkreis
-DEE0D,,Stendal
-DEE0E,,Wittenberg
+DEE01,DE_ST_15001,Dessau-Roßlau Kreisfreie Stadt
+DEE02,DE_ST_15002,Halle (Saale) Kreisfreie Stadt
+DEE03,DE_ST_15003,Magdeburg Kreisfreie Stadt
+DEE04,DE_ST_15081,Altmarkkreis Salzwedel
+DEE05,DE_ST_15082,Anhalt-Bitterfeld
+DEE06,DE_ST_15086,Jerichower Land
+DEE07,DE_ST_15083,Börde
+DEE08,DE_ST_15084,Burgenlandkreis (DE)
+DEE09,DE_ST_15085,Harz
+DEE0A,DE_ST_15087,Mansfeld-Südharz
+DEE0B,DE_ST_15088,Saalekreis
+DEE0C,DE_ST_15089,Salzlandkreis
+DEE0D,DE_ST_15090,Stendal
+DEE0E,DE_ST_15091,Wittenberg
 DEF,DE_SH,Schleswig-Holstein
 DEF0,,Schleswig-Holstein
-DEF01,,Flensburg Kreisfreie Stadt
-DEF02,,Kiel Kreisfreie Stadt
-DEF03,,Lübeck Kreisfreie Stadt
-DEF04,,Neumünster Kreisfreie Stadt
-DEF05,,Dithmarschen
-DEF06,,Herzogtum Lauenburg
-DEF07,,Nordfriesland
-DEF08,,Ostholstein
-DEF09,,Pinneberg
-DEF0A,,Plön
-DEF0B,,Rendsburg-Eckernförde
-DEF0C,,Schleswig-Flensburg
-DEF0D,,Segeberg
-DEF0E,,Steinburg
-DEF0F,,Stormarn
+DEF01,DE_SH_01001,Flensburg Kreisfreie Stadt
+DEF02,DE_SH_01002,Kiel Kreisfreie Stadt
+DEF03,DE_SH_01003,Lübeck Kreisfreie Stadt
+DEF04,DE_SH_01004,Neumünster Kreisfreie Stadt
+DEF05,DE_SH_01051,Dithmarschen
+DEF06,DE_SH_01053,Herzogtum Lauenburg
+DEF07,DE_SH_01054,Nordfriesland
+DEF08,DE_SH_01055,Ostholstein
+DEF09,DE_SH_01056,Pinneberg
+DEF0A,DE_SH_01057,Plön
+DEF0B,DE_SH_01058,Rendsburg-Eckernförde
+DEF0C,DE_SH_01059,Schleswig-Flensburg
+DEF0D,DE_SH_01060,Segeberg
+DEF0E,DE_SH_01061,Steinburg
+DEF0F,DE_SH_01062,Stormarn
 DEG,DE_TH,Thüringen
 DEG0,,Thüringen
-DEG01,,Erfurt Kreisfreie Stadt
-DEG02,,Gera Kreisfreie Stadt
-DEG03,,Jena Kreisfreie Stadt
-DEG04,,Suhl Kreisfreie Stadt
-DEG05,,Weimar Kreisfreie Stadt
-DEG06,,Eichsfeld
-DEG07,,Nordhausen
-DEG09,,Unstrut-Hainich-Kreis
-DEG0A,,Kyffhäuserkreis
-DEG0B,,Schmalkalden-Meiningen
-DEG0C,,Gotha
-DEG0D,,Sömmerda
-DEG0E,,Hildburghausen
-DEG0F,,Ilm-Kreis
-DEG0G,,Weimarer Land
-DEG0H,,Sonneberg
-DEG0I,,Saalfeld-Rudolstadt
-DEG0J,,Saale-Holzland-Kreis
-DEG0K,,Saale-Orla-Kreis
-DEG0L,,Greiz
-DEG0M,,Altenburger Land
-DEG0N,,Eisenach Kreisfreie Stadt
-DEG0P,,Wartburgkreis
+DEG01,DE_TH_16051,Erfurt Kreisfreie Stadt
+DEG02,DE_TH_16052,Gera Kreisfreie Stadt
+DEG03,DE_TH_16053,Jena Kreisfreie Stadt
+DEG04,DE_TH_16054,Suhl Kreisfreie Stadt
+DEG05,DE_TH_16055,Weimar Kreisfreie Stadt
+DEG06,DE_TH_16061,Eichsfeld
+DEG07,DE_TH_16062,Nordhausen
+DEG09,DE_TH_16064,Unstrut-Hainich-Kreis
+DEG0A,DE_TH_16065,Kyffhäuserkreis
+DEG0B,DE_TH_16066,Schmalkalden-Meiningen
+DEG0C,DE_TH_16067,Gotha
+DEG0D,DE_TH_16068,Sömmerda
+DEG0E,DE_TH_16069,Hildburghausen
+DEG0F,DE_TH_16070,Ilm-Kreis
+DEG0G,DE_TH_16071,Weimarer Land
+DEG0H,DE_TH_16072,Sonneberg
+DEG0I,DE_TH_16073,Saalfeld-Rudolstadt
+DEG0J,DE_TH_16074,Saale-Holzland-Kreis
+DEG0K,DE_TH_16075,Saale-Orla-Kreis
+DEG0L,DE_TH_16076,Greiz
+DEG0M,DE_TH_16077,Altenburger Land
+DEG0N,DE_TH_16056,Eisenach Kreisfreie Stadt
+DEG0P,DE_TH_16063,Wartburgkreis
 DK,DK,Denmark
 DK0,,Danmark
 DK01,,Hovedstaden
