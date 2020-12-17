@@ -443,23 +443,114 @@ auxiliary:
   localities: ./data/localities.csv
   country_codes: ./data/country_codes.csv
   knowledge_graph: ./data/knowledge_graph.csv
+  google_key_map: ./data/google_key_map.csv
 
 sources:
 
-  # - name: pipelines.google_search_trends.google_search_trends.GoogleSearchTrendsL1DataSource
-  #   fetch:
-  #     - url: "https://raw.githubusercontent.com/google-research/open-covid-19-data/master/data/exports/search_trends_symptoms_dataset/United%20States%20of%20America/2020_US_daily_symptoms_dataset.csv"
-  #   parse:
-  #     low_memory: false
-  #   test:
-  #     # Skip because it's too slow
-  #     skip: true
-
-  - name: pipelines.google_search_trends.google_search_trends.GoogleSearchTrendsL2DataSource
+  # Country level data + admin level 1
+  - name: pipelines.google_search_trends.google_search_trends.GoogleSearchTrendsDataSource
     fetch:
-      - url: "https://raw.github.com/google-research/open-covid-19-data/master/data/exports/search_trends_symptoms_dataset/United%20States%20of%20America/subregions/{subregion1_name_path}/2020_US_{subregion1_name_file}_daily_symptoms_dataset.csv"
+      - url: "https://storage.googleapis.com/gcs-public-data---symptom-search/2020/{level}/daily/2020_{region_code}_daily_symptoms_dataset.csv"
     parse:
-      low_memory: false
+      dtype: str
+      country_codes: ['AU', 'GB', 'IE', 'NZ', 'SG', 'US']
+    test:
+      # Skip because it's too slow
+      skip: true
+    automation:
+      # Run only twice a day, since it's so resource consuming
+      schedule: "0 */12 * * *"
+      # Run in a separate, preemptible VM
+      deferred: true
+
+  # AU levels 1 + 2
+  - name: pipelines.google_search_trends.google_search_trends.GoogleSearchTrendsDataSource
+    fetch:
+      - url: "https://storage.googleapis.com/gcs-public-data---symptom-search/2020/{level}/daily/2020_{region_code}_daily_symptoms_dataset.csv"
+    parse:
+      dtype: str
+      country_codes: ['AU']
+      subregion_names: [
+        'New South Wales', 'Northern Territory', 'Queensland', 'South Australia', 'Tasmania',
+        'Victoria', 'Western Australia',
+      ]
+    test:
+      # Skip because it's too slow
+      skip: true
+    automation:
+      # Run only twice a day, since it's so resource consuming
+      schedule: "0 */12 * * *"
+      # Run in a separate, preemptible VM
+      deferred: true
+
+  # US levels 1 + 2
+  - name: pipelines.google_search_trends.google_search_trends.GoogleSearchTrendsDataSource
+    fetch:
+      - url: "https://storage.googleapis.com/gcs-public-data---symptom-search/2020/{level}/daily/2020_{region_code}_daily_symptoms_dataset.csv"
+    parse:
+      dtype: str
+      country_codes: ['US']
+      subregion_names: [
+        'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut',
+        'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa',
+      ]
+    test:
+      # Skip because it's too slow
+      skip: true
+    automation:
+      # Run only twice a day, since it's so resource consuming
+      schedule: "0 */12 * * *"
+      # Run in a separate, preemptible VM
+      deferred: true
+
+  - name: pipelines.google_search_trends.google_search_trends.GoogleSearchTrendsDataSource
+    fetch:
+      - url: "https://storage.googleapis.com/gcs-public-data---symptom-search/2020/{level}/daily/2020_{region_code}_daily_symptoms_dataset.csv"
+    parse:
+      dtype: str
+      country_codes: ['US']
+      subregion_names: [
+        'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan',
+        'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
+      ]
+    test:
+      # Skip because it's too slow
+      skip: true
+    automation:
+      # Run only twice a day, since it's so resource consuming
+      schedule: "0 */12 * * *"
+      # Run in a separate, preemptible VM
+      deferred: true
+
+  - name: pipelines.google_search_trends.google_search_trends.GoogleSearchTrendsDataSource
+    fetch:
+      - url: "https://storage.googleapis.com/gcs-public-data---symptom-search/2020/{level}/daily/2020_{region_code}_daily_symptoms_dataset.csv"
+    parse:
+      dtype: str
+      country_codes: ['US']
+      subregion_names: [
+        'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio',
+        'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota',
+      ]
+    test:
+      # Skip because it's too slow
+      skip: true
+    automation:
+      # Run only twice a day, since it's so resource consuming
+      schedule: "0 */12 * * *"
+      # Run in a separate, preemptible VM
+      deferred: true
+
+  - name: pipelines.google_search_trends.google_search_trends.GoogleSearchTrendsDataSource
+    fetch:
+      - url: "https://storage.googleapis.com/gcs-public-data---symptom-search/2020/{level}/daily/2020_{region_code}_daily_symptoms_dataset.csv"
+    parse:
+      dtype: str
+      country_codes: ['US']
+      subregion_names: [
+        'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia',
+        'Wisconsin', 'Wyoming',
+      ]
     test:
       # Skip because it's too slow
       skip: true

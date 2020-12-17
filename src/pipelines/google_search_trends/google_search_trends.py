@@ -15,10 +15,8 @@
 from pathlib import Path
 from typing import Any, Dict, List
 from pandas import DataFrame, concat
-from lib.cast import numeric_code_as_string
 from lib.concurrent import thread_map
 from lib.data_source import DataSource
-from lib.io import read_file
 
 
 def _rename_columns(data: DataFrame) -> DataFrame:
@@ -31,11 +29,6 @@ def _rename_columns(data: DataFrame) -> DataFrame:
         "sub_region_2_code": "subregion2_code",
     }
     data = data.rename(columns=column_adapter)
-    data["subregion1_code"] = data["subregion1_code"].apply(
-        lambda x: x.split("-")[-1] if x else None
-    )
-    data["subregion2_code"] = data["subregion2_code"].apply(lambda x: numeric_code_as_string(x, 5))
-
     data.columns = [
         col
         if col in column_adapter.values()
@@ -47,44 +40,46 @@ def _rename_columns(data: DataFrame) -> DataFrame:
     return data
 
 
-class GoogleSearchTrendsL1DataSource(DataSource):
-    def parse_dataframes(
-        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
-    ) -> DataFrame:
-        data = _rename_columns(concat(dataframes.values()))
-
-        # Keep only regions which are not metro areas
-        if "metro_area" in data.columns:
-            data = data[data["metro_area"].isna()]
-
-        # We can derive the keys directly for all data, because it's US-only
-        data["key"] = None
-        subregion1_isna_mask = data.subregion1_code.isna()
-        subregion2_isna_mask = data.subregion2_code.isna()
-
-        country_level_mask = subregion1_isna_mask & subregion2_isna_mask
-        data.loc[country_level_mask, "key"] = data.loc[country_level_mask, "country_code"]
-
-        state_level_mask = ~subregion1_isna_mask & subregion2_isna_mask
-        data.loc[state_level_mask, "key"] = (
-            data.loc[state_level_mask, "country_code"]
-            + "_"
-            + data.loc[state_level_mask, "subregion1_code"]
-        )
-
-        county_level_mask = ~subregion1_isna_mask & ~subregion2_isna_mask
-        data.loc[county_level_mask, "key"] = (
-            data.loc[county_level_mask, "country_code"]
-            + "_"
-            + data.loc[county_level_mask, "subregion1_code"]
-            + "_"
-            + data.loc[county_level_mask, "subregion2_code"]
-        )
-
-        return data
+def _parse_subregion_code(code: str) -> str:
+    return code.split("-")[-1]
 
 
-class GoogleSearchTrendsL2DataSource(GoogleSearchTrendsL1DataSource):
+def _process_chunk(data: DataFrame) -> DataFrame:
+    data = _rename_columns(data)
+
+    # Keep only regions which are not metro areas
+    if "metro_area" in data.columns:
+        data = data[data["metro_area"].isna()]
+
+    # We can derive the keys directly for all data
+    data["key"] = None
+    subregion1_isna_mask = data.subregion1_code.isna()
+    subregion2_isna_mask = data.subregion2_code.isna()
+
+    # Country level has null subregions 1 and 2
+    country_level_mask = subregion1_isna_mask & subregion2_isna_mask
+    data.loc[country_level_mask, "key"] = data.loc[country_level_mask, "country_code"]
+
+    state_level_mask = ~subregion1_isna_mask & subregion2_isna_mask
+    data.loc[state_level_mask, "key"] = (
+        data.loc[state_level_mask, "country_code"]
+        + "_"
+        + data.loc[state_level_mask, "subregion1_code"].apply(_parse_subregion_code)
+    )
+
+    county_level_mask = ~subregion1_isna_mask & ~subregion2_isna_mask
+    data.loc[county_level_mask, "key"] = (
+        data.loc[county_level_mask, "country_code"]
+        + "_"
+        + data.loc[county_level_mask, "subregion1_code"].apply(_parse_subregion_code)
+        + "_"
+        + data.loc[county_level_mask, "subregion2_code"].apply(_parse_subregion_code)
+    )
+
+    return data
+
+
+class GoogleSearchTrendsDataSource(DataSource):
     def fetch(
         self,
         output_folder: Path,
@@ -92,33 +87,33 @@ class GoogleSearchTrendsL2DataSource(GoogleSearchTrendsL1DataSource):
         fetch_opts: List[Dict[str, Any]],
         skip_existing: bool = False,
     ) -> Dict[str, str]:
-        # Data file is too big to store in Git, so pass-through the URL to parse manually
-        return {
-            source.get("name", idx): {"url": source["url"]} for idx, source in enumerate(fetch_opts)
-        }
+        base_opts = dict(fetch_opts[0])
+        url_tpl: str = base_opts.pop("url")
 
-    def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts):
-        url_tpl = sources[0]["url"]
+        # Get the files to process from the `parse` config options
+        country_codes: List[str] = self.config["parse"]["country_codes"]
+        subregion_names: List[str] = self.config["parse"].get("subregion_names")
 
-        # Some states cannot be found in the dataset
-        states_banlist = [
-            "American Samoa",
-            "District of Columbia",
-            "Guam",
-            "Northern Mariana Islands",
-            "Puerto Rico",
-            "Virgin Islands",
-        ]
+        # Generate the URLs for the files to download from the template
+        url_list = {}
+        for country_code in country_codes:
+            if not subregion_names:
+                key = country_code
+                url_list[key] = url_tpl.format(level="country", region_code=key)
+            else:
+                for subregion_name in subregion_names:
+                    key = f"{country_code}_{subregion_name.replace(' ', '_')}"
+                    url_list[key] = url_tpl.format(level="sub_region_1", region_code=key)
 
-        states = aux["metadata"]
-        states = states.loc[states["country_code"] == "US", "subregion1_name"].dropna().unique()
-        states = [state for state in states if state not in states_banlist]
-        states_url = [
-            url_tpl.format(
-                subregion1_name_path=state_name.replace(" ", "%20"),
-                subregion1_name_file=state_name.replace(" ", "_"),
-            )
-            for state_name in states
-        ]
-        dataframes = {idx: df for idx, df in enumerate(thread_map(read_file, states_url))}
-        return self.parse_dataframes(dataframes, aux, **parse_opts)
+        # Replace the fetch options with our own processed options
+        fetch_opts = [{"name": key, "url": url, **base_opts} for key, url in url_list.items()]
+        return super().fetch(output_folder, cache, fetch_opts, skip_existing=skip_existing)
+
+    def parse_dataframes(
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
+    ) -> DataFrame:
+        google_keys = aux["google_key_map"].set_index("google_location_key")["key"].to_dict()
+        data = concat(thread_map(_process_chunk, dataframes.values(), total=len(dataframes)))
+        data[["key"]].drop_duplicates().to_csv("google_keys.csv", index=False)
+        data["key"] = data["key"].apply(lambda x: google_keys.get(x, x))
+        return data.dropna(subset=["key"])
