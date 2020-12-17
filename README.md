@@ -282,6 +282,7 @@ from the relevant authorities, like a country's ministry of health.
 | Colombia | [Datos Abiertos Colombia](https://www.datos.gov.co) | [Attribution required](https://herramientas.datos.gov.co/es/terms-and-conditions-es) |
 | Czech Republic | [Ministry of Health of the Czech Republic](https://onemocneni-aktualne.mzcr.cz/covid-19) | [Open Data](https://www.jmir.org/2020/5/e19367) |
 | Democratic Republic of Congo | [HDX](https://data.humdata.org/dataset/democratic-republic-of-the-congo-coronavirus-covid-19-subnational-cases) | [CC BY][28] |
+| Estonia | [Health Board of Estonia](https://www.terviseamet.ee/et/koroonaviirus/avaandmed) | [Open Data](https://www.terviseamet.ee/et/koroonaviirus/avaandmed) |
 | Finland | [Finnish institute for health and welfare](https://thl.fi/en/web/thlfi-en) | [CC BY](https://thl.fi/en/web/thlfi-en/statistics/statistical-databases/open-data) |
 | France | [data.gouv.fr](https://data.gouv.fr) | [Open License 2.0](https://www.etalab.gouv.fr/licence-ouverte-open-licence) |
 | Germany | [Robert Koch Institute](https://npgeo-corona-npgeo-de.hub.arcgis.com/datasets/dd4580c810204019a7b8eb3e0b329dd6_0?page=26) | [Attribution Required](https://www.govdata.de/dl-de/by-2-0) |
