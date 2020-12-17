@@ -53,11 +53,11 @@ class FinlandArcGisDataSource(DataSource):
 
         # Add the age bins
         data["age_bin_00"] = "0-9"
-        data["age_bin_01"] = "10-49"
-        data["age_bin_02"] = "20-59"
+        data["age_bin_01"] = "10-19"
+        data["age_bin_02"] = "20-29"
         data["age_bin_03"] = "30-39"
         data["age_bin_04"] = "40-49"
-        data["age_bin_05"] = "70-59"
+        data["age_bin_05"] = "50-59"
         data["age_bin_06"] = "60-69"
         data["age_bin_07"] = "70-79"
         data["age_bin_08"] = "80-"
