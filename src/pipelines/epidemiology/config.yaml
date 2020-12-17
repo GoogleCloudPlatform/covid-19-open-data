@@ -370,12 +370,16 @@ sources:
       job_group: all
       deferred: true
 
-  # Data sources for DE level 2
-  - name: pipelines.epidemiology.de_covid_19_germany_gae.Covid19GermanyDataSource
+  # Data sources for DE levels 1 + 2
+  - name: pipelines.epidemiology.de_authority.GermanyDataSource
     fetch:
-      - url: "https://raw.github.com/jgehrcke/covid-19-germany-gae/master/data.csv"
+      - url: "https://opendata.arcgis.com/datasets/dd4580c810204019a7b8eb3e0b329dd6_0.csv"
     test:
-      location_key_match: 'DE.*'
+      location_key_match:
+        - '^DE_[^_]+$'
+        - '^DE_[^_]+_[^_]+$'
+    # Remove country-level since we have more accurate alternative sources
+    query: key != 'DE'
     automation:
       job_group: all
       deferred: true
