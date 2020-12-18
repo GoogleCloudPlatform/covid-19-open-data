@@ -1200,6 +1200,16 @@ sources:
       job_group: all
       deferred: true
 
+  # Data sources for US_CA level 1
+  - name: pipelines.epidemiology.us_ca_authority.CaliforniaOpenDataSource
+    fetch:
+      - url: "https://data.ca.gov/dataset/590188d5-8545-4c93-a9a0-e230f0db7290/resource/339d1c4d-77ab-44a2-9b40-745e64e335f2/download/case_demographics_age.csv"
+    test:
+      location_key_match: '^US_CA$'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for US_CA_SFO
   - name: pipelines.epidemiology.us_ca_sfo_authority.SanFranciscoDataSource
     fetch:
