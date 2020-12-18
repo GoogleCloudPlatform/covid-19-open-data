@@ -547,7 +547,7 @@ sources:
     fetch:
       - url: "https://www.doh.wa.gov/Portals/1/Documents/1600/coronavirus/data-tables/PUBLIC_CDC_Event_Date_SARS.xlsx"
     parse:
-      sheet_name: ['Cases', 'Deaths']
+      sheet_name: ['Cases', 'Hospitalizations', 'Deaths']
     test:
       location_key_match: '^US_WA_[^_]+$'
     automation:
