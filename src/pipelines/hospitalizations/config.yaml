@@ -219,6 +219,16 @@ sources:
       job_group: all
       deferred: true
 
+  # Data sources for HK level 0
+  - name: pipelines.epidemiology.hk_authority.HongKongDataSource
+    fetch:
+      - url: "https://www.chp.gov.hk/files/misc/enhanced_sur_covid_19_eng.csv"
+    test:
+      location_key_match: '^HK$'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for IE level 1
   - name: pipelines.hospitalizations.xx_opencovid.OpenCovidDataSource
     fetch:
