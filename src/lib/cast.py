@@ -109,14 +109,13 @@ def column_converters(schema: Dict[str, Any]) -> Dict[str, Callable]:
     return converters
 
 
-def age_group(age: int, bin_count: int = 10, age_cutoff: int = 90) -> str:
+def age_group(age: int, bin_size: int = 10, age_cutoff: int = 90) -> str:
     """
     Categorical age group given a specific age, codified into a function to enforce consistency.
     """
     if pandas.isna(age) or age < 0:
         raise ValueError(f"Invalid age value: {age}")
 
-    bin_size = age_cutoff // bin_count + 1
     if age >= age_cutoff:
         return f"{age_cutoff}-"
 
