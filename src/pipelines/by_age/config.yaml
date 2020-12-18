@@ -294,6 +294,9 @@ sources:
   - name: pipelines.epidemiology.de_authority.GermanyDataSource
     fetch:
       - url: "https://opendata.arcgis.com/datasets/dd4580c810204019a7b8eb3e0b329dd6_0.csv"
+    parse:
+      # This data source contains case line data, so any missing information means zero
+      fill_with_zeroes: ['new_[^_]+_age_.+']
     test:
       location_key_match:
         - '^DE$'
