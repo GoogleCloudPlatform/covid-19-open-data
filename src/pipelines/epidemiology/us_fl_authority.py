@@ -12,87 +12,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import uuid
+import json
 import datetime
-from pathlib import Path
-from typing import Any, Dict, List
+from typing import Dict
 
-import requests
 from pandas import DataFrame, concat
-from pandas.api.types import is_numeric_dtype
 
-from lib.cast import age_group, safe_int_cast
-from lib.pipeline import DataSource
-from lib.utils import table_rename
+from lib.arcgis_data_source import ArcGISDataSource
+from lib.case_line import convert_cases_to_time_series
+from lib.cast import safe_int_cast
 
 fromtimestamp = datetime.datetime.fromtimestamp
 
-_url_tpl = (
-    "https://services1.arcgis.com/CY1LXxl9zlJeBuRZ/ArcGIS/rest/services"
-    "/Florida_COVID19_Case_Line_Data_NEW/FeatureServer/0/query"
-    "?where=1%3D1&outFields=*&resultOffset={offset}&f=json"
-)
 
+class FloridaDataSource(ArcGISDataSource):
+    def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
+        with open(sources[0], "r") as fd:
+            records = json.load(fd)["features"]
 
-def _convert_cases_to_time_series(cases: DataFrame, index_columns: List[str] = None):
-    """
-    Converts a DataFrame of line (individual case) data into time-series data. The input format
-    is expected to have the columns:
-        - key
-        - age
-        - sex
-        - date_${statistic}
-
-    The output will be our familiar time-series format:
-        - key
-        - date
-        - sex (bin)
-        - age (bin)
-        - ${statistic}
-    """
-    index_columns = ["key", "date", "sex", "age"] if index_columns is None else index_columns
-
-    # Create stratified age bands
-    if is_numeric_dtype(cases.age):
-        cases.age = cases.age.apply(age_group)
-
-    # Rename the sex values and drop unknown labels
-    cases.sex = cases.sex.str.lower().apply(lambda x: {"m": "male", "f": "female"}.get(x, x))
-    cases = cases[cases.sex.isin({"male", "female"})]
-
-    # Go from individual case records to key-grouped records in a flat table
-    merged: DataFrame = None
-    for value_column in [col.split("date_")[-1] for col in cases.columns if "date_" in col]:
-        subset = cases.rename(columns={"date_{}".format(value_column): "date"})[index_columns]
-        subset = subset[~subset.date.isna()].dropna()
-        subset[value_column] = 1
-        subset = subset.groupby(index_columns).sum().reset_index()
-        if merged is None:
-            merged = subset
-        else:
-            merged = merged.merge(subset, how="outer")
-
-    # We can fill all missing records as zero since we know we have "perfect" information
-    return merged.fillna(0)
-
-
-class FloridaDataSource(DataSource):
-    def _get_county_cases(self) -> DataFrame:
-        def _r_get_county_cases(offset: int = 0) -> List[Dict[str, str]]:
-            url = _url_tpl.format(offset=offset)
-            try:
-                res = requests.get(url, timeout=60).json()["features"]
-            except Exception as exc:
-                self.log_error(requests.get(url, timeout=60).text)
-                raise exc
-            rows = [row["attributes"] for row in res]
-            if len(rows) == 0:
-                return rows
-            else:
-                return rows + _r_get_county_cases(offset + len(rows))
-
-        cases = DataFrame.from_records(_r_get_county_cases())
-        cases["date_new_confirmed"] = cases.ChartDate.apply(
+        cases = DataFrame.from_records(records)
+        cases["date_new_confirmed"] = cases["ChartDate"].apply(
             lambda x: fromtimestamp(x // 1000).date().isoformat()
         )
 
@@ -109,50 +48,22 @@ class FloridaDataSource(DataSource):
         ]
 
         # Rename the sex labels
-        cases["sex"] = cases.Gender.str.lower()
+        sex_adapter = lambda x: {"male": "male", "female": "female"}.get(x, "sex_unknown")
+        cases["sex"] = cases["Gender"].apply(sex_adapter)
+        cases.drop(columns=["Gender"], inplace=True)
 
-        # Rename columns and return
-        return table_rename(
-            cases, {"County": "match_string", "Age": "age", "Sex": "sex"}, remove_regex=r"[^a-z\s_]"
-        )
+        # Make sure age is an integer
+        cases["age"] = cases["Age"].apply(safe_int_cast)
+        cases.drop(columns=["Age"], inplace=True)
 
-    def fetch(
-        self,
-        output_folder: Path,
-        cache: Dict[str, str],
-        fetch_opts: List[Dict[str, Any]],
-        skip_existing: bool = False,
-    ) -> Dict[str, str]:
-
-        # Create a deterministic file name
-        file_path = (
-            output_folder
-            / "snapshot"
-            / ("%s.%s" % (uuid.uuid5(uuid.NAMESPACE_DNS, _url_tpl), "csv"))
-        )
-
-        # Avoid download if the file exists and flag is set
-        if not skip_existing or not file_path.exists():
-            self._get_county_cases().to_csv(file_path, index=False)
-
-        return {0: str(file_path.absolute())}
-
-    def parse_dataframes(
-        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
-    ) -> DataFrame:
-
-        cases = dataframes[0]
-        cases.age = cases.age.apply(safe_int_cast)
-        data = _convert_cases_to_time_series(
-            cases, index_columns=["match_string", "date", "age", "sex"]
-        )
+        cases = cases.rename(columns={"County": "match_string"})
+        data = convert_cases_to_time_series(cases, ["match_string"])
         data["country_code"] = "US"
         data["subregion1_code"] = "FL"
 
         # Aggregate to state level here, since some data locations are "Unknown"
-        drop_cols = ["match_string"]
         group_cols = ["country_code", "subregion1_code", "date", "age", "sex"]
-        state = data.drop(columns=drop_cols).groupby(group_cols).sum().reset_index()
+        state = data.drop(columns=["match_string"]).groupby(group_cols).sum().reset_index()
 
         # Remove bogus data
         data = data[data.match_string != "Unknown"]
