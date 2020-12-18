@@ -145,6 +145,13 @@ OUTPUT_COLUMN_ADAPTER = {
         f"{statistic}_age_{idx:02d}": f"{statistic.replace('total', 'cumulative')}_age_{idx:01d}"
         for idx in range(10)
         for statistic in (
+            "new_confirmed",
+            "new_deceased",
+            "new_recovered",
+            "new_tested",
+            "new_hospitalized",
+            "new_intensive_care",
+            "new_ventilator",
             "total_confirmed",
             "total_deceased",
             "total_recovered",
@@ -159,6 +166,13 @@ OUTPUT_COLUMN_ADAPTER = {
         f"{statistic}_{sex}": f"{statistic.replace('total', 'cumulative')}_{sex}"
         for sex in ("male", "female", "sex_other")
         for statistic in (
+            "new_confirmed",
+            "new_deceased",
+            "new_recovered",
+            "new_tested",
+            "new_hospitalized",
+            "new_intensive_care",
+            "new_ventilator",
             "total_confirmed",
             "total_deceased",
             "total_recovered",
