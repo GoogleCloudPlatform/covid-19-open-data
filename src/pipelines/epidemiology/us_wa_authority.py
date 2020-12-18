@@ -13,7 +13,7 @@
 # limitations under the License.
 
 from typing import Dict
-from pandas import DataFrame
+from pandas import DataFrame, concat
 from lib.pipeline import DataSource
 from lib.utils import table_merge, table_rename
 
@@ -68,14 +68,22 @@ class WashingtonDataSource(DataSource):
             on=["date", "subregion2_name"],
         )
 
-        data = data[data["subregion2_name"] != "Unassigned"]
+        state = data.drop(columns=["subregion2_name"]).groupby(["date"]).sum().reset_index()
+        state["key"] = "US_WA"
 
+        # Remove deceased data since we get it from another source which provides daily counts
+        for col in [col for col in state.columns if "deceased" in col]:
+            state[col] = None
+
+        data = data[data["subregion2_name"] != "Unassigned"]
         data["country_code"] = "US"
         data["subregion1_code"] = "WA"
-        data["age_bin_00"] = "0-19"
-        data["age_bin_01"] = "20-39"
-        data["age_bin_02"] = "40-59"
-        data["age_bin_03"] = "60-79"
-        data["age_bin_04"] = "80-"
 
-        return data
+        for df in (state, data):
+            df["age_bin_00"] = "0-19"
+            df["age_bin_01"] = "20-39"
+            df["age_bin_02"] = "40-59"
+            df["age_bin_03"] = "60-79"
+            df["age_bin_04"] = "80-"
+
+        return concat([state, data])
