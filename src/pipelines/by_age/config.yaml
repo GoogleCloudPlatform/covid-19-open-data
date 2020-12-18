@@ -600,7 +600,9 @@ sources:
     parse:
       sheet_name: ['Cases', 'Hospitalizations', 'Deaths']
     test:
-      location_key_match: '^US_WA_[^_]+$'
+      location_key_match:
+        - '^US_WA+$'
+        - '^US_WA_[^_]+$'
     automation:
       job_group: all
       deferred: true
