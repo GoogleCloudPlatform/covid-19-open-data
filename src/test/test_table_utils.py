@@ -18,7 +18,6 @@ from unittest import main
 
 import numpy
 from pandas import DataFrame, isnull
-from lib.cast import age_group
 from lib.constants import SRC
 from lib.io import read_file
 from lib.utils import (
@@ -210,20 +209,6 @@ class TestTableUtils(ProfiledTestCase):
         ).to_csv(buffer2)
 
         self.assertEqual(buffer1.getvalue(), buffer2.getvalue())
-
-    def test_age_group(self):
-        self.assertEqual("0-9", age_group(0, bin_count=10, age_cutoff=90))
-        self.assertEqual("0-9", age_group(0.0, bin_count=10, age_cutoff=90))
-        self.assertEqual("0-9", age_group(9, bin_count=10, age_cutoff=90))
-        self.assertEqual("10-19", age_group(10, bin_count=10, age_cutoff=90))
-        self.assertEqual("10-19", age_group(19, bin_count=10, age_cutoff=90))
-        self.assertEqual("90-", age_group(90, bin_count=10, age_cutoff=90))
-        self.assertEqual("90-", age_group(100, bin_count=10, age_cutoff=90))
-        self.assertEqual("90-", age_group(110, bin_count=10, age_cutoff=90))
-        self.assertEqual("90-", age_group(1e9, bin_count=10, age_cutoff=90))
-        self.assertRaises(ValueError, lambda: age_group(-1, bin_count=10, age_cutoff=90))
-        self.assertRaises(ValueError, lambda: age_group(None, bin_count=10, age_cutoff=90))
-        self.assertRaises(ValueError, lambda: age_group(numpy.nan, bin_count=10, age_cutoff=90))
 
     def test_infer_nothing(self):
 
