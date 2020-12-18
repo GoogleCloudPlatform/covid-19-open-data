@@ -282,6 +282,8 @@ sources:
       - url: "https://github.com/BlankerL/DXY-COVID-19-Data/releases/download/{date}/DXYArea.csv"
     parse:
       country_name: China
+    # Do not report HK since we have a better data source
+    query: key != 'HK'
     test:
       location_key_match: 'CN_.+'
     automation:
@@ -564,6 +566,16 @@ sources:
       location_key_match: 'GB_UK.$'
     parse:
       backfill: true
+    automation:
+      job_group: all
+      deferred: true
+
+  # Data sources for HK level 0
+  - name: pipelines.epidemiology.hk_authority.HongKongDataSource
+    fetch:
+      - url: "https://www.chp.gov.hk/files/misc/enhanced_sur_covid_19_eng.csv"
+    test:
+      location_key_match: '^HK$'
     automation:
       job_group: all
       deferred: true
