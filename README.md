@@ -287,6 +287,7 @@ from the relevant authorities, like a country's ministry of health.
 | France | [data.gouv.fr](https://data.gouv.fr) | [Open License 2.0](https://www.etalab.gouv.fr/licence-ouverte-open-licence) |
 | Germany | [Robert Koch Institute](https://npgeo-corona-npgeo-de.hub.arcgis.com/datasets/dd4580c810204019a7b8eb3e0b329dd6_0?page=26) | [Attribution Required](https://www.govdata.de/dl-de/by-2-0) |
 | Haiti | [HDX](https://data.humdata.org/dataset/haiti-covid-19-subnational-cases) | [CC-BY][28] |
+| Hong Kong | [Hong Kong Department of Health](https://data.gov.hk/en-data/dataset/hk-dh-chpsebcddr-novel-infectious-agent) | [Attribution Required](https://data.gov.hk/en/terms-and-conditions) |
 | Israel | [Israel Government Data Portal](https://data.gov.il/dataset/covid-19) | [Attribution Required](https://data.gov.il/terms) |
 | Israel (2019 Census) | [Central Bureau of Statistics](https://www.cbs.gov.il/he/settlements/Pages/default.aspx?mode=Metropolin) | [Attribution Required](https://www.cbs.gov.il/en/Pages/Enduser-license.aspx) |
 | Haiti | [HDX](https://data.humdata.org/dataset/haiti-covid-19-subnational-cases) | [CC BY][28] |

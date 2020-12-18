@@ -346,6 +346,19 @@ sources:
 
   # TODO(owahltinez): Parse stratified information from FR data source
 
+  # Data sources for HK level 0
+  - name: pipelines.epidemiology.hk_authority.HongKongDataSource
+    fetch:
+      - url: "https://www.chp.gov.hk/files/misc/enhanced_sur_covid_19_eng.csv"
+    parse:
+      # This data source does not report zero values, so we fill them in
+      fill_with_zeroes: ['new_[^_]+_age_.+']
+    test:
+      location_key_match: '^HK$'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for MX levels 1, 2 and 3
   - name: pipelines.epidemiology.mx_authority.MexicoDataSource
     fetch:
