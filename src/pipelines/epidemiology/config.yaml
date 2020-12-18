@@ -1099,6 +1099,18 @@ sources:
       job_group: all
       deferred: true
 
+  # Data sources for TW levels 0 + 1
+  - name: pipelines.epidemiology.tw_authority.TaiwanDataSource
+    fetch:
+      - url: "https://od.cdc.gov.tw/eic/Day_Confirmation_Age_County_Gender_19CoV.csv"
+    test:
+      location_key_match:
+        - '^TW$'
+        - '^TW_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for UA levels 1 + 2
   - name: pipelines.epidemiology.ua_authority.UkraineDataSource
     # No URL is defined because data is queried via API

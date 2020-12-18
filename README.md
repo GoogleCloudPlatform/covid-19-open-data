@@ -326,6 +326,7 @@ from the relevant authorities, like a country's ministry of health.
 | Sudan | [HDX](https://data.humdata.org/dataset/sudan-coronavirus-covid-19-subnational-cases) | [CC BY][28] |
 | Sweden | [Public Health Agency of Sweden](https://www.folkhalsomyndigheten.se/the-public-health-agency-of-sweden/) | Fair Use |
 | Switzerland | [OpenZH data](https://open.zh.ch) | [CC BY](https://github.com/openZH/covid_19/blob/master/LICENSE) |
+| Taiwan | [Ministry of Health and Welfare](https://data.cdc.gov.tw/en/dataset/agsdctable-day-19cov/resource/3c1e263d-16ec-4d70-b56c-21c9e2171fc7) | [Attribution Required](https://data.gov.tw/license) |
 | Thailand | [Ministry of Public Health](https://covid19.th-stat.com/) | Fair Use |
 | Ukraine | [National Security and Defense Council of Ukraine](https://covid19.rnbo.gov.ua/) | [CC BY](https://www.kmu.gov.ua/#layout-footer) |
 | United Kingdom | <https://github.com/tomwhite/covid-19-uk-data> | [The Unlicense](https://github.com/tomwhite/covid-19-uk-data/blob/master/LICENSE.txt) |
