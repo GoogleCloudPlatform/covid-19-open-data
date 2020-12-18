@@ -62,7 +62,7 @@ class WashingtonDataSource(DataSource):
             [
                 table_rename(dataframes[0]["Cases"], _col_adapter_cases, **rename_opts),
                 table_rename(dataframes[0]["Deaths"], _col_adapter_deaths, **rename_opts),
-                table_rename(dataframes[0]["Hospitalications"], _col_adapter_hosp, **rename_opts),
+                table_rename(dataframes[0]["Hospitalizations"], _col_adapter_hosp, **rename_opts),
             ],
             how="outer",
             on=["date", "subregion2_name"],
