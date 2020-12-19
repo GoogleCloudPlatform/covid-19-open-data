@@ -17,7 +17,7 @@ from pathlib import Path
 from unittest import main
 
 from lib.constants import SRC
-from lib.io import read_file, read_lines
+from lib.io import isna, read_file, read_lines
 
 from .profiled_test_case import ProfiledTestCase
 
@@ -40,6 +40,27 @@ class TestCastFunctions(ProfiledTestCase):
         self._test_lexicographical_order(SRC / "data" / "census.csv")
         self._test_lexicographical_order(SRC / "data" / "localities.csv")
         self._test_lexicographical_order(SRC / "data" / "knowledge_graph.csv")
+
+    def test_key_build(self):
+        skip_keys = ("UA_40", "UA_43")
+        metadata = read_file(METADATA_PATH).set_index("key")
+        localities = read_file(SRC / "data" / "localities.csv")["locality"].unique()
+        for key, record in metadata.iterrows():
+            msg = f"{key} does not match region codes in metadata"
+            tokens = key.split("_")
+            if key in skip_keys:
+                continue
+            elif len(tokens) == 1:
+                self.assertEqual(key, record["country_code"], msg)
+            elif key in localities or not isna(record["locality_code"]):
+                self.assertEqual(tokens[-1], record["locality_code"], msg)
+            elif len(tokens) == 2:
+                self.assertEqual(tokens[0], record["country_code"], msg)
+                self.assertEqual(tokens[1], record["subregion1_code"], msg)
+            elif len(tokens) == 3:
+                self.assertEqual(tokens[0], record["country_code"], msg)
+                self.assertEqual(tokens[1], record["subregion1_code"], msg)
+                self.assertEqual(tokens[2], record["subregion2_code"], msg)
 
 
 if __name__ == "__main__":
