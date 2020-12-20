@@ -49,6 +49,8 @@ sources:
       - url: "https://covid.ourworldindata.org/data/owid-covid-data.csv"
     # Some countries do not report during weekends to the ECDC, ignore those
     query: key != "ES"
+    # Confirmed and deceased cases come from JHU, which is not a trusted data source
+    drop_columns: ['new_confirmed', 'new_deceased', 'total_confirmed', 'total_deceased']
     test:
       location_key_match: '^..$'
     automation:
@@ -1107,8 +1109,6 @@ sources:
       location_key_match:
         - '^TW$'
         - '^TW_[^_]+$'
-      # Skip because it's too flakey
-      skip: true
     automation:
       job_group: all
       deferred: true
@@ -1256,16 +1256,13 @@ sources:
       job_group: all
       deferred: true
 
-  # Data sources US_FL levels 1 + 2
+  # Data sources US_FL levels 2 + 3
+  # No URL is provided because an API is used instead
   - name: pipelines.epidemiology.us_fl_authority.FloridaDataSource
-    fetch:
-      - url: "https://services1.arcgis.com/CY1LXxl9zlJeBuRZ/ArcGIS/rest/services/Florida_COVID19_Case_Line_Data_NEW/FeatureServer/0/query?where=1%3D1&outFields=*&f=json"
     # Death and hospitalization data do not have accurate dates
     drop_columns: ['new_deceased']
     test:
-      location_key_match:
-        - '^US_FL$'
-        - '^US_FL_[^_]+$'
+      location_key_match: 'US_FL.*'
       # Skip Florida because download takes a long time
       skip: true
     automation:
