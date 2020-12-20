@@ -611,6 +611,8 @@ sources:
       location_key_match:
         - '^US_WA+$'
         - '^US_WA_[^_]+$'
+      # Skip testing because it's unreliable
+      skip: true
     automation:
       job_group: all
       deferred: true
