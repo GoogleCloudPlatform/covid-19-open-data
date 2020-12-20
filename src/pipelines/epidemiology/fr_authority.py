@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 from pandas import DataFrame, concat
+from lib.cast import age_group, safe_int_cast
 from lib.data_source import DataSource
 from lib.io import read_file
 from lib.constants import SRC
@@ -83,28 +84,90 @@ class FranceDataSource(DataSource):
         fr_iso_map = {iso: code for iso, code in zip(fr_isos["iso_code"], fr_isos["region_code"])}
         fr_codes = metadata[["subregion1_code", "subregion2_code"]].dropna()
         regions_iter = fr_codes["subregion1_code"].unique()
-        deps_iter = (record for _, record in fr_codes.iterrows())
+        deps_iter = [record for _, record in fr_codes.iterrows()]
 
-        if parse_opts.get("country"):
-            # For country level, there is no need to estimate confirmed from tests
-            _column_adapter_2 = dict(_column_adapter)
-            _column_adapter_2.pop("testsPositifs")
-            data = _get_country(url_tpl, _column_adapter_2)
+        # For country level, there is no need to estimate confirmed from tests
+        column_adapter_country = dict(_column_adapter)
+        column_adapter_country.pop("testsPositifs")
 
-        else:
-            # For region level, we can only estimate confirmed from tests
-            _column_adapter_2 = dict(_column_adapter)
-            _column_adapter_2.pop("casConfirmes")
+        # Get country level data
+        country = _get_country(url_tpl, column_adapter_country)
 
-            get_region_func = partial(_get_region, url_tpl, _column_adapter_2, fr_iso_map)
-            regions = concat(list(thread_map(get_region_func, regions_iter)))
+        # For region level, we can only estimate confirmed from tests
+        column_adapter_region = dict(_column_adapter)
+        column_adapter_region.pop("casConfirmes")
 
-            get_department_func = partial(_get_department, url_tpl, _column_adapter_2)
-            departments = concat(
-                list(thread_map(get_department_func, deps_iter, total=len(fr_codes)))
-            )
+        # Get region level data
+        get_region_func = partial(_get_region, url_tpl, column_adapter_region, fr_iso_map)
+        regions = concat(list(thread_map(get_region_func, regions_iter)))
 
-            data = concat([regions, departments])
+        # Get department level data
+        get_department_func = partial(_get_department, url_tpl, column_adapter_region)
+        departments = concat(list(thread_map(get_department_func, deps_iter)))
 
+        data = concat([country, regions, departments])
         data["date"] = data["date"].apply(lambda x: datetime_isoformat(x, "%Y-%m-%d %H:%M:%S"))
+        return data
+
+
+class FranceStratifiedDataSource(FranceDataSource):
+    def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
+        url_tpl = sources[0]
+        metadata = aux["metadata"]
+        metadata = metadata[metadata["country_code"] == "FR"]
+
+        fr_isos = read_file(SRC / "data" / "fr_iso_codes.csv")
+        fr_iso_map = {iso: code for iso, code in zip(fr_isos["iso_code"], fr_isos["region_code"])}
+        fr_codes = metadata[["subregion1_code", "subregion2_code"]].dropna()
+        regions_iter = fr_codes["subregion1_code"].unique()
+        deps_iter = [record for _, record in fr_codes.iterrows()]
+
+        column_adapter = {
+            "key": "key",
+            "date": "date",
+            "testsRealisesDetails": "_breakdown_tested",
+            "testsPositifsDetails": "_breakdown_confirmed",
+        }
+
+        # Get country level data
+        country = _get_country(url_tpl, column_adapter)
+
+        # Get region level data
+        get_region_func = partial(_get_region, url_tpl, column_adapter, fr_iso_map)
+        regions = concat(list(thread_map(get_region_func, regions_iter)))
+
+        # Get department level data
+        get_department_func = partial(_get_department, url_tpl, column_adapter)
+        departments = concat(list(thread_map(get_department_func, deps_iter)))
+
+        data = concat([country, regions, departments])
+        data["date"] = data["date"].apply(lambda x: datetime_isoformat(x, "%Y-%m-%d %H:%M:%S"))
+
+        data["_breakdown_tested"].fillna("", inplace=True)
+        data["_breakdown_confirmed"].fillna("", inplace=True)
+
+        records = {"confirmed": [], "tested": []}
+        for key, row in data.set_index("key").iterrows():
+            for statistic in records.keys():
+                if row[f"_breakdown_{statistic}"] != "":
+                    for item in row[f"_breakdown_{statistic}"]:
+                        records[statistic].append(
+                            {
+                                "key": key,
+                                "date": row["date"],
+                                "age": item["age"],
+                                "sex": item["sexe"],
+                                f"new_{statistic}": item["value"],
+                            }
+                        )
+
+        df1 = DataFrame.from_records(records["tested"])
+        df2 = DataFrame.from_records(records["confirmed"])
+        data = df1.merge(df2, how="outer")
+
+        data = data[~data["age"].isin(["0", "A", "B", "C", "D", "E"])]
+        data["age"] = data["age"].apply(lambda x: age_group(safe_int_cast(x)))
+
+        sex_adapter = lambda x: {"h": "male", "f": "female"}.get(x, "sex_unknown")
+        data["sex"] = data["sex"].apply(sex_adapter)
         return data
