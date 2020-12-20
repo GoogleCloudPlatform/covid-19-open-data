@@ -12,12 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Dict
-from pandas import DataFrame, melt
+from pathlib import Path
+from typing import Any, Dict, List
+
+import requests
+from pandas import DataFrame, concat, melt
+
+from lib.case_line import convert_cases_to_time_series
 from lib.cast import safe_int_cast
 from lib.data_source import DataSource
+from lib.net import download_snapshot
 from lib.time import datetime_isoformat
-from lib.utils import table_rename
+from lib.utils import aggregate_admin_level, table_rename
 
 
 class Covid19IndiaOrgL2DataSource(DataSource):
@@ -108,6 +114,7 @@ L3_INDIA_REPLACEMENTS = {
     "Unokoti": "Unakoti",
 }
 
+
 # Data for districts in India taken from https://lgdirectory.gov.in/
 # The following districts were missing a code, so @themonk911 gave them reasonable
 # codes based on the name.
@@ -157,3 +164,95 @@ class Covid19IndiaOrgL3DataSource(DataSource):
         data["country_code"] = "IN"
 
         return data
+
+
+class Covid19IndiaOrgCasesDataSource(DataSource):
+    def fetch(
+        self,
+        output_folder: Path,
+        cache: Dict[str, str],
+        fetch_opts: List[Dict[str, Any]],
+        skip_existing: bool = False,
+    ) -> Dict[str, str]:
+        output = {}
+        curr_idx = 1
+        url_tpl = fetch_opts[0].get("url")
+        download_options = dict(fetch_opts[0].get("opts", {}), skip_existing=skip_existing)
+        while True:
+            try:
+                url = url_tpl.format(idx=curr_idx)
+                fname = download_snapshot(url, output_folder, **download_options)
+                output.update({curr_idx: fname})
+                curr_idx += 1
+            except requests.HTTPError:
+                break
+
+        assert len(output) > 0, "No data downloaded"
+        return output
+
+    def parse_dataframes(
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
+    ) -> DataFrame:
+        cases = table_rename(
+            concat(dataframes.values()),
+            {
+                # "Patient Number": "",
+                # "State Patient Number": "",
+                "Date Announced": "date_new_confirmed",
+                # "Estimated Onset Date": "",
+                "Age Bracket": "age",
+                "Gender": "sex",
+                # "Detected City": "",
+                "Detected District": "subregion2_name",
+                "Detected State": "subregion1_name",
+                # "State code": "subregion1_code",
+                "Current Status": "_prognosis",
+                # "Notes": "",
+                # "Contracted from which Patient (Suspected)": "",
+                # "Nationality": "",
+                # "Type of transmission": "",
+                "Status Change Date": "_change_date",
+                # "Source_1": "",
+                # "Source_2": "",
+                # "Source_3": "",
+                # "Backup Notes": "",
+                "Num Cases": "new_confirmed",
+                "Entry_ID": "",
+            },
+            drop=True,
+        )
+
+        # Convert dates to ISO format
+        for col in [col for col in cases.columns if "date" in col]:
+            cases[col] = cases[col].apply(lambda x: datetime_isoformat(x, "%d/%m/%Y"))
+
+        cases["age"] = cases["age"].astype(str)
+        cases["age"] = cases["age"].str.lower()
+        cases["age"] = cases["age"].str.replace("\.0", "")
+        cases["age"] = cases["age"].str.replace(r"[\d\.]+ day(s)?", "1")
+        cases["age"] = cases["age"].str.replace(r"[\d\.]+ month(s)?", "1")
+        cases.loc[cases["age"].str.contains("-"), "age"] = None
+
+        sex_adapter = lambda x: {"M": "male", "F": "female"}.get(x, "sex_unknown")
+        cases["sex"] = cases["sex"].str.strip()
+        cases["sex"] = cases["sex"].apply(sex_adapter)
+
+        cases["date_new_deceased"] = None
+        deceased_mask = cases["_prognosis"] == "Deceased"
+        cases.loc[deceased_mask, "date_new_deceased"] = cases.loc[deceased_mask, "_change_date"]
+
+        cases["date_new_hospitalized"] = None
+        hosp_mask = cases["_prognosis"] == "Hospitalized"
+        cases.loc[hosp_mask, "date_new_hospitalized"] = cases.loc[hosp_mask, "_change_date"]
+
+        data = convert_cases_to_time_series(cases, ["subregion1_name", "subregion2_name"])
+        data["country_code"] = "IN"
+
+        # Aggregate country level and admin level 1
+        country = aggregate_admin_level(data, ["date", "age", "sex"], "country")
+        subregion1 = aggregate_admin_level(data, ["date", "age", "sex"], "subregion1")
+        subregion1 = subregion1[subregion1["subregion1_name"].str.lower() != "state unassigned"]
+
+        # Data for admin level 2 is too noisy and there are many mismatches, so we only return
+        # the aggregated country level and admin level 1 data
+        return concat([country, subregion1])

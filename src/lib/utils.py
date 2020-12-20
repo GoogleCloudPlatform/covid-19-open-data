@@ -425,3 +425,29 @@ def table_groupby_sum(data: DataFrame, by: List[str]) -> DataFrame:
         if all(len(df.unique()) == 1 for _, df in group[col]):
             output[col] = group[col].first()
     return output.reset_index()
+
+
+def aggregate_admin_level(data: DataFrame, groupby: Tuple[str], level: str) -> DataFrame:
+    agg_data = None
+    groupby = set(groupby)
+    level0_columns = {"country_code", "country_name"}
+    level1_columns = {"subregion1_code", "subregion1_name"}
+    level2_columns = {"subregion2_code", "subregion2_name"}
+
+    if level == "country":
+        drop_columns = list((level1_columns | level2_columns).intersection(data.columns))
+        group_columns = list(level0_columns.intersection(data.columns) | groupby)
+        agg_data = data.drop(columns=drop_columns).groupby(group_columns).sum().reset_index()
+
+        for col in drop_columns:
+            agg_data[col] = None
+
+    if level == "subregion1":
+        drop_columns = list(level2_columns.intersection(data.columns))
+        group_columns = [*(level0_columns | level1_columns).intersection(data.columns) | groupby]
+        agg_data = data.drop(columns=drop_columns).groupby(group_columns).sum().reset_index()
+
+        for col in drop_columns:
+            agg_data[col] = None
+
+    return agg_data

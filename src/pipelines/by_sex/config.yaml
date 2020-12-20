@@ -240,6 +240,20 @@ sources:
       job_group: all
       deferred: true
 
+  # Data source for IN levels 0 + 1
+  - name: pipelines.epidemiology.in_covid19india_org.Covid19IndiaOrgCasesDataSource
+    fetch:
+      - url: "https://api.covid19india.org/csv/latest/raw_data{idx}.csv"
+        opts:
+          ext: csv
+    test:
+      location_key_match:
+        - '^IN$'
+        - '^IN_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for MX levels 1, 2 and 3
   - name: pipelines.epidemiology.mx_authority.MexicoDataSource
     fetch:
