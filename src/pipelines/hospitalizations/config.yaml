@@ -412,6 +412,8 @@ sources:
           ext: json
     test:
       location_key_match: '^TH$'
+      # TODO: Fix broken data source (API redirects to another URL)
+      skip: true
     automation:
       job_group: all
       deferred: true
