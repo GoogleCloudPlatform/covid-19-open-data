@@ -19,6 +19,16 @@ from lib.concurrent import thread_map
 from lib.data_source import DataSource
 
 
+def _normalize_column_name(column: str) -> str:
+    column = column.lower()
+    column = column.replace("symptom:", "")
+    column = column.replace("–", "_")
+    column = column.replace(" ", "_")
+    column = column.replace("-", "_")
+    column = column.replace("'", "")
+    return column
+
+
 def _rename_columns(data: DataFrame) -> DataFrame:
     column_adapter = {
         "date": "date",
@@ -30,10 +40,7 @@ def _rename_columns(data: DataFrame) -> DataFrame:
     }
     data = data.rename(columns=column_adapter)
     data.columns = [
-        col
-        if col in column_adapter.values()
-        else "search_trends_"
-        + col.lower().replace("symptom:", "").replace(" ", "_").replace("-", "_").replace("'", "")
+        col if col in column_adapter.values() else "search_trends_" + _normalize_column_name(col)
         for col in data.columns
     ]
 
