@@ -93,6 +93,11 @@ class FranceDataSource(DataSource):
         # Get country level data
         country = _get_country(url_tpl, column_adapter_country)
 
+        # Country level data has totals instead of diffs, so we compute the diffs by hand
+        country.sort_values("date", inplace=True)
+        country["new_confirmed"] = country["total_confirmed"].diff()
+        country.drop(columns=["total_confirmed"], inplace=True)
+
         # For region level, we can only estimate confirmed from tests
         column_adapter_region = dict(_column_adapter)
         column_adapter_region.pop("casConfirmes")
@@ -107,7 +112,7 @@ class FranceDataSource(DataSource):
 
         data = concat([country, regions, departments])
         data["date"] = data["date"].apply(lambda x: datetime_isoformat(x, "%Y-%m-%d %H:%M:%S"))
-        return data
+        return data.sort_values("date")
 
 
 class FranceStratifiedDataSource(FranceDataSource):
