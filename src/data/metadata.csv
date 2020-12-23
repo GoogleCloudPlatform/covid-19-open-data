@@ -692,7 +692,7 @@ AT_8_802,AT,Austria,8,Vorarlberg,802,Bregenz,,,,
 AT_8_803,AT,Austria,8,Vorarlberg,803,Dornbirn,,,,
 AT_8_804,AT,Austria,8,Vorarlberg,804,Feldkirch,,,,
 AT_9,AT,Austria,9,Vienna,,,,,Wien,
-AT_9_900,AT,Austria,9,Vienna,900,Wien,,,,
+AT_9_900,AT,Austria,9,Vienna,900,Vienna,,,,
 AU,AU,Australia,,,,,,,,-1
 AU_ACT,AU,Australia,ACT,Australian Capital Territory,,,,,ACT,
 AU_NSW,AU,Australia,NSW,New South Wales,,,,,NSW,
