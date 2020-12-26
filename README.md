@@ -266,6 +266,7 @@ from the relevant authorities, like a country's ministry of health.
 | Country-level data | [Our World in Data](https://ourworldindata.org) | [CC BY](https://ourworldindata.org/how-to-use-our-world-in-data#how-is-our-work-copyrighted) |
 | Country-level data | [WHO](https://covid19.who.int) | [Attribution required](https://www.who.int/about/who-we-are/publishing-policies/data-policy/terms-and-conditions) |
 | Afghanistan | [HDX](https://data.humdata.org/dataset/afghanistan-covid-19-statistics-per-province) | [CC BY][28] |
+| Argentina (2010 Census) | [Instituto Nacional de Estadística y Censos](https://www.indec.gob.ar/indec/web/Nivel4-Tema-2-41-135) | [Public domain](https://datos.gob.ar/acerca/seccion/marco-legal) |
 | Argentina | [Datos Argentina](https://datos.gob.ar/) | [Public domain](https://datos.gob.ar/acerca/seccion/marco-legal) |
 | Australia | <https://covid-19-au.com/> | [Attribution required](https://covid-19-au.com/faq) |
 | Austria | [COVID19 EU Data](https://github.com/covid19-eu-zh/covid19-eu-data) | [MIT](https://github.com/covid19-eu-zh/covid19-eu-data/issues/57) |
