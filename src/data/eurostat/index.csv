@@ -1110,81 +1110,81 @@ IS002,,Landsbyggd
 IT,IT,Italy
 ITC,,Nord-Ovest
 ITC1,IT_21,Piemonte
-ITC11,,Torino
-ITC12,,Vercelli
-ITC13,,Biella
-ITC14,,Verbano-Cusio-Ossola
-ITC15,,Novara
-ITC16,,Cuneo
-ITC17,,Asti
-ITC18,,Alessandria
+ITC11,IT_21_TO,Torino
+ITC12,IT_21_VC,Vercelli
+ITC13,IT_21_BI,Biella
+ITC14,IT_21_VB,Verbano-Cusio-Ossola
+ITC15,IT_21_NO,Novara
+ITC16,IT_21_CN,Cuneo
+ITC17,IT_21_AT,Asti
+ITC18,IT_21_AL,Alessandria
 ITC2,IT_23,Valle d'Aosta/Vallée d'Aoste
 ITC20,,Valle d'Aosta/Vallée d'Aoste
 ITC3,IT_42,Liguria
-ITC31,,Imperia
-ITC32,,Savona
-ITC33,,Genova
-ITC34,,La Spezia
+ITC31,IT_42_IM,Imperia
+ITC32,IT_42_SV,Savona
+ITC33,IT_42_GE,Genova
+ITC34,IT_42_SP,La Spezia
 ITC4,IT_25,Lombardia
-ITC41,,Varese
-ITC42,,Como
-ITC43,,Lecco
-ITC44,,Sondrio
-ITC46,,Bergamo
-ITC47,,Brescia
-ITC48,,Pavia
-ITC49,,Lodi
-ITC4A,,Cremona
-ITC4B,,Mantova
-ITC4C,,Milano
-ITC4D,,Monza e della Brianza
+ITC41,IT_25_VA,Varese
+ITC42,IT_25_CO,Como
+ITC43,IT_25_LC,Lecco
+ITC44,IT_25_SO,Sondrio
+ITC46,IT_25_BG,Bergamo
+ITC47,IT_25_BS,Brescia
+ITC48,IT_25_PV,Pavia
+ITC49,IT_25_LO,Lodi
+ITC4A,IT_25_CR,Cremona
+ITC4B,IT_25_MN,Mantova
+ITC4C,IT_25_MI,Milano
+ITC4D,IT_25_MB,Monza e della Brianza
 ITF,,Sud
 ITF1,IT_65,Abruzzo
-ITF11,,L'Aquila
-ITF12,,Teramo
-ITF13,,Pescara
-ITF14,,Chieti
+ITF11,IT_65_AQ,L'Aquila
+ITF12,IT_65_TE,Teramo
+ITF13,IT_65_PE,Pescara
+ITF14,IT_65_CH,Chieti
 ITF2,IT_67,Molise
-ITF21,,Isernia
-ITF22,,Campobasso
+ITF21,IT_67_IS,Isernia
+ITF22,IT_67_CB,Campobasso
 ITF3,IT_72,Campania
-ITF31,,Caserta
-ITF32,,Benevento
+ITF31,IT_72_CE,Caserta
+ITF32,IT_72_BN,Benevento
 ITF33,,Napoli
-ITF34,,Avellino
-ITF35,,Salerno
+ITF34,IT_72_AV,Avellino
+ITF35,IT_72_SA,Salerno
 ITF4,IT_75,Puglia
-ITF43,,Taranto
-ITF44,,Brindisi
-ITF45,,Lecce
-ITF46,,Foggia
-ITF47,,Bari
-ITF48,,Barletta-Andria-Trani
+ITF43,IT_75_TA,Taranto
+ITF44,IT_75_BR,Brindisi
+ITF45,IT_75_LE,Lecce
+ITF46,IT_75_FG,Foggia
+ITF47,IT_75_BA,Bari
+ITF48,IT_75_BT,Barletta-Andria-Trani
 ITF5,IT_77,Basilicata
-ITF51,,Potenza
-ITF52,,Matera
+ITF51,IT_77_PZ,Potenza
+ITF52,IT_77_MT,Matera
 ITF6,IT_78,Calabria
-ITF61,,Cosenza
-ITF62,,Crotone
-ITF63,,Catanzaro
-ITF64,,Vibo Valentia
-ITF65,,Reggio di Calabria
+ITF61,IT_78_CS,Cosenza
+ITF62,IT_78_KR,Crotone
+ITF63,IT_78_CZ,Catanzaro
+ITF64,IT_78_VV,Vibo Valentia
+ITF65,IT_78_RC,Reggio di Calabria
 ITG,,Isole
 ITG1,IT_82,Sicilia
-ITG11,,Trapani
-ITG12,,Palermo
-ITG13,,Messina
-ITG14,,Agrigento
-ITG15,,Caltanissetta
-ITG16,,Enna
-ITG17,,Catania
-ITG18,,Ragusa
-ITG19,,Siracusa
+ITG11,IT_82_TP,Trapani
+ITG12,IT_82_PA,Palermo
+ITG13,IT_82_ME,Messina
+ITG14,IT_82_AG,Agrigento
+ITG15,IT_82_CL,Caltanissetta
+ITG16,IT_82_EN,Enna
+ITG17,IT_82_CT,Catania
+ITG18,IT_82_RG,Ragusa
+ITG19,IT_82_SR,Siracusa
 ITG2,IT_88,Sardegna
-ITG25,,Sassari
-ITG26,,Nuoro
-ITG27,,Cagliari
-ITG28,,Oristano
+ITG25,IT_88_SS,Sassari
+ITG26,IT_88_NU,Nuoro
+ITG27,IT_88_CA,Cagliari
+ITG28,IT_88_OR,Oristano
 ITG29,,Olbia-Tempio
 ITG2A,,Ogliastra
 ITG2B,,Medio Campidano
@@ -1195,55 +1195,55 @@ ITH10,,Bolzano-Bozen
 ITH2,IT_TN,Provincia Autonoma di Trento
 ITH20,,Trento
 ITH3,IT_34,Veneto
-ITH31,,Verona
-ITH32,,Vicenza
-ITH33,,Belluno
-ITH34,,Treviso
-ITH35,,Venezia
-ITH36,,Padova
-ITH37,,Rovigo
+ITH31,IT_34_VR,Verona
+ITH32,IT_34_VI,Vicenza
+ITH33,IT_34_BL,Belluno
+ITH34,IT_34_TV,Treviso
+ITH35,IT_34_VE,Venezia
+ITH36,IT_34_PD,Padova
+ITH37,IT_34_RO,Rovigo
 ITH4,IT_36,Friuli-Venezia Giulia
-ITH41,,Pordenone
-ITH42,,Udine
-ITH43,,Gorizia
-ITH44,,Trieste
+ITH41,IT_36_PN,Pordenone
+ITH42,IT_36_UD,Udine
+ITH43,IT_36_GO,Gorizia
+ITH44,IT_36_TS,Trieste
 ITH5,IT_45,Emilia-Romagna
-ITH51,,Piacenza
-ITH52,,Parma
-ITH53,,Reggio nell'Emilia
-ITH54,,Modena
-ITH55,,Bologna
-ITH56,,Ferrara
-ITH57,,Ravenna
-ITH58,,Forlì-Cesena
-ITH59,,Rimini
+ITH51,IT_45_PC,Piacenza
+ITH52,IT_45_PR,Parma
+ITH53,IT_45_RE,Reggio nell'Emilia
+ITH54,IT_45_MO,Modena
+ITH55,IT_45_BO,Bologna
+ITH56,IT_45_FE,Ferrara
+ITH57,IT_45_RA,Ravenna
+ITH58,IT_45_FC,Forlì-Cesena
+ITH59,IT_45_RN,Rimini
 ITI,,Centro (IT)
 ITI1,IT_52,Toscana
 ITI11,,Massa-Carrara
-ITI12,,Lucca
-ITI13,,Pistoia
-ITI14,,Firenze
-ITI15,,Prato
-ITI16,,Livorno
-ITI17,,Pisa
-ITI18,,Arezzo
-ITI19,,Siena
-ITI1A,,Grosseto
+ITI12,IT_52_LU,Lucca
+ITI13,IT_52_PT,Pistoia
+ITI14,IT_52_FI,Firenze
+ITI15,IT_52_PO,Prato
+ITI16,IT_52_LI,Livorno
+ITI17,IT_52_PI,Pisa
+ITI18,IT_52_AR,Arezzo
+ITI19,IT_52_SI,Siena
+ITI1A,IT_52_GR,Grosseto
 ITI2,IT_55,Umbria
-ITI21,,Perugia
-ITI22,,Terni
+ITI21,IT_55_PG,Perugia
+ITI22,IT_55_TR,Terni
 ITI3,IT_57,Marche
-ITI31,,Pesaro e Urbino
-ITI32,,Ancona
-ITI33,,Macerata
-ITI34,,Ascoli Piceno
-ITI35,,Fermo
+ITI31,IT_57_PU,Pesaro e Urbino
+ITI32,IT_57_AN,Ancona
+ITI33,IT_57_MC,Macerata
+ITI34,IT_57_AP,Ascoli Piceno
+ITI35,IT_57_FM,Fermo
 ITI4,IT_62,Lazio
-ITI41,,Viterbo
-ITI42,,Rieti
-ITI43,,Roma
-ITI44,,Latina
-ITI45,,Frosinone
+ITI41,IT_62_VT,Viterbo
+ITI42,IT_62_RI,Rieti
+ITI43,IT_62_RM,Roma
+ITI44,IT_62_LT,Latina
+ITI45,IT_62_FR,Frosinone
 LI,LI,Liechtenstein
 LI0,,Liechtenstein
 LI00,,Liechtenstein
@@ -1275,7 +1275,6 @@ LV006,,Riga
 LV007,,Pieriga
 LV008,,Vidzeme
 LV009,,Zemgale
-LI,LI,Liechtenstein
 ME,ME,Montenegro
 ME0,,Crna Gora
 ME00,,Crna Gora
