@@ -412,6 +412,8 @@ sources:
     #   subregion1: ["new_confirmed"]
     test:
       location_key_match: '^ES_[^_]+$'
+      # This data source stopped publishing data...
+      skip: true
     automation:
       job_group: all
       deferred: true
