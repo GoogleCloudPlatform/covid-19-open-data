@@ -1089,6 +1089,8 @@ sources:
       location_key_match:
         - '^TH$'
         - '^TH_[^_]+$'
+      # TODO: Fix broken data source (file has encoding issues)
+      skip: true
     automation:
       job_group: all
       deferred: true
