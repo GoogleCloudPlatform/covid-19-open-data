@@ -122,8 +122,8 @@ def _download_snapshot_try_date(
     Same as `_download_snapshot_simple` but trying to replace {date} in the URL with dates between
     today and 2020-01-01 until one works.
     """
-    cur_date = datetime.date.today()
     min_date = datetime.date.fromisoformat("2020-01-01")
+    cur_date = datetime.date.today() + datetime.timedelta(days=1)
     while cur_date >= min_date:
         try:
             date_str = cur_date.strftime(date_format)
