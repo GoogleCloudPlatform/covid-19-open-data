@@ -83,3 +83,14 @@ sources:
       deferred: true
       # Run only twice a day, since it's so resource consuming and does not change often
       schedule: "0 */12 * * *"
+
+  - name: pipelines.health.usaleep.USALEEPDataSource
+    fetch:
+      - url: "https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Datasets/NVSS/USALEEP/CSV/US_A.CSV"
+        opts:
+          ext: csv
+    automation:
+      job_group: 'all'
+      deferred: true
+      # Run only twice a day, since it does not change often
+      schedule: "0 */12 * * *"
