@@ -128,7 +128,7 @@ sources:
           ext: html
     parse:
       country: AU
-      date_format: "%d %B"
+      date_format: "%d %B %Y"
       cumsum: true
     test:
       location_key_match: 'AU_.+'
