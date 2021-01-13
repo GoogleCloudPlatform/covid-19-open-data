@@ -17,7 +17,6 @@ from pandas import DataFrame
 from lib.case_line import convert_cases_to_time_series
 from lib.cast import safe_int_cast
 from lib.data_source import DataSource
-from lib.time import datetime_isoformat
 from lib.utils import table_rename
 
 
@@ -28,12 +27,12 @@ class NewZealandDataSource(DataSource):
         cases = table_rename(
             dataframes[0],
             {
-                "Report Date": "date_new_confirmed",
-                # "Case Status": "_status",
-                "Sex": "sex",
-                "Age group": "age",
-                # "DHB": "",
-                # "Overseas travel": "",
+                "ReportDate": "date_new_confirmed",
+                # "CaseStatus": "_status",
+                "Gender": "sex",
+                "age_bands_fixed": "age",
+                # "DHB_label": "",
+                # "Overseas": "",
             },
             drop=True,
         )
