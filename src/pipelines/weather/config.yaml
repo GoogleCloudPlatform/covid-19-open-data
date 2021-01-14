@@ -40,13 +40,32 @@ sources:
   #     # Skip because it's too slow
   #     skip: true
 
-  # Use NOAA's global summary of the day dataset
+  # Use NOAA's global summary of the day dataset (2020)
   - name: pipelines.weather.noaa_gsod.NoaaGsodDataSource
     fetch:
       - name: inventory
         url: https://www1.ncdc.noaa.gov/pub/data/noaa/isd-history.csv
       - name: gsod
         url: https://www.ncei.noaa.gov/data/global-summary-of-the-day/archive/2020.tar.gz
+      # A bit of a circular dependency but we need the latitude and longitude to compute weather
+      - name: geography
+        url: https://storage.googleapis.com/covid19-open-data/v2/geography.csv
+    test:
+      # Skip because it's too slow
+      skip: true
+    automation:
+      job_group: 'gsod'
+      deferred: true
+      # Run only every 4 hours, since it's so resource consuming and it updates daily
+      schedule: "0 */4 * * *"
+
+  # Use NOAA's global summary of the day dataset (2021)
+  - name: pipelines.weather.noaa_gsod.NoaaGsodDataSource
+    fetch:
+      - name: inventory
+        url: https://www1.ncdc.noaa.gov/pub/data/noaa/isd-history.csv
+      - name: gsod
+        url: https://www.ncei.noaa.gov/data/global-summary-of-the-day/archive/2021.tar.gz
       # A bit of a circular dependency but we need the latitude and longitude to compute weather
       - name: geography
         url: https://storage.googleapis.com/covid19-open-data/v2/geography.csv
