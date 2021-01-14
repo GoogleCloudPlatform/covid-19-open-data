@@ -292,6 +292,8 @@ sources:
       fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: '^NZ$'
+      # Skip because it's flakey
+      skip: true
     automation:
       job_group: all
       deferred: true
