@@ -16,9 +16,10 @@ from datetime import datetime
 from typing import Dict
 
 import requests
-from pandas import DataFrame, date_range
+from pandas import DataFrame
 from lib.concurrent import thread_map
 from lib.data_source import DataSource
+from lib.time import date_range, date_today
 
 
 _api_url_tpl = "https://api-covid19.rnbo.gov.ua/data?to={date}"
@@ -46,7 +47,6 @@ class UkraineDataSource(DataSource):
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         # Data can only be retrieved one day at a time, and it starts on 2020-01-22
         first = "2020-01-22"
-        today = datetime.now().date().isoformat()
-        map_iter = [str(date)[:10] for date in date_range(first, today)]
+        map_iter = list(date_range(first, date_today()))
         records = sum(thread_map(_get_daily_records, map_iter), [])
         return DataFrame.from_records(records)

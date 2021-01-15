@@ -26,7 +26,7 @@ from lib.error_logger import ErrorLogger
 from lib.concurrent import process_map, thread_map
 from lib.net import download_snapshot
 from lib.pipeline import DataSource
-from lib.time import datetime_isoformat
+from lib.time import datetime_isoformat, date_today
 from lib.utils import table_rename
 
 _IBGE_STATES = {
@@ -235,7 +235,7 @@ def _process_partition(cases: DataFrame) -> DataFrame:
     # Get rid of bogus records
     data = data.dropna(subset=["date"])
     data = data[data["date"] >= "2020-01-01"]
-    data = data[data["date"] < str(datetime.date.today() + datetime.timedelta(days=2))]
+    data = data[data["date"] < date_today(offset=1)]
 
     # Aggregate data by country
     country = (
@@ -357,7 +357,7 @@ class BrazilSRAGDataSource(DataSource):
         # Get rid of bogus records
         data = data.dropna(subset=["date"])
         data = data[data["date"] >= "2020-01-01"]
-        data = data[data["date"] < str(datetime.date.today() + datetime.timedelta(days=2))]
+        data = data[data["date"] < date_today(offset=1)]
 
         # Aggregate by country level
         country = (

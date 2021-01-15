@@ -21,6 +21,7 @@ import requests
 from .concurrent import thread_map
 from .error_logger import ErrorLogger
 from .io import pbar, open_file_like
+from .time import date_today
 
 
 def download_snapshot(
@@ -123,7 +124,7 @@ def _download_snapshot_try_date(
     today and 2020-01-01 until one works.
     """
     min_date = datetime.date.fromisoformat("2020-01-01")
-    cur_date = datetime.date.today() + datetime.timedelta(days=1)
+    cur_date = datetime.date.fromisoformat(date_today(offset=1))
     while cur_date >= min_date:
         try:
             date_str = cur_date.strftime(date_format)
