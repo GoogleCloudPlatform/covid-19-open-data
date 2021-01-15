@@ -18451,6 +18451,27 @@ SI,SI,Slovenia,,,,,,,,-1
 SJ,SJ,Svalbard and Jan Mayen,,,,,,,,-1
 SK,SK,Slovakia,,,,,,,,-1
 SL,SL,Sierra Leone,,,,,,,,-1
+SL_E,SL,Sierra Leone,E,Eastern Province,,,,,,
+SL_E_KE,SL,Sierra Leone,E,Eastern Province,KE,Kenema,,,,
+SL_E_KL,SL,Sierra Leone,E,Eastern Province,KL,Kailahun,,,,
+SL_E_KN,SL,Sierra Leone,E,Eastern Province,KN,Kono,,,,
+SL_N,SL,Sierra Leone,N,Northern Province,,,,,,
+SL_N_BM,SL,Sierra Leone,N,Northern Province,BM,Bombali,,,,
+SL_N_FB,SL,Sierra Leone,N,Northern Province,FB,Falaba,,,,
+SL_N_KD,SL,Sierra Leone,N,Northern Province,KD,Koinadugu,,,,
+SL_N_TO,SL,Sierra Leone,N,Northern Province,TO,Tonkolili,,,,
+SL_NW,SL,Sierra Leone,NW,North West Province,,,,,,
+SL_NW_KA,SL,Sierra Leone,NW,North West Province,KA,Karene,,,,
+SL_NW_KM,SL,Sierra Leone,NW,North West Province,KM,Kambia,,,,
+SL_NW_PL,SL,Sierra Leone,NW,North West Province,PL,Port Loko,,,,
+SL_S,SL,Sierra Leone,S,Southern Province,,,,,,
+SL_S_BN,SL,Sierra Leone,S,Southern Province,BN,Bonthe,,,,
+SL_S_BO,SL,Sierra Leone,S,Southern Province,BO,Bo,,,,
+SL_S_MO,SL,Sierra Leone,S,Southern Province,MO,Moyamba,,,,
+SL_S_PU,SL,Sierra Leone,S,Southern Province,PU,Pujehun,,,,
+SL_W,SL,Sierra Leone,W,Western Area,,,,,,
+SL_W_WR,SL,Sierra Leone,W,Western Area,WR,Western Area Rural,,,,
+SL_W_WU,SL,Sierra Leone,W,Western Area,WU,Western Area Urban,,,,
 SM,SM,San Marino,,,,,,,,-1
 SN,SN,Senegal,,,,,,,,-1
 SO,SO,Somalia,,,,,,,,-1
