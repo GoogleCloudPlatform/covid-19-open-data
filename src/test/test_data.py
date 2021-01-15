@@ -29,8 +29,8 @@ class TestCastFunctions(ProfiledTestCase):
         last_line = ""
         for idx, line in enumerate(read_lines(file_path)):
             if idx > 0:
-                key1 = line.split(",", 1)[0]
-                key2 = last_line.split(",", 1)[0]
+                key1 = line.split(",", 1)[0].replace("_", "-")
+                key2 = last_line.split(",", 1)[0].replace("_", "-")
                 msg = f"Keys in {file_path.name} must follow lexicographical order: {key1} ≤ {key2}"
                 self.assertGreater(key1, key2, msg)
                 last_line = line
