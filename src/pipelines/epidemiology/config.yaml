@@ -1070,6 +1070,26 @@ sources:
       job_group: all
       deferred: true
 
+  # Data sources for SL levels 1 + 2
+  - name: pipelines.epidemiology.sl_finmango.FinMangoDataSource
+    fetch:
+      - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTq0tHkSLt70_EEcDU1WJyPkr7fJqNf8wCbbTtdVQ4T5vjHHNGMJy55bSZI0rl0yVFDjjIfXQFaDyLh/pub?output=xlsx"
+        opts:
+          ext: xlsx
+    parse:
+      sheet_name: ["Kenema", "Kailahun", "Kono", "Bombali", "Falaba", "Koinadugu", "Tonkolili", "Karene", "Kambia", "Port Loko", "Bonthe", "Bo", "Moyamba", "Pujehun", "Western Area Rural", "Western Area Urban"]
+    aggregate:
+      subregion2: ["new_confirmed", "total_confirmed", "new_deceased", "total_deceased", "new_tested"]
+      subregion1: ["new_tested"]
+    test:
+      location_key_match:
+        - '^SL$'
+        - '^SL_[^_]+$'
+        - '^SL_[^_]+_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for TH levels 0 + 1
   - name: pipelines.epidemiology.th_authority.ThailandCountryDataSource
     fetch:
