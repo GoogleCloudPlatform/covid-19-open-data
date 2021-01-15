@@ -157,8 +157,9 @@ class NoaaGsodDataSource(DataSource):
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
 
         # Get all the weather stations with data up until last month from inventory
-        today = datetime.date.today()
-        min_date = (today - datetime.timedelta(days=30)).strftime("%Y%m%d")
+        year = int(parse_opts.get("year")) if "year" in parse_opts else None
+        cur_date = datetime.date(year, 12, 31) if year else datetime.date.today()
+        min_date = (cur_date - datetime.timedelta(days=30)).strftime("%Y%m%d")
         stations = read_file(sources["inventory"]).rename(
             columns={"LAT": "lat", "LON": "lon", "ELEV(M)": "elevation"}
         )

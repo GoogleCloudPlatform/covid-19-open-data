@@ -50,6 +50,8 @@ sources:
       # A bit of a circular dependency but we need the latitude and longitude to compute weather
       - name: geography
         url: https://storage.googleapis.com/covid19-open-data/v2/geography.csv
+    parse:
+      year: 2020
     test:
       # Skip because it's too slow
       skip: true

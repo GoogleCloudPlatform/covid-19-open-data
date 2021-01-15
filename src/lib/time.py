@@ -58,3 +58,9 @@ def date_range(start: str, end: str) -> Iterable[str]:
     assert start_date <= end_date, f"Start date must be less or equal than end date"
     for idx in range((end_date - start_date).days + 1):
         yield (start_date + datetime.timedelta(days=idx)).strftime(ISO_DATE_FORMAT)
+
+
+def date_today(offset: int = 0) -> str:
+    """ Returns today's date for UTC timezone in ISO format. """
+    date_value = datetime.datetime.utcnow() + datetime.timedelta(days=offset)
+    return date_value.date().isoformat()

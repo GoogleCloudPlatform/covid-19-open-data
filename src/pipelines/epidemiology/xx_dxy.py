@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import datetime
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -20,7 +19,7 @@ import requests
 from pandas import DataFrame
 
 from lib.data_source import DataSource
-from lib.time import date_range, timezone_adjust
+from lib.time import date_range, date_today, timezone_adjust
 
 
 class DXYDataSource(DataSource):
@@ -39,7 +38,7 @@ class DXYDataSource(DataSource):
         # NOTE: at the time of writing, last known date is October 20
         working_url = None
         last_known_date = "2020-10-20"
-        latest_date = (datetime.datetime.today() + datetime.timedelta(days=1)).date().isoformat()
+        latest_date = date_today(offset=1)
         for date in reversed(list(date_range(last_known_date, latest_date))):
             try:
                 url_test = url_tpl.format(date=date.replace("-", "."))
