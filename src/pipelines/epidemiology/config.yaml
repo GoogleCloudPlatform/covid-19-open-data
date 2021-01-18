@@ -402,28 +402,27 @@ sources:
       job_group: all
       deferred: true
 
-  # Data sources for ES levels 1 + 2
+  # Data sources for ES levels 0 + 1
   - name: pipelines.epidemiology.es_authority.ISCIIIConfirmedDataSource
     fetch:
-      - name: confirmed
-        url: "https://cnecovid.isciii.es/covid19/resources/datos_ccaas.csv"
-    # These cannot be aggregated since data for the last few days tends to be incomplete
-    # aggregate:
-    #   subregion1: ["new_confirmed"]
+      - url: "https://cnecovid.isciii.es/covid19/resources/casos_diagnostico_ccaa.csv"
+    aggregate:
+      subregion1: ["new_confirmed"]
     test:
-      location_key_match: '^ES_[^_]+$'
-      # This data source stopped publishing data...
-      skip: true
+      location_key_match:
+        - '^ES$'
+        - '^ES_[^_]+$'
     automation:
       job_group: all
       deferred: true
 
-  - name: pipelines.epidemiology.es_authority.MSCBSDeceasedDataSource
+  - name: pipelines.epidemiology.es_authority.ISCIIIStratifiedDataSource
     fetch:
-      - name: deceased
-        url: "https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov-China/documentos/Fallecidos_COVID19.xlsx"
+      - url: "https://cnecovid.isciii.es/covid19/resources/casos_hosp_uci_def_sexo_edad_provres.csv"
     test:
-      location_key_match: '^ES_[^_]+$'
+      location_key_match:
+        - '^ES$'
+        - '^ES_[^_]+$'
     automation:
       job_group: all
       deferred: true
