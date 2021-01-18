@@ -13,10 +13,63 @@
 # limitations under the License.
 
 from typing import Dict
-from pandas import DataFrame
+from pandas import DataFrame, concat
 from lib.data_source import DataSource
-from lib.time import datetime_isoformat
-from lib.utils import table_rename, pivot_table
+from lib.utils import table_rename
+
+
+_province_map = {
+    "A": "VC",
+    "AB": "CM",
+    "AL": "AN",
+    "AV": "CL",
+    "B": "CT",
+    "BA": "EX",
+    "BI": "PV",
+    "BU": "CL",
+    "C": "GA",
+    "CA": "AN",
+    "CC": "EX",
+    "CO": "AN",
+    "CR": "CM",
+    "CS": "VC",
+    "CU": "CM",
+    "GC": "CN",
+    "GI": "CT",
+    "GR": "AN",
+    "GU": "CM",
+    "H": "AN",
+    "HU": "AR",
+    "J": "AN",
+    "L": "CT",
+    "LE": "CL",
+    "LO": "RI",
+    "LU": "GA",
+    "M": "MD",
+    "MA": "AN",
+    "MU": "MC",
+    "NA": "NC",
+    "O": "AS",
+    "OR": "GA",
+    "P": "CL",
+    "PM": "IB",
+    "PO": "GA",
+    "S": "CB",
+    "SA": "CL",
+    "SE": "AN",
+    "SG": "CL",
+    "SO": "CL",
+    "SS": "PV",
+    "T": "CT",
+    "TE": "AR",
+    "TF": "CN",
+    "TO": "CM",
+    "V": "VC",
+    "VA": "CL",
+    "VI": "PV",
+    "Z": "AR",
+    "ZA": "CL",
+}
 
 
 class ISCIIIConfirmedDataSource(DataSource):
@@ -25,12 +78,8 @@ class ISCIIIConfirmedDataSource(DataSource):
     ) -> DataFrame:
 
         confirmed = table_rename(
-            dataframes["confirmed"],
-            {
-                "ccaa_iso": "subregion1_code",
-                "fecha": "date",
-                "num_casos_prueba_pcr": "new_confirmed",
-            },
+            dataframes[0],
+            {"ccaa_iso": "subregion1_code", "fecha": "date", "num_casos": "new_confirmed"},
             drop=True,
         )
 
@@ -46,28 +95,48 @@ class ISCIIIConfirmedDataSource(DataSource):
         return confirmed
 
 
-class MSCBSDeceasedDataSource(DataSource):
+class ISCIIIStratifiedDataSource(DataSource):
     def parse_dataframes(
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
 
-        deceased = table_rename(dataframes["deceased"], {"FECHA / CCAA": "date"})
-        deceased = pivot_table(
-            deceased.set_index("date"), value_name="new_deceased", pivot_name="match_string"
+        data = table_rename(
+            dataframes[0],
+            {
+                "provincia_iso": "province",
+                "fecha": "date",
+                "sexo": "sex",
+                "grupo_edad": "age",
+                "num_casos": "new_confirmed",
+                "num_hosp": "new_hospitalized",
+                "num_uci": "new_intensive_care",
+                "num_def": "new_deceased",
+            },
+            drop=True,
         )
 
         # Convert dates to ISO format
-        deceased["date"] = deceased["date"].apply(lambda x: str(x)[:10])
-        deceased["date"] = deceased["date"].apply(lambda x: datetime_isoformat(x, "%Y-%m-%d"))
+        data["date"] = data["date"].str.slice(0, 10)
 
-        # Add the country code to all records and declare matching as subregion1
-        deceased["country_code"] = "ES"
-        deceased["subregion2_code"] = None
-        deceased["locality_code"] = None
+        data.loc[data["age"] == "80+", "age"] = "80-"
+        data.loc[data["age"] == "NC", "age"] = "age_unknown"
+        data["sex"] = data["sex"].apply({"H": "male", "M": "female"}.get).fillna("sex_unknown")
 
-        # Country level is declared as "espana"
-        deceased["key"] = None
-        deceased.loc[deceased["match_string"] == "espana", "key"] = "ES"
+        # Group by country since some regions are N/A
+        country = data.groupby(["date", "age", "sex"]).sum().reset_index()
+        country["key"] = "ES"
+
+        # Group provinces into autonomous communities (subregion1 level)
+        data["subregion1_code"] = data["province"].apply(_province_map.get)
+        data = (
+            data.drop(columns=["province"])
+            .groupby(["date", "subregion1_code", "age", "sex"])
+            .sum()
+            .reset_index()
+        )
+
+        data = data.dropna(subset=["subregion1_code"])
+        data["key"] = "ES_" + data["subregion1_code"]
 
         # Output the results
-        return deceased.dropna(subset=["date"])
+        return concat([country, data])
