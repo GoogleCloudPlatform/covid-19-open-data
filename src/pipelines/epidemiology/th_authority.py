@@ -18,7 +18,7 @@ from pandas import DataFrame, concat
 from lib.case_line import convert_cases_to_time_series
 from lib.pipeline import DataSource
 from lib.time import datetime_isoformat
-from lib.utils import table_rename
+from lib.utils import table_rename, aggregate_admin_level
 
 
 _SUBREGION1_CODE_MAP = {
@@ -69,6 +69,47 @@ class ThailandCountryDataSource(DataSource):
         # Add key and return data
         data["key"] = "TH"
         return data
+
+
+class ThailandProvinceDataSource(DataSource):
+    def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
+        with open(sources[0], "r") as fd:
+            cases = json.load(fd)["Data"]
+
+        # {"ConfirmDate":"2021-01-09 00:00:00","No":"9876","Age":66,"Gender":"\u0e0a","GenderEn":"Male","Nation":"Thailand","NationEn":"Thailand","Province":"\u0e2d","ProvinceId":72,"District":"\u0e44","ProvinceEn":"Ang Thong","Detail":null,"StatQuarantine":1}
+        cases = table_rename(
+            DataFrame.from_records(cases),
+            {
+                "ConfirmDate": "date_new_confirmed",
+                "Age": "age",
+                "GenderEn": "sex",
+                "ProvinceEn": "match_string",
+            },
+            drop=True,
+        )
+
+        # Convert dates to ISO format
+        for col in cases.columns:
+            if col.startswith("date_"):
+                cases[col] = cases[col].str.slice(0, 10)
+
+        # Parse age and sex fields
+        cases["sex"] = cases["sex"].str.lower().apply({"male": "male", "female": "female"}.get)
+        cases["age"] = cases["age"].fillna("age_unknown")
+        cases["sex"] = cases["sex"].fillna("sex_unknown")
+
+        # Convert to time series data
+        data = convert_cases_to_time_series(cases, ["match_string"])
+
+        # Aggregate by country level
+        country = aggregate_admin_level(data, ["date", "age", "sex"], "country")
+        country["key"] = "TH"
+
+        # Add country code and return data
+        data["country_code"] = "TH"
+        data = data[data["match_string"] != "Unknown"]
+
+        return concat([country, data])
 
 
 class ThailandCasesDataSource(DataSource):
