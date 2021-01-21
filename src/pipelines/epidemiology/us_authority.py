@@ -42,7 +42,7 @@ def _process_state(data: DataFrame) -> DataFrame:
             "state",
             "fips_code",
             "county",
-            "report_date_window",
+            "report_date_window_end",
             "report_date_window_start",
         ],
         inplace=True,
@@ -52,9 +52,15 @@ def _process_state(data: DataFrame) -> DataFrame:
     data.sort_values(["key", "date"], inplace=True)
 
     # Get a mapping between rolling average column names and their daily counterparts
+    col_prefixes = (
+        "new_cases",
+        "new_deaths",
+        "new_test_results_reported",
+        "admissions_covid_confirmed",
+    )
     rolling_suffix = "_7_day_rolling_average"
     rolling_columns_map = {
-        col: col.replace(rolling_suffix, "") for col in data.columns if col.endswith(rolling_suffix)
+        col + rolling_suffix: col.replace(rolling_suffix, "") for col in col_prefixes
     }
 
     # Seed the daily versions of the columns with empty values
@@ -67,7 +73,8 @@ def _process_state(data: DataFrame) -> DataFrame:
     for key in pbar(data["key"].unique(), desc="Computing daily values from rolling means"):
         mask = data["key"] == key
         for col, name in rolling_columns_map.items():
-            data.loc[mask, name] = recover_from_rolling_mean(data.loc[mask, col], 7)
+            subset = data.loc[mask, col].dropna()
+            data.loc[subset.index, name] = recover_from_rolling_mean(subset, 7)
 
     # Get rid of unnecessary columns now that we have the daily values
     data.drop(columns=rolling_columns_map.keys(), inplace=True)
@@ -78,6 +85,7 @@ def _process_state(data: DataFrame) -> DataFrame:
             "new_cases": "new_confirmed",
             "new_deaths": "new_deceased",
             "new_test_results_reported": "new_tested",
+            "admissions_covid_confirmed": "new_hospitalized",
         },
     )
 
