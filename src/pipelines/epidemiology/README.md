@@ -9,7 +9,7 @@ which adds a new data source to for epidemiology data broken down into subregion
 Before adding new data, we must have a data source. The data source must be able to produce
 historical data. If the data source you found only has the last day's data, then consider adding it
 to the cache first; then aggregate the cache entries into a historical view of the data source. See
-the [cache documentation](../../cache/README.md) for more details.
+the [cache documentation](../../README.md#caching) for more details.
 
 
 ## Step 1: Populate metadata table
@@ -62,6 +62,11 @@ sources:
     # Options can be passed to the parsing script like this
     parse:
       opt_name: "opt_value"
+    test:
+      # All data sources should include a hint for which location keys will be output, use regex
+      location_key_match:
+        - '^AF$'        # Match country-level key "AF"
+        - '^AF_[^_]+$'  # Match all subregions starting with "AF_" without including level 2
 ```
 
 This data source has a single URL, but you can have as many as necessary and a list will be provided
@@ -111,8 +116,14 @@ class MySourceNameDataSource(DataSource):
         data["country_code"] = "AF"
 
         # Here we most likely need to do additional processing, but we return as-is as an example
-        # For instance, we should probably compute `total_confirmed`, `total_deceased` and
-        # `total_recovered` by performing the cumsum of each of those columns grouped by key.
+
+        # Even though we are only providing `new_*` values, the ingestion pipeline will automatically
+        # compute the corresponding `total_*` values.
+
+        # Grouping by a level with less granularity than the data source provides (for example, if
+        # the data source provides state-level data and we also want to report country-level data)
+        # should be done here too.
+
         return data
 ```
 
@@ -156,7 +167,7 @@ pipeline configurations from `config.yaml` and inspect the console output as wel
 table output at [the output folder](../../../output/tables). To run the epidemiology pipeline,
 execute the following command from the `src` folder:
 ```sh
-python update.py --only epidemiology --verify simple
+python update.py --only epidemiology --verify simple --location-key AF_*
 ```
 
 The goal should be to find a match for **every** record in the source dataset. Sometimes, that's
