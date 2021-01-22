@@ -164,7 +164,7 @@ means possible for performance reasons.
 ## Step 4: Test your script
 Once the scraping script is finished, the easiest way to test it is to comment out all the other
 pipeline configurations from `config.yaml` and inspect the console output as well as the resulting
-table output at [the output folder](../../../output/tables). To run the epidemiology pipeline,
+table output at [the output folder](../../../output). To run the epidemiology pipeline,
 execute the following command from the `src` folder:
 ```sh
 python update.py --only epidemiology --verify simple --location-key AF_*
