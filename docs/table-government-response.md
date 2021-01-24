@@ -34,6 +34,8 @@ This table can be found at the following URLs depending on the choice of format:
 | **contact_tracing** | `integer` `[0-2]` | Country-wide contact tracing policy | 1 |
 | **emergency_investment_in_healthcare** | `integer` `[USD]` | Emergency funding allocated to healthcare | 500000 |
 | **investment_in_vaccines** | `integer` `[USD]` | Emergency funding allocated to vaccine research | 100000 |
+| **facial_coverings** | `integer` `[0-4]` | Policies on the use of facial coverings outside the home | 2 |
+| **vaccination_policy** | `integer` `[0-5]` | Policies for vaccine delivery for different groups | 2 |
 | **stringency_index** | `double` `[0-100]` | Overall stringency index | 71.43 |
 
 [1]: https://www.bsg.ox.ac.uk/research/research-projects/oxford-covid-19-government-response-tracker
