@@ -45,6 +45,7 @@ from publish import (
     publish_global_tables,
     publish_location_breakouts,
     publish_location_aggregates,
+    publish_subset_latest,
 )
 from scripts.cloud_error_processing import register_new_errors
 
@@ -495,6 +496,34 @@ def publish_v3_global_tables() -> Response:
     return Response("OK", status=200)
 
 
+@profiled_route("/publish_v3_latest_tables")
+def publish_v3_latest_tables() -> Response:
+    with temporary_directory() as workdir:
+        input_folder = workdir / "input"
+        output_folder = workdir / "output"
+        input_folder.mkdir(parents=True, exist_ok=True)
+        output_folder.mkdir(parents=True, exist_ok=True)
+
+        # Download all the global tables into our local storage
+        forbid_tokens = ("/", "main.", "aggregated.")
+        download_folder(
+            GCS_BUCKET_PROD,
+            "v3",
+            input_folder,
+            lambda x: x.suffix == ".csv" and all(token not in str(x) for token in forbid_tokens),
+        )
+        logger.log_info(f"Downloaded {sum(1 for _ in input_folder.glob('**/*.csv'))} CSV files")
+
+        # Create subsets for easy API-like access to slices of data
+        list(publish_subset_latest(input_folder, output_folder))
+        logger.log_info("Table subsets created")
+
+        # Upload the results to the prod bucket
+        upload_folder(GCS_BUCKET_PROD, "v3/latest", output_folder)
+
+    return Response("OK", status=200)
+
+
 @profiled_route("/publish_v3_location_subsets")
 def publish_v3_location_subsets(
     location_key_from: str = None, location_key_until: str = None
@@ -636,14 +665,13 @@ def publish_json_tables(prod_folder: str = "v2") -> Response:
         input_folder.mkdir(parents=True, exist_ok=True)
         output_folder.mkdir(parents=True, exist_ok=True)
 
-        # Download all the global tables into our local storage
+        # Download all the global tables and latest subsets into our local storage
         forbid_tokens = ("/", "main.", "aggregated.")
-        download_folder(
-            GCS_BUCKET_PROD,
-            prod_folder,
-            input_folder,
-            lambda x: x.suffix == ".csv" and all(token not in str(x) for token in forbid_tokens),
+        filter_func = lambda x: x.suffix == ".csv" and all(
+            token not in str(x) for token in forbid_tokens
         )
+        download_folder(GCS_BUCKET_PROD, prod_folder, input_folder, filter_func)
+        download_folder(GCS_BUCKET_PROD, prod_folder / "latest", input_folder, filter_func)
         logger.log_info(f"Downloaded {sum(1 for _ in input_folder.glob('**/*.csv'))} CSV files")
 
         # Convert all files to JSON
@@ -813,6 +841,7 @@ def main() -> None:
         "publish_v3": _publish_v3,
         "publish_v3_json": _publish_json_v3,
         "publish_v3_main": publish_v3_main_table,
+        "publish_v3_latest": publish_v3_latest_tables,
         "report_errors_to_github": report_errors_to_github,
     }.get(args.command, _unknown_command)(**json.loads(args.args or "{}"))
 

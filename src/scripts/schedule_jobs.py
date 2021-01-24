@@ -186,6 +186,13 @@ def schedule_all_jobs(project_id: str, location_id: str, time_zone: str) -> None
         schedule="30 */2 * * *",
     )
 
+    # Publish the latest subset for all tables every 2 hours
+    _schedule_job(
+        path="/deferred/publish_v3_latest_tables",
+        # Offset by 60 minutes to execute after publish_v3_global_tables finishes
+        schedule="0 1-23/2 * * *",
+    )
+
     # Convert the global tables to JSON
     _schedule_job(
         path=f"/deferred/publish_json_tables?prod_folder=v3",

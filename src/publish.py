@@ -36,6 +36,7 @@ from lib.memory_efficient import (
     table_drop_nan_columns,
     table_grouped_tail,
     table_join,
+    table_merge,
     table_read_column,
     table_rename,
     table_sort,
@@ -214,14 +215,14 @@ def merge_location_breakout_tables(tables_folder: Path, output_path: Path) -> No
     table_concat(pbar(table_paths, desc="Concatenating tables"), output_path)
 
 
-def _subset_latest(output_folder: Path, csv_file: Path) -> Path:
+def _grouped_subset_latest(output_folder: Path, csv_file: Path, group_column="key") -> Path:
     output_file = output_folder / csv_file.name
     # Degenerate case: table has no "date" column
     columns = get_table_columns(csv_file)
     if "date" not in columns:
         shutil.copyfile(csv_file, output_file)
     else:
-        table_grouped_tail(csv_file, output_file, ["key"])
+        table_grouped_tail(csv_file, output_file, [group_column])
     return output_file
 
 
@@ -236,7 +237,7 @@ def create_table_subsets(main_table_path: Path, output_path: Path) -> Iterable[P
 
     # Create a subset with the latest known day of data for each key
     map_opts = dict(desc="Latest subset")
-    map_func = partial(_subset_latest, latest_path)
+    map_func = partial(_grouped_subset_latest, latest_path)
     map_iter = list(output_path.glob("*.csv")) + [main_table_path]
     yield from pbar(map(map_func, map_iter), **map_opts)
 
@@ -355,6 +356,66 @@ def publish_global_tables(tables_folder: Path, output_folder: Path) -> None:
             table_sort(workdir / csv_path.name, output_folder / csv_path.name, ["location_key"])
 
 
+def _latest_date_by_group(tables_folder: Path, group_by: str = "location_key") -> Dict[str, str]:
+    groups: Dict[str, str] = {}
+    for table_file in tables_folder.glob("*.csv"):
+        table_columns = get_table_columns(table_file)
+        if "date" in table_columns:
+            iter1 = table_read_column(table_file, "date")
+            iter2 = table_read_column(table_file, group_by)
+            for date, key in zip(iter1, iter2):
+                groups[key] = max(groups.get(key, date), date)
+    return groups
+
+
+def publish_subset_latest(
+    tables_folder: Path, output_folder: Path, key: str = "location_key", **tqdm_kwargs
+) -> List[Path]:
+    """
+    This method outputs the latest record by date per location key for each of the input tables.
+
+    Arguments:
+        tables_folder: Directory containing input CSV files.
+        output_folder: Output path for the resulting data.
+        key: Column name to group by.
+    """
+    agg_table_name = "aggregated"
+
+    # Create a latest subset version for each of the tables in parallel
+    map_iter = [table for table in tables_folder.glob("*.csv") if table.stem != agg_table_name]
+    _logger.log_info(f"Computing latest subset for {len(map_iter)} tables")
+    map_opts = dict(total=len(map_iter), desc="Creating latest subsets", **tqdm_kwargs)
+    map_func = partial(_grouped_subset_latest, output_folder, group_column=key)
+    for table in pbar(map(map_func, map_iter), **map_opts):
+        yield table
+
+    # Use a temporary directory for intermediate files
+    with temporary_directory() as workdir:
+
+        latest_dates_table = workdir / "dates.csv"
+        latest_dates_map = _latest_date_by_group(output_folder, group_by=key)
+        with open(latest_dates_table, "w") as fh:
+            fh.write("location_key,date\n")
+            for location_key, date in latest_dates_map.items():
+                fh.write(f"{location_key},{date}\n")
+
+        join_table_paths = [latest_dates_table]
+        tables_in = (table for table in output_folder.glob("*.csv") if table.stem in V3_TABLE_LIST)
+        for table_file in tables_in:
+            table_columns = get_table_columns(table_file)
+            if "date" not in table_columns:
+                join_table_paths.append(table_file)
+            else:
+                tmp_file = workdir / table_file.name
+                table_rename(table_file, tmp_file, {"date": None})
+                join_table_paths.append(tmp_file)
+
+        # Join them all into a single file for the aggregate version
+        output_agg = output_folder / f"{agg_table_name}.csv"
+        table_merge(join_table_paths, output_agg, on=[key], how="OUTER")
+        yield output_agg
+
+
 def main(output_folder: Path, tables_folder: Path, use_table_names: List[str] = None) -> None:
     """
     This script takes the processed outputs located in `tables_folder` and publishes them into the
@@ -382,6 +443,11 @@ def main(output_folder: Path, tables_folder: Path, use_table_names: List[str] = 
 
     # Publish the tables containing all location keys
     publish_global_tables(tables_folder, output_folder)
+
+    # Publish the latest subset for each table
+    latest_folder = output_folder / "latest"
+    latest_folder.mkdir(exist_ok=True, parents=True)
+    publish_subset_latest(output_folder, latest_folder)
 
     # Create a temporary folder which will host all the location breakouts
     with temporary_directory() as breakout_folder:
