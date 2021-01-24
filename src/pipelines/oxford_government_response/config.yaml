@@ -34,6 +34,8 @@ schema:
   contact_tracing: int
   emergency_investment_in_healthcare: int
   investment_in_vaccines: int
+  facial_coverings: int
+  vaccination_policy: int
   stringency_index: float
 
 auxiliary:
