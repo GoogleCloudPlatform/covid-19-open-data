@@ -22,11 +22,11 @@ from typing import Dict, Iterable, List, TextIO
 from .io import line_reader, open_file_like, read_table, temporary_directory, temporary_file
 
 
-# Any CSV file under 50 MB can use the fast in-memory JSON converter
-JSON_FAST_CONVERTER_SIZE_BYTES = 50 * 1000 * 1000
+# Any CSV file under 100 MB can use the fast in-memory JSON converter
+JSON_FAST_CONVERTER_SIZE_BYTES = 100 * 1000 * 1000
 
-# Any CSV file above 500 MB should not be converted to JSON
-JSON_MAX_SIZE_BYTES = 500 * 1000 * 1000
+# Any CSV file above 1 GB should not be converted to JSON
+JSON_MAX_SIZE_BYTES = 1 * 1000 * 1000 * 1000
 
 
 def skip_head_reader(file_handle: TextIO, skip_count: int = 1, **read_opts) -> Iterable[str]:
@@ -106,8 +106,9 @@ def table_join(
     ), f"Unrecognized table join method {how}, it should be one of {known_methods}"
 
     def compute_join_indices(columns: List[str]) -> List[str]:
+        all_columns = set(columns.keys())
         assert all(
-            name in columns.keys() for name in on
+            name in all_columns for name in on
         ), f"Column {on} not present in right table, found {list(columns.keys())}"
         join_indices = [columns[name] for name in on]
         return join_indices
