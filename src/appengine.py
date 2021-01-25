@@ -666,12 +666,11 @@ def publish_json_tables(prod_folder: str = "v2") -> Response:
         output_folder.mkdir(parents=True, exist_ok=True)
 
         # Download all the global tables and latest subsets into our local storage
-        forbid_tokens = ("/", "main.", "aggregated.")
+        forbid_tokens = ("location/", "main.", "aggregated.")
         filter_func = lambda x: x.suffix == ".csv" and all(
             token not in str(x) for token in forbid_tokens
         )
         download_folder(GCS_BUCKET_PROD, prod_folder, input_folder, filter_func)
-        download_folder(GCS_BUCKET_PROD, prod_folder / "latest", input_folder, filter_func)
         logger.log_info(f"Downloaded {sum(1 for _ in input_folder.glob('**/*.csv'))} CSV files")
 
         # Convert all files to JSON
