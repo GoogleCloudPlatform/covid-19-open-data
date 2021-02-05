@@ -44,7 +44,7 @@ def start_instance_from_image(
         f"--container-image={image_id}",
         f"--container-restart-policy=always",
         f"--container-env=PORT=80",
-        f"--boot-disk-size=32GB",
+        f"--boot-disk-size=64GB",
         f"--boot-disk-type=pd-standard",
         f"--boot-disk-device-name={instance_id}",
         f"--quiet",
