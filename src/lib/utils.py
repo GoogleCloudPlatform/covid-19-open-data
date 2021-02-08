@@ -361,7 +361,7 @@ def derive_localities(localities: DataFrame, data: DataFrame) -> DataFrame:
     """
     # Aggregation sums all numeric columns and takes the first value of the rest
     numeric_columns = [col for col in data.columns if is_numeric_dtype(data[col])]
-    non_numeric_columns = [col for col in data.columns if not is_numeric_dtype(data[col])]
+    non_numeric_columns = [col for col in data.columns if col not in numeric_columns]
     agg_func = {}
     agg_func.update({col: "sum" for col in numeric_columns})
     agg_func.update({col: "first" for col in non_numeric_columns})
@@ -372,6 +372,7 @@ def derive_localities(localities: DataFrame, data: DataFrame) -> DataFrame:
     # Merge and aggregate
     locs = data.merge(localities, on="key", how="inner")
     locs["key"] = locs["locality"]
+    locs = locs.drop(columns=["locality"])
     index_columns = ["key", "date"] if "date" in data.columns else ["key"]
     return locs.groupby(index_columns).agg(agg_func)
 

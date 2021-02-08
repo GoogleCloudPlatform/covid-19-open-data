@@ -69,6 +69,7 @@ V3_TABLE_LIST = (
     "index",
     "epidemiology",
     "hospitalizations",
+    "vaccinations",
     "by-age",
     "by-sex",
     "demographics",
@@ -101,6 +102,10 @@ OUTPUT_COLUMN_ADAPTER = {
     "total_hospitalized": "cumulative_hospitalized",
     "total_intensive_care": "cumulative_intensive_care",
     "total_ventilator": "cumulative_ventilator",
+    # Vaccinations table
+    "total_persons_vaccinated": "cumulative_persons_vaccinated",
+    "total_persons_fully_vaccinated": "cumulative_persons_fully_vaccinated",
+    "total_vaccine_doses_administered": "cumulative_vaccine_doses_administered",
     # Demographics table
     "rural_population": "population_rural",
     "urban_population": "population_urban",

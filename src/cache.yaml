@@ -69,3 +69,6 @@
 
 - url: https://ga-covid19.ondemand.sas.com/docs/ga_covid_data.zip
   output: US_GA_stratified.zip
+
+- url: https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_data
+  output: US_CDC_states_vaccinations.json
