@@ -11,6 +11,7 @@ This table can be found at the following URLs depending on the choice of format:
 ## Schema
 | Name | Type | Description | Example |
 | ---- | ---- | ----------- | ------- |
+| **date** | `string` | ISO 8601 date (YYYY-MM-DD) of the datapoint | 2020-03-30 |
 | **key** | `string` | Unique string identifying the region | CN_HB |
 | **new_hospitalized\*** | `integer` | Count of new cases hospitalized after positive test on this date | 34 |
 | **new_intensive_care\*** | `integer` | Count of new cases admitted into ICU after a positive COVID-19 test on this date | 2 |
