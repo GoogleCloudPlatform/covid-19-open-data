@@ -22,10 +22,8 @@ from lib.constants import OUTPUT_COLUMN_ADAPTER, SRC, V3_TABLE_LIST
 from lib.io import read_table, read_lines, temporary_directory
 from lib.memory_efficient import get_table_columns
 from lib.pipeline_tools import get_pipelines, get_schema
-from lib.sql import _safe_table_name, create_sqlite_database, table_export_csv
 
 from .profiled_test_case import ProfiledTestCase
-from .test_memory_efficient import _compare_tables_equal
 from publish import copy_tables, convert_tables_to_json, publish_global_tables, merge_output_tables
 
 # Make the main schema a global variable so we don't have to reload it in every test
@@ -46,7 +44,9 @@ class TestPublish(ProfiledTestCase):
         self.assertGreaterEqual(first_date, subset.dropna(how="all").date.min())
 
         # Less than half of the rows have null values in any column after the first date
-        self.assertGreaterEqual(len(subset.dropna()), len(subset) / 2)
+        key_col = [col for col in ("key", "location_key") if col in subset.columns]
+        subset = subset.drop(columns=key_col + ["date"])
+        self.assertGreaterEqual(len(subset.dropna(how="all")), len(subset) / 2)
 
     def _test_make_main_table_helper(self, main_table_path: Path, column_adapter: Dict[str, str]):
         main_table = read_table(main_table_path, schema=SCHEMA)
@@ -88,13 +88,13 @@ class TestPublish(ProfiledTestCase):
         main_table = main_table[["date"] + columns]
 
         # Spot check: Country of Andorra
-        self._spot_check_subset(main_table, "AD", "2020-03-02", "2020-09-01")
+        self._spot_check_subset(main_table, "AD", "2020-09-01", "2021-02-01")
 
         # Spot check: State of New South Wales
-        self._spot_check_subset(main_table, "AU_NSW", "2020-01-25", "2020-09-01")
+        self._spot_check_subset(main_table, "AU_NSW", "2020-09-01", "2021-02-01")
 
         # Spot check: Alachua County
-        self._spot_check_subset(main_table, "US_FL_12001", "2020-03-10", "2020-09-01")
+        self._spot_check_subset(main_table, "US_FL_12001", "2020-09-01", "2021-02-01")
 
     def test_make_main_table(self):
         with temporary_directory() as workdir:
