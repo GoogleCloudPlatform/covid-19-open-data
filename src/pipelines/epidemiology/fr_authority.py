@@ -161,7 +161,7 @@ class FranceStratifiedDataSource(FranceDataSource):
                                 "key": key,
                                 "date": row["date"],
                                 "age": item["age"],
-                                "sex": item["sexe"],
+                                "sex": item.get("sexe"),
                                 f"new_{statistic}": item["value"],
                             }
                         )
