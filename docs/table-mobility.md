@@ -3,6 +3,7 @@
 # Mobility
 Various metrics related to the movement of people, including [Google's Mobility Reports][1].
 
+
 ## Google COVID-19 Community Mobility Reports
 
 ### Terms of use
@@ -48,6 +49,7 @@ We calculate these insights based on data from users who have opted-in to Locati
 Google Account, so the data represents a sample of our users. As with all samples, this may or may
 not represent the exact behavior of a wider population.
 
+
 ## Updates and improvements
 We continue to improve our reports as places close and reopen. We updated the way we calculate
 changes for *Groceries & pharmacy*, *Retail & recreation*, *Transit stations*, and *Parks*
@@ -56,7 +58,7 @@ or down that starts between April 11–18, 2020.
 
 On October 5, 2020, we added an improvement to the dataset to ensure consistent data reporting in the
 *Groceries & pharmacy*, *Retail & recreation*, *Transit*, *Parks*, and *Workplaces* categories. The
-update applies to all regions, starting on August 17, 2020. 
+update applies to all regions, starting on August 17, 2020.
 
 ### Preserving privacy
 The Community Mobility Datasets were developed to be helpful while adhering to our stringent privacy
@@ -79,11 +81,13 @@ visits isn’t shared.
 Visit Google’s [Privacy Policy](https://policies.google.com/privacy) to learn more about how we keep
 your data private, safe and secure.
 
+
 ## URL
 [Google's Mobility Reports][1] are joined with our known location keys, and can be downloaded at the
 following locations:
 * [mobility.csv](https://storage.googleapis.com/covid19-open-data/v2/mobility.csv)
 * [mobility.json](https://storage.googleapis.com/covid19-open-data/v2/mobility.json)
+
 
 ## Schema
 | Name | Type | Description | Example |
@@ -96,5 +100,18 @@ following locations:
 | **mobility_retail_and_recreation** | `double` `[%]` |  Percentage change in visits to restaurants, cafes, shopping centers, theme parks, museums, libraries, and movie theaters compared to baseline | -15 |
 | **mobility_residential** | `double` `[%]` |  Percentage change in visits to places of residence compared to baseline | -15 |
 | **mobility_workplaces** | `double` `[%]` |  Percentage change in visits to places of work compared to baseline | -15 |
+
+
+## Sources of data
+
+<details>
+<summary>Show data sources</summary>
+
+
+| Data | Source | License and Terms of Use |
+| ---- | ------ | ------------------------ |
+| Google Mobility data | <https://www.google.com/covid19/mobility/> | [Google Terms of Service](https://policies.google.com/terms) |
+
+</details>
 
 [1]: https://www.google.com/covid19/mobility/

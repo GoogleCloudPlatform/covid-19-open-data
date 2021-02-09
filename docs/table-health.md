@@ -3,10 +3,12 @@
 # Health
 Health related indicators for each region.
 
+
 ## URL
 This table can be found at the following URLs depending on the choice of format:
 * [health.csv](https://storage.googleapis.com/covid19-open-data/v2/health.csv)
 * [health.json](https://storage.googleapis.com/covid19-open-data/v2/health.json)
+
 
 ## Schema
 | Name | Type | Description | Example |
@@ -27,3 +29,23 @@ This table can be found at the following URLs depending on the choice of format:
 | **out_of_pocket_health_expenditure** | `double` `[USD]` | Out-of-pocket health expenditure per capita | 34.756348 |
 
 Note that the majority of the health indicators are only available at the country level.
+
+
+## Sources of data
+
+<details>
+<summary>Show data sources</summary>
+
+
+| Data | Source | License and Terms of Use |
+| ---- | ------ | ------------------------ |
+| Health | [Eurostat](https://ec.europa.eu/eurostat) | [CC BY][2] |
+| Health | [Wikidata](https://wikidata.org) | [CC0][23] |
+| Health | [WorldBank](https://worldbank.org) | [CC BY](https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets) |
+
+</details>
+
+
+
+[1]: https://www.wikidata.org/wiki/Wikidata:Licensing
+[2]: https://ec.europa.eu/info/legal-notice_en#copyright-notice

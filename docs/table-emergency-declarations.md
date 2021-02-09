@@ -9,9 +9,11 @@ University Center for Public Health Law Research, and are published and maintain
 For more information about each field see the
 [LawAtlas Project dataset page][2] and the corresponding [codebook][3].
 
+
 ## URL
 This table can be found at the following URL:
 * [lawatlas-emergency-declarations.csv](https://storage.googleapis.com/covid19-open-data/v2/lawatlas-emergency-declarations.csv)
+
 
 ## Schema
 | Name | Type | Description | Example |
@@ -120,6 +122,20 @@ This table can be found at the following URL:
 | **lawatlas_action_preempt_restricting_the_operations_of_schools** | `integer` `[0-1]` | What local measures are preempted by state action? | 0 |
 | **lawatlas_action_preempt_imposing_gathering_bans** | `integer` `[0-1]` | What local measures are preempted by state action? | 0 |
 | **lawatlas_local_allow** | `integer` `[0-1]` | Does the state explicitly allow local authorities to impose additional requirements? | 0 |
+
+
+## Sources of data
+
+<details>
+<summary>Show data sources</summary>
+
+
+| Data | Source | License and Terms of Use |
+| ---- | ------ | ------------------------ |
+| Emergency declarations and mitigation policies | [LawAtlas](https://lawatlas.org/datasets/covid-19-emergency-declarations) | [CC BY](https://lawatlas.org/LawAtlas_Terms%20of%20Use.docx) |
+
+</details>
+
 
 [1]: https://lawatlas.org/
 [2]: https://lawatlas.org/datasets/covid-19-emergency-declarations

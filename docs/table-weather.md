@@ -3,10 +3,12 @@
 # Weather
 Daily weather information from nearest station reported by NOAA.
 
+
 ## URL
 This table can be found at the following URLs depending on the choice of format:
 * [weather.csv](https://storage.googleapis.com/covid19-open-data/v2/weather.csv)
 * [weather.json](https://storage.googleapis.com/covid19-open-data/v2/weather.json)
+
 
 ## Schema
 | Name | Type | Description | Example |
@@ -25,3 +27,16 @@ This table can be found at the following URLs depending on the choice of format:
 
 \*The reported data corresponds to the average of the nearest 10 stations within a 300km radius. The
 columns `noaa_station` and `noaa_distance` refer to the nearest station only.
+
+
+## Sources of data
+
+<details>
+<summary>Show data sources</summary>
+
+
+| Data | Source | License and Terms of Use |
+| ---- | ------ | ------------------------ |
+| Weather | [NOAA](https://www.ncei.noaa.gov) | [Attribution required, non-commercial use](https://www.wmo.int/pages/prog/www/ois/Operational_Information/Publications/Congress/Cg_XII/res40_en.html) |
+
+</details>

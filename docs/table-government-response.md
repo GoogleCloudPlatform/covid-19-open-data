@@ -7,10 +7,12 @@ Summary of a government's response to the events, including a *stringency index*
 For more information about each field and how the overall stringency index is
 computed, see the [Oxford COVID-19 government response tracker][1].
 
+
 ## URL
 This table can be found at the following URLs depending on the choice of format:
 * [oxford-government-response.csv](https://storage.googleapis.com/covid19-open-data/v2/oxford-government-response.csv)
 * [oxford-government-response.json](https://storage.googleapis.com/covid19-open-data/v2/oxford-government-response.json)
+
 
 ## Schema
 | Name | Type | Description | Example |
@@ -38,4 +40,15 @@ This table can be found at the following URLs depending on the choice of format:
 | **vaccination_policy** | `integer` `[0-5]` | Policies for vaccine delivery for different groups | 2 |
 | **stringency_index** | `double` `[0-100]` | Overall stringency index | 71.43 |
 
-[1]: https://www.bsg.ox.ac.uk/research/research-projects/oxford-covid-19-government-response-tracker
+
+## Sources of data
+
+<details>
+<summary>Show data sources</summary>
+
+
+| Data | Source | License and Terms of Use |
+| ---- | ------ | ------------------------ |
+| Government response data | [Oxford COVID-19 government response tracker][1] | [CC BY](https://github.com/OxCGRT/covid-policy-tracker/blob/master/LICENSE.txt) |
+
+</details>

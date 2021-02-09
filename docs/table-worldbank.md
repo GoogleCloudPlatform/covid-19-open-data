@@ -12,15 +12,30 @@ Note that WorldBank data is only available at the country level and it's not inc
 table. If no values are reported by WorldBank for the country since 2015, the row value will be
 null.
 
+
 ## URL
 This table can be found at the following URLs depending on the choice of format:
 * [worldbank.csv](https://storage.googleapis.com/covid19-open-data/v2/worldbank.csv)
 * [worldbank.json](https://storage.googleapis.com/covid19-open-data/v2/worldbank.json)
+
 
 ## Schema
 | Name | Type | Description | Example |
 | ---- | ---- | ----------- | ------- |
 | **key** | `string` | Unique string identifying the region | ES |
 | **`${indicator}`** | `double` | Value of the indicator corresponding to this column, column name is indicator code | 0 |
+
+
+## Sources of data
+
+<details>
+<summary>Show data sources</summary>
+
+
+| Data | Source | License and Terms of Use |
+| ---- | ------ | ------------------------ |
+| WorldBank Indicators | [WorldBank](https://worldbank.org) | [CC BY](https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets) |
+
+</details>
 
 [1]: https://data.worldbank.org

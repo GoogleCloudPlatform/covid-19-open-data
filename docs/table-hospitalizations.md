@@ -3,10 +3,12 @@
 # Hospitalizations
 Information related to patients of COVID-19 and hospitals.
 
+
 ## URL
 This table can be found at the following URLs depending on the choice of format:
 * [hospitalizations.csv](https://storage.googleapis.com/covid19-open-data/v2/hospitalizations.csv)
 * [hospitalizations.json](https://storage.googleapis.com/covid19-open-data/v2/hospitalizations.json)
+
 
 ## Schema
 | Name | Type | Description | Example |
@@ -31,3 +33,71 @@ be subtracted from the following date.
 changes to criteria for counting cases, but not always make adjustments to the data. There is also
 potential missing data. All of that makes the total counts *drift* away from the sum of all daily
 counts over time, which is why the cumulative values, if reported, are kept in a separate column.
+
+
+## Sources of data
+
+<details>
+<summary>Show data sources</summary>
+
+
+| Data | Source | License and Terms of Use |
+| ---- | ------ | ------------------------ |
+| Country-level data | [Our World in Data](https://ourworldindata.org) | [CC BY](https://ourworldindata.org/how-to-use-our-world-in-data#how-is-our-work-copyrighted) |
+| Argentina | [Datos Argentina](https://datos.gob.ar/) | [Public domain](https://datos.gob.ar/acerca/seccion/marco-legal) |
+| Australia | <https://covid-19-au.com/> | [Attribution required](https://covid-19-au.com/faq) |
+| Belgium | [Belgian institute for health](https://epistat.wiv-isp.be) | [Attribution required](https://www.health.belgium.be/en/legal-information) |
+| Brazil | [Brazil Ministério da Saúde](https://coronavirus.saude.gov.br/) | [Creative Commons Atribuição](http://www.opendefinition.org/licenses/cc-by) |
+| Brazil (Rio de Janeiro) | <http://www.data.rio/> | [Dados abertos](https://www.data.rio/datasets/f314453b3a55434ea8c8e8caaa2d8db5) |
+| Brazil (Ceará) | <https://saude.ce.gov.br> | [Dados abertos](https://cearatransparente.ce.gov.br/portal-da-transparencia) |
+| Chile | [Ministerio de Ciencia de Chile](http://www.minciencia.gob.cl/COVID19) | [Terms of use](http://www.minciencia.gob.cl/sites/default/files/1771596.pdf) |
+| Czech Republic | [Ministry of Health of the Czech Republic](https://onemocneni-aktualne.mzcr.cz/covid-19) | [Open Data](https://www.jmir.org/2020/5/e19367) |
+| Denmark | [Open COVID-19 Data](https://github.com/google-research/open-covid-19-data) | [CC-BY](https://github.com/google-research/open-covid-19-data/blob/master/data/exports/cc_by/LICENSE) |
+| France | [data.gouv.fr](https://data.gouv.fr) | [Open License 2.0](https://www.etalab.gouv.fr/licence-ouverte-open-licence) |
+| Hong Kong | [Hong Kong Department of Health](https://data.gov.hk/en-data/dataset/hk-dh-chpsebcddr-novel-infectious-agent) | [Attribution Required](https://data.gov.hk/en/terms-and-conditions) |
+| India | [Covid 19 India Organisation](https://www.covid19india.org/) | [CC BY][29] |
+| Italy | [Italy's Department of Civil Protection](https://github.com/pcm-dpc/COVID-19) | [CC BY](https://github.com/pcm-dpc/COVID-19/blob/master/LICENSE) |
+| Mexico | [Secretaría de Salud Mexico](https://coronavirus.gob.mx/) | [Attribution Required](https://datos.gob.mx/libreusomx) |
+| Netherlands | [RIVM](https://data.rivm.nl/covid-19) | [Public Domain](https://databronnencovid19.nl/Disclaimer) |
+| Norway | [COVID19 EU Data](https://github.com/covid19-eu-zh/covid19-eu-data) | [MIT](https://github.com/covid19-eu-zh/covid19-eu-data/issues/57) |
+| Philippines | [Philippines Department of Health](http://www.doh.gov.ph/covid19tracker) | [Attribution required](https://drive.google.com/file/d/1LzY2eLzZQdLR9yuoNufGEBN5Ily8ZTdV) |
+| Portugal | [COVID-19: Portugal](https://github.com/carlospramalheira/covid19) | [MIT](https://github.com/carlospramalheira/covid19/blob/master/LICENSE) |
+| Romania | <https://github.com/adrianp/covid19romania> | [CC0](https://github.com/adrianp/covid19romania/blob/master/LICENSE) |
+| Slovenia | <https://www.gov.si> | [Attribution Required][24] |
+| Spain | [Government Authority](https://covid19.isciii.es) | [Attribution required](https://www.mscbs.gob.es/avisoLegal/home.html) |
+| Spain (Canary Islands) | [Gobierno de Canarias](https://grafcan1.maps.arcgis.com/apps/opsdashboard/index.html#/156eddd4d6fa4ff1987468d1fd70efb6) | [Attribution required](https://www.gobiernodecanarias.org/principal/avisolegal.html) |
+| Spain (Catalonia) | [Dades Obertes Catalunya](https://analisi.transparenciacatalunya.cat/) | [CC0](https://web.gencat.cat/ca/menu-ajuda/ajuda/avis_legal/) |
+| Spain (Madrid) | [Datos Abiertos Madrid](https://www.comunidad.madrid/gobierno/datos-abiertos) | [Attribution required](https://www.comunidad.madrid/gobierno/datos-abiertos/reutiliza#condiciones-uso) |
+| Switzerland | [OpenZH data](https://open.zh.ch) | [CC BY](https://github.com/openZH/covid_19/blob/master/LICENSE) |
+| Thailand | [Ministry of Public Health](https://covid19.th-stat.com/) | Fair Use |
+| United Kingdom | <https://coronavirus.data.gov.uk/> | Attribution required, [Open Government Licence v3.0][32] |
+| USA | [COVID Tracking Project](https://covidtracking.com) | [CC BY](https://covidtracking.com/license) |
+| USA (Alaska) | [Alaska Department of Health and Social Services](http://dhss.alaska.gov/dph/Epi/id/Pages/COVID-19/default.aspx) |  |
+| USA (D.C.) | [Government of the District of Columbia](https://coronavirus.dc.gov/) | [Public Domain](https://dc.gov/node/939602) |
+| USA (Delaware) | [Delaware Health and Social Services](https://coronavirus.dc.gov/) | [Public Domain](https://coronavirus.delaware.gov/coronavirus-graphics/) |
+| USA (Florida) | [Florida Health](https://floridahealthcovid19.gov/) | [Public Domain](https://www.dms.myflorida.com/support/terms_and_conditions) |
+| USA (New York) | [New York City Health Department](https://www1.nyc.gov/site/doh/covid/covid-19-data.page) | [Public Domain](https://www1.nyc.gov/home/terms-of-use.page) |
+| USA (San Francisco) | [SF Open Data](https://data.sfgov.org/stories/s/dak2-gvuj) | [Public Domain Dedication and License](https://datasf.org/opendata/terms-of-use/#toc8) |
+| USA (Texas) | [Texas Department of State Health Services](https://dshs.texas.gov) | [Attribution required](https://dshs.texas.gov/policy/copyright.shtm) |
+
+</details>
+
+
+[7]: https://github.com/GoogleCloudPlatform/covid-19-open-data/blob/main/examples/data_loading.ipynb
+[12]: https://open-covid-19.github.io/explorer
+[13]: https://kepler.gl/demo/map?mapUrl=https://dl.dropboxusercontent.com/s/cofdctuogawgaru/COVID-19_Dataset.json
+[14]: https://www.starlords3k.com/covid19.php
+[15]: https://kiksu.net/covid-19/
+[18]: https://www.bsg.ox.ac.uk/research/research-projects/oxford-covid-19-government-response-tracker
+[19]: https://auditter.info/covid-timeline
+[20]: https://www.coronavirusdailytracker.info/
+[21]: https://omnimodel.com/
+[22]: https://console.cloud.google.com/marketplace/product/bigquery-public-datasets/covid19-open-data
+[23]: https://www.wikidata.org/wiki/Wikidata:Licensing
+[24]: https://foundation.wikimedia.org/wiki/Terms_of_Use
+[28]: https://data.humdata.org/about/license
+[29]: http://creativecommons.org/licenses/by/4.0/
+[30]: https://reproduction.live/
+[31]: http://opendefinition.org/licenses/odc-by/
+[32]: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+[33]: https://ec.europa.eu/info/legal-notice_en#copyright-notice
