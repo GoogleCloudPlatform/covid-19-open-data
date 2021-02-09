@@ -30,7 +30,7 @@ GCE_IMAGE_PROJECT = "cos-cloud"
 GCP_LOCATION = "us-east1"
 GCP_ZONE = f"{GCP_LOCATION}-b"
 GCLOUD_BIN = "/opt/google-cloud-sdk/bin/gcloud"
-GCE_INSTANCE_TYPE = "n2-standard-8"
+GCE_INSTANCE_TYPE = "n2-highmem-8"
 GCP_SELF_DESTRUCT_SCRIPT = SRC / "scripts" / "startup-script-self-destruct.sh"
 
 
