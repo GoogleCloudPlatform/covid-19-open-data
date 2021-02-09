@@ -72,3 +72,7 @@
 
 - url: https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_data
   output: US_CDC_states_vaccinations.json
+
+- url: https://datadashboardapi.health.gov.il/api/queries/_batch
+  data: {"requests":[{"id":"vaccinations","queryName":"vaccinated"},{"id":"by-age","queryName":"vaccinationsPerAge"}]}
+  output: IL_vaccinations.json

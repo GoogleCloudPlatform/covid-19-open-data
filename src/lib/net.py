@@ -15,7 +15,7 @@
 import datetime
 import uuid
 from pathlib import Path
-from typing import BinaryIO, Union, List
+from typing import Any, BinaryIO, Dict, List, Union
 
 import requests
 from .concurrent import thread_map
@@ -150,6 +150,7 @@ def download(
     progress: bool = False,
     spoof_browser: bool = True,
     timeout: int = 60,
+    data: Dict[str, Any] = None,
 ) -> None:
     """
     Based on https://stackoverflow.com/a/37573701. It downloads the contents from the provided URL
@@ -168,6 +169,7 @@ def download(
             "headers": headers,
             "allow_redirects": True,
             "timeout": timeout,
+            "data": data,
         }
         if not progress:
             req = requests.get(**request_options)

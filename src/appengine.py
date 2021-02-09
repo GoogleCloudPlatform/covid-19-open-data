@@ -265,11 +265,12 @@ def cache_pull() -> Response:
 
         def _pull_source(cache_source: Dict[str, str]):
             url = cache_source.pop("url")
+            data = cache_source.pop("data", None)
             output = cache_source.pop("output")
             logger.log_info(f"Downloading {url} into {output}")
             buffer = BytesIO()
             try:
-                download(url, buffer)
+                download(url, buffer, data=data)
                 with (output_folder / output).open("wb") as fd:
                     fd.write(buffer.getvalue())
                 logger.log_info(f"Downloaded {output} successfully")
