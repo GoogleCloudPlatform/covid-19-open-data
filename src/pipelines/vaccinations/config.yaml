@@ -52,6 +52,18 @@ sources:
       job_group: all
       deferred: true
 
+  # Data sources for CA levels 0 + 1
+  - name: pipelines.vaccinations.ca_authority.CanadaDataSource
+    fetch:
+      - url: "https://health-infobase.canada.ca/src/data/covidLive/vaccination-coverage-map.csv"
+    test:
+      location_key_match:
+        - '^CA$'
+        - '^CA_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for ES levels 0 + 1
   - name: pipelines.vaccinations.es_authority.SpainDataSource
     fetch:
