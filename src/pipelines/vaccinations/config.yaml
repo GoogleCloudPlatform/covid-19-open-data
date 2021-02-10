@@ -66,7 +66,7 @@ sources:
       job_group: all
       deferred: true
 
-  # Data sources for GB level 1
+  # Data sources for GB levels 0 + 1
   - name: pipelines.vaccinations.gb_finmango.FinMangoUkDataSource
     fetch:
       - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRbXZEVtSWDL8jc66A0BOnQuLSzNF_yaGF7RWpkOYZRHPwnWGs5Fh6RxrDnBFKribuo9gm71lBlJnEL/pub?gid=0&single=true&output=csv"
@@ -76,6 +76,36 @@ sources:
       location_key_match:
         - '^GB_ENG$'
         - '^GB_UK.$'
+    automation:
+      job_group: all
+      deferred: true
+
+  - name: pipelines.vaccinations.gb_authority.GreatBritainDataSource
+    fetch:
+      - url: "https://api.coronavirus.data.gov.uk/v2/data?areaType=nation&metric=cumPeopleVaccinatedFirstDoseByPublishDate&metric=cumPeopleVaccinatedSecondDoseByPublishDate&format=csv"
+        opts:
+          ext: csv
+    parse:
+      level: nation
+    test:
+      location_key_match:
+        - '^GB_ENG$'
+        - '^GB_NIR$'
+        - '^GB_SCT$'
+        - '^GB_WLS$'
+    automation:
+      job_group: all
+      deferred: true
+
+  - name: pipelines.vaccinations.gb_authority.GreatBritainDataSource
+    fetch:
+      - url: "https://api.coronavirus.data.gov.uk/v2/data?areaType=overview&metric=cumPeopleVaccinatedFirstDoseByPublishDate&metric=cumPeopleVaccinatedSecondDoseByPublishDate&format=csv"
+        opts:
+          ext: csv
+    parse:
+      level: country
+    test:
+      location_key_match: '^GB$'
     automation:
       job_group: all
       deferred: true
