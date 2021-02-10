@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Dict
+from typing import Any, Dict
 from pandas import DataFrame
 from lib.cast import safe_int_cast
 from lib.data_source import DataSource
@@ -22,21 +22,15 @@ from lib.utils import table_rename
 _column_adapter = {
     "Date": "date",
     "Location": "_location",
-    "First Dose": "_total_first_dose",
+    "First Dose": "total_persons_vaccinated",
     "Second Dose": "total_persons_fully_vaccinated",
     "Total": "total_vaccine_doses_administered",
-    # daily_vaccinations_raw,
-    # daily_vaccinations,
-    # total_vaccinations_per_hundred,
-    # people_vaccinated_per_hundred,
-    # people_fully_vaccinated_per_hundred,
-    # daily_vaccinations_per_million,
 }
 
 
 class FinMangoUkDataSource(DataSource):
     def parse_dataframes(
-        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[Any, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
         data = table_rename(dataframes[0], _column_adapter, drop=True)
 
@@ -44,7 +38,7 @@ class FinMangoUkDataSource(DataSource):
         for col in data.columns[2:]:
             data[col] = data[col].apply(safe_int_cast)
 
-        # Match data with US states
+        # Match data with GB subregions
         data["key"] = None
         data["country_code"] = "GB"
         data["subregion2_code"] = None
