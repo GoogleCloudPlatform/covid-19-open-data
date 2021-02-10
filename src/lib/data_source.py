@@ -99,9 +99,10 @@ class DataSource(ErrorLogger):
             for idx, result in enumerate(thread_map(map_func, map_iter, desc="Downloading"))
         }
 
-    def _read(self, file_paths: Dict[str, str], **read_opts) -> List[DataFrame]:
+    def _read(self, file_paths: Dict[str, str], **read_opts) -> Dict[str, DataFrame]:
         """ Reads a raw file input path into a DataFrame """
-        return {name: read_file(file_path, **read_opts) for name, file_path in file_paths.items()}
+        file_paths = {name: fpath for name, fpath in file_paths.items() if fpath is not None}
+        return {name: read_file(fpath, **read_opts) for name, fpath in file_paths.items()}
 
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         """ Parses a list of raw data records into a DataFrame. """
@@ -366,4 +367,4 @@ class DataSource(ErrorLogger):
         data_source_config = str({key: val for key, val in configs if key not in config_invariant})
         source_full_name = f"{data_source_class.__module__}.{data_source_class.__name__}"
         hash_name = f"{table_name}.{source_full_name}.{data_source_config}"
-        return uuid.uuid5(uuid.NAMESPACE_DNS, hash_name)
+        return str(uuid.uuid5(uuid.NAMESPACE_DNS, hash_name))
