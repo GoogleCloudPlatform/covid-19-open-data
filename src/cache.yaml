@@ -76,3 +76,6 @@
 - url: https://datadashboardapi.health.gov.il/api/queries/_batch
   data: {"requests":[{"id":"vaccinations","queryName":"vaccinated"},{"id":"by-age","queryName":"vaccinationsPerAge"}]}
   output: IL_vaccinations.json
+
+- url: https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Daten/Impfquotenmonitoring.xlsx?__blob=publicationFile
+  output: DE_vaccinations.xlsx
