@@ -41,7 +41,8 @@ counts over time, which is why the cumulative values, if reported, are kept in a
 | Austria | [Open Data Österreich](https://www.data.gv.at/covid-19/) | [CC BY](https://www.data.gv.at/covid-19/) |
 | Italy | [Commissario straordinario per l'emergenza Covid-19](https://github.com/italia/covid19-opendata-vaccini) | [CC BY](https://github.com/italia/covid19-opendata-vaccini/blob/master/LICENSE.md) |
 | Spain | [Ministry of Health](https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov/vacunaCovid19.htm) | [Attribution required](https://www.mscbs.gob.es/avisoLegal/home.html) |
-| United Kingdom  | [NHS](https://www.england.nhs.uk/statistics/statistical-work-areas/covid-19-vaccinations/) (via [FinMango][1]) | [OGL](http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/) |
+| United Kingdom (nations) | [NHS](https://coronavirus.data.gov.uk/details/vaccinations) | [OGL](http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/) |
+| United Kingdom (England) | [NHS](https://www.england.nhs.uk/statistics/statistical-work-areas/covid-19-vaccinations/) (via [FinMango][1]) | [OGL](http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/) |
 | United States  | [CDC](https://covid.cdc.gov/covid-data-tracker/#vaccinations) | [Public Domain](https://www.cdc.gov/other/agencymaterials.html) |
 
 </details>
