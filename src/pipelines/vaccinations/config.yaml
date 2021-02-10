@@ -64,6 +64,20 @@ sources:
       job_group: all
       deferred: true
 
+  # Data sources for CZ levels 0 + 1
+  - name: pipelines.vaccinations.cz_authority.CzechRepublicDataSource
+    fetch:
+      - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/ockovani.csv"
+    aggregate:
+      subregion1: ["total_persons_vaccinated", "total_persons_fully_vaccinated", "total_vaccine_doses_administered"]
+    test:
+      location_key_match:
+        - '^CZ$'
+        - '^CZ_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for ES levels 0 + 1
   - name: pipelines.vaccinations.es_authority.SpainDataSource
     fetch:
