@@ -22,6 +22,17 @@ from lib.time import date_range, date_today, date_offset, datetime_isoformat
 from lib.utils import table_rename
 
 
+_column_adapter = {
+    "date": "date",
+    "Unnamed: 0": "match_string",
+    "Dosis entregadas (1)": "total_vaccine_doses_deployed",
+    "Dosis administradas (2)": "total_vaccine_doses_administered",
+    "Nº Personas vacunadas": "total_persons_fully_vaccinated",
+    "Nº Personas vacunadas(pauta completada)": "total_persons_fully_vaccinated",
+    "Fecha de la última vacuna registrada(2)": "date",
+}
+
+
 class SpainDataSource(DataSource):
     def fetch(
         self,
@@ -48,18 +59,8 @@ class SpainDataSource(DataSource):
     ) -> DataFrame:
         tables = []
         for date, df in dataframes.items():
-            df = table_rename(
-                df,
-                {
-                    "date": "date",
-                    "Unnamed: 0": "match_string",
-                    "Dosis entregadas (1)": "total_vaccine_doses_deployed",
-                    "Dosis administradas (2)": "total_vaccine_doses_administered",
-                    "Nº Personas vacunadas(pauta completada)": "total_persons_fully_vaccinated",
-                    "Fecha de la última vacuna registrada(2)": "date",
-                },
-                drop=True,
-            )
+            df = table_rename(df, _column_adapter, drop=True)
+
             # Fill the date when blank
             df["date"] = df["date"].fillna(df["date"].max())
             df["date"] = df["date"].apply(lambda x: x.date().isoformat())
