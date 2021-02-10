@@ -68,6 +68,18 @@ sources:
       job_group: all
       deferred: true
 
+  # Data sources for IT levels 0 + 1
+  - name: pipelines.vaccinations.it_authority.ItalyDataSource
+    fetch:
+      - url: "https://raw.githubusercontent.com/italia/covid19-opendata-vaccini/master/dati/somministrazioni-vaccini-summary-latest.csv"
+    test:
+      location_key_match:
+        - '^IT$'
+        - '^IT_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for US level 0
   - name: pipelines.vaccinations.us_authority.CDCDataSource
     fetch:
