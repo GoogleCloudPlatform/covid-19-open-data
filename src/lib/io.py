@@ -21,7 +21,7 @@ import uuid
 from contextlib import contextmanager
 from functools import partial
 from pathlib import Path
-from typing import Any, Callable, Dict, IO, Iterable, List, Optional, TextIO, Union
+from typing import Any, Callable, Dict, IO, Iterable, Iterator, List, Optional, TextIO, Union
 from zipfile import ZipFile
 
 import numpy
@@ -101,6 +101,8 @@ def read_file(path: Union[Path, str], file_type: str = None, **read_opts) -> Dat
             return read_html(fd.read(), **read_opts)
     if ext == "xls" or ext == "xlsx":
         return pandas.read_excel(path, **{**default_read_opts, **read_opts})
+    if ext == "ods":
+        return pandas.read_excel(path, engine="odf", **{**default_read_opts, **read_opts})
     if ext == "zip":
         with temporary_directory() as tmpdir:
             with ZipFile(path, "r") as archive:
@@ -112,10 +114,10 @@ def read_file(path: Union[Path, str], file_type: str = None, **read_opts) -> Dat
                         for name in archive.namelist()
                         if name.rsplit(".", 1)[-1] in known_extensions
                     )
-                archive.extract(file_name, tmpdir)
+                archive.extract(file_name, str(tmpdir))
                 return read_file(tmpdir / file_name, **read_opts)
 
-    raise ValueError("Unrecognized extension: %s" % ext)
+    raise ValueError("Unrecognized extension: %s" % str(path))
 
 
 def read_lines(path: Path, skip_empty: bool = False) -> Iterable[str]:
@@ -292,7 +294,7 @@ def pbar(*args, **kwargs) -> tqdm:
 
 
 @contextmanager
-def open_file_like(path_or_handle: Union[Path, str, IO], mode: str = "r") -> IO:
+def open_file_like(path_or_handle: Union[Path, str, IO], mode: str = "r") -> Iterator[IO]:
     """
     Open a file at the specified path using `mode`, and close it after the context exits. If the
     input argument is already file-like, return it as-is and don't close it at the end.
@@ -322,7 +324,7 @@ def open_file_like(path_or_handle: Union[Path, str, IO], mode: str = "r") -> IO:
 
 
 @contextmanager
-def temporary_directory() -> Path:
+def temporary_directory() -> Iterator[Path]:
     """ Create a temporary directory which self-deletes after the context exits. """
     tempdir = tempfile.mkdtemp()
     try:
@@ -332,7 +334,7 @@ def temporary_directory() -> Path:
 
 
 @contextmanager
-def temporary_file(file_name: str = None) -> Path:
+def temporary_file(file_name: str = None) -> Iterator[Path]:
     """ Create a temporary file which self-deletes after the context exits. """
     with temporary_directory() as tempdir:
         file_name = file_name or str(uuid.uuid4())
