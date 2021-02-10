@@ -40,6 +40,20 @@ sources:
       job_group: all
       deferred: true
 
+  # Data sources for ES levels 0 + 1
+  - name: pipelines.vaccinations.es_authority.SpainDataSource
+    fetch:
+      - url: "https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov/documentos/Informe_Comunicacion_{date}.ods"
+        opts:
+          ignore_failure: true
+    test:
+      location_key_match:
+        - '^ES$'
+        - '^ES_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for US level 0
   - name: pipelines.vaccinations.us_authority.CDCDataSource
     fetch:
