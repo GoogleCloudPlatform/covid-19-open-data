@@ -71,6 +71,11 @@ class SpainDataSource(DataSource):
 
         data = concat(tables)
 
+        # Estimate first doses from total doses and second doses
+        data["total_persons_vaccinated"] = (
+            data["total_vaccine_doses_administered"] - data["total_persons_fully_vaccinated"]
+        )
+
         data["key"] = None
         data["country_code"] = "ES"
         data["subregion2_code"] = None
