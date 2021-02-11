@@ -629,7 +629,7 @@ sources:
       country: IN
       date_format: "%b-%d"
     test:
-      location_key_match: 'IN_.*'
+      location_key_match: '^IN_[^_]+$'
     automation:
       job_group: all
       deferred: true
@@ -643,7 +643,7 @@ sources:
     parse:
       dtype: str
     test:
-      location_key_match: 'IN_.*'
+      location_key_match: '^IN_[^_]+$'
     automation:
       job_group: all
       deferred: true
@@ -655,7 +655,7 @@ sources:
         opts:
           ext: csv
     test:
-      location_key_match: 'IN_[^_]+$'
+      location_key_match: '^IN_[^_]+_[^_]+$'
     automation:
       job_group: all
       deferred: true
