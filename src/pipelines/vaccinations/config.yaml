@@ -213,6 +213,24 @@ sources:
       job_group: all
       deferred: true
 
+  # Data sources for SE level 0 + 1
+  - name: pipelines.vaccinations.se_authority.SwedenDataSource
+    fetch:
+      - url: "https://fohm.maps.arcgis.com/sharing/rest/content/items/fc749115877443d29c2a49ea9eca77e9/data"
+        opts:
+          ext: xlsx
+    parse:
+      sheet_name: "Vaccinerade tidsserie"
+    # OWID reports daily data, but this source is only weekly
+    query: key != "SE"
+    test:
+      location_key_match:
+        # - '^SE$'
+        - '^SE_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for US level 0
   - name: pipelines.vaccinations.us_authority.CDCDataSource
     fetch:
