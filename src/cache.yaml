@@ -82,3 +82,12 @@
 
 - url: https://sisa.msal.gov.ar/datos/descargas/covid-19/files/Covid19VacunasAgrupadas.csv
   output: AR_vaccinations.csv
+
+- url: https://www.data.gouv.fr/fr/datasets/r/131c6b39-51b5-40a7-beaa-0eafc4b88466
+  output: FR_country_vaccinations.csv
+
+- url: https://www.data.gouv.fr/fr/datasets/r/9b1e6c8c-7e1d-47f9-9eb9-f2eeaab60d99
+  output: FR_region_vaccinations.csv
+
+- url: https://www.data.gouv.fr/fr/datasets/r/7969c06d-848e-40cf-9c3c-21b5bd5a874b
+  output: FR_department_vaccinations.csv
