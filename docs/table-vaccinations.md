@@ -39,6 +39,8 @@ counts over time, which is why the cumulative values, if reported, are kept in a
 | ---- | ------ | ------------------------ |
 | Country-level data | [Our World in Data](https://ourworldindata.org) | [CC BY](https://ourworldindata.org/how-to-use-our-world-in-data#how-is-our-work-copyrighted) |
 | Austria | [Open Data Österreich](https://www.data.gv.at/covid-19/) | [CC BY](https://www.data.gv.at/covid-19/) |
+| Brazil | Secretarias de Saúde via [FinMango][1] | [CC BY][1] |
+| Brazil | [Brazil Ministério da Saúde](https://coronavirus.saude.gov.br/) | [Creative Commons Atribuição](http://www.opendefinition.org/licenses/cc-by) |
 | Canada | [Department of Health Canada](https://www.canada.ca/en/public-health) | [Attribution required](https://www.canada.ca/en/transparency/terms.html) |
 | Czech Republic | [Ministry of Health of the Czech Republic](https://onemocneni-aktualne.mzcr.cz/covid-19) | [Open Data](https://www.jmir.org/2020/5/e19367) |
 | Italy | [Commissario straordinario per l'emergenza Covid-19](https://github.com/italia/covid19-opendata-vaccini) | [CC BY](https://github.com/italia/covid19-opendata-vaccini/blob/master/LICENSE.md) |
