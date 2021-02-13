@@ -52,6 +52,34 @@ sources:
       job_group: all
       deferred: true
 
+  # Data sources for BR levels 0 + 1 + 2
+  - name: pipelines.vaccinations.br_authority.BrazilDataSource
+    fetch:
+      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/PNI/vacina/2021/part-00000-33cc8f2d-3f49-40bc-97eb-953ba00dda90-c000.csv"
+    test:
+      # Skip unit testing because it's very slow
+      skip: true
+      location_key_match:
+        - '^BR$'
+        - '^BR_[^_]+$'
+        - '^BR_[^_]+_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
+  - name: pipelines.vaccinations.br_finmango.FinMangoBrazilDataSource
+    fetch:
+      - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQObciNWSh0DUnMsPpSvc1X4Kv9ex8a0ynlsa32dbSgJeb1w_4M0MG3yADkcT-c9gE4UEExT4Z5ylUc/pub?gid=0&single=true&output=csv"
+        opts:
+          ext: csv
+    test:
+      location_key_match:
+        - '^BR$'
+        - '^BR_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for CA levels 0 + 1
   - name: pipelines.vaccinations.ca_authority.CanadaDataSource
     fetch:
