@@ -43,6 +43,7 @@ counts over time, which is why the cumulative values, if reported, are kept in a
 | Brazil | [Brazil Ministério da Saúde](https://coronavirus.saude.gov.br/) | [Creative Commons Atribuição](http://www.opendefinition.org/licenses/cc-by) |
 | Canada | [Department of Health Canada](https://www.canada.ca/en/public-health) | [Attribution required](https://www.canada.ca/en/transparency/terms.html) |
 | Czech Republic | [Ministry of Health of the Czech Republic](https://onemocneni-aktualne.mzcr.cz/covid-19) | [Open Data](https://www.jmir.org/2020/5/e19367) |
+| France | [data.gouv.fr](https://www.data.gouv.fr/fr/datasets/donnees-relatives-aux-personnes-vaccinees-contre-la-covid-19-1/) | [Open License 2.0](https://www.etalab.gouv.fr/licence-ouverte-open-licence) |
 | Italy | [Commissario straordinario per l'emergenza Covid-19](https://github.com/italia/covid19-opendata-vaccini) | [CC BY](https://github.com/italia/covid19-opendata-vaccini/blob/master/LICENSE.md) |
 | Spain | [Ministry of Health](https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov/vacunaCovid19.htm) | [Attribution required](https://www.mscbs.gob.es/avisoLegal/home.html) |
 | United Kingdom (nations) | [NHS](https://coronavirus.data.gov.uk/details/vaccinations) | [OGL](http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/) |
