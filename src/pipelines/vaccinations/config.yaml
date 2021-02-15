@@ -213,7 +213,7 @@ sources:
       job_group: all
       deferred: true
 
-  # Data sources for IL levels 2 + 3
+  # Data sources for IL levels 2 (we aggregated to L1)
   - name: pipelines.epidemiology.il_authority.IsraelDataSource
     fetch:
       - url: "https://data.gov.il/api/3/action/datastore_search?resource_id=d07c0771-01a8-43b2-96cc-c6154e7fa9bd"
