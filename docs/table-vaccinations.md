@@ -44,6 +44,7 @@ counts over time, which is why the cumulative values, if reported, are kept in a
 | Canada | [Department of Health Canada](https://www.canada.ca/en/public-health) | [Attribution required](https://www.canada.ca/en/transparency/terms.html) |
 | Czech Republic | [Ministry of Health of the Czech Republic](https://onemocneni-aktualne.mzcr.cz/covid-19) | [Open Data](https://www.jmir.org/2020/5/e19367) |
 | France | [data.gouv.fr](https://www.data.gouv.fr/fr/datasets/donnees-relatives-aux-personnes-vaccinees-contre-la-covid-19-1/) | [Open License 2.0](https://www.etalab.gouv.fr/licence-ouverte-open-licence) |
+| Israel | [Israel Government Data Portal](https://data.gov.il/dataset/covid-19) | [Attribution Required](https://data.gov.il/terms) |
 | Italy | [Commissario straordinario per l'emergenza Covid-19](https://github.com/italia/covid19-opendata-vaccini) | [CC BY](https://github.com/italia/covid19-opendata-vaccini/blob/master/LICENSE.md) |
 | Spain | [Ministry of Health](https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov/vacunaCovid19.htm) | [Attribution required](https://www.mscbs.gob.es/avisoLegal/home.html) |
 | Sweden | [Public Health Agency of Sweden](https://www.folkhalsomyndigheten.se/smittskydd-beredskap/utbrott/aktuella-utbrott/covid-19/vaccination-mot-covid-19/statistik/statistik-over-registrerade-vaccinationer-covid-19/) | Fair Use |
