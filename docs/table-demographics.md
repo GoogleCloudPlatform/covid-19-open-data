@@ -50,6 +50,7 @@ This table can be found at the following URLs depending on the choice of format:
 | Indonesia (2020 Census) | Central Bureau of Statistics | [Attribution required](https://www.bps.go.id/website/fileMenu/S&K.pdf) |
 | Mexico (2010 Census) | [INEGI](https://www.inegi.org.mx/programas/ccpv/2010/default.html) | [Attribution Required](https://datos.gob.mx/libreusomx) |
 | Peru (2017 Census) | [INEI](https://censos2017.inei.gob.pe/redatam/) | [ODC BY][31] |
+| Philippines (2015 Census) | [Philippine Statistics Authority](https://psa.gov.ph/population-and-housing/statistical-tables) | [Attribution Required](https://psa.gov.ph/article/terms-use) |
 | USA (2019 Census) | [United States Census Bureau](https://www.census.gov/data/tables/time-series/demo/popest/2010s-counties-total.html) | [Public Domain](https://ask.census.gov/prweb/PRServletCustom?pyActivity=pyMobileSnapStart&ArticleID=KCP-4726) |
 
 </details>
