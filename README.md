@@ -272,6 +272,7 @@ The following persons have made significant contributions to this project:
 * Zack Ontiveros
 * Ruth Alcantara
 * Donny Cheung
+* Aurora Cheung
 
 
 
