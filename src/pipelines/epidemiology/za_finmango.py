@@ -59,8 +59,11 @@ class FinMangoDataSource(DataSource):
 
         # Put all sheets together into a single DataFrame
         data = concat(tables)
-
-        data = table_rename(data, {"Date": "date", "Code": "key"}).dropna(subset=["date", "key"])
+        # TODO: Fix this code, so the merging based on repeated identical column names is not required.
+        # Currently it fails without the remove_regex tag set below.
+        data = table_rename(data, {"Date": "date", "Code": "key"}, remove_regex=r"[^a-z\s]").dropna(
+            subset=["date", "key"]
+        )
         data["key"] = parse_opts["country"] + "_" + data["key"].str.replace("-", "_")
 
         # Ensure date is in ISO format
