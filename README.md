@@ -59,10 +59,10 @@ For more information about how to use these files see the section about
 ## Why another dataset?
 
 There are many other public COVID-19 datasets. However, we believe this dataset is unique in the way
-that it merges multiple global sources, at a fine spatial resolution, using a consistent set of
-region keys. We hope this will make it easier for researchers to use. We are also very transparent
-about the [data sources](#sources-of-data), and the [code](src/README.md) for ingesting and merging
-the data is easy to understand and modify.
+that it merges multiple global sources, at a fine spatial resolution, using a consistent set of region 
+keys in a way we hope facilitate ease of usage. Most importantly, we are committed to transparency 
+regarding open, public, and licensed data sources. Lastly, the code for ingesting and merging the data 
+is easy to understand and modify.
 
 
 
