@@ -46,7 +46,7 @@ def _download_from_api(
         rows = res.json()
     except Exception as exc:
         if log_func:
-            log_func(requests.get(url_fmt, **get_opts).text)
+            log_func(exc)
         raise exc
 
     if offset is None:
@@ -86,7 +86,9 @@ class SlovakiaDataSource(DataSource):
                     if name == "regions":
                         json.dump(_download_from_api(url_base), fd)
                     elif name == "vaccine_by_regions":
-                        json.dump(_download_from_api(url_base, offset=0), fd)
+                        json.dump(
+                            _download_from_api(url_base, offset=0, log_func=self.log_error), fd
+                        )
             data_files[name] = str(file_path.absolute())
 
         return data_files
