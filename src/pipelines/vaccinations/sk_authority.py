@@ -84,7 +84,7 @@ class SlovakiaDataSource(DataSource):
             if not skip_existing or not file_path.exists():
                 with open(file_path, "w") as fd:
                     if name == "regions":
-                        json.dump(_download_from_api(url_base), fd)
+                        json.dump(_download_from_api(url_base, log_func=self.log_error), fd)
                     elif name == "vaccine_by_regions":
                         json.dump(
                             _download_from_api(url_base, offset=0, log_func=self.log_error), fd
