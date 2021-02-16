@@ -56,7 +56,7 @@ def _download_from_api(
     if "next_offset" not in rows or rows["next_offset"] == None:
         return rows["page"]
     else:
-        return rows["page"] + _download_from_api(url, offset=rows["next_offset"])
+        return rows["page"] + _download_from_api(url, offset=rows["next_offset"], log_func=log_func)
 
 
 class SlovakiaDataSource(DataSource):
@@ -106,8 +106,6 @@ class SlovakiaDataSource(DataSource):
             how="left",
         ).reindex()
 
-        print(data.columns)
-
         data = table_rename(
             data,
             {
@@ -128,7 +126,6 @@ class SlovakiaDataSource(DataSource):
             data["total_persons_vaccinated"] + data["total_persons_fully_vaccinated"]
         )
 
-        data["key"] = None
         data["country_code"] = "SK"
         data["subregion2_code"] = None
         data["locality_code"] = None

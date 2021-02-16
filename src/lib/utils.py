@@ -49,7 +49,7 @@ def pivot_table_date_columns(
 def table_rename(
     data: DataFrame,
     column_adapter: Dict[str, str],
-    remove_regex: str = r"[^a-z1-9\s]",
+    remove_regex: str = r"[^a-z0-9\s]",
     drop: bool = False,
 ) -> DataFrame:
     """
