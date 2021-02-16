@@ -6,8 +6,8 @@ Health related indicators for each region.
 
 ## URL
 This table can be found at the following URLs depending on the choice of format:
-* [health.csv](https://storage.googleapis.com/covid19-open-data/v2/health.csv)
-* [health.json](https://storage.googleapis.com/covid19-open-data/v2/health.json)
+* [health.csv](https://storage.googleapis.com/covid19-open-data/v3/health.csv)
+* [health.json](https://storage.googleapis.com/covid19-open-data/v3/health.json)
 
 
 ## Schema

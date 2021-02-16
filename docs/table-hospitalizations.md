@@ -6,8 +6,8 @@ Information related to patients of COVID-19 and hospitals.
 
 ## URL
 This table can be found at the following URLs depending on the choice of format:
-* [hospitalizations.csv](https://storage.googleapis.com/covid19-open-data/v2/hospitalizations.csv)
-* [hospitalizations.json](https://storage.googleapis.com/covid19-open-data/v2/hospitalizations.json)
+* [hospitalizations.csv](https://storage.googleapis.com/covid19-open-data/v3/hospitalizations.csv)
+* [hospitalizations.json](https://storage.googleapis.com/covid19-open-data/v3/hospitalizations.json)
 
 
 ## Schema
@@ -15,15 +15,15 @@ This table can be found at the following URLs depending on the choice of format:
 | ---- | ---- | ----------- | ------- |
 | **date** | `string` | ISO 8601 date (YYYY-MM-DD) of the datapoint | 2020-03-30 |
 | **key** | `string` | Unique string identifying the region | CN_HB |
-| **new_hospitalized\*** | `integer` | Count of new cases hospitalized after positive test on this date | 34 |
-| **new_intensive_care\*** | `integer` | Count of new cases admitted into ICU after a positive COVID-19 test on this date | 2 |
-| **new_ventilator\*** | `integer` | Count of new COVID-19 positive cases which require a ventilator on this date | 13 |
-| **total_hospitalized\*\*** | `integer` | Cumulative sum of cases hospitalized after positive test to date | 6447 |
-| **total_intensive_care\*\*** | `integer` | Cumulative sum of cases admitted into ICU after a positive COVID-19 test to date | 133 |
-| **total_ventilator\*\*** | `integer` | Cumulative sum of COVID-19 positive cases which require a ventilator to date | 133 |
-| **current_hospitalized\*\*** | `integer` | Count of current (active) cases hospitalized after positive test to date | 34 |
-| **current_intensive_care\*\*** | `integer` | Count of current (active) cases admitted into ICU after a positive COVID-19 test to date | 2 |
-| **current_ventilator\*\*** | `integer` | Count of current (active) COVID-19 positive cases which require a ventilator to date | 13 |
+| **new_hospitalized_patients\*** | `integer` | Count of new cases hospitalized after positive test on this date | 34 |
+| **new_intensive_care_patients\*** | `integer` | Count of new cases admitted into ICU after a positive COVID-19 test on this date | 2 |
+| **new_ventilator_patients\*** | `integer` | Count of new COVID-19 positive cases which require a ventilator on this date | 13 |
+| **cumulative_hospitalized_patients\*\*** | `integer` | Cumulative sum of cases hospitalized after positive test to date | 6447 |
+| **cumulative_intensive_care_patients\*\*** | `integer` | Cumulative sum of cases admitted into ICU after a positive COVID-19 test to date | 133 |
+| **cumulative_ventilator_patients\*\*** | `integer` | Cumulative sum of COVID-19 positive cases which require a ventilator to date | 133 |
+| **current_hospitalized_patients\*\*** | `integer` | Count of current (active) cases hospitalized after positive test to date | 34 |
+| **current_intensive_care_patients\*\*** | `integer` | Count of current (active) cases admitted into ICU after a positive COVID-19 test to date | 2 |
+| **current_ventilator_patients\*\*** | `integer` | Count of current (active) COVID-19 positive cases which require a ventilator to date | 13 |
 
 \*Values can be negative, typically indicating a correction or an adjustment in the way they were
 measured. For example, a case might have been incorrectly flagged as recovered one date so it will
