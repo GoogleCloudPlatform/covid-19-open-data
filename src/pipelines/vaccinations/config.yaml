@@ -226,6 +226,20 @@ sources:
       job_group: all
       deferred: true
 
+  # Data sources for SK level 0 + 1
+  - name: pipelines.vaccinations.sk_authority.SlovakiaDataSource
+    fetch:
+      - name: "regions"
+        url: "https://data.korona.gov.sk/api/regions"
+      - name: "vaccine_by_regions"
+        url: "https://data.korona.gov.sk/api/vaccinations/by-region"
+    test:
+      location_key_match:
+        - '^SK_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for SE level 0 + 1
   - name: pipelines.vaccinations.se_authority.SwedenDataSource
     fetch:
