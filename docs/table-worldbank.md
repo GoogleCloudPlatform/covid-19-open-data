@@ -15,8 +15,8 @@ null.
 
 ## URL
 This table can be found at the following URLs depending on the choice of format:
-* [worldbank.csv](https://storage.googleapis.com/covid19-open-data/v2/worldbank.csv)
-* [worldbank.json](https://storage.googleapis.com/covid19-open-data/v2/worldbank.json)
+* [worldbank.csv](https://storage.googleapis.com/covid19-open-data/v3/worldbank.csv)
+* [worldbank.json](https://storage.googleapis.com/covid19-open-data/v3/worldbank.json)
 
 
 ## Schema
