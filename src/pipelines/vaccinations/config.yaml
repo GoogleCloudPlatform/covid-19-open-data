@@ -261,6 +261,18 @@ sources:
       job_group: all
       deferred: true
 
+  # Data sources for CH levels 0 + 1
+  - name: pipelines.vaccinations.ch_authority.SwitzerlandDataSource
+    fetch:
+      - url: "https://www.covid19.admin.ch/api/data/context"
+    test:
+      location_key_match:
+        - '^CH$'
+        - '^CH_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for US level 0
   - name: pipelines.vaccinations.us_authority.CDCDataSource
     fetch:

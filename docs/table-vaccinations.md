@@ -49,6 +49,7 @@ counts over time, which is why the cumulative values, if reported, are kept in a
 | Spain | [Ministry of Health](https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov/vacunaCovid19.htm) | [Attribution required](https://www.mscbs.gob.es/avisoLegal/home.html) | |
 | Slovakia | [https://korona.gov.sk](https://korona.gov.sk), operated by Ministry of Investments, Regional Development and Informatization of the Slovak Republic] | [Attribution required](https://www.mirri.gov.sk/en/ministerstvo/legal-information/) | |
 | Sweden | [Public Health Agency of Sweden](https://www.folkhalsomyndigheten.se/smittskydd-beredskap/utbrott/aktuella-utbrott/covid-19/vaccination-mot-covid-19/statistik/statistik-over-registrerade-vaccinationer-covid-19/) | Fair Use | |
+| Switzerland | [Federal Office of Public Health](https://www.covid19.admin.ch/en/epidemiologic/vacc-doses?detGeo=CH) | [Copyright, Swiss federal authorities](https://www.admin.ch/gov/en/start/terms-and-conditions.html) |
 | United Kingdom (nations) | [NHS](https://coronavirus.data.gov.uk/details/vaccinations) | [OGL](http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/) | |
 | United Kingdom (England) | [NHS](https://www.england.nhs.uk/statistics/statistical-work-areas/covid-19-vaccinations/) (via [FinMango][1]) | [OGL](http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/) | |
 | United States  | [CDC](https://covid.cdc.gov/covid-data-tracker/#vaccinations) | [Public Domain](https://www.cdc.gov/other/agencymaterials.html) | |
