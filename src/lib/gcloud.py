@@ -12,10 +12,48 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import os
 import subprocess
 from uuid import uuid4
+from google.cloud import storage
+from google.cloud.storage.blob import Blob
+from google.oauth2.credentials import Credentials
 
-from lib.constants import GCE_IMAGE_ID, GCE_IMAGE_PROJECT, GCE_INSTANCE_TYPE, GCLOUD_BIN, GCP_ZONE
+from lib.constants import (
+    GCE_IMAGE_ID,
+    GCE_IMAGE_PROJECT,
+    GCE_INSTANCE_TYPE,
+    GCP_ENV_PROJECT,
+    GCP_ENV_TOKEN,
+    GCLOUD_BIN,
+    GCP_ZONE,
+)
+
+
+def get_storage_client(gcp_project: str = None) -> storage.Client:
+    """
+    Creates an instance of google.cloud.storage.Client using a token if provided via env variable,
+    otherwise the default credentials are used.
+    """
+    gcp_token = os.getenv(GCP_ENV_TOKEN)
+    gcp_project = gcp_project or os.getenv(GCP_ENV_PROJECT)
+
+    client_opts = {}
+    if gcp_token is not None:
+        client_opts["credentials"] = Credentials(gcp_token)
+    if gcp_project is not None:
+        client_opts["project"] = gcp_project
+
+    return storage.Client(**client_opts)
+
+
+def get_storage_bucket(bucket_name: str, gcp_project: str = None) -> storage.Bucket:
+    """
+    Gets an instance of the storage bucket for the specified bucket name.
+    """
+    client = get_storage_client(gcp_project)
+    assert bucket_name is not None
+    return client.bucket(bucket_name)
 
 
 def start_instance_from_image(

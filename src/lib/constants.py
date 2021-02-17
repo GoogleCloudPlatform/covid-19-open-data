@@ -32,6 +32,9 @@ GCP_ZONE = f"{GCP_LOCATION}-b"
 GCLOUD_BIN = "/opt/google-cloud-sdk/bin/gcloud"
 GCE_INSTANCE_TYPE = "n2-highmem-8"
 GCP_SELF_DESTRUCT_SCRIPT = SRC / "scripts" / "startup-script-self-destruct.sh"
+GCP_ENV_TOKEN = "GCP_TOKEN"
+GCP_ENV_PROJECT = "GOOGLE_CLOUD_PROJECT"
+GCP_ENV_SERVICE_ACCOUNT = "GCS_SERVICE_ACCOUNT"
 
 
 # Progress is a global flag, because progress is all done using the tqdm library and can be
