@@ -12,13 +12,29 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Any, Dict
+from pathlib import Path
+from typing import Any, Dict, List
+import requests
 from pandas import DataFrame
 from lib.data_source import DataSource
 from lib.utils import table_rename
 
 
 class SwitzerlandDataSource(DataSource):
+    def fetch(
+            self,
+            output_folder: Path,
+            cache: Dict[str, str],
+            fetch_opts: List[Dict[str, Any]],
+            skip_existing: bool = False,
+    ) -> Dict[str, str]:
+        # the url is the config is a json file which contains the actual url for vaccDosesAdministered
+        src_url = fetch_opts[0]['url']
+        data = requests.get(src_url).json()
+        vaccines_url = data['sources']['individual']['csv']['vaccDosesAdministered']
+        fetch_opts[0]['url'] = vaccines_url
+        return super().fetch(output_folder, cache, fetch_opts, skip_existing)
+
     def parse_dataframes(
         self, dataframes: Dict[Any, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:

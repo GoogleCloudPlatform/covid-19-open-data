@@ -234,9 +234,7 @@ sources:
   # Data sources for CH levels 0 + 1
   - name: pipelines.vaccinations.ch_authority.SwitzerlandDataSource
     fetch:
-      - url: "https://www.covid19.admin.ch/api/data/20210212-ith3s985/downloads/sources-csv.zip"
-    parse:
-      file_name: data/COVID19VaccDosesAdministered.csv
+      - url: "https://www.covid19.admin.ch/api/data/context"
     test:
       location_key_match:
         - '^CH$'
