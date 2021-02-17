@@ -96,6 +96,8 @@ class IsraelDataSource(DataSource):
                 "new_hospitalized_on_date": "_new_hospitalized_flag",
                 "accumulated_deaths": "total_deceased",
                 "new_deaths_on_date": "_new_deceased_flag",
+                "accumulated_vaccination_first_dose": "total_persons_vaccinated",
+                "accumulated_vaccination_second_dose": "total_persons_fully_vaccinated",
                 "town": "match_string",
             },
             drop=True,
@@ -106,7 +108,15 @@ class IsraelDataSource(DataSource):
         data.sort_values("date", inplace=True)
 
         # Because low counts are masked, we assume <15 = 1 as a rough estimate
-        for statistic in ("confirmed", "deceased", "tested", "recovered", "hospitalized"):
+        for statistic in (
+            "confirmed",
+            "deceased",
+            "tested",
+            "recovered",
+            "hospitalized",
+            "persons_vaccinated",
+            "persons_fully_vaccinated",
+        ):
             col = f"total_{statistic}"
             if col in data.columns:
                 low_count_mask = data[col] == "<15"
@@ -114,6 +124,10 @@ class IsraelDataSource(DataSource):
                 # We can fill the data with zeroes since every case should be recorded by source
                 data[col] = data[col].apply(safe_int_cast).fillna(0)
 
+        # Estimate total vaccine doses administered from first and second dose counts
+        data["total_vaccine_doses_administered"] = (
+            data["total_persons_vaccinated"] + data["total_persons_fully_vaccinated"]
+        )
         # Properly format the region code and group by it
         data["subregion2_code"] = data["subregion2_code"].apply(
             lambda x: numeric_code_as_string(x, 4)
