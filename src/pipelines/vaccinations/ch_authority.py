@@ -28,7 +28,7 @@ class SwitzerlandDataSource(DataSource):
             fetch_opts: List[Dict[str, Any]],
             skip_existing: bool = False,
     ) -> Dict[str, str]:
-        # the url is the config is a json file which contains the actual url for vaccDosesAdministered
+        # the url in the config is a json file which contains the actual url for vaccDosesAdministered
         src_url = fetch_opts[0]['url']
         data = requests.get(src_url).json()
         vaccines_url = data['sources']['individual']['csv']['vaccDosesAdministered']
