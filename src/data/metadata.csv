@@ -18418,6 +18418,14 @@ SH,SH,Saint Helena,,,,,,,,-1
 SI,SI,Slovenia,,,,,,,,-1
 SJ,SJ,Svalbard and Jan Mayen,,,,,,,,-1
 SK,SK,Slovakia,,,,,,,,-1
+SK_BC,SK,Slovakia,BC,Banskobystrický,,,,,,
+SK_BL,SK,Slovakia,BL,Bratislavský,,,,,,
+SK_KI,SK,Slovakia,KI,Košický,,,,,,
+SK_NI,SK,Slovakia,NI,Nitriansky,,,,,,
+SK_PV,SK,Slovakia,PV,Prešovský,,,,,,
+SK_TA,SK,Slovakia,TA,Trnavský,,,,,,
+SK_TC,SK,Slovakia,TC,Trenčiansky,,,,,,
+SK_ZI,SK,Slovakia,ZI,Žilinský,,,,,,
 SL,SL,Sierra Leone,,,,,,,,-1
 SL_E,SL,Sierra Leone,E,Eastern Province,,,,,,
 SL_E_KE,SL,Sierra Leone,E,Eastern Province,KE,Kenema,,,,
