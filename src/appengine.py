@@ -52,15 +52,24 @@ from scripts.cloud_error_processing import register_new_errors
 from lib.cast import safe_int_cast
 from lib.concurrent import thread_map
 from lib.constants import (
-    GCS_CONTAINER_ID,
     GCP_SELF_DESTRUCT_SCRIPT,
+    GCP_ENV_TOKEN,
+    GCP_ENV_PROJECT,
+    GCP_ENV_SERVICE_ACCOUNT,
     GCS_BUCKET_PROD,
     GCS_BUCKET_TEST,
+    GCS_CONTAINER_ID,
     SRC,
     V3_TABLE_LIST,
 )
 from lib.error_logger import ErrorLogger
-from lib.gcloud import delete_instance, get_internal_ip, start_instance_from_image
+from lib.gcloud import (
+    delete_instance,
+    get_internal_ip,
+    get_storage_bucket,
+    get_storage_client,
+    start_instance_from_image,
+)
 from lib.io import export_csv, gzip_file, temporary_directory
 from lib.memory_efficient import table_read_column
 from lib.net import download
@@ -71,9 +80,6 @@ app = Flask(__name__)
 logger = ErrorLogger("appengine")
 
 BLOB_OP_MAX_RETRIES = 10
-ENV_TOKEN = "GCP_TOKEN"
-ENV_PROJECT = "GOOGLE_CLOUD_PROJECT"
-ENV_SERVICE_ACCOUNT = "GCS_SERVICE_ACCOUNT"
 COMPRESS_EXTENSIONS = ("json",)
 # Used when parsing string parameters into boolean type
 BOOL_STRING_MAP = {"true": True, "false": False, "1": True, "0": False, "": False, "null": False}
@@ -129,32 +135,6 @@ def profiled_route(rule, **options):
 
     # Return the decorator
     return decorator
-
-
-def get_storage_client() -> storage.Client:
-    """
-    Creates an instance of google.cloud.storage.Client using a token if provided via, otherwise
-    the default credentials are used.
-    """
-    gcp_token = os.getenv(ENV_TOKEN)
-    gcp_project = os.getenv(ENV_PROJECT)
-
-    client_opts = {}
-    if gcp_token is not None:
-        client_opts["credentials"] = Credentials(gcp_token)
-    if gcp_project is not None:
-        client_opts["project"] = gcp_project
-
-    return storage.Client(**client_opts)
-
-
-def get_storage_bucket(bucket_name: str) -> storage.Bucket:
-    """
-    Gets an instance of the storage bucket for the specified bucket name
-    """
-    client = get_storage_client()
-    assert bucket_name is not None
-    return client.bucket(bucket_name)
 
 
 def download_folder(
@@ -686,7 +666,7 @@ def publish_json_tables(prod_folder: str = "v2") -> Response:
 
 @profiled_route("/report_errors_to_github")
 def report_errors_to_github() -> Response:
-    register_new_errors(os.getenv(ENV_PROJECT))
+    register_new_errors(os.getenv(GCP_ENV_PROJECT))
     return Response("OK", status=200)
 
 
@@ -703,7 +683,7 @@ def deferred_route(url_path: str) -> Response:
 
     try:
         # Create a new preemptible instance and wait for it to come online
-        instance_opts = dict(service_account=os.getenv(ENV_SERVICE_ACCOUNT))
+        instance_opts = dict(service_account=os.getenv(GCP_ENV_SERVICE_ACCOUNT))
         instance_id = start_instance_from_image(GCS_CONTAINER_ID, **instance_opts)
         instance_ip = get_internal_ip(instance_id)
         logger.log_info(f"Created worker instance {instance_id} with internal IP {instance_ip}")
@@ -766,7 +746,7 @@ def create_instance(
     try:
         # Create a new preemptible instance and wait for it to come online
         instance_opts = dict(
-            service_account=os.getenv(ENV_SERVICE_ACCOUNT),
+            service_account=os.getenv(GCP_ENV_SERVICE_ACCOUNT),
             preemptible=preemptible,
             startup_script=str(GCP_SELF_DESTRUCT_SCRIPT) if self_destruct else None,
         )
