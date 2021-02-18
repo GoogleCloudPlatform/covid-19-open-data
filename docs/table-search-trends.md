@@ -73,12 +73,6 @@ Regional CSV files are available for download in our [data exploration and downl
 | Name | Type | Description | Example |
 | ---- | ---- | ----------- | ------- |
 | **key** | `string` | Unique string identifying the region | US_CA |
-| **country_region** | `string` | The name of the country in English. | United States |
-| **country_region_code** | `string` | The [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1) code for the country. | US |
-| **sub_region_1** | `string` | The name of a region in the country. | California |
-| **sub_region_1_code** | `string` | A country-specific [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) code for the region. | US-CA |
-| **sub_region_2** | `string` | The name of a subdivision of the region above. For example, *Santa Clara County*. |  |
-| **sub_region_2_code** | `string` | For the US - The [FIPS code](https://en.wikipedia.org/wiki/FIPS_county_code) for a US county (or equivalent). | 06085 |
 | **date** | `string` | The day on which the searches took place. For weekly data, this is the first day of the 7-day weekly interval starting on Monday. For example, in the weekly data the row labeled *2020-07-13* represents the search activity for the week of July 13 to July 19, 2020, inclusive. Calendar days start and end at midnight, Pacific Standard Time. | 2020-07-13 |
 | **`${symptom name}`** | `double` `[0-100]` | Repeated for each symptom. Reflects the normalized search volume for this symptom, for the specified date and region. The field may be empty when data is not available. | 87.02 |
 
