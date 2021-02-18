@@ -21,8 +21,7 @@ from lib.utils import table_rename, table_merge
 # specimen_collection_date,tests,pos,pct,neg,indeterminate,Last Updated At
 _column_adapter = {
     "specimen_collection_date": "date",
-    "Specimen Collection Date": "date",
-    "Case Count": "new_confirmed",
+    "pos": "new_confirmed",
     "tests": "new_tested",
 }
 
@@ -32,9 +31,9 @@ class SanFranciscoDataSource(DataSource):
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
 
-        tables = [table_rename(table, _column_adapter, drop=True) for table in dataframes.values()]
-        data = table_merge(tables, on="date", how="outer")
+        data = dataframes[0].rename(columns=_column_adapter)
 
-        data["date"] = data["date"].apply(lambda x: datetime_isoformat(x, "%Y/%m/%d"))
+        data["date"] = data["date"].apply(
+            lambda x: datetime_isoformat(x, "%Y/%m/%d"))
         data["key"] = "US_CA_SFO"
         return data

@@ -1233,10 +1233,7 @@ sources:
   # Data sources for US_CA_SFO
   - name: pipelines.epidemiology.us_ca_sfo_authority.SanFranciscoDataSource
     fetch:
-      - name: cases
-        url: "https://data.sfgov.org/api/views/tvq9-ec9w/rows.csv"
-      - name: tests
-        url: "https://data.sfgov.org/api/views/nfpa-mg4g/rows.csv"
+      - url: "https://data.sfgov.org/api/views/nfpa-mg4g/rows.csv"
     test:
       location_key_match: '^US_CA_SFO$'
     automation:
