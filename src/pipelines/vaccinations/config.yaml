@@ -268,6 +268,7 @@ sources:
     test:
       location_key_match:
         - '^CH$'
+        - '^LI$'
         - '^CH_[^_]+$'
     automation:
       job_group: all
