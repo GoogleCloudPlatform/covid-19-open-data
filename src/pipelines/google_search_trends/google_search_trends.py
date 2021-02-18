@@ -25,6 +25,7 @@ def _normalize_column_name(column: str) -> str:
     column = column.replace("–", "_")
     column = column.replace(" ", "_")
     column = column.replace("-", "_")
+    column = column.replace("–", "_")
     column = column.replace("'", "")
     return column
 
