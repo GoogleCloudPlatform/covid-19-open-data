@@ -70,7 +70,7 @@ This table can be found at the following URLs depending on the choice of format:
 | Spain (Madrid) | [Datos Abiertos Madrid](https://www.comunidad.madrid/gobierno/datos-abiertos) | [Attribution required](https://www.comunidad.madrid/gobierno/datos-abiertos/reutiliza#condiciones-uso) |
 | Taiwan | [Ministry of Health and Welfare](https://data.cdc.gov.tw/en/dataset/agsdctable-day-19cov/resource/3c1e263d-16ec-4d70-b56c-21c9e2171fc7) | [Attribution Required](https://data.gov.tw/license) |
 | Thailand | [Ministry of Public Health](https://covid19.th-stat.com/) | Fair Use |
-| USA | [Imperial College of London](https://github.com/nytimes) | [CC BY](https://github.com/ImperialCollegeLondon/US-covid19-agespecific-mortality-data/blob/master/LICENSE) |
+| USA | [Imperial College of London](https://github.com/ImperialCollegeLondon/US-covid19-agespecific-mortality-data) | [CC BY](https://github.com/ImperialCollegeLondon/US-covid19-agespecific-mortality-data/blob/master/LICENSE) |
 | USA (California) | [California Open Data Portal](https://data.ca.gov/dataset/590188d5-8545-4c93-a9a0-e230f0db7290/) | [CC0](https://data.ca.gov/dataset/590188d5-8545-4c93-a9a0-e230f0db7290/) |
 | USA (D.C.) | [Government of the District of Columbia](https://coronavirus.dc.gov/) | [Public Domain](https://dc.gov/node/939602) |
 | USA (Delaware) | [Delaware Health and Social Services](https://coronavirus.dc.gov/) | [Public Domain](https://coronavirus.delaware.gov/coronavirus-graphics/) |
