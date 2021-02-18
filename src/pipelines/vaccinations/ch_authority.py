@@ -60,5 +60,9 @@ class SwitzerlandDataSource(DataSource):
         country_mask = data["subregion1_code"] == "CH"
         data.loc[country_mask, "key"] = "CH"
 
+        # Principality of Liechtenstein is not in CH but is in the data as FL
+        country_mask = data["subregion1_code"] == "FL"
+        data.loc[country_mask, "key"] = "LI"
+
         # Output the results
         return data
