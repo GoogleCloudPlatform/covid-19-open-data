@@ -102,9 +102,15 @@ OUTPUT_COLUMN_ADAPTER = {
     "total_recovered": "cumulative_recovered",
     "total_tested": "cumulative_tested",
     # Hospitalizations table
+    "new_hospitalized": "new_hospitalized_patients",
+    "new_intensive_care": "new_intensive_care_patients",
+    "new_ventilator": "new_ventilator_patients",
     "total_hospitalized": "cumulative_hospitalized_patients",
     "total_intensive_care": "cumulative_intensive_care_patients",
     "total_ventilator": "cumulative_ventilator_patients",
+    "current_hospitalized": "current_hospitalized_patients",
+    "current_intensive_care": "current_intensive_care_patients",
+    "current_ventilator": "current_ventilator_patients",
     # Vaccinations table
     "total_persons_vaccinated": "cumulative_persons_vaccinated",
     "total_persons_fully_vaccinated": "cumulative_persons_fully_vaccinated",
@@ -157,9 +163,10 @@ OUTPUT_COLUMN_ADAPTER = {
             "new_deceased",
             "new_recovered",
             "new_tested",
-            "total_hospitalized",
-            "total_intensive_care",
-            "total_ventilator",
+            "total_confirmed",
+            "total_deceased",
+            "total_recovered",
+            "total_tested",
         )
     },
     **{
