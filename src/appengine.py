@@ -809,7 +809,7 @@ def main() -> None:
         publish_subset_tables()
 
     def _publish_v3():
-        publish_v3_global_tables()
+        publish_global_tables_(prod_folder="v3")
         publish_v3_location_subsets()
 
     def _publish_json(**kwargs):
