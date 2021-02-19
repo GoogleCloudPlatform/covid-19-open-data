@@ -102,9 +102,9 @@ OUTPUT_COLUMN_ADAPTER = {
     "total_recovered": "cumulative_recovered",
     "total_tested": "cumulative_tested",
     # Hospitalizations table
-    "total_hospitalized": "cumulative_hospitalized",
-    "total_intensive_care": "cumulative_intensive_care",
-    "total_ventilator": "cumulative_ventilator",
+    "total_hospitalized": "cumulative_hospitalized_patients",
+    "total_intensive_care": "cumulative_intensive_care_patients",
+    "total_ventilator": "cumulative_ventilator_patients",
     # Vaccinations table
     "total_persons_vaccinated": "cumulative_persons_vaccinated",
     "total_persons_fully_vaccinated": "cumulative_persons_fully_vaccinated",
@@ -150,20 +150,25 @@ OUTPUT_COLUMN_ADAPTER = {
     "age_bin_08": "age_bin_8",
     "age_bin_09": "age_bin_9",
     **{
-        f"{statistic}_age_{idx:02d}": f"{statistic.replace('total', 'cumulative')}_age_{idx:01d}"
+        f"{stat}_age_{idx:02d}": f"{stat.replace('total', 'cumulative')}_age_{idx:01d}"
         for idx in range(10)
-        for statistic in (
+        for stat in (
             "new_confirmed",
             "new_deceased",
             "new_recovered",
             "new_tested",
+            "total_hospitalized",
+            "total_intensive_care",
+            "total_ventilator",
+        )
+    },
+    **{
+        f"{stat}_age_{idx:02d}": f"{stat.replace('total', 'cumulative')}_patients_age_{idx:01d}"
+        for idx in range(10)
+        for stat in (
             "new_hospitalized",
             "new_intensive_care",
             "new_ventilator",
-            "total_confirmed",
-            "total_deceased",
-            "total_recovered",
-            "total_tested",
             "total_hospitalized",
             "total_intensive_care",
             "total_ventilator",
@@ -171,20 +176,26 @@ OUTPUT_COLUMN_ADAPTER = {
     },
     # By Sex
     **{
-        f"{statistic}_{sex}": f"{statistic.replace('total', 'cumulative')}_{sex}"
+        f"{stat}_{sex}": f"{stat.replace('total', 'cumulative')}_{sex}"
         for sex in ("male", "female", "sex_other")
-        for statistic in (
+        for stat in (
             "new_confirmed",
             "new_deceased",
             "new_recovered",
             "new_tested",
-            "new_hospitalized",
-            "new_intensive_care",
-            "new_ventilator",
             "total_confirmed",
             "total_deceased",
             "total_recovered",
             "total_tested",
+        )
+    },
+    **{
+        f"{stat}_{sex}": f"{stat.replace('total', 'cumulative')}_patients_{sex}"
+        for sex in ("male", "female", "sex_other")
+        for stat in (
+            "new_hospitalized",
+            "new_intensive_care",
+            "new_ventilator",
             "total_hospitalized",
             "total_intensive_care",
             "total_ventilator",
