@@ -22,7 +22,7 @@ from argparse import ArgumentParser
 from functools import partial
 from pathlib import Path
 from pstats import Stats
-from typing import Dict, Iterable, List, TextIO
+from typing import Dict, Iterable, List, Optional, TextIO
 
 from lib.constants import OUTPUT_COLUMN_ADAPTER, SRC, V2_TABLE_LIST, V3_TABLE_LIST
 from lib.error_logger import ErrorLogger
@@ -198,7 +198,11 @@ def merge_output_tables(
         table_sort(temp_input, output_path)
 
 
-def merge_location_breakout_tables(tables_folder: Path, output_path: Path) -> None:
+def merge_location_breakout_tables(
+    tables_folder: Path,
+    output_path: Path,
+    location_keys: Iterable[str],
+) -> None:
     """
     Build a flat view of all tables combined, joined by <key> or <key, date>. This function
     requires for all the location breakout tables to be present under `tables_folder`.
@@ -206,9 +210,11 @@ def merge_location_breakout_tables(tables_folder: Path, output_path: Path) -> No
     Arguments:
         tables_folder: Input directory where all CSV files exist.
         output_path: Output directory for the resulting main.csv file.
+        location_keys: List of location keys to do aggregation for.
     """
     # Use only the aggregated main tables
-    table_paths = list(sorted(tables_folder.glob("**/*.csv")))
+    table_paths = sorted(tables_folder.glob("**/*.csv"))
+    table_paths = [table for table in table_paths if table.stem in location_keys]
 
     # Concatenate all the individual breakout tables together
     _logger.log_info(f"Concatenating {len(table_paths)} location breakout tables")
@@ -244,7 +250,7 @@ def create_table_subsets(main_table_path: Path, output_path: Path) -> Iterable[P
 
 def _try_json_covert(
     schema: Dict[str, str], csv_folder: Path, output_folder: Path, csv_file: Path
-) -> Path:
+) -> Optional[Path]:
     # JSON output path defaults to same as the CSV file but with extension swapped
     json_output = output_folder / str(csv_file.relative_to(csv_folder)).replace(".csv", ".json")
     json_output.parent.mkdir(parents=True, exist_ok=True)
@@ -332,28 +338,36 @@ def publish_location_aggregates(
     return list(pbar(map(map_func, map_iter), **map_opts))
 
 
-def publish_global_tables(tables_folder: Path, output_folder: Path) -> None:
+def publish_global_tables(
+    tables_folder: Path,
+    output_folder: Path,
+    use_table_names: List[str],
+    column_adapter: Dict[str, str],
+) -> None:
     """
     Copy all the tables from `tables_folder` into `output_folder` converting the column names to the
-    latest schema.
-
+    requested schema, and join all the tables into a single main.csv file.
     Arguments:
         tables_folder: Input directory containing tables as CSV files.
         output_folder: Directory where the output tables will be written.
     """
-    table_paths = list(tables_folder.glob("*.csv"))
+    # Default to a known list of tables to use when none is given
+    table_paths = _get_tables_in_folder(tables_folder, use_table_names)
+
+    # Whether it's "key" or "location_key" depends on the schema
+    location_key = "location_key" if "location_key" in column_adapter.values() else "key"
 
     with temporary_directory() as workdir:
 
         for csv_path in table_paths:
             # Copy all output files to a temporary folder, renaming columns if necessary
             _logger.log_info(f"Renaming columns for {csv_path.name}")
-            table_rename(csv_path, workdir / csv_path.name, OUTPUT_COLUMN_ADAPTER)
+            table_rename(csv_path, workdir / csv_path.name, column_adapter)
 
         for csv_path in table_paths:
             # Sort output files by location key, since the following breakout step requires it
             _logger.log_info(f"Sorting {csv_path.name}")
-            table_sort(workdir / csv_path.name, output_folder / csv_path.name, ["location_key"])
+            table_sort(workdir / csv_path.name, output_folder / csv_path.name, [location_key])
 
 
 def _latest_date_by_group(tables_folder: Path, group_by: str = "location_key") -> Dict[str, str]:
@@ -370,7 +384,7 @@ def _latest_date_by_group(tables_folder: Path, group_by: str = "location_key") -
 
 def publish_subset_latest(
     tables_folder: Path, output_folder: Path, key: str = "location_key", **tqdm_kwargs
-) -> List[Path]:
+) -> Iterable[Path]:
     """
     This method outputs the latest record by date per location key for each of the input tables.
 
@@ -442,7 +456,7 @@ def main(output_folder: Path, tables_folder: Path, use_table_names: List[str] = 
     output_folder.mkdir(exist_ok=True, parents=True)
 
     # Publish the tables containing all location keys
-    publish_global_tables(tables_folder, output_folder)
+    publish_global_tables(tables_folder, output_folder, V3_TABLE_LIST, OUTPUT_COLUMN_ADAPTER)
 
     # Publish the latest subset for each table
     latest_folder = output_folder / "latest"
