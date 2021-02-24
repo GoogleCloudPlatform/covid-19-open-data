@@ -1,7 +1,7 @@
 [Back to main page](../README.md)
 
 # COVID-19 Search Trends symptoms dataset
-*Updated Dec 15, 2020*
+*Updated Feb 24, 2021*
 
 
 ## Terms of use
@@ -73,6 +73,7 @@ Regional CSV files are available for download in our [data exploration and downl
 | Name | Type | Description | Example |
 | ---- | ---- | ----------- | ------- |
 | **key** | `string` | Unique string identifying the region | US_CA |
+| **place_ID** | `string` | A textual identifier that uniquely identifies a place in the Google Places database and on Google Maps ([details](https://developers.google.com/places/web-service/place-id))| ChIJd_Y0eVIvkIARuQyDN0F1LBA |
 | **date** | `string` | The day on which the searches took place. For weekly data, this is the first day of the 7-day weekly interval starting on Monday. For example, in the weekly data the row labeled *2020-07-13* represents the search activity for the week of July 13 to July 19, 2020, inclusive. Calendar days start and end at midnight, Pacific Standard Time. | 2020-07-13 |
 | **`${symptom name}`** | `double` `[0-100]` | Repeated for each symptom. Reflects the normalized search volume for this symptom, for the specified date and region. The field may be empty when data is not available. | 87.02 |
 
@@ -100,6 +101,7 @@ We would love your feedback on the dataset and documentation, or any unexpected 
 
 
 ## Dataset changes
+Feb 24, 2021 - Added Place IDs to the dataset
 Dec 15, 2020 - New regions, aggregate-weekly data derived from daily data, rescaled weekly data for United States, and CSV downloads from interactive charts<br/>
 Sep 18, 2020 - New interactive charts and map of the dataset<br/>
 Sep 02, 2020 - Initial release<br/>
