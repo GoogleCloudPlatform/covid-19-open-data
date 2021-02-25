@@ -16,6 +16,7 @@
 
 schema:
   key: str
+  place_id: str
   wikidata: str
   datacommons: str
   country_code: str
