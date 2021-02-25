@@ -1,6 +1,6 @@
 # COVID-19 Open-Data
 
-This repository attempts to assemble the largest Covid-19 epidemiological database in addition to a powerful set of expansive covariates. It includes open, publicly sourced, licensed data relating to demographics, economy, epidemiology, geography, health, hospitalizations, mobility, government response, weather, and more. Moreover, the data merges daily time-series, +20,000 global sources, at a fine spatial resolution, using a consistent set of region keys.  All regions are assigned a unique location key, which resolves discrepancies between ISO / NUTS / FIPS codes, etc. The different aggregation levels are:
+This repository attempts to assemble the largest Covid-19 epidemiological database in addition to a powerful set of expansive covariates. It includes open, publicly sourced, commercially licensed data relating to demographics, economy, epidemiology, geography, health, hospitalizations, mobility, government response, weather, and more. Moreover, the data merges daily time-series, +20,000 global sources, at a fine spatial resolution, using a consistent set of region keys.  All regions are assigned a unique location key, which resolves discrepancies between ISO / NUTS / FIPS codes, etc. The different aggregation levels are:
 
 * 0: Country
 * 1: Province, state, or local equivalent
