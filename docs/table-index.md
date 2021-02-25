@@ -13,6 +13,7 @@ This table can be found at the following URLs depending on the choice of format:
 | Name | Type | Description | Example |
 | ---- | ---- | ----------- | ------- |
 | **key** | `string` | Unique string identifying the region | US_CA_06001 |
+| **place_ID** | `string` | A textual identifier that uniquely identifies a place in the Google Places database and on Google Maps ([details](https://developers.google.com/places/web-service/place-id))| ChIJd_Y0eVIvkIARuQyDN0F1LBA |
 | **wikidata** | `string` | Wikidata ID corresponding to this key | Q107146 |
 | **datacommons** | `string` | DataCommons ID corresponding to this key | geoId/06001 |
 | **country_code** | `string` | ISO 3166-1 alphanumeric 2-letter code of the country | US |
