@@ -450,7 +450,7 @@ sources:
   # Country level data + admin level 1
   - name: pipelines.google_search_trends.google_search_trends.GoogleSearchTrendsDataSource
     fetch:
-      - url: "https://storage.googleapis.com/gcs-public-data---symptom-search/2020/{level}/daily/2020_{region_code}_daily_symptoms_dataset.csv"
+      - url: "https://storage.googleapis.com/gcs-public-data---symptom-search/{year}/{level}/daily/{year}_{region_code}_daily_symptoms_dataset.csv"
     parse:
       dtype: str
       country_codes: ['AU', 'GB', 'IE', 'NZ', 'SG', 'US']
@@ -466,7 +466,7 @@ sources:
   # AU levels 1 + 2
   - name: pipelines.google_search_trends.google_search_trends.GoogleSearchTrendsDataSource
     fetch:
-      - url: "https://storage.googleapis.com/gcs-public-data---symptom-search/2020/{level}/daily/2020_{region_code}_daily_symptoms_dataset.csv"
+      - url: "https://storage.googleapis.com/gcs-public-data---symptom-search/{year}/{level}/daily/{year}_{region_code}_daily_symptoms_dataset.csv"
     parse:
       dtype: str
       country_codes: ['AU']
@@ -486,7 +486,7 @@ sources:
   # US levels 1 + 2
   - name: pipelines.google_search_trends.google_search_trends.GoogleSearchTrendsDataSource
     fetch:
-      - url: "https://storage.googleapis.com/gcs-public-data---symptom-search/2020/{level}/daily/2020_{region_code}_daily_symptoms_dataset.csv"
+      - url: "https://storage.googleapis.com/gcs-public-data---symptom-search/{year}/{level}/daily/{year}_{region_code}_daily_symptoms_dataset.csv"
     parse:
       dtype: str
       country_codes: ['US']
@@ -505,7 +505,7 @@ sources:
 
   - name: pipelines.google_search_trends.google_search_trends.GoogleSearchTrendsDataSource
     fetch:
-      - url: "https://storage.googleapis.com/gcs-public-data---symptom-search/2020/{level}/daily/2020_{region_code}_daily_symptoms_dataset.csv"
+      - url: "https://storage.googleapis.com/gcs-public-data---symptom-search/{year}/{level}/daily/{year}_{region_code}_daily_symptoms_dataset.csv"
     parse:
       dtype: str
       country_codes: ['US']
@@ -524,7 +524,7 @@ sources:
 
   - name: pipelines.google_search_trends.google_search_trends.GoogleSearchTrendsDataSource
     fetch:
-      - url: "https://storage.googleapis.com/gcs-public-data---symptom-search/2020/{level}/daily/2020_{region_code}_daily_symptoms_dataset.csv"
+      - url: "https://storage.googleapis.com/gcs-public-data---symptom-search/{year}/{level}/daily/{year}_{region_code}_daily_symptoms_dataset.csv"
     parse:
       dtype: str
       country_codes: ['US']
@@ -543,7 +543,7 @@ sources:
 
   - name: pipelines.google_search_trends.google_search_trends.GoogleSearchTrendsDataSource
     fetch:
-      - url: "https://storage.googleapis.com/gcs-public-data---symptom-search/2020/{level}/daily/2020_{region_code}_daily_symptoms_dataset.csv"
+      - url: "https://storage.googleapis.com/gcs-public-data---symptom-search/{year}/{level}/daily/{year}_{region_code}_daily_symptoms_dataset.csv"
     parse:
       dtype: str
       country_codes: ['US']
