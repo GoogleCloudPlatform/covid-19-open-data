@@ -42,6 +42,7 @@ counts over time, which is why the cumulative values, if reported, are kept in a
 | Belgium | [Covid Vaccinations Belgium](https://covid-vaccinatie.be/en) | [CC BY](https://covid-vaccinatie.be/api) | Regional data only available for Brussels, since the regions reported by the data source do not match our indexed subregions |
 | Brazil | Secretarias de Saúde via [FinMango][1] | [CC BY][1] | |
 | Brazil | [Brazil Ministério da Saúde](https://coronavirus.saude.gov.br/) | [Creative Commons Atribuição](http://www.opendefinition.org/licenses/cc-by) | |
+| Bulgaria | [Ministry of Health](https://coronavirus.bg/bg/statistika) (via [FinMango][1]) | [CC BY](https://finmango.org/covid) | |
 | Canada | [Department of Health Canada](https://www.canada.ca/en/public-health) | [Attribution required](https://www.canada.ca/en/transparency/terms.html) | |
 | Czech Republic | [Ministry of Health of the Czech Republic](https://onemocneni-aktualne.mzcr.cz/covid-19) | [Open Data](https://www.jmir.org/2020/5/e19367) | |
 | France | [data.gouv.fr](https://www.data.gouv.fr/fr/datasets/donnees-relatives-aux-personnes-vaccinees-contre-la-covid-19-1/) | [Open License 2.0](https://www.etalab.gouv.fr/licence-ouverte-open-licence) | |

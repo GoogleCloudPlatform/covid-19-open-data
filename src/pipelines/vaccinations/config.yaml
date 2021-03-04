@@ -64,6 +64,20 @@ sources:
       job_group: all
       deferred: true
 
+  # Data sources for BG levels 0 + 1
+  - name: pipelines.vaccinations.bg_finmango.FinMangoBulgariaDataSource
+    fetch:
+      - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vT3xzDXa5yd1lQZVrqNNFRy_4rj6Ie-YC5tpdOFlFYH4Qj_z5s1WPbsapfx6oPITw6uke_LUo7OCA2E/pub?gid=0&single=true&output=csv"
+        opts:
+          ext: csv
+    test:
+      location_key_match:
+        - '^BG$'
+        - '^BG_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for BR levels 0 + 1 + 2
   - name: pipelines.vaccinations.br_authority.BrazilDataSource
     fetch:
