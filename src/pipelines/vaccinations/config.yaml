@@ -131,6 +131,20 @@ sources:
       job_group: all
       deferred: true
 
+  # Data sources for DE levels 0 + 1
+  - name: pipelines.vaccinations.de_finmango.FinMangoGermanyDataSource
+    fetch:
+      - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQBlleeDihfdTZLuDIczEsmKy0Ql-YOYUfBTy3NKxyNbTR1IRd7EbIp5cPS0PVzgOxn-zCWTY4ZVm_5/pub?gid=0&single=true&output=csv"
+        opts:
+          ext: csv
+    test:
+      location_key_match:
+        - '^DE$'
+        - '^DE_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for ES levels 0 + 1
   - name: pipelines.vaccinations.es_authority.SpainDataSource
     fetch:
