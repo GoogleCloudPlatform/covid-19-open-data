@@ -39,6 +39,7 @@ counts over time, which is why the cumulative values, if reported, are kept in a
 | ---- | ------ | ------------------------ | ----- |
 | Country-level data | [Our World in Data](https://ourworldindata.org) | [CC BY](https://ourworldindata.org/how-to-use-our-world-in-data#how-is-our-work-copyrighted) | |
 | Austria | [Open Data Österreich](https://www.data.gv.at/covid-19/) | [CC BY](https://www.data.gv.at/covid-19/) | |
+| Belgium | [Covid Vaccinations Belgium](https://covid-vaccinatie.be/en) | [CC BY](https://covid-vaccinatie.be/api) | Regional data only available for Brussels, since the regions reported by the data source do not match our indexed subregions |
 | Brazil | Secretarias de Saúde via [FinMango][1] | [CC BY][1] | |
 | Brazil | [Brazil Ministério da Saúde](https://coronavirus.saude.gov.br/) | [Creative Commons Atribuição](http://www.opendefinition.org/licenses/cc-by) | |
 | Canada | [Department of Health Canada](https://www.canada.ca/en/public-health) | [Attribution required](https://www.canada.ca/en/transparency/terms.html) | |

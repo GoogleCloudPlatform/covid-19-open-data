@@ -52,6 +52,18 @@ sources:
       job_group: all
       deferred: true
 
+  # Data sources for BE levels 0 + 1
+  - name: pipelines.vaccinations.be_covid_vaccinatie.BelgiumDataSource
+    fetch:
+      - url: "https://covid-vaccinatie.be/api/v1/administered.csv"
+    test:
+      location_key_match:
+        - '^BE$'
+        - '^BE_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for BR levels 0 + 1 + 2
   - name: pipelines.vaccinations.br_authority.BrazilDataSource
     fetch:
