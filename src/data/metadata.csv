@@ -18444,6 +18444,18 @@ SE_332,SE,Sweden,332,Norrbotten,,,,,,
 SG,SG,Singapore,,,,,,,,-1
 SH,SH,Saint Helena,,,,,,,,-1
 SI,SI,Slovenia,,,,,,,,-1
+SI_01,SI,Slovenia,01,Pomurska,,,,,,
+SI_02,SI,Slovenia,02,Podravska,,,,,,
+SI_03,SI,Slovenia,03,Koroska,,,,,,
+SI_04,SI,Slovenia,04,Savinjska,,,,,,
+SI_05,SI,Slovenia,05,Zasavska,,,,,,
+SI_06,SI,Slovenia,06,Posavska,,,,,,
+SI_07,SI,Slovenia,07,Jugovzhodna Slovenija,,,,,,
+SI_08,SI,Slovenia,08,Osrednjeslovenska,,,,,,
+SI_09,SI,Slovenia,09,Gorenjska,,,,,,
+SI_10,SI,Slovenia,10,Primorsko-notranjska,,,,,,
+SI_11,SI,Slovenia,11,Goriska,,,,,,
+SI_12,SI,Slovenia,12,Obalno-kraska,,,,,,
 SJ,SJ,Svalbard and Jan Mayen,,,,,,,,-1
 SK,SK,Slovakia,,,,,,,,-1
 SK_BC,SK,Slovakia,BC,Banskobystrický,,,,,,
