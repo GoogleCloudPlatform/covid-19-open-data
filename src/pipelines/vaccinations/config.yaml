@@ -310,6 +310,20 @@ sources:
       job_group: all
       deferred: true
 
+  # Data sources for SI levels 0 + 1
+  - name: pipelines.vaccinations.si_finmango.FinMangoSloveniaDataSource
+    fetch:
+      - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSVlVRyQwhlSZpwAAh5ARpDr4rNFmPrDXQ0_8jrcMWfJ734grINta10mrHGXygPXZaMkIepN8QUe3aA/pub?gid=0&single=true&output=csv"
+        opts:
+          ext: csv
+    test:
+      location_key_match:
+        - '^SI$'
+        - '^SI_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for SK level 0 + 1
   - name: pipelines.vaccinations.sk_authority.SlovakiaDataSource
     fetch:
