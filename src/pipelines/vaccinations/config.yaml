@@ -40,6 +40,21 @@ sources:
       job_group: all
       deferred: true
 
+  # Data sources for AR levels 0 + 1
+  - name: pipelines.vaccinations.ar_authority.ArgentinaCachedDataSource
+    # No URL is given because it uses the cache
+    fetch:
+      - cache_key: AR_vaccinations
+    aggregate:
+      subregion1: ["total_persons_vaccinated", "total_persons_fully_vaccinated", "total_vaccine_doses_administered"]
+    test:
+      location_key_match:
+        - '^AR$'
+        - '^AR_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for AT levels 0 + 1
   - name: pipelines.vaccinations.at_authority.AustriaDataSource
     fetch:
