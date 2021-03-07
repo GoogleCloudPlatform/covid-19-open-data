@@ -1637,20 +1637,20 @@ SE331,SE_331,Västerbottens län
 SE332,SE_332,Norrbottens län
 SI,SI,Slovenia
 SI0,,Slovenija
-SI03,SI_03,Vzhodna Slovenija
-SI031,,Pomurska
-SI032,,Podravska
-SI033,,Koroska
-SI034,,Savinjska
-SI035,,Zasavska
-SI036,,Posavska
-SI037,,Jugovzhodna Slovenija
-SI038,,Primorsko-notranjska
-SI04,SI_04,Zahodna Slovenija
-SI041,,Osrednjeslovenska
-SI042,,Gorenjska
-SI043,,Goriska
-SI044,,Obalno-kraska
+SI03,,Vzhodna Slovenija
+SI031,SI_01,Pomurska
+SI032,SI_02,Podravska
+SI033,SI_03,Koroska
+SI034,SI_04,Savinjska
+SI035,SI_05,Zasavska
+SI036,SI_06,Posavska
+SI037,SI_07,Jugovzhodna Slovenija
+SI038,SI_10,Primorsko-notranjska
+SI04,,Zahodna Slovenija
+SI041,SI_08,Osrednjeslovenska
+SI042,SI_09,Gorenjska
+SI043,SI_11,Goriska
+SI044,SI_12,Obalno-kraska
 SK,SK,Slovakia
 SK0,,Slovensko
 SK01,SK_01,Bratislavský kraj

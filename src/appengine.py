@@ -59,7 +59,9 @@ from lib.constants import (
     GCS_BUCKET_PROD,
     GCS_BUCKET_TEST,
     GCS_CONTAINER_ID,
+    OUTPUT_COLUMN_ADAPTER,
     SRC,
+    V2_TABLE_LIST,
     V3_TABLE_LIST,
 )
 from lib.error_logger import ErrorLogger
@@ -279,7 +281,7 @@ def cache_pull() -> Response:
 def update_table(table_name: str = None, job_group: str = None, parallel_jobs: int = 8) -> Response:
     table_name = _get_request_param("table", table_name)
     job_group = _get_request_param("job_group", job_group)
-    process_count = _get_request_param("parallel_jobs", parallel_jobs)
+    process_count = _get_request_param("parallel_jobs", str(parallel_jobs))
     # Default to 1 if invalid process count is given
     process_count = safe_int_cast(process_count) or 1
 
@@ -456,8 +458,10 @@ def publish_subset_tables() -> Response:
     return Response("OK", status=200)
 
 
-@profiled_route("/publish_v3_global_tables")
-def publish_v3_global_tables() -> Response:
+@profiled_route("/publish_global_tables")
+def publish_global_tables_(prod_folder: str = "v2") -> Response:
+    prod_folder = _get_request_param("prod_folder", prod_folder)
+
     with temporary_directory() as workdir:
         tables_folder = workdir / "tables"
         public_folder = workdir / "public"
@@ -468,11 +472,18 @@ def publish_v3_global_tables() -> Response:
         download_folder(GCS_BUCKET_TEST, "tables", tables_folder)
 
         # Publish the tables containing all location keys
-        publish_global_tables(tables_folder, public_folder)
-        logger.log_info("Global tables created")
+        table_names, column_adapter = None, None
+        if prod_folder == "v2":
+            table_names, column_adapter = V2_TABLE_LIST, {}
+        if prod_folder == "v3":
+            table_names, column_adapter = V3_TABLE_LIST, OUTPUT_COLUMN_ADAPTER
+        assert table_names is not None and column_adapter is not None
+        publish_global_tables(
+            tables_folder, public_folder, use_table_names=table_names, column_adapter=column_adapter
+        )
 
         # Upload the results to the prod bucket
-        upload_folder(GCS_BUCKET_PROD, "v3", public_folder)
+        upload_folder(GCS_BUCKET_PROD, prod_folder, public_folder)
 
     return Response("OK", status=200)
 
@@ -570,6 +581,9 @@ def publish_v3_main_table() -> Response:
         input_folder.mkdir(parents=True, exist_ok=True)
         output_folder.mkdir(parents=True, exist_ok=True)
 
+        # Get a list of valid location keys
+        location_keys = list(table_read_column(SRC / "data" / "metadata.csv", "key"))
+
         # Download all the location breakout tables into our local storage
         download_folder(GCS_BUCKET_PROD, "v3", input_folder, lambda x: "location/" in str(x))
         logger.log_info(f"Downloaded {sum(1 for _ in input_folder.glob('**/*.csv'))} CSV files")
@@ -577,7 +591,7 @@ def publish_v3_main_table() -> Response:
         # Create the aggregated table and put it in a compressed file
         agg_file_path = output_folder / "aggregated.csv.gz"
         with gzip.open(agg_file_path, "wt") as compressed_file:
-            merge_location_breakout_tables(input_folder, compressed_file)
+            merge_location_breakout_tables(input_folder, compressed_file, location_keys)
 
         # Upload the results to the prod bucket
         upload_folder(GCS_BUCKET_PROD, "v3", output_folder)
@@ -795,7 +809,7 @@ def main() -> None:
         publish_subset_tables()
 
     def _publish_v3():
-        publish_v3_global_tables()
+        publish_global_tables_(prod_folder="v3")
         publish_v3_location_subsets()
 
     def _publish_json(**kwargs):

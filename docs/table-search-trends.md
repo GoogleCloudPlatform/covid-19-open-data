@@ -1,7 +1,7 @@
 [Back to main page](../README.md)
 
 # COVID-19 Search Trends symptoms dataset
-*Updated Dec 15, 2020*
+*Updated Feb 24, 2021*
 
 
 ## Terms of use
@@ -100,6 +100,7 @@ We would love your feedback on the dataset and documentation, or any unexpected 
 
 
 ## Dataset changes
+Feb 24, 2021 - Added Place IDs to the dataset
 Dec 15, 2020 - New regions, aggregate-weekly data derived from daily data, rescaled weekly data for United States, and CSV downloads from interactive charts<br/>
 Sep 18, 2020 - New interactive charts and map of the dataset<br/>
 Sep 02, 2020 - Initial release<br/>
