@@ -34,8 +34,8 @@ class SwitzerlandDataSource(DataSource):
         data = requests.get(src_url).json()
 
         fetch_opts = [
-            {'url': data['sources']['individual']['csv']['vaccDosesAdministered']},
-            {'url': data['sources']['individual']['csv']['fullyVaccPersons']}
+            {'name': 'vaccDosesAdministered', 'url': data['sources']['individual']['csv']['vaccDosesAdministered']},
+            {'name': 'fullyVaccPersons', 'url': data['sources']['individual']['csv']['fullyVaccPersons']}
         ]
 
         return super().fetch(output_folder, cache, fetch_opts, skip_existing)
@@ -46,7 +46,7 @@ class SwitzerlandDataSource(DataSource):
         data = table_merge(
             [
                 table_rename(
-                    dataframes[0],
+                    dataframes['vaccDosesAdministered'],
                     {
                         "date": "date",
                         "geoRegion": "subregion1_code",
@@ -55,7 +55,7 @@ class SwitzerlandDataSource(DataSource):
                     drop=True,
                 ),
                 table_rename(
-                    dataframes[1],
+                    dataframes['fullyVaccPersons'],
                     {
                         "date": "date",
                         "geoRegion": "subregion1_code",
