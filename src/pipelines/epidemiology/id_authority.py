@@ -98,7 +98,16 @@ def _parse_records(key: str, records: List[Dict[str, Any]]) -> List[Dict[str, An
 
 def _get_province_records(url_tpl: str, key: str) -> List[Dict[str, Any]]:
     url = url_tpl.format(_key_name_map[key].replace(" ", "_"))
+    print(url)
     return _parse_records(key, requests.get(url, timeout=60).json()["list_perkembangan"])
+
+
+def _get_level2_records(url_tpl: str, key: str) -> List[Dict[str, Any]]:
+    url = url_tpl.format(key)
+    print('grrrr')
+    print(url)
+    res = requests.get(url, timeout=60).json()
+    return list(res.values())
 
 
 # pylint: disable=missing-class-docstring,abstract-method
@@ -122,6 +131,35 @@ class IndonesiaProvinceDataSource(DataSource):
 
         map_func = partial(_get_province_records, url_tpl)
         data = DataFrame.from_records(sum(thread_map(map_func, keys), []))
+        return data
+
+
+# pylint: disable=missing-class-docstring,abstract-method
+class IndonesiaLevel2DataSource(DataSource):
+    def fetch(
+        self,
+        output_folder: Path,
+        cache: Dict[str, str],
+        fetch_opts: List[Dict[str, Any]],
+        skip_existing: bool = False,
+    ) -> Dict[str, str]:
+        # URL is just a template, so pass-through the URL to parse manually
+        return {idx: source["url"] for idx, source in enumerate(fetch_opts)}
+
+    def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
+
+        # Ignore sources, we use an API for this data source
+        url_tpl = sources[0]
+        print(sources)
+        keys = aux["metadata"].query('(country_code == "ID") & subregion2_code.notna()')["subregion2_code"]
+        keys = [key for key in keys.values]
+        print(len(keys))
+        print(keys)
+
+        # keys = [key for key in keys.values if len(key.split("_")) == 2 and len(key) == 5]
+        map_func = partial(_get_level2_records, url_tpl)
+        data = DataFrame.from_records(sum(thread_map(map_func, keys), []))
+        print(data)
         return data
 
 
