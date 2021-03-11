@@ -68,9 +68,10 @@ class SwitzerlandDataSource(DataSource):
             how="outer",
         )
 
-        # total_persons_vaccinated = total_persons_fully_vaccinated + total_persons_partially_vaccinated
-        # where, assuming fully and partially vaccinated persons have 2 and 1 doses respectively
+        # Assuming fully and partially vaccinated persons have 2 and 1 doses respectively,
         # total_persons_partially_vaccinated = total_vaccine_doses_administered - 2 * total_persons_fully_vaccinated
+        # Therefore, total_persons_vaccinated = total_persons_partially_vaccinated + total_persons_fully_vaccinated
+        # = total_vaccine_doses_administered - total_persons_fully_vaccinated
         data["total_persons_vaccinated"] = data["total_vaccine_doses_administered"] - data["total_persons_fully_vaccinated"]
 
         # Make sure all records have the country code and match subregion1 only
