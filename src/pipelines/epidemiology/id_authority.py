@@ -174,6 +174,13 @@ class IndonesiaProvinceDataSource(DataSource):
         return data
 
 
+class IndonesiaCountryDataSource(DataSource):
+    def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
+        with open(sources[0]) as fd:
+            records = json.load(fd)["update"]["harian"]
+        return DataFrame.from_records(_parse_records("ID", records))
+
+
 # pylint: disable=missing-class-docstring,abstract-method
 class IndonesiaLevel2DataSource(DataSource):
     def fetch(
@@ -202,10 +209,3 @@ class IndonesiaLevel2DataSource(DataSource):
             [data, subregion2s[["key", "subregion2_code"]]],
             on=["subregion2_code"], how="inner")
         return data
-
-
-class IndonesiaCountryDataSource(DataSource):
-    def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
-        with open(sources[0]) as fd:
-            records = json.load(fd)["update"]["harian"]
-        return DataFrame.from_records(_parse_records("ID", records))
