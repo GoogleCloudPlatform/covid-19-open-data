@@ -274,6 +274,7 @@ The following persons have made significant contributions to this project:
 * Ruth Alcantara
 * Donny Cheung
 * Aurora Cheung
+* Chandan Nath
 
 
 
