@@ -22,6 +22,8 @@ from pandas import DataFrame
 from lib.cast import safe_int_cast
 from lib.concurrent import thread_map
 from lib.data_source import DataSource
+from lib.utils import table_merge
+from lib.utils import table_rename
 
 _key_name_map = {
     "ID_JK": "DKI JAKARTA",
@@ -77,6 +79,22 @@ _col_name_map = {
     "jumlah_sembuh_kum": "total_recovered",
 }
 
+_level2_id_kota_map = {
+    "160": "160",
+    "161": "161",
+}
+
+_level2_col_name_map = {
+    "date": "date",
+    "subregion2_code": "subregion2_code",
+    "kasus": "total_confirmed",
+    "kasus_baru": "new_confirmed",
+    "kematian": "total_deceased",
+    "kematian_baru": "new_deceased",
+    "sembuh": "total_recovered",
+    "sembuh_perhari": "new_recovered",
+}
+
 
 def _parse_value(val: Any) -> int:
     if isinstance(val, dict):
@@ -98,16 +116,38 @@ def _parse_records(key: str, records: List[Dict[str, Any]]) -> List[Dict[str, An
 
 def _get_province_records(url_tpl: str, key: str) -> List[Dict[str, Any]]:
     url = url_tpl.format(_key_name_map[key].replace(" ", "_"))
-    print(url)
     return _parse_records(key, requests.get(url, timeout=60).json()["list_perkembangan"])
 
 
-def _get_level2_records(url_tpl: str, key: str) -> List[Dict[str, Any]]:
-    url = url_tpl.format(key)
-    print('grrrr')
-    print(url)
+def _get_level2_records(url_tpl: str, subregion2_code: str) -> List[Dict[str, Any]]:
+    url = url_tpl.format(_level2_id_kota_map[subregion2_code])
     res = requests.get(url, timeout=60).json()
-    return list(res.values())
+    records = list(res.values())
+    [s.update({"subregion2_code": subregion2_code}) for s in records]
+    return records
+
+
+def _indonesian_date_to_isoformat(indo_date: str) -> str:
+    """ Convert date like '18 Desember 2020' or '31 JulI 2020' to iso format"""
+    indonesian_to_english_months = {
+        "januari": "Jan",
+        "februari": "Feb",
+        "maret": "Mar",
+        "april": "Apr",
+        "mei": "May",
+        "juni": "Jun",
+        "juli": "Jul",
+        "agustus": "Aug",
+        "september": "Sep",
+        "oktober": "Oct",
+        "november": "Nov",
+        "desember": "Dec",
+    }
+    eng_date = indo_date.lower()
+    for indo, eng in indonesian_to_english_months.items():
+        eng_date = eng_date.replace(indo, eng)
+    date = datetime.datetime.strptime(eng_date, "%d %b %Y")
+    return date.date().isoformat()
 
 
 # pylint: disable=missing-class-docstring,abstract-method
@@ -147,19 +187,20 @@ class IndonesiaLevel2DataSource(DataSource):
         return {idx: source["url"] for idx, source in enumerate(fetch_opts)}
 
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
-
-        # Ignore sources, we use an API for this data source
         url_tpl = sources[0]
-        print(sources)
-        keys = aux["metadata"].query('(country_code == "ID") & subregion2_code.notna()')["subregion2_code"]
-        keys = [key for key in keys.values]
-        print(len(keys))
-        print(keys)
+        subregion2s = aux["metadata"].query('(country_code == "ID") & subregion2_code.notna()')  # type: Dataframe
 
-        # keys = [key for key in keys.values if len(key.split("_")) == 2 and len(key) == 5]
+        # since we don't have data for all subregions
+        subregion2_codes = set(subregion2s["subregion2_code"].values).intersection(_level2_id_kota_map.keys())
         map_func = partial(_get_level2_records, url_tpl)
-        data = DataFrame.from_records(sum(thread_map(map_func, keys), []))
-        print(data)
+        data = DataFrame.from_records(sum(thread_map(map_func, subregion2_codes), []))
+
+        # add date and location keys
+        data['date'] = data.apply(lambda r: _indonesian_date_to_isoformat(r.tgl), axis=1)
+        data = table_rename(data, _level2_col_name_map, drop=True)
+        data = table_merge(
+            [data, subregion2s[["country_code", "subregion1_code", "subregion2_code"]]],
+            on=["subregion2_code"], how="inner")
         return data
 
 
