@@ -613,8 +613,6 @@ sources:
   - name: pipelines.epidemiology.id_authority.IndonesiaLevel2DataSource
     fetch:
       - url: "https://andrafarm.com/api/covid19/kota/{}"
-    aggregate:
-      subregion1: ["new_confirmed", "new_deceased", "new_recovered", "total_confirmed", "total_deceased", "total_recovered"]
     test:
       location_key_match: 'IDX.*'
     automation:
