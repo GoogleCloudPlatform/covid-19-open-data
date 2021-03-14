@@ -199,7 +199,7 @@ class IndonesiaLevel2DataSource(DataSource):
         data['date'] = data.apply(lambda r: _indonesian_date_to_isoformat(r.tgl), axis=1)
         data = table_rename(data, _level2_col_name_map, drop=True)
         data = table_merge(
-            [data, subregion2s[["country_code", "subregion1_code", "subregion2_code"]]],
+            [data, subregion2s[["key", "subregion2_code"]]],
             on=["subregion2_code"], how="inner")
         return data
 
