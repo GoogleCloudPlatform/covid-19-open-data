@@ -197,8 +197,7 @@ class IndonesiaLevel2DataSource(DataSource):
         url_tpl = sources[0]
         subregion2s = aux["metadata"].query('(country_code == "ID") & subregion2_code.notna()')  # type: Dataframe
 
-        # since we don't have data for all subregions
-        subregion2_codes = set(subregion2s["subregion2_code"].values).intersection(_level2_id_kota_map.keys())
+        subregion2_codes = subregion2s["subregion2_code"].values
         map_func = partial(_get_level2_records, url_tpl)
         data = DataFrame.from_records(sum(thread_map(map_func, subregion2_codes), []))
 
@@ -207,5 +206,5 @@ class IndonesiaLevel2DataSource(DataSource):
         data = table_rename(data, _level2_col_name_map, drop=True)
         data = table_merge(
             [data, subregion2s[["key", "subregion2_code"]]],
-            on=["subregion2_code"], how="inner")
+            on=["subregion2_code"], how="left")
         return data
