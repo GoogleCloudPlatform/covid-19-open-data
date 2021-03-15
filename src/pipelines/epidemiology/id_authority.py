@@ -195,8 +195,8 @@ class IndonesiaLevel2DataSource(DataSource):
 
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         url_tpl = sources[0]
-        subregion2s = aux["metadata"].query('(country_code == "ID") & subregion2_code.notna()')  # type: Dataframe
 
+        subregion2s = aux["metadata"].query('(country_code == "ID") & subregion2_code.notna()')  # type: Dataframe
         subregion2_codes = subregion2s["subregion2_code"].values
         map_func = partial(_get_level2_records, url_tpl)
         data = DataFrame.from_records(sum(thread_map(map_func, subregion2_codes), []))
