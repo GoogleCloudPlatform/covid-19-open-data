@@ -1272,13 +1272,16 @@ sources:
       deferred: true
 
   # Data sources US_FL levels 2 + 3
-  # No URL is provided because an API is used instead
   - name: pipelines.epidemiology.us_fl_authority.FloridaDataSource
+    fetch:
+      - url: "https://services1.arcgis.com/CY1LXxl9zlJeBuRZ/ArcGIS/rest/services/Florida_COVID19_Case_Line_Data_NEW/FeatureServer/0/query?where=1%3D1&outFields=*&f=json"
     # Death and hospitalization data do not have accurate dates
     drop_columns: ['new_deceased']
     test:
-      location_key_match: 'US_FL.*'
-      # Skip Florida because download takes a long time
+      location_key_match:
+        - '^US_FL$'
+        - '^US_FL_[^_]+$'
+      # Skip unit test because download takes a long time
       skip: true
     automation:
       job_group: all

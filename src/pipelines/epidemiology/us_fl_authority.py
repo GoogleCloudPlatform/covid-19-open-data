@@ -14,7 +14,7 @@
 
 import json
 import datetime
-from typing import Dict
+from typing import Any, Dict
 
 from pandas import DataFrame, concat
 
@@ -26,7 +26,7 @@ fromtimestamp = datetime.datetime.fromtimestamp
 
 
 class FloridaDataSource(ArcGISDataSource):
-    def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
+    def parse(self, sources: Dict[Any, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         with open(sources[0], "r") as fd:
             records = json.load(fd)["features"]
 
@@ -36,8 +36,8 @@ class FloridaDataSource(ArcGISDataSource):
         )
 
         # FL does not provide date for deceased or hospitalized, so we just copy it from confirmed
-        deceased_mask = cases.Died == "Yes"
-        hospitalized_mask = cases.Hospitalized == "YES"
+        deceased_mask = cases.Died.str.lower() == "yes"
+        hospitalized_mask = cases.Hospitalized.str.lower() == "yes"
         cases["date_new_deceased"] = None
         cases["date_new_hospitalized"] = None
         cases.loc[deceased_mask, "date_new_deceased"] = cases.loc[
@@ -49,7 +49,7 @@ class FloridaDataSource(ArcGISDataSource):
 
         # Rename the sex labels
         sex_adapter = lambda x: {"male": "male", "female": "female"}.get(x, "sex_unknown")
-        cases["sex"] = cases["Gender"].apply(sex_adapter)
+        cases["sex"] = cases["Gender"].str.lower().apply(sex_adapter)
         cases.drop(columns=["Gender"], inplace=True)
 
         # Make sure age is an integer
