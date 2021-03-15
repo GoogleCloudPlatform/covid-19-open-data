@@ -588,7 +588,7 @@ sources:
       job_group: all
       deferred: true
 
-  # Data sources for ID levels 1
+  # Data sources for ID level 1
   - name: pipelines.epidemiology.id_authority.IndonesiaProvinceDataSource
     fetch:
       - url: "https://data.covid19.go.id/public/api/prov_detail_{}.json"
