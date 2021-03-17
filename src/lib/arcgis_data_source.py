@@ -27,12 +27,11 @@ def _download_arcgis(
     url: str, offset: int = 0, log_func: Callable[[str], None] = None
 ) -> List[Dict[str, Any]]:
     """
-    Recursively download all records from an ArcGIS data source respecting the maximum record
-    transfer per request.
+    Download records from an ArcGIS data source respecting the maximum record transfer per request.
     """
     url_tpl = url + "&resultOffset={offset}"
     url_fmt = url_tpl.format(offset=offset)
-    get_opts = dict(timeout=60)
+    get_opts: Dict = dict(timeout=60)
 
     try:
         res = requests.get(url_fmt, **get_opts).json()["features"]
@@ -41,11 +40,7 @@ def _download_arcgis(
             log_func(requests.get(url_fmt, **get_opts).text)
         raise exc
 
-    rows = [row["attributes"] for row in res]
-    if len(rows) == 0:
-        return rows
-    else:
-        return rows + _download_arcgis(url, offset=offset + len(rows))
+    return [row["attributes"] for row in res]
 
 
 class ArcGISDataSource(DataSource):
@@ -71,8 +66,19 @@ class ArcGISDataSource(DataSource):
 
             # Avoid download if the file exists and flag is set
             if not skip_existing or not file_path.exists():
+
+                # Download the data in chunks
+                offset = 0
+                records = []
+                for _ in range(int(1e6)):
+                    rows = _download_arcgis(url_base, offset=offset, log_func=self)
+                    if len(rows) == 0:
+                        break
+                    records += rows
+                    offset += len(rows)
+
                 with open(file_path, "w") as fd:
-                    json.dump({"features": _download_arcgis(url_base)}, fd)
+                    json.dump({"features": records}, fd)
 
             # Add downloaded file to the list
             downloaded_files[opts.get("name", idx)] = str(file_path.absolute())
