@@ -23,7 +23,7 @@ from lib.data_source import DataSource
 from lib.utils import table_merge
 from lib.utils import table_rename
 
-_subregioncode_to_api_id_map = {
+_subregion_code_to_api_id_map = {
     "AC": 1,
     "BA": 2,
     "BT": 3,
@@ -75,7 +75,7 @@ _col_name_map = {
 
 
 def _get_records(url_tpl: str, subregion_code: str) -> List[Dict[str, Any]]:
-    url = url_tpl.format(_subregioncode_to_api_id_map[subregion_code])
+    url = url_tpl.format(_subregion_code_to_api_id_map[subregion_code])
     res = requests.get(url, timeout=60).json()
     records = list(res.values())
     [s.update({"subregion_code": subregion_code}) for s in records]
