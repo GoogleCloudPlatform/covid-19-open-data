@@ -589,7 +589,7 @@ sources:
       deferred: true
 
   # Data sources for ID level 2
-  - name: pipelines.epidemiology.id_authority.IndonesiaLevel2DataSource
+  - name: pipelines.epidemiology.id_andrafarm.IndonesiaAndrafarmDataSource
     fetch:
 #      - name: "province_url"
 #        url: "https://andrafarm.com/api/covid19/prov/{}"
