@@ -10614,8 +10614,8 @@ ID_GO,ID,Indonesia,GO,Gorontalo,,,,,,
 ID_JA,ID,Indonesia,JA,Jambi,,,,,,
 ID_JB,ID,Indonesia,JB,West Java,,,,,Jawa Barat,
 ID_JI,ID,Indonesia,JI,East Java,,,,,Jawa Timur,
-ID_JI_35.04,ID,Indonesia,JI,East Java,35.04,Tulungagung
-ID_JI_35.23,ID,Indonesia,JI,East Java,35.23,Tuban
+ID_JI_3504,ID,Indonesia,JI,East Java,3504,Tulungagung
+ID_JI_3523,ID,Indonesia,JI,East Java,3523,Tuban
 ID_JK,ID,Indonesia,JK,Jakarta,,,,,DKI Jakarta,
 ID_JT,ID,Indonesia,JT,Central Java,,,,,Jawa Tengah,
 ID_KB,ID,Indonesia,KB,West Kalimantan,,,,,Kalimantan Barat,

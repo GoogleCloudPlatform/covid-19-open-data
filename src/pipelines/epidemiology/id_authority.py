@@ -80,13 +80,47 @@ _col_name_map = {
 }
 
 _level2_id_kota_map = {
-    "35.23": "160",
-    "35.04": "161",
+    "AC": 1,
+    "BA": 2,
+    "BT": 3,
+    "BE": 4,
+    "YO": 5,
+    "JK": 6,
+    "GO": 7,
+    "JA": 8,
+    "JB": 9,
+    "JT": 10,
+    "JI": 11,
+    "KB": 12,
+    "KS": 13,
+    "KT": 14,
+    "KI": 15,
+    "KU": 16,
+    "BB": 17,
+    "KR": 18,
+    "LA": 19,
+    "MA": 20,
+    "MU": 21,
+    "NB": 22,
+    "NT": 23,
+    "PA": 24,
+    "PB": 25,
+    "RI": 26,
+    "SR": 27,
+    "SN": 28,
+    "ST: 29,"
+    "SG": 30,
+    "SA": 31,
+    "SB": 32,
+    "SS": 33,
+    "SU": 34,
+    "3523": 160,
+    "3504": 161,
 }
 
 _level2_col_name_map = {
     "date": "date",
-    "subregion2_code": "subregion2_code",
+    "key": "key",
     "kasus": "total_confirmed",
     "kasus_baru": "new_confirmed",
     "kematian": "total_deceased",
@@ -119,11 +153,11 @@ def _get_province_records(url_tpl: str, key: str) -> List[Dict[str, Any]]:
     return _parse_records(key, requests.get(url, timeout=60).json()["list_perkembangan"])
 
 
-def _get_level2_records(url_tpl: str, subregion2_code: str) -> List[Dict[str, Any]]:
-    url = url_tpl.format(_level2_id_kota_map[subregion2_code])
+def _get_records(url_tpl: str, subregion_code: str) -> List[Dict[str, Any]]:
+    url = url_tpl.format(_level2_id_kota_map[subregion_code])
     res = requests.get(url, timeout=60).json()
     records = list(res.values())
-    [s.update({"subregion2_code": subregion2_code}) for s in records]
+    [s.update({"subregion_code": subregion_code}) for s in records]
     return records
 
 
@@ -148,6 +182,19 @@ def _indonesian_date_to_isoformat(indo_date: str) -> str:
         eng_date = eng_date.replace(indo, eng)
     date = datetime.datetime.strptime(eng_date, "%d %b %Y")
     return date.date().isoformat()
+
+
+def _get_subregions_data(url_tpl: str, subregion_code_col, subregions: DataFrame) -> DataFrame:
+    subregion_codes = subregions[subregion_code_col].values
+    map_func = partial(_get_records, url_tpl)
+    data = DataFrame.from_records(sum(thread_map(map_func, subregion_codes), []))
+    # add location keys
+    data['date'] = data.apply(lambda r: _indonesian_date_to_isoformat(r.tgl), axis=1)
+    data = table_merge(
+        [data, subregions],
+        left_on="subregion_code", right_on=subregion_code_col, how="left")
+    data = table_rename(data, _level2_col_name_map, drop=True)
+    return data
 
 
 # pylint: disable=missing-class-docstring,abstract-method
@@ -191,20 +238,14 @@ class IndonesiaLevel2DataSource(DataSource):
         skip_existing: bool = False,
     ) -> Dict[str, str]:
         # URL is just a template, so pass-through the URL to parse manually
-        return {idx: source["url"] for idx, source in enumerate(fetch_opts)}
+        return {source["name"]: source["url"] for source in fetch_opts}
 
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
-        url_tpl = sources[0]
-
+        # subregion1s = aux["metadata"].query('(country_code == "ID") & subregion1_code.notna()')  # type: Dataframe
         subregion2s = aux["metadata"].query('(country_code == "ID") & subregion2_code.notna()')  # type: Dataframe
-        subregion2_codes = subregion2s["subregion2_code"].values
-        map_func = partial(_get_level2_records, url_tpl)
-        data = DataFrame.from_records(sum(thread_map(map_func, subregion2_codes), []))
-
-        # add date and location keys
-        data['date'] = data.apply(lambda r: _indonesian_date_to_isoformat(r.tgl), axis=1)
-        data = table_rename(data, _level2_col_name_map, drop=True)
-        data = table_merge(
-            [data, subregion2s[["key", "subregion2_code"]]],
-            on=["subregion2_code"], how="left")
+        data = _get_subregions_data(sources['level2_url'], 'subregion2_code', subregion2s)
+        # data = concat([
+        #     _get_subregions_data(sources['province_url'], 'subregion1_code', subregion1s),
+        #     _get_subregions_data(sources['level2_url'], 'subregion2_code', subregion2s),
+        # ])
         return data
