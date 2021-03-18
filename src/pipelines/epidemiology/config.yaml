@@ -599,14 +599,27 @@ sources:
       job_group: all
       deferred: true
 
-  # Data sources for ID levels 1 + 2
+  # Data sources for ID level 2
+  - name: pipelines.epidemiology.id_andrafarm.IndonesiaAndrafarmDataSource
+    fetch:
+#      - name: "province_url"
+#        url: "https://andrafarm.com/api/covid19/prov/{}"
+      - name: "level2_url"
+        url: "https://andrafarm.com/api/covid19/kota/{}"
+    test:
+      location_key_match: '^ID_[^_]+_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
+  # Data sources for ID level 1
   - name: pipelines.epidemiology.id_authority.IndonesiaProvinceDataSource
     fetch:
       - url: "https://data.covid19.go.id/public/api/prov_detail_{}.json"
     aggregate:
       subregion1: ["new_confirmed", "new_deceased", "new_recovered", "total_confirmed", "total_deceased", "total_recovered"]
     test:
-      location_key_match: 'ID.*'
+      location_key_match: '^ID_[^_]+$'
     automation:
       job_group: all
       deferred: true
