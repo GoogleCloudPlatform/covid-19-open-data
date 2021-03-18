@@ -26,7 +26,7 @@ from lib.time import datetime_isoformat
 from lib.utils import table_rename
 
 
-_column_adapter = {
+_dashboard_column_adapter = {
     "key": "key",
     "date": "date",
     "casConfirmes": "total_confirmed",
@@ -36,6 +36,19 @@ _column_adapter = {
     "gueris": "new_recovered",
     "hospitalises": "current_hospitalized",
     "reanimation": "current_intensive_care",
+}
+
+_gouv_column_adapter = {
+    "date": "date",
+    "dep": "subregion2_code",
+    "reg": "subregion1_code",
+    "hosp": "current_hospitalized",
+    "incid_hosp": "new_hospitalized",
+    "rea": "current_intensive_care",
+    "incid_rea": "new_intensive_care",
+    "dc_tot": "total_deceased",
+    "conf": "total_confirmed",
+    "conf_j1": "new_confirmed",
 }
 
 
@@ -63,18 +76,18 @@ def _get_country(url_tpl: str, column_adapter: Dict[str, str]):
     return table_rename(data, column_adapter, drop=True)
 
 
-class FranceDataSource(DataSource):
+class FranceDashboardDataSource(DataSource):
     def fetch(
         self,
         output_folder: Path,
         cache: Dict[str, str],
         fetch_opts: List[Dict[str, Any]],
         skip_existing: bool = False,
-    ) -> Dict[str, str]:
+    ) -> Dict[Any, str]:
         # URL is just a template, so pass-through the URL to parse manually
         return {idx: source["url"] for idx, source in enumerate(fetch_opts)}
 
-    def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
+    def parse(self, sources: Dict[Any, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
 
         url_tpl = sources[0]
         metadata = aux["metadata"]
@@ -87,7 +100,7 @@ class FranceDataSource(DataSource):
         deps_iter = [record for _, record in fr_codes.iterrows()]
 
         # For country level, there is no need to estimate confirmed from tests
-        column_adapter_country = dict(_column_adapter)
+        column_adapter_country = dict(_dashboard_column_adapter)
         column_adapter_country.pop("testsPositifs")
 
         # Get country level data
@@ -99,7 +112,7 @@ class FranceDataSource(DataSource):
         country.drop(columns=["total_confirmed"], inplace=True)
 
         # For region level, we can only estimate confirmed from tests
-        column_adapter_region = dict(_column_adapter)
+        column_adapter_region = dict(_dashboard_column_adapter)
         column_adapter_region.pop("casConfirmes")
 
         # Get region level data
@@ -115,8 +128,8 @@ class FranceDataSource(DataSource):
         return data.sort_values("date")
 
 
-class FranceStratifiedDataSource(FranceDataSource):
-    def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
+class FranceStratifiedDataSource(FranceDashboardDataSource):
+    def parse(self, sources: Dict[Any, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         url_tpl = sources[0]
         metadata = aux["metadata"]
         metadata = metadata[metadata["country_code"] == "FR"]
@@ -151,7 +164,7 @@ class FranceStratifiedDataSource(FranceDataSource):
         data["_breakdown_tested"].fillna("", inplace=True)
         data["_breakdown_confirmed"].fillna("", inplace=True)
 
-        records = {"confirmed": [], "tested": []}
+        records: Dict[str, List] = {"confirmed": [], "tested": []}
         for key, row in data.set_index("key").iterrows():
             for statistic in records.keys():
                 if row[f"_breakdown_{statistic}"] != "":
@@ -175,4 +188,13 @@ class FranceStratifiedDataSource(FranceDataSource):
 
         sex_adapter = lambda x: {"h": "male", "f": "female"}.get(x, "sex_unknown")
         data["sex"] = data["sex"].apply(sex_adapter)
+        return data
+
+
+class FranceCountryDataSource(DataSource):
+    def parse_dataframes(
+        self, dataframes: Dict[Any, DataFrame], aux: Dict[str, DataFrame], **parse_opts
+    ) -> DataFrame:
+        data = table_rename(dataframes[0], _gouv_column_adapter, drop=True)
+        data["key"] = "FR"
         return data

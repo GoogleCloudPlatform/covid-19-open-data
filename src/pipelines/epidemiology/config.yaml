@@ -505,7 +505,7 @@ sources:
       deferred: true
 
   # Data sources for FR levels 1 + 2 + 3
-  - name: pipelines.epidemiology.fr_authority.FranceDataSource
+  - name: pipelines.epidemiology.fr_authority.FranceDashboardDataSource
     fetch:
       - url: https://dashboard.covid19.data.gouv.fr/data/code-{}.json
     test:
@@ -513,6 +513,17 @@ sources:
         - '^FR$'
         - '^FR_[^_]+$'
         - '^FR_[^_]+_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
+  - name: pipelines.epidemiology.fr_authority.FranceCountryDataSource
+    fetch:
+      - url: https://www.data.gouv.fr/fr/datasets/r/f335f9ea-86e3-4ffa-9684-93c009d5e617
+        opts:
+          ext: csv
+    test:
+      location_key_match: '^FR$'
     automation:
       job_group: all
       deferred: true
