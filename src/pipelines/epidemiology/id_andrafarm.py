@@ -648,8 +648,8 @@ class IndonesiaAndrafarmDataSource(DataSource):
         return {source["name"]: source["url"] for source in fetch_opts}
 
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
-        # subregion1s = aux["metadata"].query('(country_code == "ID") & subregion1_code.notna()')  # type: Dataframe
-        subregion2s = aux["metadata"].query('(country_code == "ID") & subregion2_code.notna()')  # type: Dataframe
+        # subregion1s = aux["metadata"].query('(country_code == "ID") & subregion1_code.notna() & subregion2_code.isna()')
+        subregion2s = aux["metadata"].query('(country_code == "ID") & subregion2_code.notna()')
         data = _get_data(sources['level2_url'], 'subregion2_code', _subregion2_code_to_api_id_map, subregion2s)
         # data = concat([
             # _get_data(sources['province_url'], 'subregion1_code', _subregion1_code_to_api_id_map, subregion1s),
