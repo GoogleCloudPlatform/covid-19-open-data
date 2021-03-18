@@ -646,23 +646,8 @@ sources:
       job_group: all
       deferred: true
 
-  # Data sources for IN level 2
-  - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
-    fetch:
-      - url: "https://en.wikipedia.org/wiki/Template:COVID-19_pandemic_data/India_medical_cases_summary"
-        opts:
-          ext: html
-    parse:
-      country: IN
-      date_format: "%b-%d"
-    test:
-      location_key_match: '^IN_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
-
-  # Alternate, highly supported data source for IN level 2.
-  - name: pipelines.epidemiology.in_covid19india_org.Covid19IndiaOrgL2DataSource
+  # Data sources for IN levels 1 + 2
+  - name: pipelines.epidemiology.in_covid19india_org.Covid19IndiaOrgL1DataSource
     fetch:
       - url: "https://api.covid19india.org/csv/latest/state_wise_daily.csv"
         opts:
@@ -675,8 +660,7 @@ sources:
       job_group: all
       deferred: true
 
-  # Data source for IN level 3
-  - name: pipelines.epidemiology.in_covid19india_org.Covid19IndiaOrgL3DataSource
+  - name: pipelines.epidemiology.in_covid19india_org.Covid19IndiaOrgL2DataSource
     fetch:
       - url: "https://api.covid19india.org/csv/latest/districts.csv"
         opts:
@@ -1024,25 +1008,21 @@ sources:
       deferred: true
 
   # Data sources for RU level 2
-  - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
+  - name: pipelines.epidemiology.ru_covid19_russia.RussiaCovid19DataSource
     fetch:
-      - url: "https://en.wikipedia.org/wiki/Template:2019–20_coronavirus_pandemic_data/Russia_medical_cases"
-        opts:
-          ext: html
-    parse:
-      country: RU
-      date_format: "%d %b"
-      skiprows: 1
+      - url: "https://jeetiss.github.io/covid19-russia/timeseries.json"
     test:
-      location_key_match: 'RU.*'
+      location_key_match: '^RU_[^_]+$'
     automation:
       job_group: all
       deferred: true
 
-  # This data source does not fetch any URL because it uses an API instead
+  # Authoritative data source, which only has the last 30 days of data
   - name: pipelines.epidemiology.ru_authority.RussiaDataSource
+    fetch:
+      - url: "https://xn--80aesfpebagmfblc0a.xn--p1ai/covid_data.json?do=region_stats&code={}"
     test:
-      location_key_match: 'RU.*'
+      location_key_match: '^RU_[^_]+$'
     automation:
       job_group: all
       deferred: true
