@@ -109,8 +109,8 @@ def _get_subregions_data(url_tpl: str, subregion_code_col, subregions: DataFrame
     subregion_codes = subregions[subregion_code_col].values
     map_func = partial(_get_records, url_tpl)
     data = DataFrame.from_records(sum(thread_map(map_func, subregion_codes), []))
-    # add location keys
     data['date'] = data.apply(lambda r: _indonesian_date_to_isoformat(r.tgl), axis=1)
+    # add location keys
     data = table_merge(
         [data, subregions],
         left_on="subregion_code", right_on=subregion_code_col, how="left")
