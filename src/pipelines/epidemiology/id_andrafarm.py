@@ -23,7 +23,7 @@ from lib.data_source import DataSource
 from lib.utils import table_merge
 from lib.utils import table_rename
 
-_subregion_code_to_api_id_map = {
+_subregion1_code_to_api_id_map = {
     "AC": 1,
     "BA": 2,
     "BT": 3,
@@ -58,6 +58,9 @@ _subregion_code_to_api_id_map = {
     "SB": 32,
     "SS": 33,
     "SU": 34,
+}
+
+_subregion2_code_to_api_id_map = {
     "3523": 160,
     "3504": 161,
 }
@@ -74,8 +77,9 @@ _col_name_map = {
 }
 
 
-def _get_records(url_tpl: str, subregion_code: str) -> List[Dict[str, Any]]:
-    url = url_tpl.format(_subregion_code_to_api_id_map[subregion_code])
+def _get_records(url_tpl: str, subregion_code_to_api_id_map: Dict[str, int], subregion_code: str) -> \
+        List[Dict[str, Any]]:
+    url = url_tpl.format(subregion_code_to_api_id_map[subregion_code])
     res = requests.get(url, timeout=60).json()
     records = list(res.values())
     [s.update({"subregion_code": subregion_code}) for s in records]
@@ -105,9 +109,10 @@ def _indonesian_date_to_isoformat(indo_date: str) -> str:
     return date.date().isoformat()
 
 
-def _get_subregions_data(url_tpl: str, subregion_code_col, subregions: DataFrame) -> DataFrame:
+def _get_data(url_tpl: str, subregion_code_col: str, subregion_code_to_api_id_map: Dict[str, int],
+              subregions: DataFrame) -> DataFrame:
     subregion_codes = subregions[subregion_code_col].values
-    map_func = partial(_get_records, url_tpl)
+    map_func = partial(_get_records, url_tpl, subregion_code_to_api_id_map)
     data = DataFrame.from_records(sum(thread_map(map_func, subregion_codes), []))
     data['date'] = data.apply(lambda r: _indonesian_date_to_isoformat(r.tgl), axis=1)
     # add location keys
@@ -133,9 +138,9 @@ class IndonesiaAndrafarmDataSource(DataSource):
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         # subregion1s = aux["metadata"].query('(country_code == "ID") & subregion1_code.notna()')  # type: Dataframe
         subregion2s = aux["metadata"].query('(country_code == "ID") & subregion2_code.notna()')  # type: Dataframe
-        data = _get_subregions_data(sources['level2_url'], 'subregion2_code', subregion2s)
+        data = _get_data(sources['level2_url'], 'subregion2_code', _subregion2_code_to_api_id_map, subregion2s)
         # data = concat([
-        #     _get_subregions_data(sources['province_url'], 'subregion1_code', subregion1s),
-        #     _get_subregions_data(sources['level2_url'], 'subregion2_code', subregion2s),
+            # _get_data(sources['province_url'], 'subregion1_code', _subregion1_code_to_api_id_map, subregion1s),
+            # _get_data(sources['level2_url'], 'subregion2_code', _subregion2_code_to_api_id_map, subregion2s),
         # ])
         return data
