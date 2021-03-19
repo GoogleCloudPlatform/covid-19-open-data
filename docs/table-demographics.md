@@ -41,6 +41,7 @@ This table can be found at the following URLs depending on the choice of format:
 | Metadata | [Wikipedia](https://wikidata.org) | [Terms of Use][24] |
 | Metadata | [Eurostat](https://ec.europa.eu/eurostat) | [CC BY][33] |
 | Demographics | [Wikidata](https://wikidata.org) | [CC0][23] |
+| Demographics | [UN World Population Prospects](https://population.un.org/wpp/) | [CC BY 3.0 IGO](https://population.un.org/wpp/Download/Standard/CSV/) |
 | Demographics | [DataCommons](https://datacommons.org) | [Attribution required](https://policies.google.com/terms) |
 | Demographics | [WorldBank](https://worldbank.org) | [CC BY](https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets) |
 | Demographics | [WorldPop](https://www.worldpop.org) | [CC BY](https://creativecommons.org/licenses/by/4.0/) |
