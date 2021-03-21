@@ -26,7 +26,7 @@ from lib.time import datetime_isoformat
 from lib.utils import aggregate_admin_level, table_rename
 
 
-class Covid19IndiaOrgL2DataSource(DataSource):
+class Covid19IndiaOrgL1DataSource(DataSource):
     def parse_dataframes(
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
@@ -131,7 +131,7 @@ L3_INDIA_REPLACEMENTS = {
 # TENKASI TAMIL NADU(State)
 # Tirupathur  TAMIL NADU(State)
 # Thoothukkudi was missing from Tamil Nadu so was added.
-class Covid19IndiaOrgL3DataSource(DataSource):
+class Covid19IndiaOrgL2DataSource(DataSource):
     """ Add L3 data for India districts. """
 
     def _replace_subregion(self, x):

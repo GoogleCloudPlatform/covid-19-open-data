@@ -13,6 +13,8 @@
 # limitations under the License.
 
 import requests
+from functools import partial
+from pathlib import Path
 from typing import Dict, List, Any
 from pandas import DataFrame
 from lib.cast import safe_int_cast
@@ -23,9 +25,9 @@ from lib.time import datetime_isoformat
 _api_url_tpl = "https://xn--80aesfpebagmfblc0a.xn--p1ai/covid_data.json?do=region_stats&code={}"
 
 
-def _get_province_records(key: str) -> List[Dict[str, Any]]:
+def _get_province_records(url_tpl: str, key: str) -> List[Dict[str, Any]]:
     records = []
-    url = _api_url_tpl.format(key.replace("_", "-"))
+    url = url_tpl.format(key.replace("_", "-"))
     for record in requests.get(url, timeout=60).json():
         records.append(
             {
@@ -41,12 +43,22 @@ def _get_province_records(key: str) -> List[Dict[str, Any]]:
 
 # pylint: disable=missing-class-docstring,abstract-method
 class RussiaDataSource(DataSource):
-    def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
+    def fetch(
+        self,
+        output_folder: Path,
+        cache: Dict[str, str],
+        fetch_opts: List[Dict[str, Any]],
+        skip_existing: bool = False,
+    ) -> Dict[Any, str]:
+        # URL is just a template, so pass-through the URL to parse manually
+        return {idx: source["url"] for idx, source in enumerate(fetch_opts)}
 
-        # Ignore sources, we use an API for this data source
+    def parse(self, sources: Dict[Any, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
+        # Get a list of all keys to query the API with
         keys = aux["metadata"].query('country_code == "RU"').key
         keys = [key for key in keys.values if len(key.split("_")) == 2]
 
-        data = DataFrame.from_records(sum(thread_map(_get_province_records, keys), []))
+        map_func = partial(_get_province_records, sources[0])
+        data = DataFrame.from_records(sum(thread_map(map_func, keys), []))
         data = data[["key", "date", "total_confirmed", "total_deceased", "total_recovered"]]
         return data

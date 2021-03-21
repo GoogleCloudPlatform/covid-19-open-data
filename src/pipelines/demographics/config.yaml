@@ -42,6 +42,7 @@ auxiliary:
   localities: ./data/localities.csv
   worldpop: ./data/worldpop_stratified.csv
   country_codes: ./data/country_codes.csv
+  un_country_names: ./data/un_country_names.csv
   knowledge_graph: ./data/knowledge_graph.csv
   worldbank_indicators: ./data/worldbank_indicators.csv
   census: ./data/census.csv
@@ -81,6 +82,29 @@ sources:
         largest_city_population: "EN.URB.LCTY"
         clustered_population: "EN.URB.MCTY"
         population_density: "EN.POP.DNST"
+    test:
+      location_key_match: '^..$'
+    automation:
+      job_group: 'all'
+      deferred: true
+      # Run only twice a day, since it's so resource consuming and does not change often
+      schedule: "0 */12 * * *"
+
+  # UN WPP stratified population estimates
+  - name: pipelines.demographics.un_wpp.UnWppByAgeDataSource
+    fetch:
+      - url: "https://population.un.org/wpp/Download/Files/1_Indicators%20(Standard)/CSV_FILES/WPP2019_PopulationByAgeSex_Medium.csv"
+    test:
+      location_key_match: '^..$'
+    automation:
+      job_group: 'all'
+      deferred: true
+      # Run only twice a day, since it's so resource consuming and does not change often
+      schedule: "0 */12 * * *"
+
+  - name: pipelines.demographics.un_wpp.UnWppBySexDataSource
+    fetch:
+      - url: "https://population.un.org/wpp/Download/Files/1_Indicators%20(Standard)/CSV_FILES/WPP2019_TotalPopulationBySex.csv"
     test:
       location_key_match: '^..$'
     automation:
