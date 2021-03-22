@@ -31,7 +31,7 @@ class Covid19IndiaOrgL1DataSource(DataSource):
         data = melt(data, id_vars=["State"], var_name="date", value_name='total_vaccine_doses_administered')
         data.date = data.date.apply(lambda x: datetime_isoformat(x, "%d/%m/%Y"))
         # add location keys
-        subregion1s = aux["metadata"].query('(country_code == "IN") & subregion1_code.notna() & subregion2_code.isna()')
+        subregion1s = aux["metadata"].query('(country_code == "IN") & subregion1_code.notna() & subregion2_code.isna() & locality_code.isna()')
         data = table_merge(
             [data, subregion1s[['key', 'subregion1_name']]],
             left_on="State", right_on='subregion1_name', how="inner")
