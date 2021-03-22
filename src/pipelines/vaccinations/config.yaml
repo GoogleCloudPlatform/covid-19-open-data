@@ -55,6 +55,18 @@ sources:
       job_group: all
       deferred: true
 
+  # Data sources for AU levels 0 + 1
+  - name: pipelines.vaccinations.au_covidlive.AustraliaCovidLiveDataSource
+    fetch:
+      - url: "https://covidlive.com.au/covid-live.json"
+    test:
+      location_key_match:
+        - '^AU$'
+        - '^AU_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for AT levels 0 + 1
   - name: pipelines.vaccinations.at_authority.AustriaDataSource
     fetch:
