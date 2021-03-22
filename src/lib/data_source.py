@@ -352,7 +352,6 @@ class DataSource(ErrorLogger):
         # Return the final dataframe
         time_elapsed = time.monotonic() - time_start
         self.log_info(f"Data source finished", seconds=time_elapsed, record_count=len(data))
-        print(data)
         return data
 
     def uuid(self, table_name: str) -> str:
