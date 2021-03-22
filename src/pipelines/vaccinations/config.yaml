@@ -300,6 +300,15 @@ sources:
       job_group: all
       deferred: true
 
+  - name: pipelines.vaccinations.in_covid19india_org.Covid19IndiaOrgL1DataSource
+    fetch:
+      - url: "http://api.covid19india.org/csv/latest/vaccine_doses_statewise.csv"
+    test:
+      location_key_match: '^IN_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
   # Data sources for IT levels 0 + 1
   - name: pipelines.vaccinations.it_authority.ItalyDataSource
     fetch:
