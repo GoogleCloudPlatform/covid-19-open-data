@@ -52,7 +52,7 @@ _subregion1_code_to_api_id_map = {
     "RI": 26,
     "SR": 27,
     "SN": 28,
-    "ST: 29,"
+    "ST": 29,
     "SG": 30,
     "SA": 31,
     "SB": 32,
