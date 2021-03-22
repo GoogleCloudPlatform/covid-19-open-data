@@ -16,6 +16,7 @@ from typing import Dict
 from pandas import DataFrame
 from lib.data_source import DataSource
 from lib.time import datetime_isoformat
+from lib.metadata_utils import country_subregion1s
 from lib.utils import table_merge, table_rename
 
 
@@ -28,9 +29,9 @@ class AustraliaCovidLiveDataSource(DataSource):
 
         data["date"] = data.REPORT_DATE.apply(lambda x: datetime_isoformat(x, "%Y-%m-%d"))
         # Add level1 keys
-        subregion1s = aux["metadata"].query('(country_code == "AU") & subregion1_code.notna() & subregion2_code.isna() & locality_code.isna()')
+        subregion1s = country_subregion1s(aux["metadata"], "AU")
         data = table_merge(
-            [data, subregion1s[["key", "subregion1_code"]]],
+            [data, subregion1s],
             left_on="CODE", right_on="subregion1_code", how="left")
         # Country-level record has CODE AU
         country_mask = data["CODE"] == "AUS"
