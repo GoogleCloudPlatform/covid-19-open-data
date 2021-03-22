@@ -505,7 +505,7 @@ sources:
       deferred: true
 
   # Data sources for FR levels 1 + 2 + 3
-  - name: pipelines.epidemiology.fr_authority.FranceDataSource
+  - name: pipelines.epidemiology.fr_authority.FranceDashboardDataSource
     fetch:
       - url: https://dashboard.covid19.data.gouv.fr/data/code-{}.json
     test:
@@ -513,6 +513,17 @@ sources:
         - '^FR$'
         - '^FR_[^_]+$'
         - '^FR_[^_]+_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
+  - name: pipelines.epidemiology.fr_authority.FranceCountryDataSource
+    fetch:
+      - url: https://www.data.gouv.fr/fr/datasets/r/f335f9ea-86e3-4ffa-9684-93c009d5e617
+        opts:
+          ext: csv
+    test:
+      location_key_match: '^FR$'
     automation:
       job_group: all
       deferred: true
@@ -588,14 +599,27 @@ sources:
       job_group: all
       deferred: true
 
-  # Data sources for ID levels 1 + 2
+  # Data sources for ID level 2
+  - name: pipelines.epidemiology.id_andrafarm.IndonesiaAndrafarmDataSource
+    fetch:
+#      - name: "province_url"
+#        url: "https://andrafarm.com/api/covid19/prov/{}"
+      - name: "level2_url"
+        url: "https://andrafarm.com/api/covid19/kota/{}"
+    test:
+      location_key_match: '^ID_[^_]+_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
+  # Data sources for ID level 1
   - name: pipelines.epidemiology.id_authority.IndonesiaProvinceDataSource
     fetch:
       - url: "https://data.covid19.go.id/public/api/prov_detail_{}.json"
     aggregate:
       subregion1: ["new_confirmed", "new_deceased", "new_recovered", "total_confirmed", "total_deceased", "total_recovered"]
     test:
-      location_key_match: 'ID.*'
+      location_key_match: '^ID_[^_]+$'
     automation:
       job_group: all
       deferred: true
@@ -622,23 +646,8 @@ sources:
       job_group: all
       deferred: true
 
-  # Data sources for IN level 2
-  - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
-    fetch:
-      - url: "https://en.wikipedia.org/wiki/Template:COVID-19_pandemic_data/India_medical_cases_summary"
-        opts:
-          ext: html
-    parse:
-      country: IN
-      date_format: "%b-%d"
-    test:
-      location_key_match: '^IN_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
-
-  # Alternate, highly supported data source for IN level 2.
-  - name: pipelines.epidemiology.in_covid19india_org.Covid19IndiaOrgL2DataSource
+  # Data sources for IN levels 1 + 2
+  - name: pipelines.epidemiology.in_covid19india_org.Covid19IndiaOrgL1DataSource
     fetch:
       - url: "https://api.covid19india.org/csv/latest/state_wise_daily.csv"
         opts:
@@ -651,8 +660,7 @@ sources:
       job_group: all
       deferred: true
 
-  # Data source for IN level 3
-  - name: pipelines.epidemiology.in_covid19india_org.Covid19IndiaOrgL3DataSource
+  - name: pipelines.epidemiology.in_covid19india_org.Covid19IndiaOrgL2DataSource
     fetch:
       - url: "https://api.covid19india.org/csv/latest/districts.csv"
         opts:
@@ -1000,25 +1008,21 @@ sources:
       deferred: true
 
   # Data sources for RU level 2
-  - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
+  - name: pipelines.epidemiology.ru_covid19_russia.RussiaCovid19DataSource
     fetch:
-      - url: "https://en.wikipedia.org/wiki/Template:2019–20_coronavirus_pandemic_data/Russia_medical_cases"
-        opts:
-          ext: html
-    parse:
-      country: RU
-      date_format: "%d %b"
-      skiprows: 1
+      - url: "https://jeetiss.github.io/covid19-russia/timeseries.json"
     test:
-      location_key_match: 'RU.*'
+      location_key_match: '^RU_[^_]+$'
     automation:
       job_group: all
       deferred: true
 
-  # This data source does not fetch any URL because it uses an API instead
+  # Authoritative data source, which only has the last 30 days of data
   - name: pipelines.epidemiology.ru_authority.RussiaDataSource
+    fetch:
+      - url: "https://xn--80aesfpebagmfblc0a.xn--p1ai/covid_data.json?do=region_stats&code={}"
     test:
-      location_key_match: 'RU.*'
+      location_key_match: '^RU_[^_]+$'
     automation:
       job_group: all
       deferred: true
@@ -1225,6 +1229,8 @@ sources:
     fetch:
       - url: "https://data.ca.gov/dataset/590188d5-8545-4c93-a9a0-e230f0db7290/resource/339d1c4d-77ab-44a2-9b40-745e64e335f2/download/case_demographics_age.csv"
     test:
+      # TODO: data source appears to be temporarily unavailable
+      skip: true
       location_key_match: '^US_CA$'
     automation:
       job_group: all
@@ -1272,13 +1278,16 @@ sources:
       deferred: true
 
   # Data sources US_FL levels 2 + 3
-  # No URL is provided because an API is used instead
   - name: pipelines.epidemiology.us_fl_authority.FloridaDataSource
+    fetch:
+      - url: "https://services1.arcgis.com/CY1LXxl9zlJeBuRZ/ArcGIS/rest/services/Florida_COVID19_Case_Line_Data_NEW/FeatureServer/0/query?where=1%3D1&outFields=*&f=json"
     # Death and hospitalization data do not have accurate dates
     drop_columns: ['new_deceased']
     test:
-      location_key_match: 'US_FL.*'
-      # Skip Florida because download takes a long time
+      location_key_match:
+        - '^US_FL$'
+        - '^US_FL_[^_]+$'
+      # Skip unit test because download takes a long time
       skip: true
     automation:
       job_group: all
