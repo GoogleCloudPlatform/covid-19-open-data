@@ -275,6 +275,8 @@ The following persons have made significant contributions to this project:
 * Donny Cheung
 * Aurora Cheung
 * Chandan Nath
+* Paula Le
+* Ofir Picazo Navarro
 
 
 
