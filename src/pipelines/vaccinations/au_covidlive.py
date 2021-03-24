@@ -18,6 +18,7 @@ from lib.data_source import DataSource
 from lib.time import datetime_isoformat
 from lib.metadata_utils import country_subregion1s
 from lib.utils import table_merge, table_rename
+from lib.vaccinations_utils import add_total_persons_vaccinated_estimate
 
 
 class AustraliaCovidLiveDataSource(DataSource):
@@ -30,10 +31,8 @@ class AustraliaCovidLiveDataSource(DataSource):
         data["date"] = data.REPORT_DATE.apply(lambda x: datetime_isoformat(x, "%Y-%m-%d"))
         # Add level1 keys
         subregion1s = country_subregion1s(aux["metadata"], "AU")
-        data = table_merge(
-            [data, subregion1s],
-            left_on="CODE", right_on="subregion1_code", how="left")
-        # Country-level record has CODE AU
+        data = table_merge([data, subregion1s], left_on="CODE", right_on="subregion1_code", how="left")
+        # Country-level record has CODE AUS
         country_mask = data["CODE"] == "AUS"
         data.loc[country_mask, "key"] = "AU"
         # Only keep country and subregion1 rows
@@ -41,13 +40,15 @@ class AustraliaCovidLiveDataSource(DataSource):
         data = table_rename(
             data,
             {
-                'date': 'date',
-                'key': 'key',
-                'VACC_DOSE_CNT': 'total_vaccine_doses_administered',
-                'VACC_DIST_CNT': 'VACC_DIST_CNT',
-                'VACC_PEOPLE_CNT': 'VACC_PEOPLE_CNT',
+                "date": "date",
+                "key": "key",
+                "VACC_DOSE_CNT": "total_vaccine_doses_administered",
+                "VACC_PEOPLE_CNT": "total_persons_fully_vaccinated",
             },
             drop=True)
         # remove rows without vaccination data
-        data.dropna(subset=['total_vaccine_doses_administered'], inplace=True)
+        data.dropna(subset=["total_vaccine_doses_administered", "total_persons_fully_vaccinated"], how="all", inplace=True)
+        # based on the assumption two doses = fully vaccinated(since Australia is using Pfizer and AZ)
+        add_total_persons_vaccinated_estimate(data)
+
         return data
