@@ -20,6 +20,7 @@ from typing import Dict, List, Any
 from pandas import DataFrame
 from lib.concurrent import thread_map
 from lib.data_source import DataSource
+from lib.metadata_utils import country_subregion2s
 from lib.utils import table_merge
 from lib.utils import table_rename
 
@@ -52,7 +53,7 @@ _subregion1_code_to_api_id_map = {
     "RI": 26,
     "SR": 27,
     "SN": 28,
-    "ST: 29,"
+    "ST": 29,
     "SG": 30,
     "SA": 31,
     "SB": 32,
@@ -648,8 +649,8 @@ class IndonesiaAndrafarmDataSource(DataSource):
         return {source["name"]: source["url"] for source in fetch_opts}
 
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
-        # subregion1s = aux["metadata"].query('(country_code == "ID") & subregion1_code.notna() & subregion2_code.isna()')
-        subregion2s = aux["metadata"].query('(country_code == "ID") & subregion2_code.notna()')
+        # subregion1s = country_subregion1s(aux["metadata"], "ID")
+        subregion2s = country_subregion2s(aux["metadata"], "ID")
         data = _get_data(sources['level2_url'], 'subregion2_code', _subregion2_code_to_api_id_map, subregion2s)
         # data = concat([
             # _get_data(sources['province_url'], 'subregion1_code', _subregion1_code_to_api_id_map, subregion1s),
