@@ -12,14 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from pandas import DataFrame
+from pandas import DataFrame, Series
 
 
-def add_total_persons_vaccinated_estimate(data: DataFrame):
+def estimate_total_persons_vaccinated(data: DataFrame) -> Series:
     """
     Assuming fully and partially vaccinated persons have 2 and 1 doses respectively,
     total_persons_partially_vaccinated = total_vaccine_doses_administered - 2 * total_persons_fully_vaccinated
     Therefore, total_persons_vaccinated = total_persons_partially_vaccinated + total_persons_fully_vaccinated
     = total_vaccine_doses_administered - total_persons_fully_vaccinated
     """
-    data["total_persons_vaccinated"] = data["total_vaccine_doses_administered"] - data["total_persons_fully_vaccinated"]
+    return data["total_vaccine_doses_administered"] - data["total_persons_fully_vaccinated"]

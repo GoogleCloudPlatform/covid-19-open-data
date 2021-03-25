@@ -18,7 +18,7 @@ from lib.data_source import DataSource
 from lib.time import datetime_isoformat
 from lib.metadata_utils import country_subregion1s
 from lib.utils import table_merge, table_rename
-from lib.vaccinations_utils import add_total_persons_vaccinated_estimate
+from lib.vaccinations_utils import estimate_total_persons_vaccinated
 
 
 class AustraliaCovidLiveDataSource(DataSource):
@@ -49,6 +49,6 @@ class AustraliaCovidLiveDataSource(DataSource):
         # remove rows without vaccination data
         data.dropna(subset=["total_vaccine_doses_administered", "total_persons_fully_vaccinated"], how="all", inplace=True)
         # based on the assumption two doses = fully vaccinated(since Australia is using Pfizer and AZ)
-        add_total_persons_vaccinated_estimate(data)
+        data["total_persons_vaccinated"] = estimate_total_persons_vaccinated(data)
 
         return data
