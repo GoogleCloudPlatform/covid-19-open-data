@@ -602,9 +602,9 @@ sources:
   # Data sources for ID level 2
   - name: pipelines.epidemiology.id_andrafarm.IndonesiaAndrafarmDataSource
     fetch:
-#      - name: "province_url"
-#        url: "https://andrafarm.com/api/covid19/prov/{}"
-      - name: "level2_url"
+      - name: "subregion1_url"
+        url: "https://andrafarm.com/api/covid19/prov/{}"
+      - name: "subregion2_url"
         url: "https://andrafarm.com/api/covid19/kota/{}"
     test:
       location_key_match: '^ID_[^_]+_[^_]+$'

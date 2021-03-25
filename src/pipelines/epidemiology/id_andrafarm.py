@@ -17,12 +17,11 @@ import requests
 from functools import partial
 from pathlib import Path
 from typing import Dict, List, Any
-from pandas import DataFrame
+from pandas import concat, DataFrame
 from lib.concurrent import thread_map
 from lib.data_source import DataSource
-from lib.metadata_utils import country_subregion2s
-from lib.utils import table_merge
-from lib.utils import table_rename
+from lib.metadata_utils import country_subregion1s, country_subregion2s
+from lib.utils import table_merge, table_rename
 
 _subregion1_code_to_api_id_map = {
     "AC": 1,
@@ -578,9 +577,7 @@ _subregion2_code_to_api_id_map = {
     "3471": 39,
 }
 
-_col_name_map = {
-    "date": "date",
-    "key": "key",
+_int_col_name_mapx = {
     "kasus": "total_confirmed",
     "kasus_baru": "new_confirmed",
     "kematian": "total_deceased",
@@ -589,12 +586,20 @@ _col_name_map = {
     "sembuh_perhari": "new_recovered",
 }
 
+_other_col_name_map = {
+    "date": "date",
+    "key": "key",
+}
 
 def _get_records(url_tpl: str, subregion_code_to_api_id_map: Dict[str, int], subregion_code: str) -> \
         List[Dict[str, Any]]:
     url = url_tpl.format(subregion_code_to_api_id_map[subregion_code])
-    res = requests.get(url, timeout=60).json()
-    records = list(res.values())
+    print(url)
+    records = requests.get(url, timeout=60).json()
+    if isinstance(records, dict):
+        # province API like https://andrafarm.com/api/covid19/prov/11 returns a list but city/region API like
+        # https://andrafarm.com/api/covid19/kota/43 returns a dict
+        records = list(records.values())
     [s.update({"subregion_code": subregion_code}) for s in records]
     return records
 
@@ -632,7 +637,11 @@ def _get_data(url_tpl: str, subregion_code_col: str, subregion_code_to_api_id_ma
     data = table_merge(
         [data, subregions],
         left_on="subregion_code", right_on=subregion_code_col, how="left")
-    data = table_rename(data, _col_name_map, drop=True)
+    col_name_map = {**_int_col_name_map, **_other_col_name_map}
+    data = table_rename(data, col_name_map, drop=True)
+    for c in _int_col_name_map.values():
+        print(c)
+        data[c] = data[c].astype(int)
     return data
 
 
@@ -649,11 +658,13 @@ class IndonesiaAndrafarmDataSource(DataSource):
         return {source["name"]: source["url"] for source in fetch_opts}
 
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
-        # subregion1s = country_subregion1s(aux["metadata"], "ID")
+        subregion1s = country_subregion1s(aux["metadata"], "ID")
         subregion2s = country_subregion2s(aux["metadata"], "ID")
-        data = _get_data(sources['level2_url'], 'subregion2_code', _subregion2_code_to_api_id_map, subregion2s)
-        # data = concat([
-            # _get_data(sources['province_url'], 'subregion1_code', _subregion1_code_to_api_id_map, subregion1s),
-            # _get_data(sources['level2_url'], 'subregion2_code', _subregion2_code_to_api_id_map, subregion2s),
-        # ])
+        # data = _get_data(sources['province_url'], 'subregion1_code', _subregion1_code_to_api_id_map, subregion1s)
+        # data = _get_data(sources['level2_url'], 'subregion2_code', _subregion2_code_to_api_id_map, subregion2s)
+        data = concat([
+            _get_data(sources['subregion1_url'], 'subregion1_code', _subregion1_code_to_api_id_map, subregion1s),
+            _get_data(sources['subregion2_url'], 'subregion2_code', _subregion2_code_to_api_id_map, subregion2s),
+        ])
+        print(data[data.key == 'ID_AC'])
         return data
