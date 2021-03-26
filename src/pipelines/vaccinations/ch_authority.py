@@ -19,6 +19,7 @@ from pandas import DataFrame
 from lib.data_source import DataSource
 from lib.utils import table_merge
 from lib.utils import table_rename
+from lib.vaccinations_utils import estimate_total_persons_vaccinated
 
 
 class SwitzerlandDataSource(DataSource):
@@ -68,11 +69,7 @@ class SwitzerlandDataSource(DataSource):
             how="outer",
         )
 
-        # Assuming fully and partially vaccinated persons have 2 and 1 doses respectively,
-        # total_persons_partially_vaccinated = total_vaccine_doses_administered - 2 * total_persons_fully_vaccinated
-        # Therefore, total_persons_vaccinated = total_persons_partially_vaccinated + total_persons_fully_vaccinated
-        # = total_vaccine_doses_administered - total_persons_fully_vaccinated
-        data["total_persons_vaccinated"] = data["total_vaccine_doses_administered"] - data["total_persons_fully_vaccinated"]
+        data["total_persons_vaccinated"] = estimate_total_persons_vaccinated(data)
 
         # Make sure all records have the country code and match subregion1 only
         data["key"] = None
