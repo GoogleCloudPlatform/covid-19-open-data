@@ -42,6 +42,7 @@ counts over time, which is why the cumulative values, if reported, are kept in a
 | Australia | [COVID LIVE](https://covidlive.com.au/) | [CC BY](https://creativecommons.org/licenses/by/4.0/) | Country level data is not the sum of the states/territories as there is a portion of vaccinations managed by the Federal government that is delivered directly to aged and disability care and not counted as part of the states/territories|
 | Austria | [Open Data Österreich](https://www.data.gv.at/covid-19/) | [CC BY](https://www.data.gv.at/covid-19/) | |
 | Belgium | [Covid Vaccinations Belgium](https://covid-vaccinatie.be/en) | [CC BY](https://covid-vaccinatie.be/api) | Regional data only available for Brussels, since the regions reported by the data source do not match our indexed subregions |
+| Bolivia | [Ministry of Health](https://www.minsalud.gob.bo/) (via [FinMango][1]) | [CC BY](https://finmango.org/covid) | |
 | Brazil | Secretarias de Saúde via [FinMango][1] | [CC BY][1] | |
 | Brazil | [Brazil Ministério da Saúde](https://coronavirus.saude.gov.br/) | [Creative Commons Atribuição](http://www.opendefinition.org/licenses/cc-by) | |
 | Bulgaria | [Ministry of Health](https://coronavirus.bg/bg/statistika) (via [FinMango][1]) | [CC BY](https://finmango.org/covid) | |
