@@ -607,6 +607,8 @@ sources:
       - name: "level2_url"
         url: "https://andrafarm.com/api/covid19/kota/{}"
     test:
+      # TODO: Remove skip test once fixed
+      skip: true
       location_key_match: '^ID_[^_]+_[^_]+$'
     automation:
       job_group: all
