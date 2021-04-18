@@ -577,7 +577,7 @@ _subregion2_code_to_api_id_map = {
     "3471": 39,
 }
 
-col_name_map = {
+_col_name_map = {
     "date": "date",
     "key": "key",
     "kasus": "total_confirmed",
@@ -592,11 +592,13 @@ col_name_map = {
 def _get_records(url_tpl: str, subregion_code_to_api_id_map: Dict[str, int], subregion_code: str) -> \
         List[Dict[str, Any]]:
     url = url_tpl.format(subregion_code_to_api_id_map[subregion_code])
-    records = requests.get(url, timeout=60).json()
-    if isinstance(records, dict):
+    res = requests.get(url, timeout=60).json()
+    if isinstance(res, dict):
         # province API like https://andrafarm.com/api/covid19/prov/11 returns a list but city/region API like
         # https://andrafarm.com/api/covid19/kota/43 returns a dict
-        records = list(records.values())
+        records = list(res.values())
+    else:
+        records = res
     [s.update({"subregion_code": subregion_code}) for s in records]
     return records
 
@@ -634,7 +636,7 @@ def _get_data(url_tpl: str, subregion_code_col: str, subregion_code_to_api_id_ma
     data = table_merge(
         [data, subregions],
         left_on="subregion_code", right_on=subregion_code_col, how="left")
-    data = table_rename(data, col_name_map, drop=True)
+    data = table_rename(data, _col_name_map, drop=True)
     return data
 
 
