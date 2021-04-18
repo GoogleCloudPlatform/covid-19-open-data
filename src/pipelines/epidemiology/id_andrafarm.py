@@ -640,7 +640,6 @@ def _get_data(url_tpl: str, subregion_code_col: str, subregion_code_to_api_id_ma
     col_name_map = {**_int_col_name_map, **_other_col_name_map}
     data = table_rename(data, col_name_map, drop=True)
     for c in _int_col_name_map.values():
-        print(c)
         data[c] = data[c].astype(int)
     return data
 
