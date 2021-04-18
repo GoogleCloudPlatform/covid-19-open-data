@@ -577,7 +577,7 @@ _subregion2_code_to_api_id_map = {
     "3471": 39,
 }
 
-_int_col_name_mapx = {
+_int_col_name_map = {
     "kasus": "total_confirmed",
     "kasus_baru": "new_confirmed",
     "kematian": "total_deceased",
@@ -660,11 +660,8 @@ class IndonesiaAndrafarmDataSource(DataSource):
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         subregion1s = country_subregion1s(aux["metadata"], "ID")
         subregion2s = country_subregion2s(aux["metadata"], "ID")
-        # data = _get_data(sources['province_url'], 'subregion1_code', _subregion1_code_to_api_id_map, subregion1s)
-        # data = _get_data(sources['level2_url'], 'subregion2_code', _subregion2_code_to_api_id_map, subregion2s)
         data = concat([
             _get_data(sources['subregion1_url'], 'subregion1_code', _subregion1_code_to_api_id_map, subregion1s),
             _get_data(sources['subregion2_url'], 'subregion2_code', _subregion2_code_to_api_id_map, subregion2s),
         ])
-        print(data[data.key == 'ID_AC'])
         return data
