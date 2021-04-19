@@ -29,8 +29,8 @@
 
     <script>
         // Load the latest data for each region
-        $.getJSON(`https://storage.googleapis.com/covid19-open-data/v2/latest/main.json`, data => {
-
+        $.getJSON(`https://storage.googleapis.com/covid19-open-data/v2/latest/main.json`, response => {
+            const data = response.data;
             // Update the count of records
             $('#count').text = data.length;
 

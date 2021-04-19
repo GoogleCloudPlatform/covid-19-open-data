@@ -23,22 +23,18 @@ from pipelines.epidemiology.de_authority import _SUBREGION1_CODE_MAP
 _column_adapter = {
     "Date": "date",
     "Department": "match_string",
-    "Total": "total_vaccine_doses_administered",
+    "First Dose": "total_persons_vaccinated",
+    "Second Dose": "total_persons_fully_vaccinated",
 }
 
 
-class FinMangoColombiaDataSource(DataSource):
+class FinMangoBoliviaDataSource(DataSource):
     def parse_dataframes(
         self, dataframes: Dict[Any, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
         data = table_rename(dataframes[0], _column_adapter, drop=True)
 
-        # Match string does not follow strict hierarchy
-        data = data.groupby(["date", "match_string"]).sum().reset_index()
-
-        # Make sure only subregion1 level is matched
-        data["country_code"] = "CO"
-        data["subregion2_code"] = None
+        data["country_code"] = "BO"
         data["locality_code"] = None
-
+        data["subregion2_code"] = None
         return data
