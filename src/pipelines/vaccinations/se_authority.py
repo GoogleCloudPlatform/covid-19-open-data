@@ -27,7 +27,7 @@ _column_adapter = {
     "Region": "match_string",
     "Antal vaccinerade": "_total_doses",
     # "Andel vaccinerade": "",
-    "Dosnummer": "_dose_type",
+    "Vaccinationsstatus": "_dose_type",
 }
 
 
@@ -44,8 +44,8 @@ class SwedenDataSource(DataSource):
         data = data.drop(columns=["week", "year"])
 
         # Process 1-dose and 2-dose separately
-        data_1_dose = data[data["_dose_type"].str.slice(-1) == "1"].drop(columns=["_dose_type"])
-        data_2_dose = data[data["_dose_type"].str.slice(-1) == "2"].drop(columns=["_dose_type"])
+        data_1_dose = data[data["_dose_type"] == "Minst 1 dos"].drop(columns=["_dose_type"])
+        data_2_dose = data[data["_dose_type"] == "Färdigvaccinerade"].drop(columns=["_dose_type"])
         data_1_dose = data_1_dose.rename(columns={"_total_doses": "total_persons_vaccinated"})
         data_2_dose = data_2_dose.rename(columns={"_total_doses": "total_persons_fully_vaccinated"})
         data = table_merge([data_1_dose, data_2_dose], how="outer")
