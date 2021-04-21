@@ -130,6 +130,8 @@ sources:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/PNI/vacina/completo/{date}/part-00000-a98c0fed-60ba-4156-a6cc-37bbd62720e0-c000.csv"
         opts:
           date_format: '%Y-%m-%d'
+    parse:
+      sep: ";"
     test:
       # Skip unit testing because it's very slow
       skip: true
