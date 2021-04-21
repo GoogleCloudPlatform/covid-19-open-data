@@ -15,7 +15,7 @@
 import datetime
 import uuid
 from pathlib import Path
-from typing import Any, BinaryIO, Dict, List, Union
+from typing import Any, BinaryIO, Dict, List, Optional, Union
 
 import requests
 from .concurrent import thread_map
@@ -33,7 +33,7 @@ def download_snapshot(
     date_format: str = None,
     logger: ErrorLogger = ErrorLogger(),
     **download_opts,
-) -> str:
+) -> Optional[str]:
     """
     This function downloads a file into the snapshots folder and outputs the
     hashed file name based on the input URL. This is used to ensure
@@ -74,8 +74,8 @@ def download_snapshot(
         return _download_snapshot_try_date(
             url,
             file_path,
+            date_format,
             ignore_failure=ignore_failure,
-            date_format=date_format,
             logger=logger,
             **download_opts,
         )
@@ -93,7 +93,7 @@ def _download_snapshot_simple(
     ignore_failure: bool = False,
     logger: ErrorLogger = ErrorLogger(),
     **download_opts,
-) -> str:
+) -> Optional[str]:
     """See: download_snapshot for argument descriptions."""
     with open(file_path, "wb") as file_handle:
         try:
@@ -114,11 +114,11 @@ def _download_snapshot_simple(
 def _download_snapshot_try_date(
     url: str,
     file_path: Path,
+    date_format: str,
     ignore_failure: bool = False,
-    date_format: str = None,
     logger: ErrorLogger = ErrorLogger(),
     **download_opts,
-) -> str:
+) -> Optional[str]:
     """
     Same as `_download_snapshot_simple` but trying to replace {date} in the URL with dates between
     today and 2020-01-01 until one works.
