@@ -427,3 +427,15 @@ sources:
     automation:
       job_group: all
       deferred: true
+
+  # Data sources for US level 2
+  - name: pipelines.vaccinations.us_authority_cached.USCountyCachedDataSource
+    # No URL is given because it uses the cache
+    fetch:
+      - cache_key: US_CDC_counties_vaccinations
+    test:
+      location_key_match:
+        - '^US_[^_]+_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
