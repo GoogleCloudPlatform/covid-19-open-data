@@ -779,6 +779,34 @@ def create_instance(
     return Response(content, status=status)
 
 
+@profiled_route("/publish_versions")
+def publish_versions(prod_folder: str = "v2") -> Response:
+    """Lists all the blobs in the bucket with generation."""
+    prod_folder = _get_request_param("prod_folder", prod_folder)
+    prefix = prod_folder + "/"
+
+    # Enumerate all the versions for each of the global tables
+    blob_index: Dict[str, List[str]] = {}
+    bucket = get_storage_bucket(GCS_BUCKET_PROD)
+    for table_name in ["aggregated", "main"] + list(get_table_names()):
+        blobs = bucket.list_blobs(prefix=prefix + table_name, versions=True)
+        for blob in blobs:
+            fname = blob.name.replace(prefix, "")
+            blob_index[fname] = blob_index.get(fname, [])
+            blob_index[fname].append(blob.generation)
+
+    with temporary_directory() as workdir:
+        # Write it to disk
+        fname = workdir / "versions.json"
+        with open(fname, "w") as fh:
+            json.dump(blob_index, fh)
+
+        # Upload to root folder
+        upload_folder(GCS_BUCKET_PROD, prod_folder + "/", workdir)
+
+    return Response("OK", status=200)
+
+
 @app.route("/status_check")
 def status_check() -> Response:
     # Simple response used to check the status of server

@@ -175,6 +175,13 @@ def schedule_all_jobs(project_id: str, location_id: str, time_zone: str) -> None
             schedule="0 2-23/4 * * *",
         )
 
+    # Publish an index of versions for each global table
+    _schedule_job(
+        path=f"/deferred/publish_versions?prod_folder=v2",
+        # Run this job hourly
+        schedule="0 * * * *",
+    )
+
     ########
     # V3 publish jobs
     ########
@@ -224,6 +231,13 @@ def schedule_all_jobs(project_id: str, location_id: str, time_zone: str) -> None
             # Offset by 90 minutes to execute after publish_v3_location_subsets finishes
             schedule="30 1-23/2 * * *",
         )
+
+    # Publish an index of versions for each global table
+    _schedule_job(
+        path=f"/deferred/publish_versions?prod_folder=v3",
+        # Run this job hourly
+        schedule="0 * * * *",
+    )
 
 
 if __name__ == "__main__":
