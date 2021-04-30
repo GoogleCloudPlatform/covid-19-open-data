@@ -864,6 +864,7 @@ def main() -> None:
         "publish_v3_json": _publish_json_v3,
         "publish_v3_main": publish_v3_main_table,
         "publish_v3_latest": publish_v3_latest_tables,
+        "publish_versions": publish_versions,
         "report_errors_to_github": report_errors_to_github,
     }.get(args.command, _unknown_command)(**json.loads(args.args or "{}"))
 
