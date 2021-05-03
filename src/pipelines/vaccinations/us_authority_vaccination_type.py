@@ -104,14 +104,10 @@ def _process_cache_file(file_map: Dict[str, str], date: str) -> DataFrame:
     data = DataFrame([list(v.values()) for v in data], columns=list(data[0].keys()))
 
     data = data.loc[data.Location.isin(states)]
-    data["key"] = data["Location"].apply(lambda x: "US" if x=="US" else "US_" + x[:2])
+for col in set(_column_adapter.keys()).intersect(data.columns):
+    data[col] = data[col].fillna(0).astype(int)
 
-    for c in _column_adapter.keys():
-        if c == "key":
-            continue
-        else:
-            if c in data.columns:
-                data[c] = data[c].fillna(0).astype(int)
+data["key"] = data["Location"].apply(lambda x: "US" if x=="US" else "US_" + x[:2])
 
     data = table_rename(data, _column_adapter, drop=True)
 
