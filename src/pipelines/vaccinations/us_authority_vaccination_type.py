@@ -20,6 +20,7 @@ from pandas import DataFrame, concat, read_csv
 from lib.cached_data_source import CachedDataSource
 from lib.utils import table_rename
 from lib.io import read_file
+from lib.constants import SRC
 
 
 _column_adapter = {
@@ -39,7 +40,7 @@ _column_adapter = {
     "key": "key"
     }
 
-us_states = ['US'] + read_csv("data/us_cdc_locations.csv").key.values.tolist()
+us_states = ['US'] + read_csv(SRC / "data" / "us_cdc_locations.csv").key.values.tolist()
 
 def _process_cache_file(file_map: Dict[str, str], date: str) -> DataFrame:
     data = read_file(file_map[date])["vaccination_data"].values.tolist()
