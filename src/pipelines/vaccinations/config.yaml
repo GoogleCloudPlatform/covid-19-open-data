@@ -21,21 +21,6 @@ schema:
   total_persons_fully_vaccinated: int
   new_vaccine_doses_administered: int
   total_vaccine_doses_administered: int
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 6d37c6e88 (Vaccination by type)
-=======
->>>>>>> aeb73b3c8 (Vaccination by type:)
-=======
-=======
->>>>>>> 6d37c6e88 (Vaccination by type)
->>>>>>> b3946c9c3 (Vaccination by type)
-=======
->>>>>>> d01439146 (Minor)
   new_persons_vaccinated_pfizer: int
   total_persons_vaccinated_pfizer: int
   new_persons_fully_vaccinated_pfizer: int
@@ -54,47 +39,7 @@ schema:
   total_persons_fully_vaccinated_janssen: int
   new_vaccine_doses_administered_janssen: int
   total_vaccine_doses_administered_janssen: int
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> aeb73b3c8 (Vaccination by type:)
-=======
->>>>>>> b3946c9c3 (Vaccination by type)
-=======
-  new_persons_vaccinated_Pfizer: int
-  total_persons_vaccinated_Pfizer: int
-  new_persons_fully_vaccinated_Pfizer: int
-  total_persons_fully_vaccinated_Pfizer: int
-  new_vaccine_doses_administered_Pfizer: int
-  total_vaccine_doses_administered_Pfizer: int
-  new_persons_vaccinated_Moderna: int
-  total_persons_vaccinated_Moderna: int
-  new_persons_fully_vaccinated_Moderna: int
-  total_persons_fully_vaccinated_Moderna: int
-  new_vaccine_doses_administered_Moderna: int
-  total_vaccine_doses_administered_Moderna: int
-  new_persons_vaccinated_Janssen: int
-  total_persons_vaccinated_Janssen: int
-  new_persons_fully_vaccinated_Janssen: int
-  total_persons_fully_vaccinated_Janssen: int
-  new_vaccine_doses_administered_Janssen: int
-  total_vaccine_doses_administered_Janssen: int
->>>>>>> e2f8dcce6 (Vaccination by type:)
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 6d37c6e88 (Vaccination by type)
-=======
->>>>>>> aeb73b3c8 (Vaccination by type:)
-=======
-=======
->>>>>>> 6d37c6e88 (Vaccination by type)
->>>>>>> b3946c9c3 (Vaccination by type)
 
-=======
->>>>>>> d01439146 (Minor)
 
 auxiliary:
   metadata: ./data/metadata.csv

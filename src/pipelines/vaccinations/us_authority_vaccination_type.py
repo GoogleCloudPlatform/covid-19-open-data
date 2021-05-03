@@ -16,75 +16,18 @@ import json
 from functools import partial
 from lib.concurrent import process_map
 from typing import Dict
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> aeb73b3c8 (Vaccination by type:)
-=======
->>>>>>> 532a4c651 (added us_cdc_locations for reuse)
-=======
->>>>>>> d01439146 (Minor)
 from pandas import DataFrame, concat, read_csv
 from lib.cached_data_source import CachedDataSource
 from lib.utils import table_rename
 from lib.io import read_file
 from lib.constants import SRC
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> ce4023b67 (Added SRC to reader)
-=======
-from pandas import DataFrame, concat
-=======
-from pandas import DataFrame, concat, read_csv
->>>>>>> 9238b563f (added us_cdc_locations for reuse)
-=======
-=======
-from pandas import DataFrame, concat
-<<<<<<< HEAD
->>>>>>> aeb73b3c8 (Vaccination by type:)
-=======
-=======
-from pandas import DataFrame, concat, read_csv
->>>>>>> 9238b563f (added us_cdc_locations for reuse)
->>>>>>> 532a4c651 (added us_cdc_locations for reuse)
-from lib.cached_data_source import CachedDataSource
-from lib.utils import table_rename
-from lib.io import read_file
->>>>>>> e2f8dcce6 (Vaccination by type:)
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> ff4effaf5 (Added SRC to reader)
-=======
->>>>>>> aeb73b3c8 (Vaccination by type:)
-=======
-=======
->>>>>>> ff4effaf5 (Added SRC to reader)
->>>>>>> ce4023b67 (Added SRC to reader)
-=======
->>>>>>> d01439146 (Minor)
 
 
 _column_adapter = {
     'Series_Complete_Yes': 'total_persons_fully_vaccinated',
     'Doses_Administered': 'total_vaccine_doses_administered',
     'Administered_Dose1_Recip':'total_persons_vaccinated',
-<<<<<<< HEAD
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> aeb73b3c8 (Vaccination by type:)
-=======
->>>>>>> b3946c9c3 (Vaccination by type)
     'Series_Complete_Pfizer': 'total_persons_fully_vaccinated_pfizer',
     'Administered_Pfizer': 'total_vaccine_doses_administered_pfizer',
 
@@ -93,265 +36,22 @@ _column_adapter = {
 
     'Series_Complete_Janssen': 'total_persons_fully_vaccinated_janssen',
     'Administered_Janssen': 'total_vaccine_doses_administered_janssen',
-=======
-    'Series_Complete_Pfizer': 'total_persons_fully_vaccinated_Pfizer',
-    'Administered_Pfizer': 'total_vaccine_doses_administered_Pfizer',
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> b3946c9c3 (Vaccination by type)
-=======
-    'Series_Complete_Pfizer': 'total_persons_fully_vaccinated_pfizer',
-    'Administered_Pfizer': 'total_vaccine_doses_administered_pfizer',
->>>>>>> 6d37c6e88 (Vaccination by type)
-<<<<<<< HEAD
-=======
-    
-    'Series_Complete_Pfizer': 'total_persons_fully_vaccinated_pfizer',
-    'Administered_Pfizer': 'total_vaccine_doses_administered_pfizer',
->>>>>>> d01439146 (Minor)
-
-    'Series_Complete_Moderna': 'total_persons_fully_vaccinated_moderna',
-    'Administered_Moderna': 'total_vaccine_doses_administered_moderna',
-
-    'Series_Complete_Janssen': 'total_persons_fully_vaccinated_janssen',
-    'Administered_Janssen': 'total_vaccine_doses_administered_janssen',
-<<<<<<< HEAD
->>>>>>> 6d37c6e88 (Vaccination by type)
-=======
-=======
->>>>>>> b3946c9c3 (Vaccination by type)
-
-    'Series_Complete_Moderna': 'total_persons_fully_vaccinated_moderna',
-    'Administered_Moderna': 'total_vaccine_doses_administered_moderna',
-
-<<<<<<< HEAD
-    'Series_Complete_Janssen': 'total_persons_fully_vaccinated_Janssen',
-    'Administered_Janssen': 'total_vaccine_doses_administered_Janssen',
->>>>>>> e2f8dcce6 (Vaccination by type:)
-<<<<<<< HEAD
->>>>>>> aeb73b3c8 (Vaccination by type:)
-=======
-=======
-    'Series_Complete_Janssen': 'total_persons_fully_vaccinated_janssen',
-    'Administered_Janssen': 'total_vaccine_doses_administered_janssen',
->>>>>>> 6d37c6e88 (Vaccination by type)
->>>>>>> b3946c9c3 (Vaccination by type)
-=======
->>>>>>> d01439146 (Minor)
 
     "key": "key"
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 532a4c651 (added us_cdc_locations for reuse)
-=======
->>>>>>> ce4023b67 (Added SRC to reader)
 us_states = ['US'] + read_csv(SRC / "data" / "us_cdc_locations.csv").key.values.tolist()
-=======
-states = [
-    'US',
-    'AK',
-    'AL',
-    'AR',
-    'AS',
-    'AZ',
-    'CA',
-    'CO',
-    'CT',
-    'DC',
-    'DE',
-    'FL',
-    'GA',
-    'GU',
-    'HI',
-    'IA',
-    'ID',
-    'IL',
-    'IN',
-    'KS',
-    'KY',
-    'LA',
-    'MA',
-    'MD',
-    'ME',
-    'MI',
-    'MN',
-    'MO',
-    'MP',
-    'MS',
-    'MT',
-    'NC',
-    'ND',
-    'NE',
-    'NH',
-    'NJ',
-    'NM',
-    'NV',
-    'NY',
-    'OH',
-    'OK',
-    'OR',
-    'PA',
-    'PR',
-    'RI',
-    'SC',
-    'SD',
-    'TN',
-    'TX',
-    'UT',
-    'VA',
-    'VI',
-    'VT',
-    'WA',
-    'WI',
-    'WV',
-    'WY'
- ]
-
->>>>>>> e2f8dcce6 (Vaccination by type:)
-=======
-us_states = ['US'] + read_csv("data/us_cdc_locations.csv").key.values.tolist()
->>>>>>> 9238b563f (added us_cdc_locations for reuse)
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-us_states = ['US'] + read_csv(SRC / "data" / "us_cdc_locations.csv").key.values.tolist()
->>>>>>> ff4effaf5 (Added SRC to reader)
-=======
-us_states = ['US'] + read_csv(SRC / "data" / "us_cdc_locations.csv").key.values.tolist()
-=======
-states = [
-    'US',
-    'AK',
-    'AL',
-    'AR',
-    'AS',
-    'AZ',
-    'CA',
-    'CO',
-    'CT',
-    'DC',
-    'DE',
-    'FL',
-    'GA',
-    'GU',
-    'HI',
-    'IA',
-    'ID',
-    'IL',
-    'IN',
-    'KS',
-    'KY',
-    'LA',
-    'MA',
-    'MD',
-    'ME',
-    'MI',
-    'MN',
-    'MO',
-    'MP',
-    'MS',
-    'MT',
-    'NC',
-    'ND',
-    'NE',
-    'NH',
-    'NJ',
-    'NM',
-    'NV',
-    'NY',
-    'OH',
-    'OK',
-    'OR',
-    'PA',
-    'PR',
-    'RI',
-    'SC',
-    'SD',
-    'TN',
-    'TX',
-    'UT',
-    'VA',
-    'VI',
-    'VT',
-    'WA',
-    'WI',
-    'WV',
-    'WY'
- ]
-
->>>>>>> e2f8dcce6 (Vaccination by type:)
->>>>>>> aeb73b3c8 (Vaccination by type:)
-=======
->>>>>>> 532a4c651 (added us_cdc_locations for reuse)
-=======
-=======
-us_states = ['US'] + read_csv(SRC / "data" / "us_cdc_locations.csv").key.values.tolist()
->>>>>>> ff4effaf5 (Added SRC to reader)
->>>>>>> ce4023b67 (Added SRC to reader)
-=======
-us_states = ['US'] + read_csv(SRC / "data" / "us_cdc_locations.csv").key.values.tolist()
->>>>>>> d01439146 (Minor)
 
 def _process_cache_file(file_map: Dict[str, str], date: str) -> DataFrame:
     data = read_file(file_map[date])["vaccination_data"].values.tolist()
     data = DataFrame([list(v.values()) for v in data], columns=list(data[0].keys()))
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 532a4c651 (added us_cdc_locations for reuse)
     data = data.loc[data.Location.isin(us_states)]
     for col in set(_column_adapter.keys()).intersection(data.columns):
         data[col] = data[col].fillna(0).astype(int)
 
     data["key"] = data["Location"].apply(lambda x: "US" if x=="US" else "US_" + x[:2])
 
-=======
-    data = data.loc[data.Location.isin(states)]
-=======
-<<<<<<< HEAD
-=======
->>>>>>> aeb73b3c8 (Vaccination by type:)
-    data = data.loc[data.Location.isin(us_states)]
->>>>>>> 9238b563f (added us_cdc_locations for reuse)
-    for col in set(_column_adapter.keys()).intersection(data.columns):
-        data[col] = data[col].fillna(0).astype(int)
-
-    data["key"] = data["Location"].apply(lambda x: "US" if x=="US" else "US_" + x[:2])
-
-<<<<<<< HEAD
-=======
-=======
-    data = data.loc[data.Location.isin(states)]
-=======
-    data = data.loc[data.Location.isin(us_states)]
->>>>>>> 9238b563f (added us_cdc_locations for reuse)
->>>>>>> 532a4c651 (added us_cdc_locations for reuse)
-=======
-    data = data.loc[data.Location.isin(us_states)]
->>>>>>> d01439146 (Minor)
-    for col in set(_column_adapter.keys()).intersection(data.columns):
-        data[col] = data[col].fillna(0).astype(int)
-
-    data["key"] = data["Location"].apply(lambda x: "US" if x=="US" else "US_" + x[:2])
-
-<<<<<<< HEAD
->>>>>>> aeb73b3c8 (Vaccination by type:)
->>>>>>> e2f8dcce6 (Vaccination by type:)
-=======
->>>>>>> d01439146 (Minor)
     data = table_rename(data, _column_adapter, drop=True)
 
     data["date"] = date
