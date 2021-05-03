@@ -21,6 +21,7 @@ schema:
   total_persons_fully_vaccinated: int
   new_vaccine_doses_administered: int
   total_vaccine_doses_administered: int
+<<<<<<< HEAD
   new_persons_vaccinated_pfizer: int
   total_persons_vaccinated_pfizer: int
   new_persons_fully_vaccinated_pfizer: int
@@ -39,6 +40,26 @@ schema:
   total_persons_fully_vaccinated_janssen: int
   new_vaccine_doses_administered_janssen: int
   total_vaccine_doses_administered_janssen: int
+=======
+  new_persons_vaccinated_Pfizer: int
+  total_persons_vaccinated_Pfizer: int
+  new_persons_fully_vaccinated_Pfizer: int
+  total_persons_fully_vaccinated_Pfizer: int
+  new_vaccine_doses_administered_Pfizer: int
+  total_vaccine_doses_administered_Pfizer: int
+  new_persons_vaccinated_Moderna: int
+  total_persons_vaccinated_Moderna: int
+  new_persons_fully_vaccinated_Moderna: int
+  total_persons_fully_vaccinated_Moderna: int
+  new_vaccine_doses_administered_Moderna: int
+  total_vaccine_doses_administered_Moderna: int
+  new_persons_vaccinated_Janssen: int
+  total_persons_vaccinated_Janssen: int
+  new_persons_fully_vaccinated_Janssen: int
+  total_persons_fully_vaccinated_Janssen: int
+  new_vaccine_doses_administered_Janssen: int
+  total_vaccine_doses_administered_Janssen: int
+>>>>>>> e2f8dcce6 (Vaccination by type:)
 
 
 auxiliary:

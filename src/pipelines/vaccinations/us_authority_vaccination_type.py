@@ -16,11 +16,18 @@ import json
 from functools import partial
 from lib.concurrent import process_map
 from typing import Dict
+<<<<<<< HEAD
 from pandas import DataFrame, concat, read_csv
 from lib.cached_data_source import CachedDataSource
 from lib.utils import table_rename
 from lib.io import read_file
 from lib.constants import SRC
+=======
+from pandas import DataFrame, concat
+from lib.cached_data_source import CachedDataSource
+from lib.utils import table_rename
+from lib.io import read_file
+>>>>>>> e2f8dcce6 (Vaccination by type:)
 
 
 _column_adapter = {
@@ -28,6 +35,7 @@ _column_adapter = {
     'Doses_Administered': 'total_vaccine_doses_administered',
     'Administered_Dose1_Recip':'total_persons_vaccinated',
 
+<<<<<<< HEAD
     'Series_Complete_Pfizer': 'total_persons_fully_vaccinated_pfizer',
     'Administered_Pfizer': 'total_vaccine_doses_administered_pfizer',
 
@@ -36,22 +44,107 @@ _column_adapter = {
 
     'Series_Complete_Janssen': 'total_persons_fully_vaccinated_janssen',
     'Administered_Janssen': 'total_vaccine_doses_administered_janssen',
+=======
+    'Series_Complete_Pfizer': 'total_persons_fully_vaccinated_Pfizer',
+    'Administered_Pfizer': 'total_vaccine_doses_administered_Pfizer',
+
+    'Series_Complete_Moderna': 'total_persons_fully_vaccinated_Moderna',
+    'Administered_Moderna': 'total_vaccine_doses_administered_Moderna',
+
+    'Series_Complete_Janssen': 'total_persons_fully_vaccinated_Janssen',
+    'Administered_Janssen': 'total_vaccine_doses_administered_Janssen',
+>>>>>>> e2f8dcce6 (Vaccination by type:)
 
     "key": "key"
     }
 
+<<<<<<< HEAD
 us_states = ['US'] + read_csv(SRC / "data" / "us_cdc_locations.csv").key.values.tolist()
+=======
+states = [
+ 'US',
+ 'AK',
+ 'AL',
+ 'AR',
+ 'AS',
+ 'AZ',
+ 'CA',
+ 'CO',
+ 'CT',
+ 'DC',
+ 'DE',
+ 'FL',
+ 'GA',
+ 'GU',
+ 'HI',
+ 'IA',
+ 'ID',
+ 'IL',
+ 'IN',
+ 'KS',
+ 'KY',
+ 'LA',
+ 'MA',
+ 'MD',
+ 'ME',
+ 'MI',
+ 'MN',
+ 'MO',
+ 'MP',
+ 'MS',
+ 'MT',
+ 'NC',
+ 'ND',
+ 'NE',
+ 'NH',
+ 'NJ',
+ 'NM',
+ 'NV',
+ 'NY',
+ 'OH',
+ 'OK',
+ 'OR',
+ 'PA',
+ 'PR',
+ 'RI',
+ 'SC',
+ 'SD',
+ 'TN',
+ 'TX',
+ 'UT',
+ 'VA',
+ 'VI',
+ 'VT',
+ 'WA',
+ 'WI',
+ 'WV',
+ 'WY']
+
+>>>>>>> e2f8dcce6 (Vaccination by type:)
 
 def _process_cache_file(file_map: Dict[str, str], date: str) -> DataFrame:
     data = read_file(file_map[date])["vaccination_data"].values.tolist()
     data = DataFrame([list(v.values()) for v in data], columns=list(data[0].keys()))
 
+<<<<<<< HEAD
     data = data.loc[data.Location.isin(us_states)]
     for col in set(_column_adapter.keys()).intersection(data.columns):
         data[col] = data[col].fillna(0).astype(int)
 
     data["key"] = data["Location"].apply(lambda x: "US" if x=="US" else "US_" + x[:2])
 
+=======
+    data = data.loc[data.Location.isin(states)]
+    data["key"] = data["Location"].apply(lambda x: "US" if x=="US" else "US_" + x[:2])
+
+    for c in _column_adapter.keys():
+        if c == "key":
+            continue
+        else:
+            if c in data.columns:
+                data[c] = data[c].fillna(0).astype(int)
+
+>>>>>>> e2f8dcce6 (Vaccination by type:)
     data = table_rename(data, _column_adapter, drop=True)
 
     data["date"] = date
