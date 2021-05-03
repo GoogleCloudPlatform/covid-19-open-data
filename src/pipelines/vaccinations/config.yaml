@@ -23,8 +23,11 @@ schema:
   total_vaccine_doses_administered: int
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 6d37c6e88 (Vaccination by type)
+=======
+>>>>>>> aeb73b3c8 (Vaccination by type:)
   new_persons_vaccinated_pfizer: int
   total_persons_vaccinated_pfizer: int
   new_persons_fully_vaccinated_pfizer: int
@@ -44,6 +47,9 @@ schema:
   new_vaccine_doses_administered_janssen: int
   total_vaccine_doses_administered_janssen: int
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> aeb73b3c8 (Vaccination by type:)
 =======
   new_persons_vaccinated_Pfizer: int
   total_persons_vaccinated_Pfizer: int
@@ -64,8 +70,11 @@ schema:
   new_vaccine_doses_administered_Janssen: int
   total_vaccine_doses_administered_Janssen: int
 >>>>>>> e2f8dcce6 (Vaccination by type:)
+<<<<<<< HEAD
 =======
 >>>>>>> 6d37c6e88 (Vaccination by type)
+=======
+>>>>>>> aeb73b3c8 (Vaccination by type:)
 
 
 auxiliary:
