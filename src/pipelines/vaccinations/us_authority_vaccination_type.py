@@ -19,8 +19,11 @@ from typing import Dict
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> aeb73b3c8 (Vaccination by type:)
+=======
+>>>>>>> 532a4c651 (added us_cdc_locations for reuse)
 from pandas import DataFrame, concat, read_csv
 from lib.cached_data_source import CachedDataSource
 from lib.utils import table_rename
@@ -36,7 +39,13 @@ from pandas import DataFrame, concat, read_csv
 =======
 =======
 from pandas import DataFrame, concat
+<<<<<<< HEAD
 >>>>>>> aeb73b3c8 (Vaccination by type:)
+=======
+=======
+from pandas import DataFrame, concat, read_csv
+>>>>>>> 9238b563f (added us_cdc_locations for reuse)
+>>>>>>> 532a4c651 (added us_cdc_locations for reuse)
 from lib.cached_data_source import CachedDataSource
 from lib.utils import table_rename
 from lib.io import read_file
@@ -120,6 +129,9 @@ _column_adapter = {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 532a4c651 (added us_cdc_locations for reuse)
 us_states = ['US'] + read_csv(SRC / "data" / "us_cdc_locations.csv").key.values.tolist()
 =======
 states = [
@@ -186,6 +198,7 @@ states = [
 =======
 us_states = ['US'] + read_csv("data/us_cdc_locations.csv").key.values.tolist()
 >>>>>>> 9238b563f (added us_cdc_locations for reuse)
+<<<<<<< HEAD
 =======
 us_states = ['US'] + read_csv(SRC / "data" / "us_cdc_locations.csv").key.values.tolist()
 >>>>>>> ff4effaf5 (Added SRC to reader)
@@ -254,6 +267,8 @@ states = [
 
 >>>>>>> e2f8dcce6 (Vaccination by type:)
 >>>>>>> aeb73b3c8 (Vaccination by type:)
+=======
+>>>>>>> 532a4c651 (added us_cdc_locations for reuse)
 
 def _process_cache_file(file_map: Dict[str, str], date: str) -> DataFrame:
     data = read_file(file_map[date])["vaccination_data"].values.tolist()
@@ -262,6 +277,9 @@ def _process_cache_file(file_map: Dict[str, str], date: str) -> DataFrame:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 532a4c651 (added us_cdc_locations for reuse)
     data = data.loc[data.Location.isin(us_states)]
     for col in set(_column_adapter.keys()).intersection(data.columns):
         data[col] = data[col].fillna(0).astype(int)
@@ -271,6 +289,7 @@ def _process_cache_file(file_map: Dict[str, str], date: str) -> DataFrame:
 =======
     data = data.loc[data.Location.isin(states)]
 =======
+<<<<<<< HEAD
 =======
 >>>>>>> aeb73b3c8 (Vaccination by type:)
     data = data.loc[data.Location.isin(us_states)]
@@ -284,6 +303,10 @@ def _process_cache_file(file_map: Dict[str, str], date: str) -> DataFrame:
 =======
 =======
     data = data.loc[data.Location.isin(states)]
+=======
+    data = data.loc[data.Location.isin(us_states)]
+>>>>>>> 9238b563f (added us_cdc_locations for reuse)
+>>>>>>> 532a4c651 (added us_cdc_locations for reuse)
     for col in set(_column_adapter.keys()).intersection(data.columns):
         data[col] = data[col].fillna(0).astype(int)
 
