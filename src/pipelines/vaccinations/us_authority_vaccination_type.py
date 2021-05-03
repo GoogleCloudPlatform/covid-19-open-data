@@ -23,6 +23,7 @@ from lib.cached_data_source import CachedDataSource
 from lib.utils import table_rename
 from lib.io import read_file
 from lib.constants import SRC
+<<<<<<< HEAD
 =======
 from pandas import DataFrame, concat
 =======
@@ -32,6 +33,8 @@ from lib.cached_data_source import CachedDataSource
 from lib.utils import table_rename
 from lib.io import read_file
 >>>>>>> e2f8dcce6 (Vaccination by type:)
+=======
+>>>>>>> ff4effaf5 (Added SRC to reader)
 
 
 _column_adapter = {
@@ -72,6 +75,7 @@ _column_adapter = {
     "key": "key"
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 us_states = ['US'] + read_csv(SRC / "data" / "us_cdc_locations.csv").key.values.tolist()
@@ -140,6 +144,9 @@ states = [
 =======
 us_states = ['US'] + read_csv("data/us_cdc_locations.csv").key.values.tolist()
 >>>>>>> 9238b563f (added us_cdc_locations for reuse)
+=======
+us_states = ['US'] + read_csv(SRC / "data" / "us_cdc_locations.csv").key.values.tolist()
+>>>>>>> ff4effaf5 (Added SRC to reader)
 
 def _process_cache_file(file_map: Dict[str, str], date: str) -> DataFrame:
     data = read_file(file_map[date])["vaccination_data"].values.tolist()
