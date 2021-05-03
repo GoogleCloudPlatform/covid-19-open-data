@@ -20,15 +20,19 @@ from typing import Dict
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> aeb73b3c8 (Vaccination by type:)
 =======
 >>>>>>> 532a4c651 (added us_cdc_locations for reuse)
+=======
+>>>>>>> d01439146 (Minor)
 from pandas import DataFrame, concat, read_csv
 from lib.cached_data_source import CachedDataSource
 from lib.utils import table_rename
 from lib.io import read_file
 from lib.constants import SRC
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -63,12 +67,15 @@ from lib.io import read_file
 =======
 >>>>>>> ff4effaf5 (Added SRC to reader)
 >>>>>>> ce4023b67 (Added SRC to reader)
+=======
+>>>>>>> d01439146 (Minor)
 
 
 _column_adapter = {
     'Series_Complete_Yes': 'total_persons_fully_vaccinated',
     'Doses_Administered': 'total_vaccine_doses_administered',
     'Administered_Dose1_Recip':'total_persons_vaccinated',
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -98,17 +105,18 @@ _column_adapter = {
     'Administered_Pfizer': 'total_vaccine_doses_administered_pfizer',
 >>>>>>> 6d37c6e88 (Vaccination by type)
 <<<<<<< HEAD
+=======
+    
+    'Series_Complete_Pfizer': 'total_persons_fully_vaccinated_pfizer',
+    'Administered_Pfizer': 'total_vaccine_doses_administered_pfizer',
+>>>>>>> d01439146 (Minor)
 
     'Series_Complete_Moderna': 'total_persons_fully_vaccinated_moderna',
     'Administered_Moderna': 'total_vaccine_doses_administered_moderna',
 
-<<<<<<< HEAD
-    'Series_Complete_Janssen': 'total_persons_fully_vaccinated_Janssen',
-    'Administered_Janssen': 'total_vaccine_doses_administered_Janssen',
->>>>>>> e2f8dcce6 (Vaccination by type:)
-=======
     'Series_Complete_Janssen': 'total_persons_fully_vaccinated_janssen',
     'Administered_Janssen': 'total_vaccine_doses_administered_janssen',
+<<<<<<< HEAD
 >>>>>>> 6d37c6e88 (Vaccination by type)
 =======
 =======
@@ -129,10 +137,13 @@ _column_adapter = {
     'Administered_Janssen': 'total_vaccine_doses_administered_janssen',
 >>>>>>> 6d37c6e88 (Vaccination by type)
 >>>>>>> b3946c9c3 (Vaccination by type)
+=======
+>>>>>>> d01439146 (Minor)
 
     "key": "key"
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -286,6 +297,9 @@ states = [
 us_states = ['US'] + read_csv(SRC / "data" / "us_cdc_locations.csv").key.values.tolist()
 >>>>>>> ff4effaf5 (Added SRC to reader)
 >>>>>>> ce4023b67 (Added SRC to reader)
+=======
+us_states = ['US'] + read_csv(SRC / "data" / "us_cdc_locations.csv").key.values.tolist()
+>>>>>>> d01439146 (Minor)
 
 def _process_cache_file(file_map: Dict[str, str], date: str) -> DataFrame:
     data = read_file(file_map[date])["vaccination_data"].values.tolist()
@@ -295,6 +309,7 @@ def _process_cache_file(file_map: Dict[str, str], date: str) -> DataFrame:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 532a4c651 (added us_cdc_locations for reuse)
     data = data.loc[data.Location.isin(us_states)]
@@ -324,13 +339,19 @@ def _process_cache_file(file_map: Dict[str, str], date: str) -> DataFrame:
     data = data.loc[data.Location.isin(us_states)]
 >>>>>>> 9238b563f (added us_cdc_locations for reuse)
 >>>>>>> 532a4c651 (added us_cdc_locations for reuse)
+=======
+    data = data.loc[data.Location.isin(us_states)]
+>>>>>>> d01439146 (Minor)
     for col in set(_column_adapter.keys()).intersection(data.columns):
         data[col] = data[col].fillna(0).astype(int)
 
     data["key"] = data["Location"].apply(lambda x: "US" if x=="US" else "US_" + x[:2])
 
+<<<<<<< HEAD
 >>>>>>> aeb73b3c8 (Vaccination by type:)
 >>>>>>> e2f8dcce6 (Vaccination by type:)
+=======
+>>>>>>> d01439146 (Minor)
     data = table_rename(data, _column_adapter, drop=True)
 
     data["date"] = date
