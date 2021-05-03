@@ -31,6 +31,9 @@ from lib.io import read_file
 from lib.constants import SRC
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> ce4023b67 (Added SRC to reader)
 =======
 from pandas import DataFrame, concat
 =======
@@ -51,10 +54,15 @@ from lib.utils import table_rename
 from lib.io import read_file
 >>>>>>> e2f8dcce6 (Vaccination by type:)
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> ff4effaf5 (Added SRC to reader)
 =======
 >>>>>>> aeb73b3c8 (Vaccination by type:)
+=======
+=======
+>>>>>>> ff4effaf5 (Added SRC to reader)
+>>>>>>> ce4023b67 (Added SRC to reader)
 
 
 _column_adapter = {
@@ -130,8 +138,11 @@ _column_adapter = {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 532a4c651 (added us_cdc_locations for reuse)
+=======
+>>>>>>> ce4023b67 (Added SRC to reader)
 us_states = ['US'] + read_csv(SRC / "data" / "us_cdc_locations.csv").key.values.tolist()
 =======
 states = [
@@ -198,6 +209,7 @@ states = [
 =======
 us_states = ['US'] + read_csv("data/us_cdc_locations.csv").key.values.tolist()
 >>>>>>> 9238b563f (added us_cdc_locations for reuse)
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 us_states = ['US'] + read_csv(SRC / "data" / "us_cdc_locations.csv").key.values.tolist()
@@ -269,6 +281,11 @@ states = [
 >>>>>>> aeb73b3c8 (Vaccination by type:)
 =======
 >>>>>>> 532a4c651 (added us_cdc_locations for reuse)
+=======
+=======
+us_states = ['US'] + read_csv(SRC / "data" / "us_cdc_locations.csv").key.values.tolist()
+>>>>>>> ff4effaf5 (Added SRC to reader)
+>>>>>>> ce4023b67 (Added SRC to reader)
 
 def _process_cache_file(file_map: Dict[str, str], date: str) -> DataFrame:
     data = read_file(file_map[date])["vaccination_data"].values.tolist()
