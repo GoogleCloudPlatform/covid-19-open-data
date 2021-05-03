@@ -21,6 +21,25 @@ schema:
   total_persons_fully_vaccinated: int
   new_vaccine_doses_administered: int
   total_vaccine_doses_administered: int
+  new_persons_vaccinated_Pfizer: int
+  total_persons_vaccinated_Pfizer: int
+  new_persons_fully_vaccinated_Pfizer: int
+  total_persons_fully_vaccinated_Pfizer: int
+  new_vaccine_doses_administered_Pfizer: int
+  total_vaccine_doses_administered_Pfizer: int
+  new_persons_vaccinated_Moderna: int
+  total_persons_vaccinated_Moderna: int
+  new_persons_fully_vaccinated_Moderna: int
+  total_persons_fully_vaccinated_Moderna: int
+  new_vaccine_doses_administered_Moderna: int
+  total_vaccine_doses_administered_Moderna: int
+  new_persons_vaccinated_Janssen: int
+  total_persons_vaccinated_Janssen: int
+  new_persons_fully_vaccinated_Janssen: int
+  total_persons_fully_vaccinated_Janssen: int
+  new_vaccine_doses_administered_Janssen: int
+  total_vaccine_doses_administered_Janssen: int
+
 
 auxiliary:
   metadata: ./data/metadata.csv
@@ -424,6 +443,19 @@ sources:
       - url: "https://github.com/owid/covid-19-data/raw/master/public/data/vaccinations/us_state_vaccinations.csv"
     test:
       location_key_match: '^US_[^_]+$'
+    automation:
+      job_group: all
+      deferred: true
+
+  # Data sources for US level 0 and 1
+  - name: pipelines.vaccinations.us_authority_vaccination_type.CDCCachedDataSourceVaccinationType
+    # No URL is given because it uses the cache
+    fetch:
+      - cache_key: US_CDC_states_vaccinations
+    test:
+      location_key_match:
+        -  '^US$'
+        -  '^US_[^_]+$'
     automation:
       job_group: all
       deferred: true
