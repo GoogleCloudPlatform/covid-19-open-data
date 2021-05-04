@@ -860,7 +860,7 @@ def publish_sources() -> Response:
 
             # Iterate over the indices for each column independently
             map_opts = dict(total=len(combined_table), desc="Records")
-            source_map = list(process_map(map_func, combined_table.iterrows(), **map_opts))
+            source_map = list(thread_map(map_func, combined_table.iterrows(), **map_opts))
 
             # Create a table with the source map
             source_table = DataFrame(source_map, index=combined_table.index)
