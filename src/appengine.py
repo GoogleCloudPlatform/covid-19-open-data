@@ -245,19 +245,17 @@ def load_intermediate_tables(data_pipeline: DataPipeline) -> Iterable[Tuple[Data
 
     # Get a list of the intermediate files used by this data pipeline
     file_names = list(enumerate_intermediate_files(data_pipeline))
-    logger.log_info(f"Downloading intermediate tables {file_names}")
+    logger.log_info(f"Downloading intermediate tables {list(sorted(file_names))}")
 
     with temporary_directory() as workdir:
 
         # Download only the necessary intermediate files
         download_folder(GCS_BUCKET_TEST, "intermediate", workdir, lambda x: x.name in file_names)
-        logger.log_info(f"Downloaded intermediate tables {list(workdir.iterdir())}")
+        downloaded_files = list(sorted([table.name for table in workdir.iterdir()]))
+        logger.log_info(f"Downloaded intermediate tables {downloaded_files}")
 
         # Re-load all intermediate results
-        intermediate_results = data_pipeline._load_intermediate_results(workdir)
-        logger.log_info(f"Loaded intermediate tables {file_names}")
-
-        return intermediate_results
+        return data_pipeline._load_intermediate_results(workdir)
 
 
 @profiled_route("/cache_pull")
