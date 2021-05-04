@@ -839,7 +839,7 @@ def publish_sources() -> Response:
             # Iterate over the indices for each column independently
             source_map: List[Dict[str, str]] = []
             map_opts = dict(total=len(combined_table), desc="Records")
-            for idx, record in pbar(combined_table.iterrows, **map_opts):
+            for idx, record in pbar(combined_table.iterrows(), **map_opts):
                 record_sources: Dict[str, str] = {}
                 for col in combined_table.columns:
                     value = record[col]
