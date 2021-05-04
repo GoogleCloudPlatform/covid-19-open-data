@@ -74,7 +74,7 @@ from lib.gcloud import (
     get_storage_client,
     start_instance_from_image,
 )
-from lib.io import export_csv, gzip_file, read_table, temporary_directory
+from lib.io import export_csv, gzip_file, pbar, read_table, temporary_directory
 from lib.memory_efficient import table_read_column
 from lib.net import download
 from lib.pipeline import DataPipeline
@@ -836,9 +836,10 @@ def publish_sources() -> Response:
             for data_source, table in intermediate_tables:
                 table.set_index(index_columns, inplace=True)
 
-            # Define inner function to be used in parallel computation
-            def map_func(idx_and_record: Tuple) -> Dict[str, str]:
-                idx, record = idx_and_record
+            # Iterate over the indices for each column independently
+            source_map: List[Dict[str, str]] = []
+            map_opts = dict(total=len(combined_table), desc="Records")
+            for idx, record in pbar(combined_table.iterrows, **map_opts):
                 record_sources: Dict[str, str] = {}
                 for col in combined_table.columns:
                     value = record[col]
@@ -854,11 +855,7 @@ def publish_sources() -> Response:
                                 record_sources[col] = data_source.name
                                 break
 
-                return record_sources
-
-            # Iterate over the indices for each column independently
-            map_opts = dict(total=len(combined_table), desc="Records", max_workers=1)
-            source_map = list(thread_map(map_func, combined_table.iterrows(), **map_opts))
+                source_map.append(record_sources)
 
             # Create a table with the source map
             source_table = DataFrame(source_map, index=combined_table.index)
