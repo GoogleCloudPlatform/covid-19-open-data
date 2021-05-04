@@ -51,7 +51,7 @@ from publish import (
 from scripts.cloud_error_processing import register_new_errors
 
 from lib.cast import isna, safe_int_cast
-from lib.concurrent import thread_map
+from lib.concurrent import process_map, thread_map
 from lib.constants import (
     GCP_SELF_DESTRUCT_SCRIPT,
     GCP_ENV_TOKEN,
@@ -839,13 +839,9 @@ def publish_sources() -> Response:
             for data_source, table in intermediate_tables:
                 table.set_index(index_columns, inplace=True)
 
-            # Iterate over the indices for each column independently
-            from tqdm import tqdm
-
-            source_map: List[Dict[str, str]] = []
-            for idx, record in tqdm(
-                combined_table.iterrows(), total=len(combined_table), desc="records"
-            ):
+            # Define inner function to be used in parallel computation
+            def map_func(idx_and_record: Tuple) -> Dict[str, str]:
+                idx, record = idx_and_record
                 record_sources: Dict[str, str] = {}
                 for col in combined_table.columns:
                     value = record[col]
@@ -861,8 +857,11 @@ def publish_sources() -> Response:
                                 record_sources[col] = data_source.name
                                 break
 
-                # Add each record to our source map individually
-                source_map.append(record_sources)
+                return record_sources
+
+            # Iterate over the indices for each column independently
+            map_opts = dict(total=len(combined_table), desc="Records")
+            source_map = list(process_map(map_func, combined_table.iterrows(), **map_opts))
 
             # Create a table with the source map
             source_table = DataFrame(source_map, index=combined_table.index)
