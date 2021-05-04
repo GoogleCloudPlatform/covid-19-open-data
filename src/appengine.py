@@ -24,11 +24,12 @@ from argparse import ArgumentParser
 from functools import partial, wraps
 from io import BytesIO
 from pathlib import Path
-from typing import Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple
 
 import requests
 import yaml
 from flask import Flask, Response, request
+from pandas import DataFrame
 from google.cloud import storage
 from google.cloud.storage.blob import Blob
 from google.oauth2.credentials import Credentials
@@ -49,7 +50,7 @@ from publish import (
 )
 from scripts.cloud_error_processing import register_new_errors
 
-from lib.cast import safe_int_cast
+from lib.cast import isna, safe_int_cast
 from lib.concurrent import thread_map
 from lib.constants import (
     GCP_SELF_DESTRUCT_SCRIPT,
@@ -64,6 +65,7 @@ from lib.constants import (
     V2_TABLE_LIST,
     V3_TABLE_LIST,
 )
+from lib.data_source import DataSource
 from lib.error_logger import ErrorLogger
 from lib.gcloud import (
     delete_instance,
@@ -72,11 +74,11 @@ from lib.gcloud import (
     get_storage_client,
     start_instance_from_image,
 )
-from lib.io import export_csv, gzip_file, temporary_directory
+from lib.io import export_csv, gzip_file, read_table, temporary_directory
 from lib.memory_efficient import table_read_column
 from lib.net import download
 from lib.pipeline import DataPipeline
-from lib.pipeline_tools import get_table_names
+from lib.pipeline_tools import get_pipelines, get_table_names, enumerate_intermediate_files
 
 app = Flask(__name__)
 logger = ErrorLogger("appengine")
@@ -238,6 +240,27 @@ def cache_build_map() -> Dict[str, List[str]]:
     return sitemap
 
 
+def load_intermediate_tables(data_pipeline: DataPipeline) -> Iterable[Tuple[DataSource, DataFrame]]:
+    """ Loads all the intermediate outputs for each data source in a data pipeline """
+
+    # Get a list of the intermediate files used by this data pipeline
+    intermediate_file_names = list(enumerate_intermediate_files(data_pipeline))
+    logger.log_info(f"Downloading intermediate tables {intermediate_file_names}")
+
+    with temporary_directory() as workdir:
+
+        # Download only the necessary intermediate files
+        download_folder(
+            GCS_BUCKET_TEST, "intermediate", workdir, lambda x: x.name in intermediate_file_names
+        )
+
+        # Re-load all intermediate results
+        intermediate_results = data_pipeline._load_intermediate_results(workdir)
+        logger.log_info(f"Loaded intermediate tables {intermediate_file_names}")
+
+        return intermediate_results
+
+
 @profiled_route("/cache_pull")
 def cache_pull() -> Response:
     with temporary_directory() as workdir:
@@ -349,23 +372,8 @@ def combine_table(table_name: str = None) -> Response:
         pipeline_name = table_name.replace("-", "_")
         data_pipeline = DataPipeline.load(pipeline_name)
 
-        # Get a list of the intermediate files used by this data pipeline
-        intermediate_file_names = []
-        for data_source in data_pipeline.data_sources:
-            intermediate_file_names.append(f"{data_source.uuid(data_pipeline.table)}.csv")
-        logger.log_info(f"Downloading intermediate tables {intermediate_file_names}")
-
-        # Download only the necessary intermediate files
-        download_folder(
-            GCS_BUCKET_TEST,
-            "intermediate",
-            workdir / "intermediate",
-            lambda x: x.name in intermediate_file_names,
-        )
-
         # Re-load all intermediate results
-        intermediate_results = data_pipeline._load_intermediate_results(workdir / "intermediate")
-        logger.log_info(f"Loaded intermediate tables {intermediate_file_names}")
+        intermediate_results = load_intermediate_tables(data_pipeline)
 
         # Limit the number of processes to avoid OOM in big datasets
         process_count = 4
@@ -807,6 +815,66 @@ def publish_versions(prod_folder: str = "v2") -> Response:
     return Response("OK", status=200)
 
 
+@profiled_route("/publish_sources")
+def publish_sources() -> Response:
+    """ Publishes a table with the data source of each data point """
+
+    # Go through each table individually
+    with temporary_directory() as workdir:
+        for pipeline in get_pipelines():
+            logger.log_info(f"Tracing data sources for {pipeline.table}")
+
+            # Download the combined table and all the intermediate files used to create it
+            download_folder(GCS_BUCKET_PROD, "v2", workdir, lambda x: x.stem == pipeline.table)
+            logger.log_info("Downloaded combined table")
+            combined_table = read_table(workdir / f"{pipeline.table}.csv")
+            logger.log_info("Loaded combined table")
+            intermediate_tables = list(load_intermediate_tables(pipeline))
+            intermediate_tables = list(reversed(intermediate_tables))
+            logger.log_info("Loaded intermediate tables")
+
+            # Make sure all the tables have the appropriate index
+            index_columns = ["key"] + (["date"] if "date" in combined_table.columns else [])
+            combined_table.set_index(index_columns, inplace=True)
+            for data_source, table in intermediate_tables:
+                table.set_index(index_columns, inplace=True)
+
+            # Iterate over the indices for each column independently
+            from tqdm import tqdm
+
+            source_map: List[Dict[str, str]] = []
+            for idx, record in tqdm(
+                combined_table.iterrows(), total=len(combined_table), desc="records"
+            ):
+                record_sources: Dict[str, str] = {}
+                for col in combined_table.columns:
+                    value = record[col]
+                    if isna(value):
+                        # If the record is NaN, data source is NaN too
+                        # Technically a data source could output NaN values, but we don't care here
+                        record_sources[col] = None
+                    else:
+                        # Otherwise iterate over each intermediate result in order until a match
+                        # for the value is found
+                        for data_source, table in intermediate_tables:
+                            if table.loc[idx, col] == value:
+                                record_sources[col] = data_source.name
+                                break
+
+                # Add each record to our source map individually
+                source_map.append(record_sources)
+
+            # Create a table with the source map
+            source_table = DataFrame(source_map, index=combined_table.index)
+            export_csv(source_table, workdir / f"{pipeline.table}.sources.csv")
+            print(source_table)
+
+        # Upload to root folder
+        upload_folder(GCS_BUCKET_TEST, "tmp", workdir, lambda x: x.name.endswith(".sources.csv"))
+
+    return Response("OK", status=200)
+
+
 @app.route("/status_check")
 def status_check() -> Response:
     # Simple response used to check the status of server
@@ -865,6 +933,7 @@ def main() -> None:
         "publish_v3_main": publish_v3_main_table,
         "publish_v3_latest": publish_v3_latest_tables,
         "publish_versions": publish_versions,
+        "publish_sources": publish_sources,
         "report_errors_to_github": report_errors_to_github,
     }.get(args.command, _unknown_command)(**json.loads(args.args or "{}"))
 
