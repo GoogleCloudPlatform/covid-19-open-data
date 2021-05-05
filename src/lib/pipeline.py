@@ -115,7 +115,7 @@ class DataPipeline(ErrorLogger):
             source_config["automation"]["job_group"] = automation_config.get("job_group", 0)
 
             # Use reflection to create an instance of the corresponding DataSource class
-            module_tokens = source_config["name"].split(".")
+            module_tokens = source_config["class"].split(".")
             class_name = module_tokens[-1]
             module_name = ".".join(module_tokens[:-1])
             module = importlib.import_module(module_name)

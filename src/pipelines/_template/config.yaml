@@ -30,6 +30,6 @@ auxiliary:
 
 # Defines the pipelines to be run in order to produce the combined, full output
 sources:
-  - name: pipelines._template.srcname.SourceNameDataSource
+  - class: pipelines._template.srcname.SourceNameDataSource
     fetch:
       - url: "https://raw.githubusercontent.com/GoogleCloudPlatform/covid-19-open-data/main/src/test/data/epidemiology.csv"

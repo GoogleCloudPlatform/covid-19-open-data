@@ -33,7 +33,7 @@ auxiliary:
 
 sources:
 
-  - name: pipelines._common.wikidata.WikidataDataSource
+  - class: pipelines._common.wikidata.WikidataDataSource
     parse:
       open_street_maps: P402
       elevation: P2044
@@ -42,7 +42,7 @@ sources:
       # Run only twice a day, since it's so resource consuming and does not change often
       schedule: "0 */12 * * *"
 
-  - name: pipelines.geography.wikidata.WikidataCoordinatesDataSource
+  - class: pipelines.geography.wikidata.WikidataCoordinatesDataSource
     parse:
       coordinates: P625
     automation:
@@ -52,7 +52,7 @@ sources:
       # Skip because it takes too long
       skip: true
 
-  - name: pipelines.worldbank.worldbank.WorldbankDataSource
+  - class: pipelines.worldbank.worldbank.WorldbankDataSource
     fetch:
       - url: "https://storage.googleapis.com/covid19-open-data/cache/2020-01-01-00/WDI_csv.zip"
     parse:

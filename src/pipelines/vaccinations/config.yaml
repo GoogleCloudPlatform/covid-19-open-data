@@ -50,14 +50,14 @@ auxiliary:
 sources:
 
   # Data sources for all countries level 0
-  - name: pipelines.vaccinations.xx_owid.OurWorldInDataSource
+  - class: pipelines.vaccinations.xx_owid.OurWorldInDataSource
     fetch:
       - url: "https://github.com/owid/covid-19-data/raw/master/public/data/vaccinations/vaccinations.csv"
     test:
       location_key_match: '^..$'
 
   # Data sources for AR levels 0 + 1
-  - name: pipelines.vaccinations.ar_authority.ArgentinaCachedDataSource
+  - class: pipelines.vaccinations.ar_authority.ArgentinaCachedDataSource
     # No URL is given because it uses the cache
     fetch:
       - cache_key: AR_vaccinations
@@ -69,7 +69,7 @@ sources:
         - '^AR_[^_]+$'
 
   # Data sources for AU levels 0 + 1
-  - name: pipelines.vaccinations.au_covidlive.AustraliaCovidLiveDataSource
+  - class: pipelines.vaccinations.au_covidlive.AustraliaCovidLiveDataSource
     fetch:
       - url: "https://covidlive.com.au/covid-live.json"
     test:
@@ -78,7 +78,7 @@ sources:
         - '^AU_[^_]+$'
 
   # Data sources for AT levels 0 + 1
-  - name: pipelines.vaccinations.at_authority.AustriaDataSource
+  - class: pipelines.vaccinations.at_authority.AustriaDataSource
     fetch:
       - url: "https://info.gesundheitsministerium.gv.at/data/timeline.csv"
     parse:
@@ -87,7 +87,7 @@ sources:
       location_key_match: '^AT_[^_]+$'
 
   # Data sources for BE levels 0 + 1
-  - name: pipelines.vaccinations.be_covid_vaccinatie.BelgiumDataSource
+  - class: pipelines.vaccinations.be_covid_vaccinatie.BelgiumDataSource
     fetch:
       - url: "https://covid-vaccinatie.be/api/v1/administered.csv"
     test:
@@ -96,7 +96,7 @@ sources:
         - '^BE_[^_]+$'
 
   # Data sources for BG levels 0 + 1
-  - name: pipelines.vaccinations.bg_finmango.FinMangoBulgariaDataSource
+  - class: pipelines.vaccinations.bg_finmango.FinMangoBulgariaDataSource
     fetch:
       - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vT3xzDXa5yd1lQZVrqNNFRy_4rj6Ie-YC5tpdOFlFYH4Qj_z5s1WPbsapfx6oPITw6uke_LUo7OCA2E/pub?gid=0&single=true&output=csv"
         opts:
@@ -107,7 +107,7 @@ sources:
         - '^BG_[^_]+$'
 
   # Data sources for BO levels 0 + 1
-  - name: pipelines.vaccinations.bo_finmango.FinMangoBoliviaDataSource
+  - class: pipelines.vaccinations.bo_finmango.FinMangoBoliviaDataSource
     fetch:
       - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTQPaCIPwOdo-ELdSPlRSlLWqB0X3PtpZJdB1aEIjdo_HBW2qAe_9bY6rE3t_AMakUPNk2TPuwzPKx_/pub?gid=0&single=true&output=csv"
         opts:
@@ -123,7 +123,7 @@ sources:
 
   # Even though this is an authoritative data source, it has significant delays in the data so we
   # deprioritize it with respect to the FinMango data source
-  - name: pipelines.vaccinations.br_authority.BrazilDataSource
+  - class: pipelines.vaccinations.br_authority.BrazilDataSource
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/PNI/vacina/completo/{date}/part-00000-a98c0fed-60ba-4156-a6cc-37bbd62720e0-c000.csv"
         opts:
@@ -138,7 +138,7 @@ sources:
         - '^BR_[^_]+$'
         - '^BR_[^_]+_[^_]+$'
 
-  - name: pipelines.vaccinations.br_finmango.FinMangoBrazilDataSource
+  - class: pipelines.vaccinations.br_finmango.FinMangoBrazilDataSource
     fetch:
       - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQObciNWSh0DUnMsPpSvc1X4Kv9ex8a0ynlsa32dbSgJeb1w_4M0MG3yADkcT-c9gE4UEExT4Z5ylUc/pub?gid=0&single=true&output=csv"
         opts:
@@ -149,7 +149,7 @@ sources:
         - '^BR_[^_]+$'
 
   # Data sources for CA levels 0 + 1
-  - name: pipelines.vaccinations.ca_authority.CanadaDataSource
+  - class: pipelines.vaccinations.ca_authority.CanadaDataSource
     fetch:
       - url: "https://health-infobase.canada.ca/src/data/covidLive/vaccination-coverage-map.csv"
     test:
@@ -158,7 +158,7 @@ sources:
         - '^CA_[^_]+$'
 
   # Data sources for CH levels 0 + 1
-  - name: pipelines.vaccinations.ch_authority.SwitzerlandDataSource
+  - class: pipelines.vaccinations.ch_authority.SwitzerlandDataSource
     fetch:
       - url: "https://www.covid19.admin.ch/api/data/context"
     test:
@@ -168,7 +168,7 @@ sources:
         - '^CH_[^_]+$'
 
   # Data sources for CO level 1
-  - name: pipelines.vaccinations.co_finmango.FinMangoColombiaDataSource
+  - class: pipelines.vaccinations.co_finmango.FinMangoColombiaDataSource
     fetch:
       - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSKtYZV5XRCjVH8TWOLh8paDQOA0aK7yYnMVlpXqoTfdZ71daNG9260evPjnW0th9uOIqRntn0rHFgn/pub?gid=0&single=true&output=csv"
         opts:
@@ -178,7 +178,7 @@ sources:
       location_key_match: '^CO_[^_]+$'
 
   # Data sources for CZ levels 0 + 1
-  - name: pipelines.vaccinations.cz_authority.CzechRepublicDataSource
+  - class: pipelines.vaccinations.cz_authority.CzechRepublicDataSource
     fetch:
       - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/ockovani.csv"
     aggregate:
@@ -189,7 +189,7 @@ sources:
         - '^CZ_[^_]+$'
 
   # Data sources for DE levels 0 + 1
-  - name: pipelines.vaccinations.de_finmango.FinMangoGermanyDataSource
+  - class: pipelines.vaccinations.de_finmango.FinMangoGermanyDataSource
     fetch:
       - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQBlleeDihfdTZLuDIczEsmKy0Ql-YOYUfBTy3NKxyNbTR1IRd7EbIp5cPS0PVzgOxn-zCWTY4ZVm_5/pub?gid=0&single=true&output=csv"
         opts:
@@ -200,7 +200,7 @@ sources:
         - '^DE_[^_]+$'
 
   # Data sources for ES levels 0 + 1
-  - name: pipelines.vaccinations.es_authority.SpainDataSource
+  - class: pipelines.vaccinations.es_authority.SpainDataSource
     fetch:
       - url: "https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov/documentos/Informe_Comunicacion_{date}.ods"
         opts:
@@ -211,7 +211,7 @@ sources:
         - '^ES_[^_]+$'
 
   # Data sources for FR levels 0 + 1 + 2
-  - name: pipelines.vaccinations.fr_authority.FranceDepartmentDataSource
+  - class: pipelines.vaccinations.fr_authority.FranceDepartmentDataSource
     fetch:
       - url: "https://www.data.gouv.fr/fr/datasets/r/4f39ec91-80d7-4602-befb-4b522804c0af"
         opts:
@@ -221,7 +221,7 @@ sources:
     test:
       location_key_match:
         - '^FR_[^_]+_[^_]+$'
-  - name: pipelines.vaccinations.fr_authority.FranceRegionDataSource
+  - class: pipelines.vaccinations.fr_authority.FranceRegionDataSource
     fetch:
       - url: "https://www.data.gouv.fr/fr/datasets/r/735b0df8-51b4-4dd2-8a2d-8e46d77d60d8"
         opts:
@@ -232,7 +232,7 @@ sources:
       location_key_match:
         - '^FR_[^_]+$'
 
-  - name: pipelines.vaccinations.fr_authority.FranceCountryDataSource
+  - class: pipelines.vaccinations.fr_authority.FranceCountryDataSource
     fetch:
       - url: "https://www.data.gouv.fr/fr/datasets/r/efe23314-67c4-45d3-89a2-3faef82fae90"
         opts:
@@ -244,7 +244,7 @@ sources:
         - '^FR$'
 
   # Data sources for GB levels 0 + 1
-  - name: pipelines.vaccinations.gb_finmango.FinMangoUkDataSource
+  - class: pipelines.vaccinations.gb_finmango.FinMangoUkDataSource
     fetch:
       - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRbXZEVtSWDL8jc66A0BOnQuLSzNF_yaGF7RWpkOYZRHPwnWGs5Fh6RxrDnBFKribuo9gm71lBlJnEL/pub?gid=0&single=true&output=csv"
         opts:
@@ -254,7 +254,7 @@ sources:
         - '^GB_ENG$'
         - '^GB_UK.$'
 
-  - name: pipelines.vaccinations.gb_authority.GreatBritainDataSource
+  - class: pipelines.vaccinations.gb_authority.GreatBritainDataSource
     fetch:
       - url: "https://api.coronavirus.data.gov.uk/v2/data?areaType=nation&metric=cumPeopleVaccinatedFirstDoseByPublishDate&metric=cumPeopleVaccinatedSecondDoseByPublishDate&format=csv"
         opts:
@@ -268,7 +268,7 @@ sources:
         - '^GB_SCT$'
         - '^GB_WLS$'
 
-  - name: pipelines.vaccinations.gb_authority.GreatBritainDataSource
+  - class: pipelines.vaccinations.gb_authority.GreatBritainDataSource
     fetch:
       - url: "https://api.coronavirus.data.gov.uk/v2/data?areaType=overview&metric=cumPeopleVaccinatedFirstDoseByPublishDate&metric=cumPeopleVaccinatedSecondDoseByPublishDate&format=csv"
         opts:
@@ -278,14 +278,14 @@ sources:
     test:
       location_key_match: '^GB$'
 
-  - name: pipelines.vaccinations.in_covid19india_org.Covid19IndiaOrgL1DataSource
+  - class: pipelines.vaccinations.in_covid19india_org.Covid19IndiaOrgL1DataSource
     fetch:
       - url: "http://api.covid19india.org/csv/latest/vaccine_doses_statewise.csv"
     test:
       location_key_match: '^IN_[^_]+$'
 
   # Data sources for IT levels 0 + 1
-  - name: pipelines.vaccinations.it_authority.ItalyDataSource
+  - class: pipelines.vaccinations.it_authority.ItalyDataSource
     fetch:
       - url: "https://raw.githubusercontent.com/italia/covid19-opendata-vaccini/master/dati/somministrazioni-vaccini-summary-latest.csv"
     test:
@@ -294,7 +294,7 @@ sources:
         - '^IT_[^_]+$'
 
   # Data sources for IL levels 2 (we aggregated to L1)
-  - name: pipelines.epidemiology.il_authority.IsraelDataSource
+  - class: pipelines.epidemiology.il_authority.IsraelDataSource
     fetch:
       - url: "https://data.gov.il/api/3/action/datastore_search?resource_id=d07c0771-01a8-43b2-96cc-c6154e7fa9bd"
     test:
@@ -304,7 +304,7 @@ sources:
         - '^IL_[^_]+_[^_]+$'
 
   # Data sources for SE level 0 + 1
-  - name: pipelines.vaccinations.se_authority.SwedenDataSource
+  - class: pipelines.vaccinations.se_authority.SwedenDataSource
     fetch:
       - url: "https://fohm.maps.arcgis.com/sharing/rest/content/items/fc749115877443d29c2a49ea9eca77e9/data"
         opts:
@@ -319,7 +319,7 @@ sources:
         - '^SE_[^_]+$'
 
   # Data sources for SI levels 0 + 1
-  - name: pipelines.vaccinations.si_finmango.FinMangoSloveniaDataSource
+  - class: pipelines.vaccinations.si_finmango.FinMangoSloveniaDataSource
     fetch:
       - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSVlVRyQwhlSZpwAAh5ARpDr4rNFmPrDXQ0_8jrcMWfJ734grINta10mrHGXygPXZaMkIepN8QUe3aA/pub?gid=0&single=true&output=csv"
         opts:
@@ -330,11 +330,11 @@ sources:
         - '^SI_[^_]+$'
 
   # Data sources for SK level 0 + 1
-  - name: pipelines.vaccinations.sk_authority.SlovakiaDataSource
+  - class: pipelines.vaccinations.sk_authority.SlovakiaDataSource
     fetch:
-      - name: "regions"
+      - class: "regions"
         url: "https://data.korona.gov.sk/api/regions"
-      - name: "vaccine_by_regions"
+      - class: "vaccine_by_regions"
         url: "https://data.korona.gov.sk/api/vaccinations/by-region"
     aggregate:
       subregion1: ["new_persons_vaccinated", "new_persons_fully_vaccinated", "new_vaccine_doses_administered", "total_persons_vaccinated", "total_persons_fully_vaccinated", "total_vaccine_doses_administered"]
@@ -344,7 +344,7 @@ sources:
         - '^SK_[^_]+$'
 
   # Data sources for US level 0
-  - name: pipelines.vaccinations.us_authority.CDCDataSource
+  - class: pipelines.vaccinations.us_authority.CDCDataSource
     fetch:
       - url: "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_trends_data"
         name: vaccination_trends_data
@@ -354,14 +354,14 @@ sources:
       location_key_match: '^US$'
 
   # Data sources for US level 1
-  - name: pipelines.vaccinations.xx_owid.OurWorldInDataUSDataSource
+  - class: pipelines.vaccinations.xx_owid.OurWorldInDataUSDataSource
     fetch:
       - url: "https://github.com/owid/covid-19-data/raw/master/public/data/vaccinations/us_state_vaccinations.csv"
     test:
       location_key_match: '^US_[^_]+$'
 
   # Data sources for US level 0 and 1
-  - name: pipelines.vaccinations.us_authority_vaccination_type.CDCCachedDataSourceVaccinationType
+  - class: pipelines.vaccinations.us_authority_vaccination_type.CDCCachedDataSourceVaccinationType
     # No URL is given because it uses the cache
     fetch:
       - cache_key: US_CDC_states_vaccinations
@@ -371,7 +371,7 @@ sources:
         -  '^US_[^_]+$'
 
   # Data sources for US level 2
-  - name: pipelines.vaccinations.us_authority_cached.USCountyCachedDataSource
+  - class: pipelines.vaccinations.us_authority_cached.USCountyCachedDataSource
     # No URL is given because it uses the cache
     fetch:
       - cache_key: US_CDC_counties_vaccinations

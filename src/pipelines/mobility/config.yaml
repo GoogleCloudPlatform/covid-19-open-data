@@ -35,7 +35,7 @@ auxiliary:
 
 sources:
 
-  - name: pipelines.mobility.google_mobility.GoogleMobilityDataSource
+  - class: pipelines.mobility.google_mobility.GoogleMobilityDataSource
     fetch:
       - url: "https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv"
     parse:
@@ -47,6 +47,6 @@ sources:
       # Run only twice a day, since it's so resource consuming and does not change often
       schedule: "0 */12 * * *"
 
-  # - name: pipelines.mobility.apple_mobility.AppleMobilityDataSource
+  # - class: pipelines.mobility.apple_mobility.AppleMobilityDataSource
   #   fetch:
   #     - url: "https://covid19-static.cdn-apple.com/covid19-mobility-data/current/v3/index.json"
