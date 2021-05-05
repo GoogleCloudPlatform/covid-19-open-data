@@ -13,12 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# A script to detect all pipelines declared in pipelines/ and cache/ and
-# dump a summary of their configurations within a `tmp/` folder in the
-# project root.
-#
-# Example usage: `python src/scripts/list_pipelines.py`
-
 import sys
 import os
 import json

@@ -138,3 +138,9 @@ def get_internal_ip(instance_id: str, zone: str = GCP_ZONE) -> str:
     return _get_instance_data(
         instance_id=instance_id, format_data="get(networkInterfaces[0].networkIP)", zone=zone
     )
+
+
+def download_file(bucket_name: str, remote_path: str, local_path: str) -> None:
+    """ Downloads a single file from the given GCS remote location into a local path """
+    bucket = get_storage_bucket(bucket_name)
+    return bucket.blob(remote_path).download_to_filename(str(local_path))
