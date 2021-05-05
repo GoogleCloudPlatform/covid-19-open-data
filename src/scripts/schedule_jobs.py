@@ -115,7 +115,7 @@ def schedule_all_jobs(project_id: str, location_id: str, time_zone: str) -> None
             schedule="15 * * * *",
         )
 
-        for idx, data_source in enumerate(data_pipeline.data_sources):
+        for data_source in data_pipeline.data_sources:
             automation_opts = data_source.config.get("automation", {})
 
             # The job to pull each individual data source runs hourly unless specified otherwise
@@ -127,7 +127,7 @@ def schedule_all_jobs(project_id: str, location_id: str, time_zone: str) -> None
             # Each data source has a job group. All data sources within the same job group are run
             # as part of the same job in series. The default job group is the index of the data
             # source.
-            job_group = automation_opts.get("job_group", idx)
+            job_group = automation_opts.get("job_group", 0)
             job_url = f"{job_prefix}/update_table?table={data_pipeline.table}&job_group={job_group}"
 
             if job_url not in job_urls_seen:
