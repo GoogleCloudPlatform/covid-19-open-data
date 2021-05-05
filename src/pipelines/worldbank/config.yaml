@@ -1435,6 +1435,5 @@ sources:
       # Skip because it's too slow
       skip: true
     automation:
-      deferred: true
       # In theory, this won't be updated again so only run it once daily
       schedule: "0 0 * * *"

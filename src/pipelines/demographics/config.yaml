@@ -54,8 +54,6 @@ sources:
     test:
       location_key_match: '^..$'
     automation:
-      job_group: 'all'
-      deferred: true
       # Run only twice a day, since it's so resource consuming and does not change often
       schedule: "0 */12 * * *"
 
@@ -64,8 +62,6 @@ sources:
       population: P1082
       human_development_index: P1081
     automation:
-      job_group: 'all'
-      deferred: true
       # Run only twice a day, since it's so resource consuming and does not change often
       schedule: "0 */12 * * *"
 
@@ -85,8 +81,6 @@ sources:
     test:
       location_key_match: '^..$'
     automation:
-      job_group: 'all'
-      deferred: true
       # Run only twice a day, since it's so resource consuming and does not change often
       schedule: "0 */12 * * *"
 
@@ -97,8 +91,6 @@ sources:
     test:
       location_key_match: '^..$'
     automation:
-      job_group: 'all'
-      deferred: true
       # Run only twice a day, since it's so resource consuming and does not change often
       schedule: "0 */12 * * *"
 
@@ -108,8 +100,6 @@ sources:
     test:
       location_key_match: '^..$'
     automation:
-      job_group: 'all'
-      deferred: true
       # Run only twice a day, since it's so resource consuming and does not change often
       schedule: "0 */12 * * *"
 
@@ -123,8 +113,6 @@ sources:
         - '^PE.*'
         - '^US.*'
     automation:
-      job_group: 'all'
-      deferred: true
       # Run only twice a day, since it's so resource consuming and does not change often
       schedule: "0 */12 * * *"
 
@@ -168,7 +156,5 @@ sources:
         - '^SK(_[^_]+)?$'
         - '^TR(_[^_]+)?$'
     automation:
-      job_group: 'all'
-      deferred: true
       # Run only twice a day, since it's so resource consuming and does not change often
       schedule: "0 */12 * * *"

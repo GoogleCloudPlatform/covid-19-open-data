@@ -33,8 +33,6 @@ sources:
       gdp: P2131
       gdp_per_capita: P2132
     automation:
-      job_group: 'all'
-      deferred: true
       # Run only twice a day, since it's so resource consuming and does not change often
       schedule: "0 */12 * * *"
 
@@ -49,8 +47,6 @@ sources:
     test:
       location_key_match: '^..$'
     automation:
-      job_group: 'all'
-      deferred: true
       # Run only twice a day, since it's so resource consuming and does not change often
       schedule: "0 */12 * * *"
 
@@ -59,7 +55,5 @@ sources:
     test:
       location_key_match: 'BE.*'
     automation:
-      job_group: 'all'
-      deferred: true
       # Run only twice a day, since it's so resource consuming and does not change often
       schedule: "0 */12 * * *"

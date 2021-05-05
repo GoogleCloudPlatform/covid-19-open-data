@@ -41,5 +41,3 @@ sources:
   - name: pipelines.index.index.IndexDataSource
     parse:
       keep_metadata: true
-    automation:
-      deferred: true

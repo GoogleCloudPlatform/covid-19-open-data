@@ -134,7 +134,5 @@ sources:
     test:
       location_key_match: '^US_[^_]+$'
     automation:
-      job_group: 'all'
-      deferred: true
       # Run only twice a day, since it's so resource consuming and does not change often
       schedule: "0 */12 * * *"

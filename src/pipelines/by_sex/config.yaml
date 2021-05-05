@@ -62,9 +62,6 @@ sources:
       # Skip because it's too slow
       skip: true
       location_key_match: 'AR_.*'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for BR levels 1 + 2 + 3
   - name: pipelines.epidemiology.br_authority.BrazilOpenDataPortalDataSource
@@ -79,9 +76,6 @@ sources:
       location_key_match: 'BR.*'
       # Skip because it's too slow
       skip: true
-    automation:
-      job_group: all
-      deferred: true
 
   - name: pipelines.epidemiology.br_authority.BrazilSRAGDataSource
     fetch:
@@ -97,9 +91,6 @@ sources:
       location_key_match: 'BR.*'
       # Skip because it's too slow
       skip: true
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for BR_RJ level 3
   - name: pipelines.epidemiology.br_rj_authority.RioStratifiedDataSource
@@ -114,9 +105,6 @@ sources:
       location_key_match: '^BR_RJ_GIG$'
       # Skip because it's very flakey
       skip: true
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for CO levels 1 + 2 + 3
   - name: pipelines.epidemiology.co_authority.ColombiaDataSource
@@ -124,9 +112,6 @@ sources:
       - url: "https://www.datos.gov.co/api/views/gt2j-8ykr/rows.csv"
     test:
       location_key_match: 'CO.*'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for CZ levels 1 + 2 + 3
   - name: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
@@ -138,9 +123,6 @@ sources:
       fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: 'CZ.*'
-    automation:
-      job_group: all
-      deferred: true
 
   - name: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
     fetch:
@@ -151,9 +133,6 @@ sources:
       fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: 'CZ.*'
-    automation:
-      job_group: all
-      deferred: true
 
   - name: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
     fetch:
@@ -164,9 +143,6 @@ sources:
       fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: 'CZ.*'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for DE levels 0 + 1 + 2
   - name: pipelines.epidemiology.de_authority.GermanyDataSource
@@ -180,9 +156,6 @@ sources:
         - '^DE$'
         - '^DE_[^_]+$'
         - '^DE_[^_]+_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for EE levels 0 + 1
   - name: pipelines.epidemiology.ee_authority.EstoniaDataSource
@@ -196,9 +169,6 @@ sources:
       location_key_match:
         - '^EE+$'
         - '^EE_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for ES levels 0 + 1
   - name: pipelines.epidemiology.es_authority.ISCIIIStratifiedDataSource
@@ -208,9 +178,6 @@ sources:
       location_key_match:
         - '^ES$'
         - '^ES_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for ES_CT levels 2 + 3
   - name: pipelines.epidemiology.es_ct_authority.CataloniaMunicipalitiesDataSource
@@ -220,9 +187,6 @@ sources:
       dtype: str
     test:
       location_key_match: 'ES_CT.*'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for FI level 1
   - name: pipelines.epidemiology.fi_authority.FinlandArcGisDataSource
@@ -233,9 +197,6 @@ sources:
     query: "date > '2020-02-01'"
     test:
       location_key_match: '^FI$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for FR levels 1 + 2 + 3
   - name: pipelines.epidemiology.fr_authority.FranceStratifiedDataSource
@@ -246,9 +207,6 @@ sources:
         - '^FR$'
         - '^FR_[^_]+$'
         - '^FR_[^_]+_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for HK level 0
   - name: pipelines.epidemiology.hk_authority.HongKongDataSource
@@ -259,9 +217,6 @@ sources:
       fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: '^HK$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data source for IN levels 0 + 1
   - name: pipelines.epidemiology.in_covid19india_org.Covid19IndiaOrgCasesDataSource
@@ -273,9 +228,6 @@ sources:
       location_key_match:
         - '^IN$'
         - '^IN_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for MX levels 1, 2 and 3
   - name: pipelines.epidemiology.mx_authority.MexicoDataSource
@@ -289,9 +241,6 @@ sources:
       # Skip this data source because it's too slow
       skip: true
       location_key_match: 'MX_.+'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for NZ level 0
   - name: pipelines.epidemiology.nz_authority.NewZealandDataSource
@@ -306,9 +255,6 @@ sources:
       location_key_match: '^NZ$'
       # Skip because it's flakey
       skip: true
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for PE levels 1 + 2 + 3
   - name: pipelines.epidemiology.pe_authority.PeruDataSource
@@ -328,9 +274,6 @@ sources:
       location_key_match: 'PE.*'
       # Skip because this is a flakey data source
       skip: true
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for PH levels 2 + 3
   # Mirrored from http://bit.ly/DataDropArchives
@@ -341,9 +284,6 @@ sources:
           ext: csv
     test:
       location_key_match: 'PH.*'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for TH levels 0 + 1
   - name: pipelines.epidemiology.th_authority.ThailandProvinceDataSource
@@ -358,9 +298,6 @@ sources:
       location_key_match:
         - '^TH$'
         - '^TH_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for TW levels 0 + 1
   - name: pipelines.epidemiology.tw_authority.TaiwanDataSource
@@ -375,9 +312,6 @@ sources:
         - '^TW_[^_]+$'
       # Skip because it's too flakey
       skip: true
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for US_DC level 2
   - name: pipelines.epidemiology.us_dc_authority.DistrictColumbiaDataSource
@@ -391,9 +325,6 @@ sources:
       # Skip because it's too flakey
       skip: true
       location_key_match: '^US_DC$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for US_DE level 2
   - name: pipelines.epidemiology.us_de_authority.DelawareDataSource
@@ -406,9 +337,6 @@ sources:
       location_key_match: '^US_DE$'
       # Skip because endpoint fails frequently
       skip: true
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources US_FL levels 1 + 2
   - name: pipelines.epidemiology.us_fl_authority.FloridaDataSource
@@ -423,9 +351,6 @@ sources:
         - '^US_FL_[^_]+$'
       # Skip Florida because download takes a long time
       skip: true
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for US_IN level 3
   - name: pipelines.epidemiology.us_in_authority.IndianaDataSource
@@ -442,9 +367,6 @@ sources:
       fill_with_zeroes: ['new_confirmed_age_*']
     test:
       location_key_match: 'US_IN.*'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for US_MA level 3
   - name: pipelines.epidemiology.us_ma_authority.MassachusettsBySexDataSource
@@ -458,6 +380,3 @@ sources:
       file_name: Sex.csv
     test:
       location_key_match: '^US_MA$'
-    automation:
-      job_group: all
-      deferred: true

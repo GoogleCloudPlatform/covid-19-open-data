@@ -460,8 +460,8 @@ sources:
     automation:
       # Run only twice a day, since it's so resource consuming
       schedule: "0 */12 * * *"
-      # Run in a separate, preemptible VM
-      deferred: true
+      # Run in a separate job group
+      job_group: country_level
 
   # AU levels 1 + 2
   - name: pipelines.google_search_trends.google_search_trends.GoogleSearchTrendsDataSource
@@ -480,8 +480,8 @@ sources:
     automation:
       # Run only twice a day, since it's so resource consuming
       schedule: "0 */12 * * *"
-      # Run in a separate, preemptible VM
-      deferred: true
+      # Run in a separate job group
+      job_group: australia
 
   # US levels 1 + 2
   - name: pipelines.google_search_trends.google_search_trends.GoogleSearchTrendsDataSource
@@ -500,8 +500,8 @@ sources:
     automation:
       # Run only twice a day, since it's so resource consuming
       schedule: "0 */12 * * *"
-      # Run in a separate, preemptible VM
-      deferred: true
+      # Run in a separate job group
+      job_group: united_states_1
 
   - name: pipelines.google_search_trends.google_search_trends.GoogleSearchTrendsDataSource
     fetch:
@@ -519,8 +519,8 @@ sources:
     automation:
       # Run only twice a day, since it's so resource consuming
       schedule: "0 */12 * * *"
-      # Run in a separate, preemptible VM
-      deferred: true
+      # Run in a separate job group
+      job_group: united_states_2
 
   - name: pipelines.google_search_trends.google_search_trends.GoogleSearchTrendsDataSource
     fetch:
@@ -538,8 +538,8 @@ sources:
     automation:
       # Run only twice a day, since it's so resource consuming
       schedule: "0 */12 * * *"
-      # Run in a separate, preemptible VM
-      deferred: true
+      # Run in a separate job group
+      job_group: united_states_3
 
   - name: pipelines.google_search_trends.google_search_trends.GoogleSearchTrendsDataSource
     fetch:
@@ -557,5 +557,5 @@ sources:
     automation:
       # Run only twice a day, since it's so resource consuming
       schedule: "0 */12 * * *"
-      # Run in a separate, preemptible VM
-      deferred: true
+      # Run in a separate job group
+      job_group: united_states_4
