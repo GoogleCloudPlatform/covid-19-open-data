@@ -381,11 +381,11 @@ sources:
   # Data sources for PE levels 1 + 2 + 3
   - class: pipelines.epidemiology.pe_authority.PeruDataSource
     fetch:
-      - class: confirmed
+      - name: confirmed
         url: "https://cloud.minsa.gob.pe/s/Y8w3wHsEdYQSZRp/download"
         opts:
           ext: csv
-      - class: deceased
+      - name: deceased
         url: "https://cloud.minsa.gob.pe/s/Md37cjXmjT9qYSa/download"
         opts:
           ext: csv
@@ -538,7 +538,7 @@ sources:
   # Data sources for US_MA level 3
   - class: pipelines.epidemiology.us_ma_authority.MassachusettsByAgeDataSource
     fetch:
-      - class: by-age
+      - name: by-age
         # August 11th was the last day US_MA reported cases broken down by age/sex
         url: "https://www.mass.gov/doc/covid-19-raw-data-august-11-2020/download"
         opts:

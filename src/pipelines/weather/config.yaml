@@ -43,12 +43,12 @@ sources:
   # Use NOAA's global summary of the day dataset (2020)
   - class: pipelines.weather.noaa_gsod.NoaaGsodDataSource
     fetch:
-      - class: inventory
+      - name: inventory
         url: https://www1.ncdc.noaa.gov/pub/data/noaa/isd-history.csv
-      - class: gsod
+      - name: gsod
         url: https://www.ncei.noaa.gov/data/global-summary-of-the-day/archive/2020.tar.gz
       # A bit of a circular dependency but we need the latitude and longitude to compute weather
-      - class: geography
+      - name: geography
         url: https://storage.googleapis.com/covid19-open-data/v2/geography.csv
     parse:
       year: 2020
@@ -62,12 +62,12 @@ sources:
   # Use NOAA's global summary of the day dataset (2021)
   - class: pipelines.weather.noaa_gsod.NoaaGsodDataSource
     fetch:
-      - class: inventory
+      - name: inventory
         url: https://www1.ncdc.noaa.gov/pub/data/noaa/isd-history.csv
-      - class: gsod
+      - name: gsod
         url: https://www.ncei.noaa.gov/data/global-summary-of-the-day/archive/2021.tar.gz
       # A bit of a circular dependency but we need the latitude and longitude to compute weather
-      - class: geography
+      - name: geography
         url: https://storage.googleapis.com/covid19-open-data/v2/geography.csv
     test:
       # Skip because it's too slow

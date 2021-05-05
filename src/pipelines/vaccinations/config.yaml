@@ -332,9 +332,9 @@ sources:
   # Data sources for SK level 0 + 1
   - class: pipelines.vaccinations.sk_authority.SlovakiaDataSource
     fetch:
-      - class: "regions"
+      - name: "regions"
         url: "https://data.korona.gov.sk/api/regions"
-      - class: "vaccine_by_regions"
+      - name: "vaccine_by_regions"
         url: "https://data.korona.gov.sk/api/vaccinations/by-region"
     aggregate:
       subregion1: ["new_persons_vaccinated", "new_persons_fully_vaccinated", "new_vaccine_doses_administered", "total_persons_vaccinated", "total_persons_fully_vaccinated", "total_vaccine_doses_administered"]

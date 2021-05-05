@@ -73,9 +73,9 @@ sources:
   # Data sources for AT levels 0 + 1
   - class: pipelines.epidemiology.at_authority.AustriaLevel1DataSource
     fetch:
-      - class: "confirmed_deceased_recovered"
+      - name: "confirmed_deceased_recovered"
         url: "https://covid19-dashboard.ages.at/data/CovidFaelle_Timeline.csv"
-      - class: "tested"
+      - name: "tested"
         url: "https://covid19-dashboard.ages.at/data/CovidFallzahlen.csv"
     parse:
       country: AT
@@ -152,9 +152,9 @@ sources:
   # Data sources for CA levels 2 + 3
   - class: pipelines.epidemiology.ca_covid19canada.Covid19CanadaDataSource
     fetch:
-      - class: confirmed
+      - name: confirmed
         url: "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/timeseries_hr/cases_timeseries_hr.csv"
-      - class: deceased
+      - name: deceased
         url: "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/timeseries_hr/mortality_timeseries_hr.csv"
     test:
       location_key_match: 'CA_.+'
@@ -200,20 +200,20 @@ sources:
 
   - class: pipelines.epidemiology.cl_authority.ChileRegionsDataSource
     fetch:
-      - class: confirmed
+      - name: confirmed
         url: "https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto13/CasosNuevosCumulativo_std.csv"
-      - class: deceased
+      - name: deceased
         url: "https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto14/FallecidosCumulativo_std.csv"
-      - class: tested
+      - name: tested
         url: "https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto7/PCR_std.csv"
     test:
       location_key_match: 'CL_[^_]+$'
 
   - class: pipelines.epidemiology.cl_authority.ChileMunicipalitiesDataSource
     fetch:
-      - class: confirmed
+      - name: confirmed
         url: "https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto1/Covid-19_std.csv"
-      - class: deceased
+      - name: deceased
         url: "https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto38/CasosFallecidosPorComuna_std.csv"
     test:
       location_key_match: 'CL_.+_.+'
@@ -464,9 +464,9 @@ sources:
   # Data sources for ID level 2
   - class: pipelines.epidemiology.id_andrafarm.IndonesiaAndrafarmDataSource
     fetch:
-      - class: "subregion1_url"
+      - name: "subregion1_url"
         url: "https://andrafarm.com/api/covid19/prov/{}"
-      - class: "subregion2_url"
+      - name: "subregion2_url"
         url: "https://andrafarm.com/api/covid19/kota/{}"
     test:
       location_key_match:
@@ -562,9 +562,9 @@ sources:
 
   - class: pipelines.epidemiology.jp_2019_ncov_japan.Jp2019NcovJapanByDate
     fetch:
-      - class: new_confirmed
+      - name: new_confirmed
         url: "https://raw.github.com/swsoyee/2019-ncov-japan/master/50_Data/byDate.csv"
-      - class: new_deceased
+      - name: new_deceased
         url: "https://raw.github.com/swsoyee/2019-ncov-japan/master/50_Data/death.csv"
     test:
       location_key_match: 'JP_.*'
@@ -701,11 +701,11 @@ sources:
   # Data sources for PE levels 1 + 2 + 3
   - class: pipelines.epidemiology.pe_authority.PeruDataSource
     fetch:
-      - class: confirmed
+      - name: confirmed
         url: "https://cloud.minsa.gob.pe/s/Y8w3wHsEdYQSZRp/download"
         opts:
           ext: csv
-      - class: deceased
+      - name: deceased
         url: "https://cloud.minsa.gob.pe/s/Md37cjXmjT9qYSa/download"
         opts:
           ext: csv
@@ -766,7 +766,7 @@ sources:
   # Data sources for RO level 1
   - class: pipelines.epidemiology.ro_covid19romania.Covid19RomaniaDataSource
     fetch:
-      - class: total_recovered
+      - name: total_recovered
         url: "https://raw.github.com/adrianp/covid19romania/master/total_recovered_ro.json"
     test:
       location_key_match: '^RO$'
@@ -1010,7 +1010,7 @@ sources:
   # Data sources for US_MA level 3
   - class: pipelines.epidemiology.us_ma_authority.MassachusettsCountiesDataSource
     fetch:
-      - class: counties
+      - name: counties
         url: "https://www.mass.gov/doc/covid-19-raw-data-october-10-2020/download"
         opts:
           ext: zip

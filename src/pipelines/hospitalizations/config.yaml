@@ -96,7 +96,7 @@ sources:
   # Data sources for CL level 2
   - class: pipelines.hospitalizations.cl_authority.ChileRegionsDataSource
     fetch:
-      - class: intensive_care
+      - name: intensive_care
         url: "https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto8/UCI_std.csv"
     test:
       location_key_match: 'CL_[^_]+$'
@@ -203,9 +203,9 @@ sources:
   # Data sources for JP levels 1 + 2
   - class: pipelines.epidemiology.jp_2019_ncov_japan.Jp2019NcovJapanByDate
     fetch:
-      - class: new_confirmed
+      - name: new_confirmed
         url: "https://raw.github.com/swsoyee/2019-ncov-japan/master/50_Data/byDate.csv"
-      - class: new_deceased
+      - name: new_deceased
         url: "https://raw.github.com/swsoyee/2019-ncov-japan/master/50_Data/death.csv"
     test:
       location_key_match: 'JP.*'
@@ -232,9 +232,9 @@ sources:
   # Data sources for MX levels 1 + 2
   - class: pipelines.epidemiology.mx_mexicovid19.Mexicovid19DataSource
     fetch:
-      - class: new_hospitalized
+      - name: new_hospitalized
         url: "https://raw.github.com/mexicovid19/Mexico-datos/master/datos_abiertos/series_de_tiempo/nuevos/covid19_mex_hospitalizados.csv"
-      - class: new_intensive_care
+      - name: new_intensive_care
         url: "https://raw.github.com/mexicovid19/Mexico-datos/master/datos_abiertos/series_de_tiempo/nuevos/covid19_mex_uci.csv"
     test:
       location_key_match: 'MX_...$'
@@ -287,7 +287,7 @@ sources:
   # Data sources for RO level 1
   - class: pipelines.epidemiology.ro_covid19romania.Covid19RomaniaDataSource
     fetch:
-      - class: current_intensive_care
+      - name: current_intensive_care
         url: "https://raw.github.com/adrianp/covid19romania/master/icu_ro.json"
     test:
       location_key_match: '^RO$'
