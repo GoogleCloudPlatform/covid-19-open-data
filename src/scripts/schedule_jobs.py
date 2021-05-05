@@ -122,7 +122,7 @@ def schedule_all_jobs(project_id: str, location_id: str, time_zone: str) -> None
             job_sched = automation_opts.get("schedule", "0 * * * *")
 
             # If the job is deferred, then prepend the token to the path
-            job_prefix = "/deferred" if automation_opts.get("deferred") else ""
+            job_prefix = "/deferred" if automation_opts.get("deferred", True) else ""
 
             # Each data source has a job group. All data sources within the same job group are run
             # as part of the same job in series. The default job group is the index of the data
