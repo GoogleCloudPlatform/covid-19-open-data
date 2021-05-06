@@ -853,6 +853,8 @@ sources:
         opts:
           ext: json
     test:
+      # FIXME: remove once data source is fixed
+      skip: true
       location_key_match:
         - '^TH$'
         - '^TH_[^_]+$'
