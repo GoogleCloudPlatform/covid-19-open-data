@@ -655,7 +655,7 @@ class IndonesiaAndrafarmDataSource(DataSource):
         skip_existing: bool = False,
     ) -> Dict[str, str]:
         # URL is just a template, so pass-through the URL to parse manually
-        return {source["class"]: source["url"] for source in fetch_opts}
+        return {source["name"]: source["url"] for source in fetch_opts}
 
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         subregion1s = country_subregion1s(aux["metadata"], "ID")
