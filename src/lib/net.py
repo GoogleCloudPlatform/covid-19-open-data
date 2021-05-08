@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import datetime
+import time
 import uuid
 from pathlib import Path
 from typing import Any, BinaryIO, Dict, List, Optional, Union
@@ -195,3 +196,22 @@ def parallel_download(
 
     assert len(url_list) == len(path_list)
     return thread_map(_download_idx, range(len(url_list)))
+
+
+def get_retry(url: str, max_retries: int = 8, **request_opts) -> requests.Request:
+    """
+    Perform a GET request with maximum retries and exponential back-off.
+    """
+    sleep_time = 1
+    exc_text = None
+    for counter in range(max_retries):
+        res = requests.get(url, **request_opts)
+        if res.status_code == 200:
+            return res
+        elif counter < max_retries - 1:
+            exc_text = res.text
+            # Exponential backoff
+            time.sleep(sleep_time)
+            sleep_time *= 2
+
+    raise requests.RequestException(exc_text)

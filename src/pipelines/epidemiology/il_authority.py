@@ -22,6 +22,7 @@ from pandas import DataFrame, concat
 
 from lib.cast import numeric_code_as_string, safe_int_cast
 from lib.data_source import DataSource
+from lib.net import get_retry
 from lib.utils import table_rename
 
 
@@ -37,7 +38,7 @@ def _download_from_api(
     get_opts = dict(timeout=60)
 
     try:
-        res = requests.get(url_fmt, **get_opts).json().get("result")
+        res = get_retry(url_fmt, **get_opts).json().get("result")
     except Exception as exc:
         if log_func:
             log_func(requests.get(url_fmt, **get_opts).text)
