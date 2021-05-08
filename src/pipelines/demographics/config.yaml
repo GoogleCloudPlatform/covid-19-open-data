@@ -50,26 +50,22 @@ auxiliary:
 sources:
 
   # WorldPop populations are estimates, so give them less priority
-  - name: pipelines.demographics.worldpop.WorldPopPopulationDataSource
+  - class: pipelines.demographics.worldpop.WorldPopPopulationDataSource
     test:
       location_key_match: '^..$'
     automation:
-      job_group: 'all'
-      deferred: true
       # Run only twice a day, since it's so resource consuming and does not change often
       schedule: "0 */12 * * *"
 
-  - name: pipelines._common.wikidata.WikidataDataSource
+  - class: pipelines._common.wikidata.WikidataDataSource
     parse:
       population: P1082
       human_development_index: P1081
     automation:
-      job_group: 'all'
-      deferred: true
       # Run only twice a day, since it's so resource consuming and does not change often
       schedule: "0 */12 * * *"
 
-  - name: pipelines.worldbank.worldbank.WorldbankDataSource
+  - class: pipelines.worldbank.worldbank.WorldbankDataSource
     fetch:
       - url: "https://storage.googleapis.com/covid19-open-data/cache/2020-01-01-00/WDI_csv.zip"
     parse:
@@ -85,36 +81,30 @@ sources:
     test:
       location_key_match: '^..$'
     automation:
-      job_group: 'all'
-      deferred: true
       # Run only twice a day, since it's so resource consuming and does not change often
       schedule: "0 */12 * * *"
 
   # UN WPP stratified population estimates
-  - name: pipelines.demographics.un_wpp.UnWppByAgeDataSource
+  - class: pipelines.demographics.un_wpp.UnWppByAgeDataSource
     fetch:
       - url: "https://population.un.org/wpp/Download/Files/1_Indicators%20(Standard)/CSV_FILES/WPP2019_PopulationByAgeSex_Medium.csv"
     test:
       location_key_match: '^..$'
     automation:
-      job_group: 'all'
-      deferred: true
       # Run only twice a day, since it's so resource consuming and does not change often
       schedule: "0 */12 * * *"
 
-  - name: pipelines.demographics.un_wpp.UnWppBySexDataSource
+  - class: pipelines.demographics.un_wpp.UnWppBySexDataSource
     fetch:
       - url: "https://population.un.org/wpp/Download/Files/1_Indicators%20(Standard)/CSV_FILES/WPP2019_TotalPopulationBySex.csv"
     test:
       location_key_match: '^..$'
     automation:
-      job_group: 'all'
-      deferred: true
       # Run only twice a day, since it's so resource consuming and does not change often
       schedule: "0 */12 * * *"
 
   # This data is manually curated into a table using official census estimates
-  - name: pipelines.demographics.census.CensusDataSource
+  - class: pipelines.demographics.census.CensusDataSource
     test:
       location_key_match:
         - '^CL.*'
@@ -123,13 +113,11 @@ sources:
         - '^PE.*'
         - '^US.*'
     automation:
-      job_group: 'all'
-      deferred: true
       # Run only twice a day, since it's so resource consuming and does not change often
       schedule: "0 */12 * * *"
 
   # This data has been manually downloaded from the Eurostat website
-  - name: pipelines._common.eurostat.EurostatDataSource
+  - class: pipelines._common.eurostat.EurostatDataSource
     test:
       location_key_match:
         - '^AL(_[^_]+)?$'
@@ -168,7 +156,5 @@ sources:
         - '^SK(_[^_]+)?$'
         - '^TR(_[^_]+)?$'
     automation:
-      job_group: 'all'
-      deferred: true
       # Run only twice a day, since it's so resource consuming and does not change often
       schedule: "0 */12 * * *"

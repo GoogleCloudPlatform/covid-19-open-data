@@ -35,13 +35,13 @@ auxiliary:
 
 sources:
   # Data is fetched dynamically, so no URL can be declared here
-  # - name: pipelines.weather.noaa_ghcn.NoaaGhcnDataSource
+  # - class: pipelines.weather.noaa_ghcn.NoaaGhcnDataSource
   #   test:
   #     # Skip because it's too slow
   #     skip: true
 
   # Use NOAA's global summary of the day dataset (2020)
-  - name: pipelines.weather.noaa_gsod.NoaaGsodDataSource
+  - class: pipelines.weather.noaa_gsod.NoaaGsodDataSource
     fetch:
       - name: inventory
         url: https://www1.ncdc.noaa.gov/pub/data/noaa/isd-history.csv
@@ -56,13 +56,11 @@ sources:
       # Skip because it's too slow
       skip: true
     automation:
-      job_group: 'gsod'
-      deferred: true
       # Run only every 4 hours, since it's so resource consuming and it updates daily
       schedule: "0 */4 * * *"
 
   # Use NOAA's global summary of the day dataset (2021)
-  - name: pipelines.weather.noaa_gsod.NoaaGsodDataSource
+  - class: pipelines.weather.noaa_gsod.NoaaGsodDataSource
     fetch:
       - name: inventory
         url: https://www1.ncdc.noaa.gov/pub/data/noaa/isd-history.csv
@@ -75,7 +73,5 @@ sources:
       # Skip because it's too slow
       skip: true
     automation:
-      job_group: 'gsod'
-      deferred: true
       # Run only every 4 hours, since it's so resource consuming and it updates daily
       schedule: "0 */4 * * *"

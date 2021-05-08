@@ -52,7 +52,7 @@ a parsing script for Afghanistan regional data:
 sources:
 
   # Full class name of the parsing script which subclasses `DataSource`, relative to `./src`
-  - name: pipelines.epidemiology.af_humdata.AfghanistanHumdataDataSource
+  - class: pipelines.epidemiology.af_humdata.AfghanistanHumdataDataSource
     fetch:
       # `fetch` contains a list of URLs which will be downloaded and passed to the `parse` function
       - url: "https://docs.google.com/spreadsheets/d/1F-AMEDtqK78EA6LYME2oOsWQsgJi4CT3V_G4Uo-47Rg/export?format=csv&gid=1539509351"
