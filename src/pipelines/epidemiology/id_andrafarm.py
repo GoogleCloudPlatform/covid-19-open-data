@@ -589,8 +589,9 @@ _col_name_map = {
 }
 
 
-def _get_records(url_tpl: str, subregion_code_to_api_id_map: Dict[str, int], subregion_code: str) -> \
-        List[Dict[str, Any]]:
+def _get_records(
+    url_tpl: str, subregion_code_to_api_id_map: Dict[str, int], subregion_code: str
+) -> List[Dict[str, Any]]:
     url = url_tpl.format(subregion_code_to_api_id_map[subregion_code])
     res = requests.get(url, timeout=60).json()
     if isinstance(res, dict):
@@ -626,16 +627,20 @@ def _indonesian_date_to_isoformat(indo_date: str) -> str:
     return date.date().isoformat()
 
 
-def _get_data(url_tpl: str, subregion_code_col: str, subregion_code_to_api_id_map: Dict[str, int],
-              subregions: DataFrame) -> DataFrame:
+def _get_data(
+    url_tpl: str,
+    subregion_code_col: str,
+    subregion_code_to_api_id_map: Dict[str, int],
+    subregions: DataFrame,
+) -> DataFrame:
     subregion_codes = subregions[subregion_code_col].values
     map_func = partial(_get_records, url_tpl, subregion_code_to_api_id_map)
     data = DataFrame.from_records(sum(thread_map(map_func, subregion_codes), []))
-    data['date'] = data.apply(lambda r: _indonesian_date_to_isoformat(r.tgl), axis=1)
+    data["date"] = data.apply(lambda r: _indonesian_date_to_isoformat(r.tgl), axis=1)
     # add location keys
     data = table_merge(
-        [data, subregions],
-        left_on="subregion_code", right_on=subregion_code_col, how="left")
+        [data, subregions], left_on="subregion_code", right_on=subregion_code_col, how="left"
+    )
     data = table_rename(data, _col_name_map, drop=True)
     return data
 
@@ -655,8 +660,20 @@ class IndonesiaAndrafarmDataSource(DataSource):
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         subregion1s = country_subregion1s(aux["metadata"], "ID")
         subregion2s = country_subregion2s(aux["metadata"], "ID")
-        data = concat([
-            _get_data(sources['subregion1_url'], 'subregion1_code', _subregion1_code_to_api_id_map, subregion1s),
-            _get_data(sources['subregion2_url'], 'subregion2_code', _subregion2_code_to_api_id_map, subregion2s),
-        ])
+        data = concat(
+            [
+                _get_data(
+                    sources["subregion1_url"],
+                    "subregion1_code",
+                    _subregion1_code_to_api_id_map,
+                    subregion1s,
+                ),
+                _get_data(
+                    sources["subregion2_url"],
+                    "subregion2_code",
+                    _subregion2_code_to_api_id_map,
+                    subregion2s,
+                ),
+            ]
+        )
         return data

@@ -1427,7 +1427,7 @@ auxiliary:
 
 sources:
 
-  - name: pipelines.worldbank.worldbank.WorldbankDataSource
+  - class: pipelines.worldbank.worldbank.WorldbankDataSource
     fetch:
       - url: "https://storage.googleapis.com/covid19-open-data/cache/2020-01-01-00/WDI_csv.zip"
     test:
@@ -1435,6 +1435,5 @@ sources:
       # Skip because it's too slow
       skip: true
     automation:
-      deferred: true
       # In theory, this won't be updated again so only run it once daily
       schedule: "0 0 * * *"

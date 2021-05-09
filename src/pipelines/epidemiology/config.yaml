@@ -35,16 +35,13 @@ auxiliary:
 sources:
 
   # Data sources for all countries level 1
-  - name: pipelines.epidemiology.xx_who.WHODataSource
+  - class: pipelines.epidemiology.xx_who.WHODataSource
     fetch:
       - url: "https://covid19.who.int/WHO-COVID-19-global-data.csv"
     test:
       location_key_match: '^..$'
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.xx_owid.OurWorldInDataSource
+  - class: pipelines.epidemiology.xx_owid.OurWorldInDataSource
     fetch:
       - url: "https://covid.ourworldindata.org/data/owid-covid-data.csv"
     # Some countries do not report during weekends to the ECDC, ignore those
@@ -53,24 +50,18 @@ sources:
     drop_columns: ['new_confirmed', 'new_deceased', 'total_confirmed', 'total_deceased']
     test:
       location_key_match: '^..$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for AF level 2
-  - name: pipelines.epidemiology.af_humdata.AfghanistanHumdataDataSource
+  - class: pipelines.epidemiology.af_humdata.AfghanistanHumdataDataSource
     fetch:
       - url: "https://docs.google.com/spreadsheets/d/1F-AMEDtqK78EA6LYME2oOsWQsgJi4CT3V_G4Uo-47Rg/export?format=csv&gid=1539509351"
         opts:
           ext: csv
     test:
       location_key_match: 'AF_.+'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for AR levels 2 + 3
-  - name: pipelines.epidemiology.ar_authority.ArgentinaDataSource
+  - class: pipelines.epidemiology.ar_authority.ArgentinaDataSource
     fetch:
       - url: "https://sisa.msal.gov.ar/datos/descargas/covid-19/files/Covid19Casos.csv"
     query: "date >= '2019-12-30'"
@@ -78,12 +69,9 @@ sources:
       # Skip because it's too slow
       skip: true
       location_key_match: 'AR_.*'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for AT levels 0 + 1
-  - name: pipelines.epidemiology.at_authority.AustriaLevel1DataSource
+  - class: pipelines.epidemiology.at_authority.AustriaLevel1DataSource
     fetch:
       - name: "confirmed_deceased_recovered"
         url: "https://covid19-dashboard.ages.at/data/CovidFaelle_Timeline.csv"
@@ -94,12 +82,9 @@ sources:
       sep: ";"
     test:
       location_key_match: '^AT_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for AT level 2
-  - name: pipelines.epidemiology.at_authority.AustriaLevel2DataSource
+  - class: pipelines.epidemiology.at_authority.AustriaLevel2DataSource
     fetch:
       - url: "https://covid19-dashboard.ages.at/data/CovidFaelle_Timeline_GKZ.csv"
     parse:
@@ -107,21 +92,15 @@ sources:
       sep: ";"
     test:
       location_key_match: '^AT_[^_]+_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for AU level 2
-  - name: pipelines.epidemiology.au_covid_19_au.Covid19AuDataSource
+  - class: pipelines.epidemiology.au_covid_19_au.Covid19AuDataSource
     fetch:
       - url: "https://raw.github.com/covid-19-au/covid-19-au.github.io/prod/src/data/state.json"
     test:
       location_key_match: 'AU_.+'
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
+  - class: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
     fetch:
       - url: "https://en.wikipedia.org/wiki/Template:2019–20_coronavirus_pandemic_data/Australia_medical_cases"
         opts:
@@ -132,12 +111,9 @@ sources:
       cumsum: true
     test:
       location_key_match: 'AU_.+'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for BD levels 2 + 3
-  - name: pipelines.epidemiology.bd_authority.BangladeshDataSource
+  - class: pipelines.epidemiology.bd_authority.BangladeshDataSource
     # No URL is given because it uses the cache
     fetch:
       - cache_key: BD_districts_confirmed
@@ -146,47 +122,35 @@ sources:
     test:
       # Testing only admin level 1, which is aggregated from admin level 2
       location_key_match: 'BD_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for BE levels 1 + 2
-  - name: pipelines.epidemiology.be_authority.BelgiumDataSource
+  - class: pipelines.epidemiology.be_authority.BelgiumDataSource
     fetch:
       - url: "https://epistat.sciensano.be/Data/COVID19BE.xlsx"
     parse:
       sheet_name: "CASES_AGESEX"
     test:
       location_key_match: 'BE_.+'
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.be_authority.BelgiumDataSource
+  - class: pipelines.epidemiology.be_authority.BelgiumDataSource
     fetch:
       - url: "https://epistat.sciensano.be/Data/COVID19BE.xlsx"
     parse:
       sheet_name: "TESTS"
     test:
       location_key_match: '^BE$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for BR levels 1 + 2 + 3
-  - name: pipelines.epidemiology.br_authority.BrazilHealthMinistryDataSource
+  - class: pipelines.epidemiology.br_authority.BrazilHealthMinistryDataSource
     test:
       location_key_match: 'BR_.+'
       # Skip because it's too slow
       skip: true
     parse:
       sep: ";"
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for CA levels 2 + 3
-  - name: pipelines.epidemiology.ca_covid19canada.Covid19CanadaDataSource
+  - class: pipelines.epidemiology.ca_covid19canada.Covid19CanadaDataSource
     fetch:
       - name: confirmed
         url: "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/timeseries_hr/cases_timeseries_hr.csv"
@@ -194,21 +158,15 @@ sources:
         url: "https://raw.githubusercontent.com/ishaberry/Covid19Canada/master/timeseries_hr/mortality_timeseries_hr.csv"
     test:
       location_key_match: 'CA_.+'
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.ca_authority.CanadaDataSource
+  - class: pipelines.epidemiology.ca_authority.CanadaDataSource
     fetch:
       - url: "https://health-infobase.canada.ca/src/data/covidLive/covid19.csv"
     test:
       location_key_match: 'CA_.+'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for CD level 2
-  - name: pipelines.epidemiology.cd_humdata.CongoDRCHumdataDataSource
+  - class: pipelines.epidemiology.cd_humdata.CongoDRCHumdataDataSource
     fetch:
       - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQGOGhcfVhfuE_wP5Y78ZoKd6xPlc0BVt6uEPTNJ_6J_dqI29LlwC2KHFqw-9viNsBN60z7wC5ruOtt/pub?gid=0&single=true&output=csv"
         opts:
@@ -217,42 +175,30 @@ sources:
       # TODO: do not skip testing once data source starts working again
       skip: true
       location_key_match: 'CD_.+'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for CH level 1 + 2
-  - name: pipelines.epidemiology.ch_authority.SwitzerlandCountryDataSource
+  - class: pipelines.epidemiology.ch_authority.SwitzerlandCountryDataSource
     fetch:
       - url: "https://www.bag.admin.ch/dam/bag/de/dokumente/mt/k-und-i/aktuelle-ausbrueche-pandemien/2019-nCoV/covid-19-datengrundlage-lagebericht.xlsx.download.xlsx/200325_Datengrundlage_Grafiken_COVID-19-Bericht.xlsx"
     parse:
       sheet_name: "COVID19 Zahlen"
     test:
       location_key_match: '^CH$'
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.ch_authority.SwitzerlandCantonsDataSource
+  - class: pipelines.epidemiology.ch_authority.SwitzerlandCantonsDataSource
     fetch:
       - url: "https://raw.github.com/openZH/covid_19/master/COVID19_Fallzahlen_CH_total.csv"
     test:
       location_key_match: 'CH_.+'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for CL levels 1 + 2 + 3
-  - name: pipelines.epidemiology.cl_authority.ChileCountryDataSource
+  - class: pipelines.epidemiology.cl_authority.ChileCountryDataSource
     fetch:
       - url: "https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto5/TotalesNacionales_T.csv"
     test:
       location_key_match: '^CL$'
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.cl_authority.ChileRegionsDataSource
+  - class: pipelines.epidemiology.cl_authority.ChileRegionsDataSource
     fetch:
       - name: confirmed
         url: "https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto13/CasosNuevosCumulativo_std.csv"
@@ -262,11 +208,8 @@ sources:
         url: "https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto7/PCR_std.csv"
     test:
       location_key_match: 'CL_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.cl_authority.ChileMunicipalitiesDataSource
+  - class: pipelines.epidemiology.cl_authority.ChileMunicipalitiesDataSource
     fetch:
       - name: confirmed
         url: "https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto1/Covid-19_std.csv"
@@ -274,12 +217,9 @@ sources:
         url: "https://raw.githubusercontent.com/MinCiencia/Datos-COVID19/master/output/producto38/CasosFallecidosPorComuna_std.csv"
     test:
       location_key_match: 'CL_.+_.+'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for CN level 2
-  - name: pipelines.epidemiology.xx_dxy.DXYDataSource
+  - class: pipelines.epidemiology.xx_dxy.DXYDataSource
     fetch:
       - url: "https://github.com/BlankerL/DXY-COVID-19-Data/releases/download/{date}/DXYArea.csv"
     parse:
@@ -288,24 +228,18 @@ sources:
     query: key != 'HK'
     test:
       location_key_match: 'CN_.+'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for CO levels 1 + 2 + 3
-  - name: pipelines.epidemiology.co_authority.ColombiaDataSource
+  - class: pipelines.epidemiology.co_authority.ColombiaDataSource
     fetch:
       - url: "https://www.datos.gov.co/api/views/gt2j-8ykr/rows.csv"
     aggregate:
       subregion1: ["new_confirmed", "new_deceased", "new_recovered"]
     test:
       location_key_match: 'CO.*'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for CZ levels 1 + 2 + 3
-  - name: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
+  - class: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
     fetch:
       - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/osoby.csv"
     parse:
@@ -314,11 +248,8 @@ sources:
       subregion1: ["new_confirmed"]
     test:
       location_key_match: 'CZ.*'
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
+  - class: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
     fetch:
       - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/umrti.csv"
     parse:
@@ -327,11 +258,8 @@ sources:
       subregion1: ["new_deceased"]
     test:
       location_key_match: 'CZ.*'
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
+  - class: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
     fetch:
       - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/vyleceni.csv"
     parse:
@@ -340,11 +268,8 @@ sources:
       subregion1: ["new_recovered"]
     test:
       location_key_match: 'CZ.*'
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.cz_authority.CzechRepublicL3DataSource
+  - class: pipelines.epidemiology.cz_authority.CzechRepublicL3DataSource
     fetch:
       - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/kraj-okres-nakazeni-vyleceni-umrti.csv"
     aggregate:
@@ -352,30 +277,21 @@ sources:
       subregion1: ["total_confirmed", "total_deceased", "total_recovered"]
     test:
       location_key_match: 'CZ.*'
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.cz_authority.CzechRepublicCountryDataSource
+  - class: pipelines.epidemiology.cz_authority.CzechRepublicCountryDataSource
     fetch:
       - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/testy.csv"
     test:
       location_key_match: '^CZ$'
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.cz_authority.CzechRepublicCountryDataSource
+  - class: pipelines.epidemiology.cz_authority.CzechRepublicCountryDataSource
     fetch:
       - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/nakaza.csv"
     test:
       location_key_match: '^CZ$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for DE levels 1 + 2
-  - name: pipelines.epidemiology.de_authority.GermanyDataSource
+  - class: pipelines.epidemiology.de_authority.GermanyDataSource
     fetch:
       - url: "https://opendata.arcgis.com/datasets/dd4580c810204019a7b8eb3e0b329dd6_0.csv"
     test:
@@ -384,12 +300,9 @@ sources:
         - '^DE_[^_]+_[^_]+$'
     # Remove country-level since we have more accurate alternative sources
     query: key != 'DE'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for EE levels 0 + 1
-  - name: pipelines.epidemiology.ee_authority.EstoniaDataSource
+  - class: pipelines.epidemiology.ee_authority.EstoniaDataSource
     fetch:
       - url: "https://opendata.digilugu.ee/opendata_covid19_test_results.csv"
     parse:
@@ -398,12 +311,9 @@ sources:
       location_key_match:
         - '^EE+$'
         - '^EE_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for ES levels 0 + 1
-  - name: pipelines.epidemiology.es_authority.ISCIIIConfirmedDataSource
+  - class: pipelines.epidemiology.es_authority.ISCIIIConfirmedDataSource
     fetch:
       - url: "https://cnecovid.isciii.es/covid19/resources/casos_diagnostico_ccaa.csv"
     aggregate:
@@ -412,23 +322,17 @@ sources:
       location_key_match:
         - '^ES$'
         - '^ES_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.es_authority.ISCIIIStratifiedDataSource
+  - class: pipelines.epidemiology.es_authority.ISCIIIStratifiedDataSource
     fetch:
       - url: "https://cnecovid.isciii.es/covid19/resources/casos_hosp_uci_def_sexo_edad_provres.csv"
     test:
       location_key_match:
         - '^ES$'
         - '^ES_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for ES_CN levels 2 + 3
-  - name: pipelines.epidemiology.es_cn_authority.CanaryIslandsDataSource
+  - class: pipelines.epidemiology.es_cn_authority.CanaryIslandsDataSource
     fetch:
       - url: "https://services9.arcgis.com/CgZpnNiCwFObjaOT/arcgis/rest/services/CVCanarias/FeatureServer/5/query?f=json&where=TIPO_MUN%3D%27Caso%27&returnGeometry=false&outFields=*"
         opts:
@@ -437,35 +341,26 @@ sources:
       subregion2: ['new_confirmed', 'new_deceased', 'new_recovered']
     test:
       location_key_match: 'ES_CN.*'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for ES_CT levels 2 + 3
-  - name: pipelines.epidemiology.es_ct_authority.CataloniaMunicipalitiesDataSource
+  - class: pipelines.epidemiology.es_ct_authority.CataloniaMunicipalitiesDataSource
     fetch:
       - url: "https://analisi.transparenciacatalunya.cat/api/views/jj6z-iyrp/rows.csv"
     parse:
       dtype: str
     test:
       location_key_match: 'ES_CT.*'
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.es_ct_authority.CataloniaHealthDeptDataSource
+  - class: pipelines.epidemiology.es_ct_authority.CataloniaHealthDeptDataSource
     fetch:
       - url: "https://analisi.transparenciacatalunya.cat/api/views/qwj8-xpvk/rows.csv"
     parse:
       dtype: str
     test:
       location_key_match: '^ES_CT$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for ES_MD level 3
-  - name: pipelines.epidemiology.es_md_authority.MadridDataSource
+  - class: pipelines.epidemiology.es_md_authority.MadridDataSource
     fetch:
       - url: "http://datos.comunidad.madrid/catalogo/dataset/7da43feb-8d4d-47e0-abd5-3d022d29d09e/resource/b2a3a3f9-1f82-42c2-89c7-cbd3ef801412/download/covid19_tia_muni_y_distritos.csv"
     parse:
@@ -474,11 +369,8 @@ sources:
       encoding: ISO-8859-1
     test:
       location_key_match: 'ES_MD_.+'
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.es_md_authority.MadridDataSource
+  - class: pipelines.epidemiology.es_md_authority.MadridDataSource
     fetch:
       - url: "http://datos.comunidad.madrid/catalogo/dataset/7da43feb-8d4d-47e0-abd5-3d022d29d09e/resource/f22c3f43-c5d0-41a4-96dc-719214d56968/download/covid19_tia_muni_y_distritos_s.csv"
     parse:
@@ -487,12 +379,9 @@ sources:
       encoding: ISO-8859-1
     test:
       location_key_match: 'ES_MD_.+'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for FI levels 1 + 2
-  - name: pipelines.epidemiology.fi_authority.FinlandArcGisDataSource
+  - class: pipelines.epidemiology.fi_authority.FinlandArcGisDataSource
     fetch:
       - url: https://services7.arcgis.com/nuPvVz1HGGfa0Eh7/arcgis/rest/services/korona_tapauksia_jakauma/FeatureServer/0/query?f=json&where=1%3D1&outFields=OBJECTID,alue,date,tapauksia,miehia,naisia,Ika_0_9,ika_10_19,ika_20_29,ika_30_39,ika_40_49,ika_50_59,ika_60_69,ika_70_79,ika_80_,koodi&returnGeometry=false
         opts:
@@ -500,12 +389,9 @@ sources:
     query: "date > '2020-02-01'"
     test:
       location_key_match: '^FI$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for FR levels 1 + 2 + 3
-  - name: pipelines.epidemiology.fr_authority.FranceDashboardDataSource
+  - class: pipelines.epidemiology.fr_authority.FranceDashboardDataSource
     fetch:
       - url: https://dashboard.covid19.data.gouv.fr/data/code-{}.json
     test:
@@ -513,79 +399,58 @@ sources:
         - '^FR$'
         - '^FR_[^_]+$'
         - '^FR_[^_]+_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.fr_authority.FranceCountryDataSource
+  - class: pipelines.epidemiology.fr_authority.FranceCountryDataSource
     fetch:
       - url: https://www.data.gouv.fr/fr/datasets/r/f335f9ea-86e3-4ffa-9684-93c009d5e617
         opts:
           ext: csv
     test:
       location_key_match: '^FR$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Authoritative Data sources for GB
   # We make use of the uk_covid19 API provided by PHE, so there is no fetch URL listed here.
-  - name: pipelines.epidemiology.gb_authority.Covid19UkL1DataSource
+  - class: pipelines.epidemiology.gb_authority.Covid19UkL1DataSource
     test:
       # TODO(owahltinez): skip test since it's very flakey
       skip: true
       location_key_match: '^GB$'
     parse:
       backfill: true
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.gb_authority.Covid19UkL2DataSource
+  - class: pipelines.epidemiology.gb_authority.Covid19UkL2DataSource
     test:
       # TODO(owahltinez): skip test since it's very flakey
       skip: true
       location_key_match: 'GB_[^_]+$'
     parse:
       backfill: true
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.gb_authority.Covid19UkL3DataSource
+  - class: pipelines.epidemiology.gb_authority.Covid19UkL3DataSource
     test:
       # TODO(owahltinez): skip test since it's very flakey
       skip: true
       location_key_match: 'GB_.+_.+'
     parse:
       backfill: true
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.gb_authority.Covid19UkRegionsDataSource
+  - class: pipelines.epidemiology.gb_authority.Covid19UkRegionsDataSource
     test:
       # TODO(owahltinez): skip test since it's very flakey
       skip: true
       location_key_match: 'GB_UK.$'
     parse:
       backfill: true
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for HK level 0
-  - name: pipelines.epidemiology.hk_authority.HongKongDataSource
+  - class: pipelines.epidemiology.hk_authority.HongKongDataSource
     fetch:
       - url: "https://www.chp.gov.hk/files/misc/enhanced_sur_covid_19_eng.csv"
     test:
       location_key_match: '^HK$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for HT level 2
-  - name: pipelines.epidemiology.ht_humdata.HaitiHumdataDataSource
+  - class: pipelines.epidemiology.ht_humdata.HaitiHumdataDataSource
     fetch:
       - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTqVOxCSrhEiZ_CRME3Xqhu_DWZv74FvrvOr77rIXOlorClEi0huwVKxXXcVr2hn8pml82tlwmf59UX/pub?output=xlsx"
         opts:
@@ -595,12 +460,9 @@ sources:
       sheet_name: ["data_asofMay5", "data_fromMay6"]
     test:
       location_key_match: 'HT_.*'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for ID level 2
-  - name: pipelines.epidemiology.id_andrafarm.IndonesiaAndrafarmDataSource
+  - class: pipelines.epidemiology.id_andrafarm.IndonesiaAndrafarmDataSource
     fetch:
       - name: "subregion1_url"
         url: "https://andrafarm.com/api/covid19/prov/{}"
@@ -610,33 +472,24 @@ sources:
       location_key_match:
         - '^ID_[^_]+$'
         - '^ID_[^_]+_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for ID level 1
-  - name: pipelines.epidemiology.id_authority.IndonesiaProvinceDataSource
+  - class: pipelines.epidemiology.id_authority.IndonesiaProvinceDataSource
     fetch:
       - url: "https://data.covid19.go.id/public/api/prov_detail_{}.json"
     aggregate:
       subregion1: ["new_confirmed", "new_deceased", "new_recovered", "total_confirmed", "total_deceased", "total_recovered"]
     test:
       location_key_match: '^ID_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.id_authority.IndonesiaCountryDataSource
+  - class: pipelines.epidemiology.id_authority.IndonesiaCountryDataSource
     fetch:
       - url: "https://data.covid19.go.id/public/api/update.json"
     test:
       location_key_match: '^ID$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for IL levels 2 + 3
-  - name: pipelines.epidemiology.il_authority.IsraelDataSource
+  - class: pipelines.epidemiology.il_authority.IsraelDataSource
     fetch:
       - url: "https://data.gov.il/api/3/action/datastore_search?resource_id=d07c0771-01a8-43b2-96cc-c6154e7fa9bd"
     test:
@@ -644,12 +497,9 @@ sources:
         - '^IL$'
         - '^IL_[^_]+$'
         - '^IL_[^_]+_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for IN levels 1 + 2
-  - name: pipelines.epidemiology.in_covid19india_org.Covid19IndiaOrgL1DataSource
+  - class: pipelines.epidemiology.in_covid19india_org.Covid19IndiaOrgL1DataSource
     fetch:
       - url: "https://api.covid19india.org/csv/latest/state_wise_daily.csv"
         opts:
@@ -658,23 +508,17 @@ sources:
       dtype: str
     test:
       location_key_match: '^IN_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.in_covid19india_org.Covid19IndiaOrgL2DataSource
+  - class: pipelines.epidemiology.in_covid19india_org.Covid19IndiaOrgL2DataSource
     fetch:
       - url: "https://api.covid19india.org/csv/latest/districts.csv"
         opts:
           ext: csv
     test:
       location_key_match: '^IN_[^_]+_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for IQ level 2
-  - name: pipelines.epidemiology.iq_humdata.IraqHumdataDataSource
+  - class: pipelines.epidemiology.iq_humdata.IraqHumdataDataSource
     fetch:
       - url: https://docs.google.com/spreadsheets/d/e/2PACX-1vQh_BwL222rdcpIH2rLPIbvdKLJu3fevAy2L82FHUcl-84w6byWRITQicetYzpqX707EUc3qgAJm7Hr/pub?gid=0&single=true&output=csv
         opts:
@@ -683,40 +527,28 @@ sources:
       location_key_match: 'IQ_.*'
       # TODO: remove once the data source formatting is fixed
       skip: true
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for IT levels 1 + 2
-  - name: pipelines.epidemiology.it_authority.PcmDpcL1DataSource
+  - class: pipelines.epidemiology.it_authority.PcmDpcL1DataSource
     fetch:
       - url: "https://raw.github.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-andamento-nazionale.json"
     test:
       location_key_match: '^IT$'
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.it_authority.PcmDpcL2DataSource
+  - class: pipelines.epidemiology.it_authority.PcmDpcL2DataSource
     fetch:
       - url: "https://raw.github.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-regioni.json"
     test:
       location_key_match: '^IT_..$'
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.it_authority.PcmDpcL3DataSource
+  - class: pipelines.epidemiology.it_authority.PcmDpcL3DataSource
     fetch:
       - url: "https://raw.github.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-province.json"
     test:
       location_key_match: 'IT_.+_.+'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for JP levels 1 + 2
-  - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
+  - class: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
     fetch:
       - url: "https://en.wikipedia.org/wiki/Template:2019–20_coronavirus_pandemic_data/Japan_medical_cases"
         opts:
@@ -727,11 +559,8 @@ sources:
       skiprows: 2
     test:
       location_key_match: 'JP_.*'
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.jp_2019_ncov_japan.Jp2019NcovJapanByDate
+  - class: pipelines.epidemiology.jp_2019_ncov_japan.Jp2019NcovJapanByDate
     fetch:
       - name: new_confirmed
         url: "https://raw.github.com/swsoyee/2019-ncov-japan/master/50_Data/byDate.csv"
@@ -739,23 +568,17 @@ sources:
         url: "https://raw.github.com/swsoyee/2019-ncov-japan/master/50_Data/death.csv"
     test:
       location_key_match: 'JP_.*'
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.jp_covid19.JapanCovid19DataSource
+  - class: pipelines.epidemiology.jp_covid19.JapanCovid19DataSource
     fetch:
       - url: "https://raw.github.com/kaz-ogiwara/covid19/master/data/prefectures.csv"
     parse:
       dtype: str
     test:
       location_key_match: 'JP_[^_]+'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for KE level 2
-  - name: pipelines.epidemiology.ke_finmango.FinMangoDataSource
+  - class: pipelines.epidemiology.ke_finmango.FinMangoDataSource
     fetch:
       - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQfvCvoBUXeB6aTVMDKM8Lg0JJnbBqiIJZsRB-G4EzBCiaMli7XfKIgj0r03yUyUzCUc8cmtB47Mpny/pub?output=xlsx"
         opts:
@@ -767,12 +590,9 @@ sources:
       columns: ["new_confirmed"]
     test:
       location_key_match: 'KE_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for KR level 2
-  - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
+  - class: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
     fetch:
       - url: "https://en.wikipedia.org/wiki/Template:2019–20_coronavirus_pandemic_data/South_Korea_medical_cases"
         opts:
@@ -783,12 +603,9 @@ sources:
       skiprows: 1
     test:
       location_key_match: 'KR_.*'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for LU level 1
-  - name: pipelines.epidemiology.lu_authority.LuxembourgDataSource
+  - class: pipelines.epidemiology.lu_authority.LuxembourgDataSource
     fetch:
       - url: "https://data.public.lu/fr/datasets/r/c9fd593c-fe7a-43ec-9ae4-09a6c1604b6b"
         opts:
@@ -797,12 +614,9 @@ sources:
       # Skip this data source as it is flaky.
       skip: true
       location_key_match: '^LU$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for LY level 2
-  - name: pipelines.epidemiology.ly_humdata.LibyaHumdataDataSource
+  - class: pipelines.epidemiology.ly_humdata.LibyaHumdataDataSource
     fetch:
       - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQQWJZmGZJfUm22CPWoeW6rSS7Xh4K54r4A8RlN214ZCIPBUBOug3UbxFPrbiT3FQic6HS8wGdUhv3f/pub?single=true&output=csv"
         opts:
@@ -811,12 +625,9 @@ sources:
       # TODO: do not skip testing once data source starts working again
       skip: true
       location_key_match: 'LY*'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for MX levels 1, 2 and 3
-  - name: pipelines.epidemiology.mx_authority.MexicoDataSource
+  - class: pipelines.epidemiology.mx_authority.MexicoDataSource
     fetch:
       - url: "http://datosabiertos.salud.gob.mx/gobmx/salud/datos_abiertos/datos_abiertos_covid19.zip"
     parse:
@@ -825,12 +636,9 @@ sources:
       # Skip this data source because it's too slow
       skip: true
       location_key_match: 'MX_.+'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for MY level 2
-  - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
+  - class: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
     fetch:
       - url: "https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_Malaysia"
         opts:
@@ -847,12 +655,9 @@ sources:
       # results in an error but the last known intermediate output is used so old data is not
       # deleted
       skip: true
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for MZ level 2
-  - name: pipelines.epidemiology.mz_humdata.MozambiqueHumdataDataSource
+  - class: pipelines.epidemiology.mz_humdata.MozambiqueHumdataDataSource
     fetch:
       - url: https://data.humdata.org/dataset/96f9bc99-28ee-4046-8a96-9f7c1a1462d7/resource/2857979e-a528-429e-b7ce-e4b1c3317718/download/mozambique-covid-19-cases.xlsx
         opts:
@@ -863,36 +668,27 @@ sources:
       # The resource was deleted, so keep it here and skip tests until fixed
       skip: true
       location_key_match: 'MZ_.*'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for NL levels 1 + 2 + 3
-  - name: pipelines.epidemiology.nl_authority.NetherlandsDataSource
+  - class: pipelines.epidemiology.nl_authority.NetherlandsDataSource
     fetch:
       - url: "https://data.rivm.nl/covid-19/COVID-19_aantallen_gemeente_cumulatief.csv"
     parse:
       sep: ";"
     test:
       location_key_match: 'NL.*'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for NO level 2
-  - name: pipelines.epidemiology.xx_covid19_eu_data.Covid19EuDataSource
+  - class: pipelines.epidemiology.xx_covid19_eu_data.Covid19EuDataSource
     fetch:
       - url: "https://raw.github.com/covid19-eu-zh/covid19-eu-data/master/dataset/covid-19-no.csv"
     parse:
       country: "NO"
     test:
       location_key_match: 'NO_.*'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for NZ level 0
-  - name: pipelines.epidemiology.nz_authority.NewZealandDataSource
+  - class: pipelines.epidemiology.nz_authority.NewZealandDataSource
     fetch:
       - url: "https://www.health.govt.nz/system/files/documents/pages/covid_cases_{date}.csv"
         opts:
@@ -901,12 +697,9 @@ sources:
       location_key_match: '^NZ$'
       # Skip because it's flakey
       skip: true
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for PE levels 1 + 2 + 3
-  - name: pipelines.epidemiology.pe_authority.PeruDataSource
+  - class: pipelines.epidemiology.pe_authority.PeruDataSource
     fetch:
       - name: confirmed
         url: "https://cloud.minsa.gob.pe/s/Y8w3wHsEdYQSZRp/download"
@@ -923,25 +716,19 @@ sources:
       location_key_match: 'PE.*'
       # Skip because this is a flakey data source
       skip: true
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for PH levels 2 + 3
   # Mirrored from http://bit.ly/DataDropArchives
-  - name: pipelines.epidemiology.ph_authority.PhilippinesDataSource
+  - class: pipelines.epidemiology.ph_authority.PhilippinesDataSource
     fetch:
       - url: "https://storage.googleapis.com/finmango-covid-data/Philippines/Latest%20Case%20Information.csv"
         opts:
           ext: csv
     test:
       location_key_match: 'PH.*'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for PK level 2
-  - name: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
+  - class: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
     fetch:
       - url: "https://en.wikipedia.org/wiki/Template:2019–20_coronavirus_pandemic_data/Pakistan_medical_cases"
         opts:
@@ -953,84 +740,60 @@ sources:
       cumsum: true
     test:
       location_key_match: 'PK_.*'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for PL level 2
-  - name: pipelines.epidemiology.xx_covid19_eu_data.Covid19EuDataSource
+  - class: pipelines.epidemiology.xx_covid19_eu_data.Covid19EuDataSource
     fetch:
       - url: "https://raw.github.com/covid19-eu-zh/covid19-eu-data/master/dataset/covid-19-pl.csv"
     parse:
       country: PL
     test:
       location_key_match: 'PL_.*'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for PT levels 1 + 2
-  - name: pipelines.epidemiology.pt_covid19.PtCovid19L1DataSource
+  - class: pipelines.epidemiology.pt_covid19.PtCovid19L1DataSource
     fetch:
       - url: "https://raw.githubusercontent.com/carlospramalheira/covid19/master/datasets/PT_COVID_TimeSeries.csv"
     test:
       location_key_match: 'PT'
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.pt_covid19.PtCovid19L2DataSource
+  - class: pipelines.epidemiology.pt_covid19.PtCovid19L2DataSource
     fetch:
       - url: "https://raw.githubusercontent.com/carlospramalheira/covid19/master/datasets/PT_COVID_TimeSeries.csv"
     test:
       location_key_match: 'PT_.*'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for RO level 1
-  - name: pipelines.epidemiology.ro_covid19romania.Covid19RomaniaDataSource
+  - class: pipelines.epidemiology.ro_covid19romania.Covid19RomaniaDataSource
     fetch:
       - name: total_recovered
         url: "https://raw.github.com/adrianp/covid19romania/master/total_recovered_ro.json"
     test:
       location_key_match: '^RO$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for RO levels 1 + 2
-  - name: pipelines.epidemiology.ro_authority.RomaniaDataSource
+  - class: pipelines.epidemiology.ro_authority.RomaniaDataSource
     fetch:
       - url: "https://d35p9e4fm9h3wo.cloudfront.net/latestData.json"
     test:
       location_key_match: 'RO_[^_]+'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for RU level 2
-  - name: pipelines.epidemiology.ru_covid19_russia.RussiaCovid19DataSource
+  - class: pipelines.epidemiology.ru_covid19_russia.RussiaCovid19DataSource
     fetch:
       - url: "https://jeetiss.github.io/covid19-russia/timeseries.json"
     test:
       location_key_match: '^RU_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Authoritative data source, which only has the last 30 days of data
-  - name: pipelines.epidemiology.ru_authority.RussiaDataSource
+  - class: pipelines.epidemiology.ru_authority.RussiaDataSource
     fetch:
       - url: "https://xn--80aesfpebagmfblc0a.xn--p1ai/covid_data.json?do=region_stats&code={}"
     test:
       location_key_match: '^RU_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for SD level 2
-  - name: pipelines.epidemiology.sd_humdata.SudanHumdataDataSource
+  - class: pipelines.epidemiology.sd_humdata.SudanHumdataDataSource
     fetch:
       - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQgIjG5wYFaK-z25ciiNNSWUTdxMWKRe5_y1YLNMpCzJziFor16xyP3R1nKz1wAkN7F4w6gx4F6yUIp/pub?gid=1817954914&single=true&output=csv"
         opts:
@@ -1039,23 +802,17 @@ sources:
       # TODO: do not skip testing once data source starts working again
       skip: true
       location_key_match: 'SD_.*'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for SE levels 1 + 2
-  - name: pipelines.epidemiology.xx_covid19_eu_data.Covid19EuDataSource
+  - class: pipelines.epidemiology.xx_covid19_eu_data.Covid19EuDataSource
     fetch:
       - url: "https://raw.github.com/covid19-eu-zh/covid19-eu-data/master/dataset/covid-19-se.csv"
     parse:
       country: SE
     test:
       location_key_match: 'SE.*'
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.se_authority.SwedenDataSource
+  - class: pipelines.epidemiology.se_authority.SwedenDataSource
     fetch:
       - url: "https://www.arcgis.com/sharing/rest/content/items/b5e7488e117749c19881cce45db13f7e/data"
         opts:
@@ -1064,22 +821,16 @@ sources:
       subregion1: ["new_confirmed"]
     test:
       location_key_match: 'SE.*'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for SI level 1
-  - name: pipelines.epidemiology.si_authority.SloveniaDataSource
+  - class: pipelines.epidemiology.si_authority.SloveniaDataSource
     fetch:
       - url: "https://www.gov.si/assets/vlada/Koronavirus-podatki/en/EN_Covid-19-all-data.xlsx"
     test:
       location_key_match: '^SI$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for SL levels 1 + 2
-  - name: pipelines.epidemiology.sl_finmango.FinMangoDataSource
+  - class: pipelines.epidemiology.sl_finmango.FinMangoDataSource
     fetch:
       - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTq0tHkSLt70_EEcDU1WJyPkr7fJqNf8wCbbTtdVQ4T5vjHHNGMJy55bSZI0rl0yVFDjjIfXQFaDyLh/pub?output=xlsx"
         opts:
@@ -1094,79 +845,60 @@ sources:
         - '^SL$'
         - '^SL_[^_]+$'
         - '^SL_[^_]+_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for TH levels 0 + 1
-  - name: pipelines.epidemiology.th_authority.ThailandProvinceDataSource
+  - class: pipelines.epidemiology.th_authority.ThailandProvinceDataSource
     fetch:
       - url: "https://covid19.th-stat.com/api/open/cases"
         opts:
           ext: json
     test:
+      # FIXME: remove once data source is fixed
+      skip: true
       location_key_match:
         - '^TH$'
         - '^TH_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.th_authority.ThailandCountryDataSource
+  - class: pipelines.epidemiology.th_authority.ThailandCountryDataSource
     fetch:
       - url: "https://covid19.th-stat.com/api/open/timeline"
         opts:
           ext: json
     test:
       location_key_match: '^TH$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for TW levels 0 + 1
-  - name: pipelines.epidemiology.tw_authority.TaiwanDataSource
+  - class: pipelines.epidemiology.tw_authority.TaiwanDataSource
     fetch:
       - url: "https://od.cdc.gov.tw/eic/Day_Confirmation_Age_County_Gender_19CoV.csv"
     test:
       location_key_match:
         - '^TW$'
         - '^TW_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for UA levels 1 + 2
-  - name: pipelines.epidemiology.ua_authority.UkraineDataSource
+  - class: pipelines.epidemiology.ua_authority.UkraineDataSource
     # No URL is defined because data is queried via API
     aggregate:
       subregion1: ["total_confirmed", "total_deceased", "total_recovered"]
     test:
       location_key_match: 'UA_.+'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for US levels 2 + 3
-  - name: pipelines.epidemiology.us_nyt_covid.NytCovidL2DataSource
+  - class: pipelines.epidemiology.us_nyt_covid.NytCovidL2DataSource
     fetch:
       - url: "https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv"
     test:
       location_key_match: 'US_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.us_nyt_covid.NytCovidL3DataSource
+  - class: pipelines.epidemiology.us_nyt_covid.NytCovidL3DataSource
     fetch:
       - url: "https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv"
     test:
       location_key_match: 'US_.+_.+'
-    automation:
-      job_group: all
-      deferred: true
 
   # The CDC data comes before each state since individual state's data might be more accurate
-  - name: pipelines.epidemiology.us_authority.CDCDataSource
+  - class: pipelines.epidemiology.us_authority.CDCDataSource
     fetch:
       - url: "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=integrated_county_timeseries_state_{state}_external"
         opts:
@@ -1179,22 +911,16 @@ sources:
         - '^US_[^_]+_[^_]+$'
       # Skip test because it runs out of memory on GitHub Actions
       skip: true
-    automation:
-      job_group: all
-      deferred: true
 
   # We prioritize covid tracking data over CDC since their testing data is more reliable
-  - name: pipelines.epidemiology.us_covidtracking.CovidTrackingDataSource
+  - class: pipelines.epidemiology.us_covidtracking.CovidTrackingDataSource
     fetch:
       - url: "https://covidtracking.com/api/v1/states/daily.csv"
     test:
       location_key_match: 'US_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for US_AK level 2
-  - name: pipelines.epidemiology.us_ak_authority.AlaskaDataSource
+  - class: pipelines.epidemiology.us_ak_authority.AlaskaDataSource
     fetch:
       - url: "https://www.arcgis.com/sharing/rest/content/items/867f802ce1624b46b40d2bd281490078/data"
         opts:
@@ -1206,11 +932,8 @@ sources:
       # TODO(owahltinez): skip because format changed
       skip: true
       location_key_match: '^US_AK$'
-    automation:
-      job_group: all
-      deferred: true
 
-  - name: pipelines.epidemiology.us_ak_authority.AlaskaDataSource
+  - class: pipelines.epidemiology.us_ak_authority.AlaskaDataSource
     fetch:
       - url: "https://www.arcgis.com/sharing/rest/content/items/867f802ce1624b46b40d2bd281490078/data"
         opts:
@@ -1222,34 +945,25 @@ sources:
       # TODO(owahltinez): skip because format changed
       skip: true
       location_key_match: '^US_AK$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for US_CA level 1
-  - name: pipelines.epidemiology.us_ca_authority.CaliforniaOpenDataSource
+  - class: pipelines.epidemiology.us_ca_authority.CaliforniaOpenDataSource
     fetch:
       - url: "https://data.ca.gov/dataset/590188d5-8545-4c93-a9a0-e230f0db7290/resource/339d1c4d-77ab-44a2-9b40-745e64e335f2/download/case_demographics_age.csv"
     test:
       # TODO: data source appears to be temporarily unavailable
       skip: true
       location_key_match: '^US_CA$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for US_CA_SFO
-  - name: pipelines.epidemiology.us_ca_sfo_authority.SanFranciscoDataSource
+  - class: pipelines.epidemiology.us_ca_sfo_authority.SanFranciscoDataSource
     fetch:
       - url: "https://data.sfgov.org/api/views/nfpa-mg4g/rows.csv"
     test:
       location_key_match: '^US_CA_SFO$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for US_DC level 2
-  - name: pipelines.epidemiology.us_dc_authority.DistrictColumbiaDataSource
+  - class: pipelines.epidemiology.us_dc_authority.DistrictColumbiaDataSource
     fetch:
       - url: "https://coronavirus.dc.gov/page/coronavirus-data"
         opts:
@@ -1260,12 +974,9 @@ sources:
       # Skip because it's too flakey
       skip: true
       location_key_match: '^US_DC$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for US_DE level 2
-  - name: pipelines.epidemiology.us_de_authority.DelawareDataSource
+  - class: pipelines.epidemiology.us_de_authority.DelawareDataSource
     fetch:
       - url: "https://myhealthycommunity.dhss.delaware.gov/locations/state/download_covid_19_data"
         opts:
@@ -1275,12 +986,9 @@ sources:
       location_key_match: '^US_DE$'
       # Skip because endpoint fails frequently
       skip: true
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources US_FL levels 2 + 3
-  - name: pipelines.epidemiology.us_fl_authority.FloridaDataSource
+  - class: pipelines.epidemiology.us_fl_authority.FloridaDataSource
     fetch:
       - url: "https://services1.arcgis.com/CY1LXxl9zlJeBuRZ/ArcGIS/rest/services/Florida_COVID19_Case_Line_Data_NEW/FeatureServer/0/query?where=1%3D1&outFields=*&f=json"
     # Death and hospitalization data do not have accurate dates
@@ -1291,24 +999,18 @@ sources:
         - '^US_FL_[^_]+$'
       # Skip unit test because download takes a long time
       skip: true
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for US_IN level 3 (includes age/sex)
-  - name: pipelines.epidemiology.us_in_authority.IndianaDataSource
+  - class: pipelines.epidemiology.us_in_authority.IndianaDataSource
     fetch:
       - url: "https://hub.mph.in.gov/dataset/6b57a4f2-b754-4f79-a46b-cff93e37d851/resource/46b310b9-2f29-4a51-90dc-3886d9cf4ac1/download/covid_report.xlsx"
         opts:
           ext: xlsx
     test:
       location_key_match: 'US_IN_.*'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for US_MA level 3
-  - name: pipelines.epidemiology.us_ma_authority.MassachusettsCountiesDataSource
+  - class: pipelines.epidemiology.us_ma_authority.MassachusettsCountiesDataSource
     fetch:
       - name: counties
         url: "https://www.mass.gov/doc/covid-19-raw-data-october-10-2020/download"
@@ -1318,36 +1020,27 @@ sources:
       file_name: County.csv
     test:
       location_key_match: '^US_MA$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for US_NYC level 3 (NYC only)
-  - name: pipelines.epidemiology.us_nyc_authority.NYCHealthDataSource
+  - class: pipelines.epidemiology.us_nyc_authority.NYCHealthDataSource
     fetch:
       - url: "https://raw.githubusercontent.com/nychealth/coronavirus-data/master/trends/data-by-day.csv"
     test:
       location_key_match: 'US_NY_.*'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for US_RI
   # We can't use the authoritative data source which is linked below, because the dates do not line
   # up with what all the other sources report. So we just use COVID Tracking with a filter.
   # https://ri-department-of-health-covid-19-data-rihealth.hub.arcgis.com/
-  - name: pipelines.epidemiology.us_covidtracking.CovidTrackingDataSource
+  - class: pipelines.epidemiology.us_covidtracking.CovidTrackingDataSource
     fetch:
       - url: "https://covidtracking.com/api/v1/states/daily.csv"
     query: key == 'US_RI'
     test:
       location_key_match: '^US_RI$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for US_TX level 2
-  - name: pipelines.epidemiology.us_tx_authority.TexasDataSource
+  - class: pipelines.epidemiology.us_tx_authority.TexasDataSource
     fetch:
       - url: "https://dshs.texas.gov/coronavirus/TexasCOVID19CaseCountData.xlsx"
     test:
@@ -1355,24 +1048,18 @@ sources:
       # Skip Texas because the data source is very flaky and keeps changing schema
       # TODO: fix this data source and make it more resilient
       skip: true
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for VE level 2
-  - name: pipelines.epidemiology.ve_humdata.VenezuelaHumDataSource
+  - class: pipelines.epidemiology.ve_humdata.VenezuelaHumDataSource
     fetch:
       - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQI4s0no2TS1dYxbv82nhKD7iz8fbDGwdsOI4kzJ0cg3gjOR51KIw_rNOff97Xic_fRQD41xmsDGUfM/pub?gid=1029482781&single=true&output=csv"
         opts:
           ext: csv
     test:
       location_key_match: 'VE_.*'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for ZA level 2
-  - name: pipelines.epidemiology.za_finmango.FinMangoDataSource
+  - class: pipelines.epidemiology.za_finmango.FinMangoDataSource
     fetch:
       - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTcFHgpRTw9ntN0SNaNVE_grZxR5yJSXkRz0DvO7IRV-d47FdvpUVCx1qxynHtzzZSgYSRjoAIpqhIq/pub?output=xlsx"
         opts:
@@ -1382,12 +1069,9 @@ sources:
       sheet_name: ["Eastern_Cape", "Free_State", "Gauteng", "KwaZulu-Natal", "North_West", "Western_Cape", "Limpopo", "Mpumalanga", "Northern_Cape"]
     test:
       location_key_match: '^ZA_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
 
   # Data sources for ZA level 3
-  - name: pipelines.epidemiology.za_finmango.FinMangoDataSource
+  - class: pipelines.epidemiology.za_finmango.FinMangoDataSource
     fetch:
       - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQsJrAqu_CeRIup81s4mw82iiMi-r3nyKcO3wSVNjOMpjjLoDLlkWAovbcegGOHw5cFaLraL83b9c17/pub?output=xlsx"
         opts:
@@ -1397,6 +1081,3 @@ sources:
       sheet_name: ["Eastern_Cape", "Free_State", "Gauteng", "KwaZulu-Natal", "North_West", "Western_Cape", "Limpopo", "Mpumalanga", "Northern_Cape"]
     test:
       location_key_match: '^ZA_[^_]+_[^_]+$'
-    automation:
-      job_group: all
-      deferred: true
