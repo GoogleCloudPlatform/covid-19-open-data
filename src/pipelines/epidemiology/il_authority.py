@@ -38,10 +38,11 @@ def _download_from_api(
     get_opts = dict(timeout=60)
 
     try:
-        res = get_retry(url_fmt, **get_opts).json().get("result")
+        res = get_retry(url_fmt, max_retries=10, **get_opts)
+        res = res.json().get("result")
     except Exception as exc:
         if log_func:
-            log_func(requests.get(url_fmt, **get_opts).text)
+            log_func(res.text if res else "Unknown error")
         raise exc
 
     rows = res.get("records", [])
