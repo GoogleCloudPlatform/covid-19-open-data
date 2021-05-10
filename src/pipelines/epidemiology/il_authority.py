@@ -38,7 +38,7 @@ def _download_from_api(
     get_opts = dict(timeout=60)
 
     try:
-        res = get_retry(url_fmt, max_retries=10, **get_opts)
+        res = get_retry(url_fmt, sleep_time=10, max_retries=4, **get_opts)
         res = res.json().get("result")
     except Exception as exc:
         if log_func:

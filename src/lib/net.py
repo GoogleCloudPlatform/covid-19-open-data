@@ -198,11 +198,12 @@ def parallel_download(
     return thread_map(_download_idx, range(len(url_list)))
 
 
-def get_retry(url: str, max_retries: int = 8, **request_opts) -> requests.Request:
+def get_retry(
+    url: str, sleep_time: int = 1, max_retries: int = 8, **request_opts
+) -> requests.Request:
     """
     Perform a GET request with maximum retries and exponential back-off.
     """
-    sleep_time = 1
     exc_text = None
     for counter in range(max_retries):
         res = requests.get(url, **request_opts)
