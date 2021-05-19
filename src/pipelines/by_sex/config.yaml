@@ -355,6 +355,8 @@ sources:
       # This data source does not report zero values, so we fill them in
       fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
+      # Skip unit test since data source stopped working
+      skip: true
       location_key_match:
         - '^TH$'
         - '^TH_[^_]+$'
