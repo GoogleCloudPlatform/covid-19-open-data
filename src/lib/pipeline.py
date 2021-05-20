@@ -108,14 +108,14 @@ class DataPipeline(ErrorLogger):
         auxiliary = {name: SRC / path for name, path in config_yaml.get("auxiliary", {}).items()}
 
         data_sources = []
-        for idx, source_config in enumerate(config_yaml["sources"]):
+        for source_config in config_yaml["sources"]:
             # Add the job group to all configs
             automation_config = source_config.get("automation", {})
             source_config["automation"] = automation_config
-            source_config["automation"]["job_group"] = automation_config.get("job_group", str(idx))
+            source_config["automation"]["job_group"] = automation_config.get("job_group", "default")
 
             # Use reflection to create an instance of the corresponding DataSource class
-            module_tokens = source_config["name"].split(".")
+            module_tokens = source_config["class"].split(".")
             class_name = module_tokens[-1]
             module_name = ".".join(module_tokens[:-1])
             module = importlib.import_module(module_name)

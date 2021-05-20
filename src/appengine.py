@@ -313,7 +313,7 @@ def update_table(table_name: str = None, job_group: str = None, parallel_jobs: i
                 )
 
         # Log the data sources being extracted
-        data_source_names = [src.config.get("name") for src in data_pipeline.data_sources]
+        data_source_names = [src.config.get("class") for src in data_pipeline.data_sources]
         logger.log_info(f"Updating data sources: {data_source_names}")
 
         # When running the data pipeline, use as many parallel processes as allowed and avoid
