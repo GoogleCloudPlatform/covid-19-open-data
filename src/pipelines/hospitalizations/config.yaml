@@ -102,6 +102,15 @@ sources:
         - '^LI$'
         - '^CH_[^_]+$'
 
+  - class: pipelines.epidemiology.ch_authority.SwitzerlandAdminDataSource
+    fetch:
+      - url: "https://www.covid19.admin.ch/api/data/context"
+    test:
+      location_key_match:
+        - '^CH$'
+        - '^LI$'
+        - '^CH_[^_]+$'
+
   # Data sources for CL level 2
   - class: pipelines.hospitalizations.cl_authority.ChileRegionsDataSource
     fetch:
