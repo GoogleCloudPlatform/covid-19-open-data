@@ -12,45 +12,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Dict
+from typing import Any, Dict, List
+from pathlib import Path
+
+import requests
 from pandas import DataFrame
+
+from lib.cast import safe_int_cast
 from lib.data_source import DataSource
-from lib.utils import table_rename
+from lib.utils import table_merge, table_rename
 
 
-class SwitzerlandCountryDataSource(DataSource):
-    def parse_dataframes(
-        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
-    ) -> DataFrame:
-        columns = dataframes[0].iloc[5]
-        data = dataframes[0].iloc[6:]
-        data.columns = columns
-        data = table_rename(
-            data,
-            {
-                "Datum": "date",
-                "Fallzahlen pro Tag": "new_confirmed",
-                "Fallzahlen pro Tag, kumuliert": "total_confirmed",
-                "Hospitalisationen pro Tag": "new_hospitalized",
-                "Hospitalisationen pro Tag, Kumuliert": "total_hospitalized",
-                "Todesfälle pro Tag": "new_deceased",
-                "Todesfälle pro Tag, kumuliert": "total_deceased",
-            },
-            drop=True,
-        )
-
-        # Parse date into ISO format
-        data["date"] = data["date"].apply(lambda x: str(x)[:10])
-
-        # The key is just the country code
-        data["key"] = "CH"
-
-        return data
+_column_adapter = {"datum": "date", "geoRegion": "subregion1_code"}
 
 
 class SwitzerlandCantonsDataSource(DataSource):
     def parse_dataframes(
-        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[Any, DataFrame], aux: Dict[Any, DataFrame], **parse_opts
     ) -> DataFrame:
         data = (
             dataframes[0]
@@ -75,4 +53,63 @@ class SwitzerlandCantonsDataSource(DataSource):
         # Principality of Liechtenstein is not in CH
         data.loc[data["subregion1_code"] == "FL", "key"] = "LI"
 
+        return data
+
+
+class SwitzerlandAdminDataSource(DataSource):
+    def fetch(
+        self,
+        output_folder: Path,
+        cache: Dict[str, str],
+        fetch_opts: List[Dict[str, Any]],
+        skip_existing: bool = False,
+    ) -> Dict[str, str]:
+        # the url in the config is a json file which contains the actual dated urls for the data
+        src_url = fetch_opts[0]["url"]
+        data = requests.get(src_url).json()
+        csv_data = data["sources"]["individual"]["csv"]
+
+        fetch_opts = []
+        col_name_map = {
+            "cases": "new_confirmed",
+            "death": "new_deceased",
+            "test": "new_tested",
+            "hosp": "new_hospitalized",
+        }
+        for api_name, col_name in col_name_map.items():
+            fetch_opts.append({"name": col_name, "url": csv_data["daily"][api_name]})
+
+        return super().fetch(output_folder, cache, fetch_opts, skip_existing)
+
+    def parse_dataframes(
+        self, dataframes: Dict[Any, DataFrame], aux: Dict[str, DataFrame], **parse_opts
+    ) -> DataFrame:
+        # Convert the raw data into numeric values
+        for df in dataframes.values():
+            df["entries"] = df["entries"].apply(safe_int_cast)
+
+        data = table_merge(
+            [
+                table_rename(df, dict(_column_adapter, entries=name), drop=True)
+                for name, df in dataframes.items()
+            ],
+            on=["date", "subregion1_code"],
+            how="outer",
+        )
+
+        # Make sure all records have the country code and match subregion1 only
+        data["key"] = None
+        data["country_code"] = "CH"
+        data["subregion2_code"] = None
+        data["locality_code"] = None
+
+        # Country-level records have a known key
+        country_mask = data["subregion1_code"] == "CH"
+        data.loc[country_mask, "key"] = "CH"
+
+        # Principality of Liechtenstein is not in CH but is in the data as FL
+        country_mask = data["subregion1_code"] == "FL"
+        data.loc[country_mask, "key"] = "LI"
+
+        # Output the results
         return data
