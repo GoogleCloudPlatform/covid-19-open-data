@@ -91,22 +91,23 @@ sources:
       deferred: true
 
   # Data sources for CH level 1 + 2
-  - name: pipelines.epidemiology.ch_authority.SwitzerlandCountryDataSource
-    fetch:
-      - url: "https://www.bag.admin.ch/dam/bag/de/dokumente/mt/k-und-i/aktuelle-ausbrueche-pandemien/2019-nCoV/covid-19-datengrundlage-lagebericht.xlsx.download.xlsx/200325_Datengrundlage_Grafiken_COVID-19-Bericht.xlsx"
-    parse:
-      sheet_name: "COVID19 Zahlen"
-    test:
-      location_key_match: '^CH$'
-    automation:
-      job_group: all
-      deferred: true
-
   - name: pipelines.epidemiology.ch_authority.SwitzerlandCantonsDataSource
     fetch:
       - url: "https://raw.github.com/openZH/covid_19/master/COVID19_Fallzahlen_CH_total.csv"
     test:
       location_key_match: 'CH_.+'
+    automation:
+      job_group: all
+      deferred: true
+
+  - name: pipelines.epidemiology.ch_authority.SwitzerlandAdminDataSource
+    fetch:
+      - url: "https://www.covid19.admin.ch/api/data/context"
+    test:
+      location_key_match:
+        - '^CH$'
+        - '^LI$'
+        - '^CH_[^_]+$'
     automation:
       job_group: all
       deferred: true
