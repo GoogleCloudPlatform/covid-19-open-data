@@ -116,7 +116,7 @@ class TestSourceRun(ProfiledTestCase):
         running the provided `test.location_key_match` for the metadata auxiliary table or, if the
         query is not present, a random sample is selected instead.
         """
-        list(process_map(_test_data_pipeline, list(get_pipeline_names()), max_workers=2))
+        list(process_map(_test_data_pipeline, list(get_pipeline_names()), max_workers=1))
 
 
 if __name__ == "__main__":
