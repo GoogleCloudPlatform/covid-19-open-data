@@ -58,6 +58,8 @@ sources:
     automation:
       # Run only every 4 hours, since it's so resource consuming and it updates daily
       schedule: "0 */4 * * *"
+      # Run in a separate job group
+      job_group: gsod_2020
 
   # Use NOAA's global summary of the day dataset (2021)
   - class: pipelines.weather.noaa_gsod.NoaaGsodDataSource
@@ -75,3 +77,5 @@ sources:
     automation:
       # Run only every 4 hours, since it's so resource consuming and it updates daily
       schedule: "0 */4 * * *"
+      # Run in a separate job group
+      job_group: gsod_2021
