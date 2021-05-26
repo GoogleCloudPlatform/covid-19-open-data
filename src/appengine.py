@@ -280,7 +280,7 @@ def cache_pull() -> Response:
 @profiled_route("/update_table")
 def update_table(table_name: str = None, job_group: str = None, parallel_jobs: int = 8) -> Response:
     table_name = _get_request_param("table", table_name)
-    job_group = _get_request_param("job_group", job_group)
+    job_group = _get_request_param("job_group", job_group) or "default"
     process_count = _get_request_param("parallel_jobs", str(parallel_jobs))
     # Default to 1 if invalid process count is given
     process_count = safe_int_cast(process_count) or 1
@@ -298,19 +298,17 @@ def update_table(table_name: str = None, job_group: str = None, parallel_jobs: i
         data_pipeline = DataPipeline.load(pipeline_name)
 
         # Limit the sources to only the job_group provided
-        if job_group is not None:
-            data_pipeline.data_sources = [
-                data_source
-                for data_source in data_pipeline.data_sources
-                if data_source.config.get("automation", {}).get("job_group") == job_group
-            ]
+        data_pipeline.data_sources = [
+            data_source
+            for data_source in data_pipeline.data_sources
+            if data_source.config.get("automation", {}).get("job_group", "default") == job_group
+        ]
 
-            # Early exit: job group contains no data sources
-            if not data_pipeline.data_sources:
-                return Response(
-                    f"No data sources matched job group {job_group} for table {table_name}",
-                    status=400,
-                )
+        # Early exit: job group contains no data sources
+        if not data_pipeline.data_sources:
+            return Response(
+                f"No data sources matched job group {job_group} for table {table_name}", status=400
+            )
 
         # Log the data sources being extracted
         data_source_names = [src.config.get("class") for src in data_pipeline.data_sources]
