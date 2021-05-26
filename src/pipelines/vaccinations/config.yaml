@@ -57,16 +57,16 @@ sources:
       location_key_match: '^..$'
 
   # Data sources for AR levels 0 + 1
-  - class: pipelines.vaccinations.ar_authority.ArgentinaCachedDataSource
-    # No URL is given because it uses the cache
+  - class: pipelines.vaccinations.ar_authority.ArgentinaDataSource
     fetch:
-      - cache_key: AR_vaccinations
-    aggregate:
-      subregion1: ["total_persons_vaccinated", "total_persons_fully_vaccinated", "total_vaccine_doses_administered"]
+      - url: "https://sisa.msal.gov.ar/datos/descargas/covid-19/files/datos_nomivac_covid19.zip"
     test:
+      # Skip because it's too slow
+      skip: true
       location_key_match:
         - '^AR$'
         - '^AR_[^_]+$'
+        - '^AR_[^_]+_[^_]+$'
 
   # Data sources for AU levels 0 + 1
   - class: pipelines.vaccinations.au_covidlive.AustraliaCovidLiveDataSource

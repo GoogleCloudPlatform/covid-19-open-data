@@ -80,9 +80,6 @@
 - url: https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Daten/Impfquotenmonitoring.xlsx?__blob=publicationFile
   output: DE_vaccinations.xlsx
 
-- url: https://sisa.msal.gov.ar/datos/descargas/covid-19/files/Covid19VacunasAgrupadas.csv
-  output: AR_vaccinations.csv
-
 - url: https://www.data.gouv.fr/fr/datasets/r/131c6b39-51b5-40a7-beaa-0eafc4b88466
   output: FR_country_vaccinations.csv
 

@@ -63,12 +63,15 @@ sources:
   # Data sources for AR levels 2 + 3
   - class: pipelines.epidemiology.ar_authority.ArgentinaDataSource
     fetch:
-      - url: "https://sisa.msal.gov.ar/datos/descargas/covid-19/files/Covid19Casos.csv"
+      - url: "https://sisa.msal.gov.ar/datos/descargas/covid-19/files/Covid19Casos.zip"
     query: "date >= '2019-12-30'"
     test:
       # Skip because it's too slow
       skip: true
-      location_key_match: 'AR_.*'
+      location_key_match:
+        - '^AR$'
+        - '^AR_[^_]+$'
+        - '^AR_[^_]+_[^_]+$'
 
   # Data sources for AT levels 0 + 1
   - class: pipelines.epidemiology.at_authority.AustriaLevel1DataSource
