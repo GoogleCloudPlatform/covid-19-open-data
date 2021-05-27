@@ -5,8 +5,8 @@ Information related to deployment and administration of COVID-19 vaccines.
 
 ## URL
 This table can be found at the following URLs depending on the choice of format:
-* [vaccinations.csv](https://storage.googleapis.com/covid19-open-data/v2/vaccinations.csv)
-* [vaccinations.json](https://storage.googleapis.com/covid19-open-data/v2/vaccinations.json)
+* [vaccinations.csv](https://storage.googleapis.com/covid19-open-data/v3/vaccinations.csv)
+* [vaccinations.json](https://storage.googleapis.com/covid19-open-data/v3/vaccinations.json)
 
 ## Schema
 | Name | Type | Description | Example |
