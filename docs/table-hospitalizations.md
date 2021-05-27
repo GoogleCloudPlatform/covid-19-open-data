@@ -6,8 +6,8 @@ Information related to patients of COVID-19 and hospitals.
 
 ## URL
 This table can be found at the following URLs depending on the choice of format:
-* [hospitalizations.csv](https://storage.googleapis.com/covid19-open-data/v2/hospitalizations.csv)
-* [hospitalizations.json](https://storage.googleapis.com/covid19-open-data/v2/hospitalizations.json)
+* [hospitalizations.csv](https://storage.googleapis.com/covid19-open-data/v3/hospitalizations.csv)
+* [hospitalizations.json](https://storage.googleapis.com/covid19-open-data/v3/hospitalizations.json)
 
 
 ## Schema
