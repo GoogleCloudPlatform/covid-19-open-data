@@ -6,8 +6,8 @@ Daily weather information from nearest station reported by NOAA.
 
 ## URL
 This table can be found at the following URLs depending on the choice of format:
-* [weather.csv](https://storage.googleapis.com/covid19-open-data/v2/weather.csv)
-* [weather.json](https://storage.googleapis.com/covid19-open-data/v2/weather.json)
+* [weather.csv](https://storage.googleapis.com/covid19-open-data/v3/weather.csv)
+* [weather.json](https://storage.googleapis.com/covid19-open-data/v3/weather.json)
 
 
 ## Schema
