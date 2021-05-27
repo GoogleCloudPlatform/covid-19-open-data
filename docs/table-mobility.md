@@ -85,8 +85,8 @@ your data private, safe and secure.
 ## URL
 [Google's Mobility Reports][1] are joined with our known location keys, and can be downloaded at the
 following locations:
-* [mobility.csv](https://storage.googleapis.com/covid19-open-data/v2/mobility.csv)
-* [mobility.json](https://storage.googleapis.com/covid19-open-data/v2/mobility.json)
+* [mobility.csv](https://storage.googleapis.com/covid19-open-data/v3/mobility.csv)
+* [mobility.json](https://storage.googleapis.com/covid19-open-data/v3/mobility.json)
 
 
 ## Schema
