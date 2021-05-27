@@ -14,11 +14,11 @@ This table can be found at the following URLs depending on the choice of format:
 | **date** | `string` | ISO 8601 date (YYYY-MM-DD) of the datapoint | 2021-02-07 |
 | **key** | `string` | Unique string identifying the region | ID |
 | **new_persons_vaccinated\*** | `integer` | Count of new persons which have received one or more doses | 7222 |
-| **total_persons_vaccinated\*\*** | `integer` | Cumulative sum of persons which have received one or more doses | 784318 |
+| **cumulative_persons_vaccinated\*\*** | `integer` | Cumulative sum of persons which have received one or more doses | 784318 |
 | **new_persons_fully_vaccinated\*** | `integer` | Count of new persons which have received all doses required for maximum immunity | 1924 |
-| **total_persons_fully_vaccinated\*\*** | `integer` | Cumulative sum of persons which have received all doses required for maximum immunity | 139131 |
+| **cumulative_persons_fully_vaccinated\*\*** | `integer` | Cumulative sum of persons which have received all doses required for maximum immunity | 139131 |
 | **new_vaccine_doses_administered\*** | `integer` | Count of new vaccine doses administered to persons | 9146 |
-| **total_vaccine_doses_administered\*\*** | `integer` | Cumulative sum of vaccine doses administered to persons | 923449 |
+| **cumulative_vaccine_doses_administered\*\*** | `integer` | Cumulative sum of vaccine doses administered to persons | 923449 |
 
 \*Values can be negative, typically indicating a correction or an adjustment in the way they were
 measured.
