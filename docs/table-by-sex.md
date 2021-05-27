@@ -17,8 +17,8 @@ Several things worth noting about this table:
 
 ## URL
 This table can be found at the following URLs depending on the choice of format:
-* [by-sex.csv](https://storage.googleapis.com/covid19-open-data/v2/by-sex.csv)
-* [by-sex.json](https://storage.googleapis.com/covid19-open-data/v2/by-sex.json)
+* [by-sex.csv](https://storage.googleapis.com/covid19-open-data/v3/by-sex.csv)
+* [by-sex.json](https://storage.googleapis.com/covid19-open-data/v3/by-sex.json)
 
 
 ## Schema
