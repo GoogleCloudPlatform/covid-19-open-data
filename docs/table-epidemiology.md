@@ -6,8 +6,8 @@ Information related to the COVID-19 infections for each date-region pair.
 
 ## URL
 This table can be found at the following URLs depending on the choice of format:
-* [epidemiology.csv](https://storage.googleapis.com/covid19-open-data/v2/epidemiology.csv)
-* [epidemiology.json](https://storage.googleapis.com/covid19-open-data/v2/epidemiology.json)
+* [epidemiology.csv](https://storage.googleapis.com/covid19-open-data/v3/epidemiology.csv)
+* [epidemiology.json](https://storage.googleapis.com/covid19-open-data/v3/epidemiology.json)
 
 
 ## Schema
