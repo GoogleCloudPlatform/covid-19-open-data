@@ -12,7 +12,7 @@ For more information about each field see the
 
 ## URL
 This table can be found at the following URL:
-* [lawatlas-emergency-declarations.csv](https://storage.googleapis.com/covid19-open-data/v2/lawatlas-emergency-declarations.csv)
+* [lawatlas-emergency-declarations.csv](https://storage.googleapis.com/covid19-open-data/v3/lawatlas-emergency-declarations.csv)
 
 
 ## Schema
