@@ -25,6 +25,7 @@ def _normalize_column_name(column: str) -> str:
     column = column.replace("–", "_")
     column = column.replace(" ", "_")
     column = column.replace("-", "_")
+    column = column.replace("–", "_")
     column = column.replace("'", "")
     return column
 
@@ -103,14 +104,19 @@ class GoogleSearchTrendsDataSource(DataSource):
 
         # Generate the URLs for the files to download from the template
         url_list = {}
-        for country_code in country_codes:
-            if not subregion_names:
-                key = country_code
-                url_list[key] = url_tpl.format(level="country", region_code=key)
-            else:
-                for subregion_name in subregion_names:
-                    key = f"{country_code}_{subregion_name.replace(' ', '_')}"
-                    url_list[key] = url_tpl.format(level="sub_region_1", region_code=key)
+        for year in ("2020", "2021"):
+            for country_code in country_codes:
+                if not subregion_names:
+                    key = country_code
+                    url_list[f"{key}_{year}"] = url_tpl.format(
+                        level="country", region_code=key, year=year
+                    )
+                else:
+                    for subregion_name in subregion_names:
+                        key = f"{country_code}_{subregion_name.replace(' ', '_')}"
+                        url_list[f"{key}_{year}"] = url_tpl.format(
+                            level="sub_region_1", region_code=key, year=year
+                        )
 
         # Replace the fetch options with our own processed options
         fetch_opts = [{"name": key, "url": url, **base_opts} for key, url in url_list.items()]
@@ -121,6 +127,5 @@ class GoogleSearchTrendsDataSource(DataSource):
     ) -> DataFrame:
         google_keys = aux["google_key_map"].set_index("google_location_key")["key"].to_dict()
         data = concat(thread_map(_process_chunk, dataframes.values(), total=len(dataframes)))
-        data[["key"]].drop_duplicates().to_csv("google_keys.csv", index=False)
         data["key"] = data["key"].apply(lambda x: google_keys.get(x, x))
         return data.dropna(subset=["key"])

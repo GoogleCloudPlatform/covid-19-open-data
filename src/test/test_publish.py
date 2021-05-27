@@ -112,7 +112,9 @@ class TestPublish(ProfiledTestCase):
         with temporary_directory() as workdir:
 
             # Copy all test tables into the temporary directory
-            publish_global_tables(SRC / "test" / "data", workdir)
+            publish_global_tables(
+                SRC / "test" / "data", workdir, V3_TABLE_LIST, OUTPUT_COLUMN_ADAPTER
+            )
 
             # Create the main table
             main_table_path = workdir / "main.csv"
@@ -124,12 +126,12 @@ class TestPublish(ProfiledTestCase):
         with temporary_directory() as workdir:
 
             # Copy all test tables into the temporary directory
-            publish_global_tables(SRC / "test" / "data", workdir)
+            copy_tables(SRC / "test" / "data", workdir)
 
             # Copy test tables again but under a subpath
             subpath = workdir / "latest"
             subpath.mkdir()
-            publish_global_tables(workdir, subpath)
+            copy_tables(workdir, subpath)
 
             # Convert all the tables to JSON under a new path
             jsonpath = workdir / "json"

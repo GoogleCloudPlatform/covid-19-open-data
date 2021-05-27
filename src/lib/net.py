@@ -13,9 +13,10 @@
 # limitations under the License.
 
 import datetime
+import time
 import uuid
 from pathlib import Path
-from typing import Any, BinaryIO, Dict, List, Union
+from typing import Any, BinaryIO, Dict, List, Optional, Union
 
 import requests
 from .concurrent import thread_map
@@ -33,7 +34,7 @@ def download_snapshot(
     date_format: str = None,
     logger: ErrorLogger = ErrorLogger(),
     **download_opts,
-) -> str:
+) -> Optional[str]:
     """
     This function downloads a file into the snapshots folder and outputs the
     hashed file name based on the input URL. This is used to ensure
@@ -74,8 +75,8 @@ def download_snapshot(
         return _download_snapshot_try_date(
             url,
             file_path,
+            date_format,
             ignore_failure=ignore_failure,
-            date_format=date_format,
             logger=logger,
             **download_opts,
         )
@@ -93,7 +94,7 @@ def _download_snapshot_simple(
     ignore_failure: bool = False,
     logger: ErrorLogger = ErrorLogger(),
     **download_opts,
-) -> str:
+) -> Optional[str]:
     """See: download_snapshot for argument descriptions."""
     with open(file_path, "wb") as file_handle:
         try:
@@ -114,11 +115,11 @@ def _download_snapshot_simple(
 def _download_snapshot_try_date(
     url: str,
     file_path: Path,
+    date_format: str,
     ignore_failure: bool = False,
-    date_format: str = None,
     logger: ErrorLogger = ErrorLogger(),
     **download_opts,
-) -> str:
+) -> Optional[str]:
     """
     Same as `_download_snapshot_simple` but trying to replace {date} in the URL with dates between
     today and 2020-01-01 until one works.
@@ -195,3 +196,23 @@ def parallel_download(
 
     assert len(url_list) == len(path_list)
     return thread_map(_download_idx, range(len(url_list)))
+
+
+def get_retry(
+    url: str, sleep_time: int = 1, max_retries: int = 8, **request_opts
+) -> requests.Request:
+    """
+    Perform a GET request with maximum retries and exponential back-off.
+    """
+    exc_text = None
+    for counter in range(max_retries):
+        res = requests.get(url, **request_opts)
+        if res.status_code == 200:
+            return res
+        elif counter < max_retries - 1:
+            exc_text = res.text
+            # Exponential backoff
+            time.sleep(sleep_time)
+            sleep_time *= 2
+
+    raise requests.RequestException(exc_text)

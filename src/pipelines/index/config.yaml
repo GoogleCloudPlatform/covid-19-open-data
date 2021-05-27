@@ -16,6 +16,7 @@
 
 schema:
   key: str
+  place_id: str
   wikidata: str
   datacommons: str
   country_code: str
@@ -37,8 +38,6 @@ auxiliary:
   knowledge_graph: ./data/knowledge_graph.csv
 
 sources:
-  - name: pipelines.index.index.IndexDataSource
+  - class: pipelines.index.index.IndexDataSource
     parse:
       keep_metadata: true
-    automation:
-      deferred: true

@@ -50,3 +50,17 @@ WHERE
   ?subregion1 wdt:P1813 ?subregion1_code.
   SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE]". }
 }
+
+# Get all level2 regions of Indonesia along with their corresponding level1 subregions
+# Get the end time (P582) to be able to filter out end-dated rows
+SELECT ?place ?subregion1Label ?placeLabel ?classLabel ?indonesia_admincode ?subregion1_endtime ?class_endtime
+WHERE
+{
+  ?place wdt:P31/wdt:P279* wd:Q12479774. # P31=instance of, P279=subclass of
+  ?place wdt:P131 ?subregion1. # P131=located in the administrative territorial entity
+  OPTIONAL { ?place p:P131 [ps:P131 ?subregion1; pq:P582 ?subregion1_endtime ]. }
+  ?place wdt:P2588 ?indonesia_admincode.
+  ?place wdt:P31 ?class.
+  OPTIONAL { ?place p:P31 [ps:P31 ?class; pq:P582 ?class_endtime ]. }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE]". }
+}

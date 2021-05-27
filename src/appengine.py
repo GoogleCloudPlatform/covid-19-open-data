@@ -52,15 +52,26 @@ from scripts.cloud_error_processing import register_new_errors
 from lib.cast import safe_int_cast
 from lib.concurrent import thread_map
 from lib.constants import (
-    GCS_CONTAINER_ID,
     GCP_SELF_DESTRUCT_SCRIPT,
+    GCP_ENV_TOKEN,
+    GCP_ENV_PROJECT,
+    GCP_ENV_SERVICE_ACCOUNT,
     GCS_BUCKET_PROD,
     GCS_BUCKET_TEST,
+    GCS_CONTAINER_ID,
+    OUTPUT_COLUMN_ADAPTER,
     SRC,
+    V2_TABLE_LIST,
     V3_TABLE_LIST,
 )
 from lib.error_logger import ErrorLogger
-from lib.gcloud import delete_instance, get_internal_ip, start_instance_from_image
+from lib.gcloud import (
+    delete_instance,
+    get_internal_ip,
+    get_storage_bucket,
+    get_storage_client,
+    start_instance_from_image,
+)
 from lib.io import export_csv, gzip_file, temporary_directory
 from lib.memory_efficient import table_read_column
 from lib.net import download
@@ -71,9 +82,6 @@ app = Flask(__name__)
 logger = ErrorLogger("appengine")
 
 BLOB_OP_MAX_RETRIES = 10
-ENV_TOKEN = "GCP_TOKEN"
-ENV_PROJECT = "GOOGLE_CLOUD_PROJECT"
-ENV_SERVICE_ACCOUNT = "GCS_SERVICE_ACCOUNT"
 COMPRESS_EXTENSIONS = ("json",)
 # Used when parsing string parameters into boolean type
 BOOL_STRING_MAP = {"true": True, "false": False, "1": True, "0": False, "": False, "null": False}
@@ -129,32 +137,6 @@ def profiled_route(rule, **options):
 
     # Return the decorator
     return decorator
-
-
-def get_storage_client() -> storage.Client:
-    """
-    Creates an instance of google.cloud.storage.Client using a token if provided via, otherwise
-    the default credentials are used.
-    """
-    gcp_token = os.getenv(ENV_TOKEN)
-    gcp_project = os.getenv(ENV_PROJECT)
-
-    client_opts = {}
-    if gcp_token is not None:
-        client_opts["credentials"] = Credentials(gcp_token)
-    if gcp_project is not None:
-        client_opts["project"] = gcp_project
-
-    return storage.Client(**client_opts)
-
-
-def get_storage_bucket(bucket_name: str) -> storage.Bucket:
-    """
-    Gets an instance of the storage bucket for the specified bucket name
-    """
-    client = get_storage_client()
-    assert bucket_name is not None
-    return client.bucket(bucket_name)
 
 
 def download_folder(
@@ -298,8 +280,8 @@ def cache_pull() -> Response:
 @profiled_route("/update_table")
 def update_table(table_name: str = None, job_group: str = None, parallel_jobs: int = 8) -> Response:
     table_name = _get_request_param("table", table_name)
-    job_group = _get_request_param("job_group", job_group)
-    process_count = _get_request_param("parallel_jobs", parallel_jobs)
+    job_group = _get_request_param("job_group", job_group) or "default"
+    process_count = _get_request_param("parallel_jobs", str(parallel_jobs))
     # Default to 1 if invalid process count is given
     process_count = safe_int_cast(process_count) or 1
 
@@ -316,22 +298,20 @@ def update_table(table_name: str = None, job_group: str = None, parallel_jobs: i
         data_pipeline = DataPipeline.load(pipeline_name)
 
         # Limit the sources to only the job_group provided
-        if job_group is not None:
-            data_pipeline.data_sources = [
-                data_source
-                for data_source in data_pipeline.data_sources
-                if data_source.config.get("automation", {}).get("job_group") == job_group
-            ]
+        data_pipeline.data_sources = [
+            data_source
+            for data_source in data_pipeline.data_sources
+            if data_source.config.get("automation", {}).get("job_group", "default") == job_group
+        ]
 
-            # Early exit: job group contains no data sources
-            if not data_pipeline.data_sources:
-                return Response(
-                    f"No data sources matched job group {job_group} for table {table_name}",
-                    status=400,
-                )
+        # Early exit: job group contains no data sources
+        if not data_pipeline.data_sources:
+            return Response(
+                f"No data sources matched job group {job_group} for table {table_name}", status=400
+            )
 
         # Log the data sources being extracted
-        data_source_names = [src.config.get("name") for src in data_pipeline.data_sources]
+        data_source_names = [src.config.get("class") for src in data_pipeline.data_sources]
         logger.log_info(f"Updating data sources: {data_source_names}")
 
         # When running the data pipeline, use as many parallel processes as allowed and avoid
@@ -476,8 +456,10 @@ def publish_subset_tables() -> Response:
     return Response("OK", status=200)
 
 
-@profiled_route("/publish_v3_global_tables")
-def publish_v3_global_tables() -> Response:
+@profiled_route("/publish_global_tables")
+def publish_global_tables_(prod_folder: str = "v2") -> Response:
+    prod_folder = _get_request_param("prod_folder", prod_folder)
+
     with temporary_directory() as workdir:
         tables_folder = workdir / "tables"
         public_folder = workdir / "public"
@@ -488,11 +470,18 @@ def publish_v3_global_tables() -> Response:
         download_folder(GCS_BUCKET_TEST, "tables", tables_folder)
 
         # Publish the tables containing all location keys
-        publish_global_tables(tables_folder, public_folder)
-        logger.log_info("Global tables created")
+        table_names, column_adapter = None, None
+        if prod_folder == "v2":
+            table_names, column_adapter = V2_TABLE_LIST, {}
+        if prod_folder == "v3":
+            table_names, column_adapter = V3_TABLE_LIST, OUTPUT_COLUMN_ADAPTER
+        assert table_names is not None and column_adapter is not None
+        publish_global_tables(
+            tables_folder, public_folder, use_table_names=table_names, column_adapter=column_adapter
+        )
 
         # Upload the results to the prod bucket
-        upload_folder(GCS_BUCKET_PROD, "v3", public_folder)
+        upload_folder(GCS_BUCKET_PROD, prod_folder, public_folder)
 
     return Response("OK", status=200)
 
@@ -590,6 +579,9 @@ def publish_v3_main_table() -> Response:
         input_folder.mkdir(parents=True, exist_ok=True)
         output_folder.mkdir(parents=True, exist_ok=True)
 
+        # Get a list of valid location keys
+        location_keys = list(table_read_column(SRC / "data" / "metadata.csv", "key"))
+
         # Download all the location breakout tables into our local storage
         download_folder(GCS_BUCKET_PROD, "v3", input_folder, lambda x: "location/" in str(x))
         logger.log_info(f"Downloaded {sum(1 for _ in input_folder.glob('**/*.csv'))} CSV files")
@@ -597,7 +589,7 @@ def publish_v3_main_table() -> Response:
         # Create the aggregated table and put it in a compressed file
         agg_file_path = output_folder / "aggregated.csv.gz"
         with gzip.open(agg_file_path, "wt") as compressed_file:
-            merge_location_breakout_tables(input_folder, compressed_file)
+            merge_location_breakout_tables(input_folder, compressed_file, location_keys)
 
         # Upload the results to the prod bucket
         upload_folder(GCS_BUCKET_PROD, "v3", output_folder)
@@ -686,7 +678,7 @@ def publish_json_tables(prod_folder: str = "v2") -> Response:
 
 @profiled_route("/report_errors_to_github")
 def report_errors_to_github() -> Response:
-    register_new_errors(os.getenv(ENV_PROJECT))
+    register_new_errors(os.getenv(GCP_ENV_PROJECT))
     return Response("OK", status=200)
 
 
@@ -703,7 +695,7 @@ def deferred_route(url_path: str) -> Response:
 
     try:
         # Create a new preemptible instance and wait for it to come online
-        instance_opts = dict(service_account=os.getenv(ENV_SERVICE_ACCOUNT))
+        instance_opts = dict(service_account=os.getenv(GCP_ENV_SERVICE_ACCOUNT))
         instance_id = start_instance_from_image(GCS_CONTAINER_ID, **instance_opts)
         instance_ip = get_internal_ip(instance_id)
         logger.log_info(f"Created worker instance {instance_id} with internal IP {instance_ip}")
@@ -766,7 +758,7 @@ def create_instance(
     try:
         # Create a new preemptible instance and wait for it to come online
         instance_opts = dict(
-            service_account=os.getenv(ENV_SERVICE_ACCOUNT),
+            service_account=os.getenv(GCP_ENV_SERVICE_ACCOUNT),
             preemptible=preemptible,
             startup_script=str(GCP_SELF_DESTRUCT_SCRIPT) if self_destruct else None,
         )
@@ -783,6 +775,34 @@ def create_instance(
 
     # Forward the response from the instance
     return Response(content, status=status)
+
+
+@profiled_route("/publish_versions")
+def publish_versions(prod_folder: str = "v2") -> Response:
+    """Lists all the blobs in the bucket with generation."""
+    prod_folder = _get_request_param("prod_folder", prod_folder)
+    prefix = prod_folder + "/"
+
+    # Enumerate all the versions for each of the global tables
+    blob_index: Dict[str, List[str]] = {}
+    bucket = get_storage_bucket(GCS_BUCKET_PROD)
+    for table_name in ["aggregated", "main"] + list(get_table_names()):
+        blobs = bucket.list_blobs(prefix=prefix + table_name, versions=True)
+        for blob in blobs:
+            fname = blob.name.replace(prefix, "")
+            blob_index[fname] = blob_index.get(fname, [])
+            blob_index[fname].append(blob.generation)
+
+    with temporary_directory() as workdir:
+        # Write it to disk
+        fname = workdir / "versions.json"
+        with open(fname, "w") as fh:
+            json.dump(blob_index, fh)
+
+        # Upload to root folder
+        upload_folder(GCS_BUCKET_PROD, prod_folder + "/", workdir)
+
+    return Response("OK", status=200)
 
 
 @app.route("/status_check")
@@ -815,7 +835,7 @@ def main() -> None:
         publish_subset_tables()
 
     def _publish_v3():
-        publish_v3_global_tables()
+        publish_global_tables_(prod_folder="v3")
         publish_v3_location_subsets()
 
     def _publish_json(**kwargs):
@@ -842,6 +862,7 @@ def main() -> None:
         "publish_v3_json": _publish_json_v3,
         "publish_v3_main": publish_v3_main_table,
         "publish_v3_latest": publish_v3_latest_tables,
+        "publish_versions": publish_versions,
         "report_errors_to_github": report_errors_to_github,
     }.get(args.command, _unknown_command)(**json.loads(args.args or "{}"))
 

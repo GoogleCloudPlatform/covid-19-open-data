@@ -1,12 +1,6 @@
 # COVID-19 Open-Data
 
-This repository attempts to assemble the largest Covid-19 epidemiological database in addition to a 
-powerful set of expansive covariates. It includes open, publicly sourced, licensed data relating to 
-demographics, economy, epidemiology, geography, health, hospitalizations, mobility, government response, 
-weather, and more. Moreover, the data merges daily time-series, +20,000 global sources, at a fine spatial 
-resolution, using a consistent set of region keys.  All regions are assigned a unique location key, which 
-resolves discrepancies between ISO / NUTS / FIPS codes, etc. The different aggregation levels are:
-The different aggregation levels are:
+This repository attempts to assemble the largest Covid-19 epidemiological database in addition to a powerful set of expansive covariates. It includes open, publicly sourced, licensed data relating to demographics, economy, epidemiology, geography, health, hospitalizations, mobility, government response, weather, and more. Moreover, the data merges daily time-series, +20,000 global sources, at a fine spatial resolution, using a consistent set of region keys.  All regions are assigned a unique location key, which resolves discrepancies between ISO / NUTS / FIPS codes, etc. The different aggregation levels are:
 
 * 0: Country
 * 1: Province, state, or local equivalent
@@ -39,6 +33,7 @@ geographic (and temporal) keys as it is done for the [main table](#main-table).
 | [Hospitalizations](./docs/table-hospitalizations.md) | `[key][date]` | Information related to patients of COVID-19 and hospitals |  [hospitalizations.csv](https://storage.googleapis.com/covid19-open-data/v2/hospitalizations.csv), [hospitalizations.json](https://storage.googleapis.com/covid19-open-data/v2/hospitalization.json) | Various<sup>2</sup> |
 | [Mobility](./docs/table-mobility.md) | `[key][date]` | Various metrics related to the movement of people.<br/><br/>To download or use the data, you must agree to the Google [Terms of Service](https://policies.google.com/terms). | [mobility.csv](https://storage.googleapis.com/covid19-open-data/v2/mobility.csv), [mobility.json](https://storage.googleapis.com/covid19-open-data/v2/mobility.json) | Google |
 | [Search Trends](./docs/table-search-trends.md) | `[key][date]` | Trends in symptom search volumes due to COVID-19.<br/><br/>To download or use the data, you must agree to the Google [Terms of Service](https://policies.google.com/terms). | [google-search-trends.csv](https://storage.googleapis.com/covid19-open-data/v2/google-search-trends.csv) | Google |
+| [Vaccinations](./docs/table-vaccinations.md) | `[key][date]` | Trends in persons vaccinated and population vaccination rate regarding various Covid-19 vaccines.<br/><br/> | [vaccinations.csv](https://storage.googleapis.com/covid19-open-data/v2/vaccinations.csv) | Google |
 | [Government Response](./docs/table-government-response.md) | `[key][date]` | Government interventions and their relative stringency | [oxford-government-response.csv](https://storage.googleapis.com/covid19-open-data/v2/oxford-government-response.csv), [oxford-government-response.json](https://storage.googleapis.com/covid19-open-data/v2/oxford-government-response.json) | University of Oxford |
 | [Weather](./docs/table-weather.md) | `[key][date]` | Dated meteorological information for each region | [weather.csv](https://storage.googleapis.com/covid19-open-data/v2/weather.csv) | NOAA |
 | [WorldBank](./docs/table-worldbank.md) | `[key]` | Latest record for each indicator from WorldBank for all reporting countries | [worldbank.csv](https://storage.googleapis.com/covid19-open-data/v2/worldbank.csv), [worldbank.json](https://storage.googleapis.com/covid19-open-data/v2/worldbank.json) | WorldBank |
@@ -70,9 +65,14 @@ is easy to understand and modify.
 
 ## Explore the data
 
+A simple visualization tool was built to explore the Open COVID-19 datasets, the [Open COVID-19 Explorer][12]:
+<img src="https://github.com/open-covid-19/explorer/raw/master/screenshots/explorer.png" alt="drawing" width="200"/>
+<br>
+A variety of other community contributed visualization tools are listed below.
+
 |     |     |     |
 | --- | --- | --- |
-| A simple visualization tool was built to explore the Open COVID-19 datasets, the [Open COVID-19 Explorer][12]: [![](https://github.com/open-covid-19/explorer/raw/master/screenshots/explorer.png)][12] | If you want to see [interactive charts with a unique UX][14], don't miss what [@Mahks](https://github.com/Mahks) built using the Open COVID-19 dataset: [![](https://i.imgur.com/cIODOtp.png)][14] | You can also check out the great work of [@quixote79](https://github.com/quixote79), [a MapBox-powered interactive map site][13]: [![](https://i.imgur.com/nFwxJId.png)][13] |
+| See the COVID19 Data Block made by the [Looker team][16]: [![](https://i.imgur.com/HxD6qbk.png)][16] | If you want to see [interactive charts with a unique UX][14], don't miss what [@Mahks](https://github.com/Mahks) built using the Open COVID-19 dataset: [![](https://i.imgur.com/cIODOtp.png)][14] | You can also check out the great work of [@quixote79](https://github.com/quixote79), [a MapBox-powered interactive map site][13]: [![](https://i.imgur.com/nFwxJId.png)][13] |
 | Experience [clean, clear graphs with smooth animations][15] thanks to the work of [@jmullo](https://github.com/jmullo): [![](https://i.imgur.com/xdCzsUO.png)][15] | Become an armchair epidemiologist with the [COVID-19 timeline simulation tool][19] built by [@LeviticusMB](https://github.com/LeviticusMB): [![](https://i.imgur.com/4iWaP7E.png)][19] | Whether you want an interactive map, compare stats or look at charts, [@saadmas](https://github.com/saadmas) has you covered with a [COVID-19 Daily Tracking site][20]: [![](https://i.imgur.com/rAJvLSI.png)][20] |
 | Compare per-million data at [Omnimodel][21] thanks to [@OmarJay1](https://github.com/OmarJay1): [![](https://i.imgur.com/RG7ZKXp.png)][21] | Look at responsive, comprehensive charts thanks to the work of [@davidjohnstone](https://github.com/davidjohnstone): [![](https://i.imgur.com/ZbfMKvu.png)](https://www.cyclinganalytics.com/covid19) | [Reproduction Live][30] lets you track COVID-19 outbreaks in your region and visualise the spread of the virus over time: [![](https://reproduction.live/landing.png)][30] |
 
@@ -274,6 +274,10 @@ The following persons have made significant contributions to this project:
 * Zack Ontiveros
 * Ruth Alcantara
 * Donny Cheung
+* Aurora Cheung
+* Chandan Nath
+* Paula Le
+* Ofir Picazo Navarro
 
 
 
@@ -292,12 +296,12 @@ Please use the following when citing this project as a source of data:
 ```
 
 
-
 [7]: https://github.com/GoogleCloudPlatform/covid-19-open-data/blob/main/examples/data_loading.ipynb
 [12]: https://open-covid-19.github.io/explorer
 [13]: https://kepler.gl/demo/map?mapUrl=https://dl.dropboxusercontent.com/s/cofdctuogawgaru/COVID-19_Dataset.json
 [14]: https://www.starlords3k.com/covid19.php
 [15]: https://kiksu.net/covid-19/
+[16]: https://github.com/looker/covid19
 [18]: https://www.bsg.ox.ac.uk/research/research-projects/oxford-covid-19-government-response-tracker
 [19]: https://auditter.info/covid-timeline
 [20]: https://www.coronavirusdailytracker.info/

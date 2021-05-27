@@ -96,6 +96,7 @@ class FranceDepartmentDataSource(DataSource):
         data.loc[data["subregion2_code"] == "974", "key"] = "FR_LRE"
 
         # Drop bogus data
+        data = data.dropna(subset=["subregion2_code"])
         data = data[data["subregion2_code"] != "00"]
 
         return data
@@ -110,6 +111,7 @@ class FranceRegionDataSource(DataSource):
 
         # Convert the region codes to ISO format
         data["subregion1_code"] = data["subregion1_code"].apply(_region_code_map.get)
+        data = data.dropna(subset=["subregion1_code"])
 
         # Make sure all records have the country code and match subregion1 only
         data["country_code"] = "FR"

@@ -26,10 +26,11 @@ import json
 path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.append(path)
 
+import yaml
 from pandas import DataFrame
 from lib.constants import SRC
 from lib.pipeline import DataPipeline
-from typing import List, Iterator, Dict
+from typing import Iterator, Dict
 
 
 def get_pipeline_names() -> Iterator[str]:
@@ -38,7 +39,7 @@ def get_pipeline_names() -> Iterator[str]:
             yield item.name
 
 
-def get_source_configs(pipeline_names: List[str]) -> Iterator[Dict]:
+def get_source_configs(pipeline_names: Iterator[str]) -> Iterator[Dict]:
     """Map a list of pipeline names to their source configs."""
 
     for pipeline_name in pipeline_names:
@@ -47,7 +48,8 @@ def get_source_configs(pipeline_names: List[str]) -> Iterator[Dict]:
         for data_source in data_pipeline.data_sources:
             data_source_config = data_source.config
 
-            data_source_name = data_source_config.get("name")
+            data_source_class = data_source_config.get("class")
+            data_source_uuid = data_source.uuid(data_pipeline.table)
             data_source_fetch_params = data_source_config.get("fetch", [])
 
             for fetch_param in data_source_fetch_params:
@@ -55,9 +57,9 @@ def get_source_configs(pipeline_names: List[str]) -> Iterator[Dict]:
                 data_source_url = fetch_param.get("url")
 
                 yield {
-                    "pipeline_name": pipeline_name,
-                    "source_name": data_source_name,
+                    "source": data_source_class,
                     "url": data_source_url,
+                    "uuid": data_source_uuid,
                     "ext": file_ext,
                 }
 
@@ -65,19 +67,14 @@ def get_source_configs(pipeline_names: List[str]) -> Iterator[Dict]:
 def get_cache_configs() -> Iterator[Dict]:
     """Generate a list of configurations for cached data sources."""
 
-    config_json = SRC / "cache" / "config.json"
-    with open(config_json, "r") as fd:
-        cache_pipelines_config = json.load(fd)
-        for pipeline_config in cache_pipelines_config:
-            yield {"url": pipeline_config.get("url"), "cmd": pipeline_config.get("cmd")}
+    cache_config = SRC / "cache.yaml"
+    with open(cache_config, "r") as fd:
+        yield from yaml.safe_load(fd)
 
 
 if __name__ == "__main__":
     source_configs_df = DataFrame(get_source_configs(get_pipeline_names()))
     cache_configs_df = DataFrame(get_cache_configs())
 
-    print(source_configs_df)
-    print(cache_configs_df)
-
-    source_configs_df.to_csv(SRC / ".." / "tmp" / "source_configs.csv")
-    cache_configs_df.to_csv(SRC / ".." / "tmp" / "cache_configs.csv")
+    print(source_configs_df.to_csv(index=False))
+    # print(cache_configs_df)
