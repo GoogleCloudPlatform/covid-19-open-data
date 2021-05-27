@@ -26,8 +26,8 @@ Several things worth noting about this table:
 
 ## URL
 This table can be found at the following URLs depending on the choice of format:
-* [by-age.csv](https://storage.googleapis.com/covid19-open-data/v2/by-age.csv)
-* [by-age.json](https://storage.googleapis.com/covid19-open-data/v2/by-age.json)
+* [by-age.csv](https://storage.googleapis.com/covid19-open-data/v3/by-age.csv)
+* [by-age.json](https://storage.googleapis.com/covid19-open-data/v3/by-age.json)
 
 
 ## Schema
