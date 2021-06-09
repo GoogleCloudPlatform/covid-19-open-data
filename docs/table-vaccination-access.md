@@ -50,7 +50,7 @@ Other options to explore and work with the dataset include:
 
 * Explore the data using [Vaccine Equity Planner](https://vaccineplanner.org/) by [Ariadne Labs](https://www.ariadnelabs.org/) and [Boston Children’s Hospital's](https://www.childrenshospital.org/)  (US only).
 * Analyze the data alongside other covariates in the [COVID-19 Open-Data repository](https://goo.gle/covid-19-open-data).
-* Run queries in Google Cloud’s COVID-19 Public Dataset Program *(coming soon)*.
+* Run queries in Google Cloud’s [COVID-19 Public Dataset Program](http://console.cloud.google.com/marketplace/product/bigquery-public-datasets/covid19-vaccination-access).
 
 We’ll continue to update this product based on feedback from public health officials and researchers involved in the COVID-19 vaccination efforts. Our published data will remain publicly available to support long-term research and evaluation.
 
