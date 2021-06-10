@@ -238,6 +238,13 @@ def schedule_all_jobs(project_id: str, location_id: str, time_zone: str) -> None
         schedule="0 * * * *",
     )
 
+    # Publish a map of data sources for each global table
+    _schedule_job(
+        path=f"/deferred/publish_sources?prod_folder=v3",
+        # Run this job daily
+        schedule="0 0 * * *",
+    )
+
 
 if __name__ == "__main__":
 

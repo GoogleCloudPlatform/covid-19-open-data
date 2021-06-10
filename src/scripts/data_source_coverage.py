@@ -13,69 +13,132 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# A script to detect all pipelines declared in pipelines/ and cache/ and
-# dump a summary of their configurations within a `tmp/` folder in the
-# project root.
-#
-# Example usage: `python src/scripts/list_pipelines.py`
-
-import sys
-import os
 import json
-from functools import partial
-from google.cloud.storage import Blob
+import os
+import sys
+from numpy import DataSource
 from pandas import DataFrame
 from tqdm import tqdm
+from typing import Any, Dict, Iterable, List, Tuple
 
-path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-sys.path.append(path)
+# Add our library utils to the path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from lib.concurrent import process_map, thread_map
-from lib.constants import SRC, GCS_BUCKET_TEST
-from lib.data_source import DataSource
-from lib.io import read_table, temporary_directory
-from lib.gcloud import get_storage_bucket
-from lib.memory_efficient import get_table_columns, table_read_column
+from lib.cast import isna
+from lib.constants import SRC, GCS_BUCKET_TEST, GCS_BUCKET_PROD, OUTPUT_COLUMN_ADAPTER
+from lib.io import export_csv, read_table, temporary_directory
+from lib.gcloud import download_file
 from lib.pipeline import DataPipeline
-from lib.pipeline_tools import get_pipelines
-from typing import List, Iterable, Dict
+from lib.pipeline_tools import get_pipelines, iter_data_sources
 
 
-def download_file(bucket_name: str, remote_path: str, local_path: str) -> None:
-    bucket = get_storage_bucket(bucket_name)
-    # print(f"Downloading {remote_path} to {local_path}")
-    return bucket.blob(remote_path).download_to_filename(str(local_path))
-
-
-def read_source_output(data_pipeline: DataPipeline, data_source: DataSource) -> DataFrame:
+def load_combined_table(prod_folder: str, table_name: str) -> DataFrame:
     with temporary_directory() as workdir:
-        output_path = workdir / f"{data_source.uuid(data_pipeline.table)}.csv"
-        try:
-            download_file(GCS_BUCKET_TEST, f"intermediate/{output_path.name}", output_path)
-            columns = get_table_columns(output_path)
-            dates = list(table_read_column(output_path, "date")) if "date" in columns else [None]
-            return {
-                "pipeline": data_pipeline.name,
-                "data_source": f"{data_source.__module__}.{data_source.name}",
-                "columns": ",".join(columns),
-                "first_date": min(dates),
-                "last_date": max(dates),
-                "location_keys": ",".join(sorted(set(table_read_column(output_path, "key")))),
+        output_path = workdir / f"{table_name}.csv"
+        download_file(GCS_BUCKET_PROD, f"{prod_folder}/{table_name}.csv", output_path)
+        combined_table = read_table(output_path)
+        index_columns = (["date"] if "date" in combined_table.columns else []) + ["location_key"]
+        return combined_table.set_index(index_columns)
+
+
+def load_intermediate_tables(
+    column_adapter: List[str], index_columns: List[str]
+) -> Iterable[Tuple[DataSource, DataFrame]]:
+    with temporary_directory() as workdir:
+
+        for data_source in tqdm(pipeline.data_sources, desc="Downloading intermediate tables"):
+            fname = data_source.uuid(pipeline.table) + ".csv"
+            try:
+                download_file(GCS_BUCKET_TEST, f"intermediate/{fname}", workdir / fname)
+                table = read_table(workdir / fname).rename(columns=column_adapter)
+                table = table.groupby(index_columns).last()
+                yield (data_source, table)
+            except Exception as exc:
+                print(f"intermediate table not found: {fname}", file=sys.stderr)
+
+
+def map_table_sources_to_index(
+    data_sources: Dict[str, int], pipeline: DataPipeline, prod_folder: str = "v3"
+):
+    """ Publishes a table with the data source of each data point """
+
+    # Filter out data sources from other pipelines
+    data_sources = [src for src in data_sources if src["pipeline"] == pipeline.name]
+
+    # Convert the data source list into a map for easy lookup by index
+    source_index_map = {src["class"]: src["index"] for src in data_sources}
+
+    # Download the combined table and all the intermediate files used to create it
+    combined_table = load_combined_table(prod_folder, pipeline.table)
+    index_columns = combined_table.index.names
+    intermediate_tables = list(load_intermediate_tables(OUTPUT_COLUMN_ADAPTER, index_columns))
+
+    # Iterate over the indices for each column independently
+    source_dict = {idx: {} for idx in combined_table.index}
+    for data_source, table in tqdm(intermediate_tables, desc="Building index map"):
+        if data_source.config["class"] not in source_index_map:
+            # Maybe a new data source was recently added and we have not updated the
+            # data source dictionary yet
+            continue
+
+        for col in table.columns:
+            subset = table[[col]].dropna()
+            for idx in filter(lambda idx: idx in source_dict, subset.index):
+                source_dict[idx][col] = source_index_map[data_source.config["class"]]
+        # for idx, row in table.iterrows():
+        #     if idx not in source_map:
+        #         # If the intermediate table was *just* updated some values may not be found in
+        #         # the combined table yet.
+        #         continue
+        #     for col in filter(lambda col: not isna(row[col]), table.columns):
+        #         source_map[idx][col] = source_index_map[data_source.config["class"]]
+
+    # Build a dataframe from the dictionary
+    source_table = DataFrame(source_dict.values(), index=source_dict.keys())
+
+    # Create a table with the source map
+    index_adapter = {f"level_{idx}": col for idx, col in enumerate(index_columns)}
+    source_table = source_table.reset_index().rename(columns=index_adapter)
+
+    # Preserve the same order of the columns as the original table
+    sorted_columns = [col for col in combined_table.columns if col in source_table.columns]
+    source_table.columns = index_columns + sorted_columns
+
+    return source_table
+
+
+def create_metadata_dict() -> Dict[str, Any]:
+    meta: Dict[str, Any] = {"tables": [], "sources": []}
+
+    # Add each of the tables into the metadata file
+    for pipeline in get_pipelines():
+        fname = pipeline.table
+        meta["tables"].append(
+            {
+                "name": fname,
+                "csv_url": f"https://storage.googleapis.com/covid19-open-data/v3/{fname}.csv",
+                # TODO: discover the generation ID of the file and add it to the metadata
             }
-        except Exception as exc:
-            print(exc, file=sys.stderr)
-            return []
+        )
+
+    # Add all the data sources to the metadata file
+    sources = [(idx, name, src) for idx, (name, src) in enumerate(iter_data_sources())]
+    meta["sources"] = [
+        dict(src.config, index=idx, pipeline=name, uuid=src.uuid(name))
+        for idx, name, src in sources
+    ]
+
+    return meta
 
 
-def get_source_outputs(data_pipelines: Iterable[DataPipeline]) -> Iterable[Dict]:
-    """Map a list of pipeline names to their source configs."""
+def output_table_sources(source_table: DataFrame, output_path: str) -> None:
 
-    for data_pipeline in tqdm(list(data_pipelines)):
-        # print(f"Processing {data_pipeline.name}")
-        map_iter = data_pipeline.data_sources
-        map_func = partial(read_source_output, data_pipeline)
-        map_opts = dict(desc="Downloading data tables", leave=False)
-        yield from thread_map(map_func, map_iter, **map_opts)
+    # Create a schema to output integers and avoid pandas converting to floating point
+    schema_map = dict(date="str", location_key="str")
+    schema = {col: schema_map.get(col, "int") for col in source_table.columns}
+
+    # Output the table at the requested location
+    export_csv(source_table, output_path, schema)
 
 
 if __name__ == "__main__":
@@ -83,5 +146,18 @@ if __name__ == "__main__":
     # > $env:GOOGLE_CLOUD_PROJECT = "github-open-covid-19"
     # > $env:GCS_SERVICE_ACCOUNT = "github-open-covid-19@appspot.gserviceaccount.com"
     # > $env:GCP_TOKEN = $(gcloud auth application-default print-access-token)
-    results = DataFrame(get_source_outputs(get_pipelines()))
-    results.to_csv(index=False)
+
+    # Create the output directory where the sources will go
+    output_directory = SRC / ".." / "output" / "sources"
+    output_directory.mkdir(exist_ok=True, parents=True)
+
+    # Get the data sources and write a JSON file summarizing them to disk
+    metadata = create_metadata_dict()
+    with open(output_directory / "metadata.json", "w") as fh:
+        json.dump(metadata, fh)
+
+    # Iterate over the individual tables and build their sources file
+    for table_name in ("epidemiology", "hospitalizations", "vaccinations", "by-age"):
+        pipeline = DataPipeline.load(table_name.replace("-", "_"))
+        source_map = map_table_sources_to_index(metadata["sources"], pipeline)
+        output_table_sources(source_map, output_directory / f"{table_name}.sources.csv")
