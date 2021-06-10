@@ -29,9 +29,7 @@ from typing import Callable, Dict, List, Optional
 import requests
 import yaml
 from flask import Flask, Response, request
-from google.cloud import storage
 from google.cloud.storage.blob import Blob
-from google.oauth2.credentials import Credentials
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
@@ -48,12 +46,16 @@ from publish import (
     publish_subset_latest,
 )
 from scripts.cloud_error_processing import register_new_errors
+from scripts.data_source_coverage import (
+    create_metadata_dict,
+    map_table_sources_to_index,
+    output_table_sources,
+)
 
 from lib.cast import safe_int_cast
 from lib.concurrent import thread_map
 from lib.constants import (
     GCP_SELF_DESTRUCT_SCRIPT,
-    GCP_ENV_TOKEN,
     GCP_ENV_PROJECT,
     GCP_ENV_SERVICE_ACCOUNT,
     GCS_BUCKET_PROD,
@@ -69,7 +71,6 @@ from lib.gcloud import (
     delete_instance,
     get_internal_ip,
     get_storage_bucket,
-    get_storage_client,
     start_instance_from_image,
 )
 from lib.io import export_csv, gzip_file, temporary_directory
@@ -778,12 +779,12 @@ def create_instance(
 
 
 @profiled_route("/publish_versions")
-def publish_versions(prod_folder: str = "v2") -> Response:
+def publish_versions(prod_folder: str = "v3") -> Response:
     """Lists all the blobs in the bucket with generation."""
     prod_folder = _get_request_param("prod_folder", prod_folder)
-    prefix = prod_folder + "/"
 
     # Enumerate all the versions for each of the global tables
+    prefix = prod_folder + "/"
     blob_index: Dict[str, List[str]] = {}
     bucket = get_storage_bucket(GCS_BUCKET_PROD)
     for table_name in ["aggregated", "main"] + list(get_table_names()):
@@ -793,11 +794,46 @@ def publish_versions(prod_folder: str = "v2") -> Response:
             blob_index[fname] = blob_index.get(fname, [])
             blob_index[fname].append(blob.generation)
 
+    # Repeat the process for the intermediate tables
+    bucket = get_storage_bucket(GCS_BUCKET_TEST)
+    blobs = bucket.list_blobs(prefix="intermediate/", versions=True)
+    for blob in blobs:
+        # Keep the "intermediate/" prefix to distinguish from the tables
+        fname = blob.name
+        blob_index[fname] = blob_index.get(fname, [])
+        blob_index[fname].append(blob.generation)
+
     with temporary_directory() as workdir:
         # Write it to disk
         fname = workdir / "versions.json"
         with open(fname, "w") as fh:
             json.dump(blob_index, fh)
+
+        # Upload to root folder
+        upload_folder(GCS_BUCKET_PROD, prod_folder + "/", workdir)
+
+    return Response("OK", status=200)
+
+
+@profiled_route("/publish_sources")
+def publish_sources(prod_folder: str = "v3") -> Response:
+    """Publishes a table with the source of each datapoint."""
+    prod_folder = _get_request_param("prod_folder", prod_folder)
+
+    with temporary_directory() as workdir:
+
+        # Get the data sources and write a JSON file summarizing them to disk
+        metadata = create_metadata_dict()
+        with open(workdir / "metadata.json", "w") as fh:
+            json.dump(metadata, fh)
+
+        # Iterate over the individual tables and build their sources file
+        # TODO: create source map for all tables, not just a hand-picked subset
+        for table_name in ("epidemiology", "hospitalizations", "vaccinations", "by-age"):
+            data_sources = metadata["sources"]
+            pipeline = DataPipeline.load(table_name.replace("-", "_"))
+            source_map = map_table_sources_to_index(data_sources, pipeline, prod_folder=prod_folder)
+            output_table_sources(source_map, workdir / f"{table_name}.sources.csv")
 
         # Upload to root folder
         upload_folder(GCS_BUCKET_PROD, prod_folder + "/", workdir)
@@ -863,6 +899,7 @@ def main() -> None:
         "publish_v3_main": publish_v3_main_table,
         "publish_v3_latest": publish_v3_latest_tables,
         "publish_versions": publish_versions,
+        "publish_sources": publish_sources,
         "report_errors_to_github": report_errors_to_github,
     }.get(args.command, _unknown_command)(**json.loads(args.args or "{}"))
 
