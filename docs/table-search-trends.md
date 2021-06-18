@@ -74,7 +74,7 @@ Regional CSV files are available for download in our [data exploration and downl
 | ---- | ---- | ----------- | ------- |
 | **key** | `string` | Unique string identifying the region | US_CA |
 | **date** | `string` | The day on which the searches took place. For weekly data, this is the first day of the 7-day weekly interval starting on Monday. For example, in the weekly data the row labeled *2020-07-13* represents the search activity for the week of July 13 to July 19, 2020, inclusive. Calendar days start and end at midnight, Pacific Standard Time. | 2020-07-13 |
-| **`${symptom name}`** | `double` `[0-100]` | Repeated for each symptom. Reflects the normalized search volume for this symptom, for the specified date and region. The field may be empty when data is not available. | 87.02 |
+| **`${symptom name}`** | `double` | Repeated for each symptom. Reflects the normalized search volume for this symptom, for the specified date and region. The field may be empty when data is not available. | 87.02 |
 
 
 ## Availability
