@@ -155,7 +155,7 @@ You can also use Powershell to get the latest data for a country directly from
 the command line, for example to query the latest epidemiology data for Australia:
 ```powershell
 Invoke-WebRequest 'https://storage.googleapis.com/covid19-open-data/v2/latest/epidemiology.csv' | ConvertFrom-Csv | `
-    where key -eq 'AU' | select date,total_confirmed,total_deceased,total_recovered
+    where key -eq 'AU' | select date,cumulative_confirmed,cumulative_deceased,cumulative_recovered
 ```
 
 
