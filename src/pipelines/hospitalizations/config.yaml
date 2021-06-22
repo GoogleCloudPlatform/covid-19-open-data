@@ -83,6 +83,24 @@ sources:
       # Skip because it's too slow
       skip: true
 
+  - class: pipelines.epidemiology.br_authority.BrazilSRAGDataSource
+    fetch:
+      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/SRAG/2021/INFLUD21-{date}.csv"
+        opts:
+          date_format: '%d-%m-%Y'
+    parse:
+      sep: ";"
+      encoding: "ISO-8859-1"
+      # This data source does not report zero values, so we fill them in
+      fill_with_zeroes: ['new_[^_]+_age_.+']
+    test:
+      location_key_match:
+        - '^BR$'
+        - '^BR_[^_]+$'
+        - '^BR_[^_]+_[^_]+$'
+      # Skip because it's too slow
+      skip: true
+
   # Data sources for CH level 1 + 2
   - class: pipelines.epidemiology.ch_authority.SwitzerlandCantonsDataSource
     fetch:

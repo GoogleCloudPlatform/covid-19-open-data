@@ -144,7 +144,25 @@ sources:
       location_key_match: '^BE$'
 
   # Data sources for BR levels 1 + 2 + 3
+  - class: pipelines.epidemiology.br_authority.BrazilOpenDataPortalDataSource
+    fetch:
+      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
+    parse:
+      sep: ";"
+      encoding: "ISO-8859-1"
+      # This data source does not report zero values, so we fill them in
+      fill_with_zeroes: ['new_[^_]+']
+    test:
+      location_key_match:
+        - '^BR$'
+        - '^BR_[^_]+$'
+        - '^BR_[^_]+_[^_]+$'
+      # Skip because it's too slow
+      skip: true
+
   - class: pipelines.epidemiology.br_authority.BrazilHealthMinistryDataSource
+    fetch:
+      - url: "https://xx9p7hp1p7.execute-api.us-east-1.amazonaws.com/prod/PortalGeral"
     test:
       location_key_match: 'BR_.+'
       # Skip because it's too slow
