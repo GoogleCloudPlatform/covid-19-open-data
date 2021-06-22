@@ -38,6 +38,7 @@ jobs:
         run: |
           python3 -m pip install --upgrade pip
           python3 -m pip install -r requirements.txt
+          apt-get update && apt-get install -y unrar
 
       - name: Run unit tests
         working-directory: src
