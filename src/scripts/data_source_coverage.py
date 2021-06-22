@@ -32,7 +32,8 @@ from lib.pipeline import DataPipeline
 from lib.pipeline_tools import get_pipelines, iter_data_sources
 
 
-def load_combined_table(prod_folder: str, table_name: str) -> DataFrame:
+def load_combined_table(pipeline: DataPipeline, prod_folder: str) -> DataFrame:
+    table_name = pipeline.table
     with temporary_directory() as workdir:
         output_path = workdir / f"{table_name}.csv"
         download_file(GCS_BUCKET_PROD, f"{prod_folder}/{table_name}.csv", output_path)
@@ -42,7 +43,7 @@ def load_combined_table(prod_folder: str, table_name: str) -> DataFrame:
 
 
 def load_intermediate_tables(
-    column_adapter: List[str], index_columns: List[str]
+    pipeline: DataPipeline, column_adapter: List[str], index_columns: List[str]
 ) -> Iterable[Tuple[DataSource, DataFrame]]:
     with temporary_directory() as workdir:
 
@@ -69,9 +70,11 @@ def map_table_sources_to_index(
     source_index_map = {src["class"]: src["index"] for src in data_sources}
 
     # Download the combined table and all the intermediate files used to create it
-    combined_table = load_combined_table(prod_folder, pipeline.table)
+    combined_table = load_combined_table(pipeline, prod_folder)
     index_columns = combined_table.index.names
-    intermediate_tables = list(load_intermediate_tables(OUTPUT_COLUMN_ADAPTER, index_columns))
+    intermediate_tables = list(
+        load_intermediate_tables(pipeline, OUTPUT_COLUMN_ADAPTER, index_columns)
+    )
 
     # Iterate over the indices for each column independently
     source_dict = {idx: {} for idx in combined_table.index}
