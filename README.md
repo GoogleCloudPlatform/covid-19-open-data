@@ -39,6 +39,7 @@ geographic (and temporal) keys as it is done for the [main table](#main-table).
 | [By Age](./docs/table-by-age.md) | `[key][date]` | Epidemiology and hospitalizations data stratified by age | [by-age.csv](https://storage.googleapis.com/covid19-open-data/v3/by-age.csv), [by-age.json](https://storage.googleapis.com/covid19-open-data/v3/by-age.json) | Various<sup>2</sup> |
 | [By Sex](./docs/table-by-sex.md) | `[key][date]` | Epidemiology and hospitalizations data stratified by sex | [by-sex.csv](https://storage.googleapis.com/covid19-open-data/v3/by-sex.csv), [by-sex.json](https://storage.googleapis.com/covid19-open-data/v3/by-sex.json) | Various<sup>2</sup> |
 
+
 <sup>1</sup> `key` is a unique string for the specific geographical region built from a combination
 of codes such as `ISO 3166`, `NUTS`, `FIPS` and other local equivalents.\
 <sup>2</sup> Refer to the [data sources](#sources-of-data) for specifics about each data source and
@@ -64,14 +65,14 @@ the data is easy to understand and modify.
 
 ## Explore the data
 
-A simple visualization tool was built to explore the Open COVID-19 datasets, the [Open COVID-19 Explorer][12]: 
+A simple visualization tool was built to explore the Open COVID-19 datasets, the [Open COVID-19 Explorer][12]:
 <img src="https://github.com/open-covid-19/explorer/raw/master/screenshots/explorer.png" alt="drawing" width="200"/>
 <br>
 A variety of other community contributed visualization tools are listed below.
 
 |     |     |     |
 | --- | --- | --- |
-| | If you want to see [interactive charts with a unique UX][14], don't miss what [@Mahks](https://github.com/Mahks) built using the Open COVID-19 dataset: [![](https://i.imgur.com/cIODOtp.png)][14] | You can also check out the great work of [@quixote79](https://github.com/quixote79), [a MapBox-powered interactive map site][13]: [![](https://i.imgur.com/nFwxJId.png)][13] |
+| See the COVID19 Data Block made by the [Looker team][16]: [![](https://i.imgur.com/HxD6qbk.png)][16] | If you want to see [interactive charts with a unique UX][14], don't miss what [@Mahks](https://github.com/Mahks) built using the Open COVID-19 dataset: [![](https://i.imgur.com/cIODOtp.png)][14] | You can also check out the great work of [@quixote79](https://github.com/quixote79), [a MapBox-powered interactive map site][13]: [![](https://i.imgur.com/nFwxJId.png)][13] |
 | Experience [clean, clear graphs with smooth animations][15] thanks to the work of [@jmullo](https://github.com/jmullo): [![](https://i.imgur.com/xdCzsUO.png)][15] | Become an armchair epidemiologist with the [COVID-19 timeline simulation tool][19] built by [@LeviticusMB](https://github.com/LeviticusMB): [![](https://i.imgur.com/4iWaP7E.png)][19] | Whether you want an interactive map, compare stats or look at charts, [@saadmas](https://github.com/saadmas) has you covered with a [COVID-19 Daily Tracking site][20]: [![](https://i.imgur.com/rAJvLSI.png)][20] |
 | Compare per-million data at [Omnimodel][21] thanks to [@OmarJay1](https://github.com/OmarJay1): [![](https://i.imgur.com/RG7ZKXp.png)][21] | Look at responsive, comprehensive charts thanks to the work of [@davidjohnstone](https://github.com/davidjohnstone): [![](https://i.imgur.com/ZbfMKvu.png)](https://www.cyclinganalytics.com/covid19) | [Reproduction Live][30] lets you track COVID-19 outbreaks in your region and visualise the spread of the virus over time: [![](https://reproduction.live/landing.png)][30] |
 
@@ -274,6 +275,9 @@ The following persons have made significant contributions to this project:
 * Ruth Alcantara
 * Donny Cheung
 * Aurora Cheung
+* Chandan Nath
+* Paula Le
+* Ofir Picazo Navarro
 
 
 
@@ -292,12 +296,12 @@ Please use the following when citing this project as a source of data:
 ```
 
 
-
 [7]: https://github.com/GoogleCloudPlatform/covid-19-open-data/blob/main/examples/data_loading.ipynb
 [12]: https://open-covid-19.github.io/explorer
 [13]: https://kepler.gl/demo/map?mapUrl=https://dl.dropboxusercontent.com/s/cofdctuogawgaru/COVID-19_Dataset.json
 [14]: https://www.starlords3k.com/covid19.php
 [15]: https://kiksu.net/covid-19/
+[16]: https://github.com/looker/covid19
 [18]: https://www.bsg.ox.ac.uk/research/research-projects/oxford-covid-19-government-response-tracker
 [19]: https://auditter.info/covid-timeline
 [20]: https://www.coronavirusdailytracker.info/

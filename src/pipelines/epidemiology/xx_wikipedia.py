@@ -14,7 +14,7 @@
 
 import re
 import datetime
-from typing import Dict, Optional, Tuple
+from typing import Any, Dict, Optional, Tuple
 from pandas import DataFrame, isna, isnull
 
 from lib.cast import safe_int_cast, safe_datetime_parse
@@ -34,7 +34,7 @@ class WikipediaDataSource(DataSource):
         non_null = [value for value in group if not (isna(value) or isnull(value))]
         return None if not non_null else sum(non_null)
 
-    def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
+    def parse(self, sources: Dict[Any, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         if parse_opts.get("debug"):
             self.log_debug(f"File name: {sources[0]}")
 
@@ -87,11 +87,18 @@ class WikipediaDataSource(DataSource):
             date_format = parse_opts["date_format"]
             if "%Y" not in date_format:
                 date_format = date_format + "-%Y"
-                data["date"] = data["date"].astype(str) + "-%d" % datetime.datetime.now().year
+                data["date"] = data["date"].astype(str) + "-2020"
 
             # Parse into datetime object, drop if not possible
             data["date"] = data["date"].apply(lambda date: safe_datetime_parse(date, date_format))
-            data = data[~data["date"].isna()]
+            data = data.dropna(subset=["date"])
+
+            # Dates should be sorted, if they go back in time it means we leaped a year
+            prev_date = data.iloc[0]["date"] if len(data) else None
+            for idx, row in data.iterrows():
+                year = row["date"].year
+                if year < datetime.datetime.now().year and row["date"] < prev_date:
+                    data.loc[idx, "date"] = data.loc[idx, "date"].replace(year=year + 1)
 
             # If the dataframe is not empty, then we found a good one
             if len(data) > 10 and len(data["subregion"].unique()) > 3:

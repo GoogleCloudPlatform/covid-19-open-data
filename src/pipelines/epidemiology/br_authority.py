@@ -12,7 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import datetime
+import glob
+import os
+import shutil
+import uuid
+
 from functools import partial
 from pathlib import Path
 from typing import Any, Dict, List
@@ -24,6 +28,8 @@ from lib.case_line import convert_cases_to_time_series
 from lib.cast import safe_int_cast, numeric_code_as_string
 from lib.error_logger import ErrorLogger
 from lib.concurrent import process_map, thread_map
+from lib.io import temporary_directory
+from lib.memory_efficient import table_concat
 from lib.net import download_snapshot
 from lib.pipeline import DataSource
 from lib.time import datetime_isoformat, date_today
@@ -75,7 +81,7 @@ class BrazilHealthMinistryDataSource(DataSource):
     ) -> Dict[str, str]:
         # Get the URL from a fake browser request
         url = requests.get(
-            "https://xx9p7hp1p7.execute-api.us-east-1.amazonaws.com/prod/PortalGeral",
+            fetch_opts[0]["url"],
             headers={
                 "Accept": "application/json, text/plain, */*",
                 "Accept-Language": "en-GB,en;q=0.5",
@@ -90,8 +96,20 @@ class BrazilHealthMinistryDataSource(DataSource):
             timeout=60,
         ).json()["results"][0]["arquivo"]["url"]
 
-        # Pass the actual URL down to fetch it
-        return super().fetch(output_folder, cache, [{"url": url}], skip_existing=skip_existing)
+        # Download the RAR into a temporary folder and concatenate the CSV files within
+        assert url.endswith(".rar"), f"URL does not have expected extension: {url}"
+        with temporary_directory() as workdir:
+            archive_fname = workdir / "archive.rar"
+            with requests.get(url, stream=True) as req:
+                with open(archive_fname, "wb") as fh:
+                    shutil.copyfileobj(req.raw, fh)
+
+            return_code = os.system(f"unrar e {archive_fname} {workdir}")
+            assert return_code == 0, "unrar command failed"
+
+            output_path = output_folder / "snapshot" / f"{uuid.uuid5(uuid.NAMESPACE_DNS, url)}.csv"
+            table_concat(glob.glob(str((workdir / "*.csv").absolute())), output_path)
+            return {fetch_opts[0].get("name", 0): str(output_path.absolute())}
 
     def parse_dataframes(
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts

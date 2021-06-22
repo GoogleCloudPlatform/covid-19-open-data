@@ -45,13 +45,11 @@ auxiliary:
   knowledge_graph: ./data/knowledge_graph.csv
 
 sources:
-  - name: pipelines.oxford_government_response.oxford_government_response.OxfordGovernmentResponseDataSource
+  - class: pipelines.oxford_government_response.oxford_government_response.OxfordGovernmentResponseDataSource
     fetch:
       - url: "https://raw.github.com/OxCGRT/covid-policy-tracker/master/data/OxCGRT_latest.csv"
     test:
       location_key_match: '^..$'
     automation:
-      job_group: 'all'
-      deferred: true
       # Run only twice a day, since it's so resource consuming and does not change often
       schedule: "0 */12 * * *"

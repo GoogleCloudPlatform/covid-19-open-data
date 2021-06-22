@@ -86,11 +86,7 @@ def _process_partition(cases: DataFrame) -> DataFrame:
     cases = cases[[col for col in cases.columns if not col.startswith("_")]]
 
     # Make sure our region codes are of type str
-    cases["subregion2_code"] = cases["subregion2_code"].apply(safe_int_cast)
-    # The last digit of the region code is actually not necessary
-    cases["subregion2_code"] = cases["subregion2_code"].apply(
-        lambda x: None if isna(x) else str(int(x))[:-1]
-    )
+    cases["subregion2_code"] = cases["subregion2_code"].apply(safe_int_cast).astype(str)
 
     # Convert ages to int, and translate sex (no "other" sex/gender reported)
     cases["age"] = cases["age"].apply(safe_int_cast)
@@ -125,20 +121,10 @@ def _process_partition(cases: DataFrame) -> DataFrame:
     data = data[data["subregion2_code"].notna() & (data["subregion2_code"] != "")]
     data["key"] = "BR_" + data["subregion1_code"] + "_" + data["subregion2_code"]
 
-    # return concat([country, state, data])
-    return concat([country, state])
+    return concat([country, state, data])
 
 
 class BrazilDataSource(DataSource):
-    def fetch(
-        self,
-        output_folder: Path,
-        cache: Dict[str, str],
-        fetch_opts: List[Dict[str, Any]],
-        skip_existing: bool = False,
-    ) -> Dict[Any, str]:
-        return {0: "~/Downloads/part-00000-33cc8f2d-3f49-40bc-97eb-953ba00dda90-c000.csv"}
-
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         # Manipulate the parse options here because we have access to the columns adapter and we
         # can then limit the columns being read to save space.

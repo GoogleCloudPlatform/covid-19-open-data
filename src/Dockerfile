@@ -35,6 +35,9 @@ ENV PATH /env/bin:$PATH
 ADD . /app
 RUN pip install -r /app/requirements.txt
 
+# Install utilities needed for data pipelines
+RUN apt-get update -yq && apt-get install -y unrar
+
 # Start application server
 # gunicorn options:
 # --timeout=10800

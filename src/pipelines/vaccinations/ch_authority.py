@@ -17,7 +17,9 @@ from typing import Any, Dict, List
 import requests
 from pandas import DataFrame
 from lib.data_source import DataSource
+from lib.utils import table_merge
 from lib.utils import table_rename
+from lib.vaccinations_utils import estimate_total_persons_vaccinated
 
 
 class SwitzerlandDataSource(DataSource):
@@ -28,27 +30,46 @@ class SwitzerlandDataSource(DataSource):
             fetch_opts: List[Dict[str, Any]],
             skip_existing: bool = False,
     ) -> Dict[str, str]:
-        # the url in the config is a json file which contains the actual url for vaccDosesAdministered
+        # the url in the config is a json file which contains the actual dated urls for the data
         src_url = fetch_opts[0]['url']
         data = requests.get(src_url).json()
-        vaccines_url = data['sources']['individual']['csv']['vaccDosesAdministered']
-        fetch_opts[0]['url'] = vaccines_url
+
+        fetch_opts = [
+            {'name': 'vaccDosesAdministered', 'url': data['sources']['individual']['csv']['vaccDosesAdministered']},
+            {'name': 'fullyVaccPersons', 'url': data['sources']['individual']['csv']['fullyVaccPersons']}
+        ]
+
         return super().fetch(output_folder, cache, fetch_opts, skip_existing)
 
     def parse_dataframes(
         self, dataframes: Dict[Any, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
-
-        # Rename the appropriate columns
-        data = table_rename(
-            dataframes[0],
-            {
-                "date": "date",
-                "geoRegion": "subregion1_code",
-                "sumTotal": "total_vaccine_doses_administered",
-            },
-            drop=True,
+        data = table_merge(
+            [
+                table_rename(
+                    dataframes['vaccDosesAdministered'],
+                    {
+                        "date": "date",
+                        "geoRegion": "subregion1_code",
+                        "sumTotal": "total_vaccine_doses_administered",
+                    },
+                    drop=True,
+                ),
+                table_rename(
+                    dataframes['fullyVaccPersons'],
+                    {
+                        "date": "date",
+                        "geoRegion": "subregion1_code",
+                        "sumTotal": "total_persons_fully_vaccinated",
+                    },
+                    drop=True,
+                ),
+            ],
+            on=["date", "subregion1_code"],
+            how="outer",
         )
+
+        data["total_persons_vaccinated"] = estimate_total_persons_vaccinated(data)
 
         # Make sure all records have the country code and match subregion1 only
         data["key"] = None

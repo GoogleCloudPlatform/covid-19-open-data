@@ -34,13 +34,15 @@ rm add-logging-agent-repo.sh
 mkdir -p /opt/google-cloud-sdk/bin
 ln -s `which gcloud` /opt/google-cloud-sdk/bin/gcloud
 
-
 # Clone the repo into app directory
 readonly APPDIR=/opt/open-covid
 git clone https://github.com/GoogleCloudPlatform/covid-19-open-data.git --single-branch -b "$BRANCH" "$APPDIR"
 
 # Install Python and its dependencies
 python3.8 -m pip install -r "$APPDIR/src/requirements.txt"
+
+# Install utilities needed for data pipelines
+sudo apt-get install -y unrar
 
 # Allow for Python to bind to port 80
 sudo setcap CAP_NET_BIND_SERVICE=+eip $(which python3.8)
