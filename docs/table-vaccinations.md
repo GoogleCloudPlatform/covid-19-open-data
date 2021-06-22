@@ -23,9 +23,9 @@ This table can be found at the following URLs depending on the choice of format:
 \*Values can be negative, typically indicating a correction or an adjustment in the way they were
 measured.
 
-\*\*Total count will not always amount to the sum of daily counts, because many authorities make
+\*\*Cumulative count will not always amount to the sum of daily counts, because many authorities make
 changes to criteria for counting cases, but not always make adjustments to the data. There is also
-potential missing data. All of that makes the total counts *drift* away from the sum of all daily
+potential missing data. All of that makes the cumulative counts *drift* away from the sum of all daily
 counts over time, which is why the cumulative values, if reported, are kept in a separate column.
 
 
