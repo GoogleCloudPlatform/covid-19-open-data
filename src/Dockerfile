@@ -34,7 +34,9 @@ ENV PATH /env/bin:$PATH
 # Add application code and install dependencies
 ADD . /app
 RUN pip install -r /app/requirements.txt
-RUN apt-get install -y unrar
+
+# Install utilities needed for data pipelines
+RUN apt-get update -yq && apt-get install -y unrar
 
 # Start application server
 # gunicorn options:
