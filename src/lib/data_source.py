@@ -345,7 +345,8 @@ class DataSource(ErrorLogger):
             backfill_cumulative_fields_inplace(data)
 
         # Derive localities from all regions
-        localities = derive_localities(aux["localities"], data)
+        pooling_func = parse_opts.get("pooling_function", "sum")
+        localities = derive_localities(aux["localities"], data, pooling_func=pooling_func)
         if len(localities) > 0:
             data = data.append(localities)
 

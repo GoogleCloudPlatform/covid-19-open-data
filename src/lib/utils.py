@@ -349,13 +349,17 @@ def stratify_age_sex_ethnicity(data: DataFrame) -> DataFrame:
     return data
 
 
-def derive_localities(localities: DataFrame, data: DataFrame) -> DataFrame:
+def derive_localities(
+    localities: DataFrame, data: DataFrame, pooling_func: str = "sum"
+) -> DataFrame:
     """
     Given a table, extract the keys which have an equivalent locality and return that subset using
     the locality keys. Equivalency between key:locality can be 1:1 or many:1.
 
     Arguments:
         localities: Auxiliary table with mapping between key->locality
+        data: input DataFrame
+        pooling_func: function used to aggregate the numerical data, defaults to "sum"
     Returns:
         DataFrame: Subset of localities found in `data`, using the keys from localities
     """
@@ -363,7 +367,7 @@ def derive_localities(localities: DataFrame, data: DataFrame) -> DataFrame:
     numeric_columns = [col for col in data.columns if is_numeric_dtype(data[col])]
     non_numeric_columns = [col for col in data.columns if col not in numeric_columns]
     agg_func = {}
-    agg_func.update({col: "sum" for col in numeric_columns})
+    agg_func.update({col: pooling_func for col in numeric_columns})
     agg_func.update({col: "first" for col in non_numeric_columns})
 
     # Remove localities that are already part of the data
