@@ -909,27 +909,15 @@ sources:
     test:
       location_key_match: 'UA_.+'
 
-  # Data sources for US levels 2 + 3
-  - class: pipelines.epidemiology.us_nyt_covid.NytCovidL2DataSource
-    fetch:
-      - url: "https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv"
-    test:
-      location_key_match: 'US_[^_]+$'
-
-  - class: pipelines.epidemiology.us_nyt_covid.NytCovidL3DataSource
-    fetch:
-      - url: "https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv"
-    test:
-      location_key_match: 'US_.+_.+'
-
   # The CDC data comes before each state since individual state's data might be more accurate
   - class: pipelines.epidemiology.us_authority.CDCDataSource
     fetch:
       - url: "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=integrated_county_timeseries_state_{state}_external"
         opts:
           ext: json
-    aggregate:
-      subregion2: ['new_confirmed', 'new_deceased', 'new_tested']
+    # Do not aggregate CDC data since we have better data sources available
+    # aggregate:
+    #   subregion2: ['new_confirmed', 'new_deceased', 'new_tested']
     test:
       location_key_match:
         - '^US_[^_]+$'
@@ -937,12 +925,25 @@ sources:
       # Skip test because it runs out of memory on GitHub Actions
       skip: true
 
+  # Data sources for US levels 2 + 3
+  - class: pipelines.epidemiology.us_nyt_covid.NytCovidL2DataSource
+    fetch:
+      - url: "https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv"
+    test:
+      location_key_match: '^US_[^_]+$'
+
+  - class: pipelines.epidemiology.us_nyt_covid.NytCovidL3DataSource
+    fetch:
+      - url: "https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv"
+    test:
+      location_key_match: '^US_[^_]+_[^_]+$'
+
   # We prioritize covid tracking data over CDC since their testing data is more reliable
   - class: pipelines.epidemiology.us_covidtracking.CovidTrackingDataSource
     fetch:
       - url: "https://covidtracking.com/api/v1/states/daily.csv"
     test:
-      location_key_match: 'US_[^_]+$'
+      location_key_match: '^US_[^_]+$'
 
   # Data sources for US_AK level 2
   - class: pipelines.epidemiology.us_ak_authority.AlaskaDataSource
