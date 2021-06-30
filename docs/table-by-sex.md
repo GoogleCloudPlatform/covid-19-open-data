@@ -39,7 +39,7 @@ This table can be found at the following URLs depending on the choice of format:
 
 | Data | Source | License and Terms of Use |
 | ---- | ------ | ------------------------ |
-| Argentina | [Datos Argentina](https://datos.gob.ar/) | [Public domain](https://datos.gob.ar/acerca/seccion/marco-legal) |
+| Argentina | [Datos Argentina](https://datos.gob.ar/dataset/salud-covid-19-casos-registrados-republica-argentina) | [Public domain](https://datos.gob.ar/acerca/seccion/marco-legal) |
 | Brazil | [Brazil Ministério da Saúde](https://coronavirus.saude.gov.br/) | [Creative Commons Atribuição](http://www.opendefinition.org/licenses/cc-by) |
 | Brazil (Rio de Janeiro) | <http://www.data.rio/> | [Dados abertos](https://www.data.rio/datasets/f314453b3a55434ea8c8e8caaa2d8db5) |
 | Brazil (Ceará) | <https://saude.ce.gov.br> | [Dados abertos](https://cearatransparente.ce.gov.br/portal-da-transparencia) |

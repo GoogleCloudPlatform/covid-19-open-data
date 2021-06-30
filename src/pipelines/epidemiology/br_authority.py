@@ -178,7 +178,7 @@ def _download_open_data(
     url_tpl: str,
     output_folder: Path,
     ibge_code: str,
-    max_volumes: int = 12,
+    max_volumes: int = 50,
     **download_opts,
 ) -> Dict[str, str]:
     logger.log_debug(f"Downloading Brazil data for {ibge_code}...")

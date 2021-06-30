@@ -164,7 +164,10 @@ sources:
     fetch:
       - url: "https://xx9p7hp1p7.execute-api.us-east-1.amazonaws.com/prod/PortalGeral"
     test:
-      location_key_match: 'BR_.+'
+      location_key_match:
+        - '^BR$'
+        - '^BR_[^_]+$'
+        - '^BR_[^_]+_[^_]+$'
       # Skip because it's too slow
       skip: true
     parse:
