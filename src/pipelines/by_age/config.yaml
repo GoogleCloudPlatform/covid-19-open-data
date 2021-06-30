@@ -178,6 +178,7 @@ sources:
 
   # Data sources for AR levels 2 + 3
   - class: pipelines.epidemiology.ar_authority.ArgentinaDataSource
+    label: Datos Argentina
     fetch:
       - url: "https://sisa.msal.gov.ar/datos/descargas/covid-19/files/Covid19Casos.csv"
     test:
@@ -187,6 +188,7 @@ sources:
 
   # Data sources for BR levels 1 + 2 + 3
   - class: pipelines.epidemiology.br_authority.BrazilOpenDataPortalDataSource
+    label: Ministry of Health of Brazil (openDataSUS)
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
     parse:
@@ -195,11 +197,15 @@ sources:
       # This data source does not report zero values, so we fill them in
       fill_with_zeroes: ['new_[^_]+_age_.+']
     test:
-      location_key_match: 'BR.*'
+      location_key_match:
+        - '^BR$'
+        - '^BR_[^_]+$'
+        - '^BR_[^_]+_[^_]+$'
       # Skip because it's too slow
       skip: true
 
   - class: pipelines.epidemiology.br_authority.BrazilSRAGDataSource
+    label: Ministry of Health of Brazil (SRAG)
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/SRAG/2020/INFLUD-{date}.csv"
         opts:
@@ -210,12 +216,35 @@ sources:
       # This data source does not report zero values, so we fill them in
       fill_with_zeroes: ['new_[^_]+_age_.+']
     test:
-      location_key_match: 'BR.*'
+      location_key_match:
+        - '^BR$'
+        - '^BR_[^_]+$'
+        - '^BR_[^_]+_[^_]+$'
+      # Skip because it's too slow
+      skip: true
+
+  - class: pipelines.epidemiology.br_authority.BrazilSRAGDataSource
+    label: Ministry of Health of Brazil (SRAG)
+    fetch:
+      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/SRAG/2021/INFLUD21-{date}.csv"
+        opts:
+          date_format: '%d-%m-%Y'
+    parse:
+      sep: ";"
+      encoding: "ISO-8859-1"
+      # This data source does not report zero values, so we fill them in
+      fill_with_zeroes: ['new_[^_]+_age_.+']
+    test:
+      location_key_match:
+        - '^BR$'
+        - '^BR_[^_]+$'
+        - '^BR_[^_]+_[^_]+$'
       # Skip because it's too slow
       skip: true
 
   # Data sources for BR_RJ level 3
   - class: pipelines.epidemiology.br_rj_authority.RioStratifiedDataSource
+    label: Ministry of Health of Rio de Janeiro
     fetch:
       - url: "https://pcrj.maps.arcgis.com/sharing/rest/content/items/754cc0698129404ba8bfb053cbdbd158/data"
         opts:
@@ -230,6 +259,7 @@ sources:
 
   # Data sources for CO levels 1 + 2 + 3
   - class: pipelines.epidemiology.co_authority.ColombiaDataSource
+    label: Ministry of Health of Colombia
     fetch:
       - url: "https://www.datos.gov.co/api/views/gt2j-8ykr/rows.csv"
     test:
@@ -237,6 +267,7 @@ sources:
 
   # Data sources for CZ levels 1 + 2 + 3
   - class: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
+    label: Ministry of Health of the Czech Republic
     fetch:
       - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/osoby.csv"
     parse:
@@ -247,6 +278,7 @@ sources:
       location_key_match: 'CZ.*'
 
   - class: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
+    label: Ministry of Health of the Czech Republic
     fetch:
       - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/umrti.csv"
     parse:
@@ -257,6 +289,7 @@ sources:
       location_key_match: 'CZ.*'
 
   - class: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
+    label: Ministry of Health of the Czech Republic
     fetch:
       - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/vyleceni.csv"
     parse:
@@ -268,6 +301,7 @@ sources:
 
   # Data sources for DE levels 0 + 1 + 2
   - class: pipelines.epidemiology.de_authority.GermanyDataSource
+    label: Robert Koch Institute
     fetch:
       - url: "https://opendata.arcgis.com/datasets/dd4580c810204019a7b8eb3e0b329dd6_0.csv"
     parse:
@@ -281,6 +315,7 @@ sources:
 
   # Data sources for EE levels 0 + 1
   - class: pipelines.epidemiology.ee_authority.EstoniaDataSource
+    label: Health Board of Estonia
     fetch:
       - url: "https://opendata.digilugu.ee/opendata_covid19_test_results.csv"
     parse:
@@ -294,6 +329,7 @@ sources:
 
   # Data sources for ES levels 0 + 1
   - class: pipelines.epidemiology.es_authority.ISCIIIStratifiedDataSource
+    label: Ministry of Health of Spain
     fetch:
       - url: "https://cnecovid.isciii.es/covid19/resources/casos_hosp_uci_def_sexo_edad_provres.csv"
     test:
@@ -303,6 +339,7 @@ sources:
 
   # Data sources for ES_CT levels 2
   - class: pipelines.epidemiology.es_ct_authority.CataloniaHealthDeptDataSource
+    label: Department of Health of Catalonia
     fetch:
       - url: "https://analisi.transparenciacatalunya.cat/api/views/qwj8-xpvk/rows.csv"
     parse:
@@ -312,6 +349,7 @@ sources:
 
   # Data sources for FI level 1
   - class: pipelines.epidemiology.fi_authority.FinlandArcGisDataSource
+    label: Finnish Institute for Health and Welfare
     fetch:
       - url: https://services7.arcgis.com/nuPvVz1HGGfa0Eh7/arcgis/rest/services/korona_tapauksia_jakauma/FeatureServer/0/query?f=json&where=1%3D1&outFields=OBJECTID,alue,date,tapauksia,miehia,naisia,Ika_0_9,ika_10_19,ika_20_29,ika_30_39,ika_40_49,ika_50_59,ika_60_69,ika_70_79,ika_80_,koodi&returnGeometry=false
         opts:
@@ -322,6 +360,7 @@ sources:
 
   # Data sources for FR levels 1 + 2 + 3
   - class: pipelines.epidemiology.fr_authority.FranceStratifiedDataSource
+    label: Etalab
     fetch:
       - url: https://dashboard.covid19.data.gouv.fr/data/code-{}.json
     test:
@@ -332,6 +371,7 @@ sources:
 
   # Data sources for HK level 0
   - class: pipelines.epidemiology.hk_authority.HongKongDataSource
+    label: Hong Kong Department of Health
     fetch:
       - url: "https://www.chp.gov.hk/files/misc/enhanced_sur_covid_19_eng.csv"
     parse:
@@ -342,6 +382,7 @@ sources:
 
   # Data source for IN levels 0 + 1
   - class: pipelines.epidemiology.in_covid19india_org.Covid19IndiaOrgCasesDataSource
+    label: covid19india.org
     fetch:
       - url: "https://api.covid19india.org/csv/latest/raw_data{idx}.csv"
         opts:
@@ -353,6 +394,7 @@ sources:
 
   # Data sources for MX levels 1, 2 and 3
   - class: pipelines.epidemiology.mx_authority.MexicoDataSource
+    label: Ministry of Health of Mexico
     fetch:
       - url: "http://datosabiertos.salud.gob.mx/gobmx/salud/datos_abiertos/datos_abiertos_covid19.zip"
     parse:
@@ -366,6 +408,7 @@ sources:
 
   # Data sources for NZ level 0
   - class: pipelines.epidemiology.nz_authority.NewZealandDataSource
+    label: Ministry of Health of New Zealand
     fetch:
       - url: "https://www.health.govt.nz/system/files/documents/pages/covid_cases_{date}.csv"
         opts:
@@ -380,6 +423,7 @@ sources:
 
   # Data sources for PE levels 1 + 2 + 3
   - class: pipelines.epidemiology.pe_authority.PeruDataSource
+    label: Ministry of Health of Peru
     fetch:
       - name: confirmed
         url: "https://cloud.minsa.gob.pe/s/Y8w3wHsEdYQSZRp/download"
@@ -400,6 +444,7 @@ sources:
   # Data sources for PH levels 2 + 3
   # Mirrored from http://bit.ly/DataDropArchives
   - class: pipelines.epidemiology.ph_authority.PhilippinesDataSource
+    label: Ministry of Health of Philippines
     fetch:
       - url: "https://storage.googleapis.com/finmango-covid-data/Philippines/Latest%20Case%20Information.csv"
         opts:
@@ -409,6 +454,7 @@ sources:
 
   # Data sources for RO level 1
   - class: pipelines.epidemiology.ro_authority.RomaniaDataSource
+    label: datelazi.ro
     fetch:
       - url: "https://d35p9e4fm9h3wo.cloudfront.net/latestData.json"
     parse:
@@ -418,6 +464,7 @@ sources:
 
   # Data sources for TH levels 0 + 1
   - class: pipelines.epidemiology.th_authority.ThailandProvinceDataSource
+    label: Department of Disease Control of Thailand
     fetch:
       - url: "https://covid19.th-stat.com/api/open/cases"
         opts:
@@ -434,6 +481,7 @@ sources:
 
   # Data sources for TW levels 0 + 1
   - class: pipelines.epidemiology.tw_authority.TaiwanDataSource
+    label: Ministry of Health and Welfare of Taiwan
     fetch:
       - url: "https://od.cdc.gov.tw/eic/Day_Confirmation_Age_County_Gender_19CoV.csv"
     parse:
@@ -448,6 +496,7 @@ sources:
 
   # Data sources for US level 2
   - class: pipelines.epidemiology.us_imperial.ImperialDataSource
+    label: Imperial College of London
     fetch:
       - url: "https://raw.githubusercontent.com/ImperialCollegeLondon/US-covid19-agespecific-mortality-data/master/data/processed/latest/DeathsByAge_US.csv"
     test:
@@ -455,6 +504,7 @@ sources:
 
   # Data sources for US_CA level 1
   - class: pipelines.epidemiology.us_ca_authority.CaliforniaOpenDataSource
+    label: data.ca.gov
     fetch:
       - url: "https://data.ca.gov/dataset/590188d5-8545-4c93-a9a0-e230f0db7290/resource/339d1c4d-77ab-44a2-9b40-745e64e335f2/download/case_demographics_age.csv"
     test:
@@ -463,6 +513,7 @@ sources:
       location_key_match: '^US_CA$'
 
   - class: pipelines.epidemiology.us_ca_authority.CaliforniaCachedDataSource
+    label: California Department of Public Health
     # No URL is given because it uses the cache
     fetch:
       - cache_key: US_CA-mortality-stratified
@@ -473,6 +524,7 @@ sources:
 
   # Data sources for US_DC level 2
   - class: pipelines.epidemiology.us_dc_authority.DistrictColumbiaDataSource
+    label: Government of the District of Columbia
     fetch:
       - url: "https://coronavirus.dc.gov/page/coronavirus-data"
         opts:
@@ -486,6 +538,7 @@ sources:
 
   # Data sources for US_DE level 2
   - class: pipelines.epidemiology.us_de_authority.DelawareDataSource
+    label: Delaware Health and Social Services
     fetch:
       - url: "https://myhealthycommunity.dhss.delaware.gov/locations/state/download_covid_19_data"
         opts:
@@ -498,6 +551,7 @@ sources:
 
   # Data sources US_FL levels 1 + 2
   - class: pipelines.epidemiology.us_fl_authority.FloridaDataSource
+    label: Florida Health
     fetch:
       - url: "https://services1.arcgis.com/CY1LXxl9zlJeBuRZ/ArcGIS/rest/services/Florida_COVID19_Case_Line_Data_NEW/FeatureServer/0/query?where=1%3D1&outFields=*&f=json"
     parse:
@@ -512,6 +566,7 @@ sources:
 
   # Data sources for US_GA levels 2 + 3
   - class: pipelines.epidemiology.us_ga_authority.GeorgiaStratifiedDataSource
+    label: Georgia Department of Public Health
     # No URL is given because it uses the cache
     fetch:
       - cache_key: US_GA_stratified
@@ -523,6 +578,7 @@ sources:
 
   # Data sources for US_IN level 3
   - class: pipelines.epidemiology.us_in_authority.IndianaDataSource
+    label: Indiana Department of Health
     fetch:
       - url: "https://hub.mph.in.gov/dataset/6b57a4f2-b754-4f79-a46b-cff93e37d851/resource/46b310b9-2f29-4a51-90dc-3886d9cf4ac1/download/covid_report.xlsx"
         opts:
@@ -539,6 +595,7 @@ sources:
 
   # Data sources for US_MA level 3
   - class: pipelines.epidemiology.us_ma_authority.MassachusettsByAgeDataSource
+    label: MCAD COVID-19 Information & Resource Center
     fetch:
       - name: by-age
         # August 11th was the last day US_MA reported cases broken down by age/sex
@@ -553,6 +610,7 @@ sources:
   # Data sources for US_WA level 2
   # Only present in by-age table because the data is not updated daily
   - class: pipelines.epidemiology.us_wa_authority.WashingtonDataSource
+    label: Washington State Department of Health
     fetch:
       - url: "https://www.doh.wa.gov/Portals/1/Documents/1600/coronavirus/data-tables/PUBLIC_CDC_Event_Date_SARS.xlsx"
     parse:
