@@ -343,15 +343,14 @@ sources:
         - '^SK$'
         - '^SK_[^_]+$'
 
-  # Data sources for US level 0
-  - class: pipelines.vaccinations.us_authority.CDCDataSource
+  # Data sources for US level 2
+  - class: pipelines.vaccinations.us_authority_cached.USCountyCachedDataSource
+    # No URL is given because it uses the cache
     fetch:
-      - url: "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_trends_data"
-        name: vaccination_trends_data
-        opts:
-          ext: json
+      - cache_key: US_CDC_counties_vaccinations
     test:
-      location_key_match: '^US$'
+      location_key_match:
+        - '^US_[^_]+_[^_]+$'
 
   # Data sources for US level 1
   - class: pipelines.vaccinations.xx_owid.OurWorldInDataUSDataSource
@@ -370,11 +369,12 @@ sources:
         -  '^US$'
         -  '^US_[^_]+$'
 
-  # Data sources for US level 2
-  - class: pipelines.vaccinations.us_authority_cached.USCountyCachedDataSource
-    # No URL is given because it uses the cache
+  # Data sources for US level 0
+  - class: pipelines.vaccinations.us_authority.CDCDataSource
     fetch:
-      - cache_key: US_CDC_counties_vaccinations
+      - url: "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_trends_data"
+        name: vaccination_trends_data
+        opts:
+          ext: json
     test:
-      location_key_match:
-        - '^US_[^_]+_[^_]+$'
+      location_key_match: '^US$'
