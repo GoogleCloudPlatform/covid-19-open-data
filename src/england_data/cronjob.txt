@@ -1,0 +1,9 @@
+# To set cron to log to /var/log/cron.log, edit the file /etc/rsyslog.conf by
+# uncommenting the line: #cron.*                          /var/log/cron.log
+# Then run: sudo service rsyslog restart
+# You can view the cron log with: less /var/log/cron.log
+# Or 24 hour logs with: grep -E 'CRON.*daily_processor.sh' /var/log/syslog
+0 0 * * * bash ${HOME}/dm_c19_modelling/england_data/daily_processor.sh
+0 6 * * * bash ${HOME}/dm_c19_modelling/england_data/daily_processor.sh
+0 12 * * * bash ${HOME}/dm_c19_modelling/england_data/daily_processor.sh
+0 18 * * * bash ${HOME}/dm_c19_modelling/england_data/daily_processor.sh
