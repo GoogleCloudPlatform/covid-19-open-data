@@ -125,10 +125,10 @@ def create_metadata_dict() -> Dict[str, Any]:
         )
 
     # Add all the data sources to the metadata file
-    sources = [(idx, name, src) for idx, (name, src) in enumerate(iter_data_sources())]
+    sources = [(idx, pipeline, src) for idx, (pipeline, src) in enumerate(iter_data_sources())]
     meta["sources"] = [
-        dict(src.config, index=idx, pipeline=name, uuid=src.uuid(name))
-        for idx, name, src in sources
+        dict(src.config, index=idx, table=pipeline.table, uuid=src.uuid(pipeline.table))
+        for idx, pipeline, src in sources
     ]
 
     return meta

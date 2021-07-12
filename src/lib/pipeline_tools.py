@@ -54,9 +54,6 @@ def get_schema() -> Dict[str, type]:
 
 
 def iter_data_sources():
-    for name in get_pipeline_names():
-        config_path = SRC / "pipelines" / name / "config.yaml"
-        with open(config_path, "r") as fd:
-            config_yaml = yaml.safe_load(fd)
-            for source_config in config_yaml["sources"]:
-                yield name, DataSource(source_config)
+    for pipeline in get_pipelines():
+        for data_source in pipeline.data_sources:
+            yield pipeline, data_source
