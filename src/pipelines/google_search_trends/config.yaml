@@ -449,6 +449,7 @@ sources:
 
   # Country level data + admin level 1
   - class: pipelines.google_search_trends.google_search_trends.GoogleSearchTrendsDataSource
+    label: Google Search Trends
     fetch:
       - url: "https://storage.googleapis.com/gcs-public-data---symptom-search/{year}/{level}/daily/{year}_{region_code}_daily_symptoms_dataset.csv"
     parse:
@@ -465,6 +466,7 @@ sources:
 
   # AU levels 1 + 2
   - class: pipelines.google_search_trends.google_search_trends.GoogleSearchTrendsDataSource
+    label: Google Search Trends
     fetch:
       - url: "https://storage.googleapis.com/gcs-public-data---symptom-search/{year}/{level}/daily/{year}_{region_code}_daily_symptoms_dataset.csv"
     parse:
@@ -485,6 +487,7 @@ sources:
 
   # US levels 1 + 2
   - class: pipelines.google_search_trends.google_search_trends.GoogleSearchTrendsDataSource
+    label: Google Search Trends
     fetch:
       - url: "https://storage.googleapis.com/gcs-public-data---symptom-search/{year}/{level}/daily/{year}_{region_code}_daily_symptoms_dataset.csv"
     parse:
@@ -504,6 +507,7 @@ sources:
       job_group: united_states_1
 
   - class: pipelines.google_search_trends.google_search_trends.GoogleSearchTrendsDataSource
+    label: Google Search Trends
     fetch:
       - url: "https://storage.googleapis.com/gcs-public-data---symptom-search/{year}/{level}/daily/{year}_{region_code}_daily_symptoms_dataset.csv"
     parse:
@@ -523,6 +527,7 @@ sources:
       job_group: united_states_2
 
   - class: pipelines.google_search_trends.google_search_trends.GoogleSearchTrendsDataSource
+    label: Google Search Trends
     fetch:
       - url: "https://storage.googleapis.com/gcs-public-data---symptom-search/{year}/{level}/daily/{year}_{region_code}_daily_symptoms_dataset.csv"
     parse:
@@ -542,6 +547,7 @@ sources:
       job_group: united_states_3
 
   - class: pipelines.google_search_trends.google_search_trends.GoogleSearchTrendsDataSource
+    label: Google Search Trends
     fetch:
       - url: "https://storage.googleapis.com/gcs-public-data---symptom-search/{year}/{level}/daily/{year}_{region_code}_daily_symptoms_dataset.csv"
     parse:

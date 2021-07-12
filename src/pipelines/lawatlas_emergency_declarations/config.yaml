@@ -125,6 +125,7 @@ auxiliary:
 sources:
 
   - class: pipelines.lawatlas_emergency_declarations.lawatlas_emergency_declarations.LawAtlasDataSource
+    label: lawatlas.org
     fetch:
       - url: "https://monqcle.com/upload/5f3bf7c15594f4ce258b4567/download"
         opts:

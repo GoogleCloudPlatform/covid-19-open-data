@@ -36,12 +36,14 @@ auxiliary:
 sources:
   # Data is fetched dynamically, so no URL can be declared here
   # - class: pipelines.weather.noaa_ghcn.NoaaGhcnDataSource
+  #   label: National Oceanic and Atmospheric Administration
   #   test:
   #     # Skip because it's too slow
   #     skip: true
 
   # Use NOAA's global summary of the day dataset (2020)
   - class: pipelines.weather.noaa_gsod.NoaaGsodDataSource
+    label: National Oceanic and Atmospheric Administration
     fetch:
       - name: inventory
         url: https://www1.ncdc.noaa.gov/pub/data/noaa/isd-history.csv
@@ -63,6 +65,7 @@ sources:
 
   # Use NOAA's global summary of the day dataset (2021)
   - class: pipelines.weather.noaa_gsod.NoaaGsodDataSource
+    label: National Oceanic and Atmospheric Administration
     fetch:
       - name: inventory
         url: https://www1.ncdc.noaa.gov/pub/data/noaa/isd-history.csv

@@ -28,6 +28,7 @@ sources:
 
   # Country level data + admin level 1
   - class: pipelines.vaccination_search_insights.vaccination_search_insights.GoogleVaccinationSearchInsightsDataSource
+    label: Google Vaccination Search Insights
     fetch:
       - url: "https://storage.googleapis.com/covid19-open-data/covid19-vaccination-search-insights/Global_vaccination_search_insights.csv"
     parse:

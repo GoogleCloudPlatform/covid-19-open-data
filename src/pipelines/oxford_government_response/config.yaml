@@ -46,6 +46,7 @@ auxiliary:
 
 sources:
   - class: pipelines.oxford_government_response.oxford_government_response.OxfordGovernmentResponseDataSource
+    label: Oxford COVID-19 Policy Tracker
     fetch:
       - url: "https://raw.github.com/OxCGRT/covid-policy-tracker/master/data/OxCGRT_latest.csv"
     test:

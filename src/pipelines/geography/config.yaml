@@ -34,6 +34,7 @@ auxiliary:
 sources:
 
   - class: pipelines._common.wikidata.WikidataDataSource
+    label: wikidata.org
     parse:
       open_street_maps: P402
       elevation: P2044
@@ -43,6 +44,7 @@ sources:
       schedule: "0 */12 * * *"
 
   - class: pipelines.geography.wikidata.WikidataCoordinatesDataSource
+    label: wikidata.org
     parse:
       coordinates: P625
     automation:
@@ -53,6 +55,7 @@ sources:
       skip: true
 
   - class: pipelines.worldbank.worldbank.WorldbankDataSource
+    label: WorldBank
     fetch:
       - url: "https://storage.googleapis.com/covid19-open-data/cache/2020-01-01-00/WDI_csv.zip"
     parse:

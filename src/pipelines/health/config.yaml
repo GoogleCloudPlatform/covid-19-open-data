@@ -40,6 +40,7 @@ auxiliary:
 sources:
 
   - class: pipelines._common.wikidata.WikidataDataSource
+    label: wikidata.org
     parse:
       life_expectancy: P2250
     automation:
@@ -47,6 +48,7 @@ sources:
       schedule: "0 */12 * * *"
 
   - class: pipelines.worldbank.worldbank.WorldbankDataSource
+    label: WorldBank
     fetch:
       - url: "https://storage.googleapis.com/covid19-open-data/cache/2020-01-01-00/WDI_csv.zip"
     parse:
@@ -72,6 +74,7 @@ sources:
 
   # This data has been manually downloaded from the Eurostat website
   - class: pipelines._common.eurostat.EurostatDataSource
+    label: Eurostat
     test:
       location_key_match: 'BE.*'
     automation:
@@ -79,6 +82,7 @@ sources:
       schedule: "0 */12 * * *"
 
   - class: pipelines.health.usaleep.USALEEPDataSource
+    label: United States Small-Area Life Expectancy Project
     fetch:
       - url: "https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Datasets/NVSS/USALEEP/CSV/US_A.CSV"
         opts:

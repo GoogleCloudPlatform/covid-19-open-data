@@ -39,5 +39,6 @@ auxiliary:
 
 sources:
   - class: pipelines.index.index.IndexDataSource
+    label: COVID-19 Open-Data
     parse:
       keep_metadata: true

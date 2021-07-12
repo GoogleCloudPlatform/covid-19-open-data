@@ -51,6 +51,7 @@ sources:
 
   # WorldPop populations are estimates, so give them less priority
   - class: pipelines.demographics.worldpop.WorldPopPopulationDataSource
+    label: worldpop.org
     test:
       location_key_match: '^..$'
     automation:
@@ -58,6 +59,7 @@ sources:
       schedule: "0 */12 * * *"
 
   - class: pipelines._common.wikidata.WikidataDataSource
+    label: wikidata.org
     parse:
       population: P1082
       human_development_index: P1081
@@ -66,6 +68,7 @@ sources:
       schedule: "0 */12 * * *"
 
   - class: pipelines.worldbank.worldbank.WorldbankDataSource
+    label: WorldBank
     fetch:
       - url: "https://storage.googleapis.com/covid19-open-data/cache/2020-01-01-00/WDI_csv.zip"
     parse:
@@ -86,6 +89,7 @@ sources:
 
   # UN WPP stratified population estimates
   - class: pipelines.demographics.un_wpp.UnWppByAgeDataSource
+    label: un.org
     fetch:
       - url: "https://population.un.org/wpp/Download/Files/1_Indicators%20(Standard)/CSV_FILES/WPP2019_PopulationByAgeSex_Medium.csv"
     test:
@@ -95,6 +99,7 @@ sources:
       schedule: "0 */12 * * *"
 
   - class: pipelines.demographics.un_wpp.UnWppBySexDataSource
+    label: un.org
     fetch:
       - url: "https://population.un.org/wpp/Download/Files/1_Indicators%20(Standard)/CSV_FILES/WPP2019_TotalPopulationBySex.csv"
     test:
@@ -105,6 +110,7 @@ sources:
 
   # This data is manually curated into a table using official census estimates
   - class: pipelines.demographics.census.CensusDataSource
+    label: Local Census (Various)
     test:
       location_key_match:
         - '^CL.*'
@@ -118,6 +124,7 @@ sources:
 
   # This data has been manually downloaded from the Eurostat website
   - class: pipelines._common.eurostat.EurostatDataSource
+    label: Eurostat
     test:
       location_key_match:
         - '^AL(_[^_]+)?$'
