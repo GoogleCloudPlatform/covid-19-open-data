@@ -64,7 +64,7 @@ def map_table_sources_to_index(
     """ Publishes a table with the data source of each data point """
 
     # Filter out data sources from other pipelines
-    data_sources = [src for src in data_sources if src["pipeline"] == pipeline.name]
+    data_sources = [src for src in data_sources if src["table"] == pipeline.table]
 
     # Convert the data source list into a map for easy lookup by index
     source_index_map = {src["class"]: src["index"] for src in data_sources}
