@@ -660,7 +660,7 @@ def publish_json_tables(prod_folder: str = "v2") -> Response:
         output_folder.mkdir(parents=True, exist_ok=True)
 
         # Download all the global tables and latest subsets into our local storage
-        forbid_tokens = ("location/", "main.", "aggregated.")
+        forbid_tokens = ("location/", "main.")
         filter_func = lambda x: x.suffix == ".csv" and all(
             token not in str(x) for token in forbid_tokens
         )
