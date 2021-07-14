@@ -24,7 +24,7 @@ There are multiple types of data:
 
 The data is drawn from multiple sources, as listed [below](#sources-of-data), and stored in separate
 tables as CSV files grouped by context, which can be easily merged due to the use of consistent
-geographic (and temporal) keys as it is done for the [main table](#main-table).
+geographic (and temporal) keys as it is done for the [aggregated table](#aggregated-table).
 
 | Table | Keys<sup>1</sup> | Content | URL | Source<sup>2</sup> |
 | ----- | ---------------- | ------- | --- | ------------------ |
@@ -92,14 +92,15 @@ The data is available as CSV and JSON files, which are published in Google Cloud
 be served directly to Javascript applications without the need of a proxy to set the correct headers
 for CORS and content type.
 
-For the purpose of making the data as easy to use as possible, there is a [main](#main) table
-which contains the columns of all other tables joined by `key` and `date`. However,
-performance-wise, it may be better to download the data separately and join the tables locally.
+For the purpose of making the data as easy to use as possible, there is an
+[aggregated](#aggregated-table) table which contains the columns of all other tables joined by `key`
+and `date`. However, performance-wise, it may be better to download the data separately and join the
+tables locally.
 
-Each region has its own version of the main table, so you can pull all the data for a specific
+Each region has its own version of the aggregated table, so you can pull all the data for a specific
 region using a single endpoint, the URL for each region is:
-* Data for `key` in CSV format: `https://storage.googleapis.com/covid19-open-data/v3/${key}/main.csv`
-* Data for `key` in JSON format: `https://storage.googleapis.com/covid19-open-data/v3/${key}/main.json`
+* Data for `key` in CSV format: `https://storage.googleapis.com/covid19-open-data/v3/location/${key}.csv`
+* Data for `key` in JSON format: `https://storage.googleapis.com/covid19-open-data/v3/location/${key}.json`
 
 Each table has a full version as well as subsets with only the last day of data.
 The full version is accessible at the URL described [in the table above](#open-covid-19-dataset).
@@ -206,10 +207,10 @@ value. See the [data loading tutorial][7] for more information.
 
 ### Data updates
 The data for each table is updated at least daily. Individual tables, for example
-[Epidemiology](./docs/table-epidemiology.md), have fresher data than the [main table](#main-table)
-and are updated multiple times a day. Each individual data source has its own update schedule and
-some are not updated in a regular interval; the data tables hosted here only reflect the latest data
-published by the sources.
+[Epidemiology](./docs/table-epidemiology.md), have fresher data than the
+[aggregated table](#aggregated-table) and are updated multiple times a day. Each individual data
+source has its own update schedule and some are not updated in a regular interval; the data tables
+hosted here only reflect the latest data published by the sources.
 
 
 
