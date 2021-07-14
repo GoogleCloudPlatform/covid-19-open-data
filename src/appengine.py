@@ -471,11 +471,11 @@ def publish_global_tables_(prod_folder: str = "v2") -> Response:
         download_folder(GCS_BUCKET_TEST, "tables", tables_folder)
 
         # Publish the tables containing all location keys
-        table_names, column_adapter = None, None
+        table_names = list(get_table_names())
         if prod_folder == "v2":
-            table_names, column_adapter = V2_TABLE_LIST, {}
+            column_adapter = {}
         if prod_folder == "v3":
-            table_names, column_adapter = V3_TABLE_LIST, OUTPUT_COLUMN_ADAPTER
+            column_adapter = OUTPUT_COLUMN_ADAPTER
         assert table_names is not None and column_adapter is not None
         publish_global_tables(
             tables_folder, public_folder, use_table_names=table_names, column_adapter=column_adapter
