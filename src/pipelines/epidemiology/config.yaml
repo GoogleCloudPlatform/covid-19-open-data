@@ -545,6 +545,8 @@ sources:
       location_key_match:
         - '^ID_[^_]+$'
         - '^ID_[^_]+_[^_]+$'
+      # Skip test due to broken data source
+      skip: true
 
   # Data sources for ID level 1
   - class: pipelines.epidemiology.id_authority.IndonesiaProvinceDataSource
