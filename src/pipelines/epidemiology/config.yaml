@@ -981,6 +981,8 @@ sources:
           ext: json
     test:
       location_key_match: '^TH$'
+      # Skip test due to broken data source
+      skip: true
 
   # Data sources for TW levels 0 + 1
   - class: pipelines.epidemiology.tw_authority.TaiwanDataSource
