@@ -52,7 +52,6 @@ counts over time, which is why the cumulative values, if reported, are kept in a
 | Brazil (Ceará) | <https://saude.ce.gov.br> | [Dados abertos](https://cearatransparente.ce.gov.br/portal-da-transparencia) |
 | Chile | [Ministerio de Ciencia de Chile](http://www.minciencia.gob.cl/COVID19) | [Terms of use](http://www.minciencia.gob.cl/sites/default/files/1771596.pdf) |
 | Czech Republic | [Ministry of Health of the Czech Republic](https://onemocneni-aktualne.mzcr.cz/covid-19) | [Open Data](https://www.jmir.org/2020/5/e19367) |
-| Denmark | [Open COVID-19 Data](https://github.com/google-research/open-covid-19-data) | [CC-BY](https://github.com/google-research/open-covid-19-data/blob/master/data/exports/cc_by/LICENSE) |
 | France | [data.gouv.fr](https://data.gouv.fr) | [Open License 2.0](https://www.etalab.gouv.fr/licence-ouverte-open-licence) |
 | Hong Kong | [Hong Kong Department of Health](https://data.gov.hk/en-data/dataset/hk-dh-chpsebcddr-novel-infectious-agent) | [Attribution Required](https://data.gov.hk/en/terms-and-conditions) |
 | India | [Covid 19 India Organisation](https://www.covid19india.org/) | [CC BY][29] |

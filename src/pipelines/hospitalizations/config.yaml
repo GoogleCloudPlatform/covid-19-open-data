@@ -45,16 +45,6 @@ sources:
       skip: true
       location_key_match: 'AR_.*'
 
-  # Data sources for AU level 1
-  - class: pipelines.hospitalizations.xx_opencovid.OpenCovidDataSource
-    label: Covid-19 Open-Data
-    fetch:
-      - url: "https://raw.github.com/google-research/open-covid-19-data/7a3dded1090d32950d0dff4819856a0db6bfa79b/data/inputs/scraped/australia/2020-05-21/australia_hospitalizations.csv"
-    parse:
-      key: AU
-    test:
-      location_key_match: '^AU$'
-
   # Data sources for BE levels 1 + 2
   - class: pipelines.epidemiology.be_authority.BelgiumDataSource
     label: Epistat
@@ -147,15 +137,6 @@ sources:
       location_key_match: 'CL_[^_]+$'
 
   # Data sources for CZ level 1
-  - class: pipelines.hospitalizations.xx_opencovid.OpenCovidDataSource
-    label: Covid-19 Open-Data
-    fetch:
-      - url: "https://raw.github.com/google-research/open-covid-19-data/7a3dded1090d32950d0dff4819856a0db6bfa79b/data/inputs/scraped/czech_republic/2020-05-21/czech_republic_hospitalizations.csv"
-    parse:
-      key: CZ
-    test:
-      location_key_match: '^CZ$'
-
   - class: pipelines.hospitalizations.cz_authority.CzechRepublicL1HospitalizedDataSource
     label: Czech Republic Ministyr of Health
     fetch:
@@ -164,16 +145,6 @@ sources:
           ext: html
     test:
       location_key_match: '^CZ$'
-
-  # Data sources for DK level 1
-  - class: pipelines.hospitalizations.xx_opencovid.OpenCovidDataSource
-    label: Covid-19 Open-Data
-    fetch:
-      - url: "https://raw.github.com/google-research/open-covid-19-data/7a3dded1090d32950d0dff4819856a0db6bfa79b/data/inputs/scraped/denmark/2020-05-21/denmark_hospitalizations.csv"
-    parse:
-      key: DK
-    test:
-      location_key_match: '^DK$'
 
   # Data sources for ES levels 0 + 1
   - class: pipelines.epidemiology.es_authority.ISCIIIStratifiedDataSource
@@ -239,16 +210,6 @@ sources:
       - url: "https://www.chp.gov.hk/files/misc/enhanced_sur_covid_19_eng.csv"
     test:
       location_key_match: '^HK$'
-
-  # Data sources for IE level 1
-  - class: pipelines.hospitalizations.xx_opencovid.OpenCovidDataSource
-    label: Covid-19 Open-Data
-    fetch:
-      - url: "https://raw.github.com/google-research/open-covid-19-data/7a3dded1090d32950d0dff4819856a0db6bfa79b/data/inputs/scraped/ireland/2020-05-21/ireland_hospitalizations.csv"
-    parse:
-      key: IE
-    test:
-      location_key_match: '^IE$'
 
   # Data sources for IT levels 1 + 2
   - class: pipelines.epidemiology.it_authority.PcmDpcL1DataSource
@@ -326,27 +287,6 @@ sources:
         - '^NL$'
         - '^NL_[^_]+$'
         - '^NL_[^_]+_[^_]+$'
-
-  # Data sources for NO level 1
-  - class: pipelines.hospitalizations.xx_opencovid.OpenCovidDataSource
-    label: Covid-19 Open-Data
-    fetch:
-      - url: "https://raw.githubusercontent.com/google-research/open-covid-19-data/0d73628842d86a535d5bdd57746a963c7f74662d/data/inputs/downloaded/norway_fhi/2020-06-15/number-of-new-patients-a.csv"
-    parse:
-      key: "NO"
-      date_format: "%d.%m.%Y"
-    test:
-      location_key_match: '^NO$'
-
-  - class: pipelines.hospitalizations.xx_opencovid.OpenCovidDataSource
-    label: Covid-19 Open-Data
-    fetch:
-      - url: "https://raw.githubusercontent.com/google-research/open-covid-19-data/0d73628842d86a535d5bdd57746a963c7f74662d/data/inputs/downloaded/norway_fhi/2020-06-15/number-of-new-patients-w.csv"
-    parse:
-      key: "NO"
-      date_format: "%d.%m.%Y"
-    test:
-      location_key_match: '^NO$'
 
   # Data sources for PH levels 2 + 3
   # Mirrored from http://bit.ly/DataDropArchives
