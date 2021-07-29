@@ -17,9 +17,9 @@ To visualize the data, try exploring our [interactive dashboard](http://goo.gle/
 ## About this data
 These trends reflect the *relative interest* of Google searches related to COVID-19 vaccination. We split searches, by information need, across 3 categories:
 
-1. **COVID-19 vaccination**. All searches related to COVID-19 vaccination, indicating overall search interest in the topic.
-2. **Vaccination intent**. Searches related to eligibility, availability, and accessibility of vaccines.
-3. **Safety and side effects**. Searches related to the safety and side effects of the vaccines.
+1. **COVID-19 vaccination**. All searches related to COVID-19 vaccination, indicating overall search interest in the topic. For example, “when can i get the covid vaccine” or “cdc vaccine tracker”. This parent category includes searches from the following 2 subcategories.
+2. **Vaccination intent**. Searches related to eligibility, availability, and accessibility of vaccines. For example, “covid vaccine near me” or “safeway covid vaccine”.
+3. **Safety and side effects**. Searches related to the safety and side effects of the vaccines. For example, “is the covid vaccine safe” or “pfizer vaccine side effects”.
 
 We selected these categories based on the input from public health experts, as well as taking into consideration:
 - data quality—for example, clear user intent
@@ -27,7 +27,7 @@ We selected these categories based on the input from public health experts, as w
 
 A search classified in a subcategory, always also counts towards the parent “COVID-19 vaccination category”, however some COVID-19 vaccination searches may be classified in the parent category but neither subcategory (an example would be queries about COVID-19 vaccine brands).
 
-The data initially covers the period starting Jan 2021 to the present. In the future we’ll expand the range in weekly updates covering the most recent week (Mon-Sun). Each update will be available a few days after the week ends—to allow time for data processing and validation.
+The data covers the period starting Jan 2021 to the present. We’ll offer weekly updates covering the most recent week (Mon-Sun). Each update will be available a few days after the week ends—to allow time for data processing and validation.
 
 These trends represent Google Search users and might not represent the exact behavior of a wider population. We expect, however, that any systematic regional biases will remain stable over the period covered by the dataset.
 
@@ -37,7 +37,7 @@ The data shows the relative interest in each of the search categories within a g
 
 1. First, we count the queries classified in each of the categories in region A for that week. To determine the region, we [estimate the location](https://policies.google.com/technologies/location-data) where the query was made. When counting the queries, a given anonymous search user can contribute at most once to each category per day, and to at most 3 different categories per day.
 2. Next, we divide this count by the total volume of queries (on any topic, not just those related to COVID-19 vaccination) in region A for that week to calculate relative interest. We call this proportion the *normalized interest* of a category. This is a relatively small number, which reflects the fraction of all search queries in that region that are related to the topic of COVID-19 vaccination or one of its subcategories. <br/>
-(Initial release only) We establish a *fixed scaling factor* by finding the maximum weekly value of the normalized interest for the general COVID-19 vaccination category, at the US national level (which occured on the week starting at March 8). We scale this maximum value to 100 by multiplying it by a number which we set as the *fixed scaling factor*. We store the fixed scaling factor, and in subsequent updates we use it to scale values in all regions.
+**(Initial release only)** We establish a *fixed scaling factor* by finding the maximum weekly value of the normalized interest for the general COVID-19 vaccination category, at the US national level (which occured on the week starting at March 8). We scale this maximum value to 100 by multiplying it by a number which we set as the *fixed scaling factor*. We store the fixed scaling factor, and in subsequent updates we use it to scale values in all regions.
 3. Finally, using our fixed scaling factor, we linearly scale all the other normalized interest values, across regions, categories, and time. These values can be lower or higher than 100 (but not less than 0). We call these values *scaled normalized interest*.
 
 Because all scaled normalized interest values share the same scaling factor, you can do the following:
@@ -50,7 +50,9 @@ Sometimes it’s not possible to report trends for every region. When the weekly
 
 Classifying web-search queries is challenging. Each query is a few words that can be illusory and ambiguous. So, we look at other signals beyond the query—especially the words and phrases found in the search results. 
 
-We use supervised machine learning to find the search queries that match the 3 categories. For each of the 3 categories, we trained a neural-network model with a single hidden layer. Each model has 60,000 input nodes, corresponding to words and phrases extracted from the query and the search results using information-gain criterion. We also added features to the model using entities found in the words and phrases (similar to this Google Cloud [entity analysis](https://cloud.google.com/natural-language/docs/basics#entity_analysis)). Table 1 shows the top features we used for each category. Some of the features are common across the COVID-19 Vaccination parent category and the subcategories.
+We use supervised machine learning to find the search queries that match the 3 categories. For each of the 3 categories, we trained a neural-network model with a single hidden layer. Each model has 60,000 input nodes, corresponding to words and phrases extracted from the query and the search results using information-gain criterion. We also added features to the model using entities found in the words and phrases (similar to this Google Cloud [entity analysis](https://cloud.google.com/natural-language/docs/basics#entity_analysis)). 
+
+Table 1 shows the top features we used for each category. Some of the features are common across the COVID-19 Vaccination parent category and the subcategories.
 
 **Table 1.** Top features used for each category
 | **Category** | **Top features** |
@@ -59,9 +61,10 @@ We use supervised machine learning to find the search queries that match the 3 c
 | Vaccination intent | *pharmacy, pfizer, vaccine appointment, appointment, pharmacies, moderna, dose, appointments, pfizer vaccine, cvs, walgreens, second dose, vaccine appointments, cvs pharmacy, doses, shot, cvs covid, walgreens pharmacy, vaccine eligibility, moderna vaccine* | 
 | Safety and side effects | *side effects, side effect, symptoms, fever, second dose, allergic reaction, moderna injection, pfizer, reactions, reaction, pfizer vaccine, pain, health, shot, pharmacy, allergic reactions, adverse effects, adverse reactions* | 
 
+
 #### Training our classifiers
 
-We trained the model in a supervised manner using a sample of all the English search queries made in the US from a period in 2021. We labeled the training data using a set of simple rules.
+We trained the model in a supervised manner using a sample of the English search queries made in the US during February–May 2021. We labeled the training data using a set of simple rules.
 
 To develop the rules, we started by sampling a set of top queries that are associated with web pages about Covid-19 vaccines, Covid-19, or any vaccines. We manually marked each sample query as positive or negative against the three categories. For each category, we created rules from terms, phrases, and entities associated with the positive queries and rarely associated with the negative queries. For example, for the *COVID-19 Vaccination* category we require "vaccine" and “covid” to be among the top most relevant terms. Finally we used these rules to automatically label the rest of the training data.
 
@@ -74,34 +77,22 @@ Because only a small minority of Google Searches are for COVID-19 vaccination to
 Table 2 shows the distribution of query ratings for each category. A neutral rating means either multiple raters entered a neutral rating for the query or there was no consensus. Queries that are rated as neutral are excluded from the classifier evaluation.
 
 **Table 2.** Distribution of query ratings for the categories
+| **Category** | **Positives** | **Negatives** | **Neutral** | **Krippendorff’s alpha** |
+| :----: | :----: | :----: | :----: | :----: |
+| Covid-19 vaccination | 1973 | 1122 | 337 | 0.844 |
+| Vaccination intent | 419 |2724 | 289 | 0.713 |
+| Safety and side effects | 826 | 2183 | 423 | 0.811 |
 
-| **Category** | **Top features** |
-| :----: | ---- |
-| COVID-19 vaccination | *covid vaccine, vaccines, vaccination, vaccinations, 19 vaccine, vaccine, vaccinated, covid 19, covid, coronavirus vaccine, immunization, coronavirus, covid vaccines, vaccine appointment, pfizer, health, pharmacy, second dose, cdc, doses* | 
+The three raters independently judged the relevance of each search query in our sample to each of the three categories. The inter-rater agreement (measured by [Krippendorff’s alpha](https://en.wikipedia.org/wiki/Krippendorff%27s_alpha) in table 2) indicates high agreement. 
 
-Category
-Positives
-Negatives
-Neutral
-Krippendorff’s alpha
-Covid-19 vaccination
-1973
-1122
-337
-0.844
-Vaccination intent
-419
-2724
-289
-0.713
-Safety and side effects
-826
-2183
-423
-0.811
+Table 3 shows that the classifiers achieved high precision as well as high recall when identifying queries related to each of the categories.
 
-
-
+**Table 3.** Precision and recall scores for the classifiers
+| **Classifer** | **Precision** | **Recall** |
+| :----: | :----: | :----: |
+| Covid-19 vaccination | 0.96 | 0.94 | 
+| Vaccination intent | 0.83 |0.81 |
+| Safety and side effects | 0.87 | 0.89 |
 
 ### Preserving privacy and quality
 To preserve user privacy, we use [differential privacy](https://www.youtube.com/watch?v=FfAdemDkLsc&feature=youtu.be) which adds artificial noise to our data while enabling high quality results without identifying any individual person. 
