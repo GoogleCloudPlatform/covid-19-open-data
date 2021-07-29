@@ -78,7 +78,7 @@ Other options to explore and work with the data include:
 | **sub_region_3**\*\* | `string` | The name (or type) of a region in the country. Typically a subdivision of sub_region_2 | Downtown or postal_code. |
 | **sub_region_3_code**\*\* | `string` | In the US, the [ZIP code](https://en.wikipedia.org/wiki/ZIP_Code). | 94303 |
 | **place_id**\*\* | `string` | The Google [Place ID](https://developers.google.com/places/web-service/place-id) for the most-specific region, used in Google Places API and on Google Maps. | ChIJd_Y0eVIvkIARuQyDN0F1LBA |
-| **sni_covid19_vaccination** | `double` | The scaled normalized interest for all searches related to COVID-19 vaccination for the region and date. Empty when data isn’t available. | 87.02 |
+| **sni_covid19_vaccination** | `double` | The scaled normalized interest related to all COVID-19 vaccinations topics for the region and date. Empty when data isn’t available. | 87.02 |
 | **sni_vaccination_intent** | `double` | The scaled normalized interest for all searches related to eligibility, availability, and accessibility for the region and date. Empty when data isn’t available. | 22.69 |
 | **sni_safety_side_effects** | `double` | The scaled normalized interest for all searches related to safety and side effects of the vaccines for the region and date. Empty when data isn’t available. | 17.96 |
 
@@ -97,7 +97,8 @@ http://goo.gle/covid19vaccinationinsights, Accessed: <date>.
 We’d love to hear about your project and learn more about your case studies. We’d also appreciate your feedback on the dashboard, data and documentation, or any unexpected results. Please email us at covid-19-search-trends-feedback@google.com.
 
 ## Dataset changes
-Jun 30, 2021 - Public release
+July 31, 2021 - Documented classifier training and evaluation, anonymization process and categories hierarchy.
+June 30, 2021 - Public release
 
 
 [1]: https://storage.googleapis.com/covid19-open-data/v2/vaccination-search-insights.csv
