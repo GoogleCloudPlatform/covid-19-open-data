@@ -1,7 +1,7 @@
 [Back to main page](../README.md)
 
 # COVID-19 Vaccination Search Insights
-*Updated June 30, 2021*
+*Updated July 31, 2021*
 
 
 ## Terms of use
