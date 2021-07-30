@@ -1,7 +1,7 @@
 [Back to main page](../README.md)
 
 # COVID-19 Vaccination Search Insights
-*Updated July 31, 2021*
+*Updated July 30, 2021*
 
 
 ## Terms of use
@@ -146,7 +146,7 @@ http://goo.gle/covid19vaccinationinsights, Accessed: <date>.
 We’d love to hear about your project and learn more about your case studies. We’d also appreciate your feedback on the dashboard, data and documentation, or any unexpected results. Please email us at covid-19-search-trends-feedback@google.com.
 
 ## Dataset changes
-Jul 31, 2021 - Documented classifier training and evaluation, anonymization process and categories hierarchy.<br/>
+Jul 30, 2021 - Documented classifier training and evaluation, anonymization process and categories hierarchy.<br/>
 Jun 30, 2021 - Public release
 
 
