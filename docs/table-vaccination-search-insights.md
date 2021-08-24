@@ -101,7 +101,7 @@ To further protect users’ privacy, we ensure that no personal information is i
 
 To ensure accuracy after adding noise, we estimate the magnitude of change due to the noise. We retain all the values that (after the addition of noise) have 80% probability to be within 15% of the original value and we remove the noisey values. This sometimes leads to missing data points, as explained in **How we process the data** section.
 
-Because attributing searches to regions relies on [general area estimation](https://support.google.com/websearch/answer/179386#location-controls), we don’t report trends for regions smaller than 3km2.
+Because attributing searches to regions relies on [general area estimation](https://support.google.com/websearch/answer/179386#location-controls), we don’t report trends for regions smaller than 3sqkm.
 
 You can learn more about the privacy and quality methods used to generate the data by reading this [anonymization process description](https://arxiv.org/abs/2107.01179).
 
