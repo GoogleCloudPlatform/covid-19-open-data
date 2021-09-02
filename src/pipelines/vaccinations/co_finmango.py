@@ -22,7 +22,8 @@ from pipelines.epidemiology.de_authority import _SUBREGION1_CODE_MAP
 
 _column_adapter = {
     "Date": "date",
-    "Department": "match_string",
+    "Department": "match_string_1",
+    "City": "match_string_2",
     "Total": "total_vaccine_doses_administered",
 }
 
@@ -33,8 +34,17 @@ class FinMangoColombiaDataSource(DataSource):
     ) -> DataFrame:
         data = table_rename(dataframes[0], _column_adapter, drop=True)
         int_cols = ["total_vaccine_doses_administered"]
+        data = data.dropna(subset=int_cols)
         for col in int_cols:
             data[col] = data[col].apply(safe_int_cast)
+
+        # Fix typos and merge subregions manually
+        data["match_string"] = data["match_string_2"].fillna(data["match_string_1"])
+        data["match_string"] = data["match_string"].str.replace("Amazionas", "Amazonas")
+        data["match_string"] = data["match_string"].str.replace("Baranquilla", "Atlántico")
+        data["match_string"] = data["match_string"].str.replace("Benaventura", "Valle del Cauca")
+        data["match_string"] = data["match_string"].str.replace("Cartagena", "Bolivar")
+        data["match_string"] = data["match_string"].str.replace("Santa Marta", "Magdalena")
 
         # Match string does not follow strict hierarchy
         data = data.groupby(["date", "match_string"]).sum().reset_index()
