@@ -288,6 +288,27 @@ sources:
         - '^NL_[^_]+$'
         - '^NL_[^_]+_[^_]+$'
 
+  # Data sources for PE level 1
+  - class: pipelines.hospitalizations.pe_authority.PeruHospitalizedDataSource
+    label: Peru Ministry of Health
+    website: https://covid19.minsa.gob.pe/sala_situacional.asp
+    fetch:
+      - url: "https://covid19.minsa.gob.pe/files/HOSPITALIZADOS_{date}.xlsx"
+        opts:
+          ignore_failure: True
+    test:
+      location_key_match: '^PE$'
+
+  - class: pipelines.hospitalizations.pe_authority.PeruICUDataSource
+    label: Peru Ministry of Health
+    website: https://covid19.minsa.gob.pe/sala_situacional.asp
+    fetch:
+      - url: "https://covid19.minsa.gob.pe/files/UCI_{date}.xlsx"
+        opts:
+          ignore_failure: True
+    test:
+      location_key_match: '^PE$'
+
   # Data sources for PH levels 2 + 3
   # Mirrored from http://bit.ly/DataDropArchives
   - class: pipelines.epidemiology.ph_authority.PhilippinesDataSource

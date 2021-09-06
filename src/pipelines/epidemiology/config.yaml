@@ -799,22 +799,24 @@ sources:
   # Data sources for PE levels 1 + 2 + 3
   - class: pipelines.epidemiology.pe_authority.PeruDataSource
     label: Peru Ministry of Health
+    website: https://covid19.minsa.gob.pe/sala_situacional.asp
     fetch:
       - name: confirmed
-        url: "https://cloud.minsa.gob.pe/s/Y8w3wHsEdYQSZRp/download"
+        url: "https://cloud.minsa.gob.pe/s/AC2adyLkHCKjmfm/download"
         opts:
           ext: csv
       - name: deceased
-        url: "https://cloud.minsa.gob.pe/s/Md37cjXmjT9qYSa/download"
+        url: "https://cloud.minsa.gob.pe/s/xJ2LQ3QyRW38Pe5/download"
         opts:
           ext: csv
     parse:
       encoding: "ISO-8859-1"
       sep: ";"
     test:
-      location_key_match: 'PE.*'
-      # Skip because this is a flakey data source
-      skip: true
+      location_key_match:
+        - '^PE$'
+        - '^PE_[^_]+$'
+        - '^PE_[^_]+_[^_]+$'
 
   # Data sources for PH levels 2 + 3
   # Mirrored from http://bit.ly/DataDropArchives
