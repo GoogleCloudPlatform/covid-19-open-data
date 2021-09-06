@@ -120,6 +120,9 @@ sources:
       - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTQPaCIPwOdo-ELdSPlRSlLWqB0X3PtpZJdB1aEIjdo_HBW2qAe_9bY6rE3t_AMakUPNk2TPuwzPKx_/pub?gid=0&single=true&output=csv"
         opts:
           ext: csv
+      - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTQPaCIPwOdo-ELdSPlRSlLWqB0X3PtpZJdB1aEIjdo_HBW2qAe_9bY6rE3t_AMakUPNk2TPuwzPKx_/pub?gid=349214778&single=true&output=csv"
+        opts:
+          ext: csv
     aggregate:
       subregion1: ["total_persons_vaccinated", "total_persons_fully_vaccinated", "total_vaccine_doses_administered"]
     test:
