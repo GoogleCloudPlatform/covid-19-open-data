@@ -83,8 +83,9 @@ sources:
   # Data sources for AT levels 0 + 1
   - class: pipelines.vaccinations.at_authority.AustriaDataSource
     label: Open Data Österreich
+    website: https://www.data.gv.at/katalog/dataset/4312623f-2cdc-4a59-bea5-877310e6e48d
     fetch:
-      - url: "https://info.gesundheitsministerium.gv.at/data/timeline.csv"
+      - url: "https://info.gesundheitsministerium.gv.at/data/timeline-eimpfpass.csv"
     parse:
       sep: ";"
     test:
