@@ -44,7 +44,7 @@ counts over time, which is why the cumulative values, if reported, are kept in a
 | Austria | [Open Data Österreich](https://www.data.gv.at/covid-19/) | [CC BY](https://www.data.gv.at/covid-19/) | |
 | Belgium | [Covid Vaccinations Belgium](https://covid-vaccinatie.be/en) | [CC BY](https://covid-vaccinatie.be/api) | Regional data only available for Brussels, since the regions reported by the data source do not match our indexed subregions |
 | Bolivia | [Ministry of Health](https://www.minsalud.gob.bo/) (via [FinMango][1]) | [CC BY](https://finmango.org/covid) | |
-| Brazil | Secretarias de Saúde via [FinMango][1] | [CC BY][1] | |
+| Brazil | coronavirusbra1.github.io via [@wcota/covid19br][2] | [CC BY][3] | |
 | Brazil | [Brazil Ministério da Saúde](https://coronavirus.saude.gov.br/) | [Creative Commons Atribuição](http://www.opendefinition.org/licenses/cc-by) | |
 | Bulgaria | [Ministry of Health](https://coronavirus.bg/bg/statistika) (via [FinMango][1]) | [CC BY](https://finmango.org/covid) | |
 | Canada | [Department of Health Canada](https://www.canada.ca/en/public-health) | [Attribution required](https://www.canada.ca/en/transparency/terms.html) | |
@@ -67,3 +67,5 @@ counts over time, which is why the cumulative values, if reported, are kept in a
 </details>
 
 [1]: https://finmango.org/covid
+[2]: https://github.com/wcota/covid19br
+[3]: https://github.com/wcota/covid19br/blob/6e994b0fef2056e31364bfa2e69c5d61060f0ccf/DESCRIPTION.en.md#by-federative-units-cases-brazil-totalcsv-and-cases-brazil-statescsv

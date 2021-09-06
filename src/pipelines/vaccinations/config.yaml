@@ -129,11 +129,11 @@ sources:
   # Data sources for BR levels 0 + 1 + 2
 
   # Even though this is an authoritative data source, it has significant delays in the data so we
-  # deprioritize it with respect to the FinMango data source
+  # deprioritize it with respect to the crowd-sourced data source
   - class: pipelines.vaccinations.br_authority.BrazilDataSource
     label: Brazil Ministry of Health (openDataSUS)
     fetch:
-      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/PNI/vacina/completo/{date}/part-00000-a98c0fed-60ba-4156-a6cc-37bbd62720e0-c000.csv"
+      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/PNI/vacina/uf/{date}/uf%3D{subregion1_code}/part-00000-9bf0f6da-b13b-4025-9160-2dd9b163f3f3.c000.csv"
         opts:
           date_format: '%Y-%m-%d'
     parse:
@@ -146,10 +146,13 @@ sources:
         - '^BR_[^_]+$'
         - '^BR_[^_]+_[^_]+$'
 
-  - class: pipelines.vaccinations.br_finmango.FinMangoBrazilDataSource
-    label: Brazil Ministry of Health (via FinMango)
+  - class: pipelines.vaccinations.br_covid19br.Covid19BrDataSource
+    label: coronavirusbra1.github.io (via @wcota/covid19br)
+    website: https://coronavirusbra1.github.io/
+    license: CC-BY
+    license_url: https://github.com/wcota/covid19br/blob/6e994b0fef2056e31364bfa2e69c5d61060f0ccf/DESCRIPTION.en.md#by-federative-units-cases-brazil-totalcsv-and-cases-brazil-statescsv
     fetch:
-      - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQObciNWSh0DUnMsPpSvc1X4Kv9ex8a0ynlsa32dbSgJeb1w_4M0MG3yADkcT-c9gE4UEExT4Z5ylUc/pub?gid=0&single=true&output=csv"
+      - url: "https://raw.githubusercontent.com/wcota/covid19br/master/cases-brazil-states.csv"
         opts:
           ext: csv
     test:

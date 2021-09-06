@@ -12,19 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import datetime
-from functools import partial
 from pathlib import Path
 from typing import Any, Dict, List
 
-import requests
-from pandas import DataFrame, concat, isna
+from pandas import DataFrame, concat
 
 from lib.case_line import convert_cases_to_time_series
-from lib.cast import safe_int_cast, numeric_code_as_string
-from lib.error_logger import ErrorLogger
-from lib.concurrent import process_map, thread_map
-from lib.net import download_snapshot
+from lib.cast import numeric_code_as_string, safe_int_cast
 from lib.pipeline import DataSource
 from lib.time import datetime_isoformat, date_today
 from lib.utils import aggregate_admin_level, table_rename
@@ -36,10 +30,10 @@ _column_adapter = {
     # "paciente_id": "",
     "paciente_idade": "age",
     # "paciente_dataNascimento": "",
-    "paciente_enumSexoBiologico": "sex",
+    "paciente_enumsexobiologico": "sex",
     # "paciente_racaCor_codigo": "",
     # "paciente_racaCor_valor": "",
-    "paciente_endereco_coIbgeMunicipio": "subregion2_code",
+    "paciente_endereco_coibgemunicipio": "subregion2_code",
     # "paciente_endereco_coPais": "",
     # "paciente_endereco_nmMunicipio": "",
     # "paciente_endereco_nmPais": "",
@@ -59,7 +53,7 @@ _column_adapter = {
     # "vacina_lote": "",
     # "vacina_fabricante_nome": "",
     # "vacina_fabricante_referencia": "",
-    "vacina_dataAplicacao": "date_new_vaccine_doses_administered",
+    "vacina_dataaplicacao": "date_new_vaccine_doses_administered",
     "vacina_descricao_dose": "_dose_information",
     # "vacina_codigo": "",
     "vacina_nome": "vaccine_manufacturer",
@@ -86,7 +80,9 @@ def _process_partition(cases: DataFrame) -> DataFrame:
     cases = cases[[col for col in cases.columns if not col.startswith("_")]]
 
     # Make sure our region codes are of type str
-    cases["subregion2_code"] = cases["subregion2_code"].apply(safe_int_cast).astype(str)
+    cases["subregion2_code"] = cases["subregion2_code"].apply(
+        lambda x: numeric_code_as_string(x, 6)
+    )
 
     # Convert ages to int, and translate sex (no "other" sex/gender reported)
     cases["age"] = cases["age"].apply(safe_int_cast)
@@ -125,6 +121,26 @@ def _process_partition(cases: DataFrame) -> DataFrame:
 
 
 class BrazilDataSource(DataSource):
+    def fetch(
+        self,
+        output_folder: Path,
+        cache: Dict[str, str],
+        fetch_opts: List[Dict[str, Any]],
+        skip_existing: bool = False,
+    ) -> Dict[str, str]:
+        opts = dict(fetch_opts[0])
+        url_tpl = opts.pop("url")
+
+        # Each state has its own URL
+        urls = []
+        for state in _IBGE_STATES.values():
+            # Keep the date in template format so we can substitute it later
+            url = url_tpl.format(date="{date}", subregion1_code=state)
+            urls.append(dict(name=state, url=url, **opts))
+
+        # Pass the actual URLs down to fetch it
+        return super().fetch(output_folder, cache, urls, skip_existing=skip_existing)
+
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
         # Manipulate the parse options here because we have access to the columns adapter and we
         # can then limit the columns being read to save space.
@@ -138,11 +154,4 @@ class BrazilDataSource(DataSource):
     def parse_dataframes(
         self, dataframes: Dict[Any, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
-
-        # Partition dataframes based on the state the data is for
-        df = table_rename(dataframes[0], _column_adapter)
-        partitions = (df[df["subregion1_code"] == code] for code in _IBGE_STATES.values())
-
-        # Process each partition in separate threads
-        map_opts = dict(desc="Processing Partitions", total=len(_IBGE_STATES))
-        return concat(process_map(_process_partition, partitions, **map_opts))
+        return _process_partition(table_rename(list(dataframes.values())[0], _column_adapter))
