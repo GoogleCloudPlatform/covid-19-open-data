@@ -521,8 +521,10 @@ sources:
       location_key_match: '^HK$'
 
   # Data sources for HT level 2
+  # NOTE: Data source has stopped updating after 2021-05-23
   - class: pipelines.epidemiology.ht_humdata.HaitiHumdataDataSource
     label: Humdata
+    website: https://data.humdata.org/dataset/haiti-covid-19-subnational-cases
     fetch:
       - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTqVOxCSrhEiZ_CRME3Xqhu_DWZv74FvrvOr77rIXOlorClEi0huwVKxXXcVr2hn8pml82tlwmf59UX/pub?output=xlsx"
         opts:
@@ -531,7 +533,9 @@ sources:
       # Get all sheets
       sheet_name: ["data_asofMay5", "data_fromMay6"]
     test:
-      location_key_match: 'HT_.*'
+      location_key_match:
+        - '^HT$'
+        - '^HT_[^_]+$'
 
   # Data sources for ID level 2
   - class: pipelines.epidemiology.id_andrafarm.IndonesiaAndrafarmDataSource
