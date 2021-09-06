@@ -359,15 +359,17 @@ sources:
       location_key_match: '^SI$'
 
   # Data sources for TH level 0
+  # TODO: Archive this data source since the data is no longer available
   - class: pipelines.epidemiology.th_authority.ThailandCountryDataSource
-    label: TODO
+    label: Thailand Department of Desease Control
+    website: https://ddc.moph.go.th/viralpneumonia/
     fetch:
       - url: "https://covid19.th-stat.com/api/open/timeline"
         opts:
           ext: json
     test:
       location_key_match: '^TH$'
-      # TODO: Fix broken data source (API redirects to another URL)
+      # Data no longer available
       skip: true
 
   # Data sources for US level 2

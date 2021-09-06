@@ -335,18 +335,12 @@ sources:
       location_key_match: 'PH.*'
 
   # Data sources for TH levels 0 + 1
-  - class: pipelines.epidemiology.th_authority.ThailandProvinceDataSource
-    label: covid19.th-stat.com
+  - class: pipelines.epidemiology.th_authority.ThailandCasesDataSource
+    label: Thailand Department of Desease Control
+    website: https://ddc.moph.go.th/viralpneumonia/
     fetch:
-      - url: "https://covid19.th-stat.com/api/open/cases"
-        opts:
-          ext: json
-    parse:
-      # This data source does not report zero values, so we fill them in
-      fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
+      - url: "https://data.go.th/dataset/8a956917-436d-4afd-a2d4-59e4dd8e906e/resource/67d43695-8626-45ad-9094-dabc374925ab/download/confirmed-cases.xlsx"
     test:
-      # FIXME: remove once data source is fixed
-      skip: true
       location_key_match:
         - '^TH$'
         - '^TH_[^_]+$'
