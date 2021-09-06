@@ -224,9 +224,11 @@ sources:
   - class: pipelines.vaccinations.de_finmango.FinMangoGermanyDataSource
     label: Robert Koch Institute (via FinMango)
     fetch:
-      - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQBlleeDihfdTZLuDIczEsmKy0Ql-YOYUfBTy3NKxyNbTR1IRd7EbIp5cPS0PVzgOxn-zCWTY4ZVm_5/pub?gid=0&single=true&output=csv"
+      - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQBlleeDihfdTZLuDIczEsmKy0Ql-YOYUfBTy3NKxyNbTR1IRd7EbIp5cPS0PVzgOxn-zCWTY4ZVm_5/pub?output=xlsx"
         opts:
-          ext: csv
+          ext: xlsx
+    parse:
+      sheet_name: ['automated1', 'automated2', 'automated3']
     test:
       location_key_match:
         - '^DE$'
