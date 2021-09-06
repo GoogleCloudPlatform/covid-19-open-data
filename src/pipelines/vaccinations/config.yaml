@@ -175,8 +175,20 @@ sources:
         - '^CA_[^_]+$'
 
   # Data sources for CH levels 0 + 1
-  - class: pipelines.vaccinations.ch_authority.SwitzerlandDataSource
+  - class: pipelines.vaccinations.ch_authority.SwitzerlandPersonsDataSource
     label: Switzerland Ministry of Health
+    website: https://www.covid19.admin.ch
+    fetch:
+      - url: "https://www.covid19.admin.ch/api/data/context"
+    test:
+      location_key_match:
+        - '^CH$'
+        - '^LI$'
+        - '^CH_[^_]+$'
+
+  - class: pipelines.vaccinations.ch_authority.SwitzerlandDosesDataSource
+    label: Switzerland Ministry of Health
+    website: https://www.covid19.admin.ch
     fetch:
       - url: "https://www.covid19.admin.ch/api/data/context"
     test:
