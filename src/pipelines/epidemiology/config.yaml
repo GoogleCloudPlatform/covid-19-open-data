@@ -540,6 +540,7 @@ sources:
   # Data sources for ID level 2
   - class: pipelines.epidemiology.id_andrafarm.IndonesiaAndrafarmDataSource
     label: andrafarm.com
+    website: https://www.andrafarm.com/_andra.php?_i=daftar-co19-provinsi
     fetch:
       - name: "subregion1_url"
         url: "https://andrafarm.com/api/covid19/prov/{}"
@@ -725,6 +726,7 @@ sources:
   # Data sources for MX levels 1, 2 and 3
   - class: pipelines.epidemiology.mx_authority.MexicoDataSource
     label: MJexico Ministry of Health
+    website: https://coronavirus.gob.mx/
     fetch:
       - url: "http://datosabiertos.salud.gob.mx/gobmx/salud/datos_abiertos/datos_abiertos_covid19.zip"
     parse:
@@ -732,7 +734,10 @@ sources:
     test:
       # Skip this data source because it's too slow
       skip: true
-      location_key_match: 'MX_.+'
+      location_key_match:
+        - '^MX$'
+        - '^MX_[^_]+$'
+        - '^MX_[^_]+_[^_]+$'
 
   # Data sources for MY level 2
   - class: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
@@ -823,17 +828,20 @@ sources:
         - '^PE_[^_]+_[^_]+$'
 
   # Data sources for PH levels 2 + 3
-  # Mirrored from http://bit.ly/DataDropArchives
   - class: pipelines.epidemiology.ph_authority.PhilippinesDataSource
-    label: Philippines Ministry of Health (via FinMango)
+    label: Open Data Philippines (ODPH)
+    website: https://data.gov.ph/?q=search&query=covid
     fetch:
-      - url: "https://storage.googleapis.com/finmango-covid-data/Philippines/Latest%20Case%20Information.csv"
-        opts:
-          ext: csv
+      - url: "https://data.gov.ph/sites/default/files/DOH%20COVID%20Data%20Drop_%20{date}%20-%2004%20Case%20Information.csv"
     test:
-      location_key_match: 'PH.*'
+      location_key_match:
+        - '^PH$'
+        - '^PH_[^_]+$'
+        - '^PH_[^_]+_[^_]+$'
+      # Skip unit test because it's very slow (500MB+)
+      skip: true
 
-  # Data sources for PK level 2
+  # Data sources for PK levels 1 + 2
   - class: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
     label: TODO
     fetch:
@@ -847,6 +855,16 @@ sources:
       cumsum: true
     test:
       location_key_match: 'PK_.*'
+
+  - class: pipelines.epidemiology.pk_authority.PakistanCountryDataSource
+    label: Pakistan Ministry of National Regulations and Services
+    website: https://covid.gov.pk/
+    fetch:
+      - url: "https://covid.gov.pk/api/graphs/total_cases"
+        opts:
+          ext: json
+    test:
+      location_key_match: '^PK$'
 
   # Data sources for PL level 2
   - class: pipelines.epidemiology.xx_covid19_eu_data.Covid19EuDataSource
@@ -909,14 +927,17 @@ sources:
   # Data sources for SD level 2
   - class: pipelines.epidemiology.sd_humdata.SudanHumdataDataSource
     label: Humdata
+    website: https://data.humdata.org/dataset/south-sudan-coronavirus-covid-19-cases
     fetch:
       - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQgIjG5wYFaK-z25ciiNNSWUTdxMWKRe5_y1YLNMpCzJziFor16xyP3R1nKz1wAkN7F4w6gx4F6yUIp/pub?gid=1817954914&single=true&output=csv"
         opts:
           ext: csv
     test:
+      location_key_match:
+        - '^SD$'
+        - '^SD_[^_]+$'
       # TODO: do not skip testing once data source starts working again
       skip: true
-      location_key_match: 'SD_.*'
 
   # Data sources for SE levels 1 + 2
   - class: pipelines.epidemiology.xx_covid19_eu_data.Covid19EuDataSource

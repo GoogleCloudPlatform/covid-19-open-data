@@ -395,6 +395,7 @@ sources:
   # Data sources for MX levels 1, 2 and 3
   - class: pipelines.epidemiology.mx_authority.MexicoDataSource
     label: Ministry of Health of Mexico
+    website: https://coronavirus.gob.mx/
     fetch:
       - url: "http://datosabiertos.salud.gob.mx/gobmx/salud/datos_abiertos/datos_abiertos_covid19.zip"
     parse:
@@ -404,7 +405,10 @@ sources:
     test:
       # Skip this data source because it's too slow
       skip: true
-      location_key_match: 'MX_.+'
+      location_key_match:
+        - '^MX$'
+        - '^MX_[^_]+$'
+        - '^MX_[^_]+_[^_]+$'
 
   # Data sources for NZ level 0
   - class: pipelines.epidemiology.nz_authority.NewZealandDataSource

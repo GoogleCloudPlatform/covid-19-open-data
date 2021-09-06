@@ -12,15 +12,42 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Dict
+from pathlib import Path
+from typing import Any, Dict, List
+
+import requests
 from pandas import DataFrame, concat
+
 from lib.case_line import convert_cases_to_time_series
-from lib.cast import age_group, safe_datetime_parse
+from lib.cast import safe_datetime_parse
 from lib.data_source import DataSource
+from lib.time import date_range, date_today
 from lib.utils import table_rename
 
 
 class PhilippinesDataSource(DataSource):
+    def fetch(
+        self,
+        output_folder: Path,
+        cache: Dict[str, str],
+        fetch_opts: List[Dict[str, Any]],
+        skip_existing: bool = False,
+    ) -> Dict[str, str]:
+        # Data is published as snapshots, so we guess the URL based on the date
+        opts = dict(fetch_opts[0])
+        url_tpl = opts.pop("url")
+
+        # Keep trying URLs in reverse chronological order starting today until one works
+        url = None
+        date_start = "2021-08-31"
+        date_end = date_today(offset=1)
+        for date in reversed(list(date_range(date_start, date_end))):
+            url = url_tpl.format(date=date.replace("-", ""))
+            if requests.head(url).status_code == 200:
+                # Pass the actual URLs down to fetch it
+                url_opts = dict(url=url, **opts)
+                return super().fetch(output_folder, cache, [url_opts], skip_existing=skip_existing)
+
     def parse_dataframes(
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
