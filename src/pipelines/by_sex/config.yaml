@@ -334,6 +334,8 @@ sources:
         - '^PH$'
         - '^PH_[^_]+$'
         - '^PH_[^_]+_[^_]+$'
+      # Skip because downloading takes too long
+      skip: true
 
   # Data sources for TH levels 0 + 1
   - class: pipelines.epidemiology.th_authority.ThailandCasesDataSource

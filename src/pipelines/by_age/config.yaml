@@ -456,6 +456,8 @@ sources:
         - '^PH$'
         - '^PH_[^_]+$'
         - '^PH_[^_]+_[^_]+$'
+      # Skip because downloading takes too long
+      skip: true
 
   # Data sources for RO level 1
   - class: pipelines.epidemiology.ro_authority.RomaniaDataSource
