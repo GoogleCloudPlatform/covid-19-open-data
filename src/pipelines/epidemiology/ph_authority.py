@@ -43,7 +43,8 @@ class PhilippinesDataSource(DataSource):
         date_end = date_today(offset=1)
         for date in reversed(list(date_range(date_start, date_end))):
             url = url_tpl.format(date=date.replace("-", ""))
-            if requests.head(url).status_code == 200:
+            res = requests.head(url)
+            if res.status_code == 200 and int(res.headers.get("Content-Length", "0")) > 0:
                 # Pass the actual URLs down to fetch it
                 url_opts = dict(url=url, **opts)
                 return super().fetch(output_folder, cache, [url_opts], skip_existing=skip_existing)
