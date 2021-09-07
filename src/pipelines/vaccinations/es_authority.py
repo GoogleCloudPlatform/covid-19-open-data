@@ -17,6 +17,7 @@ from typing import Any, Dict, List
 
 from pandas import DataFrame, concat
 
+from lib.cast import safe_datetime_parse
 from lib.data_source import DataSource
 from lib.time import date_range, date_today, date_offset, datetime_isoformat
 from lib.utils import table_rename
@@ -57,8 +58,12 @@ class SpainDataSource(DataSource):
         self, dataframes: Dict[Any, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
         tables = []
-        for date, df in dataframes.items():
+        for df in dataframes.values():
             df = table_rename(df, _column_adapter, drop=True, remove_regex=r"[^a-z]")
+
+            # Make sure the date is a timestamp
+            df["date"] = df["date"].apply(safe_datetime_parse)
+            df.dropna(subset=["date"], inplace=True)
 
             # Fill the date when blank
             df["date"] = df["date"].fillna(df["date"].max())

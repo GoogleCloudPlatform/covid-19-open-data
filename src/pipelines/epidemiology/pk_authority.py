@@ -12,27 +12,28 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Any, Dict
-from pandas import DataFrame, concat
+from typing import Dict
+from pandas import DataFrame
 from lib.data_source import DataSource
 from lib.utils import table_rename
 
 
-_column_adapter = {
-    "Date": "date",
-    "Department": "match_string",
-    "First Dose": "total_persons_vaccinated",
-    "Second Dose": "total_persons_fully_vaccinated",
-}
-
-
-class FinMangoBoliviaDataSource(DataSource):
+class PakistanCountryDataSource(DataSource):
     def parse_dataframes(
-        self, dataframes: Dict[Any, DataFrame], aux: Dict[str, DataFrame], **parse_opts
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
-        data = table_rename(concat(dataframes.values()), _column_adapter, drop=True)
+        data = table_rename(
+            dataframes[0],
+            {
+                "date": "date",
+                "confirmed_cases": "new_confirmed",
+                "deaths": "new_deceased",
+                "tests_performed": "new_tested",
+            },
+            drop=True,
+        )
+        # Ensure date is str type
+        data["date"] = data["date"].astype(str)
 
-        data["country_code"] = "BO"
-        data["locality_code"] = None
-        data["subregion2_code"] = None
+        data["key"] = "PK"
         return data

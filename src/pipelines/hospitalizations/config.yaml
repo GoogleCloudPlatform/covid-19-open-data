@@ -288,14 +288,33 @@ sources:
         - '^NL_[^_]+$'
         - '^NL_[^_]+_[^_]+$'
 
-  # Data sources for PH levels 2 + 3
-  # Mirrored from http://bit.ly/DataDropArchives
-  - class: pipelines.epidemiology.ph_authority.PhilippinesDataSource
-    label: Philippines Ministry og Health (via FinMango)
+  # Data sources for PE level 1
+  - class: pipelines.hospitalizations.pe_authority.PeruHospitalizedDataSource
+    label: Peru Ministry of Health
+    website: https://covid19.minsa.gob.pe/sala_situacional.asp
     fetch:
-      - url: "https://storage.googleapis.com/finmango-covid-data/Philippines/Latest%20Case%20Information.csv"
+      - url: "https://covid19.minsa.gob.pe/files/HOSPITALIZADOS_{date}.xlsx"
         opts:
-          ext: csv
+          ignore_failure: True
+    test:
+      location_key_match: '^PE$'
+
+  - class: pipelines.hospitalizations.pe_authority.PeruICUDataSource
+    label: Peru Ministry of Health
+    website: https://covid19.minsa.gob.pe/sala_situacional.asp
+    fetch:
+      - url: "https://covid19.minsa.gob.pe/files/UCI_{date}.xlsx"
+        opts:
+          ignore_failure: True
+    test:
+      location_key_match: '^PE$'
+
+  # Data sources for PH levels 2 + 3
+  - class: pipelines.epidemiology.ph_authority.PhilippinesDataSource
+    label: Open Data Philippines (ODPH)
+    website: https://data.gov.ph/?q=search&query=covid
+    fetch:
+      - url: "https://data.gov.ph/sites/default/files/DOH%20COVID%20Data%20Drop_%20{date}%20-%2004%20Case%20Information.csv"
     test:
       location_key_match:
         - '^PH$'
@@ -338,15 +357,17 @@ sources:
       location_key_match: '^SI$'
 
   # Data sources for TH level 0
+  # TODO: Archive this data source since the data is no longer available
   - class: pipelines.epidemiology.th_authority.ThailandCountryDataSource
-    label: TODO
+    label: Thailand Department of Desease Control
+    website: https://ddc.moph.go.th/viralpneumonia/
     fetch:
       - url: "https://covid19.th-stat.com/api/open/timeline"
         opts:
           ext: json
     test:
       location_key_match: '^TH$'
-      # TODO: Fix broken data source (API redirects to another URL)
+      # Data no longer available
       skip: true
 
   # Data sources for US level 2

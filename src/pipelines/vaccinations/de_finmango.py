@@ -13,7 +13,7 @@
 # limitations under the License.
 
 from typing import Any, Dict
-from pandas import DataFrame
+from pandas import DataFrame, concat
 from lib.cast import safe_int_cast
 from lib.data_source import DataSource
 from lib.utils import table_rename
@@ -23,9 +23,20 @@ from pipelines.epidemiology.de_authority import _SUBREGION1_CODE_MAP
 _column_adapter = {
     "Date": "date",
     "RS": "subregion1_code",
-    "Total First Dose": "total_persons_vaccinated",
-    "Total Second Dose": "total_persons_fully_vaccinated",
+    "New number vaccinated at least once": "new_persons_vaccinated",
+    "New Fully Vaccinated": "new_persons_fully_vaccinated",
+    "New Vaccinations": "new_vaccine_doses_administered",
+    "Total number vaccinated at least once": "total_persons_vaccinated",
+    "Total Fully Vaccinated": "total_persons_fully_vaccinated",
     "Total Vaccinations": "total_vaccine_doses_administered",
+    "Total First Dose BioNTech": "new_persons_vaccinated_pfizer",
+    "Total Second Dose BioNTech": "total_persons_fully_vaccinated_pfizer",
+    "Total First Dose Moderna": "new_persons_vaccinated_moderna",
+    "Total Second Dose Moderna": "total_persons_fully_vaccinated_moderna",
+    "Total First Dose AstraZeneca": "new_persons_vaccinated_astrazeneca",
+    "Total Second Dose AstraZeneca": "total_persons_fully_vaccinated_astrazeneca",
+    "Total First Dose Janssen": "new_persons_vaccinated_janssen",
+    "Total Second Dose Janssen": "total_persons_fully_vaccinated_janssen",
 }
 
 
@@ -33,7 +44,10 @@ class FinMangoGermanyDataSource(DataSource):
     def parse_dataframes(
         self, dataframes: Dict[Any, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
-        data = table_rename(dataframes[0], _column_adapter, drop=True)
+        data = table_rename(concat(dataframes[0].values()), _column_adapter, drop=True)
+
+        # Remove records with no date or location
+        data = data.dropna(subset=["date", "subregion1_code"])
 
         # Convert data to int type
         for col in data.columns[2:]:

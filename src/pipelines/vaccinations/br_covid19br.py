@@ -14,13 +14,11 @@
 
 from typing import Any, Dict
 from pandas import DataFrame
-from lib.cast import safe_int_cast
 from lib.data_source import DataSource
-from lib.time import datetime_isoformat
 from lib.utils import table_rename
 
 
-class FinMangoBrazilDataSource(DataSource):
+class Covid19BrDataSource(DataSource):
     def parse_dataframes(
         self, dataframes: Dict[Any, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
@@ -31,8 +29,8 @@ class FinMangoBrazilDataSource(DataSource):
             {
                 "date": "date",
                 "state": "subregion1_code",
-                "first_dose": "total_persons_vaccinated",
-                "second_dose": "total_persons_fully_vaccinated",
+                "vaccinated_single": "total_persons_vaccinated",
+                "vaccinated_second": "total_persons_fully_vaccinated",
             },
             drop=True,
         )

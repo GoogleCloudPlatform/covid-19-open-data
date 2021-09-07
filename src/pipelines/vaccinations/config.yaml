@@ -83,8 +83,9 @@ sources:
   # Data sources for AT levels 0 + 1
   - class: pipelines.vaccinations.at_authority.AustriaDataSource
     label: Open Data Österreich
+    website: https://www.data.gv.at/katalog/dataset/4312623f-2cdc-4a59-bea5-877310e6e48d
     fetch:
-      - url: "https://info.gesundheitsministerium.gv.at/data/timeline.csv"
+      - url: "https://info.gesundheitsministerium.gv.at/data/timeline-eimpfpass.csv"
     parse:
       sep: ";"
     test:
@@ -119,6 +120,9 @@ sources:
       - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTQPaCIPwOdo-ELdSPlRSlLWqB0X3PtpZJdB1aEIjdo_HBW2qAe_9bY6rE3t_AMakUPNk2TPuwzPKx_/pub?gid=0&single=true&output=csv"
         opts:
           ext: csv
+      - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTQPaCIPwOdo-ELdSPlRSlLWqB0X3PtpZJdB1aEIjdo_HBW2qAe_9bY6rE3t_AMakUPNk2TPuwzPKx_/pub?gid=349214778&single=true&output=csv"
+        opts:
+          ext: csv
     aggregate:
       subregion1: ["total_persons_vaccinated", "total_persons_fully_vaccinated", "total_vaccine_doses_administered"]
     test:
@@ -129,11 +133,11 @@ sources:
   # Data sources for BR levels 0 + 1 + 2
 
   # Even though this is an authoritative data source, it has significant delays in the data so we
-  # deprioritize it with respect to the FinMango data source
+  # deprioritize it with respect to the crowd-sourced data source
   - class: pipelines.vaccinations.br_authority.BrazilDataSource
     label: Brazil Ministry of Health (openDataSUS)
     fetch:
-      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/PNI/vacina/completo/{date}/part-00000-a98c0fed-60ba-4156-a6cc-37bbd62720e0-c000.csv"
+      - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/PNI/vacina/uf/{date}/uf%3D{subregion1_code}/part-00000-9bf0f6da-b13b-4025-9160-2dd9b163f3f3.c000.csv"
         opts:
           date_format: '%Y-%m-%d'
     parse:
@@ -146,10 +150,13 @@ sources:
         - '^BR_[^_]+$'
         - '^BR_[^_]+_[^_]+$'
 
-  - class: pipelines.vaccinations.br_finmango.FinMangoBrazilDataSource
-    label: Brazil Ministry of Health (via FinMango)
+  - class: pipelines.vaccinations.br_covid19br.Covid19BrDataSource
+    label: coronavirusbra1.github.io (via @wcota/covid19br)
+    website: https://coronavirusbra1.github.io/
+    license: CC-BY
+    license_url: https://github.com/wcota/covid19br/blob/6e994b0fef2056e31364bfa2e69c5d61060f0ccf/DESCRIPTION.en.md#by-federative-units-cases-brazil-totalcsv-and-cases-brazil-statescsv
     fetch:
-      - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQObciNWSh0DUnMsPpSvc1X4Kv9ex8a0ynlsa32dbSgJeb1w_4M0MG3yADkcT-c9gE4UEExT4Z5ylUc/pub?gid=0&single=true&output=csv"
+      - url: "https://raw.githubusercontent.com/wcota/covid19br/master/cases-brazil-states.csv"
         opts:
           ext: csv
     test:
@@ -168,8 +175,20 @@ sources:
         - '^CA_[^_]+$'
 
   # Data sources for CH levels 0 + 1
-  - class: pipelines.vaccinations.ch_authority.SwitzerlandDataSource
+  - class: pipelines.vaccinations.ch_authority.SwitzerlandPersonsDataSource
     label: Switzerland Ministry of Health
+    website: https://www.covid19.admin.ch
+    fetch:
+      - url: "https://www.covid19.admin.ch/api/data/context"
+    test:
+      location_key_match:
+        - '^CH$'
+        - '^LI$'
+        - '^CH_[^_]+$'
+
+  - class: pipelines.vaccinations.ch_authority.SwitzerlandDosesDataSource
+    label: Switzerland Ministry of Health
+    website: https://www.covid19.admin.ch
     fetch:
       - url: "https://www.covid19.admin.ch/api/data/context"
     test:
@@ -205,9 +224,11 @@ sources:
   - class: pipelines.vaccinations.de_finmango.FinMangoGermanyDataSource
     label: Robert Koch Institute (via FinMango)
     fetch:
-      - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQBlleeDihfdTZLuDIczEsmKy0Ql-YOYUfBTy3NKxyNbTR1IRd7EbIp5cPS0PVzgOxn-zCWTY4ZVm_5/pub?gid=0&single=true&output=csv"
+      - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQBlleeDihfdTZLuDIczEsmKy0Ql-YOYUfBTy3NKxyNbTR1IRd7EbIp5cPS0PVzgOxn-zCWTY4ZVm_5/pub?output=xlsx"
         opts:
-          ext: csv
+          ext: xlsx
+    parse:
+      sheet_name: ['automated1', 'automated2', 'automated3']
     test:
       location_key_match:
         - '^DE$'
@@ -302,7 +323,10 @@ sources:
   - class: pipelines.vaccinations.in_covid19india_org.Covid19IndiaOrgL1DataSource
     label: covid19india.org
     fetch:
-      - url: "http://api.covid19india.org/csv/latest/vaccine_doses_statewise.csv"
+      - url: "http://data.covid19india.org/csv/latest/vaccine_doses_statewise_v2.csv"
+    # No need to aggregate since country-level sources appear to be more accurate
+    # aggregate:
+    #   subregion1: ["total_persons_vaccinated", "total_persons_fully_vaccinated", "total_vaccine_doses_administered"]
     test:
       location_key_match: '^IN_[^_]+$'
 
