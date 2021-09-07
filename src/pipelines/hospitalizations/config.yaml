@@ -320,6 +320,8 @@ sources:
         - '^PH$'
         - '^PH_[^_]+$'
         - '^PH_[^_]+_[^_]+$'
+      # Skip because downloading takes too long
+      skip: true
 
   # Data sources for PT level 1
   - class: pipelines.epidemiology.pt_covid19.PtCovid19L1DataSource

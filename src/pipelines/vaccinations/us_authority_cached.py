@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import json
 from functools import partial
 from lib.concurrent import process_map
 from typing import Dict
@@ -27,7 +26,7 @@ _column_adapter = {"Series_Complete_Yes": "total_persons_fully_vaccinated", "key
 
 def _process_cache_file(file_map: Dict[str, str], date: str) -> DataFrame:
     data = read_file(file_map[date])["vaccination_county_condensed_data"].values.tolist()
-    data = DataFrame([list(v.values()) for v in data], columns=list(data[0].keys()))
+    data = DataFrame.from_records(data)
 
     data = data[data["FIPS"] != "UNK"]
     data = data.assign(
@@ -42,7 +41,6 @@ def _process_cache_file(file_map: Dict[str, str], date: str) -> DataFrame:
 
 class USCountyCachedDataSource(CachedDataSource):
     def parse(self, sources: Dict[str, str], aux: Dict[str, DataFrame], **parse_opts) -> DataFrame:
-        dataframes = {}
 
         trends_field_name = "US_CDC_counties_vaccinations"
         file_map = sources[trends_field_name]
