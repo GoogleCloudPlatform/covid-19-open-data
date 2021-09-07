@@ -838,8 +838,6 @@ sources:
         - '^PH$'
         - '^PH_[^_]+$'
         - '^PH_[^_]+_[^_]+$'
-      # Skip unit test because it's very slow (500MB+)
-      skip: true
 
   # Data sources for PK levels 1 + 2
   - class: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource

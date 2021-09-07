@@ -310,13 +310,11 @@ sources:
       location_key_match: '^PE$'
 
   # Data sources for PH levels 2 + 3
-  # Mirrored from http://bit.ly/DataDropArchives
   - class: pipelines.epidemiology.ph_authority.PhilippinesDataSource
-    label: Philippines Ministry og Health (via FinMango)
+    label: Open Data Philippines (ODPH)
+    website: https://data.gov.ph/?q=search&query=covid
     fetch:
-      - url: "https://storage.googleapis.com/finmango-covid-data/Philippines/Latest%20Case%20Information.csv"
-        opts:
-          ext: csv
+      - url: "https://data.gov.ph/sites/default/files/DOH%20COVID%20Data%20Drop_%20{date}%20-%2004%20Case%20Information.csv"
     test:
       location_key_match:
         - '^PH$'
