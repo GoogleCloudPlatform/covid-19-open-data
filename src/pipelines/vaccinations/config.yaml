@@ -323,7 +323,10 @@ sources:
   - class: pipelines.vaccinations.in_covid19india_org.Covid19IndiaOrgL1DataSource
     label: covid19india.org
     fetch:
-      - url: "http://api.covid19india.org/csv/latest/vaccine_doses_statewise.csv"
+      - url: "http://data.covid19india.org/csv/latest/vaccine_doses_statewise_v2.csv"
+    # No need to aggregate since country-level sources appear to be more accurate
+    # aggregate:
+    #   subregion1: ["total_persons_vaccinated", "total_persons_fully_vaccinated", "total_vaccine_doses_administered"]
     test:
       location_key_match: '^IN_[^_]+$'
 
