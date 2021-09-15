@@ -506,15 +506,6 @@ sources:
       location_key_match: '^US_\w\w(_NYC)?$'
 
   # Data sources for US_CA level 1
-  - class: pipelines.epidemiology.us_ca_authority.CaliforniaOpenDataSource
-    label: data.ca.gov
-    fetch:
-      - url: "https://data.ca.gov/dataset/590188d5-8545-4c93-a9a0-e230f0db7290/resource/339d1c4d-77ab-44a2-9b40-745e64e335f2/download/case_demographics_age.csv"
-    test:
-      # TODO: data source appears to be temporarily unavailable
-      skip: true
-      location_key_match: '^US_CA$'
-
   - class: pipelines.epidemiology.us_ca_authority.CaliforniaCachedDataSource
     label: California Department of Public Health
     # No URL is given because it uses the cache
@@ -524,6 +515,16 @@ sources:
       location_key_match: '^US_CA$'
       # TODO: fix this data source
       skip: true
+
+  - class: pipelines.epidemiology.us_ca_authority.CaliforniaByAgeOpenDataSource
+    label: California Department of Health
+    website: https://covid19.ca.gov/state-dashboard/
+    license: No restrictions on public use
+    license_url: https://data.ca.gov/dataset/covid-19-time-series-metrics-by-county-and-state1
+    fetch:
+      - url: "https://data.chhs.ca.gov/dataset/f333528b-4d38-4814-bebb-12db1f10f535/resource/e2c6a86b-d269-4ce1-b484-570353265183/download/covid19casesdemographics.csv"
+    test:
+      location_key_match: '^US_CA$'
 
   # Data sources for US_DC level 2
   - class: pipelines.epidemiology.us_dc_authority.DistrictColumbiaDataSource
