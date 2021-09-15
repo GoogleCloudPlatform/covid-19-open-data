@@ -93,7 +93,7 @@ class CaliforniaCountiesOpenDataSource(DataSource):
                 "reported_cases": "new_confirmed",
                 "cumulative_reported_cases": "total_confirmed",
                 "reported_deaths": "new_deceased",
-                "cumulative_reported_deaths": "total_tested",
+                "cumulative_reported_deaths": "total_deceased",
             },
             drop=True,
         )
