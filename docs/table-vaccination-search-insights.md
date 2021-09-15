@@ -99,7 +99,7 @@ To preserve user privacy, we use [differential privacy](https://www.youtube.com/
 
 To further protect users’ privacy, we ensure that no personal information is included in the data, and we don’t link any related search-based inferences to an individual user.
 
-To ensure accuracy after adding noise, we estimate the magnitude of change due to the noise. We retain all the values that (after the addition of noise) have 80% probability to be within 15% of the original value and we remove the noisey values. This sometimes leads to missing data points, as explained in **How we process the data** section.
+To ensure accuracy after adding noise, we estimate the magnitude of change due to the noise. We retain all the values that (after the addition of noise) have 80% probability to be within 15% of the original value and we remove the noisy values. This sometimes leads to missing data points, as explained in **How we process the data** section.
 
 You can learn more about the privacy and quality methods used to generate the data by reading this [anonymization process description](https://arxiv.org/abs/2107.01179).
 
