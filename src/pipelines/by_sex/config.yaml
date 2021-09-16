@@ -365,7 +365,18 @@ sources:
       # Skip because it's too flakey
       skip: true
 
-  # Data sources for US_DC level 2
+  # Data sources for US_CA level 1
+  - class: pipelines.epidemiology.us_ca_authority.CaliforniaBySexOpenDataSource
+    label: California Department of Health
+    website: https://covid19.ca.gov/state-dashboard/
+    license: No restrictions on public use
+    license_url: https://data.ca.gov/dataset/covid-19-time-series-metrics-by-county-and-state1
+    fetch:
+      - url: "https://data.chhs.ca.gov/dataset/f333528b-4d38-4814-bebb-12db1f10f535/resource/e2c6a86b-d269-4ce1-b484-570353265183/download/covid19casesdemographics.csv"
+    test:
+      location_key_match: '^US_CA$'
+
+  # Data sources for US_DC level 1
   - class: pipelines.epidemiology.us_dc_authority.DistrictColumbiaDataSource
     label: Government of the District of Columbia
     fetch:
@@ -379,7 +390,7 @@ sources:
       skip: true
       location_key_match: '^US_DC$'
 
-  # Data sources for US_DE level 2
+  # Data sources for US_DE level 1
   - class: pipelines.epidemiology.us_de_authority.DelawareDataSource
     label: Delaware Health and Social Services
     fetch:
@@ -407,7 +418,7 @@ sources:
       # Skip Florida because download takes a long time
       skip: true
 
-  # Data sources for US_IN level 3
+  # Data sources for US_IN level 2
   - class: pipelines.epidemiology.us_in_authority.IndianaDataSource
     label: Indiana Department of Health
     fetch:
@@ -424,7 +435,7 @@ sources:
     test:
       location_key_match: 'US_IN.*'
 
-  # Data sources for US_MA level 3
+  # Data sources for US_MA level 2
   - class: pipelines.epidemiology.us_ma_authority.MassachusettsBySexDataSource
     label: MCAD COVID-19 Information & Resource Center
     fetch:

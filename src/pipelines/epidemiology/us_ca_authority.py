@@ -15,7 +15,7 @@
 from functools import partial
 from typing import Any, Dict
 from bs4 import Tag
-from pandas import DataFrame
+from pandas import DataFrame, concat
 from lib.data_source import DataSource
 from lib.cached_data_source import CachedDataSource
 from lib.cast import safe_int_cast
@@ -71,7 +71,7 @@ def _process_html_file(file_map: Dict[str, str], date: str) -> Dict[str, Any]:
     return records
 
 
-class CaliforniaOpenDataSource(DataSource):
+class CaliforniaCountiesOpenDataSource(DataSource):
     def parse_dataframes(
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
@@ -79,18 +79,84 @@ class CaliforniaOpenDataSource(DataSource):
             dataframes[0],
             {
                 "date": "date",
-                "age_group": "age",
-                "totalpositive": "total_confirmed",
+                "area": "match_string",
+                "area_type": "_agg_level",
+                # "population": "",
+                # "cases": "new_confirmed",
+                # "cumulative_cases": "total_confirmed",
+                # "deaths": "new_deceased",
+                # "cumulative_deaths": "total_deceased",
+                "total_tests": "new_tested",
+                "cumulative_total_tests": "total_tested",
+                # "positive_tests": "",
+                # "cumulative_positive_tests": "",
+                "reported_cases": "new_confirmed",
+                "cumulative_reported_cases": "total_confirmed",
+                "reported_deaths": "new_deceased",
+                "cumulative_reported_deaths": "total_deceased",
+            },
+            drop=True,
+        )
+        state = data.loc[data["_agg_level"] == "State"].copy()
+        counties = data.loc[data["_agg_level"] != "State"].copy()
+
+        state["key"] = "US_CA"
+        counties["subregion1_code"] = "CA"
+
+        return concat([state, counties])
+
+
+class CaliforniaByAgeOpenDataSource(DataSource):
+    def parse_dataframes(
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
+    ) -> DataFrame:
+        data = table_rename(
+            dataframes[0],
+            {
+                "report_date": "date",
+                "demographic_category": "_strat_key",
+                "demographic_value": "_strat_val",
+                "total_cases": "total_confirmed",
                 "deaths": "total_deceased",
             },
             drop=True,
         )
         data["key"] = "US_CA"
         data["date"] = data["date"].str.slice(0, 10)
+        data = data[data["_strat_val"] != "Total"]
+
+        data = data.loc[data["_strat_key"] == "Age Group"].rename(columns={"_strat_val": "age"})
+        data["age"] = data["age"].str.lower()
         data["age"] = data["age"].str.replace("+", "-")
-        data["age"] = data["age"].str.replace("Unknown", "age_unknown")
-        data["age"] = data["age"].str.replace("Missing", "age_unknown")
-        data["age"] = data["age"].str.replace("65 and Older", "65-")
+        data["age"] = data["age"].str.replace("unknown", "age_unknown")
+        data["age"] = data["age"].str.replace("missing", "age_unknown")
+        data["age"] = data["age"].str.replace("65 and older", "65-")
+
+        return data
+
+
+class CaliforniaBySexOpenDataSource(DataSource):
+    def parse_dataframes(
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
+    ) -> DataFrame:
+        data = table_rename(
+            dataframes[0],
+            {
+                "report_date": "date",
+                "demographic_category": "_strat_key",
+                "demographic_value": "_strat_val",
+                "total_cases": "total_confirmed",
+                "deaths": "total_deceased",
+            },
+            drop=True,
+        )
+        data["key"] = "US_CA"
+        data["date"] = data["date"].str.slice(0, 10)
+        data = data[data["_strat_val"] != "Total"]
+
+        data = data.loc[data["_strat_key"] == "Gender"].rename(columns={"_strat_val": "sex"})
+        data["sex"] = data["sex"].str.lower().replace("unknown", "sex_unknown")
+
         return data
 
 

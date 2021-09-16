@@ -1110,14 +1110,17 @@ sources:
       location_key_match: '^US_AK$'
 
   # Data sources for US_CA level 1
-  - class: pipelines.epidemiology.us_ca_authority.CaliforniaOpenDataSource
+  - class: pipelines.epidemiology.us_ca_authority.CaliforniaCountiesOpenDataSource
     label: California Department of Health
+    website: https://covid19.ca.gov/state-dashboard/
+    license: No restrictions on public use
+    license_url: https://data.ca.gov/dataset/covid-19-time-series-metrics-by-county-and-state1
     fetch:
-      - url: "https://data.ca.gov/dataset/590188d5-8545-4c93-a9a0-e230f0db7290/resource/339d1c4d-77ab-44a2-9b40-745e64e335f2/download/case_demographics_age.csv"
+      - url: "https://data.chhs.ca.gov/dataset/f333528b-4d38-4814-bebb-12db1f10f535/resource/046cdd2b-31e5-4d34-9ed3-b48cdbc4be7a/download/covid19cases_test.csv"
     test:
-      # TODO: data source appears to be temporarily unavailable
-      skip: true
-      location_key_match: '^US_CA$'
+      location_key_match:
+        - '^US_CA$'
+        - '^US_CA_[^_]+$'
 
   # Data sources for US_CA_SFO
   - class: pipelines.epidemiology.us_ca_sfo_authority.SanFranciscoDataSource
