@@ -71,10 +71,13 @@ sources:
         - '^AR_[^_]+_[^_]+$'
 
   # Data sources for AU levels 0 + 1
-  - class: pipelines.vaccinations.au_covidlive.AustraliaCovidLiveDataSource
+  - class: pipelines.epidemiology.au_covidlive.AustraliaCovidLiveDataSource
     label: covidlive.com.au
+    website: https://covidlive.com.au
+    license: CC-BY
+    license_url: https://covidlive.com.au
     fetch:
-      - url: "https://covidlive.com.au/covid-live.json"
+      - url: "https://covidlive.com.au/covid-live.csv"
     test:
       location_key_match:
         - '^AU$'

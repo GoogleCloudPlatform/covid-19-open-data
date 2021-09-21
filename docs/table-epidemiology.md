@@ -48,7 +48,7 @@ column.
 | Country-level data | [WHO](https://covid19.who.int) | [Attribution required](https://www.who.int/about/who-we-are/publishing-policies/data-policy/terms-and-conditions) |
 | Afghanistan | [HDX](https://data.humdata.org/dataset/afghanistan-covid-19-statistics-per-province) | [CC BY][28] |
 | Argentina | [Datos Argentina](https://datos.gob.ar/dataset/salud-covid-19-casos-registrados-republica-argentina) | [Public domain](https://datos.gob.ar/acerca/seccion/marco-legal) |
-| Australia | <https://covid-19-au.com/> | [Attribution required](https://covid-19-au.com/faq) |
+| Australia | [COVID LIVE](https://covidlive.com.au/) | [CC BY](https://creativecommons.org/licenses/by/4.0/) |
 | Austria | [Open Data Österreich](https://www.data.gv.at/covid-19/) | [CC BY](https://www.data.gv.at/covid-19/) |
 | Bangladesh | <http://covid19tracker.gov.bd> | [Public Domain](http://covid19tracker.gov.bd/#tab_1_4) |
 | Belgium | [Belgian institute for health](https://epistat.wiv-isp.be) | [Attribution required](https://www.health.belgium.be/en/legal-information) |

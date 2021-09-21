@@ -102,13 +102,18 @@ sources:
     test:
       location_key_match: '^AT_[^_]+_[^_]+$'
 
-  # Data sources for AU level 2
-  - class: pipelines.epidemiology.au_covid_19_au.Covid19AuDataSource
-    label: covid-19-au.com
+  # Data sources for AU levels 0 + 1
+  - class: pipelines.epidemiology.au_covidlive.AustraliaCovidLiveDataSource
+    label: covidlive.com.au
+    website: https://covidlive.com.au
+    license: CC-BY
+    license_url: https://covidlive.com.au
     fetch:
-      - url: "https://raw.github.com/covid-19-au/covid-19-au.github.io/prod/src/data/state.json"
+      - url: "https://covidlive.com.au/covid-live.csv"
     test:
-      location_key_match: 'AU_.+'
+      location_key_match:
+        - '^AU$'
+        - '^AU_[^_]+$'
 
   - class: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
     label: Wikipedia

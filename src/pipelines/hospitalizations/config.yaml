@@ -45,6 +45,19 @@ sources:
       skip: true
       location_key_match: 'AR_.*'
 
+  # Data sources for AU levels 0 + 1
+  - class: pipelines.epidemiology.au_covidlive.AustraliaCovidLiveDataSource
+    label: covidlive.com.au
+    website: https://covidlive.com.au
+    license: CC-BY
+    license_url: https://covidlive.com.au
+    fetch:
+      - url: "https://covidlive.com.au/covid-live.csv"
+    test:
+      location_key_match:
+        - '^AU$'
+        - '^AU_[^_]+$'
+
   # Data sources for BE levels 1 + 2
   - class: pipelines.epidemiology.be_authority.BelgiumDataSource
     label: Epistat

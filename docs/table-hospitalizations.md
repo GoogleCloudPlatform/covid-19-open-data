@@ -45,7 +45,7 @@ counts over time, which is why the cumulative values, if reported, are kept in a
 | ---- | ------ | ------------------------ |
 | Country-level data | [Our World in Data](https://ourworldindata.org) | [CC BY](https://ourworldindata.org/how-to-use-our-world-in-data#how-is-our-work-copyrighted) |
 | Argentina | [Datos Argentina](https://datos.gob.ar/) | [Public domain](https://datos.gob.ar/acerca/seccion/marco-legal) |
-| Australia | <https://covid-19-au.com/> | [Attribution required](https://covid-19-au.com/faq) |
+| Australia | [COVID LIVE](https://covidlive.com.au/) | [CC BY](https://creativecommons.org/licenses/by/4.0/) |
 | Belgium | [Belgian institute for health](https://epistat.wiv-isp.be) | [Attribution required](https://www.health.belgium.be/en/legal-information) |
 | Brazil | [Brazil Ministério da Saúde](https://coronavirus.saude.gov.br/) | [Creative Commons Atribuição](http://www.opendefinition.org/licenses/cc-by) |
 | Brazil (Rio de Janeiro) | <http://www.data.rio/> | [Dados abertos](https://www.data.rio/datasets/f314453b3a55434ea8c8e8caaa2d8db5) |
