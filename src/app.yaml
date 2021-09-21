@@ -21,7 +21,7 @@ manual_scaling:
 resources:
     cpu: 4
     memory_gb: 8
-    disk_size_gb: 20
+    disk_size_gb: 64
 
 env_variables:
     GCS_SERVICE_ACCOUNT: "github-open-covid-19@appspot.gserviceaccount.com"
