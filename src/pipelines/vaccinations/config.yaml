@@ -149,6 +149,11 @@ sources:
         - '^BR$'
         - '^BR_[^_]+$'
         - '^BR_[^_]+_[^_]+$'
+    automation:
+      # Run only twice a day, since it's so resource consuming
+      schedule: "0 */12 * * *"
+      # Run in a separate job group because it's prone to failure
+      job_group: opendatasus
 
   - class: pipelines.vaccinations.br_covid19br.Covid19BrDataSource
     label: coronavirusbra1.github.io (via @wcota/covid19br)
