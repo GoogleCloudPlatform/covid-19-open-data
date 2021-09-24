@@ -1067,7 +1067,6 @@ sources:
     license_url: https://www.usa.gov/government-works
     fetch:
       - url: "https://data.cdc.gov/api/views/9mfq-cb36/rows.csv"
-    # Do not aggregate CDC data since we have better data sources available
     aggregate:
       subregion1: ['new_confirmed', 'new_deceased', 'total_confirmed', 'total_deceased',]
     test:
