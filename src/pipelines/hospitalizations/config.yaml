@@ -398,7 +398,10 @@ sources:
         - '^US_[^_]+$'
 
   - class: pipelines.hospitalizations.us_authority.HHSDataSource
-    label: The COVID Tracking Project
+    label: U.S. Department of Health & Human Services
+    website: https://beta.healthdata.gov/Hospital/COVID-19-Reported-Patient-Impact-and-Hospital-Capa/g62h-syeh
+    license: Public Domain
+    license_url: https://www.usa.gov/government-works
     fetch:
       - url: "https://beta.healthdata.gov/api/views/g62h-syeh/rows.csv"
     aggregate:
