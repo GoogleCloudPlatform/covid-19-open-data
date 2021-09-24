@@ -390,8 +390,28 @@ sources:
     label: The COVID Tracking Project
     fetch:
       - url: "https://covidtracking.com/api/v1/states/daily.csv"
+    aggregate:
+      subregion1: ["new_*", "current_*", "total_*"]
     test:
-      location_key_match: 'US_[^_]+$'
+      location_key_match:
+        - '^US$'
+        - '^US_[^_]+$'
+
+  - class: pipelines.hospitalizations.us_authority.HHSDataSource
+    label: The COVID Tracking Project
+    fetch:
+      - url: "https://beta.healthdata.gov/api/views/g62h-syeh/rows.csv"
+    aggregate:
+      subregion1: ["new_*", "current_*", "total_*"]
+    # Not all states started reporting data at the same time, so the aggregated country-level data
+    # is not correct priot to a certain date. Unfortunately the other data sources do not report
+    # data past a certain date so we have to do a blend of data sources with an arbitrary cutoff.
+    # See: https://covidtracking.com/analysis-updates/what-weve-learned-about-the-hhs-hospitalization-data
+    query: key != "US" or date > '2020-07-16'
+    test:
+      location_key_match:
+        - '^US$'
+        - '^US_[^_]+$'
 
   # Data sources for US_AK level 2
   - class: pipelines.epidemiology.us_ak_authority.AlaskaDataSource
