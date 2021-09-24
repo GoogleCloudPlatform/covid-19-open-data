@@ -282,10 +282,6 @@ class DataSource(ErrorLogger):
             data["date"] = data["date"].apply(lambda x: datetime_isoformat(x, "%Y-%m-%d"))
             data.dropna(subset=["date"], inplace=True)
 
-        # Filter out data according to the user-provided filter function
-        if "query" in self.config:
-            data = data.query(self.config["query"]).copy()
-
         # Get rid of columns according to user-provided config
         if "drop_columns" in self.config:
             data.drop(columns=self.config["drop_columns"], inplace=True)
@@ -330,6 +326,10 @@ class DataSource(ErrorLogger):
                 l0 = l0[~l0["country_code"].isin(data["key"])]
 
                 data = data.append(l0.rename(columns={"country_code": "key"})).reset_index()
+
+        # Filter out data according to the user-provided filter function
+        if "query" in self.config:
+            data = data.query(self.config["query"]).copy()
 
         # Fill with zeroes the requested columns
         # This is useful when we know a data source provides every known data point
