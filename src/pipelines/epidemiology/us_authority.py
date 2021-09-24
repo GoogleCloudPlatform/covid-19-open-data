@@ -21,6 +21,7 @@ from lib.concurrent import thread_map
 from lib.constants import SRC
 from lib.io import open_file_like, pbar, read_table
 from lib.pipeline import DataSource
+from lib.time import datetime_isoformat
 from lib.utils import table_rename
 
 
@@ -90,7 +91,45 @@ def _process_state(data: DataFrame) -> DataFrame:
     )
 
 
-class CDCDataSource(DataSource):
+class CDCStateDataSource(DataSource):
+    def parse_dataframes(
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
+    ) -> DataFrame:
+        data = table_rename(
+            dataframes[0],
+            {
+                "submission_date": "date",
+                "state": "subregion1_code",
+                "tot_cases": "total_confirmed",
+                # "conf_cases": "total_confirmed",
+                # "prob_cases": "",
+                "new_case": "new_confirmed",
+                # "pnew_case": "",
+                "tot_death": "total_deceased",
+                # "conf_death": "",
+                # "prob_death": "",
+                "new_death": "new_deceased",
+                # "pnew_death": "",
+                # "created_at": "",
+                # "consent_cases": "",
+                # "consent_deaths": "",
+            },
+            drop=True,
+        )
+
+        data["key"] = "US_" + data["subregion1_code"]
+        data["date"] = data["date"].apply(lambda x: datetime_isoformat(x, "%m/%d/%Y"))
+
+        # A few "states" are considered independent territories by our dataset or need correction
+        data.loc[data["subregion1_code"] == "PW", "key"] = "PW"
+        data.loc[data["subregion1_code"] == "FSM", "key"] = "FM"
+        data.loc[data["subregion1_code"] == "RMI", "key"] = "MH"
+        data.loc[data["subregion1_code"] == "NYC", "key"] = "US_NY_NYC"
+
+        return data
+
+
+class CDCCountyDataSource(DataSource):
     def fetch(
         self,
         output_folder: Path,
