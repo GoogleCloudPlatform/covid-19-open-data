@@ -1046,21 +1046,34 @@ sources:
       location_key_match: 'UA_.+'
 
   # The CDC data comes before each state since individual state's data might be more accurate
-  - class: pipelines.epidemiology.us_authority.CDCDataSource
+  - class: pipelines.epidemiology.us_authority.CDCCountyDataSource
     label: Centers for Disease Control and Prevention
     fetch:
       - url: "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=integrated_county_timeseries_state_{state}_external"
         opts:
           ext: json
-    # Do not aggregate CDC data since we have better data sources available
+    # Do not aggregate CDC county data since we have better data sources available
     # aggregate:
     #   subregion2: ['new_confirmed', 'new_deceased', 'new_tested']
     test:
-      location_key_match:
-        - '^US_[^_]+$'
-        - '^US_[^_]+_[^_]+$'
+      location_key_match: '^US_[^_]+_[^_]+$'
       # Skip test because it runs out of memory on GitHub Actions
       skip: true
+
+  - class: pipelines.epidemiology.us_authority.CDCStateDataSource
+    label: Centers for Disease Control and Prevention
+    website: https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/cases-in-us.html
+    license: Public Domain
+    license_url: https://www.usa.gov/government-works
+    fetch:
+      - url: "https://data.cdc.gov/api/views/9mfq-cb36/rows.csv"
+    # Do not aggregate CDC data since we have better data sources available
+    aggregate:
+      subregion1: ['new_confirmed', 'new_deceased', 'total_confirmed', 'total_deceased',]
+    test:
+      location_key_match:
+        - '^US$'
+        - '^US_[^_]+$'
 
   # Data sources for US levels 2 + 3
   - class: pipelines.epidemiology.us_nyt_covid.NytCovidL2DataSource
