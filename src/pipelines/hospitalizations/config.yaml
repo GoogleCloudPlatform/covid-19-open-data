@@ -35,7 +35,7 @@ auxiliary:
 
 sources:
 
-  # Data sources for AR levels 2 + 3
+  # Data sources for AR levels 0 + 1 + 2
   - class: pipelines.epidemiology.ar_authority.ArgentinaDataSource
     label: Argentina Ministry of Health
     fetch:
@@ -58,7 +58,7 @@ sources:
         - '^AU$'
         - '^AU_[^_]+$'
 
-  # Data sources for BE levels 1 + 2
+  # Data sources for BE levels 0 + 1
   - class: pipelines.epidemiology.be_authority.BelgiumDataSource
     label: Epistat
     fetch:
@@ -70,7 +70,7 @@ sources:
         - '^BE$'
         - '^BE_[^_]+$'
 
-  # Data sources for BR levels 1 + 2 + 3
+  # Data sources for BR levels 0 + 1 + 2
   - class: pipelines.epidemiology.br_authority.BrazilSRAGDataSource
     label: Ministry of Health of Brazil (SRAG)
     fetch:
@@ -109,7 +109,7 @@ sources:
       # Skip because it's too slow
       skip: true
 
-  # Data sources for CH level 1 + 2
+  # Data sources for CH level 0 + 1
   - class: pipelines.epidemiology.ch_authority.SwitzerlandCantonsDataSource
     label: openZH
     fetch:
@@ -140,7 +140,7 @@ sources:
         - '^LI$'
         - '^CH_[^_]+$'
 
-  # Data sources for CL level 2
+  # Data sources for CL level 1
   - class: pipelines.hospitalizations.cl_authority.ChileRegionsDataSource
     label: Chile Ministry of Science, Technology and Innovation
     fetch:
@@ -149,7 +149,7 @@ sources:
     test:
       location_key_match: 'CL_[^_]+$'
 
-  # Data sources for CZ level 1
+  # Data sources for CZ level 0
   - class: pipelines.hospitalizations.cz_authority.CzechRepublicL1HospitalizedDataSource
     label: Czech Republic Ministyr of Health
     fetch:
@@ -177,7 +177,7 @@ sources:
     test:
       location_key_match: '^ES_CN$'
 
-  # Data sources for FR levels 1 + 2 + 3
+  # Data sources for FR levels 0 + 1 + 2
   - class: pipelines.epidemiology.fr_authority.FranceDashboardDataSource
     label: data.gouv.fr
     # TODO(owahltinez): Parse stratified information as well
@@ -191,7 +191,7 @@ sources:
         - '^FR_[^_]+$'
         - '^FR_[^_]+_[^_]+$'
 
-  # Data sources for GB levels 1 + 2 + 3
+  # Data sources for GB levels 0 + 1 + 2
   - class: pipelines.hospitalizations.gb_authority.ScotlandDataSource
     label: Scotland Health Authority
     fetch:
@@ -200,13 +200,13 @@ sources:
       skip: True
       location_key_match: 'GB_SCT.*'
 
-  # Data sources for GB level 1
+  # Data sources for GB level 0
   - class: pipelines.hospitalizations.gb_authority.UKL1DataSource
     label: National Health Service
     test:
       location_key_match: '^GB$'
 
-  # Data sources for GB level 2
+  # Data sources for GB level 1
   - class: pipelines.hospitalizations.gb_authority.UKL2DataSource
     label: National Health Service
     test:
@@ -224,7 +224,7 @@ sources:
     test:
       location_key_match: '^HK$'
 
-  # Data sources for IT levels 1 + 2
+  # Data sources for IT levels 0 + 1
   - class: pipelines.epidemiology.it_authority.PcmDpcL1DataSource
     label: Italy Ministry of Health
     fetch:
@@ -241,7 +241,7 @@ sources:
         - '^IT$'
         - '^IT_[^_]+$'
 
-  # Data sources for JP levels 1 + 2
+  # Data sources for JP levels 0 + 1
   - class: pipelines.epidemiology.jp_2019_ncov_japan.Jp2019NcovJapanByDate
     label: covid-2019.live
     fetch:
@@ -263,7 +263,7 @@ sources:
     test:
       location_key_match: 'JP_[^_]+'
 
-  # Data sources for LU level 1
+  # Data sources for LU level 0
   - class: pipelines.epidemiology.lu_authority.LuxembourgDataSource
     label: Luxembourg Health Authority
     fetch:
@@ -275,7 +275,7 @@ sources:
       skip: True
       location_key_match: '^LU$'
 
-  # Data sources for MX levels 1 + 2
+  # Data sources for MX levels 0 + 1
   - class: pipelines.epidemiology.mx_mexicovid19.Mexicovid19DataSource
     label: Mexico Ministry of Health
     fetch:
@@ -288,7 +288,7 @@ sources:
         - '^MX$'
         - '^MX_[^_]+$'
 
-  # Data sources for NL levels 1 + 2 + 3
+  # Data sources for NL levels 0 + 1 + 2
   - class: pipelines.epidemiology.nl_authority.NetherlandsDataSource
     label: Netherlands Ministry of Health
     fetch:
@@ -301,7 +301,7 @@ sources:
         - '^NL_[^_]+$'
         - '^NL_[^_]+_[^_]+$'
 
-  # Data sources for PE level 1
+  # Data sources for PE level 0
   - class: pipelines.hospitalizations.pe_authority.PeruHospitalizedDataSource
     label: Peru Ministry of Health
     website: https://covid19.minsa.gob.pe/sala_situacional.asp
@@ -322,7 +322,7 @@ sources:
     test:
       location_key_match: '^PE$'
 
-  # Data sources for PH levels 2 + 3
+  # Data sources for PH levels 0 + 1 + 2
   - class: pipelines.epidemiology.ph_authority.PhilippinesDataSource
     label: Open Data Philippines (ODPH)
     website: https://data.gov.ph/?q=search&query=covid
@@ -336,7 +336,7 @@ sources:
       # Skip because downloading takes too long
       skip: true
 
-  # Data sources for PT level 1
+  # Data sources for PT level 0
   - class: pipelines.epidemiology.pt_covid19.PtCovid19L1DataSource
     label: covid19.min-saude.pt
     fetch:
@@ -344,7 +344,7 @@ sources:
     test:
       location_key_match: '^PT$'
 
-  # Data sources for RO level 1
+  # Data sources for RO level 0
   - class: pipelines.epidemiology.ro_covid19romania.Covid19RomaniaDataSource
     label: github.com/adrianp/covid19romania
     fetch:
@@ -353,7 +353,7 @@ sources:
     test:
       location_key_match: '^RO$'
 
-  # Data sources for SE level 1
+  # Data sources for SE level 0
   - class: pipelines.hospitalizations.se_authority.SwedenDataSource
     label: Sweden Ministry of Health
     fetch:
@@ -363,7 +363,7 @@ sources:
     test:
       location_key_match: '^SE$'
 
-  # Data sources for SI level 1
+  # Data sources for SI level 0
   - class: pipelines.epidemiology.si_authority.SloveniaDataSource
     label: Slovenia Ministry of Health
     fetch:
@@ -385,7 +385,7 @@ sources:
       # Data no longer available
       skip: true
 
-  # Data sources for US level 2
+  # Data sources for US level 1
   - class: pipelines.epidemiology.us_covidtracking.CovidTrackingDataSource
     label: The COVID Tracking Project
     fetch:
@@ -416,7 +416,7 @@ sources:
         - '^US$'
         - '^US_[^_]+$'
 
-  # Data sources for US_AK level 2
+  # Data sources for US_AK level 1
   - class: pipelines.epidemiology.us_ak_authority.AlaskaDataSource
     label: Alaska Department of Health
     fetch:
@@ -453,7 +453,7 @@ sources:
     test:
       location_key_match: '^US_CA_SFO$'
 
-  # Data sources for US_DC level 2
+  # Data sources for US_DC level 1
   - class: pipelines.epidemiology.us_dc_authority.DistrictColumbiaDataSource
     label: District of Columbia Department of Health
     fetch:
@@ -483,7 +483,7 @@ sources:
     fetch:
       - url: "https://raw.githubusercontent.com/nychealth/coronavirus-data/master/trends/data-by-day.csv"
     test:
-      location_key_match: 'US_NY_.*'
+      location_key_match: 'US_NY_NYC'
 
   # Data sources for US_TX level 2
   - class: pipelines.epidemiology.us_tx_authority.TexasDataSource
@@ -491,7 +491,9 @@ sources:
     fetch:
       - url: "https://dshs.texas.gov/coronavirus/TexasCOVID19CaseCountData.xlsx"
     test:
-      location_key_match: '^US_TX$'
+      location_key_match:
+        - '^US_TX$'
+        - '^US_TX_[^_]+$'
       # Skip Texas because the data source is very flaky and keeps changing schema
       # TODO: fix this data source and make it more resilient
       skip: true

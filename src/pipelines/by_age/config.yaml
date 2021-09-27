@@ -176,7 +176,7 @@ auxiliary:
 
 sources:
 
-  # Data sources for AR levels 2 + 3
+  # Data sources for AR levels 1 + 2
   - class: pipelines.epidemiology.ar_authority.ArgentinaDataSource
     label: Datos Argentina
     fetch:
@@ -186,7 +186,7 @@ sources:
       skip: true
       location_key_match: 'AR_.*'
 
-  # Data sources for BR levels 1 + 2 + 3
+  # Data sources for BR levels 0 + 1 + 2
   - class: pipelines.epidemiology.br_authority.BrazilOpenDataPortalDataSource
     label: Ministry of Health of Brazil (openDataSUS)
     fetch:
@@ -242,7 +242,7 @@ sources:
       # Skip because it's too slow
       skip: true
 
-  # Data sources for BR_RJ level 3
+  # Data sources for BR_RJ level 2
   - class: pipelines.epidemiology.br_rj_authority.RioStratifiedDataSource
     label: Ministry of Health of Rio de Janeiro
     fetch:
@@ -257,7 +257,7 @@ sources:
       # Skip because it's very flakey
       skip: true
 
-  # Data sources for CO levels 1 + 2 + 3
+  # Data sources for CO levels 0 + 1 + 2
   - class: pipelines.epidemiology.co_authority.ColombiaDataSource
     label: Ministry of Health of Colombia
     fetch:
@@ -265,7 +265,7 @@ sources:
     test:
       location_key_match: 'CO.*'
 
-  # Data sources for CZ levels 1 + 2 + 3
+  # Data sources for CZ levels 0 + 1 + 2
   - class: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
     label: Ministry of Health of the Czech Republic
     fetch:
@@ -347,7 +347,7 @@ sources:
     test:
       location_key_match: '^ES_CT$'
 
-  # Data sources for FI level 1
+  # Data sources for FI level 0
   - class: pipelines.epidemiology.fi_authority.FinlandArcGisDataSource
     label: Finnish Institute for Health and Welfare
     fetch:
@@ -358,7 +358,7 @@ sources:
     test:
       location_key_match: '^FI$'
 
-  # Data sources for FR levels 1 + 2 + 3
+  # Data sources for FR levels 0 + 1 + 2
   - class: pipelines.epidemiology.fr_authority.FranceStratifiedDataSource
     label: Etalab
     fetch:
@@ -392,7 +392,7 @@ sources:
         - '^IN$'
         - '^IN_[^_]+$'
 
-  # Data sources for MX levels 1, 2 and 3
+  # Data sources for MX levels 0 + 1 + 2
   - class: pipelines.epidemiology.mx_authority.MexicoDataSource
     label: Ministry of Health of Mexico
     website: https://coronavirus.gob.mx/
@@ -425,7 +425,7 @@ sources:
       # Skip because it's flakey
       skip: true
 
-  # Data sources for PE levels 1 + 2 + 3
+  # Data sources for PE levels 0 + 1 + 2
   - class: pipelines.epidemiology.pe_authority.PeruDataSource
     label: Peru Ministry of Health
     website: https://covid19.minsa.gob.pe/sala_situacional.asp
@@ -447,7 +447,7 @@ sources:
         - '^PE_[^_]+$'
         - '^PE_[^_]+_[^_]+$'
 
-  # Data sources for PH levels 2 + 3
+  # Data sources for PH levels 0 + 1 + 2
   - class: pipelines.epidemiology.ph_authority.PhilippinesDataSource
     label: Open Data Philippines (ODPH)
     website: https://data.gov.ph/?q=search&query=covid
@@ -526,7 +526,7 @@ sources:
     test:
       location_key_match: '^US_CA$'
 
-  # Data sources for US_DC level 2
+  # Data sources for US_DC level 1
   - class: pipelines.epidemiology.us_dc_authority.DistrictColumbiaDataSource
     label: Government of the District of Columbia
     fetch:
@@ -540,7 +540,7 @@ sources:
       skip: true
       location_key_match: '^US_DC$'
 
-  # Data sources for US_DE level 2
+  # Data sources for US_DE level 1
   - class: pipelines.epidemiology.us_de_authority.DelawareDataSource
     label: Delaware Health and Social Services
     fetch:
@@ -568,7 +568,7 @@ sources:
       # Skip Florida because download takes a long time
       skip: true
 
-  # Data sources for US_GA levels 2 + 3
+  # Data sources for US_GA levels 1 + 2
   - class: pipelines.epidemiology.us_ga_authority.GeorgiaStratifiedDataSource
     label: Georgia Department of Public Health
     # No URL is given because it uses the cache
@@ -578,9 +578,11 @@ sources:
       file_name: demographics_by_age_group.csv
       date_start: "2020-10-01"
     test:
-      location_key_match: 'US_GA_.*'
+      location_key_match:
+        - '^US_GA$'
+        - '^US_GA_[^_]+$'
 
-  # Data sources for US_IN level 3
+  # Data sources for US_IN levels 1 + 2
   - class: pipelines.epidemiology.us_in_authority.IndianaDataSource
     label: Indiana Department of Health
     fetch:
@@ -595,9 +597,11 @@ sources:
       # This data source does not report zero values, so we fill them in
       fill_with_zeroes: ['new_confirmed_age_*']
     test:
-      location_key_match: 'US_IN.*'
+      location_key_match:
+        - '^US_IN$'
+        - '^US_IN_[^_]+$'
 
-  # Data sources for US_MA level 3
+  # Data sources for US_MA level 1
   - class: pipelines.epidemiology.us_ma_authority.MassachusettsByAgeDataSource
     label: MCAD COVID-19 Information & Resource Center
     fetch:
@@ -611,7 +615,7 @@ sources:
     test:
       location_key_match: '^US_MA$'
 
-  # Data sources for US_WA level 2
+  # Data sources for US_WA levels 1 + 2
   # Only present in by-age table because the data is not updated daily
   - class: pipelines.epidemiology.us_wa_authority.WashingtonDataSource
     label: Washington State Department of Health
