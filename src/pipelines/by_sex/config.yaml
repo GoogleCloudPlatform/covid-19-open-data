@@ -262,6 +262,7 @@ sources:
     parse:
       dtype: str
     test:
+      location_key_match:
         - '^ES_CT$'
         - '^ES_CT_[^_]+$'
 
