@@ -544,6 +544,8 @@ sources:
       encoding: ISO-8859-1
     test:
       location_key_match: 'ES_MD_.+'
+      # TODO: Data source currently broken
+      skip: true
 
   - class: pipelines.epidemiology.es_md_authority.MadridDataSource
     label: Madrid Datos Abiertos
@@ -558,6 +560,8 @@ sources:
       encoding: ISO-8859-1
     test:
       location_key_match: 'ES_MD_.+'
+      # TODO: Data source currently broken
+      skip: true
 
   # Data sources for FI levels 0 + 1
   - class: pipelines.epidemiology.fi_authority.FinlandArcGisDataSource
