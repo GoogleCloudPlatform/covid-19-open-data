@@ -37,6 +37,9 @@ sources:
 
   - class: pipelines.mobility.google_mobility.GoogleMobilityDataSource
     label: Google Mobility Reports
+    website: https://www.google.com/covid19/mobility/
+    license: Terms and Conditions
+    license_url: https://policies.google.com/terms
     fetch:
       - url: "https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv"
     parse:

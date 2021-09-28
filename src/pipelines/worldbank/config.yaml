@@ -1428,7 +1428,10 @@ auxiliary:
 sources:
 
   - class: pipelines.worldbank.worldbank.WorldbankDataSource
-    label: WorldBank
+    label: WorldBank World Development Indicators
+    website: https://datatopics.worldbank.org/world-development-indicators/
+    license: CC-BY
+    license_url: https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets
     fetch:
       - url: "https://storage.googleapis.com/covid19-open-data/cache/2020-01-01-00/WDI_csv.zip"
     test:

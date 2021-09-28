@@ -47,6 +47,9 @@ auxiliary:
 sources:
   - class: pipelines.oxford_government_response.oxford_government_response.OxfordGovernmentResponseDataSource
     label: Oxford COVID-19 Policy Tracker
+    website: https://www.bsg.ox.ac.uk/covidtracker
+    license: CC-BY
+    license_url: https://github.com/OxCGRT/covid-policy-tracker/blob/master/LICENSE.txt
     fetch:
       - url: "https://raw.github.com/OxCGRT/covid-policy-tracker/master/data/OxCGRT_latest.csv"
     test:

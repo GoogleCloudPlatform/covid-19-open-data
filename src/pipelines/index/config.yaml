@@ -40,5 +40,8 @@ auxiliary:
 sources:
   - class: pipelines.index.index.IndexDataSource
     label: COVID-19 Open-Data
+    website: https://goo.gle/covid-19-open-data
+    license: CC-BY
+    license_url: https://github.com/GoogleCloudPlatform/covid-19-open-data#licensing
     parse:
       keep_metadata: true

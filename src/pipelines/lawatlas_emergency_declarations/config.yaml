@@ -125,7 +125,10 @@ auxiliary:
 sources:
 
   - class: pipelines.lawatlas_emergency_declarations.lawatlas_emergency_declarations.LawAtlasDataSource
-    label: lawatlas.org
+    label: LawAtlas Policy Surveillance Program
+    website: https://lawatlas.org/datasets/covid-19-emergency-declarations
+    license: Terms and Conditions
+    license_url: https://lawatlas.org/terms
     fetch:
       - url: "https://monqcle.com/upload/5f3bf7c15594f4ce258b4567/download"
         opts:
