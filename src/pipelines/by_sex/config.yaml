@@ -54,9 +54,12 @@ auxiliary:
 
 sources:
 
-  # Data sources for AR levels 2 + 3
+  # Data sources for AR levels 1 + 2
   - class: pipelines.epidemiology.ar_authority.ArgentinaDataSource
-    label: Datos Argentina
+    label: Argentina Ministry of Health
+    website: https://datos.gob.ar/dataset/salud-covid-19-casos-registrados-republica-argentina
+    license: Terms and Conditions
+    license_url: https://datos.gob.ar/acerca/seccion/marco-legal
     fetch:
       - url: "https://sisa.msal.gov.ar/datos/descargas/covid-19/files/Covid19Casos.csv"
     test:
@@ -64,9 +67,12 @@ sources:
       skip: true
       location_key_match: 'AR_.*'
 
-  # Data sources for BR levels 1 + 2 + 3
+  # Data sources for BR levels 0 + 1 + 2
   - class: pipelines.epidemiology.br_authority.BrazilOpenDataPortalDataSource
     label: Ministry of Health of Brazil (openDataSUS)
+    website: https://opendatasus.saude.gov.br/dataset/casos-nacionais
+    license: Open Data
+    license_url: http://opendefinition.org/okd/
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/dados-{0}.csv"
     parse:
@@ -83,7 +89,10 @@ sources:
       skip: true
 
   - class: pipelines.epidemiology.br_authority.BrazilSRAGDataSource
-    label: Ministry of Health of Brazil (SRAG)
+    label: Ministry of Health of Brazil (SRAG 2020)
+    website: https://dados.gov.br/dataset/bd-srag-2020
+    license: Open Data
+    license_url: http://opendefinition.org/okd/
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/SRAG/2020/INFLUD-{date}.csv"
         opts:
@@ -102,7 +111,10 @@ sources:
       skip: true
 
   - class: pipelines.epidemiology.br_authority.BrazilSRAGDataSource
-    label: Ministry of Health of Brazil (SRAG)
+    label: Ministry of Health of Brazil (SRAG 2021)
+    website: https://dados.gov.br/dataset/bd-srag-2021
+    license: Open Data
+    license_url: http://opendefinition.org/okd/
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/SRAG/2021/INFLUD21-{date}.csv"
         opts:
@@ -120,9 +132,12 @@ sources:
       # Skip because it's too slow
       skip: true
 
-  # Data sources for BR_RJ level 3
+  # Data sources for BR_RJ level 2
   - class: pipelines.epidemiology.br_rj_authority.RioStratifiedDataSource
     label: Ministry of Health of Rio de Janeiro
+    website: https://www.data.rio/datasets/f314453b3a55434ea8c8e8caaa2d8db5
+    license: Open Data
+    license_url: https://www.data.rio/datasets/f314453b3a55434ea8c8e8caaa2d8db5
     fetch:
       - url: "https://pcrj.maps.arcgis.com/sharing/rest/content/items/754cc0698129404ba8bfb053cbdbd158/data"
         opts:
@@ -135,17 +150,23 @@ sources:
       # Skip because it's very flakey
       skip: true
 
-  # Data sources for CO levels 1 + 2 + 3
+  # Data sources for CO levels 0 + 1 + 2
   - class: pipelines.epidemiology.co_authority.ColombiaDataSource
-    label: Ministry of Health of Colombia
+    label: Colombia Ministry of Health
+    website: https://www.datos.gov.co/Salud-y-Protecci-n-Social/Casos-positivos-de-COVID-19-en-Colombia/gt2j-8ykr
+    license: Terms and Conditions
+    license_url: https://herramientas.datos.gov.co/es/terms-and-conditions-es
     fetch:
       - url: "https://www.datos.gov.co/api/views/gt2j-8ykr/rows.csv"
     test:
       location_key_match: 'CO.*'
 
-  # Data sources for CZ levels 1 + 2 + 3
+  # Data sources for CZ levels 0 + 1 + 2
   - class: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
-    label: Ministry of Health of the Czech Republic
+    label: Czech Republic Ministry of Health
+    website: https://onemocneni-aktualne.mzcr.cz/covid-19
+    license: Terms and Conditions
+    license_url: https://onemocneni-aktualne.mzcr.cz
     fetch:
       - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/osoby.csv"
     parse:
@@ -156,7 +177,10 @@ sources:
       location_key_match: 'CZ.*'
 
   - class: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
-    label: Ministry of Health of the Czech Republic
+    label: Czech Republic Ministry of Health
+    website: https://onemocneni-aktualne.mzcr.cz/covid-19
+    license: Terms and Conditions
+    license_url: https://onemocneni-aktualne.mzcr.cz
     fetch:
       - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/umrti.csv"
     parse:
@@ -167,7 +191,10 @@ sources:
       location_key_match: 'CZ.*'
 
   - class: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
-    label: Ministry of Health of the Czech Republic
+    label: Czech Republic Ministry of Health
+    website: https://onemocneni-aktualne.mzcr.cz/covid-19
+    license: Terms and Conditions
+    license_url: https://onemocneni-aktualne.mzcr.cz
     fetch:
       - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/vyleceni.csv"
     parse:
@@ -180,6 +207,9 @@ sources:
   # Data sources for DE levels 0 + 1 + 2
   - class: pipelines.epidemiology.de_authority.GermanyDataSource
     label: Robert Koch Institute
+    website: https://npgeo-corona-npgeo-de.hub.arcgis.com/datasets/dd4580c810204019a7b8eb3e0b329dd6_0?page=26
+    license: Terms and Conditions
+    license_url: https://www.govdata.de/dl-de/by-2-0
     fetch:
       - url: "https://opendata.arcgis.com/datasets/dd4580c810204019a7b8eb3e0b329dd6_0.csv"
     parse:
@@ -194,6 +224,9 @@ sources:
   # Data sources for EE levels 0 + 1
   - class: pipelines.epidemiology.ee_authority.EstoniaDataSource
     label: Health Board of Estonia
+    website: https://www.terviseamet.ee/et/koroonaviirus/avaandmed
+    license: Terms and Conditions
+    license_url: https://www.terviseamet.ee/et/koroonaviirus/avaandmed
     fetch:
       - url: "https://opendata.digilugu.ee/opendata_covid19_test_results.csv"
     parse:
@@ -207,7 +240,10 @@ sources:
 
   # Data sources for ES levels 0 + 1
   - class: pipelines.epidemiology.es_authority.ISCIIIStratifiedDataSource
-    label: Ministry of Health of Spain
+    label: Spain Ministry of Health
+    website: https://cnecovid.isciii.es/covid19/
+    license: Terms and Conditions
+    license_url: https://www.mscbs.gob.es/avisoLegal/home.htm
     fetch:
       - url: "https://cnecovid.isciii.es/covid19/resources/casos_hosp_uci_def_sexo_edad_provres.csv"
     test:
@@ -215,19 +251,27 @@ sources:
         - '^ES$'
         - '^ES_[^_]+$'
 
-  # Data sources for ES_CT levels 2 + 3
+  # Data sources for ES_CT levels 1 + 2
   - class: pipelines.epidemiology.es_ct_authority.CataloniaMunicipalitiesDataSource
-    label: Department of Health of Catalonia
+    label: Catalonia Health Department
+    website: https://analisi.transparenciacatalunya.cat/Salut/Registre-de-casos-de-COVID-19-a-Catalunya-per-muni/jj6z-iyrp
+    license: Terms and Conditions
+    license_url: https://web.gencat.cat/ca/menu-ajuda/ajuda/avis_legal/
     fetch:
       - url: "https://analisi.transparenciacatalunya.cat/api/views/jj6z-iyrp/rows.csv"
     parse:
       dtype: str
     test:
-      location_key_match: 'ES_CT.*'
+      location_key_match:
+        - '^ES_CT$'
+        - '^ES_CT_[^_]+$'
 
-  # Data sources for FI level 1
+  # Data sources for FI level 0
   - class: pipelines.epidemiology.fi_authority.FinlandArcGisDataSource
-    label: Finnish Institute for Health and Welfare
+    label: Finland Institute for Health and Welfare
+    website: https://thl.fi/en/web/thlfi-en
+    license: Terms and Conditions
+    license_url: https://thl.fi/en/web/thlfi-en/statistics-and-data/data-and-services/open-data
     fetch:
       - url: https://services7.arcgis.com/nuPvVz1HGGfa0Eh7/arcgis/rest/services/korona_tapauksia_jakauma/FeatureServer/0/query?f=json&where=1%3D1&outFields=OBJECTID,alue,date,tapauksia,miehia,naisia,Ika_0_9,ika_10_19,ika_20_29,ika_30_39,ika_40_49,ika_50_59,ika_60_69,ika_70_79,ika_80_,koodi&returnGeometry=false
         opts:
@@ -236,9 +280,12 @@ sources:
     test:
       location_key_match: '^FI$'
 
-  # Data sources for FR levels 1 + 2 + 3
+  # Data sources for FR levels 0 + 1 + 2
   - class: pipelines.epidemiology.fr_authority.FranceStratifiedDataSource
-    label: Etalab
+    label: data.gouv.fr
+    website: https://dashboard.covid19.data.gouv.fr
+    license: Open License 2.0
+    license_url: https://www.etalab.gouv.fr/licence-ouverte-open-licence
     fetch:
       - url: https://dashboard.covid19.data.gouv.fr/data/code-{}.json
     test:
@@ -249,7 +296,10 @@ sources:
 
   # Data sources for HK level 0
   - class: pipelines.epidemiology.hk_authority.HongKongDataSource
-    label: Hong Kong Department of Health
+    label: Hong Kong Health Department
+    website: https://data.gov.hk/en-data/dataset/hk-dh-chpsebcddr-novel-infectious-agent
+    license: Terms and Conditions
+    license_url: https://data.gov.hk/en/terms-and-conditions
     fetch:
       - url: "https://www.chp.gov.hk/files/misc/enhanced_sur_covid_19_eng.csv"
     parse:
@@ -261,6 +311,9 @@ sources:
   # Data source for IN levels 0 + 1
   - class: pipelines.epidemiology.in_covid19india_org.Covid19IndiaOrgCasesDataSource
     label: covid19india.org
+    website: https://www.covid19india.org/
+    license: Terms and Conditions
+    license_url: https://github.com/covid19india/data/blob/gh-pages/LICENSE
     fetch:
       - url: "https://api.covid19india.org/csv/latest/raw_data{idx}.csv"
         opts:
@@ -270,10 +323,12 @@ sources:
         - '^IN$'
         - '^IN_[^_]+$'
 
-  # Data sources for MX levels 1, 2 and 3
+  # Data sources for MX levels 0 + 1 + 2
   - class: pipelines.epidemiology.mx_authority.MexicoDataSource
-    label: Ministry of Health of Mexico
+    label: Mexico Ministry of Health
     website: https://coronavirus.gob.mx/
+    license: Terms and Conditions
+    license_url: https://datos.gob.mx/libreusomx
     fetch:
       - url: "http://datosabiertos.salud.gob.mx/gobmx/salud/datos_abiertos/datos_abiertos_covid19.zip"
     parse:
@@ -290,7 +345,10 @@ sources:
 
   # Data sources for NZ level 0
   - class: pipelines.epidemiology.nz_authority.NewZealandDataSource
-    label: Ministry of Health of New Zealand
+    label: New Zealand Health Department
+    website: https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-data-and-statistics
+    license: CC-BY
+    license_url: https://www.health.govt.nz/about-site/copyright
     fetch:
       - url: "https://www.health.govt.nz/system/files/documents/pages/covid_cases_{date}.csv"
         opts:
@@ -303,10 +361,12 @@ sources:
       # Skip because it's flakey
       skip: true
 
-  # Data sources for PE levels 1 + 2 + 3
+  # Data sources for PE levels 0 + 1 + 2
   - class: pipelines.epidemiology.pe_authority.PeruDataSource
     label: Peru Ministry of Health
     website: https://covid19.minsa.gob.pe/sala_situacional.asp
+    license: ODC BY
+    license_url: http://opendefinition.org/licenses/odc-by/
     fetch:
       - name: confirmed
         url: "https://cloud.minsa.gob.pe/s/AC2adyLkHCKjmfm/download"
@@ -325,10 +385,12 @@ sources:
         - '^PE_[^_]+$'
         - '^PE_[^_]+_[^_]+$'
 
-  # Data sources for PH levels 2 + 3
+  # Data sources for PH levels 0 + 1 + 2
   - class: pipelines.epidemiology.ph_authority.PhilippinesDataSource
     label: Open Data Philippines (ODPH)
-    website: https://data.gov.ph/?q=search&query=covid
+    website: http://www.doh.gov.ph/covid19tracker
+    license: Terms and Conditions
+    license_url: http://www.doh.gov.ph
     fetch:
       - url: "https://data.gov.ph/sites/default/files/DOH%20COVID%20Data%20Drop_%20{date}%20-%2004%20Case%20Information.csv"
     test:
@@ -343,6 +405,8 @@ sources:
   - class: pipelines.epidemiology.th_authority.ThailandCasesDataSource
     label: Thailand Department of Desease Control
     website: https://ddc.moph.go.th/viralpneumonia/
+    license: Terms and Conditions
+    license_url: https://ddc.moph.go.th
     fetch:
       - url: "https://data.go.th/dataset/8a956917-436d-4afd-a2d4-59e4dd8e906e/resource/67d43695-8626-45ad-9094-dabc374925ab/download/confirmed-cases.xlsx"
     test:
@@ -352,7 +416,10 @@ sources:
 
   # Data sources for TW levels 0 + 1
   - class: pipelines.epidemiology.tw_authority.TaiwanDataSource
-    label: Ministry of Health and Welfare of Taiwan
+    label: Taiwan Health Department
+    website: https://data.cdc.gov.tw/en/dataset/covid19_tw__stats
+    license: Terms and Conditions
+    license_url: https://data.gov.tw/license
     fetch:
       - url: "https://od.cdc.gov.tw/eic/Day_Confirmation_Age_County_Gender_19CoV.csv"
     parse:
@@ -369,7 +436,7 @@ sources:
   - class: pipelines.epidemiology.us_ca_authority.CaliforniaBySexOpenDataSource
     label: California Department of Health
     website: https://covid19.ca.gov/state-dashboard/
-    license: No restrictions on public use
+    license: Terms and Conditions
     license_url: https://data.ca.gov/dataset/covid-19-time-series-metrics-by-county-and-state1
     fetch:
       - url: "https://data.chhs.ca.gov/dataset/f333528b-4d38-4814-bebb-12db1f10f535/resource/e2c6a86b-d269-4ce1-b484-570353265183/download/covid19casesdemographics.csv"
@@ -379,6 +446,9 @@ sources:
   # Data sources for US_DC level 1
   - class: pipelines.epidemiology.us_dc_authority.DistrictColumbiaDataSource
     label: Government of the District of Columbia
+    website: TODO
+    license: TODO
+    license_url: TODO
     fetch:
       - url: "https://coronavirus.dc.gov/page/coronavirus-data"
         opts:
@@ -392,7 +462,10 @@ sources:
 
   # Data sources for US_DE level 1
   - class: pipelines.epidemiology.us_de_authority.DelawareDataSource
-    label: Delaware Health and Social Services
+    label: Delaware Department of Health
+    website: https://coronavirus.delaware.gov/
+    license: Terms and Conditions
+    license_url: https://coronavirus.delaware.gov/coronavirus-graphics/
     fetch:
       - url: "https://myhealthycommunity.dhss.delaware.gov/locations/state/download_covid_19_data"
         opts:
@@ -406,6 +479,9 @@ sources:
   # Data sources US_FL levels 1 + 2
   - class: pipelines.epidemiology.us_fl_authority.FloridaDataSource
     label: Florida Health
+    website: https://floridahealthcovid19.gov/
+    license: Terms and Conditions
+    license_url: https://www.dms.myflorida.com/support/terms_and_conditions
     fetch:
       - url: "https://services1.arcgis.com/CY1LXxl9zlJeBuRZ/ArcGIS/rest/services/Florida_COVID19_Case_Line_Data_NEW/FeatureServer/0/query?where=1%3D1&outFields=*&f=json"
     parse:
@@ -418,9 +494,12 @@ sources:
       # Skip Florida because download takes a long time
       skip: true
 
-  # Data sources for US_IN level 2
+  # Data sources for US_IN levels 1 + 2
   - class: pipelines.epidemiology.us_in_authority.IndianaDataSource
     label: Indiana Department of Health
+    website: https://hub.mph.in.gov/organization/indiana-state-department-of-health
+    license: Terms and Conditions
+    license_url: https://hub.mph.in.gov/organization/indiana-state-department-of-health
     fetch:
       - url: "https://hub.mph.in.gov/dataset/6b57a4f2-b754-4f79-a46b-cff93e37d851/resource/46b310b9-2f29-4a51-90dc-3886d9cf4ac1/download/covid_report.xlsx"
         opts:
@@ -433,11 +512,16 @@ sources:
       # This data source does not report zero values, so we fill them in
       fill_with_zeroes: ['new_confirmed_age_*']
     test:
-      location_key_match: 'US_IN.*'
+      location_key_match:
+        - '^US_IN$'
+        - '^US_IN_[^_]+$'
 
-  # Data sources for US_MA level 2
+  # Data sources for US_MA level 1
   - class: pipelines.epidemiology.us_ma_authority.MassachusettsBySexDataSource
-    label: MCAD COVID-19 Information & Resource Center
+    label: Massachusetts Department of Health
+    website: https://www.mass.gov/info-details/covid-19-updates-and-information
+    license: Terms and Conditions
+    license_url: https://www.mass.gov/terms-of-use-policy
     fetch:
       - name: by-sex
         # August 11th was the last day US_MA reported cases broken down by age/sex

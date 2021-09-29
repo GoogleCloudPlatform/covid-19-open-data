@@ -52,6 +52,9 @@ sources:
   # Data sources for all countries level 0
   - class: pipelines.vaccinations.xx_owid.OurWorldInDataSource
     label: Our World In Data
+    website: https://covid.ourworldindata.org
+    license: CC-BY
+    license_url: https://ourworldindata.org/how-to-use-our-world-in-data#how-is-our-work-copyrighted
     fetch:
       - url: "https://github.com/owid/covid-19-data/raw/master/public/data/vaccinations/vaccinations.csv"
     test:
@@ -59,7 +62,10 @@ sources:
 
   # Data sources for AR levels 0 + 1
   - class: pipelines.vaccinations.ar_authority.ArgentinaDataSource
-    label: Datos Argentina
+    label: Argentina Ministry of Health
+    website: https://datos.gob.ar/dataset/salud-covid-19-casos-registrados-republica-argentina
+    license: Terms and Conditions
+    license_url: https://datos.gob.ar/acerca/seccion/marco-legal
     fetch:
       - url: "https://sisa.msal.gov.ar/datos/descargas/covid-19/files/datos_nomivac_covid19.zip"
     test:
@@ -87,6 +93,8 @@ sources:
   - class: pipelines.vaccinations.at_authority.AustriaDataSource
     label: Open Data Österreich
     website: https://www.data.gv.at/katalog/dataset/4312623f-2cdc-4a59-bea5-877310e6e48d
+    license: CC-BY
+    license_url: https://www.data.gv.at/covid-19/
     fetch:
       - url: "https://info.gesundheitsministerium.gv.at/data/timeline-eimpfpass.csv"
     parse:
@@ -97,6 +105,9 @@ sources:
   # Data sources for BE levels 0 + 1
   - class: pipelines.vaccinations.be_covid_vaccinatie.BelgiumDataSource
     label: covid-vaccinatie.be
+    website: https://covid-vaccinatie.be
+    license: CC-BY
+    license_url: https://covid-vaccinatie.be/api
     fetch:
       - url: "https://covid-vaccinatie.be/api/v1/administered.csv"
     test:
@@ -107,6 +118,9 @@ sources:
   # Data sources for BG levels 0 + 1
   - class: pipelines.vaccinations.bg_finmango.FinMangoBulgariaDataSource
     label: Ministry of Health of Bulgaria (via FinMango)
+    website: https://covid.finmango.org
+    license: CC-BY
+    license_url: https://covid.finmango.org
     fetch:
       - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vT3xzDXa5yd1lQZVrqNNFRy_4rj6Ie-YC5tpdOFlFYH4Qj_z5s1WPbsapfx6oPITw6uke_LUo7OCA2E/pub?gid=0&single=true&output=csv"
         opts:
@@ -119,6 +133,9 @@ sources:
   # Data sources for BO levels 0 + 1
   - class: pipelines.vaccinations.bo_finmango.FinMangoBoliviaDataSource
     label: Ministry of Health of Bolivia (via FinMango)
+    website: https://covid.finmango.org
+    license: CC-BY
+    license_url: https://covid.finmango.org
     fetch:
       - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTQPaCIPwOdo-ELdSPlRSlLWqB0X3PtpZJdB1aEIjdo_HBW2qAe_9bY6rE3t_AMakUPNk2TPuwzPKx_/pub?gid=0&single=true&output=csv"
         opts:
@@ -139,6 +156,9 @@ sources:
   # deprioritize it with respect to the crowd-sourced data source
   - class: pipelines.vaccinations.br_authority.BrazilDataSource
     label: Brazil Ministry of Health (openDataSUS)
+    website: https://opendatasus.saude.gov.br/dataset/covid-19-vacinacao
+    license: Open Data
+    license_url: http://opendefinition.org/okd/
     fetch:
       - url: "https://s3-sa-east-1.amazonaws.com/ckan.saude.gov.br/PNI/vacina/uf/{date}/uf%3D{subregion1_code}/part-00000-9bf0f6da-b13b-4025-9160-2dd9b163f3f3.c000.csv"
         opts:
@@ -174,7 +194,10 @@ sources:
 
   # Data sources for CA levels 0 + 1
   - class: pipelines.vaccinations.ca_authority.CanadaDataSource
-    label: Canada Ministry of Health
+    label: Public Health Agency of Canada
+    website: https://www.canada.ca/en/public-health
+    license: Terms and Conditions
+    license_url: https://www.canada.ca/en/transparency/terms.html
     fetch:
       - url: "https://health-infobase.canada.ca/src/data/covidLive/vaccination-coverage-map.csv"
     test:
@@ -186,6 +209,8 @@ sources:
   - class: pipelines.vaccinations.ch_authority.SwitzerlandPersonsDataSource
     label: Switzerland Ministry of Health
     website: https://www.covid19.admin.ch
+    license: CC-BY
+    license_url: https://opendata.swiss/en/terms-of-use
     fetch:
       - url: "https://www.covid19.admin.ch/api/data/context"
     test:
@@ -197,6 +222,8 @@ sources:
   - class: pipelines.vaccinations.ch_authority.SwitzerlandDosesDataSource
     label: Switzerland Ministry of Health
     website: https://www.covid19.admin.ch
+    license: CC-BY
+    license_url: https://opendata.swiss/en/terms-of-use
     fetch:
       - url: "https://www.covid19.admin.ch/api/data/context"
     test:
@@ -208,6 +235,9 @@ sources:
   # Data sources for CO level 1
   - class: pipelines.vaccinations.co_finmango.FinMangoColombiaDataSource
     label: Colombia Ministry of Health (via FinMango)
+    website: https://covid.finmango.org
+    license: CC-BY
+    license_url: https://covid.finmango.org
     fetch:
       - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSKtYZV5XRCjVH8TWOLh8paDQOA0aK7yYnMVlpXqoTfdZ71daNG9260evPjnW0th9uOIqRntn0rHFgn/pub?gid=0&single=true&output=csv"
         opts:
@@ -219,6 +249,9 @@ sources:
   # Data sources for CZ levels 0 + 1
   - class: pipelines.vaccinations.cz_authority.CzechRepublicDataSource
     label: Czech Republic Ministry of Health
+    website: https://onemocneni-aktualne.mzcr.cz/covid-19
+    license: Terms and Conditions
+    license_url: https://onemocneni-aktualne.mzcr.cz
     fetch:
       - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/ockovani.csv"
     aggregate:
@@ -231,6 +264,9 @@ sources:
   # Data sources for DE levels 0 + 1
   - class: pipelines.vaccinations.de_finmango.FinMangoGermanyDataSource
     label: Robert Koch Institute (via FinMango)
+    website: https://covid.finmango.org
+    license: CC-BY
+    license_url: https://covid.finmango.org
     fetch:
       - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQBlleeDihfdTZLuDIczEsmKy0Ql-YOYUfBTy3NKxyNbTR1IRd7EbIp5cPS0PVzgOxn-zCWTY4ZVm_5/pub?output=xlsx"
         opts:
@@ -245,6 +281,9 @@ sources:
   # Data sources for ES levels 0 + 1
   - class: pipelines.vaccinations.es_authority.SpainDataSource
     label: Spain Ministry of Health
+    website: https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov/vacunaCovid19.htm
+    license: Terms and Conditions
+    license_url: https://www.mscbs.gob.es/avisoLegal/home.htm
     fetch:
       - url: "https://www.mscbs.gob.es/profesionales/saludPublica/ccayes/alertasActual/nCov/documentos/Informe_Comunicacion_{date}.ods"
         opts:
@@ -257,6 +296,9 @@ sources:
   # Data sources for FR levels 0 + 1 + 2
   - class: pipelines.vaccinations.fr_authority.FranceDepartmentDataSource
     label: data.gouv.fr
+    website: https://dashboard.covid19.data.gouv.fr
+    license: Open License 2.0
+    license_url: https://www.etalab.gouv.fr/licence-ouverte-open-licence
     fetch:
       - url: "https://www.data.gouv.fr/fr/datasets/r/4f39ec91-80d7-4602-befb-4b522804c0af"
         opts:
@@ -266,8 +308,12 @@ sources:
     test:
       location_key_match:
         - '^FR_[^_]+_[^_]+$'
+
   - class: pipelines.vaccinations.fr_authority.FranceRegionDataSource
     label: data.gouv.fr
+    website: https://dashboard.covid19.data.gouv.fr
+    license: Open License 2.0
+    license_url: https://www.etalab.gouv.fr/licence-ouverte-open-licence
     fetch:
       - url: "https://www.data.gouv.fr/fr/datasets/r/735b0df8-51b4-4dd2-8a2d-8e46d77d60d8"
         opts:
@@ -280,6 +326,9 @@ sources:
 
   - class: pipelines.vaccinations.fr_authority.FranceCountryDataSource
     label: data.gouv.fr
+    website: https://dashboard.covid19.data.gouv.fr
+    license: Open License 2.0
+    license_url: https://www.etalab.gouv.fr/licence-ouverte-open-licence
     fetch:
       - url: "https://www.data.gouv.fr/fr/datasets/r/efe23314-67c4-45d3-89a2-3faef82fae90"
         opts:
@@ -293,6 +342,9 @@ sources:
   # Data sources for GB levels 0 + 1
   - class: pipelines.vaccinations.gb_finmango.FinMangoUkDataSource
     label: National Health Service (via FinMango)
+    website: https://covid.finmango.org
+    license: CC-BY
+    license_url: https://covid.finmango.org
     fetch:
       - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRbXZEVtSWDL8jc66A0BOnQuLSzNF_yaGF7RWpkOYZRHPwnWGs5Fh6RxrDnBFKribuo9gm71lBlJnEL/pub?gid=0&single=true&output=csv"
         opts:
@@ -304,6 +356,9 @@ sources:
 
   - class: pipelines.vaccinations.gb_authority.GreatBritainDataSource
     label: National Health Service
+    website: https://coronavirus.data.gov.uk/
+    license: Open Government License v3.0
+    license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
     fetch:
       - url: "https://api.coronavirus.data.gov.uk/v2/data?areaType=nation&metric=cumPeopleVaccinatedFirstDoseByPublishDate&metric=cumPeopleVaccinatedSecondDoseByPublishDate&format=csv"
         opts:
@@ -319,6 +374,9 @@ sources:
 
   - class: pipelines.vaccinations.gb_authority.GreatBritainDataSource
     label: National Health Service
+    website: https://coronavirus.data.gov.uk/
+    license: Open Government License v3.0
+    license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
     fetch:
       - url: "https://api.coronavirus.data.gov.uk/v2/data?areaType=overview&metric=cumPeopleVaccinatedFirstDoseByPublishDate&metric=cumPeopleVaccinatedSecondDoseByPublishDate&format=csv"
         opts:
@@ -330,6 +388,9 @@ sources:
 
   - class: pipelines.vaccinations.in_covid19india_org.Covid19IndiaOrgL1DataSource
     label: covid19india.org
+    website: https://www.covid19india.org/
+    license: Terms and Conditions
+    license_url: https://github.com/covid19india/data/blob/gh-pages/LICENSE
     fetch:
       - url: "http://data.covid19india.org/csv/latest/vaccine_doses_statewise_v2.csv"
     # No need to aggregate since country-level sources appear to be more accurate
@@ -338,19 +399,12 @@ sources:
     test:
       location_key_match: '^IN_[^_]+$'
 
-  # Data sources for IT levels 0 + 1
-  - class: pipelines.vaccinations.it_authority.ItalyDataSource
-    label: Italy Ministry of Health
-    fetch:
-      - url: "https://raw.githubusercontent.com/italia/covid19-opendata-vaccini/master/dati/somministrazioni-vaccini-summary-latest.csv"
-    test:
-      location_key_match:
-        - '^IT$'
-        - '^IT_[^_]+$'
-
   # Data sources for IL levels 2 (we aggregated to L1)
   - class: pipelines.epidemiology.il_authority.IsraelDataSource
-    label: Israel Ministry of Health
+    label: Israel Health Authority
+    website: https://data.gov.il/dataset/covid-19
+    license: Terms and Conditions
+    license_url: https://info.data.gov.il/datagov/rools
     fetch:
       - url: "https://data.gov.il/api/3/action/datastore_search?resource_id=d07c0771-01a8-43b2-96cc-c6154e7fa9bd"
     test:
@@ -359,9 +413,25 @@ sources:
         - '^IL_[^_]+$'
         - '^IL_[^_]+_[^_]+$'
 
+  # Data sources for IT levels 0 + 1
+  - class: pipelines.vaccinations.it_authority.ItalyDataSource
+    label: Italy Ministry of Health
+    website: https://github.com/italia/covid19-opendata-vaccini
+    license: CC-BY
+    license_url: https://github.com/italia/covid19-opendata-vaccini/blob/master/LICENSE.md
+    fetch:
+      - url: "https://raw.githubusercontent.com/italia/covid19-opendata-vaccini/master/dati/somministrazioni-vaccini-summary-latest.csv"
+    test:
+      location_key_match:
+        - '^IT$'
+        - '^IT_[^_]+$'
+
   # Data sources for SE level 0 + 1
   - class: pipelines.vaccinations.se_authority.SwedenDataSource
-    label: Sweden Ministry of Health
+    label: The Public Health Agency of Sweden
+    website: https://experience.arcgis.com/experience/09f821667ce64bf7be6f9f87457ed9aa
+    license: Terms and Conditions
+    license_url: https://www.folkhalsomyndigheten.se/the-public-health-agency-of-sweden/
     fetch:
       - url: "https://fohm.maps.arcgis.com/sharing/rest/content/items/fc749115877443d29c2a49ea9eca77e9/data"
         opts:
@@ -378,6 +448,9 @@ sources:
   # Data sources for SI levels 0 + 1
   - class: pipelines.vaccinations.si_finmango.FinMangoSloveniaDataSource
     label: Slovenia Ministry of Health (via FinMango)
+    website: https://covid.finmango.org
+    license: CC-BY
+    license_url: https://covid.finmango.org
     fetch:
       - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSVlVRyQwhlSZpwAAh5ARpDr4rNFmPrDXQ0_8jrcMWfJ734grINta10mrHGXygPXZaMkIepN8QUe3aA/pub?gid=0&single=true&output=csv"
         opts:
@@ -390,6 +463,9 @@ sources:
   # Data sources for SK level 0 + 1
   - class: pipelines.vaccinations.sk_authority.SlovakiaDataSource
     label: korona.gov.sk
+    website: https://korona.gov.sk
+    license: Terms and Conditions
+    license_url: https://korona.gov.sk
     fetch:
       - name: "regions"
         url: "https://data.korona.gov.sk/api/regions"
@@ -405,6 +481,9 @@ sources:
   # Data sources for US level 2
   - class: pipelines.vaccinations.us_authority_cached.USCountyCachedDataSource
     label: Centers for Disease Control and Prevention
+    website: https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/cases-in-us.html
+    license: Public Domain
+    license_url: https://www.cdc.gov/other/agencymaterials.html
     # No URL is given because it uses the cache
     fetch:
       - cache_key: US_CDC_counties_vaccinations
@@ -415,6 +494,9 @@ sources:
   # Data sources for US level 1
   - class: pipelines.vaccinations.xx_owid.OurWorldInDataUSDataSource
     label: Our World In Data
+    website: https://covid.ourworldindata.org
+    license: CC-BY
+    license_url: https://ourworldindata.org/how-to-use-our-world-in-data#how-is-our-work-copyrighted
     fetch:
       - url: "https://github.com/owid/covid-19-data/raw/master/public/data/vaccinations/us_state_vaccinations.csv"
     test:
@@ -423,6 +505,9 @@ sources:
   # Data sources for US level 0 and 1
   - class: pipelines.vaccinations.us_authority_vaccination_type.CDCCachedDataSourceVaccinationType
     label: Centers for Disease Control and Prevention
+    website: https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/cases-in-us.html
+    license: Public Domain
+    license_url: https://www.cdc.gov/other/agencymaterials.html
     # No URL is given because it uses the cache
     fetch:
       - cache_key: US_CDC_states_vaccinations
@@ -434,6 +519,9 @@ sources:
   # Data sources for US level 0
   - class: pipelines.vaccinations.us_authority.CDCDataSource
     label: Centers for Disease Control and Prevention
+    website: https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/cases-in-us.html
+    license: Public Domain
+    license_url: https://www.cdc.gov/other/agencymaterials.html
     fetch:
       - url: "https://covid.cdc.gov/covid-data-tracker/COVIDData/getAjaxData?id=vaccination_trends_data"
         name: vaccination_trends_data

@@ -37,6 +37,18 @@ class TestConfigFiles(ProfiledTestCase):
             expected_count = expected_source_counts.get(pipeline.table, 1)
             self.assertGreaterEqual(len(data_sources), expected_count)
 
+    def test_config_metadata(self):
+        """
+        This test verifies that all the required metadata is present in the data source config,
+        including licensing information.
+        """
+        required_metadata = ["label", "website", "license", "license_url"]
+        for pipeline in get_pipelines():
+            for data_source in pipeline.data_sources:
+                for meta in required_metadata:
+                    err_msg = f"{meta} missing in {data_source.name} ({pipeline.name})"
+                    self.assertIn(meta, data_source.config.keys(), err_msg)
+
     # TODO(owahltinez): Add tests for auxiliary tables, like metadata.csv
 
 

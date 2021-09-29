@@ -52,6 +52,9 @@ sources:
   # WorldPop populations are estimates, so give them less priority
   - class: pipelines.demographics.worldpop.WorldPopPopulationDataSource
     label: worldpop.org
+    website: https://worldpop.org
+    license: CC-BY
+    license_url: https://creativecommons.org/licenses/by/4.0/
     test:
       location_key_match: '^..$'
     automation:
@@ -60,6 +63,9 @@ sources:
 
   - class: pipelines._common.wikidata.WikidataDataSource
     label: wikidata.org
+    website: https://wikidata.org
+    license: CC0
+    license_url: https://www.wikidata.org/wiki/Wikidata:Licensing
     parse:
       population: P1082
       human_development_index: P1081
@@ -68,7 +74,10 @@ sources:
       schedule: "0 */12 * * *"
 
   - class: pipelines.worldbank.worldbank.WorldbankDataSource
-    label: WorldBank
+    label: WorldBank World Development Indicators
+    website: https://datatopics.worldbank.org/world-development-indicators/
+    license: CC-BY
+    license_url: https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets
     fetch:
       - url: "https://storage.googleapis.com/covid19-open-data/cache/2020-01-01-00/WDI_csv.zip"
     parse:
@@ -89,7 +98,10 @@ sources:
 
   # UN WPP stratified population estimates
   - class: pipelines.demographics.un_wpp.UnWppByAgeDataSource
-    label: un.org
+    label: UN World Population Prospects
+    website: https://population.un.org/wpp/Download/Standard/CSV/
+    license: CC BY 3.0 IGO
+    license_url: http://creativecommons.org/licenses/by/3.0/igo/
     fetch:
       - url: "https://population.un.org/wpp/Download/Files/1_Indicators%20(Standard)/CSV_FILES/WPP2019_PopulationByAgeSex_Medium.csv"
     test:
@@ -99,7 +111,10 @@ sources:
       schedule: "0 */12 * * *"
 
   - class: pipelines.demographics.un_wpp.UnWppBySexDataSource
-    label: un.org
+    label: UN World Population Prospects
+    website: https://population.un.org/wpp/Download/Standard/CSV/
+    license: CC BY 3.0 IGO
+    license_url: http://creativecommons.org/licenses/by/3.0/igo/
     fetch:
       - url: "https://population.un.org/wpp/Download/Files/1_Indicators%20(Standard)/CSV_FILES/WPP2019_TotalPopulationBySex.csv"
     test:
@@ -109,22 +124,155 @@ sources:
       schedule: "0 */12 * * *"
 
   # This data is manually curated into a table using official census estimates
+
+  # Official census data for AR
   - class: pipelines.demographics.census.CensusDataSource
-    label: Local Census (Various)
+    label: Argentina 2010 Census
+    website: https://www.indec.gob.ar/indec/web/Nivel4-Tema-2-41-135
+    license: Terms and Conditions
+    license_url: https://www.indec.gob.ar
     test:
       location_key_match:
-        - '^CL.*'
-        - '^IL.*'
-        - '^MX.*'
-        - '^PE.*'
-        - '^US.*'
+        - '^AR$'
+        - '^AR_[^_]+$'
+        - '^AR_[^_]+_[^_]+$'
+    query: key.str.startswith('AR')
     automation:
-      # Run only twice a day, since it's so resource consuming and does not change often
+      # Run only twice a day, since it does not change often
+      schedule: "0 */12 * * *"
+
+  # Official census data for BR
+  - class: pipelines.demographics.census.CensusDataSource
+    label: Brazil 2010 Census
+    website: https://www.ibge.gov.br/estatisticas/sociais/populacao/9662-censo-demografico-2010.html
+    license: Terms and Conditions
+    license_url: https://www.ibge.gov.br/
+    test:
+      location_key_match:
+        - '^BR$'
+        - '^BR_[^_]+$'
+        - '^BR_[^_]+_[^_]+$'
+    query: key.str.startswith('BR')
+    automation:
+      # Run only twice a day, since it does not change often
+      schedule: "0 */12 * * *"
+
+  # Official census data for CL
+  - class: pipelines.demographics.census.CensusDataSource
+    label: Chile 2017 Census
+    website: https://www.ine.cl/estadisticas/sociales/censos-de-poblacion-y-vivienda/poblacion-y-vivienda
+    license: Terms and Conditions
+    license_url: https://www.ine.cl
+    test:
+      location_key_match:
+        - '^CL$'
+        - '^CL_[^_]+$'
+        - '^CL_[^_]+_[^_]+$'
+    query: key.str.startswith('CL')
+    automation:
+      # Run only twice a day, since it does not change often
+      schedule: "0 */12 * * *"
+
+  # Official census data for ID
+  - class: pipelines.demographics.census.CensusDataSource
+    label: Indonesia 2020 Census
+    website: https://www.bps.go.id/subject/12/kependudukan.html
+    license: Terms and Conditions
+    license_url: https://www.bps.go.id/website/fileMenu/S&K.pdf
+    test:
+      location_key_match:
+        - '^ID$'
+        - '^ID_[^_]+$'
+    query: key.str.startswith('ID')
+    automation:
+      # Run only twice a day, since it does not change often
+      schedule: "0 */12 * * *"
+
+  # Official census data for IL
+  - class: pipelines.demographics.census.CensusDataSource
+    label: Israel 2019 Census
+    website: https://www.cbs.gov.il/he/settlements/Pages/default.aspx?mode=Metropolin
+    license: Terms and Conditions
+    license_url: https://www.cbs.gov.il/en/Pages/Enduser-license.aspx
+    test:
+      location_key_match:
+        - '^IL$'
+        - '^IL_[^_]+$'
+        - '^IL_[^_]+_[^_]+$'
+    query: key.str.startswith('IL')
+    automation:
+      # Run only twice a day, since it does not change often
+      schedule: "0 */12 * * *"
+
+  # Official census data for MX
+  - class: pipelines.demographics.census.CensusDataSource
+    label: Mexico 2010 Census
+    website: https://www.inegi.org.mx/programas/ccpv/2010/default.html
+    license: Terms and Conditions
+    license_url: https://www.inegi.org.mx
+    test:
+      location_key_match:
+        - '^MX$'
+        - '^MX_[^_]+$'
+        - '^MX_[^_]+_[^_]+$'
+    query: key.str.startswith('MX')
+    automation:
+      # Run only twice a day, since it does not change often
+      schedule: "0 */12 * * *"
+
+  # Official census data for PE
+  - class: pipelines.demographics.census.CensusDataSource
+    label: Peru 2017 Census
+    website: https://censos2017.inei.gob.pe/redatam/
+    license: Terms and Conditions
+    license_url: https://www.inei.gob.pe/
+    test:
+      location_key_match:
+        - '^PE$'
+        - '^PE_[^_]+$'
+        - '^PE_[^_]+_[^_]+$'
+    query: key.str.startswith('PE')
+    automation:
+      # Run only twice a day, since it does not change often
+      schedule: "0 */12 * * *"
+
+  # Official census data for PH
+  - class: pipelines.demographics.census.CensusDataSource
+    label: Philippines 2015 Census
+    website: https://psa.gov.ph/population-and-housing/statistical-tables
+    license: Terms and Conditions
+    license_url: https://psa.gov.ph/article/terms-use
+    test:
+      location_key_match:
+        - '^PH$'
+        - '^PH_[^_]+$'
+    query: key.str.startswith('PH')
+    automation:
+      # Run only twice a day, since it does not change often
+      schedule: "0 */12 * * *"
+
+  # Official census data for US
+  - class: pipelines.demographics.census.CensusDataSource
+    label: United States of America 2019 Census
+    website: https://www.census.gov/data/tables/time-series/demo/popest/2010s-counties-total.html
+    license: Terms and Conditions
+    license_url: https://ask.census.gov/prweb/PRServletCustom?pyActivity=pyMobileSnapStart&ArticleID=KCP-4726
+    test:
+      location_key_match:
+        - '^US$'
+        - '^US_[^_]+$'
+        - '^US_[^_]+_[^_]+$'
+    query: key.str.startswith('US')
+    automation:
+      # Run only twice a day, since it does not change often
       schedule: "0 */12 * * *"
 
   # This data has been manually downloaded from the Eurostat website
   - class: pipelines._common.eurostat.EurostatDataSource
     label: Eurostat
+    website: https://ec.europa.eu/eurostat
+    license: CC-BY
+    license_url: https://ec.europa.eu/info/legal-notice_en#copyright-notice
     test:
       location_key_match:
         - '^AL(_[^_]+)?$'

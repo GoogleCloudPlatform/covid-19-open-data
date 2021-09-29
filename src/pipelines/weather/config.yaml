@@ -43,7 +43,10 @@ sources:
 
   # Use NOAA's global summary of the day dataset (2020)
   - class: pipelines.weather.noaa_gsod.NoaaGsodDataSource
-    label: National Oceanic and Atmospheric Administration
+    label: National Oceanic and Atmospheric Administration (GSOD)
+    website: https://data.noaa.gov/dataset/dataset/global-surface-summary-of-the-day-gsod
+    license: Terms and Conditions
+    license_url: https://community.wmo.int/resolution-40
     fetch:
       - name: inventory
         url: https://www1.ncdc.noaa.gov/pub/data/noaa/isd-history.csv
@@ -65,7 +68,10 @@ sources:
 
   # Use NOAA's global summary of the day dataset (2021)
   - class: pipelines.weather.noaa_gsod.NoaaGsodDataSource
-    label: National Oceanic and Atmospheric Administration
+    label: National Oceanic and Atmospheric Administration (GSOD)
+    website: https://data.noaa.gov/dataset/dataset/global-surface-summary-of-the-day-gsod
+    license: Terms and Conditions
+    license_url: https://community.wmo.int/resolution-40
     fetch:
       - name: inventory
         url: https://www1.ncdc.noaa.gov/pub/data/noaa/isd-history.csv
