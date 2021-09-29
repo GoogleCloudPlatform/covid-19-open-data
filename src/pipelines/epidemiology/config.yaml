@@ -1522,7 +1522,12 @@ sources:
     fetch:
       - url: "https://raw.githubusercontent.com/nychealth/coronavirus-data/master/trends/data-by-day.csv"
     test:
-      location_key_match: 'US_NY_NYC'
+      location_key_match:
+        - '^US_NY_36005$'
+        - '^US_NY_36047$'
+        - '^US_NY_36061$'
+        - '^US_NY_36081$'
+        - '^US_NY_36085$'
 
   # Data sources for US_RI
   # We can't use the authoritative data source which is linked below, because the dates do not line
