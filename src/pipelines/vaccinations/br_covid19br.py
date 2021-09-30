@@ -29,7 +29,7 @@ class Covid19BrDataSource(DataSource):
             {
                 "date": "date",
                 "state": "subregion1_code",
-                "vaccinated_single": "total_persons_vaccinated",
+                "vaccinated": "total_persons_vaccinated",
                 "vaccinated_second": "total_persons_fully_vaccinated",
             },
             drop=True,
