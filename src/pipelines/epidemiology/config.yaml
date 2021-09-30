@@ -1574,6 +1574,8 @@ sources:
       location_key_match:
         - '^US_VE$'
         - '^US_VE_[^_]+$'
+      # TODO: Fix data source
+      skip: true
 
   # Data sources for ZA level 1
   - class: pipelines.epidemiology.za_finmango.FinMangoDataSource
