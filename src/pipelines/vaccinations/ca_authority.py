@@ -31,7 +31,7 @@ class CanadaDataSource(DataSource):
             {
                 "week_end": "date",
                 "prename": "subregion1_name",
-                "numtotal_partially": "total_persons_vaccinated",
+                "numtotal_atleast1dose": "total_persons_vaccinated",
                 "numtotal_fully": "total_persons_fully_vaccinated",
             },
             drop=True,

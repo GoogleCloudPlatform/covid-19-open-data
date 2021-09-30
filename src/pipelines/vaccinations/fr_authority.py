@@ -27,9 +27,9 @@ _column_adapter = {
     "n_dose1": "new_persons_vaccinated",
     "n_cum_dose1": "total_persons_vaccinated",
     "n_tot_dose1": "total_persons_vaccinated",
-    "n_dose2": "new_persons_fully_vaccinated",
-    "n_cum_dose2": "total_persons_fully_vaccinated",
-    "n_tot_dose2": "total_persons_fully_vaccinated",
+    "n_complet": "new_persons_fully_vaccinated",
+    "n_cum_complet": "total_persons_fully_vaccinated",
+    "n_tot_complet": "total_persons_fully_vaccinated",
 }
 
 _region_code_map = {
