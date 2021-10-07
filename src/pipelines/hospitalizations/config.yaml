@@ -227,6 +227,18 @@ sources:
         - '^FR_[^_]+$'
         - '^FR_[^_]+_[^_]+$'
 
+  - class: pipelines.epidemiology.fr_authority.FranceCountryDataSource
+    label: data.gouv.fr
+    website: https://www.data.gouv.fr/fr/datasets/synthese-des-indicateurs-de-suivi-de-lepidemie-covid-19/
+    license: Open License 2.0
+    license_url: https://www.etalab.gouv.fr/licence-ouverte-open-licence
+    fetch:
+      - url: https://www.data.gouv.fr/fr/datasets/r/f335f9ea-86e3-4ffa-9684-93c009d5e617
+        opts:
+          ext: csv
+    test:
+      location_key_match: '^FR$'
+
   # Data sources for GB levels 0 + 1 + 2
   - class: pipelines.hospitalizations.gb_authority.ScotlandDataSource
     label: Scotland Health Authority
