@@ -121,6 +121,7 @@ def create_metadata_dict() -> Dict[str, Any]:
                 "label": pipeline.config.get("label"),
                 "description": pipeline.config.get("description"),
                 "csv_url": f"https://storage.googleapis.com/covid19-open-data/v3/{fname}.csv",
+                "schema": pipeline.schema,
                 # TODO: discover the generation ID of the file and add it to the metadata
             }
         )
