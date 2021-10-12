@@ -12,7 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Hospitalizations pipeline configuration
+label: Hospitalizations
+
+description: >
+  Information related to patients of COVID-19 and hospitals.
 
 schema:
   date: str

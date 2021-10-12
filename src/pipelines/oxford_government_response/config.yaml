@@ -12,7 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Oxford government response pipeline configuration
+label: Government Response
+
+description: >
+  Government interventions and their relative stringency.
 
 schema:
   date: str

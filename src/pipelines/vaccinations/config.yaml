@@ -12,6 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+label: Vaccinations
+
+description: >
+  Trends in persons vaccinated and population vaccination rate regarding various COVID-19 vaccines.
+
 schema:
   date: str
   key: str

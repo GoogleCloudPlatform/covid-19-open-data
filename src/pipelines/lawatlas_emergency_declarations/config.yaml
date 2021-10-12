@@ -12,6 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+label: LawAtlas Emergency Declarations
+
+description: >
+  Government emergency declarations and mitigation policies.
+
 schema:
   date: str
   key: str

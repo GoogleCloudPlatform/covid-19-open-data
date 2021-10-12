@@ -12,6 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+label: Google Vaccination Search Insights
+
+description: >
+  Trends in Google searches for COVID-19 vaccination information.
+
 schema:
   date: str
   key: str

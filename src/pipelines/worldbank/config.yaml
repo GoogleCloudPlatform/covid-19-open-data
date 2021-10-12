@@ -12,6 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+label: WorldBank
+
+description: >
+  Latest record for each indicator from WorldBank for all reporting countries.
+
 schema:
   key: str
   AG.AGR.TRAC.NO: float

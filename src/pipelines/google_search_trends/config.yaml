@@ -12,6 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+label: Google Search Trends Symptoms Dataset
+
+description: >
+  Trends in symptom search volumes due to COVID-19.
+
 schema:
   date: str
   key: str
