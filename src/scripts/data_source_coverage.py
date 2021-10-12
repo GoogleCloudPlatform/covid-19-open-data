@@ -24,7 +24,6 @@ from typing import Any, Dict, Iterable, List, Tuple
 # Add our library utils to the path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from lib.cast import isna
 from lib.constants import SRC, GCS_BUCKET_TEST, GCS_BUCKET_PROD, OUTPUT_COLUMN_ADAPTER
 from lib.io import export_csv, read_table, temporary_directory
 from lib.gcloud import download_file
@@ -119,6 +118,8 @@ def create_metadata_dict() -> Dict[str, Any]:
         meta["tables"].append(
             {
                 "name": fname,
+                "label": pipeline.config.get("label"),
+                "description": pipeline.config.get("description"),
                 "csv_url": f"https://storage.googleapis.com/covid19-open-data/v3/{fname}.csv",
                 # TODO: discover the generation ID of the file and add it to the metadata
             }
