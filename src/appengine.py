@@ -69,6 +69,7 @@ from lib.constants import (
 from lib.error_logger import ErrorLogger
 from lib.gcloud import (
     delete_instance,
+    download_file,
     get_internal_ip,
     get_storage_bucket,
     start_instance_from_image,
@@ -815,9 +816,9 @@ def publish_versions(prod_folder: str = "v3") -> Response:
     return Response("OK", status=200)
 
 
-@profiled_route("/publish_sources")
-def publish_sources(prod_folder: str = "v3") -> Response:
-    """Publishes a table with the source of each datapoint."""
+@profiled_route("/publish_metadata")
+def publish_metadata(prod_folder: str = "v3") -> Response:
+    """Publishes a metadata JSON file."""
     prod_folder = _get_request_param("prod_folder", prod_folder)
 
     with temporary_directory() as workdir:
@@ -826,6 +827,25 @@ def publish_sources(prod_folder: str = "v3") -> Response:
         metadata = create_metadata_dict()
         with open(workdir / "metadata.json", "w") as fh:
             json.dump(metadata, fh)
+
+        # Upload to root folder
+        upload_folder(GCS_BUCKET_PROD, prod_folder + "/", workdir)
+
+    return Response("OK", status=200)
+
+
+@profiled_route("/publish_sources")
+def publish_sources(prod_folder: str = "v3") -> Response:
+    """Publishes a table with the source of each datapoint."""
+    prod_folder = _get_request_param("prod_folder", prod_folder)
+
+    with temporary_directory() as workdir:
+
+        # Get the published data sources
+        metadata_file = workdir / "metadata.json"
+        download_file(GCS_BUCKET_PROD, f"{prod_folder}/metadata.json", metadata_file)
+        with open(metadata_file, "w") as fh:
+            metadata = json.load(fh)
 
         # Iterate over the individual tables and build their sources file
         # TODO: create source map for all tables, not just a hand-picked subset
@@ -899,6 +919,7 @@ def main() -> None:
         "publish_v3_main": publish_v3_main_table,
         "publish_v3_latest": publish_v3_latest_tables,
         "publish_versions": publish_versions,
+        "publish_metadata": publish_metadata,
         "publish_sources": publish_sources,
         "report_errors_to_github": report_errors_to_github,
     }.get(args.command, _unknown_command)(**json.loads(args.args or "{}"))

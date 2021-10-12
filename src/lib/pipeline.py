@@ -50,6 +50,7 @@ class DataPipeline(ErrorLogger):
         schema: Dict[str, type],
         auxiliary: Dict[str, Union[Path, str]],
         data_sources: List[DataSource],
+        config: Dict[str, Any],
     ):
         """
         Arguments:
@@ -66,6 +67,7 @@ class DataPipeline(ErrorLogger):
         self.data_sources: List[DataSource] = data_sources
         self.table: str = name.replace("_", "-")
         self._auxiliary: Dict[str, Union[Path, str]] = auxiliary
+        self.config = config
 
     @lazy_property
     def auxiliary_tables(self):
@@ -123,7 +125,7 @@ class DataPipeline(ErrorLogger):
             # Create the DataSource class with the appropriate config
             data_sources.append(getattr(module, class_name)(source_config))
 
-        return DataPipeline(name, schema, auxiliary, data_sources)
+        return DataPipeline(name, schema, auxiliary, data_sources, config_yaml)
 
     def output_table(self, data: DataFrame) -> DataFrame:
         """
