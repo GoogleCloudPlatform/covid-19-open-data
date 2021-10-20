@@ -37,13 +37,14 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from lib.constants import SRC
 from lib.io import read_file, temporary_directory
 
-GEO_URL = "https://storage.googleapis.com/covid19-open-data/v2/geography.csv"
+OSM_KEY = "openstreetmap_id"
+GEO_URL = "https://storage.googleapis.com/covid19-open-data/v3/geography.csv"
 OSM_API = "http://polygons.openstreetmap.fr/get_geojson.py?id={id}&params=0"
 
 
 def fetch_geometry() -> DataFrame:
-    data = read_file(GEO_URL).dropna(subset=["open_street_maps"])
-    data["open_street_maps"] = data["open_street_maps"].astype(int).astype(str)
+    data = read_file(GEO_URL).dropna(subset=[OSM_KEY])
+    data[OSM_KEY] = data[OSM_KEY].astype(int).astype(str)
     return data
 
 
@@ -54,7 +55,7 @@ def fetch_geojson(geojson_directory: Path, osm_records: List[Dict[str, Any]]) ->
         # Skip the download if the file already exists
         if geojson_path.exists():
             continue
-        relation_id = record["open_street_maps"]
+        relation_id = record[OSM_KEY]
         geojson_data = requests.get(OSM_API.format(id=relation_id), timeout=60).content
         if geojson_data and geojson_data.decode("utf8").strip() != "None":
             with open(geojson_path, "wb") as fd:
@@ -72,7 +73,7 @@ def convert_geojson_to_csv(geojson_directory: Path, csv_path: Path) -> None:
             subprocess.check_call(["ogr2ogr"] + ogr_args)
 
         with open(csv_path, "w") as fd_csv:
-            fd_csv.write("key,WKT\n")
+            fd_csv.write("location_key,WKT\n")
             csv_files = list(sorted(workdir.glob("*.csv")))
             for csv_path in tqdm(csv_files, desc="Merging all CSV files"):
                 with open(csv_path, "r") as fd_tmp:
@@ -91,7 +92,7 @@ def main():
     geojson_dir = output_dir / "geojson"
     csv_dir = output_dir / "csv"
 
-    geo = fetch_geometry().set_index("key")
+    geo = fetch_geometry().set_index("location_key")
     fetch_geojson(geojson_dir, list(geo.iterrows()))
     convert_geojson_to_csv(geojson_dir, csv_dir / "open-covid-regions.csv")
 
