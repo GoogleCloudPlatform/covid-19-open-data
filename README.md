@@ -173,13 +173,13 @@ Invoke-WebRequest 'https://storage.googleapis.com/covid19-open-data/v3/latest/ep
 
 ### ClickHouse
 You can load data into ClickHouse with the following query:
-```
+```sql
 CREATE TABLE covid ENGINE = MergeTree ORDER BY (location_key, date) 
   AS SELECT * FROM url('https://storage.googleapis.com/covid19-open-data/v3/epidemiology.csv', CSVWithNames, 
   'date Date, location_key LowCardinality(String), new_confirmed Int32, new_deceased Int32, new_recovered Int32, new_tested Int32, cumulative_confirmed Int32, cumulative_deceased Int32, cumulative_recovered Int32, cumulative_tested Int32')
 ```
 You can also process it directly with `clickhouse-local`:
-```
+```bash
 clickhouse-local --input-format CSVWithNames --structure 'date Date, location_key String, new_confirmed Int32, new_deceased Int32, new_recovered Int32, new_tested Int32, cumulative_confirmed Int32, cumulative_deceased Int32, cumulative_recovered Int32, cumulative_tested Int32' --query "SELECT * FROM table" < epidemiology.csv
 ```
 
