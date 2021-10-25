@@ -171,6 +171,17 @@ Invoke-WebRequest 'https://storage.googleapis.com/covid19-open-data/v3/latest/ep
     where key -eq 'AU' | select date,cumulative_confirmed,cumulative_deceased,cumulative_recovered
 ```
 
+### ClickHouse
+You can load data into ClickHouse with the following query:
+```
+CREATE TABLE covid ENGINE = MergeTree ORDER BY (location_key, date) 
+  AS SELECT * FROM url('https://storage.googleapis.com/covid19-open-data/v3/epidemiology.csv', CSVWithNames, 
+  'date Date, location_key LowCardinality(String), new_confirmed Int32, new_deceased Int32, new_recovered Int32, new_tested Int32, cumulative_confirmed Int32, cumulative_deceased Int32, cumulative_recovered Int32, cumulative_tested Int32')
+```
+You can also process it directly with `clickhouse-local`:
+```
+clickhouse-local --input-format CSVWithNames --structure 'date Date, location_key String, new_confirmed Int32, new_deceased Int32, new_recovered Int32, new_tested Int32, cumulative_confirmed Int32, cumulative_deceased Int32, cumulative_recovered Int32, cumulative_tested Int32' --query "SELECT * FROM table" < epidemiology.csv
+```
 
 
 ## Understand the data
