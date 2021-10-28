@@ -29,6 +29,7 @@ Next, we divide the territory of each country into roughly square regions of app
 
 Finally, to compute the catchment area boundaries we do the following for each vaccination site:
 * Using Google Maps’ [Directions API](https://developers.google.com/maps/documentation/directions/overview) we compute the travel time and distance required to reach that site from all the squares in its vicinity (up to a radius of 50 km).
+* For public transit systems, we compute journey times for the most recent Tuesday morning. This period reflects rush-hour travel schedules and reduces distortion from long weekends.
 * To compute the catchment boundary for a particular mode of transport and particular travel time threshold:
   * We unify all squares in the vicinity of the site that can be reached using the chosen mode of transport within the chosen travel time.
   * We draw a boundary surrounding the unified area.
