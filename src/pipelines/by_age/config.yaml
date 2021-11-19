@@ -593,8 +593,6 @@ sources:
       - cache_key: US_CA-mortality-stratified
     test:
       location_key_match: '^US_CA$'
-      # TODO: fix this data source
-      skip: true
 
   - class: pipelines.epidemiology.us_ca_authority.CaliforniaByAgeOpenDataSource
     label: California Department of Health
