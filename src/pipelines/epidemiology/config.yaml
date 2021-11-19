@@ -1329,7 +1329,8 @@ sources:
     #   subregion2: ['new_confirmed', 'new_deceased', 'new_tested']
     test:
       location_key_match: '^US_[^_]+_[^_]+$'
-      # Skip test because it runs out of memory on GitHub Actions
+      # The CDC no longer reports testing data at the county level
+      # TODO: Add to archive
       skip: true
 
   - class: pipelines.epidemiology.us_authority.CDCStateDataSource
