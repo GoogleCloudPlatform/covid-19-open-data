@@ -472,7 +472,7 @@ sources:
     license: Terms and Conditions
     license_url: https://www.gov.si/
     fetch:
-      - url: "https://www.gov.si/assets/vlada/Koronavirus-podatki/en/EN_Covid-19-all-data.xlsx"
+      - url: "https://www.gov.si/assets/vlada/Koronavirus-podatki/EN_Covid-19-all-data-v2.xlsx"
     test:
       location_key_match: '^SI$'
 
