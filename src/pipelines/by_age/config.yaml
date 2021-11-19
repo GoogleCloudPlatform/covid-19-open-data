@@ -579,6 +579,8 @@ sources:
     license_url: https://github.com/ImperialCollegeLondon/US-covid19-agespecific-mortality-data/blob/master/LICENSE
     fetch:
       - url: "https://raw.githubusercontent.com/ImperialCollegeLondon/US-covid19-agespecific-mortality-data/master/data/processed/latest/DeathsByAge_US.csv"
+    # Use authoritative data source providing weekly data instead
+    query: "key != 'US_WA'"
     test:
       location_key_match: '^US_\w\w(_NYC)?$'
 
@@ -719,7 +721,7 @@ sources:
     license: Terms and Conditions
     license_url: https://www.doh.wa.gov
     fetch:
-      - url: "https://www.doh.wa.gov/Portals/1/Documents/1600/coronavirus/data-tables/PUBLIC_CDC_Event_Date_SARS.xlsx"
+      - url: "https://www.doh.wa.gov/Portals/1/Documents/1600/coronavirus/data-tables/WA_COVID19_Cases_Hospitalizations_Deaths.xlsx"
     parse:
       sheet_name: ['Cases', 'Hospitalizations', 'Deaths']
     test:
