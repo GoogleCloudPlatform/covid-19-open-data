@@ -358,7 +358,12 @@ sources:
     aggregate:
       subregion1: ["new_confirmed", "new_deceased", "new_recovered"]
     test:
-      location_key_match: 'CO.*'
+      location_key_match:
+        - '^CO+$'
+        - '^CO_[^_]+$'
+        - '^CO_[^_]+_[^_]+$'
+      # Skip because it takes too long on Github Actions
+      skip: true
 
   # Data sources for CZ levels 0 + 1 + 2
   - class: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
@@ -465,6 +470,8 @@ sources:
       location_key_match:
         - '^EE+$'
         - '^EE_[^_]+$'
+      # Skip because it takes too long on Github Actions
+      skip: true
 
   # Data sources for ES levels 0 + 1
   - class: pipelines.epidemiology.es_authority.ISCIIIConfirmedDataSource
@@ -1042,6 +1049,8 @@ sources:
         - '^PE$'
         - '^PE_[^_]+$'
         - '^PE_[^_]+_[^_]+$'
+      # Skip because it takes too long on Github Actions
+      skip: true
 
   # Data sources for PH levels 1 + 2
   - class: pipelines.epidemiology.ph_authority.PhilippinesDataSource
