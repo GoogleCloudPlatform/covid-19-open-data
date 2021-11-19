@@ -287,7 +287,12 @@ sources:
     fetch:
       - url: "https://www.datos.gov.co/api/views/gt2j-8ykr/rows.csv"
     test:
-      location_key_match: 'CO.*'
+      location_key_match:
+        - '^CO+$'
+        - '^CO_[^_]+$'
+        - '^CO_[^_]+_[^_]+$'
+      # Skip because it takes too long on Github Actions
+      skip: true
 
   # Data sources for CZ levels 0 + 1 + 2
   - class: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
@@ -365,6 +370,8 @@ sources:
       location_key_match:
         - '^EE+$'
         - '^EE_[^_]+$'
+      # Skip because it takes too long on Github Actions
+      skip: true
 
   # Data sources for ES levels 0 + 1
   - class: pipelines.epidemiology.es_authority.ISCIIIStratifiedDataSource
@@ -510,6 +517,8 @@ sources:
         - '^PE$'
         - '^PE_[^_]+$'
         - '^PE_[^_]+_[^_]+$'
+      # Skip because it takes too long on Github Actions
+      skip: true
 
   # Data sources for PH levels 0 + 1 + 2
   - class: pipelines.epidemiology.ph_authority.PhilippinesDataSource
