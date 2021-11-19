@@ -27,10 +27,10 @@ class NewZealandDataSource(DataSource):
         cases = table_rename(
             dataframes[0],
             {
-                "ReportDate": "date_new_confirmed",
+                "Report Date": "date_new_confirmed",
                 # "CaseStatus": "_status",
-                "Gender": "sex",
-                "age_bands_fixed": "age",
+                "Sex": "sex",
+                "Age group": "age",
                 # "DHB_label": "",
                 # "Overseas": "",
             },
