@@ -476,6 +476,47 @@ sources:
         - '^MX_[^_]+$'
         - '^MX_[^_]+_[^_]+$'
 
+  # Data sources for MY levels 0 + 1
+  - class: pipelines.epidemiology.my_authority.MalaysiaCasesLineListDataSource
+    label: Malaysia Ministry of Health (Line List Cases)
+    website: https://github.com/CITF-Malaysia/citf-public
+    license: Terms and Conditions
+    license_url: https://www.data.gov.my/p/pekeliling-data-terbuka
+    fetch:
+      - name: geo
+        url: "https://raw.githubusercontent.com/MoH-Malaysia/covid19-public/main/epidemic/linelist/param_geo.csv"
+      - url: "https://raw.githubusercontent.com/MoH-Malaysia/covid19-public/main/epidemic/linelist/linelist_cases_00.csv"
+      - url: "https://raw.githubusercontent.com/MoH-Malaysia/covid19-public/main/epidemic/linelist/linelist_cases_01.csv"
+      - url: "https://raw.githubusercontent.com/MoH-Malaysia/covid19-public/main/epidemic/linelist/linelist_cases_02.csv"
+      - url: "https://raw.githubusercontent.com/MoH-Malaysia/covid19-public/main/epidemic/linelist/linelist_cases_03.csv"
+      - url: "https://raw.githubusercontent.com/MoH-Malaysia/covid19-public/main/epidemic/linelist/linelist_cases_04.csv"
+      - url: "https://raw.githubusercontent.com/MoH-Malaysia/covid19-public/main/epidemic/linelist/linelist_cases_05.csv"
+    parse:
+      column_name: "new_confirmed"
+      fill_with_zeroes: ['new_[^_]+_age_.+']
+    aggregate:
+      subregion1: ['age_bin_*', 'new_confirmed_age_*']
+    test:
+      location_key_match:
+        - '^MY$'
+        - '^MY_[^_]+$'
+
+  - class: pipelines.epidemiology.my_authority.MalaysiaDeathsLineListDataSource
+    label: Malaysia Ministry of Health (Line List Deaths)
+    website: https://github.com/CITF-Malaysia/citf-public
+    license: Terms and Conditions
+    license_url: https://www.data.gov.my/p/pekeliling-data-terbuka
+    fetch:
+      - url: "https://raw.githubusercontent.com/MoH-Malaysia/covid19-public/main/epidemic/linelist/linelist_deaths.csv"
+    parse:
+      column_name: "new_deceased"
+      fill_with_zeroes: ['new_[^_]+_age_.+']
+    aggregate:
+      subregion1: ['age_bin_*', 'new_deceased_age_*']
+    test:
+      location_key_match:
+        - '^MY_[^_]+$'
+
   # Data sources for NZ level 0
   - class: pipelines.epidemiology.nz_authority.NewZealandDataSource
     label: New Zealand Health Department

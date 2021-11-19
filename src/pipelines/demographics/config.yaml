@@ -223,6 +223,21 @@ sources:
       # Run only twice a day, since it does not change often
       schedule: "0 */12 * * *"
 
+  # Official census data for MY
+  - class: pipelines.demographics.census.CensusDataSource
+    label: Malaysia 2020 Census
+    website: https://www.dosm.gov.my/v1/index.php?r=column/ctwoByCat&parent_id=115&menu_id=L0pheU43NWJwRWVSZklWdzQ4TlhUUT09
+    license: Terms and Conditions
+    license_url: https://www.dosm.gov.my/v1/index.php?r=column/cone&menu_id=WkpGdGQ4d0pjaUI3RTd6WU8zR0ZSdz09
+    test:
+      location_key_match:
+        - '^MY$'
+        - '^MY_[^_]+$'
+    query: key.str.startswith('MY')
+    automation:
+      # Run only twice a day, since it does not change often
+      schedule: "0 */12 * * *"
+
   # Official census data for PE
   - class: pipelines.demographics.census.CensusDataSource
     label: Peru 2017 Census

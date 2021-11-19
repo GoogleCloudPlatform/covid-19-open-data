@@ -372,6 +372,24 @@ sources:
         - '^MX$'
         - '^MX_[^_]+$'
 
+  # Data sources for MY levels 0 + 1
+  - class: pipelines.epidemiology.my_authority.MalaysiaStateDataSource
+    label: Malaysia Ministry of Health (States)
+    website: https://github.com/CITF-Malaysia/citf-public
+    license: Terms and Conditions
+    license_url: https://www.data.gov.my/p/pekeliling-data-terbuka
+    fetch:
+      - name: hospitalizations
+        url: "https://raw.githubusercontent.com/MoH-Malaysia/covid19-public/main/epidemic/hospital.csv"
+      - name: intensive_care
+        url: "https://raw.githubusercontent.com/MoH-Malaysia/covid19-public/main/epidemic/icu.csv"
+    aggregate:
+      subregion1: ["new_hospitalized", "current_hospitalized", "current_intensive_care", "current_ventilator"]
+    test:
+      location_key_match:
+        - '^MY$'
+        - '^MY_[^_]+$'
+
   # Data sources for NL levels 0 + 1 + 2
   - class: pipelines.epidemiology.nl_authority.NetherlandsDataSource
     label: RIVM
