@@ -77,7 +77,6 @@ class ThailandCasesDataSource(DataSource):
             drop=True,
             remove_regex=r"[^0-9a-z\s]",
         )
-        print(cases)
 
         # Convert date to ISO format
         cases["date_new_confirmed"] = cases["date_new_confirmed"].astype(str).str.slice(0, 10)
