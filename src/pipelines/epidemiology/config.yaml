@@ -947,28 +947,41 @@ sources:
         - '^MX_[^_]+$'
         - '^MX_[^_]+_[^_]+$'
 
-  # Data sources for MY level 1
-  - class: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
-    label: Wikipedia
-    website: https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_Malaysia
+  # Data sources for MY levels 0 + 1
+  - class: pipelines.epidemiology.my_authority.MalaysiaStateDataSource
+    label: Malaysia Ministry of Health (States)
+    website: https://github.com/CITF-Malaysia/citf-public
     license: Terms and Conditions
-    license_url: https://foundation.wikimedia.org/wiki/Terms_of_Use
+    license_url: https://www.data.gov.my/p/pekeliling-data-terbuka
     fetch:
-      - url: "https://en.wikipedia.org/wiki/2020_coronavirus_pandemic_in_Malaysia"
-        opts:
-          ext: html
-    parse:
-      country: MY
-      date_format: "%d/%m"
-      drop_column: "deceased"
-      cumsum: true
+      - name: cases
+        url: "https://raw.githubusercontent.com/MoH-Malaysia/covid19-public/main/epidemic/cases_state.csv"
+      - name: deaths
+        url: "https://raw.githubusercontent.com/MoH-Malaysia/covid19-public/main/epidemic/deaths_state.csv"
+      - name: tests
+        url: "https://raw.githubusercontent.com/MoH-Malaysia/covid19-public/main/epidemic/tests_state.csv"
+    aggregate:
+      subregion1: ["new_confirmed", "new_deceased", "new_tested", "new_recovered"]
     test:
-      location_key_match: 'MY_.*'
-      # Skip MY from Wikipedia because the article no longer exists
-      # The source can be deleted once an alternative data source is found, until then keeping it
-      # results in an error but the last known intermediate output is used so old data is not
-      # deleted
-      skip: true
+      location_key_match:
+        - '^MY$'
+        - '^MY_[^_]+$'
+
+  - class: pipelines.epidemiology.my_authority.MalaysiaCountryDataSource
+    label: Malaysia Ministry of Health (Country)
+    website: https://github.com/CITF-Malaysia/citf-public
+    license: Terms and Conditions
+    license_url: https://www.data.gov.my/p/pekeliling-data-terbuka
+    fetch:
+      - name: cases
+        url: "https://raw.githubusercontent.com/MoH-Malaysia/covid19-public/main/epidemic/cases_malaysia.csv"
+      - name: deaths
+        url: "https://raw.githubusercontent.com/MoH-Malaysia/covid19-public/main/epidemic/deaths_malaysia.csv"
+      - name: tests
+        url: "https://raw.githubusercontent.com/MoH-Malaysia/covid19-public/main/epidemic/tests_malaysia.csv"
+    test:
+      location_key_match:
+        - '^MY$'
 
   # Data sources for MZ level 2
   - class: pipelines.epidemiology.mz_humdata.MozambiqueHumdataDataSource
