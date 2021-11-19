@@ -57,14 +57,14 @@ def _process_html_file(file_map: Dict[str, str], date: str) -> Dict[str, Any]:
     tables = list(_extract_tables(html_content))[-6:]
     if len(tables) == len(age_groups):
         for age_group, table in zip(age_groups, tables):
-            total = table.iloc[-1]
+            total = table.iloc[-1].to_dict()
             records.append(
                 {
                     "key": "US_CA",
                     "date": date,
                     "age": age_group,
-                    "total_confirmed": safe_int_cast(total["No. Cases"]),
-                    "total_deceased": safe_int_cast(total["No. Deaths"]),
+                    "total_confirmed": safe_int_cast(total.get("No. Cases")),
+                    "total_deceased": safe_int_cast(total.get("No. Deaths")),
                 }
             )
 
