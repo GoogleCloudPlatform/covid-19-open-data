@@ -1587,22 +1587,6 @@ sources:
       # TODO: Fix data source
       skip: true
 
-  # Data sources for ZA level 1
-  - class: pipelines.epidemiology.za_finmango.FinMangoDataSource
-    label: FinMango
-    website: https://covid.finmango.org
-    license: CC-BY
-    license_url: https://covid.finmango.org
-    fetch:
-      - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTcFHgpRTw9ntN0SNaNVE_grZxR5yJSXkRz0DvO7IRV-d47FdvpUVCx1qxynHtzzZSgYSRjoAIpqhIq/pub?output=xlsx"
-        opts:
-          ext: xlsx
-    parse:
-      country: ZA
-      sheet_name: ["Eastern_Cape", "Free_State", "Gauteng", "KwaZulu-Natal", "North_West", "Western_Cape", "Limpopo", "Mpumalanga", "Northern_Cape"]
-    test:
-      location_key_match: '^ZA_[^_]+$'
-
   # Data sources for ZA level 2
   - class: pipelines.epidemiology.za_finmango.FinMangoDataSource
     label: FinMango
@@ -1618,3 +1602,23 @@ sources:
       sheet_name: ["Eastern_Cape", "Free_State", "Gauteng", "KwaZulu-Natal", "North_West", "Western_Cape", "Limpopo", "Mpumalanga", "Northern_Cape"]
     test:
       location_key_match: '^ZA_[^_]+_[^_]+$'
+
+  # Data sources for ZA level 1
+  - class: pipelines.epidemiology.za_finmango.FinMangoDataSource
+    label: FinMango
+    website: https://covid.finmango.org
+    license: CC-BY
+    license_url: https://covid.finmango.org
+    fetch:
+      - url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTcFHgpRTw9ntN0SNaNVE_grZxR5yJSXkRz0DvO7IRV-d47FdvpUVCx1qxynHtzzZSgYSRjoAIpqhIq/pub?output=xlsx"
+        opts:
+          ext: xlsx
+    parse:
+      country: ZA
+      sheet_name: ["Eastern_Cape", "Free_State", "Gauteng", "KwaZulu-Natal", "North_West", "Western_Cape", "Limpopo", "Mpumalanga", "Northern_Cape"]
+    aggregate:
+      subregion1: ["new_confirmed", "new_deceased", "total_confirmed", "total_deceased"]
+    test:
+      location_key_match:
+        - '^ZA$'
+        - '^ZA_[^_]+$'
