@@ -204,15 +204,16 @@ def get_retry(
     """
     Perform a GET request with maximum retries and exponential back-off.
     """
-    exc_text = None
-    for counter in range(max_retries):
-        res = requests.get(url, **request_opts)
-        if res.status_code == 200:
+    response_exception = None
+    for _ in range(max_retries):
+        try:
+            res = requests.get(url, **request_opts)
+            res.raise_for_status()
             return res
-        elif counter < max_retries - 1:
-            exc_text = res.text
+        except Exception as exc:
+            response_exception = exc
             # Exponential backoff
             time.sleep(sleep_time)
             sleep_time *= 2
 
-    raise requests.RequestException(exc_text)
+    raise response_exception
