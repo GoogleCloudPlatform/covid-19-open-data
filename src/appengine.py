@@ -34,17 +34,6 @@ from google.cloud.storage.blob import Blob
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 # pylint: disable=wrong-import-position
-from publish import (
-    copy_tables,
-    convert_tables_to_json,
-    create_table_subsets,
-    merge_location_breakout_tables,
-    merge_output_tables,
-    publish_global_tables,
-    publish_location_breakouts,
-    publish_location_aggregates,
-    publish_subset_latest,
-)
 from scripts.cloud_error_processing import register_new_errors
 from scripts.data_source_coverage import (
     create_metadata_dict,
@@ -79,6 +68,17 @@ from lib.memory_efficient import table_read_column
 from lib.net import download
 from lib.pipeline import DataPipeline
 from lib.pipeline_tools import get_table_names
+from lib.publish import (
+    copy_tables,
+    convert_tables_to_json,
+    create_table_subsets,
+    merge_location_breakout_tables,
+    merge_output_tables,
+    publish_global_tables,
+    publish_location_breakouts,
+    publish_location_aggregates,
+    publish_subset_latest,
+)
 
 app = Flask(__name__)
 logger = ErrorLogger("appengine")
