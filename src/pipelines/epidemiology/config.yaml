@@ -1616,9 +1616,18 @@ sources:
     parse:
       country: ZA
       sheet_name: ["Eastern_Cape", "Free_State", "Gauteng", "KwaZulu-Natal", "North_West", "Western_Cape", "Limpopo", "Mpumalanga", "Northern_Cape"]
-    aggregate:
-      subregion1: ["new_confirmed", "new_deceased", "total_confirmed", "total_deceased"]
+    test:
+      location_key_match:
+        - '^ZA_[^_]+$'
+
+  # Data sources for ZA level 0
+  - class: pipelines.epidemiology.za_authority.SouthAfricaDataSource
+    label: National Department of Health
+    website: https://sacoronavirus.co.za
+    license: Terms and Conditions
+    license_url: https://www.health.gov.za/terms-of-use/
+    fetch:
+      - url: "https://gis.nicd.ac.za/server/rest/services/Wards_daily_cases/MapServer/1/query?f=json&where=1%3D1&returnGeometry=false&outFields=*"
     test:
       location_key_match:
         - '^ZA$'
-        - '^ZA_[^_]+$'
