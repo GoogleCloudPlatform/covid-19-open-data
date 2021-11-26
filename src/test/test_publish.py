@@ -22,9 +22,14 @@ from lib.constants import OUTPUT_COLUMN_ADAPTER, SRC, V3_TABLE_LIST
 from lib.io import read_table, read_lines, temporary_directory
 from lib.memory_efficient import get_table_columns
 from lib.pipeline_tools import get_pipelines, get_schema
+from lib.publish import (
+    copy_tables,
+    convert_tables_to_json,
+    publish_global_tables,
+    merge_output_tables,
+)
 
 from .profiled_test_case import ProfiledTestCase
-from publish import copy_tables, convert_tables_to_json, publish_global_tables, merge_output_tables
 
 # Make the main schema a global variable so we don't have to reload it in every test
 SCHEMA = get_schema()
@@ -88,13 +93,13 @@ class TestPublish(ProfiledTestCase):
         main_table = main_table[["date"] + columns]
 
         # Spot check: Country of Andorra
-        self._spot_check_subset(main_table, "AD", "2020-09-01", "2021-02-01")
+        self._spot_check_subset(main_table, "AD", "2020-09-01", "2020-12-31")
 
         # Spot check: State of New South Wales
-        self._spot_check_subset(main_table, "AU_NSW", "2020-09-01", "2021-02-01")
+        self._spot_check_subset(main_table, "AU_NSW", "2020-09-01", "2020-12-31")
 
         # Spot check: Alachua County
-        self._spot_check_subset(main_table, "US_FL_12001", "2020-09-01", "2021-02-01")
+        self._spot_check_subset(main_table, "US_FL_12001", "2020-09-01", "2020-12-31")
 
     def test_make_main_table(self):
         with temporary_directory() as workdir:
