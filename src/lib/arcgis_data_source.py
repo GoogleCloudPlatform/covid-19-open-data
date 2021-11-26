@@ -17,10 +17,10 @@ import uuid
 from pathlib import Path
 from typing import Any, Callable, Dict, List
 
-import requests
 from pandas import DataFrame
 
 from lib.data_source import DataSource
+from lib.net import get_retry
 
 
 def _download_arcgis(
@@ -31,16 +31,17 @@ def _download_arcgis(
     """
     url_tpl = url + "&resultOffset={offset}"
     url_fmt = url_tpl.format(offset=offset)
-    get_opts: Dict = dict(timeout=60)
 
+    res = None
     try:
-        res = requests.get(url_fmt, **get_opts).json()["features"]
+        res = get_retry(url_fmt, timeout=60)
+        data = res.json()["features"]
     except Exception as exc:
-        if log_func:
-            log_func(requests.get(url_fmt, **get_opts).text)
+        if log_func and res:
+            log_func(res.text)
         raise exc
 
-    return [row["attributes"] for row in res]
+    return [row["attributes"] for row in data]
 
 
 class ArcGISDataSource(DataSource):
