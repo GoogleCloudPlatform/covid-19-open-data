@@ -72,6 +72,8 @@ sources:
         - '^AR$'
         - '^AR_[^_]+$'
         - '^AR_[^_]+_[^_]+$'
+    automation:
+      job_group: ar
 
   # Data sources for BR levels 0 + 1 + 2
   - class: pipelines.epidemiology.br_authority.BrazilOpenDataPortalDataSource
@@ -93,6 +95,8 @@ sources:
         - '^BR_[^_]+_[^_]+$'
       # Skip because it's too slow
       skip: true
+    automation:
+      job_group: br
 
   - class: pipelines.epidemiology.br_authority.BrazilSRAGDataSource
     label: Ministry of Health of Brazil (SRAG 2020)
@@ -115,6 +119,8 @@ sources:
         - '^BR_[^_]+_[^_]+$'
       # Skip because it's too slow
       skip: true
+    automation:
+      job_group: br
 
   - class: pipelines.epidemiology.br_authority.BrazilSRAGDataSource
     label: Ministry of Health of Brazil (SRAG 2021)
@@ -137,6 +143,8 @@ sources:
         - '^BR_[^_]+_[^_]+$'
       # Skip because it's too slow
       skip: true
+    automation:
+      job_group: br
 
   # Data sources for CO levels 0 + 1 + 2
   - class: pipelines.epidemiology.co_authority.ColombiaDataSource
@@ -153,6 +161,8 @@ sources:
         - '^CO_[^_]+_[^_]+$'
       # Skip because it takes too long on Github Actions
       skip: true
+    automation:
+      job_group: co
 
   # Data sources for CZ levels 0 + 1 + 2
   - class: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
@@ -167,7 +177,12 @@ sources:
       # This data source contains case line data, so any missing information means zero
       fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
-      location_key_match: 'CZ.*'
+      location_key_match:
+        - '^CZ+$'
+        - '^CZ_[^_]+$'
+        - '^CZ_[^_]+_[^_]+$'
+    automation:
+      job_group: cz
 
   - class: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
     label: Czech Republic Ministry of Health
@@ -181,7 +196,12 @@ sources:
       # This data source contains case line data, so any missing information means zero
       fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
-      location_key_match: 'CZ.*'
+      location_key_match:
+        - '^CZ+$'
+        - '^CZ_[^_]+$'
+        - '^CZ_[^_]+_[^_]+$'
+    automation:
+      job_group: cz
 
   - class: pipelines.epidemiology.cz_authority.CzechRepublicAgeSexDataSource
     label: Czech Republic Ministry of Health
@@ -195,7 +215,12 @@ sources:
       # This data source contains case line data, so any missing information means zero
       fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
-      location_key_match: 'CZ.*'
+      location_key_match:
+        - '^CZ+$'
+        - '^CZ_[^_]+$'
+        - '^CZ_[^_]+_[^_]+$'
+    automation:
+      job_group: cz
 
   # Data sources for DE levels 0 + 1 + 2
   - class: pipelines.epidemiology.de_authority.GermanyDataSource
@@ -213,6 +238,8 @@ sources:
         - '^DE$'
         - '^DE_[^_]+$'
         - '^DE_[^_]+_[^_]+$'
+    automation:
+      job_group: de
 
   # Data sources for EE levels 0 + 1
   - class: pipelines.epidemiology.ee_authority.EstoniaDataSource
@@ -232,6 +259,8 @@ sources:
         - '^EE_[^_]+$'
       # Skip because it takes too long on Github Actions
       skip: true
+    automation:
+      job_group: ee
 
   # Data sources for ES levels 0 + 1
   - class: pipelines.epidemiology.es_authority.ISCIIIStratifiedDataSource
@@ -245,6 +274,8 @@ sources:
       location_key_match:
         - '^ES$'
         - '^ES_[^_]+$'
+    automation:
+      job_group: es
 
   # Data sources for ES_CT levels 1 + 2
   - class: pipelines.epidemiology.es_ct_authority.CataloniaMunicipalitiesDataSource
@@ -260,6 +291,8 @@ sources:
       location_key_match:
         - '^ES_CT$'
         - '^ES_CT_[^_]+$'
+    automation:
+      job_group: es
 
   # Data sources for FI level 0
   - class: pipelines.epidemiology.fi_authority.FinlandArcGisDataSource
@@ -274,6 +307,8 @@ sources:
     query: "date > '2020-02-01'"
     test:
       location_key_match: '^FI$'
+    automation:
+      job_group: fi
 
   # Data sources for FR levels 0 + 1 + 2
   - class: pipelines.epidemiology.fr_authority.FranceStratifiedDataSource
@@ -288,6 +323,8 @@ sources:
         - '^FR$'
         - '^FR_[^_]+$'
         - '^FR_[^_]+_[^_]+$'
+    automation:
+      job_group: fr
 
   # Data sources for HK level 0
   - class: pipelines.epidemiology.hk_authority.HongKongDataSource
@@ -302,6 +339,8 @@ sources:
       fill_with_zeroes: ['new_[^_]+_male', 'new_[^_]+_female']
     test:
       location_key_match: '^HK$'
+    automation:
+      job_group: hk
 
   # Data source for IN levels 0 + 1
   - class: pipelines.epidemiology.in_covid19india_org.Covid19IndiaOrgCasesDataSource
@@ -317,6 +356,8 @@ sources:
       location_key_match:
         - '^IN$'
         - '^IN_[^_]+$'
+    automation:
+      job_group: in
 
   # Data sources for MX levels 0 + 1 + 2
   - class: pipelines.epidemiology.mx_authority.MexicoDataSource
@@ -337,6 +378,8 @@ sources:
         - '^MX$'
         - '^MX_[^_]+$'
         - '^MX_[^_]+_[^_]+$'
+    automation:
+      job_group: mx
 
   # Data sources for MY levels 0 + 1
   - class: pipelines.epidemiology.my_authority.MalaysiaCasesLineListDataSource
@@ -362,6 +405,8 @@ sources:
       location_key_match:
         - '^MY$'
         - '^MY_[^_]+$'
+    automation:
+      job_group: my
 
   - class: pipelines.epidemiology.my_authority.MalaysiaDeathsLineListDataSource
     label: Malaysia Ministry of Health (Line List Deaths)
@@ -378,6 +423,8 @@ sources:
     test:
       location_key_match:
         - '^MY_[^_]+$'
+    automation:
+      job_group: my
 
   # Data sources for NZ level 0
   - class: pipelines.epidemiology.nz_authority.NewZealandDataSource
@@ -396,6 +443,8 @@ sources:
       location_key_match: '^NZ$'
       # Skip because it's flakey
       skip: true
+    automation:
+      job_group: nz
 
   # Data sources for PE levels 0 + 1 + 2
   - class: pipelines.epidemiology.pe_authority.PeruDataSource
@@ -422,6 +471,8 @@ sources:
         - '^PE_[^_]+_[^_]+$'
       # Skip because it takes too long on Github Actions
       skip: true
+    automation:
+      job_group: pe
 
   # Data sources for PH levels 0 + 1 + 2
   - class: pipelines.epidemiology.ph_authority.PhilippinesDataSource
@@ -438,6 +489,8 @@ sources:
         - '^PH_[^_]+_[^_]+$'
       # Skip because downloading takes too long
       skip: true
+    automation:
+      job_group: ph
 
   # Data sources for TH levels 0 + 1
   - class: pipelines.epidemiology.th_authority.ThailandCasesDataSource
@@ -451,6 +504,8 @@ sources:
       location_key_match:
         - '^TH$'
         - '^TH_[^_]+$'
+    automation:
+      job_group: th
 
   # Data sources for TW levels 0 + 1
   - class: pipelines.epidemiology.tw_authority.TaiwanDataSource
@@ -469,6 +524,8 @@ sources:
         - '^TW_[^_]+$'
       # Skip because it's too flakey
       skip: true
+    automation:
+      job_group: tw
 
   # Data sources for US_CA level 1
   - class: pipelines.epidemiology.us_ca_authority.CaliforniaBySexOpenDataSource
@@ -480,6 +537,8 @@ sources:
       - url: "https://data.chhs.ca.gov/dataset/f333528b-4d38-4814-bebb-12db1f10f535/resource/e2c6a86b-d269-4ce1-b484-570353265183/download/covid19casesdemographics.csv"
     test:
       location_key_match: '^US_CA$'
+    automation:
+      job_group: us
 
   # Data sources for US_DC level 1
   - class: pipelines.epidemiology.us_dc_authority.DistrictColumbiaDataSource
@@ -497,6 +556,8 @@ sources:
       # Skip because it's too flakey
       skip: true
       location_key_match: '^US_DC$'
+    automation:
+      job_group: us
 
   # Data sources for US_DE level 1
   - class: pipelines.epidemiology.us_de_authority.DelawareDataSource
@@ -513,6 +574,8 @@ sources:
       location_key_match: '^US_DE$'
       # Skip because endpoint fails frequently
       skip: true
+    automation:
+      job_group: us
 
   # Data sources US_FL levels 1 + 2
   - class: pipelines.epidemiology.us_fl_authority.FloridaDataSource
@@ -531,6 +594,8 @@ sources:
         - '^US_FL_[^_]+$'
       # Skip Florida because download takes a long time
       skip: true
+    automation:
+      job_group: us
 
   # Data sources for US_IN levels 1 + 2
   - class: pipelines.epidemiology.us_in_authority.IndianaDataSource
@@ -553,6 +618,8 @@ sources:
       location_key_match:
         - '^US_IN$'
         - '^US_IN_[^_]+$'
+    automation:
+      job_group: us
 
   # Data sources for US_MA level 1
   - class: pipelines.epidemiology.us_ma_authority.MassachusettsBySexDataSource
@@ -570,3 +637,5 @@ sources:
       file_name: Sex.csv
     test:
       location_key_match: '^US_MA$'
+    automation:
+      job_group: us
