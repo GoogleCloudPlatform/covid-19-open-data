@@ -23,11 +23,10 @@ from pandas import DataFrame, Series, isna, read_csv
 
 from lib.data_source import DataSource
 from lib.io import pbar
+from lib.utils import table_rename
 
 
 class WorldbankDataSource(DataSource):
-    """ Retrieves the requested properties from Wikidata for all items in metadata.csv """
-
     def _get_latest(self, record: Series, min_year: int) -> Any:
         # Only look at data starting on <min_year>, if none found return null
         try:
@@ -49,24 +48,26 @@ class WorldbankDataSource(DataSource):
             record[name] = self._get_latest(row, min_year)
         return record
 
-    def parse(self, sources: List[str], aux: Dict[str, DataFrame], **parse_opts):
+    def parse_dataframes(
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
+    ) -> DataFrame:
 
-        data = None
-        with zipfile.ZipFile(sources[0]) as zipped:
-            data = zipped.read("WDIData.csv")
-            data = read_csv(BytesIO(data))
-        assert data is not None
-
-        data = data.rename(
-            columns={
+        data = table_rename(
+            dataframes[0],
+            {
+                "Country Name": "country_name",
                 "Country Code": "3166-1-alpha-3",
                 "Indicator Name": "indicator_name",
                 "Indicator Code": "indicator_code",
-            }
+            },
+            drop=False,
         )
 
+        # Ensure all columns are of str type
+        data.columns = list(map(str, data.columns))
+
         data = data.merge(aux["worldbank_indicators"]).merge(aux["country_codes"])
-        data = data.drop(columns=["Country Name", "3166-1-alpha-2", "3166-1-alpha-3"])
+        data = data.drop(columns=["country_name", "3166-1-alpha-2", "3166-1-alpha-3"])
 
         indicators = parse_opts.get(
             "indicators", {code: code for code in data.indicator_code.values}
