@@ -1439,6 +1439,8 @@ sources:
     license_url: https://www.worldbank.org/en/about/legal/terms-of-use-for-datasets
     fetch:
       - url: "https://storage.googleapis.com/covid19-open-data/cache/2020-01-01-00/WDI_csv.zip"
+    parse:
+      file_name: WDIData.csv
     test:
       location_key_match: '^..$'
       # Skip because it's too slow

@@ -41,26 +41,30 @@ _dummy_record = {
 }
 
 
+def _preprocess_population_data(data: DataFrame, aux: Dict[str, DataFrame]) -> DataFrame:
+    data = table_rename(data, _column_adapter, drop=True)
+
+    # Filter data for 2020 and remove all other years
+    data = data[data["date"] == 2020].drop(columns=["date"])
+
+    # We only care about the population count indicators
+    data = data[data["indicator"] == "Medium"]
+
+    # Population counts are in thousands, convert back to single units
+    for col in data.columns:
+        if col.startswith("population") and col != "population_density":
+            data[col] = data[col] * 1_000
+
+    # Derive key from our country names mapping
+    names = aux["un_country_names"]
+    return data.merge(names, how="left")
+
+
 class UnWppByAgeDataSource(DataSource):
     def parse_dataframes(
         self, dataframes: Dict[Any, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
-
-        data = table_rename(dataframes[0], _column_adapter, drop=True,)
-
-        # Filter data for 2020 and remove all other years
-        data = data[data["date"] == 2020].drop(columns=["date"])
-
-        # We only care about the population count indicators
-        data = data[data["indicator"] == "Medium"]
-
-        # Population counts are in thousands, convert back to single units
-        for col in [col for col in data.columns if col.startswith("population")]:
-            data[col] = data[col] * 1000
-
-        # Derive key from our country names mapping
-        names = aux["un_country_names"]
-        data = data.merge(names, how="left")
+        data = _preprocess_population_data(dataframes[0], aux)
 
         # Combine the age groups into one record per location
         records: Dict[str, Any] = {}
@@ -81,21 +85,7 @@ class UnWppBySexDataSource(DataSource):
     def parse_dataframes(
         self, dataframes: Dict[Any, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
+        data = _preprocess_population_data(dataframes[0], aux)
 
-        data = table_rename(dataframes[0], _column_adapter, drop=True,)
-
-        # Filter data for 2020 and remove all other years
-        data = data[data["date"] == 2020].drop(columns=["date"])
-
-        # We only care about the population count indicators
-        data = data[data["indicator"] == "Medium"]
-
-        # Population counts are in thousands, convert back to single units
-        for col in [col for col in data.columns if col.startswith("population")]:
-            data[col] = data[col] * 1000
-
-        # Derive key from our country names mapping
-        names = aux["un_country_names"]
-        data = data.merge(names, how="left")
-
+        # Data is already stratified how we need it for the male/female populations
         return data
