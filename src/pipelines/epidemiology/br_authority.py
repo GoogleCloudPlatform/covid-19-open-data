@@ -325,7 +325,7 @@ class BrazilOpenDataPortalDataSource(DataSource):
 
         # Process each partition in separate threads
         map_opts = dict(desc="Processing Partitions", total=len(partitions))
-        map_iter = (concat(chunks) for chunks in partitions.values())
+        map_iter = (concat(chunks) for chunks in partitions.values() if chunks)
         return concat(process_map(_process_partition, map_iter, **map_opts))
 
 

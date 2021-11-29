@@ -138,24 +138,6 @@ sources:
       # Skip because it's too slow
       skip: true
 
-  # Data sources for BR_RJ level 2
-  - class: pipelines.epidemiology.br_rj_authority.RioStratifiedDataSource
-    label: Ministry of Health of Rio de Janeiro
-    website: https://www.data.rio/datasets/f314453b3a55434ea8c8e8caaa2d8db5
-    license: Open Data
-    license_url: https://www.data.rio/datasets/f314453b3a55434ea8c8e8caaa2d8db5
-    fetch:
-      - url: "https://pcrj.maps.arcgis.com/sharing/rest/content/items/754cc0698129404ba8bfb053cbdbd158/data"
-        opts:
-          ext: csv
-    parse:
-      sep: ";"
-      encoding: "ISO-8859-1"
-    test:
-      location_key_match: '^BR_RJ_GIG$'
-      # Skip because it's very flakey
-      skip: true
-
   # Data sources for CO levels 0 + 1 + 2
   - class: pipelines.epidemiology.co_authority.ColombiaDataSource
     label: Colombia Ministry of Health
