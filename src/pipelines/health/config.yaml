@@ -137,6 +137,21 @@ sources:
       - url: "https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Datasets/NVSS/USALEEP/CSV/US_A.CSV"
         opts:
           ext: csv
+    test:
+      location_key_match: '^US_[^_]+_[^_]+$'
+    automation:
+      # Run only twice a day, since it does not change often
+      schedule: "0 */12 * * *"
+
+  - class: pipelines.health.us_cdc.CDCDataSource
+    label: National Center for Health Statistics
+    website: https://www.cdc.gov/nchs/pressroom/sosmap/life_expectancy/life_expectancy.htm
+    license: Terms and Conditions
+    license_url: https://www.cdc.gov/other/agencymaterials.html
+    fetch:
+      - url: "https://www.cdc.gov/nchs/pressroom/sosmap/life_expectancy/life_expectancy.json"
+    test:
+      location_key_match: '^US_[^_]+$'
     automation:
       # Run only twice a day, since it does not change often
       schedule: "0 */12 * * *"

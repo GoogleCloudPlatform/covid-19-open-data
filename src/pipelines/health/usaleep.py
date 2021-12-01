@@ -34,13 +34,11 @@ class USALEEPDataSource(DataSource):
         data["county_code"] = data["county_code"].apply(lambda x: numeric_code_as_string(x, 3))
         data["subregion2_code"] = data["state_code"] + data["county_code"]
 
+        # Subregion 2 code is unique among all locations so we can drop all other codes
+        data = data.drop(columns=["state_code", "county_code"])
+
         # Data is more granular than county level, use a crude average for estimate
-        data = (
-            data.drop(columns=["state_code", "county_code"])
-            .groupby("subregion2_code")
-            .mean()
-            .reset_index()
-        )
+        data = data.groupby("subregion2_code").mean().reset_index()
 
         # Add country code to all records and return
         data["country_code"] = "US"
