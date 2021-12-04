@@ -460,6 +460,34 @@ sources:
       location_key_match:
         - '^MY$'
 
+  # Data sources for PL levels 0 + 1 + 2
+  - class: pipelines.vaccinations.pl_authority.PolandDataSource
+    label: Poland Health Ministry (Subregional Data)
+    website: https://www.gov.pl/web/szczepimysie/raport-szczepien-przeciwko-covid-19
+    license: CC-BY
+    license_url: https://creativecommons.org/licenses/by/3.0/pl/
+    fetch:
+      - url: "https://arcgis.com/sharing/rest/content/items/b860f2797f7f4da789cb6fccf6bd5bc7/data"
+        opts:
+          ext: zip
+    test:
+      location_key_match:
+        - '^PL$'
+        - '^PL_[^_]+$'
+        - '^PL_[^_]+_[^_]+$'
+
+  - class: pipelines.vaccinations.pl_authority.PolandCountryDataSource
+    label: Poland Health Ministry (National Data)
+    website: https://www.gov.pl/web/szczepimysie/raport-szczepien-przeciwko-covid-19
+    license: CC-BY
+    license_url: https://creativecommons.org/licenses/by/3.0/pl/
+    fetch:
+      - url: "https://arcgis.com/sharing/rest/content/items/b860f2797f7f4da789cb6fccf6bd5bc7/data"
+        opts:
+          ext: zip
+    test:
+      location_key_match: '^PL$'
+
   # Data sources for SE level 0 + 1
   - class: pipelines.vaccinations.se_authority.SwedenDataSource
     label: The Public Health Agency of Sweden

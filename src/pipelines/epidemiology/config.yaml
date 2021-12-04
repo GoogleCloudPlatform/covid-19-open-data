@@ -1258,7 +1258,7 @@ sources:
     test:
       location_key_match: '^PK$'
 
-  # Data sources for PL level 1
+  # Data sources for PL levels 0 + 1 + 2
   - class: pipelines.epidemiology.xx_covid19_eu_data.Covid19EuDataSource
     label: github.com/covid19-eu-zh/covid19-eu-data
     website: https://github.com/covid19-eu-zh/covid19-eu-data
@@ -1270,6 +1270,35 @@ sources:
       country: PL
     test:
       location_key_match: '^PL_[^_]+$'
+
+  - class: pipelines.epidemiology.pl_authority.PolandDataSource
+    label: Poland Health Ministry
+    website: https://www.gov.pl/web/koronawirus/wykaz-zarazen-koronawirusem-sars-cov-2
+    license: CC-BY
+    license_url: https://creativecommons.org/licenses/by/3.0/pl/
+    fetch:
+      - url: "https://www.arcgis.com/sharing/rest/content/items/a8c562ead9c54e13a135b02e0d875ffb/data"
+        opts:
+          ext: zip
+    test:
+      location_key_match:
+        - '^PL$'
+        - '^PL_[^_]+$'
+
+  - class: pipelines.epidemiology.pl_authority.PolandDataSource
+    label: Poland Health Ministry
+    website: https://www.gov.pl/web/koronawirus/wykaz-zarazen-koronawirusem-sars-cov-2
+    license: CC-BY
+    license_url: https://creativecommons.org/licenses/by/3.0/pl/
+    fetch:
+      - url: "https://arcgis.com/sharing/rest/content/items/e16df1fa98c2452783ec10b0aea4b341/data"
+        opts:
+          ext: zip
+    test:
+      location_key_match:
+        - '^PL$'
+        - '^PL_[^_]+$'
+        - '^PL_[^_]+_[^_]+$'
 
   # Data sources for PT levels 0 + 1
   - class: pipelines.epidemiology.pt_covid19.PtCovid19L1DataSource
