@@ -43,8 +43,9 @@ sources:
       dtype: str
       pooling_function: mean
     test:
-      # Skip because it's too slow
-      skip: true
+      location_key_match:
+        - '^CA$'
+        - '^CA_[^_]+$'
     automation:
       # Run only twice a day, since it's so resource consuming
       schedule: "0 */12 * * *"
@@ -61,8 +62,10 @@ sources:
       dtype: str
       pooling_function: mean
     test:
-      # Skip because it's too slow
-      skip: true
+      location_key_match:
+        - '^GB$'
+        - '^GB_[^_]+$'
+        - '^GB_[^_]+_[^_]+$'
     automation:
       # Run only twice a day, since it's so resource consuming
       schedule: "0 */12 * * *"
@@ -79,8 +82,10 @@ sources:
       dtype: str
       pooling_function: mean
     test:
-      # Skip because it's too slow
-      skip: true
+      location_key_match:
+        - '^US$'
+        - '^US_[^_]+$'
+        - '^US_[^_]+_[^_]+$'
     automation:
       # Run only twice a day, since it's so resource consuming
       schedule: "0 */12 * * *"
