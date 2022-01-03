@@ -150,11 +150,11 @@ sources:
 
   - class: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
     label: Wikipedia
-    website: https://en.wikipedia.org/wiki/Template:2019–20_coronavirus_pandemic_data/Australia_medical_cases
+    website: https://en.wikipedia.org/wiki/Template:2019-20_coronavirus_pandemic_data/Australia_medical_cases
     license: Terms and Conditions
     license_url: https://foundation.wikimedia.org/wiki/Terms_of_Use
     fetch:
-      - url: "https://en.wikipedia.org/wiki/Template:2019–20_coronavirus_pandemic_data/Australia_medical_cases"
+      - url: "https://en.wikipedia.org/wiki/Template:2019-20_coronavirus_pandemic_data/Australia_medical_cases"
         opts:
           ext: html
     parse:
