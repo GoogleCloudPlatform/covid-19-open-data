@@ -941,52 +941,21 @@ sources:
     automation:
       job_group: it
 
-  # Data sources for JP levels 1 + 2
-  - class: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
-    label: Wikipedia
-    website: https://en.wikipedia.org/wiki/Template:2019–20_coronavirus_pandemic_data/Japan_medical_cases
+  # Data sources for JP levels 0 + 1
+  - class: pipelines.epidemiology.jp_authority.JapanDataSource
+    label: Japan Ministry of Health, Labor and Welfare
+    website: https://www.mhlw.go.jp/stf/covid-19/open-data.html
     license: Terms and Conditions
-    license_url: https://foundation.wikimedia.org/wiki/Terms_of_Use
+    license_url: https://www.mhlw.go.jp/chosakuken/index.html
     fetch:
-      - url: "https://en.wikipedia.org/wiki/Template:2019–20_coronavirus_pandemic_data/Japan_medical_cases"
-        opts:
-          ext: html
-    parse:
-      country: JP
-      date_format: "%Y/%m/%d"
-      skiprows: 2
+      - name: confirmed
+        url: "https://covid19.mhlw.go.jp/public/opendata/newly_confirmed_cases_daily.csv"
+      - name: deceased
+        url: "https://covid19.mhlw.go.jp/public/opendata/deaths_cumulative_daily.csv"
     test:
-      location_key_match: '^JP_[^_]+$'
-    automation:
-      job_group: wiki
-
-  - class: pipelines.epidemiology.jp_2019_ncov_japan.Jp2019NcovJapanByDate
-    label: covid-2019.live
-    website: https://covid-2019.live
-    license: Terms and Conditions
-    license_url: https://github.com/swsoyee/2019-ncov-japan/blob/master/LICENSE
-    fetch:
-      - name: new_confirmed
-        url: "https://raw.github.com/swsoyee/2019-ncov-japan/master/50_Data/byDate.csv"
-      - name: new_deceased
-        url: "https://raw.github.com/swsoyee/2019-ncov-japan/master/50_Data/death.csv"
-    test:
-      location_key_match: '^JP_[^_]+$'
-    automation:
-      job_group: jp
-
-  - class: pipelines.epidemiology.jp_covid19.JapanCovid19DataSource
-    label: toyokeizai.net
-    website: https://toyokeizai.net
-    license: Terms and Conditions
-    license_url: https://github.com/kaz-ogiwara/covid19/blob/master/LICENSE
-    fetch:
-      # TODO: Fix data source
-      - url: "https://raw.github.com/kaz-ogiwara/covid19/master/data/prefectures.csv"
-    parse:
-      dtype: str
-    test:
-      location_key_match: '^JP_[^_]+$'
+      location_key_match:
+        - '^JP$'
+        - '^JP_[^_]+$'
     automation:
       job_group: jp
 
@@ -1011,11 +980,11 @@ sources:
   # Data sources for KR level 2
   - class: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
     label: Wikipedia
-    website: https://en.wikipedia.org/wiki/Template:2019–20_coronavirus_pandemic_data/South_Korea_medical_cases
+    website: https://en.wikipedia.org/wiki/Template:2019-20_coronavirus_pandemic_data/South_Korea_medical_cases
     license: Terms and Conditions
     license_url: https://foundation.wikimedia.org/wiki/Terms_of_Use
     fetch:
-      - url: "https://en.wikipedia.org/wiki/Template:2019–20_coronavirus_pandemic_data/South_Korea_medical_cases"
+      - url: "https://en.wikipedia.org/wiki/Template:2019-20_coronavirus_pandemic_data/South_Korea_medical_cases"
         opts:
           ext: html
     parse:
@@ -1229,11 +1198,11 @@ sources:
   # Data sources for PK levels 0 + 1
   - class: pipelines.epidemiology.xx_wikipedia.WikipediaDataSource
     label: Wikipedia
-    website: https://en.wikipedia.org/wiki/Template:2019–20_coronavirus_pandemic_data/Pakistan_medical_cases
+    website: https://en.wikipedia.org/wiki/Template:2019-20_coronavirus_pandemic_data/Pakistan_medical_cases
     license: Terms and Conditions
     license_url: https://foundation.wikimedia.org/wiki/Terms_of_Use
     fetch:
-      - url: "https://en.wikipedia.org/wiki/Template:2019–20_coronavirus_pandemic_data/Pakistan_medical_cases"
+      - url: "https://en.wikipedia.org/wiki/Template:2019-20_coronavirus_pandemic_data/Pakistan_medical_cases"
         opts:
           ext: html
     parse:
