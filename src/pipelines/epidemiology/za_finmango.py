@@ -55,7 +55,6 @@ class FinMangoDataSource(DataSource):
 
         # Put all sheets together into a single DataFrame
         data = concat(tables)
-        print(data)
         data["key"] = parse_opts["country"] + "_" + data["code"].str.replace("-", "_")
 
         # Ensure date is in ISO format
