@@ -26,7 +26,6 @@ _columns = [
     "new_deceased",
     "total_deceased",
     "new_tested",
-    "total_tested",
 ]
 
 
@@ -40,9 +39,6 @@ class FinMangoDataSource(DataSource):
             # Header has two rows, but we ignore them and use our own columns anyway
             df.columns = _columns
             df = df.iloc[2:].copy()
-
-            # Total tested is always null
-            df = df.drop(columns=["total_tested"])
 
             # Keep only rows with indexable columns not null
             df.dropna(subset=["date", "subregion2_name"], inplace=True)
