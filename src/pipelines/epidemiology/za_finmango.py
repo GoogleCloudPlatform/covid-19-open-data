@@ -16,9 +16,11 @@ from typing import Dict
 from pandas import DataFrame, concat
 from lib.cast import safe_int_cast
 from lib.data_source import DataSource
-from lib.utils import table_rename
 
 _columns = [
+    "date",
+    "name",
+    "code",
     "new_confirmed",
     "current_confirmed",
     "total_confirmed",
@@ -37,6 +39,7 @@ _columns = [
     "new_ventilator",
     "current_ventilator",
     "total_ventilator",
+    "_source_link",
 ]
 
 
@@ -47,39 +50,19 @@ class FinMangoDataSource(DataSource):
         # Data is nested into multiple sheets
         tables = []
         for df in dataframes[0].values():
-            # Header has two rows
-            df.columns = df.iloc[0]
-
-            # Many column names are repeated, so we disambiguate them
-            index_columns = ["date", "name"]
-            repeat_columns = df.columns[len(index_columns) :]
-            df.columns = index_columns + [f"{col}_{idx}" for idx, col in enumerate(repeat_columns)]
-
-            tables.append(df.iloc[1:])
+            df.columns = _columns
+            tables.append(df.iloc[2:])
 
         # Put all sheets together into a single DataFrame
         data = concat(tables)
-        # TODO: Fix this code, so the merging based on repeated identical column names is not required.
-        # Currently it fails without the remove_regex tag set below.
-        data = table_rename(data, {"Date": "date", "Code": "key"}, remove_regex=r"[^a-z\s]").dropna(
-            subset=["date", "key"]
-        )
-        data["key"] = parse_opts["country"] + "_" + data["key"].str.replace("-", "_")
+        data["key"] = parse_opts["country"] + "_" + data["code"].str.replace("-", "_")
 
         # Ensure date is in ISO format
         data["date"] = data["date"].apply(lambda x: str(x)[:10])
 
-        # The column names are always in the same order
-        current_columns = data.columns.values
-        replace_columns = ["date", "name", "key"] + _columns
-        for idx, col in enumerate(replace_columns):
-            current_columns[idx] = col
-        data.columns = current_columns
-        data = data[replace_columns]
-
         # Make sure that all data is numeric
         for col in data.columns:
-            if col not in ("date", "name", "key"):
+            if col not in ("date", "name", "key", "code", "_source_link"):
                 data[col] = data[col].apply(safe_int_cast)
 
         # Remove the "new" columns since cumulative data is more reliable

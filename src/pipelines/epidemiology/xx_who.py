@@ -44,7 +44,6 @@ class WHODataSource(DataSource):
     def parse_dataframes(
         self, dataframes: List[DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
-        # Date_reported	 Country_code	 Country	 WHO_region	 New_cases	 Cumulative_cases	 New_deaths	 Cumulative_deaths
         data = table_rename(
             dataframes[0],
             {

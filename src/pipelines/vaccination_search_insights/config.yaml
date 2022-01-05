@@ -31,19 +31,61 @@ auxiliary:
 
 sources:
 
-  # Country level data + admin level 1
+  # CA country level data + admin level 1
   - class: pipelines.vaccination_search_insights.vaccination_search_insights.GoogleVaccinationSearchInsightsDataSource
     label: Google Vaccination Search Insights
     website: https://goo.gle/covid19vaccinationinsights
     license: Terms and Conditions
     license_url: https://policies.google.com/terms
     fetch:
-      - url: "https://storage.googleapis.com/covid19-open-data/covid19-vaccination-search-insights/Global_vaccination_search_insights.csv"
+      - url: "https://storage.googleapis.com/covid19-open-data/covid19-vaccination-search-insights/CA_vaccination_search_insights.csv"
     parse:
       dtype: str
+      pooling_function: mean
     test:
-      # Skip because it's too slow
-      skip: true
+      location_key_match:
+        - '^CA$'
+        - '^CA_[^_]+$'
+    automation:
+      # Run only twice a day, since it's so resource consuming
+      schedule: "0 */12 * * *"
+
+  # GB country level data + admin level 1
+  - class: pipelines.vaccination_search_insights.vaccination_search_insights.GoogleVaccinationSearchInsightsDataSource
+    label: Google Vaccination Search Insights
+    website: https://goo.gle/covid19vaccinationinsights
+    license: Terms and Conditions
+    license_url: https://policies.google.com/terms
+    fetch:
+      - url: "https://storage.googleapis.com/covid19-open-data/covid19-vaccination-search-insights/GB_vaccination_search_insights.csv"
+    parse:
+      dtype: str
+      pooling_function: mean
+    test:
+      location_key_match:
+        - '^GB$'
+        - '^GB_[^_]+$'
+        - '^GB_[^_]+_[^_]+$'
+    automation:
+      # Run only twice a day, since it's so resource consuming
+      schedule: "0 */12 * * *"
+
+  # US country level data + admin level 1
+  - class: pipelines.vaccination_search_insights.vaccination_search_insights.GoogleVaccinationSearchInsightsDataSource
+    label: Google Vaccination Search Insights
+    website: https://goo.gle/covid19vaccinationinsights
+    license: Terms and Conditions
+    license_url: https://policies.google.com/terms
+    fetch:
+      - url: "https://storage.googleapis.com/covid19-open-data/covid19-vaccination-search-insights/US_vaccination_search_insights.csv"
+    parse:
+      dtype: str
+      pooling_function: mean
+    test:
+      location_key_match:
+        - '^US$'
+        - '^US_[^_]+$'
+        - '^US_[^_]+_[^_]+$'
     automation:
       # Run only twice a day, since it's so resource consuming
       schedule: "0 */12 * * *"
