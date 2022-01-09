@@ -71,7 +71,7 @@ column.
 | Israel | [Israel Government Data Portal](https://data.gov.il/dataset/covid-19) | [Attribution Required](https://data.gov.il/terms) |
 | Haiti | [HDX](https://data.humdata.org/dataset/haiti-covid-19-subnational-cases) | [CC BY][28] |
 | India | [Wikipedia](https://en.wikipedia.org/wiki/Template:2019-20_coronavirus_pandemic_data/India_medical_cases) | [Attribution Required][24] |
-| India | [Covid 19 India Organisation](https://www.covid19india.org/) | [CC BY][29] |
+| India | [IN Covid19 Org](https://www.incovid19.org/) | [MIT](https://github.com/incovid19/incovid19/blob/main/LICENSE) |
 | Indonesia | <https://covid19.go.id/peta-sebaran> | Public Domain |
 | Italy | [Italy's Department of Civil Protection](https://github.com/pcm-dpc/COVID-19) | [CC BY](https://github.com/pcm-dpc/COVID-19/blob/master/LICENSE) |
 | Iraq | [HDX](https://data.humdata.org/dataset/iraq-coronavirus-covid-19-subnational-cases) | [CC BY][28] |

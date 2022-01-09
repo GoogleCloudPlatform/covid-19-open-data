@@ -858,12 +858,12 @@ sources:
 
   # Data sources for IN levels 1 + 2
   - class: pipelines.epidemiology.in_covid19india_org.Covid19IndiaOrgL2DataSource
-    label: covid19india.org
-    website: https://www.covid19india.org/
+    label: incovid19.org
+    website: https://incovid19.org/
     license: Terms and Conditions
-    license_url: https://github.com/covid19india/data/blob/gh-pages/LICENSE
+    license_url: https://github.com/incovid19/incovid19/blob/main/LICENSE
     fetch:
-      - url: "https://api.covid19india.org/csv/latest/districts.csv"
+      - url: "https://data.incovid19.org/csv/latest/districts.csv"
         opts:
           ext: csv
     test:
@@ -872,12 +872,12 @@ sources:
       job_group: in
 
   - class: pipelines.epidemiology.in_covid19india_org.Covid19IndiaOrgL1DataSource
-    label: covid19india.org
-    website: https://www.covid19india.org/
+    label: incovid19.org
+    website: https://incovid19.org/
     license: Terms and Conditions
-    license_url: https://github.com/covid19india/data/blob/gh-pages/LICENSE
+    license_url: https://github.com/incovid19/incovid19/blob/main/LICENSE
     fetch:
-      - url: "https://api.covid19india.org/csv/latest/state_wise_daily.csv"
+      - url: "https://data.incovid19.org/csv/latest/state_wise_daily.csv"
         opts:
           ext: csv
     parse:
