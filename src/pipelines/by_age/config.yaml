@@ -671,7 +671,7 @@ sources:
     automation:
       job_group: tw
 
-  # Data sources for US level 2
+  # Data sources for US levels 0 + 1
   - class: pipelines.epidemiology.us_imperial.ImperialDataSource
     label: Imperial College of London
     website: https://github.com/ImperialCollegeLondon/US-covid19-agespecific-mortality-data
@@ -683,6 +683,20 @@ sources:
     query: "key != 'US_WA'"
     test:
       location_key_match: '^US_\w\w(_NYC)?$'
+    automation:
+      job_group: us
+
+  - class: pipelines.epidemiology.us_authority.CDCStratifiedDataSource
+    label: Centers for Disease Control and Prevention
+    website: https://data.cdc.gov/Case-Surveillance/COVID-19-Case-Surveillance-Public-Use-Data/vbim-akqf
+    license: Public Domain
+    license_url: https://www.cdc.gov/other/agencymaterials.html
+    fetch:
+      - url: "https://data.cdc.gov/api/views/vbim-akqf/rows.csv"
+    parse:
+      column: age
+    test:
+      location_key_match: '^US$'
     automation:
       job_group: us
 
