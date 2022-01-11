@@ -185,7 +185,7 @@ class CDCStratifiedDataSource(DataSource):
         )
 
         cases["key"] = "US"
-        cases["sex"] = cases["sex"].apply(lambda x: x.lower() if x else None)
+        cases["sex"] = cases["sex"].fillna(value=None).apply(lambda x: x.lower() if x else None)
         cases["age"] = cases["age"].apply(lambda x: "-".join(x.replace(" Years", "").split(" - ")))
         cases[date_col] = cases[date_col].apply(lambda x: datetime_isoformat(x, "%Y/%m/%d"))
 
