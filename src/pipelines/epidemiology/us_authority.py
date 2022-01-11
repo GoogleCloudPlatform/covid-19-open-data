@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List
 from pandas import DataFrame, concat
 from lib.cast import numeric_code_as_string
+from lib.case_line import convert_cases_to_time_series
 from lib.concurrent import thread_map
 from lib.constants import SRC
 from lib.io import open_file_like, pbar, read_table
@@ -172,3 +173,27 @@ class CDCCountyDataSource(DataSource):
         # Parallelize the work and process each state in a different process to speed up the work
         map_opts = dict(total=len(dataframes), desc="Processing states")
         return concat(thread_map(_process_state, dataframes.values(), **map_opts))
+
+
+class CDCStratifiedDataSource(DataSource):
+    def parse_dataframes(
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
+    ) -> DataFrame:
+        date_col = "date_new_confirmed"
+        cases = table_rename(
+            dataframes[0], {"cdc_report_dt": date_col, "sex": "sex", "age_group": "age"}, drop=True
+        )
+
+        cases["key"] = "US"
+        cases["sex"] = cases["sex"].apply(lambda x: x.lower() if x else None)
+        cases["age"] = cases["age"].apply(lambda x: "-".join(x.replace(" Years", "").split(" - ")))
+        cases[date_col] = cases[date_col].apply(lambda x: datetime_isoformat(x, "%Y/%m/%d"))
+
+        if parse_opts["column"] == "age":
+            data = convert_cases_to_time_series(cases.drop(columns=["sex"]))
+        elif parse_opts["column"] == "sex":
+            data = convert_cases_to_time_series(cases.drop(columns=["age"]))
+        else:
+            raise ValueError(f'Unknown column {parse_opts["column"]}')
+
+        return data

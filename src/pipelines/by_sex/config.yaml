@@ -527,6 +527,21 @@ sources:
     automation:
       job_group: tw
 
+  # Data sources for US level 0
+  - class: pipelines.epidemiology.us_authority.CDCStratifiedDataSource
+    label: Centers for Disease Control and Prevention
+    website: https://data.cdc.gov/Case-Surveillance/COVID-19-Case-Surveillance-Public-Use-Data/vbim-akqf
+    license: Public Domain
+    license_url: https://www.cdc.gov/other/agencymaterials.html
+    fetch:
+      - url: "https://data.cdc.gov/api/views/vbim-akqf/rows.csv"
+    parse:
+      column: sex
+    test:
+      location_key_match: '^US$'
+    automation:
+      job_group: us
+
   # Data sources for US_CA level 1
   - class: pipelines.epidemiology.us_ca_authority.CaliforniaBySexOpenDataSource
     label: California Department of Health
