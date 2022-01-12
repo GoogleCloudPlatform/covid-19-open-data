@@ -16,7 +16,7 @@ import json
 from pathlib import Path
 from typing import Any, Dict, Iterable, List
 from pandas import DataFrame, concat
-from lib.cast import numeric_code_as_string
+from lib.cast import isna, numeric_code_as_string
 from lib.case_line import convert_cases_to_time_series
 from lib.concurrent import thread_map
 from lib.constants import SRC
@@ -185,8 +185,10 @@ class CDCStratifiedDataSource(DataSource):
         )
 
         cases["key"] = "US"
-        cases["sex"] = cases["sex"].fillna(value=None).apply(lambda x: x.lower() if x else None)
-        cases["age"] = cases["age"].apply(lambda x: "-".join(x.replace(" Years", "").split(" - ")))
+        cases["sex"] = cases["sex"].apply(lambda x: x.lower() if not isna(x) else None)
+        cases["age"] = cases["age"].apply(
+            lambda x: "-".join(x.replace(" Years", "").split(" - ")) if not isna(x) else None
+        )
         cases[date_col] = cases[date_col].apply(lambda x: datetime_isoformat(x, "%Y/%m/%d"))
 
         if parse_opts["column"] == "age":
