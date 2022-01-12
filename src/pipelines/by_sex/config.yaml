@@ -538,6 +538,8 @@ sources:
     parse:
       column: sex
     test:
+      # Skip because it's too slow
+      skip: true
       location_key_match: '^US$'
     automation:
       job_group: us
