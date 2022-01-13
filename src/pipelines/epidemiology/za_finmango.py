@@ -12,10 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Dict
+import datetime
+from typing import Any, Dict, List
 from pandas import DataFrame, concat
 from lib.cast import safe_int_cast
+from lib.constants import SRC
 from lib.data_source import DataSource
+from lib.io import read_file
+from pathlib import Path
 
 _columns = [
     "date",
@@ -43,7 +47,7 @@ _columns = [
 ]
 
 
-class FinMangoDataSource(DataSource):
+class FinMangoSheetsDataSource(DataSource):
     def parse_dataframes(
         self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
     ) -> DataFrame:
@@ -69,4 +73,46 @@ class FinMangoDataSource(DataSource):
         data = data.drop(columns=["new_confirmed", "new_deceased"])
 
         # Output the results
+        return data
+
+
+class FinMangoGithubDataSource(DataSource):
+    def fetch(
+        self,
+        output_folder: Path,
+        cache: Dict[str, str],
+        fetch_opts: List[Dict[str, Any]],
+        skip_existing: bool = False,
+    ) -> Dict[str, str]:
+        metadata = read_file(SRC / "data" / "metadata.csv")
+        za = metadata[metadata["country_code"] == "ZA"]
+        provinces = za[za["key"].apply(lambda x: len(x.split("_")) == 2)]
+        districts = za[za["key"].apply(lambda x: len(x.split("_")) == 3)]
+        url_tpl = {opt["name"]: opt["url"] for opt in fetch_opts}
+        opts = {"opts": {"ignore_failure": True}}
+
+        fetch_list = []
+        for key in provinces["key"]:
+            key_ = key[3:].replace("_", "-")
+            fetch_list.append({"url": url_tpl["provinces"].format(key=key_), "name": key, **opts})
+        for key in districts["key"]:
+            key_ = key[3:].replace("_", "-")
+            fetch_list.append({"url": url_tpl["districts"].format(key=key_), "name": key, **opts})
+
+        return super().fetch(output_folder, cache, fetch_list, skip_existing=skip_existing)
+
+    def parse_dataframes(
+        self, dataframes: Dict[str, DataFrame], aux: Dict[str, DataFrame], **parse_opts
+    ) -> DataFrame:
+        data = None
+        for key, df in dataframes.items():
+            df["key"] = key
+            if data is None:
+                data = df
+            else:
+                data = data.append(df)
+
+        data["date"] = data["ID"].apply(lambda x: datetime.datetime.fromtimestamp(x / 1_000))
+        data["date"] = data["date"].apply(lambda x: x.date().isoformat())
+        data = data.rename(columns={"Cases": "total_confirmed"}).drop(columns=["Date", "ID"])
         return data

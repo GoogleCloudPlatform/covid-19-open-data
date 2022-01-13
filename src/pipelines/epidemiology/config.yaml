@@ -1791,7 +1791,7 @@ sources:
       job_group: humdata
 
   # Data sources for ZA level 2
-  - class: pipelines.epidemiology.za_finmango.FinMangoDataSource
+  - class: pipelines.epidemiology.za_finmango.FinMangoSheetsDataSource
     label: FinMango
     website: https://covid.finmango.org
     license: CC-BY
@@ -1809,7 +1809,7 @@ sources:
       job_group: za
 
   # Data sources for ZA level 1
-  - class: pipelines.epidemiology.za_finmango.FinMangoDataSource
+  - class: pipelines.epidemiology.za_finmango.FinMangoSheetsDataSource
     label: FinMango
     website: https://covid.finmango.org
     license: CC-BY
@@ -1824,6 +1824,24 @@ sources:
     test:
       location_key_match:
         - '^ZA_[^_]+$'
+    automation:
+      job_group: za
+
+  # Data sources for ZA 1 + 2
+  - class: pipelines.epidemiology.za_finmango.FinMangoGithubDataSource
+    label: FinMango
+    website: https://covid.finmango.org
+    license: CC-BY
+    license_url: https://covid.finmango.org
+    fetch:
+      - name: provinces
+        url: "https://raw.githubusercontent.com/finmango/south-africa-covid-data/main/data/province_data/{key}.csv"
+      - name: districts
+        url: "https://raw.githubusercontent.com/finmango/south-africa-covid-data/main/data/municiple_data/{key}.csv"
+    test:
+      location_key_match:
+        - '^ZA_[^_]+$'
+        - '^ZA_[^_]+_[^_]+$'
     automation:
       job_group: za
 
