@@ -877,7 +877,7 @@ sources:
     license: Terms and Conditions
     license_url: https://github.com/incovid19/incovid19/blob/main/LICENSE
     fetch:
-      - url: "https://data.incovid19.org/csv/latest/state_wise_daily.csv"
+      - url: "https://data.incovid19.org/csv/latest/states.csv"
         opts:
           ext: csv
     parse:
