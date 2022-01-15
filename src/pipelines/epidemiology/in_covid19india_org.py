@@ -32,31 +32,27 @@ class Covid19IndiaOrgL1DataSource(DataSource):
     ) -> DataFrame:
 
         data = dataframes[0]
-        # Get all the states
-        states = list(data.columns.difference(["Status", "Date"]))
-        # Flatten the table
-        data = melt(data, id_vars=["Date", "Status"], value_vars=states, var_name="subregion1_code")
-        # Convert numeric fields to integers
-        data["value"] = data["value"].apply(safe_int_cast)
-        # Pivot on Status to get flattened confirmed, deceased, recovered numbers
-        data = data.pivot_table("value", ["Date", "subregion1_code"], "Status")
-        data.reset_index(drop=False, inplace=True)
-        data = data.reindex(
-            ["Date", "subregion1_code", "Confirmed", "Deceased", "Recovered"], axis=1
-        )
-
-        data = data.rename(
-            columns={
-                "Confirmed": "new_confirmed",
-                "Deceased": "new_deceased",
-                "Recovered": "new_recovered",
+        data = table_rename(
+            data,
+            {
+                "Confirmed": "total_confirmed",
+                "Deceased": "total_deceased",
+                "Recovered": "total_recovered",
+                "Tested": "total_tested",
                 "Date": "date",
-            }
+                "State": "subregion1_name",
+            },
+            drop=True,
         )
-        # No data is recorded against IN_DD, it is now a district of IN_DN
-        data = data[data.subregion1_code != "DD"]
-        data.date = data.date.apply(lambda x: datetime_isoformat(x, "%d-%b-%y"))
-        data["key"] = "IN_" + data["subregion1_code"]
+        # Get rid of rows for country-level data.
+        data = data[data["subregion1_name"] != "India"]
+
+        for col in ("total_confirmed", "total_deceased", "total_tested", "total_recovered"):
+            data[col] = data[col].apply(safe_int_cast).astype("Int64")
+
+        data["subregion2_code"] = None
+        data["locality_code"] = None
+        data["country_code"] = "IN"
 
         return data
 
@@ -105,6 +101,7 @@ L3_INDIA_REPLACEMENTS = {
     "Saraikela-Kharsawan": "Saraikela Kharsawan",
     "Davanagere": "Davangere",
     "Leh": "Leh Ladakh",
+    "LEH": "Leh Ladakh",
     "Dakshin Bastar Dantewada": "Dantewada",
     "Ribhoi": "Ri Bhoi",
     "Balasore": "Baleshwar",
@@ -112,6 +109,23 @@ L3_INDIA_REPLACEMENTS = {
     "Viluppuram": "Villupuram",
     "Sipahijala": "Sepahijala",
     "Unokoti": "Unakoti",
+    "KARGIL": "Kargil",
+    "14  Mahindergarh": "Mahendragarh",
+    "Sahasra": "Saharsa",
+    "Central Delhi": "Central",
+    "East Delhi": "East",
+    "North Delhi": "North",
+    "North East Delhi": "North East",
+    "North West Delhi": "North West",
+    "South Delhi": "South",
+    "South East Delhi": "South East",
+    "South West Delhi": "South West",
+    "West Delhi": "West",
+    "Jagtial": "Jagitial",
+    "Jangaon": "Jangoan",
+    "Komaram Bheem": "Kumuram Bheem Asifabad",
+    "South Andaman": "South Andamans",
+    "U.S.Nagar": "Udam Singh Nagar",
 }
 
 
@@ -130,6 +144,7 @@ L3_INDIA_REPLACEMENTS = {
 # Ranipet TAMIL NADU(State)
 # TENKASI TAMIL NADU(State)
 # Tirupathur  TAMIL NADU(State)
+# Mayiladuthurai TAMIL NADU(State)
 # Thoothukkudi was missing from Tamil Nadu so was added.
 class Covid19IndiaOrgL2DataSource(DataSource):
     """ Add L3 data for India districts. """
@@ -158,6 +173,13 @@ class Covid19IndiaOrgL2DataSource(DataSource):
             drop=True,
         )
         data.match_string = data.match_string.apply(self._replace_subregion)
+        # Correct the district Raigarh, Madhya Pradesh to Rajgarh.
+        # Can't use the existing L3 mechanism for this, since there is a Raigarh in Chattisgarh
+        # that needs to remain Raigarh.
+        data.loc[
+            (data.match_string == "Raigarh") & (data.subregion1_name == "Madhya Pradesh"),
+            "match_string",
+        ] = "Rajgarh"
 
         data = data[~data.match_string.isin(L3_INDIA_REMOVE_SET)]
 
