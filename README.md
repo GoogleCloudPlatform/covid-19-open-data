@@ -316,7 +316,7 @@ Please use the following when citing this project as a source of data:
 [16]: https://github.com/looker/covid19
 [18]: https://www.bsg.ox.ac.uk/research/research-projects/oxford-covid-19-government-response-tracker
 [19]: https://auditter.info/covid-timeline
-[20]: https://www.coronavirusdailytracker.info/
+[20]: https://coronavirusdailytracker.netlify.app/
 [21]: https://omnimodel.com/
 [22]: https://console.cloud.google.com/marketplace/product/bigquery-public-datasets/covid19-open-data
 [23]: https://www.wikidata.org/wiki/Wikidata:Licensing
