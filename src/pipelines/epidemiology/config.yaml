@@ -843,6 +843,8 @@ sources:
     fetch:
       - url: "https://data.covid19.go.id/public/api/update.json"
     test:
+      # Skip because it's flakey
+      skip: true
       location_key_match: '^ID$'
     automation:
       job_group: id
