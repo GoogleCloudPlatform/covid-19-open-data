@@ -586,6 +586,8 @@ sources:
     aggregate:
       subregion2: ['new_confirmed', 'new_deceased', 'new_recovered']
     test:
+      # Data source has been removed
+      skip: true
       location_key_match:
         - '^ES_CN$'
         - '^ES_CN_[^_]+$'
