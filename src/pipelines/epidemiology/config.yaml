@@ -829,6 +829,8 @@ sources:
     aggregate:
       subregion1: ["new_confirmed", "new_deceased", "new_recovered", "total_confirmed", "total_deceased", "total_recovered"]
     test:
+      # Skip because it's flakey
+      skip: true
       location_key_match: '^ID_[^_]+$'
     automation:
       job_group: id
