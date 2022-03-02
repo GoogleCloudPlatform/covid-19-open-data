@@ -1,7 +1,7 @@
 [Back to main page](../README.md)
 
 # COVID-19 Vaccination Search Insights
-*Updated July 30, 2021*
+*Updated Mar 2, 2022*
 
 
 ## Terms of use
@@ -44,7 +44,8 @@ Because all scaled normalized interest values share the same scaling factor, you
 - Compare the relative interest of categories across all regions over any time interval.
 - Calculate the fraction of COVID-19 vaccination queries that focus on the topic of vaccination intent. To do this for a region, divide the *scaled normalized interest* of the *Vaccination intent* or *Safety and side effects* categories by the *COVID-19 vaccination* category.
 
-Sometimes it’s not possible to report trends for every region. When the weekly volume of data for a given region doesn't meet quality or privacy thresholds, we cannot provide data for some or all categories in that region. In such cases, the data for that region will still be counted in its parent region (e.g., data for all the counties in Nebraska will be counted as part of Nebraska State’s trends). Because we omit the data for regions where the search volume doesn't meet our quality or privacy thresholds, we compute the data for each region directly from all the queries associated with that region, instead of using the aggregate data of its subregions.
+Sometimes it’s not possible to report trends for every region. When the weekly volume of data for a given region doesn't meet quality or privacy thresholds, we cannot provide data for some or all categories in that region. In such cases, the data for that region will still be counted in its parent region. For example, data for all the counties in the US state of Nebraska will be counted as part of Nebraska’s state trends. Because we omit the data for regions where the search volume doesn't meet our quality or privacy thresholds, we compute the data for each region directly from all the queries associated with that region, instead of using the aggregate data of its subregions.
+
 
 ### How we classify search queries
 
@@ -57,14 +58,15 @@ Table 1 shows the top features we used for each category. Some of the features a
 **Table 1.** Top features used for each category
 | **Category** | **Top features** |
 | :----: | ---- |
-| COVID-19 vaccination | *covid vaccine, vaccines, vaccination, vaccinations, 19 vaccine, vaccine, vaccinated, covid 19, covid, coronavirus vaccine, immunization, coronavirus, covid vaccines, vaccine appointment, pfizer, health, pharmacy, second dose, cdc, doses* | 
-| Vaccination intent | *pharmacy, pfizer, vaccine appointment, appointment, pharmacies, moderna, dose, appointments, pfizer vaccine, cvs, walgreens, second dose, vaccine appointments, cvs pharmacy, doses, shot, cvs covid, walgreens pharmacy, vaccine eligibility, moderna vaccine* | 
-| Safety and side effects | *side effects, side effect, symptoms, fever, second dose, allergic reaction, moderna injection, pfizer, reactions, reaction, pfizer vaccine, pain, health, shot, pharmacy, allergic reactions, adverse effects, adverse reactions* | 
+| COVID-19 vaccination (all countries) | *covid vaccine, vaccines, vaccination, vaccinations, 19 vaccine, vaccine, vaccinated, covid 19, covid, coronavirus vaccine, immunization, coronavirus, covid vaccines, vaccine appointment, pfizer, health, pharmacy, second dose, cdc, doses* | 
+| Vaccination intent (IE, UK) | *appointment, appointments, book, booking, vaccination centre, clinic, vaccination centres, vaccine appointment, clinics, coronavirus covid, walk in, coronavirus vaccination, covid vaccination, vaccination clinic, vaccine clinic, centres, vaccination appointment, vaccine centre, centre, book covid, pfizer, astrazeneca* | 
+| Vaccination intent (US) | *pharmacy, pfizer, vaccine appointment, appointment, pharmacies, moderna, dose, appointments, pfizer vaccine, cvs, walgreens, second dose, vaccine appointments, cvs pharmacy, doses, shot, cvs covid, walgreens pharmacy, vaccine eligibility, moderna vaccine* | 
+| Safety and side effects (all countries) | *side effects, side effect, symptoms, fever, second dose, allergic reaction, moderna injection, pfizer, reactions, reaction, pfizer vaccine, pain, health, shot, pharmacy, allergic reactions, adverse effects, adverse reactions* | 
 
 
 #### Training our classifiers
 
-We trained the model in a supervised manner using a sample of the English search queries made in the US during February–May 2021. We labeled the training data using a set of simple rules.
+We trained each country’s models in a supervised manner using a sample of search queries made there during 2021— the period typically being a few months. We labeled the training data using a set of simple rules.
 
 To develop the rules, we started by sampling a set of top queries that are associated with web pages about Covid-19 vaccines, Covid-19, or any vaccines. We manually marked each sample query as positive or negative against the three categories. For each category, we created rules from terms, phrases, and entities associated with the positive queries and rarely associated with the negative queries. For example, for the *COVID-19 Vaccination* category we require "vaccine" and “covid” to be among the top most relevant terms. Finally we used these rules to automatically label the rest of the training data.
 
@@ -79,9 +81,15 @@ Table 2 shows the distribution of query ratings for each category. A neutral rat
 **Table 2.** Distribution of query ratings for the categories
 | **Category** | **Positives** | **Negatives** | **Neutral** | **Krippendorff’s alpha** |
 | :----: | :----: | :----: | :----: | :----: |
-| Covid-19 vaccination | 1973 | 1122 | 337 | 0.844 |
-| Vaccination intent | 419 |2724 | 289 | 0.713 |
-| Safety and side effects | 826 | 2183 | 423 | 0.811 |
+| IE Covid-19 vaccination | 528 | 411 | 193 | 0.860 |
+| IE Vaccination intent | 200 |757 | 175 | 0.641 |
+| IE Safety and side effects | 170 | 838 | 124 | 0.810 |
+| UK Covid-19 vaccination | 1149 | 672 | 156 | 0.863 |
+| UK Vaccination intent | 264 |1523 | 190 | 0.727 |
+| UK Safety and side effects | 498 | 1256 | 223 | 0.846 |
+| US Covid-19 vaccination | 1973 | 1122 | 337 | 0.844 |
+| US Vaccination intent | 419 |2724 | 289 | 0.713 |
+| US Safety and side effects | 826 | 2183 | 423 | 0.811 |
 
 The three raters independently judged the relevance of each search query in our sample to each of the three categories. The inter-rater agreement (measured by [Krippendorff’s alpha](https://en.wikipedia.org/wiki/Krippendorff%27s_alpha) in table 2) indicates high agreement. 
 
@@ -90,16 +98,22 @@ Table 3 shows that the classifiers achieved high precision as well as high recal
 **Table 3.** Precision and recall scores for the classifiers
 | **Classifer** | **Precision** | **Recall** |
 | :----: | :----: | :----: |
-| Covid-19 vaccination | 0.96 | 0.94 | 
-| Vaccination intent | 0.83 |0.81 |
-| Safety and side effects | 0.87 | 0.89 |
+| IE Covid-19 vaccination | 0.94 | 0.91 | 
+| IE Vaccination intent | 0.92 |0.81 |
+| IE Safety and side effects | 0.94 | 0.89 |
+| UK Covid-19 vaccination | 0.98 | 0.96 | 
+| UK Vaccination intent | 0.84 |0.8 |
+| UK Safety and side effects | 0.87 | 0.90 |
+| US Covid-19 vaccination | 0.96 | 0.94 | 
+| US Vaccination intent | 0.83 |0.81 |
+| US Safety and side effects | 0.87 | 0.89 |
 
 ### Preserving privacy and quality
 To preserve user privacy, we use [differential privacy](https://www.youtube.com/watch?v=FfAdemDkLsc&feature=youtu.be) which adds artificial noise to our data while enabling high quality results without identifying any individual person. 
 
 To further protect users’ privacy, we ensure that no personal information is included in the data, and we don’t link any related search-based inferences to an individual user.
 
-To ensure accuracy after adding noise, we estimate the magnitude of change due to the noise. We retain all the values that (after the addition of noise) have 80% probability to be within 15% of the original value and we remove the noisy values. This sometimes leads to missing data points, as explained in **How we process the data** section.
+To ensure accuracy after adding noise, we estimate the magnitude of change due to the noise. For the 3 main categories, we retain all the values that (after the addition of noise) have 80% probability to be within 15% of the original value and we remove the noisy values. This sometimes leads to missing data points, as explained in **How we process the data** section.
 
 Because attributing searches to regions relies on [general area estimation](https://support.google.com/websearch/answer/179386#location-controls), we don’t report trends for regions smaller than 3sqkm.
 
@@ -116,22 +130,23 @@ Other options to explore and work with the data include:
 3. Analyze the data alongside other covariates in the [COVID-19 Open-Data repository](http://goo.gle/covid-19-open-data).
 
 ## Schema
-| Name | Type | Description | Example |
-| ---- | :----: | ----------- | ----------- |
-| **key**\* | `string` | Unique string identifying the region | US_CA |
-| **date** | `string` | The first day of the weekly interval (starting on Monday) on which the searches took place. For example, in the weekly data the row labeled 2021-04-19 represents the search activity for the week of April 19 to April 25, 2021, inclusive. Calendar days start and end at midnight, Pacific Standard Time. | 2021-04-19 |
-| **country_region**\*\* | `string` | The name of the country or region in English.  | United States |
-| **country_region_code**\*\* | `string` | The [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1) code for the country or region. | US |
-| **sub_region_1**\*\* | `string` | The name of a region in the country. | California |
-| **sub_region_1_code**\*\* | `string` | A country-specific [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) code for the region. | US_CA |
-| **sub_region_2**\*\* | `string` | The name (or type) of a region in the country. Typically a subdivision of sub_region_1. | Santa Clara County or municipal_borough. |
-| **sub_region_2_code**\*\* | `string` | In the US, the [FIPS code](https://en.wikipedia.org/wiki/FIPS_county_code) for a US county (or equivalent). | 06085 |
-| **sub_region_3**\*\* | `string` | The name (or type) of a region in the country. Typically a subdivision of sub_region_2 | Downtown or postal_code. |
-| **sub_region_3_code**\*\* | `string` | In the US, the [ZIP code](https://en.wikipedia.org/wiki/ZIP_Code). | 94303 |
-| **place_id**\*\* | `string` | The Google [Place ID](https://developers.google.com/places/web-service/place-id) for the most-specific region, used in Google Places API and on Google Maps. | ChIJd_Y0eVIvkIARuQyDN0F1LBA |
-| **sni_covid19_vaccination** | `double` | The scaled normalized interest related to all COVID-19 vaccinations topics for the region and date. Empty when data isn’t available. | 87.02 |
-| **sni_vaccination_intent** | `double` | The scaled normalized interest for all searches related to eligibility, availability, and accessibility for the region and date. Empty when data isn’t available. | 22.69 |
-| **sni_safety_side_effects** | `double` | The scaled normalized interest for all searches related to safety and side effects of the vaccines for the region and date. Empty when data isn’t available. | 17.96 |
+The data includes the following fields:
+
+| Name | Type | Description | 
+| ---- | :----: | ----------- |
+| **date** | `string` | The first day of the week (starting on Monday) on which the searches took place. For example, in the weekly data the row labeled 2021-04-19 represents the search activity for the week of April 19 to April 25, 2021, inclusive. Calendar days start and end at midnight Pacific Standard Time, regardless of the region’s time zone.
+| **country_region**\*\* | `string` | The name of the country in English. For example, *United States*.
+| **country_region_code**\*\* | `string` | The [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1) code for the country or region. For example, *US* or *GB*.
+| **sub_region_1**\*\* | `string` | The name of a region in the country. For example, *Texas* or *Scotland*.
+| **sub_region_1_code**\*\* | `string` | A country-specific [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2) code for the region. For example, 06085.
+| **sub_region_2**\*\* | `string` | The name (or type) of a region in the country. Typically a subdivision of sub_region_1. For example, *Santa Clara County* or *municipal_borough*.
+| **sub_region_2_code**\*\* | `string` | In the US, the [FIPS code](https://en.wikipedia.org/wiki/FIPS_county_code) for a US county (or equivalent). For example, *06085*.
+| **sub_region_3**\*\* | `string` | The name (or type) of a region in the country. Typically a subdivision of sub_region_2. For example, *Downtown* or *postal_code*.
+| **sub_region_3_code**\*\* | `string` | In the US, the [ZIP code](https://en.wikipedia.org/wiki/ZIP_Code). In the UK, [post code district](https://en.wikipedia.org/wiki/List_of_postcode_districts_in_the_United_Kingdom). For example, *94303* or *E17*.
+| **place_id**\*\* | `string` | The Google [Place ID](https://developers.google.com/places/web-service/place-id) for the most-specific region, used in Google Places API and on Google Maps. For example, ChIJd_Y0eVIvkIARuQyDN0F1LBA 
+| **sni_covid19_vaccination** | `double` | The scaled normalized interest related to all COVID-19 vaccinations topics for the region and date. Empty when data isn’t available. For example, *87.02*. Empty when data isn’t available.
+| **sni_vaccination_intent** | `double` | The scaled normalized interest for all searches related to eligibility, availability, and accessibility for the region and date. Empty when data isn’t available. For example, *22.69*. Empty when data isn’t available.
+| **sni_safety_side_effects** | `double` | The scaled normalized interest related to safety and side effects of the vaccines for the region and date. For example, *17.96*. Empty when data isn’t available.
 
 \*Only available in the [processed data table][1].
 
@@ -148,6 +163,8 @@ http://goo.gle/covid19vaccinationinsights, Accessed: <date>.
 We’d love to hear about your project and learn more about your case studies. We’d also appreciate your feedback on the dashboard, data and documentation, or any unexpected results. Please email us at covid-19-search-trends-feedback@google.com.
 
 ## Dataset changes
+Feb 24, 2022 - Added data for Ireland
+Dec 20, 2021 - Added data for the United Kingdom
 Jul 30, 2021 - Documented classifier training and evaluation, anonymization process and categories hierarchy.<br/>
 Jun 30, 2021 - Public release
 
