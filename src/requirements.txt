@@ -13,7 +13,7 @@ google-cloud-scheduler==1.3.0
 google-cloud-storage==1.43.0
 google-cloud-secret-manager==1.0.0
 gunicorn==20.0.4
-Flask==1.1.2
+Flask==1.1.4
 uk-covid19==1.2.0
 gevent==20.9.0
 odfpy==1.4.1
