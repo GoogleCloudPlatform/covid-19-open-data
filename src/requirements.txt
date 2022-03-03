@@ -18,3 +18,4 @@ uk-covid19==1.2.0
 gevent==20.9.0
 odfpy==1.4.1
 openpyxl==3.0.9
+markupsafe==2.0.1
