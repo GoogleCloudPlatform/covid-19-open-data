@@ -38,23 +38,14 @@ class NetherlandsDataSource(DataSource):
         # Get date in ISO format
         data.date = data.date.apply(lambda x: datetime.fromisoformat(x).date().isoformat())
 
-        # Group by country level, and add the parts
-        country = data.copy().drop(columns=["subregion1_name", "subregion2_code"])
-        country = country.groupby("date").sum().reset_index()
-        country["key"] = "NL"
-
         # Group by province, and add the parts
-        provinces = data.copy().dropna(subset=["subregion2_code"])
+        provinces = data.dropna(subset=["subregion2_code"]).drop(columns=["subregion2_code"])
         provinces = provinces.groupby(["subregion1_name", "date"]).sum().reset_index()
         provinces = provinces.rename(columns={"subregion1_name": "match_string"})
         provinces["subregion2_code"] = None
 
         # Drop data without a clear demarcation
-        data = data[~data.subregion1_name.isna()]
-        data = data[~data.subregion2_code.isna()]
-
-        # Get date in ISO format
-        data.date = data.date.apply(lambda x: datetime.fromisoformat(x).date().isoformat())
+        data = data.dropna(subset=["subregion1_name", "subregion2_code"])
 
         # Make sure the region code is zero-padded and without prefix
         data["subregion2_code"] = data["subregion2_code"].apply(lambda x: x[2:])
@@ -69,4 +60,4 @@ class NetherlandsDataSource(DataSource):
         data = data[["date", "key", "total_confirmed", "total_deceased", "total_hospitalized"]]
 
         # Output the results
-        return concat([country, provinces, data])
+        return concat([provinces, data])
