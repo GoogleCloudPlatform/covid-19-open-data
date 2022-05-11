@@ -58,8 +58,7 @@ The data shows the *relative popularity* of symptoms in searches within a geogra
 
 For each region and time resolution, we scale all the normalized popularities using the same scaling factor. In a single region, you can compare the relative popularity of two (or more) symptoms (at the same time resolution) over any time interval. You can also compare a weekly-from-daily value with another weekly value because they share the same scaling factor. However, you shouldn’t compare the values of symptom popularity across regions or time resolutions — the region- and time-resolution-specific scalings make these comparisons meaningless.
 
-*Note: We adopted a new scaling factor for all symptoms starting on Dec 15, 2020. While the numbers for normalized search volume changed on this date, the normalized search volumes retain their interpretation relative to each other.*
-
+*Note: We adopted a new scaling factor for the US weekly data across all symptoms starting on Dec 15, 2020. While the numbers for normalized search volume changed on this date, the normalized search volumes retain their interpretation relative to each other.*
 
 ## URL
 
