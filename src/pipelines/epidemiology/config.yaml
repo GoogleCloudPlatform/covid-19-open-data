@@ -487,19 +487,7 @@ sources:
     license: Terms and Conditions
     license_url: https://onemocneni-aktualne.mzcr.cz
     fetch:
-      - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/testy.csv"
-    test:
-      location_key_match: '^CZ$'
-    automation:
-      job_group: cz
-
-  - class: pipelines.epidemiology.cz_authority.CzechRepublicCountryDataSource
-    label: Czech Republic Ministry of Health
-    website: https://onemocneni-aktualne.mzcr.cz/covid-19
-    license: Terms and Conditions
-    license_url: https://onemocneni-aktualne.mzcr.cz
-    fetch:
-      - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/nakaza.csv"
+      - url: "https://onemocneni-aktualne.mzcr.cz/api/v2/covid-19/nakazeni-vyleceni-umrti-testy.csv"
     test:
       location_key_match: '^CZ$'
     automation:
