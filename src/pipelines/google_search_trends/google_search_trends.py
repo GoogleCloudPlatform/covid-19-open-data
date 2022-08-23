@@ -104,7 +104,7 @@ class GoogleSearchTrendsDataSource(DataSource):
 
         # Generate the URLs for the files to download from the template
         url_list = {}
-        for year in ("2020", "2021"):
+        for year in ("2020", "2021", "2022"):
             for country_code in country_codes:
                 if not subregion_names:
                     key = country_code
