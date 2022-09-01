@@ -6,6 +6,10 @@ Various metrics related to the movement of people, including [Google's Mobility 
 
 ## Google COVID-19 Community Mobility Reports
 
+### Data availability update
+The reports and data will remain publicly available, but Google will stop publishing new reports in October 2022 (or soon after), [learn more](https://www.google.com/covid19/mobility#faq-how-long).
+
+
 ### Terms of use
 In order to download or use the data or reports, you must agree to the Google
 [Terms of Service](https://policies.google.com/terms).
@@ -50,7 +54,7 @@ Google Account, so the data represents a sample of our users. As with all sample
 not represent the exact behavior of a wider population.
 
 
-## Updates and improvements
+### Updates and improvements
 We continue to improve our reports as places close and reopen. We updated the way we calculate
 changes for *Groceries & pharmacy*, *Retail & recreation*, *Transit stations*, and *Parks*
 categories. For regions published before May 2020, the data may contain a consistent shift either up
