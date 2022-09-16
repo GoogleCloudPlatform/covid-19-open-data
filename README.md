@@ -1,3 +1,10 @@
+### Repository No Longer Updated
+As of September 15, 2022, we will be turning off real-time updates in this repository, and converting
+the repository to a retrospective one. The data will continue to be available without interruption for
+the foreseeable future at the existing location, but it will not be updated further. Users who wish to
+continue to receive updates are encouraged to inspect our data sources, or clone the code and run the
+data pipelines locally.
+
 # COVID-19 Open-Data
 
 This repository attempts to assemble the largest Covid-19 epidemiological database in addition to a
