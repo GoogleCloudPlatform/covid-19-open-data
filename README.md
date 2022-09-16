@@ -1,3 +1,7 @@
+### Official Site
+Please refer to the official site for this repository for visualizations and other relevant information:
+https://health.google.com/covid-19/open-data/
+
 ### Repository No Longer Updated
 As of September 15, 2022, we will be turning off real-time updates in this repository, and converting
 the repository to a retrospective one. The data will continue to be available without interruption for
