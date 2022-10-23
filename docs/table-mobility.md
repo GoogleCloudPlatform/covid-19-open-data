@@ -7,8 +7,7 @@ Various metrics related to the movement of people, including [Google's Mobility 
 ## Google COVID-19 Community Mobility Reports
 
 ### Data availability update
-The reports and data will remain publicly available, but Google will stop publishing new reports in October 2022 (or soon after), [learn more](https://www.google.com/covid19/mobility#faq-how-long).
-
+The Community Mobility Reports are no longer being updated as of October 15, 2022. All historical data will remain publicly available for research purposes.
 
 ### Terms of use
 In order to download or use the data or reports, you must agree to the Google
